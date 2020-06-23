@@ -1,0 +1,4 @@
+include versioneer.py
+include microsetta_interface/_version.py
+
+graft microsetta_interface

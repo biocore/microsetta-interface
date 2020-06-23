@@ -1,0 +1,6 @@
+flake8
+flask
+natsort
+pycryptodome
+redis-py
+redis

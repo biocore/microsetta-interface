@@ -15,5 +15,3 @@ import importlib.resources as pkg_resources
 with pkg_resources.open_text('microsetta_interface', "server_config.json") \
         as fp:
     SERVER_CONFIG = json.load(fp)
-    SERVER_CONFIG['vioscreen_cryptokey'] = \
-        SERVER_CONFIG['vioscreen_cryptokey'].encode('ascii')

@@ -21,7 +21,7 @@ install:
 
 script:
   - make lint
-  - make test-cov
+  # - make test-cov
   - make test-install
 
 after_success:

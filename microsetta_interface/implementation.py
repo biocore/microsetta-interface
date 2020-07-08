@@ -612,10 +612,8 @@ def get_create_human_source(account_id):
     if has_error:
         return consent_output
 
-    # NB: this get does not render a jinja template because
-    # *the private api has already rendered a jinja template*
-    # and returns straight html ...
-    return consent_output["consent_html"]
+    return _render_with_defaults('new_participant.jinja2',
+                                 tl=consent_output)
 
 
 def post_create_human_source(account_id, body):

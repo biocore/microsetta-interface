@@ -653,7 +653,8 @@ def get_create_human_source(*, account_id=None):
         return consent_output
 
     return _render_with_defaults('new_participant.jinja2',
-                                 tl=consent_output)
+                                 tl=consent_output,
+                                 post_url=post_url)
 
 
 @prerequisite([ACCT_PREREQS_MET])

@@ -41,6 +41,7 @@ def build_app():
         flask_secret = secrets.token_urlsafe(16)
 
     app.app.secret_key = flask_secret
+    app.app.config['SESSION_COOKIE_NAME'] = 'session-microsetta-interface'
 
     # attach the reverse proxy mechanism
     app.app.wsgi_app = ReverseProxied(app.app.wsgi_app)

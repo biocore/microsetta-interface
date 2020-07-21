@@ -10,7 +10,7 @@ class TestBase(TestCase):
         # mocking derived from
         # https://realpython.com/testing-third-party-apis-with-mocks/
         self.patch_for_get = patch('microsetta_interface.implementation.'
-                                      'requests.get')
+                                   'requests.get')
         self.mock_get = self.patch_for_get.start()
 
         self.patch_for_render_template = patch('microsetta_interface.'
@@ -23,8 +23,8 @@ class TestBase(TestCase):
                       impl.EMAIL_CHECK_KEY: True}
 
         self.patch_for_session = patch("microsetta_interface."
-                                          "implementation.session",
-                                          mock_token)
+                                       "implementation.session",
+                                       mock_token)
         self.mock_session = self.patch_for_session.start()
 
         app.app.testing = True
@@ -62,4 +62,3 @@ class TestImplementation(TestBase):
         response = impl.get_source(account_id="1", source_id="2")
         self.assertEqual(302, response.status_code)
         self.assertEqual('/home', response.headers['Location'])
-

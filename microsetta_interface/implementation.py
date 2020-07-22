@@ -188,11 +188,12 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
 
     if not session[ADMIN_MODE_KEY]:
         # Get the input source
-        has_error, source_output, _ = ApiRequest.get(
+        needs_reroute, source_output, _ = ApiRequest.get(
             '/accounts/%s/sources/%s' %
             (acct_id, source_id))
-        if has_error:
-            return source_output
+        if needs_reroute:
+            current_state[REROUTE_KEY] = source_output
+            return NEEDS_REROUTE, current_state
 
         # Get all required survey template ids for this source type
         req_survey_template_ids = _get_req_survey_templates_by_source_type(

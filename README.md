@@ -4,10 +4,12 @@ The Microsetta participant facing user interface
 ## Installation
 Create a new `conda` environment containing `flask` and other necessary packages:
 
-`conda create --yes -n microsetta-interface python=3.7`
-`conda install --yes -n microsetta-interface --file ci/conda_requirements.txt`
-`conda activate microsetta-inferface`
-`pip install -r ci/pip_requirements.txt`
+```
+conda create --yes -n microsetta-interface python=3.7
+conda install --yes -n microsetta-interface --file ci/conda_requirements.txt
+conda activate microsetta-interface
+pip install -r ci/pip_requirements.txt
+```
 
 Then install the microsetta-interface in editable mode:
 

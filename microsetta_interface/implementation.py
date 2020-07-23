@@ -970,7 +970,9 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  account_id=account_id,
                                  source_id=source_id,
                                  sample=sample_output,
-                                 source_name=source_output['source_name'])
+                                 source_name=source_output['source_name'],
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"])
 
 
 # Note: ideally this would be represented as a DELETE, not as a POST

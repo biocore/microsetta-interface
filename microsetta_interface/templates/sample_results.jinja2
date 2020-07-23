@@ -1,0 +1,104 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Sample Results" %}
+{% set show_breadcrumbs = True %}
+{% set show_logout = True %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+  <!-- vega header(s) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
+  <script>
+    let taxonomy = "greengenes";
+    let metric = "faith-pd";
+    let sampleId = "{{sample.sample_id}}";
+    var opt = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
+
+    function createDataTable() {
+        return function() {
+            $('#taxonomyTable').DataTable({
+                ajax: {
+                    url: "{{public_endpoint}}/taxonomy/present/single/" + taxonomy + "/" + sampleId
+                },
+                // dom: 'Bfrtip',
+                // buttons: [
+                //     'copy', 'csv', 'excel', 'pdf', 'print'
+                // ],
+                columns: [
+                    {
+                        data: "relativeAbundance",
+                        render: $.fn.dataTable.render.number(',', '.', 4),
+                    },
+                    {data: "Family"},
+                    {data: "Genus"},
+                ]
+            });
+        }
+    }
+
+    function formatAlphaURL() {
+        let base = '{{public_endpoint}}/plotting/diversity/alpha/' + metric + '/percentiles-plot';
+        if (sampleId !== "") {
+            base = base + '?sample_id=' + sampleId;
+        }
+        return base;
+    }
+
+    function fillPlot(data) {
+        vegaEmbed("#vis", data, opt);
+    }
+
+    function createAlphaPlot() {
+        $.ajax({
+            url: formatAlphaURL(),
+            type: "GET",
+            success: fillPlot
+        });
+    }
+
+    $(document).ready(
+        createDataTable(),
+        createAlphaPlot()
+    );
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Results</li>
+{% endblock %}
+
+{% block content %}
+<div id="sampleHeader" style="text-align: center">
+    <h2>
+        {{source_name}}
+    </h2>
+</div>
+<div class="row">
+  <div class="column" style="text-align: center">
+    <h3> What is in your sample? </h3>
+    <div style="padding:10px">
+      <table id="taxonomyTable" class="display" style="width:100%">
+        <thead>
+        <tr>
+          <th>Relative Abundance</th>
+          <th>Family</th>
+          <th>Genus</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div class="column" style="text-align: center">
+    <h3>Alpha Diversity</h3>
+    <div id="vis"></div>
+  </div>
+</div>
+{% endblock %}

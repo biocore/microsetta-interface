@@ -115,6 +115,9 @@
                 <i>Sample type</i>
             </div>
             <div class="col-sm">
+                <i>Results</i>
+            </div>
+            <div class="col-sm">
                 <i>Sample-specific survey</i>
             </div>
             {% endif %}
@@ -124,7 +127,7 @@
         <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
             <div class="row">
                 <div class="col-sm">
-                            <a class="btn btn-outline-info" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}">{{sample.sample_barcode |e}}</a>
+                    <a class="btn btn-outline-info" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}">{{sample.sample_barcode |e}}</a>
                 </div>
                 <div class="col-sm">
                     {{sample.sample_datetime |e}}
@@ -132,6 +135,9 @@
                 {% if is_human %}
                 <div class="col-sm">
                     {{sample.sample_site |e}}
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-outline-info" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/results">View</a>
                 </div>
                 <div class="col-sm">
                 {% if sample.ffq %}

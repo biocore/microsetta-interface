@@ -1,6 +1,7 @@
 {
   "endpoint": "http://localhost:8083",
   "private_api_endpoint": "http://localhost:8082/api",
+  "public_api_endpoint": "http://localhost:8084/results-api",
   "port": 8083,
   "debug": true,
   "url_scheme": "http",

@@ -4,6 +4,7 @@
   "public_api_endpoint": "http://localhost:8084/results-api",
   "taxonomy_resource": "greengenes",
   "alpha_metric": "faith-pd",
+  "barcode_prefix": "10317.",
   "port": 8083,
   "debug": true,
   "url_scheme": "http",

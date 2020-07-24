@@ -16,24 +16,25 @@
   <script>
     let taxonomy = "{{taxonomy}}";
     let metric = "{{alpha_metric}}";
-    let sampleId = "{{sample.sample_id}}";
+    let sampleId = "{{sample.sample_barcode}}";
+    let barcodePrefix = "{{barcode_prefix}}";
     var opt = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
 
     function createDataTable() {
         return function() {
             $('#taxonomyTable').DataTable({
                 ajax: {
-                    url: "{{public_endpoint}}/taxonomy/present/single/" + taxonomy + "/" + sampleId
+                    url: "{{public_endpoint}}/taxonomy/present/single/" + taxonomy + "/" + barcodePrefix + sampleId
                 },
-                // dom: 'Bfrtip',
-                // buttons: [
-                //     'copy', 'csv', 'excel', 'pdf', 'print'
-                // ],
                 columns: [
                     {
                         data: "relativeAbundance",
                         render: $.fn.dataTable.render.number(',', '.', 4),
                     },
+                    {data: "Kingdom"},
+                    {data: "Phylum"},
+                    {data: "Class"},
+                    {data: "Order"},
                     {data: "Family"},
                     {data: "Genus"},
                 ]
@@ -44,7 +45,7 @@
     function formatAlphaURL() {
         let base = '{{public_endpoint}}/plotting/diversity/alpha/' + metric + '/percentiles-plot';
         if (sampleId !== "") {
-            base = base + '?sample_id=' + sampleId;
+            base = base + '?sample_id=' + barcodePrefix + sampleId;
         }
         return base;
     }
@@ -88,6 +89,10 @@
         <thead>
         <tr>
           <th>Relative Abundance</th>
+          <th>Kingdom</th>
+          <th>Phylum</th>
+          <th>Class</th>
+          <th>Order</th>
           <th>Family</th>
           <th>Genus</th>
         </tr>

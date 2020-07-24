@@ -972,7 +972,9 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  sample=sample_output,
                                  source_name=source_output['source_name'],
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
-                                 alpha_metric=SERVER_CONFIG["alpha_metric"])
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 )
 
 
 # Note: ideally this would be represented as a DELETE, not as a POST

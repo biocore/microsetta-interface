@@ -875,7 +875,12 @@ def get_source(*, account_id=None, source_id=None):
                                  surveys=per_source,
                                  source_name=source_output['source_name'],
                                  vioscreen_id=VIOSCREEN_ID,
-                                 claim_kit_name_hint=claim_kit_name_hint)
+                                 claim_kit_name_hint=claim_kit_name_hint,
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 barcode_prefix=SERVER_CONFIG[
+                                     "barcode_prefix"],
+                                 )
 
 
 @prerequisite([SOURCE_PREREQS_MET])

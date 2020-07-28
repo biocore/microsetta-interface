@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
     <script>
+        let taxonomy = "{{taxonomy}}";
+        let metric = "{{alpha_metric}}";
+        let barcodePrefix = "{{barcode_prefix}}";
         function make_kit_validation_setup_func(form_name, submitHandler) {
             // Initialize form validation
             let form_selector = "form[name='" + form_name + "']";
@@ -79,6 +82,38 @@
             return window.confirm(confirmMsg);
         }
 
+        function renderButton(sampleId) {
+            var buttonDiv = document.getElementById("btn-view-" + sampleId);
+            var button = document.createElement("a");
+            button.type = "button";
+            button.text = "View";
+            button.className = "btn btn-outline-info";
+            button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
+            buttonDiv.appendChild(button);
+        }
+
+        function addButtonIfData(sampleId, barcode) {
+            let hasAlpha = '{{public_endpoint}}/diversity/alpha/exists/' + metric + '?sample_id=' + barcodePrefix + barcode;
+            let hasTaxonomy = '{{public_endpoint}}/taxonomy/exists/' + taxonomy + '?sample_id=' + barcodePrefix + barcode;
+            $.ajax({
+              url: hasAlpha,
+              type: "GET",
+              success: function(data) {
+                  if (data === true) {
+                      $.ajax({
+                          url: hasTaxonomy,
+                          type: "GET",
+                          success: function(data) {
+                              if (data === true) {
+                                  renderButton(sampleId);
+                              }
+                          }
+                      })
+                  }
+              }
+            });
+        }
+
         // Wait for the DOM to be ready
         $(document).ready(function(){
             let form_name = 'list_kit_form';
@@ -87,6 +122,9 @@
 
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
+            {% for sample in samples %}
+                addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
+            {% endfor %}
         });
     </script>
 {% endblock %}
@@ -137,7 +175,8 @@
                     {{sample.sample_site |e}}
                 </div>
                 <div class="col-sm">
-                    <a class="btn btn-outline-info" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/results">View</a>
+{#                    <a class="btn btn-outline-info" id="btn-view-{{ sample.sample_id }}" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/results">View</a>#}
+                      <div id="btn-view-{{ sample.sample_id }}" ></div>
                 </div>
                 <div class="col-sm">
                 {% if sample.ffq %}

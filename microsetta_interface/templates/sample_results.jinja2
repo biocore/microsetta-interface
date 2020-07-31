@@ -37,7 +37,8 @@
                     {data: "Order"},
                     {data: "Family"},
                     {data: "Genus"},
-                ]
+                ],
+		"order": [[ 0, "desc" ]]
             });
         }
     }
@@ -84,6 +85,8 @@
 <div class="row">
   <div class="column" style="text-align: center">
     <h3> What is in your sample? </h3>
+    <br>
+    <p>The table below shows the relative abundances of all of the organisms we observed in your sample. To produce this, we took the DNA sequences from your sample, and compared them against publicly available annotated reference databases. In some cases, a sequence may uniquely match a database record, in other cases a sequence may match may different records. To handle the uncertainty that can arise, we rely on a well used and publicly available microbiome software package called <a href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach taken is highlighted in the main tutorial on <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
     <div style="padding:10px">
       <table id="taxonomyTable" class="display" style="width:100%">
         <thead>
@@ -103,6 +106,8 @@
 
   <div class="column" style="text-align: center">
     <h3>Alpha Diversity</h3>
+    <br>
+    <p>Here, we're providing a measure of the diversity of your sample, and how it compares to the diversities of all of the same type of samples in The Microsetta Initiative. There are many ways to calculate diversity. For instance, you could compute a diversity value by counting the number of unique organisms observed (i.e., the sample "richness"). Or, you might be interested in weighting the calculation by the relative abundance of the organisms (i.e., the sample "evenness"). The metric we're computing here is called Faith's Phylogenetic Diversity (originally defined <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith's Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary breadth represented by your sample. The way we compute alpha diversity is also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and more information on it can be found in the alpha and beta diversity <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p> 
     <div id="vis"></div>
   </div>
 </div>

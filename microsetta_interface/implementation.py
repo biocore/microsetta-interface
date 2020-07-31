@@ -83,9 +83,11 @@ def _render_with_defaults(template_name, **context):
     defaults["system_msg_style"] = style
 
     endpoint = SERVER_CONFIG["endpoint"]
+    public_endpoint = SERVER_CONFIG["public_api_endpoint"]
     authrocket_url = SERVER_CONFIG["authrocket_url"]
     defaults["endpoint"] = endpoint
     defaults["authrocket_url"] = authrocket_url
+    defaults["public_endpoint"] = public_endpoint
 
     defaults.update(context)
 
@@ -873,7 +875,12 @@ def get_source(*, account_id=None, source_id=None):
                                  surveys=per_source,
                                  source_name=source_output['source_name'],
                                  vioscreen_id=VIOSCREEN_ID,
-                                 claim_kit_name_hint=claim_kit_name_hint)
+                                 claim_kit_name_hint=claim_kit_name_hint,
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 barcode_prefix=SERVER_CONFIG[
+                                     "barcode_prefix"],
+                                 )
 
 
 @prerequisite([SOURCE_PREREQS_MET])
@@ -947,6 +954,32 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     return _refresh_state_and_route_to_sink(account_id, source_id)
+
+
+@prerequisite([SOURCE_PREREQS_MET])
+def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return source_output
+
+    has_error, sample_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples/%s' %
+        (account_id, source_id, sample_id))
+    if has_error:
+        return sample_output
+
+    return _render_with_defaults('sample_results.jinja2',
+                                 account_id=account_id,
+                                 source_id=source_id,
+                                 sample=sample_output,
+                                 source_name=source_output['source_name'],
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 )
 
 
 # Note: ideally this would be represented as a DELETE, not as a POST

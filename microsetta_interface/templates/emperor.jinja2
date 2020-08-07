@@ -1,0 +1,58 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Emperor Playground" %}
+{% set show_breadcrumbs = False %}
+{% set show_logout = True %}
+{% block head %}
+    <!-- core dependencies that are otherwise included via the jupyter notebook -->
+    <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
+    <script src="/static/vendor/emperor/vendor/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/vendor/emperor/emperor_loader.js"></script>
+    <meta charset="utf-8"/>
+
+    <script type="text/javascript">
+      if ($("#emperor-css").length == 0)
+      {
+          $("head").append([
+              '<link id="emperor-css" rel="stylesheet" type="text/css" href="/static/vendor/emperor/css/emperor.css">',
+              '<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery-ui.min.css">',
+              '<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/slick.grid.min.css">',
+              '<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/spectrum.min.css">',
+              '<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">',
+              '<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">'
+          ]);
+      }
+
+      function load_emperor_pcoa(){
+        $("#emperor-notebook-0x559558fb").empty();
+        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
+
+        url = $("#pcoa_url_input").val();
+        loadEmperor(
+          url,
+          "/static/vendor/emperor"
+        );
+      }
+
+    </script>
+
+    <style>
+      #emperor-notebook-0x559558fb {
+        height:100vh !important;
+        padding: 20px !important;
+      }
+    </style>
+{% endblock %}
+{% block content %}
+    <h4> Emperor Playground </h4>
+
+    <div class="form-group row">
+        <label for="pcoa_url_input" class="col-sm-2 col-form-label">PCOA URL:</label>
+        <div class="col-sm-8">
+            <textarea class="form-control" id="pcoa_url_input" rows="5">{{pcoa_url |e}}</textarea>
+        </div>
+    </div>
+    <button class="btn btn-primary" onclick="load_emperor_pcoa()">Go!</button>
+  <div id='emperor-notebook-0x559558fb' style="position: relative; width:100%; height:500px;">
+
+  </div>
+{% endblock %}

@@ -1000,6 +1000,20 @@ def post_remove_sample_from_source(*,
     return _refresh_state_and_route_to_sink(account_id, source_id)
 
 
+def admin_emperor_playground():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    return _render_with_defaults(
+        "emperor.jinja2",
+        pcoa_url= SERVER_CONFIG["public_api_endpoint"] +
+                  "/plotting/diversity/beta/unweighted-unifrac"
+                  "/pcoa/oral/emperor"
+                  "?metadata_categories=age_cat"
+                  "&metadata_categories=bmi_cat"
+                  "&metadata_categories=latitude"
+    )
+
 def get_ajax_check_kit_valid(kit_name):
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error

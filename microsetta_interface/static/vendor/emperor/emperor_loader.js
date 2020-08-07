@@ -1,5 +1,5 @@
 
-function loadEmperor(pcoa_url, emperor_root){
+function loadEmperor(pcoa_url, emperor_root, onLoad){
     // When running in the Jupyter notebook we've encountered version conflicts
     // with some dependencies. So instead of polluting the global require context,
     // we define a new context.
@@ -148,6 +148,7 @@ function loadEmperor(pcoa_url, emperor_root){
               // any other code that needs to be executed when emperor is loaded should
               // go here
               ec.loadConfig(data.plot.settings);
+              onLoad();
             }
           });
         });

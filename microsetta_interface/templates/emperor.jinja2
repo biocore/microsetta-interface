@@ -22,14 +22,21 @@
           ]);
       }
 
-      function load_emperor_pcoa(){
+      function load_emperor_pcoa(button){
+        button.disabled = true
+        button.innerText = "Loading..."
         $("#emperor-notebook-0x559558fb").empty();
         $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
 
         url = $("#pcoa_url_input").val();
         loadEmperor(
           url,
-          "/static/vendor/emperor"
+          "/static/vendor/emperor",
+          function(){
+            console.log("CallMeBack");
+            button.disabled = false
+            button.innerText="Go!"
+          }
         );
       }
 
@@ -51,7 +58,7 @@
             <textarea class="form-control" id="pcoa_url_input" rows="5">{{pcoa_url |e}}</textarea>
         </div>
     </div>
-    <button class="btn btn-primary" onclick="load_emperor_pcoa()">Go!</button>
+    <button class="btn btn-primary" onclick="load_emperor_pcoa(this)">Go!</button>
   <div id='emperor-notebook-0x559558fb' style="position: relative; width:100%; height:500px;">
 
   </div>

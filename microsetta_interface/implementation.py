@@ -511,17 +511,17 @@ def get_create_account():
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
-            ACCT_EMAIL_KEY: email,
-            ACCT_FNAME_KEY: '',
-            ACCT_LNAME_KEY: '',
-            ACCT_ADDR_KEY: {
-                ACCT_ADDR_STREET_KEY: '',
-                ACCT_ADDR_CITY_KEY: '',
-                ACCT_ADDR_STATE_KEY: 'CA',
-                ACCT_ADDR_POST_CODE_KEY: '',
-                ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
-            }
+        ACCT_EMAIL_KEY: email,
+        ACCT_FNAME_KEY: '',
+        ACCT_LNAME_KEY: '',
+        ACCT_ADDR_KEY: {
+            ACCT_ADDR_STREET_KEY: '',
+            ACCT_ADDR_CITY_KEY: '',
+            ACCT_ADDR_STATE_KEY: 'CA',
+            ACCT_ADDR_POST_CODE_KEY: '',
+            ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
         }
+    }
 
     return _render_with_defaults('account_details.jinja2',
                                  CREATE_ACCT=True,
@@ -704,7 +704,7 @@ def get_fill_local_source_survey(*,
                                  source_id=source_id,
                                  survey_template_id=survey_template_id,
                                  survey_schema=survey_output[
-                                   'survey_template_text'])
+                                     'survey_template_text'])
 
 
 @prerequisite([NEEDS_SURVEY])
@@ -1006,13 +1006,14 @@ def admin_emperor_playground():
 
     return _render_with_defaults(
         "emperor.jinja2",
-        pcoa_url= SERVER_CONFIG["public_api_endpoint"] +
-                  "/plotting/diversity/beta/unweighted-unifrac"
-                  "/pcoa/oral/emperor"
-                  "?metadata_categories=age_cat"
-                  "&metadata_categories=bmi_cat"
-                  "&metadata_categories=latitude"
+        pcoa_url=SERVER_CONFIG["public_api_endpoint"] +
+        "/plotting/diversity/beta/unweighted-unifrac"
+        "/pcoa/oral/emperor"
+        "?metadata_categories=age_cat"
+        "&metadata_categories=bmi_cat"
+        "&metadata_categories=latitude"
     )
+
 
 def get_ajax_check_kit_valid(kit_name):
     kit, error, _ = _get_kit(kit_name)
@@ -1066,7 +1067,7 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
         # Associate the input answered surveys with this sample.
         for survey_id in survey_ids_to_associate_with_samples:
             sample_survey_output = _associate_sample_to_survey(
-                    account_id, source_id, curr_sample_id, survey_id)
+                account_id, source_id, curr_sample_id, survey_id)
             if sample_survey_output is not None:
                 return sample_survey_output
 

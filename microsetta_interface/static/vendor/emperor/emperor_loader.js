@@ -111,7 +111,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad){
           function (data) {
             data = {"plot": data}
             data["plot"]["settings"]={}
-            console.log(data)
+
           var plot, biplot = null, ec;
 
           function init() {

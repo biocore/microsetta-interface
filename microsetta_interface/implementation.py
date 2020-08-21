@@ -1006,6 +1006,7 @@ def admin_emperor_playground():
 
     return _render_with_defaults(
         "emperor.jinja2",
+        user_sample_id="10317.000069368",  # Some arbitrary sample
         pcoa_url=SERVER_CONFIG["public_api_endpoint"] +
         "/plotting/diversity/beta/unweighted-unifrac"
         "/pcoa/oral/emperor"

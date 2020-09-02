@@ -73,6 +73,11 @@ body {
 
 ------------/* Images */------------
 
+img.logo {
+  max-width:27%;
+  max-height:27%;
+}
+
 img.resize {
   max-width:50%;
   max-height:50%;

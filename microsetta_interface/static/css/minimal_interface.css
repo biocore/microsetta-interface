@@ -2,30 +2,20 @@
 h1 {
   font-size: 2.25rem;
   font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 0.83;
-  letter-spacing: normal;
   color: var(--Body);
 }
 
 h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.67;
-  letter-spacing: normal;
   color: var(--Body);
 }
 
 h3 {
   font-size: 1.25rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.5;
-  letter-spacing: normal;
   color: var(--Body);
 }
 
@@ -36,11 +26,7 @@ b {
 
 p {
   font-size: 1rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.75;
-  letter-spacing: normal;
   color: var(--Body);
 }
 
@@ -50,47 +36,25 @@ a {
 
 .Tooltip-Text {
   font-size: 0.875rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.71;
-  letter-spacing: normal;
 }
 
 .Small-Text {
   font-size: 0.75rem;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 2;
-  letter-spacing: normal;
-}
-
-label.error {
-    color: #FC8900;
 }
 
 ------------/* Colors */------------
 
 :root {
   --Body: #212529;
-  --forms_cards_headerBG: #f5f5f5;
-  --forms_cards_outsideborder: #e5e5e5;
-  --forms_textinputborder: #cccccc;
   --link: #0000ff;
-  --button: #0275d8;
-  --divider: #c4c4c4;
-  --forms_greyedout: #e9ecef;
-  --pi-jumbotron-bg: #eceeef;
-  --pi-alert-bg: #dff0d8;
-  --pi-alert-text: #3c763d;
-  --pi-alert-outline: #d0e9c6;
 }
 
 ------------/* Body */------------
 
 html * {
-    font-family: "Muli", Arial, Helvetica, sans-serif;
+    font-family: Muli, Arial, Helvetica, sans-serif;
 }
 
 body {

@@ -25,7 +25,7 @@
       function load_emperor_pcoa(button){
         button.disabled = true
         button.innerText = "Loading..."
-        $("#emperor-notebook-0x559558fb").empty();
+        $("#emperor-notebook").empty();
         $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
 
         url = $("#pcoa_url_input").val();
@@ -43,7 +43,7 @@
     </script>
 
     <style>
-      #emperor-notebook-0x559558fb {
+      #emperor-notebook {
         height:100vh !important;
         padding: 20px !important;
       }
@@ -59,7 +59,7 @@
         </div>
     </div>
     <button class="btn btn-primary" onclick="load_emperor_pcoa(this)">Go!</button>
-  <div id='emperor-notebook-0x559558fb' style="position: relative; width:100%; height:500px;">
+  <div id='emperor-notebook' style="position: relative; width:100%; height:500px;">
 
   </div>
 {% endblock %}

@@ -104,7 +104,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
     function($, model, EmperorController) {
         var DecompositionModel = model.DecompositionModel;
 
-        var div = $('#emperor-notebook-0x559558fb');
+        var div = $('#emperor-notebook');
 
         $.get(
           pcoa_url,
@@ -160,7 +160,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
                                               data.biplot.type);
             }
 
-            ec = new EmperorController(plot, biplot, "emperor-notebook-0x559558fb");
+            ec = new EmperorController(plot, biplot, "emperor-notebook");
           }
 
           function animate() {

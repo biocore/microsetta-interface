@@ -55,6 +55,10 @@ label.error {
     color: var(--error);
 }
 
+.center {
+  text-align: center;
+}
+
 <!---------Body------------>
 
 html * {

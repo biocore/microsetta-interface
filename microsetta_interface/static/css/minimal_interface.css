@@ -1,30 +1,23 @@
-------------/* Colors */------------
+<!-------------Text Styles------------->
 
-:root {
-  --Body: #212529;
-  --link: #0000ff;
-  --error: #FC8900;
-}
-
-------------/* Text Styles */------------
 h1 {
   font-size: 2.25rem;
   font-weight: 600;
   line-height: 0.83;
-  color: var(--Body);
+  color: #212529;
 }
 
 h2 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 00;
   line-height: 1.67;
-  color: var(--Body);
+  color: #212529;
 }
 
 h3 {
   font-size: 1.25rem;
   line-height: 1.5;
-  color: var(--Body);
+  color: #212529;
 }
 
 b {
@@ -35,11 +28,11 @@ b {
 p {
   font-size: 1rem;
   line-height: 1.75;
-  color: var(--Body);
+  color: #212529;
 }
 
 a {
-  color: var(--link);
+  color: #0000ff;
 }
 
 .Tooltip-Text {
@@ -56,7 +49,7 @@ label.error {
     color: var(--error);
 }
 
-------------/* Body */------------
+<!---------Body------------>
 
 html * {
     font-family: Muli, Arial, Helvetica, sans-serif;
@@ -64,6 +57,7 @@ html * {
 
 body {
     margin: 2%;
+    font-family: Muli, Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -71,7 +65,7 @@ body {
     margin-left: 0;
 }
 
-------------/* Images */------------
+<!---------Images------------>
 
 img.logo-resize {
   max-width:27%;
@@ -89,19 +83,19 @@ img.resize75 {
 }
 
 
-------------/* Breadcrumbs */------------
+<!---------Breadcrumbs------------>
 
 .active, .breadcrumb-item.active {
   background-color: inherit;
 }
 
-------------/* Drawers */------------
+<!---------Drawers------------>
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion
 {
     background-color: #eee;
-    color: #000;
+     color: #212529;
     cursor: pointer;
     padding: 18px;
     margin-bottom: 14px;

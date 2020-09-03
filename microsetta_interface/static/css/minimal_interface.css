@@ -1,23 +1,29 @@
+:root {
+  --body: #212529;
+  --error: #FC8900;
+  --link: #0000ff;
+}
+
 <!-------------Text Styles------------->
 
 h1 {
   font-size: 2.25rem;
   font-weight: 600;
   line-height: 0.83;
-  color: #212529;
+  color: var(--body);
 }
 
 h2 {
   font-size: 1.5rem;
   font-weight: 00;
   line-height: 1.67;
-  color: #212529;
+  color: var(--body);
 }
 
 h3 {
   font-size: 1.25rem;
   line-height: 1.5;
-  color: #212529;
+  color: var(--body);
 }
 
 b {
@@ -28,11 +34,11 @@ b {
 p {
   font-size: 1rem;
   line-height: 1.75;
-  color: #212529;
+  color: var(--body);
 }
 
 a {
-  color: #0000ff;
+  color: var(--link);
 }
 
 .Tooltip-Text {
@@ -89,13 +95,13 @@ img.resize75 {
   background-color: inherit;
 }
 
-<!---------Drawers------------>
+/* Drawers */
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion
 {
     background-color: #eee;
-     color: #212529;
+    color: var(--body);
     cursor: pointer;
     padding: 18px;
     margin-bottom: 14px;

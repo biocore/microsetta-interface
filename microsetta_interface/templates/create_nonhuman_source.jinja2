@@ -8,6 +8,10 @@
         });
     </script>
 {% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create Environmental Source</li>
+{% endblock %}
 {% block content %}
     <div class="container">
         <form method="post" name="new_source_form" action="/accounts/{{account_id}}/create_nonhuman_source/">

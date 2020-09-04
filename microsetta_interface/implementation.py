@@ -464,6 +464,16 @@ def get_home():
         return _render_with_defaults('admin_home.jinja2',
                                      accounts=[])
 
+    if user is not None and email_verified and len(accts_output) == 0:
+        # If the user is logged in with a verified email but hasn't made an
+        # account yet, they can jump straight to account creation.
+        return redirect('/create_account')
+
+    if user is not None and email_verified and len(accts_output) == 1:
+        # If the user is logged in with a verified email and has only 1 account
+        # (very much the normal case), they can jump to that account
+        return redirect('/accounts/%s' % accts_output[0]['account_id'])
+
     # Note: home.jinja2 sends the user directly to authrocket to complete the
     # login if they aren't logged in yet.
     return _render_with_defaults('home.jinja2',

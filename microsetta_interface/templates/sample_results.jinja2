@@ -5,17 +5,28 @@
 
 {% block head %}
   <link rel="stylesheet" type="text/css" href="/static/vendor/css/jquery.dataTables.css" />
-  <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+  <link id="emperor-css" rel="stylesheet" type="text/css" href="/static/vendor/emperor/css/emperor.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/slick.grid.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/spectrum.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 
   <!-- vega header(s) -->
   <script src="/static/vendor/js/vega@5"></script>
   <script src="/static/vendor/js/vega-lite@4"></script>
   <script src="/static/vendor/js/vega-embed@6"></script>
 
+  <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+  <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
+  <script src="/static/vendor/emperor/emperor_loader.js"></script>
+
+
   <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
   <script>
     let taxonomy = "{{taxonomy}}";
-    let metric = "{{alpha_metric}}";
+    let alpha_metric = "{{alpha_metric}}";
+    let beta_metric = "{{beta_metric}}";
     let sampleId = "{{sample.sample_barcode}}";
     let barcodePrefix = "{{barcode_prefix}}";
     var opt = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
@@ -44,7 +55,7 @@
     }
 
     function formatAlphaURL() {
-        let base = '{{public_endpoint}}/plotting/diversity/alpha/' + metric + '/percentiles-plot';
+        let base = '{{public_endpoint}}/plotting/diversity/alpha/' + alpha_metric + '/percentiles-plot';
         if (sampleId !== "") {
             base = base + '?sample_id=' + barcodePrefix + sampleId;
         }
@@ -64,10 +75,33 @@
     }
 
     $(document).ready(
-        createDataTable(),
-        createAlphaPlot()
+        function() {
+          createDataTable();
+          createAlphaPlot();
+
+          var sample_type = "oral"
+          if ("{{sample.site}}" == "Stool")
+            sample_type="fecal"
+          var url = '{{public_endpoint}}/plotting/diversity/beta/' + beta_metric + '/pcoa/' + sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
+
+          loadEmperor(
+            url,
+            "/static/vendor/emperor",
+            function(){
+            },
+            barcodePrefix + sampleId
+          );
+        }
     );
 </script>
+
+<style>
+  #emperor-notebook {
+    height:100vh !important;
+    padding: 20px !important;
+  }
+</style>
+
 {% endblock %}
 
 {% block breadcrumb %}
@@ -132,4 +166,21 @@
     <div id="vis"></div>
   </div>
 </div>
+    <div class="column" style="text-align: center">
+    <h3>Beta Diversity</h3>
+    <br>
+    <p>Here we display how your sample fits in among the other samples
+    of The Microsetta Initiative in terms of shared microbes. There are many
+    ways to calculate beta diversity, differing in how to weight the distance
+    between any two microbes. We take evolutionary distance into account with
+    the metric displayed here, known as Unweighted Unifrac. You can
+    find an overview of this metric
+    <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or
+    better understand its derivation
+    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>.
+    This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
+    more information on it can be found in the alpha and beta diversity
+    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+    <div id='emperor-notebook' style="position: relative; width:100%; height:500px;"></div>
+  </div>
 {% endblock %}

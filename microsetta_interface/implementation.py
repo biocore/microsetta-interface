@@ -36,6 +36,8 @@ PUB_KEY = pkg_resources.read_text(
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
+LOGIN_INFO_KEY = 'login_info'
+
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
 REROUTE_KEY = "reroute"
@@ -76,6 +78,7 @@ def _render_with_defaults(template_name, **context):
     defaults = {}
 
     admin_mode = session.get(ADMIN_MODE_KEY, False)
+    defaults["login_info"] = session.get(LOGIN_INFO_KEY, None)
     defaults["admin_mode"] = admin_mode
 
     msg, style = client_state.get(RedisCache.SYSTEM_BANNER, (None, None))
@@ -466,6 +469,7 @@ def get_home():
 
     # Note: home.jinja2 sends the user directly to authrocket to complete the
     # login if they aren't logged in yet.
+
     return _render_with_defaults('home.jinja2',
                                  user=user,
                                  email_verified=email_verified,
@@ -484,9 +488,18 @@ def get_authrocket_callback(token, redirect_uri=None):
 
     # new authrocket logins do not have an account yet
     if len(accts_output) > 0:
-        session[ADMIN_MODE_KEY] = accts_output[0]['account_type'] == 'admin'
+        primary = accts_output[0]
+        session[ADMIN_MODE_KEY] = primary['account_type'] == 'admin'
+        session[LOGIN_INFO_KEY] = {
+            "account_id": primary['account_id'],
+            "email": primary['email']
+        }
     else:
         session[ADMIN_MODE_KEY] = False
+        session[LOGIN_INFO_KEY] = {
+            "account_id": None,
+            "email": None
+        }
 
     if redirect_uri:
         uri = base64.urlsafe_b64decode(redirect_uri).decode()
@@ -554,6 +567,10 @@ def post_create_account(*, body=None):
         return accts_output
 
     new_acct_id = accts_output["account_id"]
+    session[LOGIN_INFO_KEY] = {
+        "account_id": new_acct_id,
+        "email": accts_output["email"]
+    }
 
     return _refresh_state_and_route_to_sink(new_acct_id)
 
@@ -634,10 +651,15 @@ def post_account_details(*, account_id=None, body=None):
         }
     }
 
-    do_return, sample_output, _ = ApiRequest.put('/accounts/%s' %
+    do_return, acct_output, _ = ApiRequest.put('/accounts/%s' %
                                                  account_id, json=acct)
     if do_return:
-        return sample_output
+        return acct_output
+
+    session[LOGIN_INFO_KEY] = {
+        "account_id": acct_output["account_id"],
+        "email": acct_output["email"]
+    }
 
     return _refresh_state_and_route_to_sink(account_id)
 

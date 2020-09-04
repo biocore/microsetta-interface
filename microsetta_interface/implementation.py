@@ -652,7 +652,7 @@ def post_account_details(*, account_id=None, body=None):
     }
 
     do_return, acct_output, _ = ApiRequest.put('/accounts/%s' %
-                                                 account_id, json=acct)
+                                               account_id, json=acct)
     if do_return:
         return acct_output
 

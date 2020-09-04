@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="/static/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/minimal_interface.css" />
     <style>
-        {% if admin_mode %}
         body {
             padding-top: 50px;
             margin: 2%;
         }
-        {% endif %}
+        .logo-co {
+          width: 200px;
+          height: 36px;
+          object-fit: contain;
+        }
+        .profile-png {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+        }
     </style>
 
     <!-- jquery must be enabled before bootstrap for collapsible functionality -->
@@ -30,6 +38,7 @@
       Administrator Toolbar
       <a class="btn btn-outline-success" href="/admin/system_message">System Panel</a>
       <a class="btn btn-outline-success" href="/admin/emperor_playground">Emperor Playground</a>
+      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
       <form class="form-inline" action="/admin/account_search" method="get">
         <input id="email_query" name="email_query" class="form-control mr-sm-2" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Find Account</button>
@@ -37,13 +46,39 @@
     </nav>
     {% endif %}
     {% if not admin_mode %}
-    <a href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
-        <img src="/static/img/logo-co.png" class="resize"/>
-        <br />
-        <br />
-    </a>
-    <br />
-    <br />
+    <nav class="navbar fixed-top navbar-light bg-light">
+        <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
+            <img src="/static/img/logo-co.png" class="logo-co"/>
+        </a>
+        <div class="dropdown show">
+          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {% if login_info %}
+                {% if login_info.email %}
+                  {{login_info.email |e}}
+                {% else %}
+<!--                  <i>Awaiting Account Creation</i>-->
+                {% endif %}
+              {% else %}
+<!--                <i>Not Signed In</i>-->
+              {% endif %}
+            <img src="/static/img/profile.png" class="profile-png"/>
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+          {% if login_info %}
+              {% if login_info.account_id %}
+                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">Profile Details</a>
+              {% else %}
+                <a class="dropdown-item disabled" href="#">Profile Details</a>
+              {% endif %}
+            <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
+          {% else %}
+              <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">Log In</a>
+              <a class="dropdown-item" href="/signup_intermediate">Sign Up</a>
+          {% endif %}
+          </div>
+        </div>
+    </nav>
     {% endif %}
 
     {% if system_msg_text %}
@@ -70,11 +105,6 @@
         
         <!-- Vue Form Generator references a container named "app" -->
        <div class="container" id="app">
-        {% if show_logout %}
-            <div>
-                <a href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
-            </div>
-        {% endif %}
 {%block content%}
 {%endblock%}
         </div>

@@ -439,7 +439,6 @@ def get_show_faq():
 
 
 def get_home():
-    user = None
     email_verified = False
     accts_output = None
     has_session = TOKEN_KEY_NAME in session

@@ -1,32 +1,50 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = "Home" %}
-{% set show_breadcrumbs = True %}
-{% set is_home = True %}
+{% set show_breadcrumbs = False %}
+{% set hide_footer = True %}
+
 {% block head %}
+<style type="text/css">
+    body {
+        padding-left: 0;
+        margin: 0;
+    }
+    .how_it_works {
+        background-color: #f1f1f2;
+        padding:2rem;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-{% if not LOGGED_IN %}
-    You are not logged in. Please click to either: <br/>
-    <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">Log In</a> or
-    <a href="/signup_intermediate">Sign Up</a>
-{% else %}
-    <p>
-        To continue: Check your email account to obtain your confirmation email and link, which was sent to confirm your account.
-        This email will come from our authentication service, AuthRocket, under the email address "noreply@loginrocket.com".
-    </p>
-    <p>
-        If you cannot locate the original confirmation email, have it resent by
-        clicking the button below to view your AuthRocket profile, and then
-        clicking the "resend verification email" link next to your email address.
-    </p>
-    <p>
-        <a href = "{{ authrocket_url }}/profile"><button class = "btn btn-primary">
-            View AuthRocket Profile
-        </button></a>
-    </p>
-
-    <p>If you do not receive this email within a few minutes and have checked your spam/junk mail folders, please contact us at
-    <a href="mailto:microsetta@ucsd.edu">microsetta@ucsd.edu</a>.
-{% endif %}
+    <div class="row">
+      <div class="col-8 text-center how_it_works">
+          <img src="/static/img/how-it-works.svg" class="img-fluid" />
+      </div>
+      <div class="col-4 text-center" style="background: white;">
+          <div class="row h-25"></div>
+          <div class="row h-50">
+              <div class="col d-flex flex-column">
+                      <div class="flex-fill">
+                          <img src="/static/img/the-microsetta-initiative-logo-rgb-1.png"
+                               srcset="/static/img/the-microsetta-initiative-logo-rgb-1@2x.png 2x,
+                               /static/img/the-microsetta-initiative-logo-rgb-1@3x.png 3x" />
+                      </div>
+                      <div class="flex-fill">
+                          <h1>Welcome!</h1>
+                      </div>
+                      <div class="flex-fill">
+                          <a href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">
+                              <button class="btn btn-primary">SIGN UP</button>
+                          </a>
+                      </div>
+                      <div class="flex-fill">
+                         Already have an account?<br/>
+                          Welcome back! <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">LOG IN</a>
+                      </div>
+              </div>
+          </div>
+          <div class="row h-25"></div>
+      </div>
+    </div>
 {% endblock %}

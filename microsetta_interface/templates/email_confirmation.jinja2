@@ -1,0 +1,37 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Awaiting Email Confirmation" %}
+{% set show_breadcrumbs = False %}
+
+{% block head %}
+<style type="text/css">
+    .local_jumbotron {
+        width:65% !important;
+        padding: 1rem 3rem 1rem 3rem;
+        margin: 2rem;
+    }
+    .linespace {
+        line-height: 200%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron local_jumbotron mx-auto">
+        <h2 class="text-center linespace">Check your email inbox.</h2>
+        <h4>To complete your verification, click on the link in the email AuthRocket has sent to <strong>{{ login_info.email }}</strong>.</h4><br />
+        <br />
+        <br />
+        <img src="/static/img/Mail.svg" class="d-block mx-auto" style="padding: 1rem;"/>
+        <h4 class="text-center linespace">Waiting for you to confirm <img src="/static/img/Ellipses.svg" /></h4>
+        <br />
+        <ul>
+            <li>Please check both your spam and inbox</li>
+            <li>AuthRocket is our authentication service</li>
+            <li>Email wrong or didn't receive an email? <a href="{{ authrocket_url }}/profile">Go to your AuthRocket Profile &rarr;</a> to update your email or resend a verification email.</li>
+        </ul>
+        <h4>
+            <strong>You can close this browser tab!</strong> On email verification, a new tab will automatically open showing your account details.
+        </h4>
+        &nbsp;&nbsp;
+    </div>
+{% endblock %}

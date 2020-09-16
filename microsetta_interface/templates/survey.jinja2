@@ -81,10 +81,10 @@
             for (let field of survey_schema.fields) {
                 set_triggers(survey_model, field)
             }
-            for (let group of survey_schema.groups) {
-                for (let field of group.fields) {
-                    set_triggers(survey_model, field)
-                }
+        }
+        for (let group of survey_schema.groups) {
+            for (let field of group.fields) {
+                set_triggers(survey_model, field)
             }
         }
 

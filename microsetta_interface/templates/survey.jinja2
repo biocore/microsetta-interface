@@ -75,16 +75,16 @@
 
     <script type="text/javascript">
         var survey_model = {};
-        var survey_schema= {{survey_schema|tojson}} ;
+        var survey_schema= {{survey_schema|tojson}};
 
         if (survey_schema.fields !== null) {
             for (let field of survey_schema.fields) {
-                set_triggers(survey_model, field)
+                set_triggers(survey_model, field);
             }
         }
         for (let group of survey_schema.groups) {
             for (let field of group.fields) {
-                set_triggers(survey_model, field)
+                set_triggers(survey_model, field);
             }
         }
 

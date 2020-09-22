@@ -92,11 +92,7 @@
     {% if show_breadcrumbs %}
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            {% if is_home %}
-            <li class="breadcrumb-item active" aria-current="page">Home</li>
-            {% else %}
             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            {% endif %}
             {%block breadcrumb%}
             {%endblock%}
           </ol>
@@ -104,14 +100,14 @@
     {% endif %}
         
         <!-- Vue Form Generator references a container named "app" -->
-       <div class="container" id="app">
+       <div class="container-fluid" id="app">
 {%block content%}
 {%endblock%}
         </div>
     </div>
 {%block footer%}
 {%endblock%}
-    {% if not admin_mode %}
+    {% if not admin_mode and not hide_footer %}
     <div>
         <br />
         <hr>
@@ -125,8 +121,6 @@
             Stuck?  Please contact
             <a href="mailto:microsetta@ucsd.edu">microsetta@ucsd.edu</a>
             for help.
-            <br/><br/>
-            <a href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">Return to microsetta.ucsd.edu</a>
         </p>
     </div> 
     {% endif %}

@@ -439,7 +439,6 @@ def get_show_faq():
 
 
 def get_home():
-    user = None
     email_verified = False
     accts_output = None
     has_session = TOKEN_KEY_NAME in session
@@ -449,7 +448,7 @@ def get_home():
             # If user leaves the page open, the token can expire before the
             # session, so if our token goes back we need to force them to login
             # again.
-            user, email_verified = _parse_jwt(session[TOKEN_KEY_NAME])
+            email, email_verified = _parse_jwt(session[TOKEN_KEY_NAME])
         except jwt.exceptions.ExpiredSignatureError:
             return redirect('/logout')
 
@@ -463,11 +462,9 @@ def get_home():
             if has_error:
                 return accts_output
         else:
-            return _render_with_defaults('home.jinja2',
-                                         LOGGED_IN=True)
+            return _render_with_defaults('email_confirmation.jinja2')
     else:
-        return _render_with_defaults('home.jinja2',
-                                     LOGGED_IN=False)
+        return _render_with_defaults('home.jinja2')
 
     # Switch out home page in administrator mode
     if session.get(ADMIN_MODE_KEY, False):
@@ -489,6 +486,10 @@ def get_rootpath():
 
 def get_authrocket_callback(token, redirect_uri=None):
     session[TOKEN_KEY_NAME] = token
+    email, _ = _parse_jwt(token)
+    session[LOGIN_INFO_KEY] = {
+        "email": email
+    }
     do_return, accts_output, _ = ApiRequest.get('/accounts')
     if do_return:
         return accts_output
@@ -505,7 +506,7 @@ def get_authrocket_callback(token, redirect_uri=None):
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {
             "account_id": None,
-            "email": None
+            "email": email
         }
 
     if redirect_uri:

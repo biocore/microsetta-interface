@@ -85,19 +85,6 @@ paths:
         '302':
           description: Returning home
 
-  '/signup_intermediate':
-    get:
-      operationId: microsetta_interface.implementation.get_signup_intermediate
-      tags:
-        - Authentication
-      responses:
-        '200':
-          description: Page with additional information prior to pass off to AuthRocket
-          content:
-            text/html:
-              schema:
-                type: string
-
   '/logout':
     get:
       operationId: microsetta_interface.implementation.get_logout

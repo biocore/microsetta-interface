@@ -516,11 +516,6 @@ def get_authrocket_callback(token, redirect_uri=None):
     return redirect(HOME_URL)
 
 
-def get_signup_intermediate():
-    output = _render_with_defaults('signup_intermediate.jinja2')
-    return output
-
-
 def get_logout():
     session.clear()
     return redirect(HOME_URL)

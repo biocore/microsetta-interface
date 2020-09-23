@@ -74,7 +74,7 @@
             <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
           {% else %}
               <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">Log In</a>
-              <a class="dropdown-item" href="/signup_intermediate">Sign Up</a>
+              <a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">Sign Up</a>
           {% endif %}
           </div>
         </div>

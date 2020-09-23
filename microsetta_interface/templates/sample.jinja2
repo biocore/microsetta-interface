@@ -134,7 +134,7 @@
           <div class="form-group">
             <label for="sample_notes" id="sample_notes_label">Notes</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="sample_notes" name="sample_notes" rows=3>{{ sample.sample_notes |e}}</textarea>
+                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="(Optional) Is there else about this sample that you would like to add?" rows=3>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
             </div>
           </div>
          <button type="submit" class="btn btn-primary">Update</button>

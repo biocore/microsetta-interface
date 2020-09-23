@@ -135,7 +135,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
                "scale":{
                   "category":"My Data",
                   "data":{
-                     "Me":"1.5",
+                     "Me":"2.5",
                      "Not Me":"0.5"
                   },
                   "globalScale":"1",

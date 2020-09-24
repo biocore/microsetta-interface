@@ -709,7 +709,9 @@ def post_create_nonhuman_source(*, account_id=None, body=None):
     if has_error:
         return sources_output
 
-    return _refresh_state_and_route_to_sink(account_id)
+    new_source_id = sources_output["source_id"]
+
+    return _refresh_state_and_route_to_sink(account_id, new_source_id)
 
 
 @prerequisite([NEEDS_SURVEY])

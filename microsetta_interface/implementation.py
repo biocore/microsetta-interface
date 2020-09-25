@@ -101,7 +101,7 @@ def _get_req_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
         return [1, 6]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
-        return []
+        return [2]
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
         return []
     else:
@@ -697,9 +697,10 @@ def post_create_human_source(*, account_id=None, body=None):
 
 
 @prerequisite([ACCT_PREREQS_MET])
-def get_create_nonhuman_source(*, account_id=None):
+def get_create_nonhuman_source(*, account_id=None, source_type=None):
     return _render_with_defaults('create_nonhuman_source.jinja2',
-                                 account_id=account_id)
+                                 account_id=account_id,
+                                 source_type=source_type)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -924,6 +925,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
 
     source_type = source_output['source_type']
     is_environmental = source_type == Source.SOURCE_TYPE_ENVIRONMENT
+    is_animal = source_type == Source.SOURCE_TYPE_ANIMAL
     is_human = source_type == Source.SOURCE_TYPE_HUMAN
 
     if is_human:
@@ -932,6 +934,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Nares", "Nasal mucus", "Right hand", "Left hand",
                         "Forehead", "Torso", "Right leg", "Left leg",
                         "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
+    elif is_animal:
+        sample_sites = ["Stool", "Mouth", "Fur"]
     elif is_environmental:
         # Environment settings
         sample_sites = [None]

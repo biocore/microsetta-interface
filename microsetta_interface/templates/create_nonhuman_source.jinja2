@@ -1,6 +1,7 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Create Non-human Source" %}
-{% set show_breadcrumbs = True %}
+{% set cap_source_type = source_type.capitalize() %}
+{% set page_title = "Create " ~ cap_source_type ~" Source" %}
+{% set show_breadcrumbs = False %}
 {% block head %}
     <script>
         $(document).ready(function(){
@@ -12,11 +13,11 @@
     <div class="container">
         <form method="post" name="new_source_form" action="/accounts/{{account_id}}/create_nonhuman_source/">
             <div class="form-group">
-                <label for="source_name" name="source_name_label">Environment name (e.g., microwave):</label>
+                <label for="source_name" name="source_name_label">{{cap_source_type}} name (e.g., {% if source_type == 'environmental' %}microwave{% elif source_type == 'animal' %}Fluffy{% endif %}):</label>
                 <input id="source_name" name="source_name" class="form-control" type="text" required/>
-                <input id="source_type" name="source_type" type="hidden" value="environmental" />
+                <input id="source_type" name="source_type" type="hidden" value="{{source_type}}" />
                 <br />
-                <label for="source_description" name="source_description_label">Environment description (optional):</label>
+                <label for="source_description" name="source_description_label">{{cap_source_type}} description (optional):</label>
                 <input id="source_description" name="source_description" class="form-control" type="text"/>
              </div>
             <input type="submit" class="btn btn-primary" value="Create Source"/>

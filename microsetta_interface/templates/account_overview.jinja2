@@ -128,7 +128,7 @@
                     Collect sample(s) from a <b>surface</b> (e.g. kitchen counter, backyard soil, food, etc.)
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_nonhuman_source" role="button">Select</a>
+                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_nonhuman_source?source_type=environmental" role="button">Select</a>
                 </div>
             </div>
             <div class="card source-card mb-3" id="animal-source">
@@ -138,10 +138,9 @@
                     <div>
                         Collect sample(s) from <b>your pet</b> or an <b>animal</b> (e.g. fecal, oral, skin, etc.)
                     </div>
-                    <div class="mt-auto"><i class="align-self-end">Animal sources are currently unavailable.</i></div>
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a class="btn btn-primary btn-lg disabled" href="#" role="button">Select</a>
+                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_nonhuman_source?source_type=animal" role="button">Select</a>
                 </div>
             </div>
         </div>

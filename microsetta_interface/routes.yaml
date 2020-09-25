@@ -264,6 +264,7 @@ paths:
         - Source
       parameters:
         - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_type'
       responses:
         '200':
           description: Form to create a non-human source
@@ -656,6 +657,12 @@ components:
       description: Error message provided by front-end
       schema:
         $ref: '#/components/schemas/error_msg'
+    source_type:
+      name: source_type
+      in: query
+      description: non-human source type of interest (either environmental or animal)
+      schema:
+        $ref: '#/components/schemas/non_human_source_type'
 
   schemas:
     # account section
@@ -680,4 +687,8 @@ components:
     kit_name:
       type: string
       example: "aaaaa"
+    non_human_source_type:
+      type: string
+      enum: ["environmental", "animal"]
+      example: "animal"
 

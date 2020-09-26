@@ -494,6 +494,45 @@ paths:
         '302':
           description: Redirecting to necessary action
 
+  '/accounts/{account_id}/sources/{source_id}/surveys/{survey_id}/reports/topfoodreport':
+    # Disambiguation page for view/download pdf
+    get:
+      operationId: microsetta_interface.implementation.top_food_report
+      tags:
+        - Survey
+      summary: Generate vioscreen top food report
+      description:  Generate vioscreen top food report
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/survey_id'
+
+      responses:
+        '200':
+          description: Top Food Report pdf
+          content:
+            text/html:
+              schema:
+                type: string
+        '302':
+          description: Redirecting to necessary action
+
+  '/accounts/{account_id}/sources/{source_id}/surveys/{survey_id}/reports/topfoodreport/pdf':
+    # Attempts to generate the vioscreen top food report pdf from this vioscreen survey
+    get:
+      operationId: microsetta_interface.implementation.top_food_report_pdf
+      tags:
+        - Survey
+      summary: Generate vioscreen top food report
+      description:  Generate vioscreen top food report
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/survey_id'
+      responses:
+        '200':
+          description: Top Food Report pdf
+
   '/check_kit_valid':
     get:
       operationId: microsetta_interface.implementation.get_ajax_check_kit_valid
@@ -629,6 +668,13 @@ components:
       schema:
         $ref: '#/components/schemas/sample_id'
       required: true
+    survey_id:
+      name: survey_id
+      in: path
+      description: Unique id specifying a sample associated with a source
+      schema:
+        $ref: '#/components/schemas/survey_id'
+      required: true
     survey_template_id:
       name: survey_template_id
       in: query
@@ -671,6 +717,10 @@ components:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
       example: "dae21127-27bb-4f52-9fd3-a2aa5eb5b86f"
+    survey_id:
+      type: string
+      readOnly: true # sent in GET, not in POST/PUT/PATCH
+      example: "1234567890abcdef"
     survey_template_id:
       type: integer
       example: 3

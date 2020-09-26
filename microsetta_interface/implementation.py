@@ -1,5 +1,5 @@
 import flask
-from flask import render_template, session, redirect
+from flask import render_template, session, redirect, make_response
 import jwt
 import requests
 from requests.auth import AuthBase
@@ -805,6 +805,44 @@ def get_to_save_vioscreen_remote_sample_survey(*,
 
 
 @prerequisite([SOURCE_PREREQS_MET])
+def top_food_report(*,
+                    account_id=None,
+                    source_id=None,
+                    survey_id=None):
+    return _render_with_defaults(
+        "embedded_pdf.jinja2",
+        page_title="Top Food Report",
+        link_to_pdf='/accounts/%s'
+                    '/sources/%s'
+                    '/surveys/%s'
+                    '/reports/topfoodreport/pdf'
+                    % (account_id, source_id, survey_id))
+
+
+@prerequisite([SOURCE_PREREQS_MET])
+def top_food_report_pdf(*,
+                        account_id=None,
+                        source_id=None,
+                        survey_id=None):
+    has_error, pdf_bytes, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/surveys/%s/reports/topfoodreport' %
+        (account_id, source_id, survey_id),
+        parse_json=False
+    )
+    if has_error:
+        return pdf_bytes
+
+    response = make_response(pdf_bytes)
+    response.headers.set("Content-Type", "application/pdf")
+    # TODO: Do we want it to download a file or be embedded in the html?
+    # response.headers.set('Content-Disposition',
+    #                      'attachment',
+    #                      filename='top-food-report.pdf')
+
+    return response
+
+
+@prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
     # Retrieve the account to determine which kit it was created with
     has_error, account_output, _ = ApiRequest.get(
@@ -864,7 +902,7 @@ def get_source(*, account_id=None, source_id=None):
 
     # Identify answered surveys for the samples
     for sample in samples_output:
-        sample['ffq'] = False
+        sample['ffq'] = None
         sample_id = sample['sample_id']
         # TODO:  This is a really awkward and slow way to get this information
         has_error, per_sample_answers, _ = ApiRequest.get(
@@ -875,7 +913,7 @@ def get_source(*, account_id=None, source_id=None):
 
         for answer in per_sample_answers:
             if answer['survey_template_id'] == VIOSCREEN_ID:
-                sample['ffq'] = True
+                sample['ffq'] = answer['survey_id']
 
     # prettify datetime
     needs_assignment = False
@@ -1164,7 +1202,7 @@ class ApiRequest:
         return all_params
 
     @classmethod
-    def _check_response(cls, response):
+    def _check_response(cls, response, parse_json=True):
         error_code = response.status_code
         output = None
         headers = None
@@ -1178,20 +1216,23 @@ class ApiRequest:
         else:
             error_code = 0  # there is a response code but no *error* code
             headers = response.headers
-            if response.text:
-                output = response.json()
+            if parse_json:
+                if response.text:
+                    output = response.json()
+            else:
+                output = response.content
 
         return error_code, output, headers
 
     @classmethod
-    def get(cls, input_path, params=None):
+    def get(cls, input_path, parse_json=True, params=None):
         response = requests.get(
             ApiRequest.API_URL + input_path,
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
             verify=ApiRequest.CAfile,
             params=cls.build_params(params))
 
-        return cls._check_response(response)
+        return cls._check_response(response, parse_json=parse_json)
 
     @classmethod
     def put(cls, input_path, params=None, json=None):

@@ -935,7 +935,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Forehead", "Torso", "Right leg", "Left leg",
                         "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
     elif is_animal:
-        sample_sites = ["Stool", "Mouth", "Fur"]
+        sample_sites = ["Saliva", "Stool", "Mouth", "Nasal mucus", "Fur"]
     elif is_environmental:
         # Environment settings
         sample_sites = [None]

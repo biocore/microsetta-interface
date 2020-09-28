@@ -1,6 +1,6 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Account Samples" %}
-{% set show_breadcrumbs = False %}
+{% set page_title = "Samples for Source '" ~ source_name ~ "'" %}
+{% set show_breadcrumbs = True %}
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
@@ -132,6 +132,10 @@
     <li class="breadcrumb-item active" aria-current="page">{{source_name}}</li>
 {% endblock %}
 {% block content %}
+    <!--Waiting to hear from Dom where this link should go ...
+    <a href="/accounts/{{account_id}}">&larr; Back to Samples Page</a>
+    <br />
+    -->
     {% if needs_assignment %}
     <div class="alert alert-warning" role="alert">
         It looks like some samples do not have collection information recorded.

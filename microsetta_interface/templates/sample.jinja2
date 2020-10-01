@@ -10,6 +10,37 @@
     <script type="text/javascript" src="/static/vendor/js/jquery.timepicker.min.js"></script>
 
     <script>
+        //  Let jquery validate check mm/dd/yyyy
+        $.validator.addMethod("monthDayYear", function(value, element)
+        {
+        //  Derived from the dateITA (dd/mm/yyyy) jquery validate additional method
+        //  by swapping day and month in the parseInt calls.
+        //  See the additional-methods.js file in the jquery-validate distribution
+        //  Note: the additional-methods.js file is
+        //      Copyright (c) 2020 Jörn Zaefferer
+        //      Released under the MIT license
+	        var check = false;
+	        var regex = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+	        if (regex.test(value))
+	        {
+		        var data = value.split("/");
+		        var mm = parseInt(data[0], 10);
+		        var dd = parseInt(data[1], 10);
+		        var yyyy = parseInt(data[2], 10);
+                var parsedDate = new Date(Date.UTC(yyyy, mm - 1, dd, 12, 0, 0, 0));
+                if ((parsedDate.getUTCFullYear() === yyyy) &&
+                    (parsedDate.getUTCMonth() === mm - 1) &&
+                    (parsedDate.getUTCDate() === dd)) {
+                    check = true;
+                } else {
+                    check = false;
+                }
+            } else {
+                check = false;
+            }
+            return this.optional(element) || check;
+        }, "Required Format: MM/DD/YYYY");
+
         $(document).ready(function(){
             let form_name = 'sample_form';
             preventImplicitSubmission(form_name);
@@ -46,7 +77,10 @@
                     // The key name on the left side is the name attribute
                     // of an input field. Validation rules are defined
                     // on the right side
-                    sample_date: "required",
+                    sample_date: {
+                        required: true,
+                        monthDayYear: true
+                    },
                     sample_time: "required",
                     {% if not is_environmental %}
                     sample_site: "required",

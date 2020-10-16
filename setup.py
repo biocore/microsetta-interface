@@ -27,6 +27,7 @@ setup(
         'static/*',
         'static/css/*',
         'static/img/*',
+        'static/js/*',
         'static/vendor/js/*',
         'static/vendor/css/*',
         'static/vendor/js/jquery.form-4.2.2/*',

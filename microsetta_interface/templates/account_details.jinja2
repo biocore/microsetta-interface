@@ -2,6 +2,11 @@
 {% set page_title = "Account Details" %}
 {% set show_breadcrumbs = True %}
 {% block head %}
+    <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+    <!-- Defines COUNTRIES_LIST, based on ebaranov's country/state json with corrections -->
+    <!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
+    <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
     <script>
         $(document).ready(function(){
             let form_name = 'acct_form';
@@ -37,7 +42,51 @@
                     }
                 }
             });
+
+
+            // Link Handlers
+            cc = new JQuerySelectInput("country_code", "#country_code");
+            new ConsoleOutput(cc);
+            new DelegateOutput(function(code){
+                if (code == "UK")
+                {
+                    $("#city_label").text("Town*");
+                    $("#state_label").text("County*");
+                    $("#post_code_label").text("Postcode*");
+                    $("#state").empty();
+                    for (var country of COUNTRIES_LIST)
+                    {
+                        if (country.country != "United Kingdom")
+                            continue;
+
+                        for (var state of country.states)
+                        {
+                            var option = $('<option></option>')
+                                .attr("value", state)
+                                .text(state);
+                            $("#state").append(option);
+                        }
+                    }
+                }
+                else
+                {
+                    $("#city_label").text("City/Ciudad*");
+                    $("#state_label").text("State/Estado*");
+                    $("#post_code_label").text("Zip Code/Codigo Postal*");
+                    $("#state").empty();
+
+                    for (var state of US_STATES)
+                    {
+                        var option = $('<option></option>')
+                            .attr("value", state[0])
+                            .text(state[1]);
+                        $("#state").append(option);
+                    }
+                }
+            },cc);
         });
+
+
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -66,73 +115,24 @@
             </div>
             <div class="form-group">
                 <p>
-                <strong>Note to non-US users:</strong> We are working on support for additional countries and
+                <strong>Note to non-US/UK users:</strong> We are working on support for additional countries and
                 expect to have that available soon.
                 </p>
-                <label for="street" name="street_label" >Street Address/Dirección*</label>
+                <select id="country_code" name="country_code"/>
+                    <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >United States</option>
+                    <option value="UK" {% if account.address.country_code == "UK" %} selected {% endif %} >United Kingdom</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="street" id="street_label" >Street Address/Dirección*</label>
                 <input id="street" name="street" class="form-control" value="{{account.address.street |e}}" type="text" />
             </div>
             <div class="form-group">
-                <label for="city" name="city_label">City/Ciudad*</label>
+                <label for="city" id="city_label"></label>
                 <input id="city" name="city" class="form-control" value="{{account.address.city |e}}" type="text" />
             </div>
             <div class="form-group">
-                <label for="state" name="state_label">State/Estado*</label>
-
-                {% set US_STATES = [
-                    ("AL", "Alabama"),
-                    ("AK", "Alaska"),
-                    ("AZ", "Arizona"),
-                    ("AR", "Arkansas"),
-                    ("CA", "California"),
-                    ("CO", "Colorado"),
-                    ("CT", "Connecticut"),
-                    ("DE", "Delaware"),
-                    ("DC", "District Of Columbia"),
-                    ("FL", "Florida"),
-                    ("GA", "Georgia"),
-                    ("HI", "Hawaii"),
-                    ("ID", "Idaho"),
-                    ("IL", "Illinois"),
-                    ("IN", "Indiana"),
-                    ("IA", "Iowa"),
-                    ("KS", "Kansas"),
-                    ("KY", "Kentucky"),
-                    ("LA", "Louisiana"),
-                    ("ME", "Maine"),
-                    ("MD", "Maryland"),
-                    ("MA", "Massachusetts"),
-                    ("MI", "Michigan"),
-                    ("MN", "Minnesota"),
-                    ("MS", "Mississippi"),
-                    ("MO", "Missouri"),
-                    ("MT", "Montana"),
-                    ("NE", "Nebraska"),
-                    ("NV", "Nevada"),
-                    ("NH", "New Hampshire"),
-                    ("NJ", "New Jersey"),
-                    ("NM", "New Mexico"),
-                    ("NY", "New York"),
-                    ("NC", "North Carolina"),
-                    ("ND", "North Dakota"),
-                    ("OH", "Ohio"),
-                    ("OK", "Oklahoma"),
-                    ("OR", "Oregon"),
-                    ("PA", "Pennsylvania"),
-                    ("RI", "Rhode Island"),
-                    ("SC", "South Carolina"),
-                    ("SD", "South Dakota"),
-                    ("TN", "Tennessee"),
-                    ("TX", "Texas"),
-                    ("UT", "Utah"),
-                    ("VT", "Vermont"),
-                    ("VA", "Virginia"),
-                    ("WA", "Washington"),
-                    ("WV", "West Virginia"),
-                    ("WI", "Wisconsin"),
-                    ("WY", "Wyoming")
-                ] %}
-
+                <label for="state" id="state_label"></label>
                 <select id="state" name="state" class="form-control">
                     {% for code, full_name in US_STATES %}
                     <option value="{{code}}" {% if account.address.state == code %}selected {% endif %}>{{full_name}}</option>
@@ -140,7 +140,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="post_code" name="post_code_label">Zip Code/Código Postal*</label>
+                <label for="post_code" id="post_code_label"></label>
                 <input id="post_code" name="post_code" class="form-control" value="{{account.address.post_code |e}}" type="text" />
             </div>
             {% if CREATE_ACCT %}
@@ -149,7 +149,6 @@
                 <input id="kit_name" name="kit_name" class="form-control" type="text"/>
             </div>
             {% endif %}
-            <input id="country_code" name="country_code" type="hidden" value="{{account.address.country_code |e}}"/>
             {% if CREATE_ACCT %}
             <button type="submit" class="btn btn-primary">Save Profile</button>
             {% else %}

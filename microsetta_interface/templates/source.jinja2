@@ -140,25 +140,27 @@
     {% if samples|length > 0 %}
     Samples (click on a barcode to provide collection information):
     <div class="list-group">
-        <div class="row">
-            <div class="col-sm">
-                <i>Barcode</i>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <i>Barcode</i>
+                </div>
+                <div class="col-sm">
+                    <i>Collection date</i>
+                </div>
+                {% if is_human %}
+                <div class="col-sm">
+                    <i>Sample type</i>
+                </div>
+                <div class="col-sm">
+                    <i>Results</i>
+                </div>
+                <div class="col-sm">
+                    <i>Sample-specific survey</i>
+                </div>
+                {% endif %}
+                <div class="col-sm"></div>
             </div>
-            <div class="col-sm">
-                <i>Collection date</i>
-            </div>
-            {% if is_human %}
-            <div class="col-sm">
-                <i>Sample type</i>
-            </div>
-            <div class="col-sm">
-                <i>Results</i>
-            </div>
-            <div class="col-sm">
-                <i>Sample-specific survey</i>
-            </div>
-            {% endif %}
-            <div class="col-sm"></div>
         </div>
         {% for sample in samples %}
         <div class="container list-group-item {{loop.cycle('odd', 'even') }}">

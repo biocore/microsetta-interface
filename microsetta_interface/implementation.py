@@ -977,7 +977,32 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     if has_error:
         return sample_output
 
+    # Check if this sample has an ffq associated with it, if not, ask the user
+    # if they'd like to fill one out.
+    has_error, per_sample_answers, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples/%s/surveys' %
+        (account_id, source_id, sample_id))
+    if has_error:
+        return per_sample_answers
+
+    has_ffq = False
+    for answer in per_sample_answers:
+        if answer['survey_template_id'] == VIOSCREEN_ID:
+            has_ffq = True
+
+    if not has_ffq:
+        url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
+        return redirect(url % (account_id, source_id, sample_id))
     return _refresh_state_and_route_to_sink(account_id, source_id)
+
+
+@prerequisite([SOURCE_PREREQS_MET])
+def check_questionnaire(*, account_id=None, source_id=None, sample_id=None):
+    return _render_with_defaults('post_sample_questionnaire.jinja2',
+                                 account_id=account_id,
+                                 source_id=source_id,
+                                 sample_id=sample_id,
+                                 vioscreen_id=VIOSCREEN_ID)
 
 
 @prerequisite([SOURCE_PREREQS_MET])

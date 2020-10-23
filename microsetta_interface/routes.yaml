@@ -377,6 +377,23 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/after_edit_questionnaire':
+    get:
+      operationId: microsetta_interface.implementation.check_questionnaire
+      tags:
+        - Sample
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/sample_id'
+      responses:
+        '200':
+          description: Ask if user wants to take FFQ
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/results':
     get:
       operationId: microsetta_interface.implementation.get_sample_results

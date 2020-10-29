@@ -43,10 +43,11 @@
                 }
             });
 
-
             // Link Handlers
+            // In our test databases, state sometimes has line breaks, so
+            // more complex parsing becomes necessary
+            var start_code = {{ account.address.state | e | tojson }};
             cc = new JQuerySelectInput("country_code", "#country_code");
-            new ConsoleOutput(cc);
             new DelegateOutput(function(code){
                 if (code == "UK")
                 {
@@ -64,6 +65,12 @@
                             var option = $('<option></option>')
                                 .attr("value", state)
                                 .text(state);
+
+                            // We don't really have state codes for other
+                            // countries...
+                            if (state == start_code)
+                                option.attr('selected','selected');
+
                             $("#state").append(option);
                         }
                     }
@@ -80,6 +87,8 @@
                         var option = $('<option></option>')
                             .attr("value", state[0])
                             .text(state[1]);
+                        if (state[0] == start_code)
+                            option.attr('selected','selected');
                         $("#state").append(option);
                     }
                 }

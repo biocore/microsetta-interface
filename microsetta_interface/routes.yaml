@@ -516,6 +516,9 @@ paths:
                 type: string
         '302':
           description: Redirecting to necessary action
+        '404':
+          description: No such pdf
+
 
   '/accounts/{account_id}/sources/{source_id}/surveys/{survey_id}/reports/topfoodreport/pdf':
     # Attempts to generate the vioscreen top food report pdf from this vioscreen survey
@@ -532,6 +535,9 @@ paths:
       responses:
         '200':
           description: Top Food Report pdf
+        '404':
+          description: No such pdf
+
 
   '/check_kit_valid':
     get:

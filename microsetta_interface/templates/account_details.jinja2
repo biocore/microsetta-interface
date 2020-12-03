@@ -49,7 +49,7 @@
             var start_code = {{ account.address.state | e | tojson }};
             cc = new JQuerySelectInput("country_code", "#country_code");
             new DelegateOutput(function(code){
-                if (code == "UK")
+                if (code == "GB")
                 {
                     $("#city_label").text("Town*");
                     $("#state_label").text("County*");
@@ -124,12 +124,12 @@
             </div>
             <div class="form-group">
                 <p>
-                <strong>Note to non-US/UK users:</strong> We are working on support for additional countries and
+                <strong>Note to non-US/GB users:</strong> We are working on support for additional countries and
                 expect to have that available soon.
                 </p>
                 <select id="country_code" name="country_code"/>
                     <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >United States</option>
-                    <option value="UK" {% if account.address.country_code == "UK" %} selected {% endif %} >United Kingdom</option>
+                    <option value="GB" {% if account.address.country_code == "GB" %} selected {% endif %} >United Kingdom</option>
                 </select>
             </div>
             <div class="form-group">

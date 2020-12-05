@@ -1104,6 +1104,96 @@ def admin_emperor_playground():
     )
 
 
+def admin_plotly_playground():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    # See plotly docs for definition:
+    # https://plotly.com/javascript/line-charts/
+
+    trace1 = {
+        "type": 'scatter',
+        "x": [1, 2, 3, 4],
+        "y": [0, 4, 2, 8],
+        "mode": 'lines',
+        "name": 'Red Line',
+        "line": {
+            "color": 'rgb(219, 64, 82)',
+            "width": 3
+        }
+    }
+
+    trace2 = {
+        "type": 'scatter',
+        "x": [1, 2, 3, 4],
+        "y": [1, 6, 3, 10],
+        "mode": 'lines+markers',
+        "name": 'Blue Line With Markers',
+        "line": {
+            "color": 'rgb(55, 128, 191)',
+            "width": 1
+        }
+    }
+
+    bar_data = [
+        {
+            "x": ['A', 'B', 'C'],
+            "y": [10, 20, 30],
+            "type": 'bar'
+        }
+    ]
+
+    map_data = [{
+        "type": 'choropleth',
+        "locationmode": 'country names',
+        "locations": ["United States", "United Kingdom"],
+        "z": [72, 46],
+        "text": ["Home Of Dan", "Other country we get samples from"],
+        "autocolorscale": True
+    }]
+
+    map_data2 = [{
+        "type": "scattermapbox",
+        "lat": [32.88022256378144],
+        "lon": [-117.2339491294406],
+        "text": ["UC San Diego"],
+        "marker": {"color": "fuchsia", "size": 4}
+    }]
+    return _render_with_defaults(
+        "plotly.jinja2",
+        plotly_data={  # Map div ids to plotly trace data
+            "plotly1": {
+                "data": [trace1, trace2],
+                "layout": {
+                    "title": "A line plot"
+                }
+            },
+            "plotly2": {
+                "data": bar_data,
+                "layout": {
+                    "title": "A bar plot",
+                }
+            },
+            "plotly3": {
+                "data": map_data,
+                "layout": {
+                    "title": "Country Map",
+                }
+            },
+            "plotly4": {
+                "data": map_data2,
+                "layout": {
+                    "title": "Mapbox Tiled Map",
+                    "mapbox": {
+                        "style": "carto-positron",
+                        "center": {"lat": 38, "lon": -117}
+                    }
+                }
+            }
+        }
+    )
+
+
 def get_ajax_check_kit_valid(kit_name):
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error

@@ -660,6 +660,19 @@ paths:
               schema:
                 type: string
 
+  '/admin/plotly_playground':
+    get:
+      operationId: microsetta_interface.implementation.admin_plotly_playground
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Plotly test page
+          content:
+            text/html:
+              schema:
+                type: string
+
 components:
   parameters:
     account_id: # Can be referenced as '#/components/parameters/account_id'

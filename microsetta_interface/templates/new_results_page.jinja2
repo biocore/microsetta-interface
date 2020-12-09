@@ -15,6 +15,15 @@
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
 <script>
+    DATA_TYPE_FRIENDLY={
+        "16s": "16S",
+        "shotgun": "Shotgun"
+    }
+
+    DATASET_FRIENDLY={
+        "microsetta": "Microsetta"
+    }
+
     populate_select = function(select_selector, value_to_text, active_value){
         var select = $(select_selector)
         select.empty()
@@ -31,32 +40,47 @@
         }
     }
 
-    updateCompare = function(compareData){
+    updateCompare = function(compareData, state){
         //TODO
-        $("#compare").text(compareData["result"])
+        //Stuff to fill in:
+        //  sample_type, n_bacteria, n_archaea, dataset_name,
+        //  n_bacteria_background, n_archaea_background,
+        //  age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
+
+        $("#sample_type").text("AJAX_SAMPLE_TYPE")
+        $("#n_bacteria").text("AJAX_N_BACTERIA")
+        $("#n_archaea").text("AJAX_N_ARCHAEA")
+        $("#dataset_name").text(DATASET_FRIENDLY[state.dataset_input.value])
+        $("#n_bacteria_background").text("AJAX_BACTERIA_BACKGROUND")
+        $("#n_archaea_background").text("AJAX_ARCHAEA_BACKGROUND")
+        $("#age_nearest_neighbor").text("AJAX_AGE_NEAREST_NEIGHBOR")
+        $("#more_or_less_sweets_nearest_neighbor").text("AJAX_MORE_OR_LESS_SWEETS_NEAREST_NEIGHBOR")
     }
-    updateDiversity = function(diversityData){
+    updateDiversity = function(diversityData, state){
         //TODO
         $("#diversity").text(diversityData["result"])
     }
-    updateSimilarity = function(similarityData){
+    updateSimilarity = function(similarityData, state){
         //TODO
         $("#similarity").text(similarityData["result"])
     }
-    updateTaxonomy = function(taxonomyData){
+    updateTaxonomy = function(taxonomyData, state){
         //TODO
         $("#taxonomy").text(taxonomyData["result"])
     }
 
     init = function(){
+        // Hook up fake tab links
+        $('.fake-tab').click(function() {
+            var link = this.dataset.link
+            $(link).click();
+        });
+
         // TODO: Should data type options be determined by ajax call or
         // passed into jinja2 template?
         populate_select(
             "#data_type",
-            {
-                "16s": "16S",
-                "shotgun": "Shotgun"
-            },
+            DATA_TYPE_FRIENDLY,
             "16s"
         );
 
@@ -64,24 +88,23 @@
         // passed into jinja2 template?
         populate_select(
             "#dataset",
-            {
-                "microsetta": "Microsetta"
-            },
+            DATASET_FRIENDLY,
             "microsetta"
         );
 
-        data_type_input = new JQuerySelectInput("DataType", "#data_type");
-        dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state = {}
+
+        state.data_type_input = new JQuerySelectInput("DataType", "#data_type");
+        state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
 
         /* Whenever data type or dataset are changed, we fire off ajax requests
            to grab new info for the plots.  */
-
         new DelegateOutput(function(dataType, dataset){
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateCompare({"result": "Loading..."})
-            updateDiversity({"result": "Loading..."})
-            updateSimilarity({"result": "Loading..."})
-            updateTaxonomy({"result": "Loading..."})
+            updateCompare({"result": "Loading..."}, state)
+            updateDiversity({"result": "Loading..."}, state)
+            updateSimilarity({"result": "Loading..."}, state)
+            updateTaxonomy({"result": "Loading..."}, state)
 
             //TODO Insert some calls to ajax, grab the result, -then- update
             //    ...
@@ -91,11 +114,11 @@
             similarityData = { "result": "Similarity AJAX: " + dataType + " - " + dataset }
             taxonomyData = { "result": "Taxonomy AJAX: " + dataType + " - " + dataset }
 
-            updateCompare(compareData);
-            updateDiversity(diversityData);
-            updateSimilarity(similarityData);
-            updateTaxonomy(taxonomyData);
-        }, data_type_input, dataset_input);
+            updateCompare(compareData, state);
+            updateDiversity(diversityData, state);
+            updateSimilarity(similarityData, state);
+            updateTaxonomy(taxonomyData, state);
+        }, state.data_type_input, state.dataset_input);
     }
 
     $(document).ready(init)
@@ -128,7 +151,42 @@
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
-              AAA
+              <p>
+              In your <span id="sample_type">SAMPLE_TYPE</span>, we observed
+              <span id="n_bacteria">N_BACTERIA</span> bacterial genera
+              and <span id="n_archaea">N_ARCHAEA</span> archaeal genera.  Within
+              <span id="dataset_name">DATASET_NAME</span>, we on average observe
+              <span id="n_bacteria_background">N_BACTERIA_BACKGROUND</span>
+              bacterial genera and
+              <span id="n_archaea_background">N_ARCHAEA_BACKGROUND</span>
+              archaeal genera.  The most common types of organisms (in a very
+              broad sense) that we observe in human associated microbiome samples
+              are bacteria and archaea.  But what are bacteria and archaea?
+              Well, these are two domains of life that diverged from each other
+              billions of years ago.  Humans, on the other hand, are part of the
+              eukaryotic domain of life.
+              </p>
+              <p>
+              How diverse is your microbiome?  How many types of organisms are
+              there?  Did your sample capture everything there is to see- even
+              the rarest of microbes?  You can check several measures of this
+              on the <a class="fake-tab" href="#diversity" data-link="#diversity-tab">Your sample diversity</a> tab.
+              </p>
+              <p>
+              How does your sample compare to others?  We can compare your sample
+              to others by way of your microbiome.  For example, the person most
+              microbially similar to you is <span id="age_nearest_neighbor">AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
+              and eats <span id="more_or_less_sweets_nearest_neighbor">MORE_OR_LESS</span>
+              sugary sweets than you!  If you'd like to visualize how you compare
+              to other, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
+              bar.
+              </p>
+              <p>
+              What are these organisms in your sample?  To check what types of
+              organisms we observed in your sample, please select
+              <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a>
+              from the navigation bar.
+              </p>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               BBB

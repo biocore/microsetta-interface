@@ -1058,7 +1058,7 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
     if has_error:
         return sample_output
 
-    return _render_with_defaults('sample_results.jinja2',
+    return _render_with_defaults('new_results_page.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
                                  sample=sample_output,

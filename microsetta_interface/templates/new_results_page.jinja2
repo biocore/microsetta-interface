@@ -1,0 +1,145 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Sample Results" %}
+{% set show_breadcrumbs = True %}
+
+{% block head %}
+
+<style>
+    /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
+    /* Could potentially use color: initial but has less support...? */
+    .tab-pane {
+        background-color: #FFFFFF;
+        color: #000000;
+    }
+</style>
+
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<script>
+    populate_select = function(select_selector, value_to_text, active_value){
+        var select = $(select_selector)
+        select.empty()
+        for (var v in value_to_text)
+        {
+            var option = $('<option></option>')
+                .attr("value", v)
+                .text(value_to_text[v]);
+
+            if (v == active_value)
+                option.attr('selected','selected');
+
+            select.append(option)
+        }
+    }
+
+    updateCompare = function(compareData){
+        //TODO
+        $("#compare").text(compareData["result"])
+    }
+    updateDiversity = function(diversityData){
+        //TODO
+        $("#diversity").text(diversityData["result"])
+    }
+    updateSimilarity = function(similarityData){
+        //TODO
+        $("#similarity").text(similarityData["result"])
+    }
+    updateTaxonomy = function(taxonomyData){
+        //TODO
+        $("#taxonomy").text(taxonomyData["result"])
+    }
+
+    init = function(){
+        // TODO: Should data type options be determined by ajax call or
+        // passed into jinja2 template?
+        populate_select(
+            "#data_type",
+            {
+                "16s": "16S",
+                "shotgun": "Shotgun"
+            },
+            "16s"
+        );
+
+        // TODO: Should dataset options be determined by ajax call or
+        // passed into jinja2 template?
+        populate_select(
+            "#dataset",
+            {
+                "microsetta": "Microsetta"
+            },
+            "microsetta"
+        );
+
+        data_type_input = new JQuerySelectInput("DataType", "#data_type");
+        dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+
+        /* Whenever data type or dataset are changed, we fire off ajax requests
+           to grab new info for the plots.  */
+
+        new DelegateOutput(function(dataType, dataset){
+            //TODO: Decide how to tell each control it is waiting on ajax data
+            updateCompare({"result": "Loading..."})
+            updateDiversity({"result": "Loading..."})
+            updateSimilarity({"result": "Loading..."})
+            updateTaxonomy({"result": "Loading..."})
+
+            //TODO Insert some calls to ajax, grab the result, -then- update
+            //    ...
+
+            compareData = { "result": "Compare AJAX: " + dataType + " - " + dataset }
+            diversityData = { "result": "Diversity AJAX: " + dataType + " - " + dataset }
+            similarityData = { "result": "Similarity AJAX: " + dataType + " - " + dataset }
+            taxonomyData = { "result": "Taxonomy AJAX: " + dataType + " - " + dataset }
+
+            updateCompare(compareData);
+            updateDiversity(diversityData);
+            updateSimilarity(similarityData);
+            updateTaxonomy(taxonomyData);
+        }, data_type_input, dataset_input);
+    }
+
+    $(document).ready(init)
+
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Results</li>
+{% endblock %}
+
+{% block content %}
+<label for="data_type">Data Type:</label>
+<select id="data_type" name="data_type"></select>
+
+<label for="dataset">Dataset:</label>
+<select id="dataset" name="dataset"></select>
+
+<div class="row">
+    <div class="col-sm-auto">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How you compare?</a>
+          <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
+          <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
+          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Taxonomy</a>
+        </div>
+    </div>
+    <div class="col-sm border">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
+              AAA
+          </div>
+          <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
+              BBB
+          </div>
+          <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
+              CCC
+          </div>
+          <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
+              DDD
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

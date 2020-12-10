@@ -4,6 +4,15 @@
 
 {% block head %}
 
+<link rel="stylesheet" type="text/css" href="/static/vendor/css/jquery.dataTables.css" />
+<link id="emperor-css" rel="stylesheet" type="text/css" href="/static/vendor/emperor/css/emperor.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/slick.grid.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/spectrum.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
+
 <style>
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
@@ -14,6 +23,14 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<script src="/static/vendor/js/vega@5"></script>
+<script src="/static/vendor/js/vega-lite@4"></script>
+<script src="/static/vendor/js/vega-embed@6"></script>
+<!-- Datatables must precede emperor imports, they don't play nice with each other. -->
+<script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+<script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
+<script src="/static/vendor/emperor/emperor_loader.js"></script>
+
 <script>
     DATA_TYPE_FRIENDLY={
         "16s": "16S",
@@ -24,7 +41,15 @@
         "microsetta": "Microsetta"
     }
 
-    populate_select = function(select_selector, value_to_text, active_value){
+    function formatAlphaURL(state) {
+        let base = state.public_endpoint + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
+        if (state.sample_id !== "") {
+            base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
+        }
+        return base;
+    }
+
+    function populateSelect(select_selector, value_to_text, active_value){
         var select = $(select_selector)
         select.empty()
         for (var v in value_to_text)
@@ -40,7 +65,35 @@
         }
     }
 
-    updateCompare = function(compareData, state){
+    function createTaxonomyTable(state)
+    {
+        $('#taxonomyTable').empty()
+        $('#taxonomyTable').DataTable(
+            {
+                ajax: {
+                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id
+                },
+                columns: [
+                    {
+                        data: "relativeAbundance",
+                        render: $.fn.dataTable.render.number(',', '.', 4),
+                    },
+                    {data: "Kingdom"},
+                    {data: "Phylum"},
+                    {data: "Class"},
+                    {data: "Order"},
+                    {data: "Family"},
+                    {data: "Genus"},
+                ],
+                "order": [[ 0, "desc" ]]
+            }
+        );
+    }
+
+
+    function updateCompare(compareData, state){
+        if (compareData == null)
+            return;  //TODO: Should we mark stale data on this tab somehow?
         //TODO
         //Stuff to fill in:
         //  sample_type, n_bacteria, n_archaea, dataset_name,
@@ -56,20 +109,36 @@
         $("#age_nearest_neighbor").text("AJAX_AGE_NEAREST_NEIGHBOR")
         $("#more_or_less_sweets_nearest_neighbor").text("AJAX_MORE_OR_LESS_SWEETS_NEAREST_NEIGHBOR")
     }
-    updateDiversity = function(diversityData, state){
-        //TODO
-        $("#diversity").text(diversityData["result"])
+    function updateDiversity(diversityData, state){
+        if (diversityData == null) {
+            $("#diversity_vis").empty()
+            return;
+        }
+        vegaEmbed("#diversity-vis", diversityData, state.vega_options);
     }
-    updateSimilarity = function(similarityData, state){
-        //TODO
-        $("#similarity").text(similarityData["result"])
+    function updateSimilarity(similarityData, state){
+        if (similarityData == null){
+            $("#emperor-notebook").empty();
+<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
+            return
+        }
+
+        console.log("Similarity Data")
+        console.log(similarityData)
+        var url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
+        loadEmperor(
+          url,
+          "/static/vendor/emperor",
+          function(){
+          },
+          state.barcode_prefix + state.sample_id
+        );
     }
-    updateTaxonomy = function(taxonomyData, state){
-        //TODO
-        $("#taxonomy").text(taxonomyData["result"])
+    function updateTaxonomy(taxonomyData, state){
+        // Seems taxonomy table is static for now?
     }
 
-    init = function(){
+    function init(){
         // Hook up fake tab links
         $('.fake-tab').click(function() {
             var link = this.dataset.link
@@ -78,7 +147,7 @@
 
         // TODO: Should data type options be determined by ajax call or
         // passed into jinja2 template?
-        populate_select(
+        populateSelect(
             "#data_type",
             DATA_TYPE_FRIENDLY,
             "16s"
@@ -86,28 +155,50 @@
 
         // TODO: Should dataset options be determined by ajax call or
         // passed into jinja2 template?
-        populate_select(
+        populateSelect(
             "#dataset",
             DATASET_FRIENDLY,
             "microsetta"
         );
 
-        state = {}
+        var state = {}
 
+        // Initialize state
         state.data_type_input = new JQuerySelectInput("DataType", "#data_type");
         state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.taxonomy = "{{taxonomy}}";
+        state.alpha_metric = "{{alpha_metric}}";
+        state.beta_metric = "{{beta_metric}}";
+        //Just using test barcode because I can never remember a valid one.
+        // DONT MERGE WITH FAKE BARCODE HERE.
+        state.sample_id = "000023984"; // "{{sample.sample_barcode}}";
+        state.barcode_prefix = "{{barcode_prefix}}";
+        state.vega_options = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
+        state.public_endpoint = "{{public_endpoint}}";
+        var sample_type = "oral"
+        if ("{{sample.sample_site}}" == "Stool")
+            sample_type="fecal"
+        state.sample_type = sample_type
+
+        // Doesn't seem any part of taxonomy table needs to be rebuilt yet
+        createTaxonomyTable(state)
 
         /* Whenever data type or dataset are changed, we fire off ajax requests
            to grab new info for the plots.  */
         new DelegateOutput(function(dataType, dataset){
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateCompare({"result": "Loading..."}, state)
-            updateDiversity({"result": "Loading..."}, state)
-            updateSimilarity({"result": "Loading..."}, state)
-            updateTaxonomy({"result": "Loading..."}, state)
+            updateCompare(null, state)
+            updateDiversity(null, state)
+            updateSimilarity(null, state)
+            updateTaxonomy(null, state)
 
             //TODO Insert some calls to ajax, grab the result, -then- update
             //    ...
+            $.ajax({
+                url: formatAlphaURL(state),
+                type: "GET",
+                success: function(data){ updateDiversity(data, state); }
+            });
 
             compareData = { "result": "Compare AJAX: " + dataType + " - " + dataset }
             diversityData = { "result": "Diversity AJAX: " + dataType + " - " + dataset }
@@ -151,6 +242,9 @@
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
+            <div class="column" style="text-align: center">
+                <h3>How You Compare</h3>
+                <br/>
               <p>
               In your <span id="sample_type">SAMPLE_TYPE</span>, we observed
               <span id="n_bacteria">N_BACTERIA</span> bacterial genera
@@ -187,15 +281,77 @@
               <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a>
               from the navigation bar.
               </p>
+            </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
-              BBB
+            <div class="column" style="text-align: center">
+                <h3>Alpha Diversity</h3>
+                <br>
+                <p>Here, we're providing a measure of the diversity of your sample, and how
+                it compares to the diversities of all of the same type of samples in The
+                Microsetta Initiative. There are many ways to calculate diversity. For
+                instance, you could compute a diversity value by counting the number of
+                unique organisms observed (i.e., the sample "richness"). Or, you might be
+                interested in weighting the calculation by the relative abundance of the
+                organisms (i.e., the sample "evenness"). The metric we're computing here is
+                called Faith's Phylogenetic Diversity (originally defined
+                <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith's Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary
+                breadth represented by your sample. The way we compute alpha diversity is
+                also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
+                more information on it can be found in the alpha and beta diversity
+                <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+                <div id="diversity-vis"></div>
+            </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
-              CCC
+            <div class="column" style="text-align: center">
+            <h3>Beta Diversity</h3>
+            <br>
+            <p>Here we display how your sample fits in among the other samples
+            of The Microsetta Initiative in terms of shared microbes. There are many
+            ways to calculate beta diversity, differing in how to weight the distance
+            between any two microbes. We take evolutionary distance into account with
+            the metric displayed here, known as Unweighted Unifrac. You can
+            find an overview of this metric
+            <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or
+            better understand its derivation
+            <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>.
+            This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
+            more information on it can be found in the alpha and beta diversity
+            <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+            <div id='emperor-notebook' style="position: relative; width:100%; height:500px;"></div>
+            </div>
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
-              DDD
+              <div class="column" style="text-align: center">
+                <h3> What is in your sample? </h3>
+                <br>
+                <p>The table below shows the relative abundances of all of the organisms we
+                observed in your sample. To produce this, we took the DNA sequences from
+                your sample, and compared them against publicly available annotated
+                reference databases. In some cases, a sequence may uniquely match a
+                database record, in other cases a sequence may match may different records.
+                To handle the uncertainty that can arise, we rely on a well used and
+                publicly available microbiome software package called <a
+                href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
+                taken is highlighted in the main tutorial on
+                <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
+                <div style="padding:10px">
+                  <table id="taxonomyTable" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                      <th>Relative Abundance</th>
+                      <th>Kingdom</th>
+                      <th>Phylum</th>
+                      <th>Class</th>
+                      <th>Order</th>
+                      <th>Family</th>
+                      <th>Genus</th>
+                    </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
           </div>
         </div>
     </div>

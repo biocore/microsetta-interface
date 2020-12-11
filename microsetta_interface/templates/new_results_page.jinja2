@@ -123,8 +123,6 @@
             return
         }
 
-        console.log("Similarity Data")
-        console.log(similarityData)
         var url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
         loadEmperor(
           url,

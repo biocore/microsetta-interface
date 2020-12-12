@@ -118,7 +118,6 @@
 
         function retrieveNeighbors(state, k){
             url = state.public_endpoint + '/dataset/' + state.dataset + '/diversity/beta/' + state.beta_metric + '/nearest'
-            console.log(url)
             return $.ajax({
                 method: "GET",
                 url: url,
@@ -311,9 +310,9 @@
         state.beta_metric = "{{beta_metric}}";
         //Just using test barcode because I can never remember a valid one.
         // DONT MERGE WITH FAKE BARCODE HERE.
-        //state.sample_id = "{{sample.sample_barcode}}";
+        state.sample_id = "{{sample.sample_barcode}}";
         //state.sample_id = "000023984";
-        state.sample_id = "000023127";
+        //state.sample_id = "000023127";
 
         state.barcode_prefix = "{{barcode_prefix}}";
         state.vega_options = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */

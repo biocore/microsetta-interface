@@ -123,7 +123,7 @@
             return
         }
 
-        var url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
+        var url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country&metadata_categories=title';
         loadEmperor(
           url,
           "/static/vendor/emperor",

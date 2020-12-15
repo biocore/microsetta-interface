@@ -136,12 +136,29 @@
         // Seems taxonomy table is static for now?
     }
 
+    //Called immediately after a tab is shown
+    function onTabShown(evt){
+        if (evt.target.id == "similarity-tab")
+        {
+            // Emperor doesn't seem to understand that the tab has been shown
+            // by default.  So we'll trigger a resize event on the window
+            // which emperor already links to resize all of its controls.
+            // Stupid, but it seems to work, whereas setting width on any of
+            // the emperor controls doesn't seem to trigger necessary resizing
+            // of the webGL scene
+            window.dispatchEvent(new Event('resize'));
+        }
+    }
+
     function init(){
         // Hook up fake tab links
         $('.fake-tab').click(function() {
             var link = this.dataset.link
             $(link).click();
         });
+
+        // Listen for tab changes
+        $('.nav-link').on('shown.bs.tab', onTabShown);
 
         // TODO: Should data type options be determined by ajax call or
         // passed into jinja2 template?

@@ -28,6 +28,8 @@
 <script src="/static/vendor/js/vega-embed@6"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
 <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+<script src="/static/vendor/DataTables/Buttons-1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="/static/vendor/DataTables/Buttons-1.6.2/js/buttons.html5.min.js"></script>
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
@@ -67,7 +69,6 @@
 
     function createTaxonomyTable(state)
     {
-        $('#taxonomyTable').empty()
         $('#taxonomyTable').DataTable(
             {
                 ajax: {
@@ -75,17 +76,20 @@
                 },
                 columns: [
                     {
+                        name: "Relative Abundance",
                         data: "relativeAbundance",
                         render: $.fn.dataTable.render.number(',', '.', 4),
                     },
-                    {data: "Kingdom"},
-                    {data: "Phylum"},
-                    {data: "Class"},
-                    {data: "Order"},
-                    {data: "Family"},
-                    {data: "Genus"},
+                    {name: "Kingdom", data: "Kingdom"},
+                    {name: "Phylum", data: "Phylum"},
+                    {name: "Class", data: "Class"},
+                    {name: "Order", data: "Order"},
+                    {name: "Family", data: "Family"},
+                    {name: "Genus", data: "Genus"},
                 ],
-                "order": [[ 0, "desc" ]]
+                order: [[ 0, "desc" ]],
+                dom: "Bfrtip",
+                buttons: ["csv"]
             }
         );
     }

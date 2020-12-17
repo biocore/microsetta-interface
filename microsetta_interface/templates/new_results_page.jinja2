@@ -140,33 +140,85 @@
         );
     }
     function updateTaxonomy(taxonomyData, state){
-        // Seems taxonomy table is static for now?
-        var trace1 = {
-            "name": "Rank Distributions",
-            "showlegend": false,
-            "type": "violin",
-            "x": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            "y": ["A", "A", "A", "B", "B", "B", "C", "C", "C"],
-            "orientation": "h",
-            "box": {
-                "visible": true
-            },
-            "meanline": {
-                "visible": true
-            },
-        }
-        var trace2 = {
-            "type": "scatter",
-            "mode": "markers",
-            "name": "My Sample",
-            "x": [3, 5, 9],
-            "y": ["A", "B", "C"]
-        }
-        var data = [trace1, trace2]
-        var layout = {
-            "title": "Mock Violin"
-        }
-        Plotly.newPlot("taxa-violin", data, layout);
+        // Seems taxonomy table is static for now, but need to make taxa
+        // rank plot
+        var sampling_url = state.public_endpoint + '/dataset/' + DATA_TYPE_FRIENDLY[state.data_type_input.value] + '/taxonomy/ranks/taxonomy?' +
+            $.param({sample_size: 30000});
+        var my_sample_url = state.public_endpoint + '/dataset/' + DATA_TYPE_FRIENDLY[state.data_type_input.value] + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id
+
+        query1 = $.ajax({
+            url: sampling_url,
+            type: "GET"
+        });
+
+        query2 = $.ajax({
+            url: my_sample_url,
+            type: "GET"
+        });
+
+        $.when(query1, query2).done(function(sampling_results, sample_results){
+            var X = 10
+            topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X)
+            topXOrdered.reverse()
+            topX = new Set(topXOrdered)
+
+            var sampling_x = []
+            var sampling_y = []
+            var sample_x = []
+            var sample_y = []
+            for (var i =0; i < sampling_results[0].Rank.length; i++)
+            {
+                if (topX.has(sampling_results[0].Taxon[i]))
+                {
+                    sampling_x.push(sampling_results[0].Rank[i])
+                    sampling_y.push(sampling_results[0].Taxon[i])
+                }
+            }
+
+            for (var i = 0; i < sample_results[0].Rank.length; i++)
+            {
+                if (topX.has(sample_results[0].Taxon[i]))
+                {
+                    sample_x.push(sample_results[0].Rank[i])
+                    sample_y.push(sample_results[0].Taxon[i])
+                }
+            }
+
+
+            var trace1 = {
+                "name": "Rank Distributions",
+                "showlegend": false,
+                "spanmode": "hard",
+                "type": "violin",
+                "x": sampling_x,
+                "y": sampling_y,
+                "orientation": "h",
+                "box": {
+                    "visible": true
+                },
+                "meanline": {
+                    "visible": true
+                },
+            }
+
+            var trace2 = {
+                "type": "scatter",
+                "mode": "markers",
+                "name": "My Sample",
+                "x": sample_x,
+                "y": sample_y
+            }
+            var data = [trace1, trace2]
+            var layout = {
+                "title": "Ranked Relative Abundance",
+                "yaxis": {
+                    "automargin": true,
+                    "categoryorder": "array",
+                    "categoryarray": topXOrdered
+                }
+            }
+            Plotly.newPlot("taxa-violin", data, layout);
+        });
     }
 
     //Called immediately after a tab is shown
@@ -413,7 +465,9 @@
                     dataset.
                     </p>
                   </div>
-              <div id="taxa-violin">
+              </div>
+              <div class="row">
+                <div id="taxa-violin">
               </div>
           </div>
         </div>

@@ -76,7 +76,38 @@
         $('#taxonomyTable').DataTable(
             {
                 ajax: {
-                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id
+                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
+                    dataSrc: function(d){
+                        var representatives = {}
+                        var generaSums = {}
+                        //Collapse to genera (Don't show separate rows per species)
+                        for (var i = 0; i < d.data.length; i++){
+                            //Can't just key by genus because genus can be null/undefined.  Argh.
+                            var genus_key = d.data[i].Kingdom + ";" +
+                                            d.data[i].Phylum + ";" +
+                                            d.data[i].Class + ";" +
+                                            d.data[i].Order + ";" +
+                                            d.data[i].Family + ";" +
+                                            d.data[i].Genus
+                            if (genus_key in generaSums)
+                            {
+                                generaSums[genus_key] += d.data[i].relativeAbundance
+                            }
+                            else
+                            {
+                                representatives[genus_key] = d.data[i]
+                                generaSums[genus_key] = d.data[i].relativeAbundance
+                            }
+                        }
+                        var newData = []
+                        for (genus_key in generaSums){
+                            rep = representatives[genus_key]
+                            sum = generaSums[genus_key]
+                            rep.relativeAbundance = sum
+                            newData.push(rep)
+                        }
+                        return newData;
+                    }
                 },
                 columns: [
                     {

@@ -145,6 +145,15 @@
             queries.push(query)
         }
 
+        var queryMe = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/single/" +
+                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
+            }
+        )
+        queries.push(queryMe)
         $.when.apply($, queries).done(function(){
             var traces = []
             for (var i = 0; i < countries.length; i++)
@@ -163,6 +172,16 @@
                 }
                 traces.push(trace)
             }
+
+            var myQueryIndex = countries.length;
+            var myAlphaMetric = arguments[myQueryIndex][0].data
+            var trace = {
+                name: "Me",
+                x: [myAlphaMetric, myAlphaMetric],
+                y: [0, 100],
+                mode: "line"
+            }
+            traces.push(trace)
 
             layout = {
                 title: "Faith PD by Country"

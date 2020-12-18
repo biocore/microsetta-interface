@@ -120,7 +120,9 @@
         for (country of countries){
             var query = $.ajax(
             {
-                url: state.public_endpoint + "/diversity/alpha/group/" +
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/group/" +
                      state.alpha_metric + "?" + $.param({summary_statistics: true}),
                 method: "POST",
                 data: JSON.stringify(

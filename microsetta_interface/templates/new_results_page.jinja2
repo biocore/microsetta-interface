@@ -164,7 +164,7 @@
                 me = samplesQueried.pop()
                 my_data = sampleResults.pop()
 
-                if (me != state.barcode_prefix + state.sample_id)
+                if (me !== (state.barcode_prefix + state.sample_id))
                     console.log("Bad call to fill results, sample id mismatch")
 
                 for (var selector_index = 0; selector_index < selectors.length; selector_index++)
@@ -207,7 +207,8 @@
                             "Never" : 0,
                             "Rarely (less than once/week)" : 1,
                             "Occasionally (1-2 times/week)" : 2,
-                            "Daily": 3
+                            "Regularly (3-5 times/week)" : 3,
+                            "Daily": 4
                         }
 
                         var my_sweets = possible_values[my_data[selector_index]]
@@ -346,7 +347,6 @@
             similarityData = { "result": "Similarity AJAX: " + dataType + " - " + dataset }
             taxonomyData = { "result": "Taxonomy AJAX: " + dataType + " - " + dataset }
 
-            updateCompare(compareData, state);
             updateDiversity(diversityData, state);
             updateSimilarity(similarityData, state);
             updateTaxonomy(taxonomyData, state);

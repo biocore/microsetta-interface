@@ -30,6 +30,7 @@
 <!-- plotly must precede emperor imports as well.   I'm getting the feeling
      that emperor doesn't know how to play nice. -->
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
@@ -91,7 +92,38 @@
         $('#taxonomyTable').DataTable(
             {
                 ajax: {
-                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id
+                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
+                    dataSrc: function(d){
+                        var representatives = {}
+                        var generaSums = {}
+                        //Collapse to genera (Don't show separate rows per species)
+                        for (var i = 0; i < d.data.length; i++){
+                            //Can't just key by genus because genus can be null/undefined.  Argh.
+                            var genus_key = d.data[i].Kingdom + ";" +
+                                            d.data[i].Phylum + ";" +
+                                            d.data[i].Class + ";" +
+                                            d.data[i].Order + ";" +
+                                            d.data[i].Family + ";" +
+                                            d.data[i].Genus
+                            if (genus_key in generaSums)
+                            {
+                                generaSums[genus_key] += d.data[i].relativeAbundance
+                            }
+                            else
+                            {
+                                representatives[genus_key] = d.data[i]
+                                generaSums[genus_key] = d.data[i].relativeAbundance
+                            }
+                        }
+                        var newData = []
+                        for (genus_key in generaSums){
+                            rep = representatives[genus_key]
+                            sum = generaSums[genus_key]
+                            rep.relativeAbundance = sum
+                            newData.push(rep)
+                        }
+                        return newData;
+                    }
                 },
                 columns: [
                     {
@@ -365,7 +397,85 @@
         );
     }
     function updateTaxonomy(taxonomyData, state){
-        // Seems taxonomy table is static for now?
+        // Seems taxonomy table is static for now, but need to make taxa
+        // rank plot
+        var sampling_url = state.public_endpoint + '/dataset/' + DATA_TYPE_FRIENDLY[state.data_type_input.value] + '/taxonomy/ranks/taxonomy?' +
+            $.param({sample_size: 30000});
+        var my_sample_url = state.public_endpoint + '/dataset/' + DATA_TYPE_FRIENDLY[state.data_type_input.value] + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id
+
+        query1 = $.ajax({
+            url: sampling_url,
+            type: "GET"
+        });
+
+        query2 = $.ajax({
+            url: my_sample_url,
+            type: "GET"
+        });
+
+        $.when(query1, query2).done(function(sampling_results, sample_results){
+            var X = 10
+            topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X)
+            topXOrdered.reverse()
+            topX = new Set(topXOrdered)
+
+            var sampling_x = []
+            var sampling_y = []
+            var sample_x = []
+            var sample_y = []
+            for (var i =0; i < sampling_results[0].Rank.length; i++)
+            {
+                if (topX.has(sampling_results[0].Taxon[i]))
+                {
+                    sampling_x.push(sampling_results[0].Rank[i])
+                    sampling_y.push(sampling_results[0].Taxon[i])
+                }
+            }
+
+            for (var i = 0; i < sample_results[0].Rank.length; i++)
+            {
+                if (topX.has(sample_results[0].Taxon[i]))
+                {
+                    sample_x.push(sample_results[0].Rank[i])
+                    sample_y.push(sample_results[0].Taxon[i])
+                }
+            }
+
+
+            var trace1 = {
+                "name": "Rank Distributions",
+                "showlegend": false,
+                "spanmode": "hard",
+                "type": "violin",
+                "x": sampling_x,
+                "y": sampling_y,
+                "orientation": "h",
+                "box": {
+                    "visible": true
+                },
+                "meanline": {
+                    "visible": true
+                },
+            }
+
+            var trace2 = {
+                "type": "scatter",
+                "mode": "markers",
+                "name": "My Sample",
+                "x": sample_x,
+                "y": sample_y
+            }
+            var data = [trace1, trace2]
+            var layout = {
+                "title": "Ranked Relative Abundance",
+                "yaxis": {
+                    "automargin": true,
+                    "categoryorder": "array",
+                    "categoryarray": topXOrdered
+                }
+            }
+            Plotly.newPlot("taxa-violin", data, layout);
+        });
     }
 
     //Called immediately after a tab is shown
@@ -561,34 +671,51 @@
             </div>
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
-              <div class="column" style="text-align: center">
-                <h3> What is in your sample? </h3>
-                <br>
-                <p>The table below shows the relative abundances of all of the organisms we
-                observed in your sample. To produce this, we took the DNA sequences from
-                your sample, and compared them against publicly available annotated
-                reference databases. In some cases, a sequence may uniquely match a
-                database record, in other cases a sequence may match may different records.
-                To handle the uncertainty that can arise, we rely on a well used and
-                publicly available microbiome software package called <a
-                href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
-                taken is highlighted in the main tutorial on
-                <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
-                <div style="padding:10px">
-                  <table id="taxonomyTable" class="display" style="width:100%">
-                    <thead>
-                    <tr>
-                      <th>Relative Abundance</th>
-                      <th>Kingdom</th>
-                      <th>Phylum</th>
-                      <th>Class</th>
-                      <th>Order</th>
-                      <th>Family</th>
-                      <th>Genus</th>
-                    </tr>
-                    </thead>
-                  </table>
-                </div>
+              <div class="row">
+                  <div class="column" style="text-align: center">
+                    <h3> What is in your sample? </h3>
+                    <br>
+                    <p>The table below shows the relative abundances of all of the organisms we
+                    observed in your sample. To produce this, we took the DNA sequences from
+                    your sample, and compared them against publicly available annotated
+                    reference databases. In some cases, a sequence may uniquely match a
+                    database record, in other cases a sequence may match may different records.
+                    To handle the uncertainty that can arise, we rely on a well used and
+                    publicly available microbiome software package called <a
+                    href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
+                    taken is highlighted in the main tutorial on
+                    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
+                    <div style="padding:10px">
+                      <table id="taxonomyTable" class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                          <th>Relative Abundance</th>
+                          <th>Kingdom</th>
+                          <th>Phylum</th>
+                          <th>Class</th>
+                          <th>Order</th>
+                          <th>Family</th>
+                          <th>Genus</th>
+                        </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+              </div>
+              <hr/>
+              <div class="row">
+                  <div class="column" style="text-align: center">
+                    <p>
+                    In the plot below, you can see the most commonly observed
+                    microbial genera in the dataset, and distribution of ranks of
+                    those genera.  For example, TOP_RANKED_GENUS_FROM_PLOT
+                    typically has the highest relative abundance of samples in the
+                    dataset.
+                    </p>
+                  </div>
+              </div>
+              <div class="row">
+                <div id="taxa-violin">
               </div>
           </div>
         </div>

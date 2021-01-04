@@ -34,21 +34,39 @@
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
 <script>
-    DATA_TYPE_FRIENDLY={
-        "16s": "16S",
-        "shotgun": "Shotgun"
-    }
-
-    DATASET_FRIENDLY={
-        "microsetta": "Microsetta"
-    }
-
     function formatAlphaURL(state) {
         let base = state.public_endpoint + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
         if (state.sample_id !== "") {
             base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
         }
         return base;
+    }
+
+    function refreshDatasets(state) {
+        url = state.public_endpoint + '/available/dataset';
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(data)
+            {
+                resultMap = {}
+                for (var i =0; i < data.length; i++)
+                    resultMap[data[i]] = data[i]; //TODO: Need friendly names
+                populateSelect("#dataset", resultMap, data[0]);
+                //TODO FIXME HACK:
+                //Updating $("#dataset") should have automatically updated
+                //the state but jquery's change event is not triggering linked
+                //events at the time populate select is called, even when
+                //explicitly calling $("#dataset").change().
+                //This issue appears to only occur while emperor is loading
+                //suggesting that emperor is either messing with the DOM or
+                //with jquery itself when it first loads in.  (or that loading
+                //emperor is slow and there is some kind of race condition)
+                //We thus bypass the jquery event handling and directly update
+                //the state which does correctly queue events.
+                state.dataset_input.value = $("#dataset").val();
+            }
+        });
     }
 
     function populateSelect(select_selector, value_to_text, active_value){
@@ -65,6 +83,7 @@
 
             select.append(option)
         }
+        select.prop("disabled", false)
     }
 
     function createTaxonomyTable(state)
@@ -92,7 +111,6 @@
             }
         );
     }
-
 
     function updateCompare(state){
         // Reset all the fields to spinners
@@ -339,11 +357,11 @@
 
         var url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country&metadata_categories=title';
         loadEmperor(
-          url,
-          "/static/vendor/emperor",
-          function(){
-          },
-          state.barcode_prefix + state.sample_id
+            url,
+            "/static/vendor/emperor",
+            function(){
+            },
+            state.barcode_prefix + state.sample_id
         );
     }
     function updateTaxonomy(taxonomyData, state){
@@ -374,26 +392,9 @@
         // Listen for tab changes
         $('.nav-link').on('shown.bs.tab', onTabShown);
 
-        // TODO: Should data type options be determined by ajax call or
-        // passed into jinja2 template?
-        populateSelect(
-            "#data_type",
-            DATA_TYPE_FRIENDLY,
-            "16s"
-        );
-
-        // TODO: Should dataset options be determined by ajax call or
-        // passed into jinja2 template?
-        populateSelect(
-            "#dataset",
-            DATASET_FRIENDLY,
-            "microsetta"
-        );
-
         var state = {}
 
         // Initialize state
-        state.data_type_input = new JQuerySelectInput("DataType", "#data_type");
         state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
         state.dataset = "16S";  // TODO: MAKE THIS A FUNCTION OF ABOVE
         state.taxonomy = "{{taxonomy}}";
@@ -415,15 +416,39 @@
         // Doesn't seem any part of taxonomy table needs to be rebuilt yet
         createTaxonomyTable(state)
 
-        /* Whenever data type or dataset are changed, we fire off ajax requests
+        /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */
-        new DelegateOutput(function(dataType, dataset){
+        new DelegateOutput(function(dataset){
             //TODO: Decide how to tell each control it is waiting on ajax data
             updateCompare(state)
             updateDiversity(state)
             updateSimilarity(null, state)
             updateTaxonomy(null, state)
-        }, state.data_type_input, state.dataset_input);
+
+            // Magic string must match default string used to initialize select box
+            if (dataset == "Loading...")
+                return
+
+            //TODO Insert some calls to ajax, grab the result, -then- update
+            //    ...
+            $.ajax({
+                url: formatAlphaURL(state),
+                type: "GET",
+                success: function(data){ updateDiversity(data, state); }
+            });
+
+            compareData = { "result": "Compare AJAX: " + dataset }
+            diversityData = { "result": "Diversity AJAX: " + dataset }
+            similarityData = { "result": "Similarity AJAX: " + dataset }
+            taxonomyData = { "result": "Taxonomy AJAX: " + dataset }
+
+            updateCompare(compareData, state);
+            updateDiversity(diversityData, state);
+            updateSimilarity(similarityData, state);
+            updateTaxonomy(taxonomyData, state);
+        }, state.dataset_input);
+
+        refreshDatasets(state);
     }
 
     $(document).ready(init)
@@ -438,11 +463,10 @@
 {% endblock %}
 
 {% block content %}
-<label for="data_type">Data Type:</label>
-<select id="data_type" name="data_type"></select>
-
 <label for="dataset">Dataset:</label>
-<select id="dataset" name="dataset"></select>
+<select id="dataset" name="dataset" autocomplete="off" disabled>
+    <option>Loading...</option>
+</select>
 
 <div class="row">
     <div class="col-sm-auto">

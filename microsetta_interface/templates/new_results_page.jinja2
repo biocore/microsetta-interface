@@ -23,13 +23,13 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
-<script src="/static/vendor/js/vega@5"></script>
-<script src="/static/vendor/js/vega-lite@4"></script>
-<script src="/static/vendor/js/vega-embed@6"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
 <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
 <script src="/static/vendor/DataTables/Buttons-1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="/static/vendor/DataTables/Buttons-1.6.2/js/buttons.html5.min.js"></script>
+<!-- plotly must precede emperor imports as well.   I'm getting the feeling
+     that emperor doesn't know how to play nice. -->
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
@@ -112,31 +112,241 @@
         );
     }
 
+    function updateCompare(state){
+        // Reset all the fields to spinners
+        $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm")
 
-    function updateCompare(compareData, state){
-        if (compareData == null)
-            return;  //TODO: Should we mark stale data on this tab somehow?
-        //TODO
-        //Stuff to fill in:
-        //  sample_type, n_bacteria, n_archaea, dataset_name,
-        //  n_bacteria_background, n_archaea_background,
-        //  age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
+        // Stuff to fill in:
+        // sample_type, n_bacteria, n_archaea, dataset_name,
+        // n_bacteria_background, n_archaea_background,
+        // age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
 
-        $("#sample_type").text("AJAX_SAMPLE_TYPE")
-        $("#n_bacteria").text("AJAX_N_BACTERIA")
-        $("#n_archaea").text("AJAX_N_ARCHAEA")
-        $("#dataset_name").text(state.dataset_input.text)
-        $("#n_bacteria_background").text("AJAX_BACTERIA_BACKGROUND")
-        $("#n_archaea_background").text("AJAX_ARCHAEA_BACKGROUND")
-        $("#age_nearest_neighbor").text("AJAX_AGE_NEAREST_NEIGHBOR")
-        $("#more_or_less_sweets_nearest_neighbor").text("AJAX_MORE_OR_LESS_SWEETS_NEAREST_NEIGHBOR")
-    }
-    function updateDiversity(diversityData, state){
-        if (diversityData == null) {
-            $("#diversity_vis").empty()
-            return;
+        function retrieveText(method, url, data){
+            return $.ajax({
+                method: method,
+                url: url,
+                data: data
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve text for " + method + " " + url)
+            })
         }
-        vegaEmbed("#diversity-vis", diversityData, state.vega_options);
+
+        function setInfoText(resultSelector){
+            return function(result, textStatus, jqXHR){
+                return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm")
+            }
+        }
+
+        function retrieveNeighbors(state, k){
+            url = state.public_endpoint + '/dataset/' + state.dataset + '/diversity/beta/' + state.beta_metric + '/nearest'
+            return $.ajax({
+                method: "GET",
+                url: url,
+                data: {
+                    sample_id: state.barcode_prefix + state.sample_id,
+                    k:k
+                }
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve neighbors" + textStatus)
+            })
+        }
+
+        function queryNeighborAndSelfMetadata(state, metadata_cats){
+            return function(result, textStatus, jqXHR)
+            {
+                var toQuery = result;
+                toQuery.push(state.barcode_prefix + state.sample_id);
+
+                return $.ajax(
+                {
+                    method: "POST",
+                    url: state.public_endpoint + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                    data: JSON.stringify(toQuery),
+                    contentType: "application/json"
+                }).fail(function(result, textStatus, errorThrown){
+                    console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
+                }).then(function(result, textStatus, jqXHR){
+                    thenner = {}
+                    thenner.then = function(func){
+                        // Need to pass on the sample ids. Argh.
+                        return func(toQuery, result);
+                    }
+                    return thenner;
+                });
+            };
+        }
+
+        function fillResults(state, selectors)
+        {
+            return function(samplesQueried, sampleResults)
+            {
+                // First selector, age, Second selector, sweets
+                // No similarity between the two, so we just have to handle both
+                me = samplesQueried.pop()
+                my_data = sampleResults.pop()
+
+                if (me !== (state.barcode_prefix + state.sample_id))
+                    console.log("Bad call to fill results, sample id mismatch")
+
+                for (var selector_index = 0; selector_index < selectors.length; selector_index++)
+                {
+                    if (selectors[selector_index] == "#age_nearest_neighbor")
+                    {
+                        // Find age of first neighbor with age
+                        var nearest_age = "Unspecified"
+                        for (var i = 0; i < samplesQueried.length; i++)
+                        {
+                            if (sampleResults[i][selector_index] != "Unspecified")
+                            {
+                                nearest_age = sampleResults[i][selector_index];
+                                break;
+                            }
+                        }
+                        if (nearest_age == "Unspecified")
+                            setInfoText(selectors[selector_index])("chose not to provide their age", null, null);
+                        else
+                            setInfoText(selectors[selector_index])("is " + nearest_age + " years old", null, null);
+                    }
+                    if (selectors[selector_index] == "#more_or_less_sweets_nearest_neighbor")
+                    {
+                        // Find string value for first neighbor with a string value
+                        var nearest_sweets = "Unspecified"
+                        for (var i = 0; i < samplesQueried.length; i++)
+                        {
+                            if (sampleResults[i][selector_index] != "Unspecified" &&
+                                sampleResults[i][selector_index] != "Not provided")
+                            {
+                                nearest_sweets = sampleResults[i][selector_index];
+                                break;
+                            }
+                        }
+
+                        // Comparing metadata is an absolute nightmare.
+                        var possible_values = {
+                            "Unspecified" : NaN,
+                            "Not provided" : NaN,
+                            "Never" : 0,
+                            "Rarely (less than once/week)" : 1,
+                            "Occasionally (1-2 times/week)" : 2,
+                            "Regularly (3-5 times/week)" : 3,
+                            "Daily": 4
+                        }
+
+                        var my_sweets = possible_values[my_data[selector_index]]
+                        var their_sweets = possible_values[nearest_sweets]
+
+                        var info_text = "";
+                        if (isNaN(my_sweets)){
+                            if (isNaN(their_sweets))
+                                info_text = "chose not to say how many sweets they eat";
+                            else
+                                info_text = nearest_sweets.toLowerCase() + " eats sweets";
+                        }
+                        else{
+                            if (my_sweets < their_sweets)
+                                info_text = "eats more sugary sweets than you";
+                            else if (my_sweets > their_sweets)
+                                info_text = "eats fewer sugary sweets than you";
+                            else if (my_sweets == their_sweets)
+                                info_text = "eats about the same number of sugary sweets as you";
+                            else
+                                info_text = "chose not to say how many sweets they eat";
+                        }
+
+                        setInfoText(selectors[selector_index])(info_text, null, null);
+                    }
+                }
+            }
+        }
+
+        $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm")
+        $("#dataset_name").text(DATASET_FRIENDLY[state.dataset_input.value]).removeClass("spinner-grow spinner-grow-sm")
+        // TODO: Fill in these URLs
+        // retrieveText("GET", null, null).then(setInfoText("#n_bacteria"));
+        // retrieveText("GET", null, null).then(setInfoText("#n_archaea"));
+        // retrieveText("GET", null, null).then(setInfoText("#n_bacteria_background"));
+        // retrieveText("GET", null, null).then(setInfoText("#n_archaea_background"));
+        retrieveNeighbors(state, 1)
+            .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
+            .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]))
+    }
+
+    function updateDiversity(state){
+        //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
+
+        queries = []
+        countries = ["USA", "United Kingdom"];
+        for (country of countries){
+            var query = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/group/" +
+                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
+                method: "POST",
+                data: JSON.stringify(
+                {
+                    "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules":
+                        [
+                            {
+                                "id": "country",
+                                "operator": "equal",
+                                "value": country
+                            }
+                        ]
+                    }
+                }),
+                contentType: "application/json"
+            })
+            queries.push(query)
+        }
+
+        var queryMe = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/single/" +
+                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
+            }
+        )
+        queries.push(queryMe)
+        $.when.apply($, queries).done(function(){
+            var traces = []
+            for (var i = 0; i < countries.length; i++)
+            {
+                var country = countries[i]
+                var alpha_summary = arguments[i][0]
+
+                var fill = "tozeroy"
+                if (i > 0)
+                    fill = "tozeroy"
+                var trace = {
+                    name: countries[i],
+                    x: alpha_summary.group_summary.percentile_values,
+                    y: alpha_summary.group_summary.percentile,
+                    fill: fill
+                }
+                traces.push(trace)
+            }
+
+            var myQueryIndex = countries.length;
+            var myAlphaMetric = arguments[myQueryIndex][0].data
+            var trace = {
+                name: "Me",
+                x: [myAlphaMetric, myAlphaMetric],
+                y: [0, 100],
+                mode: "line"
+            }
+            traces.push(trace)
+
+            layout = {
+                title: "Faith PD by Country"
+            }
+            Plotly.newPlot("diversity-vis", traces)
+        })
     }
     function updateSimilarity(similarityData, state){
         if (similarityData == null){
@@ -186,14 +396,17 @@
 
         // Initialize state
         state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.dataset = "16S";  // TODO: MAKE THIS A FUNCTION OF ABOVE
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";
         //Just using test barcode because I can never remember a valid one.
         // DONT MERGE WITH FAKE BARCODE HERE.
-        state.sample_id = "000023984"; // "{{sample.sample_barcode}}";
+        //state.sample_id = "{{sample.sample_barcode}}";
+        state.sample_id = "000023984";
+        //state.sample_id = "000023127";
+
         state.barcode_prefix = "{{barcode_prefix}}";
-        state.vega_options = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
         state.public_endpoint = "{{public_endpoint}}";
         var sample_type = "oral"
         if ("{{sample.sample_site}}" == "Stool")
@@ -207,8 +420,8 @@
            to grab new info for the plots.  */
         new DelegateOutput(function(dataset){
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateCompare(null, state)
-            updateDiversity(null, state)
+            updateCompare(state)
+            updateDiversity(state)
             updateSimilarity(null, state)
             updateTaxonomy(null, state)
 
@@ -271,13 +484,13 @@
                 <h3>How You Compare</h3>
                 <br/>
               <p>
-              In your <span id="sample_type">SAMPLE_TYPE</span>, we observed
-              <span id="n_bacteria">N_BACTERIA</span> bacterial genera
-              and <span id="n_archaea">N_ARCHAEA</span> archaeal genera.  Within
-              <span id="dataset_name">DATASET_NAME</span>, we on average observe
-              <span id="n_bacteria_background">N_BACTERIA_BACKGROUND</span>
+                  In your <span id="sample_type" class="info-loader text-info" >SAMPLE_TYPE</span> sample, we observed
+              <span id="n_bacteria" class="info-loader text-info" >N_BACTERIA</span> bacterial genera
+              and <span id="n_archaea" class="info-loader text-info" >N_ARCHAEA</span> archaeal genera.  Within
+              <span id="dataset_name" class="info-loader text-info" >DATASET_NAME</span>, we on average observe
+              <span id="n_bacteria_background" class="info-loader text-info" >N_BACTERIA_BACKGROUND</span>
               bacterial genera and
-              <span id="n_archaea_background">N_ARCHAEA_BACKGROUND</span>
+              <span id="n_archaea_background" class="info-loader text-info" >N_ARCHAEA_BACKGROUND</span>
               archaeal genera.  The most common types of organisms (in a very
               broad sense) that we observe in human associated microbiome samples
               are bacteria and archaea.  But what are bacteria and archaea?
@@ -294,10 +507,10 @@
               <p>
               How does your sample compare to others?  We can compare your sample
               to others by way of your microbiome.  For example, the person most
-              microbially similar to you is <span id="age_nearest_neighbor">AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
-              and eats <span id="more_or_less_sweets_nearest_neighbor">MORE_OR_LESS</span>
-              sugary sweets than you!  If you'd like to visualize how you compare
-              to other, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
+              microbially similar to you <span id="age_nearest_neighbor" class="info-loader text-info" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
+              and <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-info" >eats MORE_OR_LESS sugary sweets than you</span>!
+              If you'd like to visualize how you compare
+              to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
               bar.
               </p>
               <p>

@@ -23,13 +23,13 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
-<script src="/static/vendor/js/vega@5"></script>
-<script src="/static/vendor/js/vega-lite@4"></script>
-<script src="/static/vendor/js/vega-embed@6"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
 <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
 <script src="/static/vendor/DataTables/Buttons-1.6.2/js/dataTables.buttons.min.js"></script>
 <script src="/static/vendor/DataTables/Buttons-1.6.2/js/buttons.html5.min.js"></script>
+<!-- plotly must precede emperor imports as well.   I'm getting the feeling
+     that emperor doesn't know how to play nice. -->
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
@@ -253,12 +253,82 @@
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]))
     }
 
-    function updateDiversity(diversityData, state){
-        if (diversityData == null) {
-            $("#diversity_vis").empty()
-            return;
+    function updateDiversity(state){
+        //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
+
+        queries = []
+        countries = ["USA", "United Kingdom"];
+        for (country of countries){
+            var query = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/group/" +
+                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
+                method: "POST",
+                data: JSON.stringify(
+                {
+                    "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules":
+                        [
+                            {
+                                "id": "country",
+                                "operator": "equal",
+                                "value": country
+                            }
+                        ]
+                    }
+                }),
+                contentType: "application/json"
+            })
+            queries.push(query)
         }
-        vegaEmbed("#diversity-vis", diversityData, state.vega_options);
+
+        var queryMe = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     DATA_TYPE_FRIENDLY[state.data_type_input.value] +
+                     "/diversity/alpha/single/" +
+                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
+            }
+        )
+        queries.push(queryMe)
+        $.when.apply($, queries).done(function(){
+            var traces = []
+            for (var i = 0; i < countries.length; i++)
+            {
+                var country = countries[i]
+                var alpha_summary = arguments[i][0]
+
+                var fill = "tozeroy"
+                if (i > 0)
+                    fill = "tozeroy"
+                var trace = {
+                    name: countries[i],
+                    x: alpha_summary.group_summary.percentile_values,
+                    y: alpha_summary.group_summary.percentile,
+                    fill: fill
+                }
+                traces.push(trace)
+            }
+
+            var myQueryIndex = countries.length;
+            var myAlphaMetric = arguments[myQueryIndex][0].data
+            var trace = {
+                name: "Me",
+                x: [myAlphaMetric, myAlphaMetric],
+                y: [0, 100],
+                mode: "line"
+            }
+            traces.push(trace)
+
+            layout = {
+                title: "Faith PD by Country"
+            }
+            Plotly.newPlot("diversity-vis", traces)
+        })
     }
     function updateSimilarity(similarityData, state){
         if (similarityData == null){
@@ -336,7 +406,6 @@
         //state.sample_id = "000023127";
 
         state.barcode_prefix = "{{barcode_prefix}}";
-        state.vega_options = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
         state.public_endpoint = "{{public_endpoint}}";
         var sample_type = "oral"
         if ("{{sample.sample_site}}" == "Stool")
@@ -351,25 +420,9 @@
         new DelegateOutput(function(dataType, dataset){
             //TODO: Decide how to tell each control it is waiting on ajax data
             updateCompare(state)
-            updateDiversity(null, state)
+            updateDiversity(state)
             updateSimilarity(null, state)
             updateTaxonomy(null, state)
-
-            //TODO Insert some calls to ajax, grab the result, -then- update
-            //    ...
-            $.ajax({
-                url: formatAlphaURL(state),
-                type: "GET",
-                success: function(data){ updateDiversity(data, state); }
-            });
-
-            diversityData = { "result": "Diversity AJAX: " + dataType + " - " + dataset }
-            similarityData = { "result": "Similarity AJAX: " + dataType + " - " + dataset }
-            taxonomyData = { "result": "Taxonomy AJAX: " + dataType + " - " + dataset }
-
-            updateDiversity(diversityData, state);
-            updateSimilarity(similarityData, state);
-            updateTaxonomy(taxonomyData, state);
         }, state.data_type_input, state.dataset_input);
     }
 

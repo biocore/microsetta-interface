@@ -35,7 +35,7 @@
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
 <script>
-    "use strict"
+    "use strict";
     function formatAlphaURL(state) {
         let base = state.public_endpoint + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
         if (state.sample_id !== "") {
@@ -51,7 +51,7 @@
             type: "GET",
             success: function(data)
             {
-                let resultMap = data
+                let resultMap = data;
                 populateSelect("#dataset", resultMap, "16S");
                 //TODO FIXME HACK:
                 //Updating $("#dataset") should have automatically updated
@@ -70,8 +70,8 @@
     }
 
     function populateSelect(select_selector, value_to_text, active_value){
-        let select = $(select_selector)
-        select.empty()
+        let select = $(select_selector);
+        select.empty();
         for (let v in value_to_text)
         {
             let option = $('<option></option>')
@@ -82,9 +82,9 @@
             if (v === active_value)
                 option.attr('selected','selected');
 
-            select.append(option)
+            select.append(option);
         }
-        select.prop("disabled", false)
+        select.prop("disabled", false);
     }
 
     function createTaxonomyTable(state)
@@ -94,8 +94,8 @@
                 ajax: {
                     url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
                     dataSrc: function(d){
-                        let representatives = {}
-                        let generaSums = {}
+                        let representatives = {};
+                        let generaSums = {};
                         //Collapse to genera (Don't show separate rows per species)
                         for (let i = 0; i < d.data.length; i++){
                             //Can't just key by genus because genus can be null/undefined.  Argh.
@@ -104,23 +104,23 @@
                                             d.data[i].Class + ";" +
                                             d.data[i].Order + ";" +
                                             d.data[i].Family + ";" +
-                                            d.data[i].Genus
+                                            d.data[i].Genus;
                             if (genus_key in generaSums)
                             {
-                                generaSums[genus_key] += d.data[i].relativeAbundance
+                                generaSums[genus_key] += d.data[i].relativeAbundance;
                             }
                             else
                             {
-                                representatives[genus_key] = d.data[i]
-                                generaSums[genus_key] = d.data[i].relativeAbundance
+                                representatives[genus_key] = d.data[i];
+                                generaSums[genus_key] = d.data[i].relativeAbundance;
                             }
                         }
-                        let newData = []
+                        let newData = [];
                         for (let genus_key in generaSums){
-                            let rep = representatives[genus_key]
-                            let sum = generaSums[genus_key]
-                            rep.relativeAbundance = sum
-                            newData.push(rep)
+                            let rep = representatives[genus_key];
+                            let sum = generaSums[genus_key];
+                            rep.relativeAbundance = sum;
+                            newData.push(rep);
                         }
                         return newData;
                     }
@@ -146,7 +146,7 @@
 
     function updateCompare(state){
         // Reset all the fields to spinners
-        $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm")
+        $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm");
 
         // Stuff to fill in:
         // sample_type, n_bacteria, n_archaea, dataset_name,
@@ -159,18 +159,18 @@
                 url: url,
                 data: data
             }).fail(function(result, textStatus, errorThrown){
-                console.log("Couldn't retrieve text for " + method + " " + url)
-            })
+                console.log("Couldn't retrieve text for " + method + " " + url);
+            });
         }
 
         function setInfoText(resultSelector){
             return function(result, textStatus, jqXHR){
-                return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm")
-            }
+                return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm");
+            };
         }
 
         function retrieveNeighbors(state, k){
-            let url = state.public_endpoint + '/dataset/' + state.dataset + '/diversity/beta/' + state.beta_metric + '/nearest'
+            let url = state.public_endpoint + '/dataset/' + state.dataset + '/diversity/beta/' + state.beta_metric + '/nearest';
             return $.ajax({
                 method: "GET",
                 url: url,
@@ -180,7 +180,7 @@
                 }
             }).fail(function(result, textStatus, errorThrown){
                 console.log("Couldn't retrieve neighbors" + textStatus)
-            })
+            });
         }
 
         function queryNeighborAndSelfMetadata(state, metadata_cats){
@@ -198,11 +198,11 @@
                 }).fail(function(result, textStatus, errorThrown){
                     console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
                 }).then(function(result, textStatus, jqXHR){
-                    let thenner = {}
+                    let thenner = {};
                     thenner.then = function(func){
                         // Need to pass on the sample ids. Argh.
                         return func(toQuery, result);
-                    }
+                    };
                     return thenner;
                 });
             };
@@ -214,18 +214,18 @@
             {
                 // First selector, age, Second selector, sweets
                 // No similarity between the two, so we just have to handle both
-                let me = samplesQueried.pop()
-                let my_data = sampleResults.pop()
+                let me = samplesQueried.pop();
+                let my_data = sampleResults.pop();
 
                 if (me !== (state.barcode_prefix + state.sample_id))
-                    console.log("Bad call to fill results, sample id mismatch")
+                    console.log("Bad call to fill results, sample id mismatch");
 
                 for (let selector_index = 0; selector_index < selectors.length; selector_index++)
                 {
                     if (selectors[selector_index] === "#age_nearest_neighbor")
                     {
                         // Find age of first neighbor with age
-                        let nearest_age = "Unspecified"
+                        let nearest_age = "Unspecified";
                         for (let i = 0; i < samplesQueried.length; i++)
                         {
                             if (sampleResults[i][selector_index] !== "Unspecified")
@@ -242,7 +242,7 @@
                     if (selectors[selector_index] === "#more_or_less_sweets_nearest_neighbor")
                     {
                         // Find string value for first neighbor with a string value
-                        let nearest_sweets = "Unspecified"
+                        let nearest_sweets = "Unspecified";
                         for (let i = 0; i < samplesQueried.length; i++)
                         {
                             if (sampleResults[i][selector_index] !== "Unspecified" &&
@@ -264,8 +264,8 @@
                             "Daily": 4
                         }
 
-                        let my_sweets = possible_values[my_data[selector_index]]
-                        let their_sweets = possible_values[nearest_sweets]
+                        let my_sweets = possible_values[my_data[selector_index]];
+                        let their_sweets = possible_values[nearest_sweets];
 
                         let info_text = "";
                         if (isNaN(my_sweets)){
@@ -291,8 +291,8 @@
             }
         }
 
-        $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm")
-        $("#dataset_name").text(state.dataset_input.value).removeClass("spinner-grow spinner-grow-sm")
+        $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm");
+        $("#dataset_name").text(state.dataset_input.value).removeClass("spinner-grow spinner-grow-sm");
         // TODO: Fill in these URLs
         // retrieveText("GET", null, null).then(setInfoText("#n_bacteria"));
         // retrieveText("GET", null, null).then(setInfoText("#n_archaea"));
@@ -302,13 +302,13 @@
         // retrieveText("GET", null, null).then(setInfoText("#top_ranked_genus_from_plot"));
         retrieveNeighbors(state, 1)
             .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
-            .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]))
+            .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
 
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
-        let queries = []
+        let queries = [];
         let countries = ["USA", "United Kingdom"];
         for (let country of countries){
             let query = $.ajax(
@@ -334,7 +334,7 @@
                     }
                 }),
                 contentType: "application/json"
-            })
+            });
             queries.push(query)
         }
 
@@ -345,41 +345,41 @@
                      "/diversity/alpha/single/" +
                      state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
             }
-        )
-        queries.push(queryMe)
+        );
+        queries.push(queryMe);
         $.when.apply($, queries).done(function(){
-            let traces = []
+            let traces = [];
             for (let i = 0; i < countries.length; i++)
             {
-                let country = countries[i]
-                let alpha_summary = arguments[i][0]
+                let country = countries[i];
+                let alpha_summary = arguments[i][0];
 
-                let fill = "tozeroy"
+                let fill = "tozeroy";
                 if (i > 0)
-                    fill = "tozeroy"
+                    fill = "tozeroy";
                 let trace = {
                     name: countries[i],
                     x: alpha_summary.group_summary.percentile_values,
                     y: alpha_summary.group_summary.percentile,
                     fill: fill
-                }
-                traces.push(trace)
+                };
+                traces.push(trace);
             }
 
             let myQueryIndex = countries.length;
-            let myAlphaMetric = arguments[myQueryIndex][0].data
+            let myAlphaMetric = arguments[myQueryIndex][0].data;
             let trace = {
                 name: "Me",
                 x: [myAlphaMetric, myAlphaMetric],
                 y: [0, 100],
                 mode: "line"
-            }
-            traces.push(trace)
+            };
+            traces.push(trace);
 
             let layout = {
                 title: "Faith PD by Country"
-            }
-            Plotly.newPlot("diversity-vis", traces)
+            };
+            Plotly.newPlot("diversity-vis", traces);
         })
     }
 
@@ -387,11 +387,11 @@
         if (similarityData === null){
             $("#emperor-notebook").empty();
 <!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
-            return
+            return;
         }
 
         let url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
-        // url += '&metadata_categories=title'  //We want to include this, but public api doesn't support it yet.
+        // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
         loadEmperor(
             url,
             "/static/vendor/emperor",
@@ -405,7 +405,7 @@
         // rank plot
         let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
             $.param({sample_size: 30000});
-        let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id
+        let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
 
         let query1 = $.ajax({
             url: sampling_url,
@@ -418,21 +418,21 @@
         });
 
         $.when(query1, query2).done(function(sampling_results, sample_results){
-            let X = 10
-            let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X)
-            topXOrdered.reverse()
-            let topX = new Set(topXOrdered)
+            let X = 10;
+            let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
+            topXOrdered.reverse();
+            let topX = new Set(topXOrdered);
 
-            let sampling_x = []
-            let sampling_y = []
-            let sample_x = []
-            let sample_y = []
+            let sampling_x = [];
+            let sampling_y = [];
+            let sample_x = [];
+            let sample_y = [];
             for (let i =0; i < sampling_results[0].Rank.length; i++)
             {
                 if (topX.has(sampling_results[0].Taxon[i]))
                 {
-                    sampling_x.push(sampling_results[0].Rank[i])
-                    sampling_y.push(sampling_results[0].Taxon[i])
+                    sampling_x.push(sampling_results[0].Rank[i]);
+                    sampling_y.push(sampling_results[0].Taxon[i]);
                 }
             }
 
@@ -440,8 +440,8 @@
             {
                 if (topX.has(sample_results[0].Taxon[i]))
                 {
-                    sample_x.push(sample_results[0].Rank[i])
-                    sample_y.push(sample_results[0].Taxon[i])
+                    sample_x.push(sample_results[0].Rank[i]);
+                    sample_y.push(sample_results[0].Taxon[i]);
                 }
             }
 
@@ -459,7 +459,7 @@
                 "meanline": {
                     "visible": true
                 },
-            }
+            };
 
             let trace2 = {
                 "type": "scatter",
@@ -467,8 +467,8 @@
                 "name": "My Sample",
                 "x": sample_x,
                 "y": sample_y
-            }
-            let data = [trace1, trace2]
+            };
+            let data = [trace1, trace2];
             let layout = {
                 "title": "Ranked Relative Abundance",
                 "yaxis": {
@@ -476,7 +476,7 @@
                     "categoryorder": "array",
                     "categoryarray": topXOrdered
                 }
-            }
+            };
             Plotly.newPlot("taxa-violin", data, layout);
         });
     }
@@ -498,14 +498,14 @@
     function init(){
         // Hook up fake tab links
         $('.fake-tab').click(function() {
-            let link = this.dataset.link
-            $(link)[0].click()
+            let link = this.dataset.link;
+            $(link)[0].click();
         });
 
         // Listen for tab changes
         $('.nav-link').on('shown.bs.tab', onTabShown);
 
-        let state = {}
+        let state = {};
 
         // Initialize state
         state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
@@ -521,13 +521,13 @@
 
         state.barcode_prefix = "{{barcode_prefix}}";
         state.public_endpoint = "{{public_endpoint}}";
-        let sample_type = "oral"
+        let sample_type = "oral";
         if ("{{sample.sample_site}}" === "Stool")
-            sample_type="fecal"
-        state.sample_type = sample_type
+            sample_type="fecal";
+        state.sample_type = sample_type;
 
         // Doesn't seem any part of taxonomy table needs to be rebuilt yet
-        createTaxonomyTable(state)
+        createTaxonomyTable(state);
 
         /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */
@@ -535,14 +535,14 @@
 
             // Magic string must match default string used to initialize select box
             if (dataset === "Loading...")
-                return
+                return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateSimilarity(null, state)
-            updateTaxonomy(null, state)
+            updateSimilarity(null, state);
+            updateTaxonomy(null, state);
 
-            let similarityData = { "result": "Similarity AJAX: " + dataset }
-            let taxonomyData = { "result": "Taxonomy AJAX: " + dataset }
+            let similarityData = { "result": "Similarity AJAX: " + dataset };
+            let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
 
             updateCompare(state);
             updateDiversity(state);
@@ -553,8 +553,7 @@
         refreshDatasets(state);
     }
 
-    $(document).ready(init)
-
+    $(document).ready(init);
 </script>
 {% endblock %}
 

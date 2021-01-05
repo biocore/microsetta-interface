@@ -499,7 +499,7 @@
         // Hook up fake tab links
         $('.fake-tab').click(function() {
             let link = this.dataset.link
-            $(link).click();
+            $(link)[0].click()
         });
 
         // Listen for tab changes

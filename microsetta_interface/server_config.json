@@ -1,7 +1,7 @@
 {
   "endpoint": "http://localhost:8083",
   "private_api_endpoint": "http://localhost:8082/api",
-  "public_api_endpoint": "https://www-dev.ucsd.edu/results-api",
+  "public_api_endpoint": "http://localhost:8084/results-api",
   "taxonomy_resource": "taxonomy",
   "alpha_metric": "faith_pd",
   "beta_metric": "unweighted-unifrac",

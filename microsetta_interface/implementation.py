@@ -948,6 +948,24 @@ def get_source(*, account_id=None, source_id=None):
                                  )
 
 
+# Note: ideally this would be represented as a DELETE, not as a POST
+# However, it is used as a form submission action, and HTML forms do not
+# support delete as an action
+@prerequisite([SOURCE_PREREQS_MET])
+def post_remove_source(*,
+                       account_id=None,
+                       source_id=None):
+
+    has_error, delete_output, _ = ApiRequest.delete(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id))
+
+    if has_error:
+        return delete_output
+
+    return _refresh_state_and_route_to_sink(account_id)
+
+
 @prerequisite([SOURCE_PREREQS_MET])
 def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(

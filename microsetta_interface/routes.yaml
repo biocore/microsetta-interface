@@ -307,6 +307,25 @@ paths:
               schema:
                 type: string
 
+  # Note: ideally this would be represented as a DELETE, not as a POST
+  # However, it is used as a form submission action, and HTML forms do not support
+  # delete as an action
+  '/accounts/{account_id}/sources/{source_id}/remove':
+    post:
+      operationId: microsetta_interface.implementation.post_remove_source
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of revised info or error info
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/claim_samples':
     post:
       operationId: microsetta_interface.implementation.post_claim_samples

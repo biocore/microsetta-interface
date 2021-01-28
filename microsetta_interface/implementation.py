@@ -759,7 +759,10 @@ def get_fill_vioscreen_remote_sample_survey(*,
     suffix = "samples/%s/vspassthru" % sample_id
     redirect_url = SERVER_CONFIG["endpoint"] + \
         _make_source_path(account_id, source_id, suffix=suffix)
-    params = {'survey_redirect_url': redirect_url}
+    params = {
+        'survey_redirect_url': redirect_url,
+        'vioscreen_ext_sample_id': sample_id
+    }
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
         (account_id, source_id, VIOSCREEN_ID), params=params)

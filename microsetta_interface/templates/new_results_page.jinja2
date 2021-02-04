@@ -37,7 +37,7 @@
 <script>
     "use strict";
     function formatAlphaURL(state) {
-        let base = state.public_endpoint + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
+        let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
         if (state.sample_id !== "") {
             base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
         }
@@ -92,7 +92,7 @@
         $('#taxonomyTable').DataTable(
             {
                 ajax: {
-                    url: state.public_endpoint + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
+                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
                     dataSrc: function(d){
                         let representatives = {};
                         let generaSums = {};
@@ -192,7 +192,7 @@
                 return $.ajax(
                 {
                     method: "POST",
-                    url: state.public_endpoint + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
                     data: JSON.stringify(toQuery),
                     contentType: "application/json"
                 }).fail(function(result, textStatus, errorThrown){

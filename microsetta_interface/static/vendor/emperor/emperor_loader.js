@@ -167,13 +167,13 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
             requestAnimationFrame(animate);
             ec.render();
           }
-          $(window).resize(function() {
-            ec.resize(div.innerWidth(), div.innerHeight());
-          });
 
           $(function(){
             init();
             animate();
+            $(window).resize(function() {
+              ec.resize(div.innerWidth(), div.innerHeight());
+            });
 
             ec.ready = function () {
               // any other code that needs to be executed when emperor is loaded should

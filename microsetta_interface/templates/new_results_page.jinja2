@@ -128,7 +128,7 @@
                 columns: [
                     {
                         data: "relativeAbundance",
-                        render: $.fn.dataTable.render.number(',', '.', 4),
+                        render: state.dt_data.render.number(',', '.', 4),
                     },
                     {data: "Kingdom"},
                     {data: "Phylum"},
@@ -526,6 +526,10 @@
         if ("{{sample.sample_site}}" === "Stool")
             sample_type="fecal";
         state.sample_type = sample_type;
+
+        console.log("Data Table before delegates:")
+        console.log($.fn.dataTable)
+        state.dt_data = $.fn.dataTable; //Appears something overwrites this, but we need it.
 
         /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */

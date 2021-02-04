@@ -170,7 +170,7 @@
         }
 
         function retrieveNeighbors(state, k){
-            let url = state.public_endpoint + '/dataset/' + state.dataset + '/diversity/beta/' + state.beta_metric + '/nearest';
+            let url = state.public_endpoint + '/dataset/' + dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
             return $.ajax({
                 method: "GET",
                 url: url,
@@ -390,7 +390,7 @@
             return;
         }
 
-        let url = state.public_endpoint + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
+        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
         // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
         loadEmperor(
             url,
@@ -509,7 +509,6 @@
 
         // Initialize state
         state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
-        state.dataset = "16S";  // TODO: MAKE THIS A FUNCTION OF ABOVE
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";

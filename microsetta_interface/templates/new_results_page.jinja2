@@ -129,7 +129,7 @@
                 columns: [
                     {
                         data: "relativeAbundance",
-                        render: state.dt_data.render.number(',', '.', 4),
+                        render: $.fn.dataTable.render.number(',', '.', 4),
                     },
                     {data: "Kingdom"},
                     {data: "Phylum"},
@@ -393,13 +393,15 @@
 
         let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
         // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
-        //loadEmperor(
-        //    url,
-        //    "/static/vendor/emperor",
-        //    function(){
-        //    },
-        //    state.barcode_prefix + state.sample_id
-        //);
+        $2 = $ // Dang you emperor
+        loadEmperor(
+            url,
+            "/static/vendor/emperor",
+            function(){
+            },
+            state.barcode_prefix + state.sample_id
+        );
+        $ = $2 // This is MAH JQUERY!
     }
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset
@@ -527,10 +529,6 @@
         if ("{{sample.sample_site}}" === "Stool")
             sample_type="fecal";
         state.sample_type = sample_type;
-
-        console.log("Data Table before delegates:")
-        console.log($.fn.dataTable)
-        state.dt_data = $.fn.dataTable; //Appears something overwrites this, but we need it.
 
         /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */

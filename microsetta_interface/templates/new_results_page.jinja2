@@ -170,7 +170,7 @@
         }
 
         function retrieveNeighbors(state, k){
-            let url = state.public_endpoint + '/dataset/' + dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
+            let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
             return $.ajax({
                 method: "GET",
                 url: url,

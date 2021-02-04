@@ -393,7 +393,7 @@
 
         let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
         // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
-        var $2 = $ // Dang you emperor
+        var myJquery = jQuery.noConflict() // Dang you emperor
         loadEmperor(
             url,
             "/static/vendor/emperor",
@@ -401,7 +401,7 @@
             },
             state.barcode_prefix + state.sample_id
         );
-        $ = $2 // This is MAH JQUERY!
+        $ = myJquery // This is MAH JQUERY!
     }
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset

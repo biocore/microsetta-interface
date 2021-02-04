@@ -91,6 +91,7 @@
     {
         $('#taxonomyTable').DataTable(
             {
+                destroy: true, // Necessary to replace existing datatable
                 ajax: {
                     url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
                     dataSrc: function(d){

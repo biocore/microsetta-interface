@@ -401,8 +401,10 @@
         );
     }
     function updateTaxonomy(taxonomyData, state){
-        // Seems taxonomy table is static for now, but need to make taxa
-        // rank plot
+        // Rebuild taxonomy table when we switch dataset
+        createTaxonomyTable(state);
+
+        //Need to make taxa rank plot
         let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
             $.param({sample_size: 30000});
         let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
@@ -524,9 +526,6 @@
         if ("{{sample.sample_site}}" === "Stool")
             sample_type="fecal";
         state.sample_type = sample_type;
-
-        // Doesn't seem any part of taxonomy table needs to be rebuilt yet
-        createTaxonomyTable(state);
 
         /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */

@@ -180,6 +180,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
               // go here
               ec.loadConfig(data.plot.settings);
               onLoad();
+              $.noConflict(true)
             }
           });
         });

@@ -109,6 +109,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
         $.get(
           pcoa_url,
           function (data) {
+            console.log("Successfully queried: ", pcoa_url)
             // Add a new metadata category indicating the user's sample
             for (var i = 0; i < data.decomposition.sample_ids.length; i++){
               if (data.decomposition.sample_ids[i] === user_sample_id)
@@ -168,12 +169,19 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
             ec.render();
           }
 
+          //TODO:  THIS IS EXPECTING A DOCUMENT READY, BUT THERE IS NO DOCUMENT READY - THIS CONTROL IS DYNAMIC!
           $(function(){
+            console.log("About to call init")
             init();
+            console.log("Called init")
+            console.log("About to call animate")
             animate();
+            console.log("Called Animate")
+            console.log("About to call resize")
             $(window).resize(function() {
               ec.resize(div.innerWidth(), div.innerHeight());
             });
+            console.log("Called resize")
 
             ec.ready = function () {
               // any other code that needs to be executed when emperor is loaded should

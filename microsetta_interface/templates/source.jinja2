@@ -188,7 +188,9 @@
                 </div>
                 {% endif %}  <!-- end of if is_human -->
                 <div class="col-sm">
-                    <form name="remove_{{ sample.sample_id }}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove" onsubmit="return verifyDissociateSample('{{sample.sample_id}}');"><button type="submit" class="btn btn-danger">Remove</button></form>
+                    <form name="remove_{{ sample.sample_id }}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove" onsubmit="return verifyDissociateSample('{{sample.sample_id}}');">
+                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}disabled{% endif %}>Remove</button>
+                    </form>
                 </div>
             </div>
         </div>

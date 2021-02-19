@@ -87,8 +87,8 @@
             return window.confirm(confirmMsg);
         }
 
-        function verifyDeleteSource(sourceId){
-            let confirmMsg = "Deleting this source will discard all surveys associated with it. " +
+        function verifyDeleteSource(sourceName){
+            let confirmMsg = "You are deleting source " + sourceName + " and all surveys associated with it! " +
                 "This operation cannot be undone.  Are you sure you want to delete this source? ";
             return window.confirm(confirmMsg);
         }
@@ -281,7 +281,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.">
-                <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_id}}');">
+                <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_name}}');">
                     <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}disabled{% endif %}>Delete Source: {{source_name}}</button>
                 </form>
             </div>

@@ -660,6 +660,19 @@ paths:
               schema:
                 type: string
 
+  '/admin/empress_playground':
+    get:
+      operationId: microsetta_interface.implementation.admin_empress_playground
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Empress test page
+          content:
+            text/html:
+              schema:
+                type: string
+
 components:
   parameters:
     account_id: # Can be referenced as '#/components/parameters/account_id'

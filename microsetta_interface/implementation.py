@@ -8,7 +8,6 @@ from os import path
 from datetime import datetime
 import base64
 import functools
-import json
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -1099,11 +1098,11 @@ def admin_emperor_playground():
     return _render_with_defaults(
         "emperor.jinja2",
         pcoa_url=SERVER_CONFIG["public_api_endpoint"] +
-                 "/plotting/diversity/beta/unweighted-unifrac"
-                 "/pcoa/oral/emperor"
-                 "?metadata_categories=age_cat"
-                 "&metadata_categories=bmi_cat"
-                 "&metadata_categories=latitude"
+        "/plotting/diversity/beta/unweighted-unifrac"
+        "/pcoa/oral/emperor"
+        "?metadata_categories=age_cat"
+        "&metadata_categories=bmi_cat"
+        "&metadata_categories=latitude"
     )
 
 

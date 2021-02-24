@@ -906,6 +906,7 @@ def get_source(*, account_id=None, source_id=None):
     # Identify answered surveys for the samples
     for sample in samples_output:
         sample['ffq'] = None
+        sample['ffq_status'] = None
         sample_id = sample['sample_id']
         # TODO:  This is a really awkward and slow way to get this information
         has_error, per_sample_answers, _ = ApiRequest.get(
@@ -917,6 +918,7 @@ def get_source(*, account_id=None, source_id=None):
         for answer in per_sample_answers:
             if answer['survey_template_id'] == VIOSCREEN_ID:
                 sample['ffq'] = answer['survey_id']
+                sample['ffq_status'] = answer['survey_status']
 
     # prettify datetime
     needs_assignment = False

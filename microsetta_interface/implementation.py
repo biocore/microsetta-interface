@@ -1111,16 +1111,13 @@ def admin_empress_playground():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    empress_url = "https://www-dev.ucsd.edu/results-api/dataset/16S-2" \
-                  "/taxonomy/empress/taxonomy"
-    response = requests.get(empress_url, verify=False)
-
-    data = json.loads(response.content.decode())
-    data['base_url'] = '/static/vendor/empress'
+    empress_url = SERVER_CONFIG["public_api_endpoint"] + \
+        "/dataset/16S-2/taxonomy/empress/taxonomy"
 
     return _render_with_defaults(
         "empress-template.html",
-        **data
+        empress_url=empress_url,
+        base_url='/static/vendor/empress',
     )
 
 

@@ -198,7 +198,7 @@
                       <div id="btn-view-{{ sample.sample_id }}" ></div>
                 </div>
                 <div class="col-sm">
-                {% if sample.ffq %}
+                {% if sample.ffq and sample.ffq_status == 3 %}
                     <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">View Top Food Report</a>
                 {% else %}
                     <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}">Food Frequency Questionnaire</a><span class="fa fa-unchecked"/>

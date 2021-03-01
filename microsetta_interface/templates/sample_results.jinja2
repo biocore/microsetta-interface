@@ -34,7 +34,7 @@
         return function() {
             $('#taxonomyTable').DataTable({
                 ajax: {
-                    url: "{{public_endpoint}}/taxonomy/present/single/" + taxonomy + "/" + barcodePrefix + sampleId
+                    url: "{{public_endpoint}}/dataset/16S/taxonomy/present/single/" + taxonomy + "/" + barcodePrefix + sampleId
                 },
                 columns: [
                     {
@@ -54,7 +54,7 @@
     }
 
     function formatAlphaURL() {
-        let base = '{{public_endpoint}}/plotting/diversity/alpha/' + alpha_metric + '/percentiles-plot';
+        let base = '{{public_endpoint}}/dataset/16S/plotting/diversity/alpha/' + alpha_metric + '/percentiles-plot';
         if (sampleId !== "") {
             base = base + '?sample_id=' + barcodePrefix + sampleId;
         }
@@ -81,7 +81,7 @@
           var sample_type = "oral"
           if ("{{sample.sample_site}}" == "Stool")
             sample_type="fecal"
-          var url = '{{public_endpoint}}/plotting/diversity/beta/' + beta_metric + '/pcoa/' + sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
+          var url = '{{public_endpoint}}/dataset/16S/plotting/diversity/beta/' + beta_metric + '/pcoa/' + sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
 
           loadEmperor(
             url,

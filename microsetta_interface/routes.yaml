@@ -660,6 +660,20 @@ paths:
               schema:
                 type: string
 
+  '/empress':
+    get:
+      operationId: microsetta_interface.implementation.empress_standalone
+      parameters:
+        - $ref: '#/components/parameters/dataset'
+        - $ref: '#/components/parameters/taxonomy'
+      responses:
+        '200':
+          description: Empress standalone page
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/empress_playground':
     get:
       operationId: microsetta_interface.implementation.admin_empress_playground
@@ -681,6 +695,14 @@ components:
       description: Unique id specifying a user account
       schema:
         $ref: '#/components/schemas/account_id'
+      required: true
+    dataset:
+      name: dataset
+      in: query
+      description: Specifies dataset for sample results.
+      schema:
+        type: string
+        example: "16S"
       required: true
     kit_id:
       name: kit_id
@@ -731,6 +753,14 @@ components:
       description: Unique id specifying a source
       schema:
         $ref: '#/components/schemas/source_id'
+      required: true
+    taxonomy:
+      name: taxonomy
+      in: query
+      description: Specifies a taxonomy for sample results.
+      schema:
+        type: string
+        example: "taxonomy"
       required: true
     error_msg:
       name: error_msg

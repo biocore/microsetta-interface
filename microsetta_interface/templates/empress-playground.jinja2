@@ -1,0 +1,38 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Emperor Playground" %}
+{% set show_breadcrumbs = False %}
+{% set show_logout = True %}
+{% block head %}
+<script type="text/javascript">
+  function setSource() {
+      let taxonomy = $("#taxonomyName").val();
+      let dataset = $("#datasetName").val();
+      let src = "/empress?dataset=" + dataset + "&taxonomy=" +taxonomy;
+      $("#empress-frame").attr("src", src);
+  }
+</script>
+
+{% endblock %}
+{% block content %}
+  <h4> Empress Playground </h4>
+
+  <div style="padding-bottom:10px">
+    <div class="form-group">
+      <label for="datasetName">Dataset</label>
+      <input class="form-control" id="datasetName" placeholder="16S">
+    </div>
+    <div class="form-group">
+      <label for="taxonomyName">Taxonomy</label>
+      <input class="form-control" id="taxonomyName" placeholder="taxonomy">
+    </div>
+    <button class="btn btn-primary" onclick="setSource()">Go!</button>
+  </div>
+
+  <div id="empress-notebook">
+    <iframe
+        id="empress-frame"
+        style="position: relative; width:100%; height:700px; border:none"
+    ></iframe>
+  </div>
+
+{% endblock %}

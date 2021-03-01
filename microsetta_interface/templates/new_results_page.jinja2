@@ -158,7 +158,8 @@
             return $.ajax({
                 method: method,
                 url: url,
-                data: data
+                data: JSON.stringify(data),
+                contentType: "application/json"
             }).fail(function(result, textStatus, errorThrown){
                 console.log("Couldn't retrieve text for " + method + " " + url);
             });
@@ -295,12 +296,20 @@
         $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm");
         $("#dataset_name").text(state.dataset_input.value).removeClass("spinner-grow spinner-grow-sm");
         // TODO: Fill in these URLs
-        // retrieveText("GET", null, null).then(setInfoText("#n_bacteria"));
-        // retrieveText("GET", null, null).then(setInfoText("#n_archaea"));
-        // retrieveText("GET", null, null).then(setInfoText("#n_bacteria_background"));
-        // retrieveText("GET", null, null).then(setInfoText("#n_archaea_background"));
-        // Not actually in compare tab, need to separate out?
-        // retrieveText("GET", null, null).then(setInfoText("#top_ranked_genus_from_plot"));
+        retrieveText("GET", "https://www-dev.ucsd.edu/results-api/dataset/16S/taxonomy/single/taxonomy/10317.000004220/counts?level=Kingdom", null).then(
+            function(result, textStatus, jqXHR){
+                $("#n_bacteria").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+            });
+        retrieveText(
+            "POST",
+            "https://www-dev.ucsd.edu/results-api/dataset/16S/taxonomy/group/taxonomy/counts?level=Kingdom",
+            {"sample_ids":[]}
+        ).then(
+            function(result, textStatus, jqXHR){
+                $("#n_bacteria_background").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea_background").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+            });
         retrieveNeighbors(state, 1)
             .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
@@ -423,6 +432,8 @@
         $.when(query1, query2).done(function(sampling_results, sample_results){
             let X = 10;
             let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
+            $("#top_ranked_genus_from_plot").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");
+
             topXOrdered.reverse();
             let topX = new Set(topXOrdered);
 
@@ -519,6 +530,7 @@
         // DONT MERGE WITH FAKE BARCODE HERE.
         state.sample_id = "{{sample.sample_barcode}}";
         //state.sample_id = "000023984";
+        //state.sample_id = "000004220";
         //state.sample_id = "000023127";
 
         state.barcode_prefix = "{{barcode_prefix}}";
@@ -585,13 +597,13 @@
                 <br/>
               <p>
                   In your <span id="sample_type" class="info-loader text-info" >SAMPLE_TYPE</span> sample, we observed
-              <span id="n_bacteria" class="info-loader text-info" >N_BACTERIA</span> bacterial genera
-              and <span id="n_archaea" class="info-loader text-info" >N_ARCHAEA</span> archaeal genera.  Within
-              <span id="dataset_name" class="info-loader text-info" >DATASET_NAME</span>, we on average observe
+              <span id="n_bacteria" class="info-loader text-info" >N_BACTERIA</span> unique bacterial features
+              and <span id="n_archaea" class="info-loader text-info" >N_ARCHAEA</span> unique archaeal features.  Within
+              <span id="dataset_name" class="info-loader text-info" >DATASET_NAME</span>, we have observed
               <span id="n_bacteria_background" class="info-loader text-info" >N_BACTERIA_BACKGROUND</span>
-              bacterial genera and
+              unique bacterial features and
               <span id="n_archaea_background" class="info-loader text-info" >N_ARCHAEA_BACKGROUND</span>
-              archaeal genera.  The most common types of organisms (in a very
+              unique archaeal features.  The most common types of organisms (in a very
               broad sense) that we observe in human associated microbiome samples
               are bacteria and archaea.  But what are bacteria and archaea?
               Well, these are two domains of life that diverged from each other

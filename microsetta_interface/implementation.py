@@ -1103,27 +1103,28 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+# WARNING: this endpoint is NOT authenticated
 def get_sample_results_experimental(*, account_id=None, source_id=None,
                                     sample_id=None):
-    has_error, source_output, _ = ApiRequest.get(
-        '/accounts/%s/sources/%s' %
-        (account_id, source_id)
-    )
-    if has_error:
-        return source_output
-
-    has_error, sample_output, _ = ApiRequest.get(
-        '/accounts/%s/sources/%s/samples/%s' %
-        (account_id, source_id, sample_id))
-    if has_error:
-        return sample_output
-
+    # use an arbitrary set of credentials
+    account_id = '8d7eb4a2-f968-41fb-acc7-344f405b6c29'
+    source_id = 'f0b3be68-855b-47fa-94e6-8280817cd8e6'
+    sample_id = 'd8592c74-969f-2135-e040-8a80115d6401'
+    sample_output = {'account_id': account_id,
+                     'sample_barcode': '000004220',
+                     'sample_datetime': '2013-04-21T22:00:00',
+                     'sample_edit_locked': False,
+                     'sample_id': sample_id,
+                     'sample_notes': 'na',
+                     'sample_projects': ['American Gut Project'],
+                     'sample_remove_locked': False,
+                     'sample_site': 'Stool',
+                     'source_id': source_id}
     return _render_with_defaults('new_results_page.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
                                  sample=sample_output,
-                                 source_name=source_output['source_name'],
+                                 source_name='NA',
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],

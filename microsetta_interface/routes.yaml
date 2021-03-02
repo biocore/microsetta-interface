@@ -430,6 +430,23 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/results-experimental':
+    get:
+      operationId: microsetta_interface.implementation.get_sample_results_experimental
+      tags:
+        - Sample
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/sample_id'
+      responses:
+        '200':
+          description: Display of sample results
+          content:
+            text/html:
+              schema:
+                type: string
+
   # Note: ideally this would be represented as a DELETE, not as a POST
   # However, it is used as a form submission action, and HTML forms do not support
   # delete as an action

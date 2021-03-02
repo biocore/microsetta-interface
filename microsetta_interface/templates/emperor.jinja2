@@ -23,21 +23,33 @@
       }
 
       function load_emperor_pcoa(button){
+        console.log("Clicked Button")
         button.disabled = true
         button.innerText = "Loading..."
+        console.log("Emptying existing emperor control")
         $("#emperor-notebook").empty();
         $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
 
         url = $("#pcoa_url_input").val();
-        loadEmperor(
-          url,
-          "/static/vendor/emperor",
-          function(){
-            button.disabled = false
-            button.innerText="Go!"
-          },
-          "{{user_sample_id}}"
-        );
+        console.log("Constructing new Emperor with url")
+        console.log(url)
+        try {
+          loadEmperor(
+            url,
+            "/static/vendor/emperor",
+            function(){
+              button.disabled = false
+              button.innerText="Go!"
+              console.log("Emperor Ready Callback")
+            },
+            "{{user_sample_id}}"
+          );
+          console.log("Completed loadEmperor")
+        }
+        catch (e) {
+            console.log("Encountered Error")
+            console.log(e)
+        }
       }
 
     </script>

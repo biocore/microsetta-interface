@@ -1,0 +1,728 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Sample Results" %}
+{% set show_breadcrumbs = True %}
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="/static/vendor/css/jquery.dataTables.css" />
+<link id="emperor-css" rel="stylesheet" type="text/css" href="/static/vendor/emperor/css/emperor.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/slick.grid.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/spectrum.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
+<link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
+
+<style>
+    /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
+    /* Could potentially use color: initial but has less support...? */
+    .tab-pane {
+        background-color: #FFFFFF;
+        color: #000000;
+    }
+</style>
+
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<!-- Datatables must precede emperor imports, they don't play nice with each other. -->
+<script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+<script src="/static/vendor/DataTables/Buttons-1.6.2/js/dataTables.buttons.min.js"></script>
+<script src="/static/vendor/DataTables/Buttons-1.6.2/js/buttons.html5.min.js"></script>
+<!-- plotly must precede emperor imports as well.   I'm getting the feeling
+     that emperor doesn't know how to play nice. -->
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+<script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
+<script src="/static/vendor/emperor/emperor_loader.js"></script>
+
+<script>
+    "use strict";
+    function formatAlphaURL(state) {
+        let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
+        if (state.sample_id !== "") {
+            base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
+        }
+        return base;
+    }
+
+    function refreshDatasets(state) {
+        let url = state.public_endpoint + '/sample/list/dataset/' + state.barcode_prefix + state.sample_id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(data)
+            {
+                let resultMap = {};
+                for (var key in data)
+                    resultMap[data[key]] = data[key]
+                populateSelect("#dataset", resultMap, data[0]);
+                //TODO FIXME HACK:
+                //Updating $("#dataset") should have automatically updated
+                //the state but jquery's change event is not triggering linked
+                //events at the time populate select is called, even when
+                //explicitly calling $("#dataset").change().
+                //This issue appears to only occur while emperor is loading
+                //suggesting that emperor is either messing with the DOM or
+                //with jquery itself when it first loads in.  (or that loading
+                //emperor is slow and there is some kind of race condition)
+                //We thus bypass the jquery event handling and directly update
+                //the state which does correctly queue events.
+                state.dataset_input.value = $("#dataset").val();
+            }
+        });
+    }
+
+    function populateSelect(select_selector, value_to_text, active_value){
+        let select = $(select_selector);
+        select.empty();
+        for (let v in value_to_text)
+        {
+            let option = $('<option></option>')
+                .attr("value", v)
+                .text(v);
+//                .text(value_to_text[v]);  //It should be this, but public api needs to send down friendly names
+
+            if (v === active_value)
+                option.attr('selected','selected');
+
+            select.append(option);
+        }
+        select.prop("disabled", false);
+    }
+
+    function createTaxonomyTable(state)
+    {
+        $('#taxonomyTable').DataTable(
+            {
+                destroy: true, // Necessary to replace existing datatable
+                ajax: {
+                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
+                    dataSrc: function(d){
+                        let representatives = {};
+                        let generaSums = {};
+                        //Collapse to genera (Don't show separate rows per species)
+                        for (let i = 0; i < d.data.length; i++){
+                            //Can't just key by genus because genus can be null/undefined.  Argh.
+                            let genus_key = d.data[i].Kingdom + ";" +
+                                            d.data[i].Phylum + ";" +
+                                            d.data[i].Class + ";" +
+                                            d.data[i].Order + ";" +
+                                            d.data[i].Family + ";" +
+                                            d.data[i].Genus;
+                            if (genus_key in generaSums)
+                            {
+                                generaSums[genus_key] += d.data[i].relativeAbundance;
+                            }
+                            else
+                            {
+                                representatives[genus_key] = d.data[i];
+                                generaSums[genus_key] = d.data[i].relativeAbundance;
+                            }
+                        }
+                        let newData = [];
+                        for (let genus_key in generaSums){
+                            let rep = representatives[genus_key];
+                            let sum = generaSums[genus_key];
+                            rep.relativeAbundance = sum;
+                            newData.push(rep);
+                        }
+                        return newData;
+                    }
+                },
+                columns: [
+                    {
+                        data: "relativeAbundance",
+                        render: $.fn.dataTable.render.number(',', '.', 4),
+                    },
+                    {data: "Kingdom"},
+                    {data: "Phylum"},
+                    {data: "Class"},
+                    {data: "Order"},
+                    {data: "Family"},
+                    {data: "Genus"},
+                ],
+                order: [[ 0, "desc" ]],
+                dom: "Bfrtip",
+                buttons: ["csv"]
+            }
+        );
+    }
+
+    function updateCompare(state){
+        // Reset all the fields to spinners
+        $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm");
+
+        // Stuff to fill in:
+        // sample_type, n_bacteria, n_archaea, dataset_name,
+        // n_bacteria_background, n_archaea_background,
+        // age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
+
+        function retrieveText(method, url, data){
+            return $.ajax({
+                method: method,
+                url: url,
+                data: JSON.stringify(data),
+                contentType: "application/json"
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve text for " + method + " " + url);
+            });
+        }
+
+        function setInfoText(resultSelector){
+            return function(result, textStatus, jqXHR){
+                return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm");
+            };
+        }
+
+        function retrieveNeighbors(state, k){
+            let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
+            return $.ajax({
+                method: "GET",
+                url: url,
+                data: {
+                    sample_id: state.barcode_prefix + state.sample_id,
+                    k:k
+                }
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve neighbors" + textStatus)
+            });
+        }
+
+        function queryNeighborAndSelfMetadata(state, metadata_cats){
+            return function(result, textStatus, jqXHR)
+            {
+                let toQuery = result;
+                toQuery.push(state.barcode_prefix + state.sample_id);
+
+                return $.ajax(
+                {
+                    method: "POST",
+                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                    data: JSON.stringify(toQuery),
+                    contentType: "application/json"
+                }).fail(function(result, textStatus, errorThrown){
+                    console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
+                }).then(function(result, textStatus, jqXHR){
+                    let thenner = {};
+                    thenner.then = function(func){
+                        // Need to pass on the sample ids. Argh.
+                        return func(toQuery, result);
+                    };
+                    return thenner;
+                });
+            };
+        }
+
+        function fillResults(state, selectors)
+        {
+            return function(samplesQueried, sampleResults)
+            {
+                // First selector, age, Second selector, sweets
+                // No similarity between the two, so we just have to handle both
+                let me = samplesQueried.pop();
+                let my_data = sampleResults.pop();
+
+                if (me !== (state.barcode_prefix + state.sample_id))
+                    console.log("Bad call to fill results, sample id mismatch");
+
+                for (let selector_index = 0; selector_index < selectors.length; selector_index++)
+                {
+                    if (selectors[selector_index] === "#age_nearest_neighbor")
+                    {
+                        // Find age of first neighbor with age
+                        let nearest_age = "Unspecified";
+                        for (let i = 0; i < samplesQueried.length; i++)
+                        {
+                            if (sampleResults[i][selector_index] !== "Unspecified")
+                            {
+                                nearest_age = sampleResults[i][selector_index];
+                                break;
+                            }
+                        }
+                        if (nearest_age === "Unspecified")
+                            setInfoText(selectors[selector_index])("chose not to provide their age", null, null);
+                        else
+                            setInfoText(selectors[selector_index])("is " + nearest_age + " years old", null, null);
+                    }
+                    if (selectors[selector_index] === "#more_or_less_sweets_nearest_neighbor")
+                    {
+                        // Find string value for first neighbor with a string value
+                        let nearest_sweets = "Unspecified";
+                        for (let i = 0; i < samplesQueried.length; i++)
+                        {
+                            if (sampleResults[i][selector_index] !== "Unspecified" &&
+                                sampleResults[i][selector_index] !== "Not provided")
+                            {
+                                nearest_sweets = sampleResults[i][selector_index];
+                                break;
+                            }
+                        }
+
+                        // Comparing metadata is an absolute nightmare.
+                        let possible_values = {
+                            "Unspecified" : NaN,
+                            "Not provided" : NaN,
+                            "Never" : 0,
+                            "Rarely (less than once/week)" : 1,
+                            "Occasionally (1-2 times/week)" : 2,
+                            "Regularly (3-5 times/week)" : 3,
+                            "Daily": 4
+                        }
+
+                        let my_sweets = possible_values[my_data[selector_index]];
+                        let their_sweets = possible_values[nearest_sweets];
+
+                        let info_text = "";
+                        if (isNaN(my_sweets)){
+                            if (isNaN(their_sweets))
+                                info_text = "chose not to say how many sweets they eat";
+                            else
+                                info_text = nearest_sweets.toLowerCase() + " eats sweets";
+                        }
+                        else{
+                            if (my_sweets < their_sweets)
+                                info_text = "eats more sugary sweets than you";
+                            else if (my_sweets > their_sweets)
+                                info_text = "eats fewer sugary sweets than you";
+                            else if (my_sweets === their_sweets)
+                                info_text = "eats about the same number of sugary sweets as you";
+                            else
+                                info_text = "chose not to say how many sweets they eat";
+                        }
+
+                        setInfoText(selectors[selector_index])(info_text, null, null);
+                    }
+                }
+            }
+        }
+
+        $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm");
+        $("#dataset_name").text(state.dataset_input.value).removeClass("spinner-grow spinner-grow-sm");
+        // TODO: Fill in these URLs
+        retrieveText("GET", state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id + "/counts?level=Kingdom", null).then(
+            function(result, textStatus, jqXHR){
+                $("#n_bacteria").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+            });
+        retrieveText(
+            "POST",
+            state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/group/" + state.taxonomy + "/counts?level=Kingdom",
+            {"sample_ids":[]}
+        ).then(
+            function(result, textStatus, jqXHR){
+                $("#n_bacteria_background").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea_background").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+            });
+        retrieveNeighbors(state, 1)
+            .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
+            .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
+    }
+
+    function updateDiversity(state){
+        //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
+
+        let queries = [];
+        let countries = ["USA", "United Kingdom"];
+        for (let country of countries){
+            let query = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     state.dataset_input.value +
+                     "/diversity/alpha/group/" +
+                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
+                method: "POST",
+                data: JSON.stringify(
+                {
+                    "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules":
+                        [
+                            {
+                                "id": "country",
+                                "operator": "equal",
+                                "value": country
+                            }
+                        ]
+                    }
+                }),
+                contentType: "application/json"
+            });
+            queries.push(query)
+        }
+
+        let queryMe = $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" +
+                     state.dataset_input.value +
+                     "/diversity/alpha/single/" +
+                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
+            }
+        );
+        queries.push(queryMe);
+        $.when.apply($, queries).done(function(){
+            let traces = [];
+            for (let i = 0; i < countries.length; i++)
+            {
+                let country = countries[i];
+                let alpha_summary = arguments[i][0];
+
+                let fill = "tozeroy";
+                if (i > 0)
+                    fill = "tozeroy";
+                let trace = {
+                    name: countries[i],
+                    x: alpha_summary.group_summary.percentile_values,
+                    y: alpha_summary.group_summary.percentile,
+                    fill: fill
+                };
+                traces.push(trace);
+            }
+
+            let myQueryIndex = countries.length;
+            let myAlphaMetric = arguments[myQueryIndex][0].data;
+            let trace = {
+                name: "Me",
+                x: [myAlphaMetric, myAlphaMetric],
+                y: [0, 100],
+                mode: "line"
+            };
+            traces.push(trace);
+
+            let layout = {
+                title: "Faith PD by Country"
+            };
+            Plotly.newPlot("diversity-vis", traces);
+        })
+    }
+
+    function updateSimilarity(similarityData, state){
+        if (similarityData === null){
+            $("#emperor-notebook").empty();
+<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
+            return;
+        }
+
+        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
+        // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
+        loadEmperor(
+            url,
+            "/static/vendor/emperor",
+            function(){
+            },
+            state.barcode_prefix + state.sample_id
+        );
+    }
+    function updateTaxonomy(taxonomyData, state){
+        // Rebuild taxonomy table when we switch dataset
+        createTaxonomyTable(state);
+
+        //Need to make taxa rank plot
+        let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
+            $.param({sample_size: 30000});
+        let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
+
+        let query1 = $.ajax({
+            url: sampling_url,
+            type: "GET"
+        });
+
+        let query2 = $.ajax({
+            url: my_sample_url,
+            type: "GET"
+        });
+
+        $.when(query1, query2).done(function(sampling_results, sample_results){
+            let X = 10;
+            let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
+            $("#top_ranked_genus_from_plot").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");
+
+            topXOrdered.reverse();
+            let topX = new Set(topXOrdered);
+
+            let sampling_x = [];
+            let sampling_y = [];
+            let sample_x = [];
+            let sample_y = [];
+            for (let i =0; i < sampling_results[0].Rank.length; i++)
+            {
+                if (topX.has(sampling_results[0].Taxon[i]))
+                {
+                    sampling_x.push(sampling_results[0].Rank[i]);
+                    sampling_y.push(sampling_results[0].Taxon[i]);
+                }
+            }
+
+            for (let i = 0; i < sample_results[0].Rank.length; i++)
+            {
+                if (topX.has(sample_results[0].Taxon[i]))
+                {
+                    sample_x.push(sample_results[0].Rank[i]);
+                    sample_y.push(sample_results[0].Taxon[i]);
+                }
+            }
+
+            let trace1 = {
+                "name": "Rank Distributions",
+                "showlegend": false,
+                "spanmode": "hard",
+                "type": "violin",
+                "x": sampling_x,
+                "y": sampling_y,
+                "orientation": "h",
+                "box": {
+                    "visible": true
+                },
+                "meanline": {
+                    "visible": true
+                },
+            };
+
+            let trace2 = {
+                "type": "scatter",
+                "mode": "markers",
+                "name": "My Sample",
+                "x": sample_x,
+                "y": sample_y
+            };
+            let data = [trace1, trace2];
+            let layout = {
+                "title": "Ranked Relative Abundance",
+                "yaxis": {
+                    "automargin": true,
+                    "categoryorder": "array",
+                    "categoryarray": topXOrdered
+                }
+            };
+            Plotly.newPlot("taxa-violin", data, layout);
+        });
+    }
+
+    //Called immediately after a tab is shown
+    function onTabShown(evt){
+        if (evt.target.id === "similarity-tab")
+        {
+            // Emperor doesn't seem to understand that the tab has been shown
+            // by default.  So we'll trigger a resize event on the window
+            // which emperor already links to resize all of its controls.
+            // Stupid, but it seems to work, whereas setting width on any of
+            // the emperor controls doesn't seem to trigger necessary resizing
+            // of the webGL scene
+            window.dispatchEvent(new Event('resize'));
+        }
+    }
+
+    function init(){
+        // Hook up fake tab links
+        $('.fake-tab').click(function() {
+            let link = this.dataset.link;
+            $(link)[0].click();
+        });
+
+        // Listen for tab changes
+        $('.nav-link').on('shown.bs.tab', onTabShown);
+
+        let state = {};
+
+        // Initialize state
+        state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.taxonomy = "{{taxonomy}}";
+        state.alpha_metric = "{{alpha_metric}}";
+        state.beta_metric = "{{beta_metric}}";
+        //Just using test barcode because I can never remember a valid one.
+        // DONT MERGE WITH FAKE BARCODE HERE.
+        state.sample_id = "{{sample.sample_barcode}}";
+        //state.sample_id = "000023984";
+        //state.sample_id = "000004220";
+        //state.sample_id = "000023127";
+
+        state.barcode_prefix = "{{barcode_prefix}}";
+        state.public_endpoint = "{{public_endpoint}}";
+        let sample_type = "oral";
+        if ("{{sample.sample_site}}" === "Stool")
+            sample_type="fecal";
+        state.sample_type = sample_type;
+
+        /* Whenever dataset is changed, we fire off ajax requests
+           to grab new info for the plots.  */
+        new DelegateOutput(function(dataset){
+
+            // Magic string must match default string used to initialize select box
+            if (dataset === "Loading...")
+                return;
+
+            //TODO: Decide how to tell each control it is waiting on ajax data
+            updateSimilarity(null, state);
+            updateTaxonomy(null, state);
+
+            let similarityData = { "result": "Similarity AJAX: " + dataset };
+            let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
+
+            updateCompare(state);
+            updateDiversity(state);
+            updateSimilarity(similarityData, state);
+            updateTaxonomy(taxonomyData, state);
+        }, state.dataset_input);
+
+        refreshDatasets(state);
+    }
+
+    $(document).ready(init);
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Results</li>
+{% endblock %}
+
+{% block content %}
+<label for="dataset">Dataset:</label>
+<select id="dataset" name="dataset" autocomplete="off" disabled>
+    <option>Loading...</option>
+</select>
+
+<div class="row">
+    <div class="col-sm-auto">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How you compare?</a>
+          <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
+          <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
+          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Taxonomy</a>
+        </div>
+    </div>
+    <div class="col-sm border">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
+            <div class="column" style="text-align: center">
+                <h3>How You Compare</h3>
+                <br/>
+              <p>
+                  In your <span id="sample_type" class="info-loader text-info" >SAMPLE_TYPE</span> sample, we observed
+              <span id="n_bacteria" class="info-loader text-info" >N_BACTERIA</span> unique bacterial features
+              and <span id="n_archaea" class="info-loader text-info" >N_ARCHAEA</span> unique archaeal features.  Within
+              <span id="dataset_name" class="info-loader text-info" >DATASET_NAME</span>, we have observed
+              <span id="n_bacteria_background" class="info-loader text-info" >N_BACTERIA_BACKGROUND</span>
+              unique bacterial features and
+              <span id="n_archaea_background" class="info-loader text-info" >N_ARCHAEA_BACKGROUND</span>
+              unique archaeal features.  The most common types of organisms (in a very
+              broad sense) that we observe in human associated microbiome samples
+              are bacteria and archaea.  But what are bacteria and archaea?
+              Well, these are two domains of life that diverged from each other
+              billions of years ago.  Humans, on the other hand, are part of the
+              eukaryotic domain of life.
+              </p>
+              <p>
+              How diverse is your microbiome?  How many types of organisms are
+              there?  Did your sample capture everything there is to see- even
+              the rarest of microbes?  You can check several measures of this
+              on the <a class="fake-tab" href="#diversity" data-link="#diversity-tab">Your sample diversity</a> tab.
+              </p>
+              <p>
+              How does your sample compare to others?  We can compare your sample
+              to others by way of your microbiome.  For example, the person most
+              microbially similar to you <span id="age_nearest_neighbor" class="info-loader text-info" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
+              and <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-info" >eats MORE_OR_LESS sugary sweets than you</span>!
+              If you'd like to visualize how you compare
+              to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
+              bar.
+              </p>
+              <p>
+              What are these organisms in your sample?  To check what types of
+              organisms we observed in your sample, please select
+              <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a>
+              from the navigation bar.
+              </p>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
+            <div class="column" style="text-align: center">
+                <h3>Alpha Diversity</h3>
+                <br>
+                <p>Here, we're providing a measure of the diversity of your sample, and how
+                it compares to the diversities of all of the same type of samples in The
+                Microsetta Initiative. There are many ways to calculate diversity. For
+                instance, you could compute a diversity value by counting the number of
+                unique organisms observed (i.e., the sample "richness"). Or, you might be
+                interested in weighting the calculation by the relative abundance of the
+                organisms (i.e., the sample "evenness"). The metric we're computing here is
+                called Faith's Phylogenetic Diversity (originally defined
+                <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith's Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary
+                breadth represented by your sample. The way we compute alpha diversity is
+                also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
+                more information on it can be found in the alpha and beta diversity
+                <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+                <div id="diversity-vis"></div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
+            <div class="column" style="text-align: center">
+            <h3>Beta Diversity</h3>
+            <br>
+            <p>Here we display how your sample fits in among the other samples
+            of The Microsetta Initiative in terms of shared microbes. There are many
+            ways to calculate beta diversity, differing in how to weight the distance
+            between any two microbes. We take evolutionary distance into account with
+            the metric displayed here, known as Unweighted Unifrac. You can
+            find an overview of this metric
+            <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or
+            better understand its derivation
+            <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>.
+            This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
+            more information on it can be found in the alpha and beta diversity
+            <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+            <div id='emperor-notebook' style="position: relative; width:100%; height:500px;"></div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
+              <div class="row">
+                  <div class="column" style="text-align: center">
+                    <h3> What is in your sample? </h3>
+                    <br>
+                    <p>The table below shows the relative abundances of all of the organisms we
+                    observed in your sample. To produce this, we took the DNA sequences from
+                    your sample, and compared them against publicly available annotated
+                    reference databases. In some cases, a sequence may uniquely match a
+                    database record, in other cases a sequence may match may different records.
+                    To handle the uncertainty that can arise, we rely on a well used and
+                    publicly available microbiome software package called <a
+                    href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
+                    taken is highlighted in the main tutorial on
+                    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
+                    <div style="padding:10px">
+                      <table id="taxonomyTable" class="display" style="width:100%">
+                        <thead>
+                        <tr>
+                          <th>Relative Abundance</th>
+                          <th>Kingdom</th>
+                          <th>Phylum</th>
+                          <th>Class</th>
+                          <th>Order</th>
+                          <th>Family</th>
+                          <th>Genus</th>
+                        </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+              </div>
+              <hr/>
+              <div class="row">
+                  <div class="column" style="text-align: center">
+                    <p>
+                    In the plot below, you can see the most commonly observed
+                    microbial genera in the dataset, and distribution of ranks of
+                    those genera.  For example, <span id="top_ranked_genus_from_plot" class="info-loader text-info" >TOP_RANKED_GENUS_FROM_PLOT</span>
+                    typically has the highest relative abundance of samples in the
+                    dataset.
+                    </p>
+                  </div>
+              </div>
+              <div class="row">
+                <div id="taxa-violin">
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

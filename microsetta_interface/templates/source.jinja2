@@ -104,24 +104,15 @@
         }
 
         function addButtonIfData(sampleId, barcode) {
-            let hasAlpha = '{{public_endpoint}}/diversity/alpha/exists/' + metric + '?sample_id=' + barcodePrefix + barcode;
-            let hasTaxonomy = '{{public_endpoint}}/taxonomy/exists/' + taxonomy + '?sample_id=' + barcodePrefix + barcode;
+            let url = '{{public_endpoint}}' + '/sample/list/dataset/' + barcodePrefix + barcode;
             $.ajax({
-              url: hasAlpha,
-              type: "GET",
-              success: function(data) {
-                  if (data === true) {
-                      $.ajax({
-                          url: hasTaxonomy,
-                          type: "GET",
-                          success: function(data) {
-                              if (data === true) {
-                                  renderButton(sampleId);
-                              }
-                          }
-                      })
-                  }
-              }
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    if (data.length > 0) {
+                        renderButton(sampleId);
+                    }
+                }
             });
         }
 
@@ -194,7 +185,6 @@
                     {{sample.sample_site |e}}
                 </div>
                 <div class="col-sm">
-{#                    <a class="btn btn-outline-info" id="btn-view-{{ sample.sample_id }}" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/results">View</a>#}
                       <div id="btn-view-{{ sample.sample_id }}" ></div>
                 </div>
                 <div class="col-sm">

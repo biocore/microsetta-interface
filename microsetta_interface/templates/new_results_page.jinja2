@@ -296,14 +296,14 @@
         $("#sample_type").text(state.sample_type).removeClass("spinner-grow spinner-grow-sm");
         $("#dataset_name").text(state.dataset_input.value).removeClass("spinner-grow spinner-grow-sm");
         // TODO: Fill in these URLs
-        retrieveText("GET", "https://www-dev.ucsd.edu/results-api/dataset/16S/taxonomy/single/taxonomy/10317.000004220/counts?level=Kingdom", null).then(
+        retrieveText("GET", state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id + "/counts?level=Kingdom", null).then(
             function(result, textStatus, jqXHR){
                 $("#n_bacteria").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
                 $("#n_archaea").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveText(
             "POST",
-            "https://www-dev.ucsd.edu/results-api/dataset/16S/taxonomy/group/taxonomy/counts?level=Kingdom",
+            state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/group/" + state.taxonomy + "/counts?level=Kingdom",
             {"sample_ids":[]}
         ).then(
             function(result, textStatus, jqXHR){

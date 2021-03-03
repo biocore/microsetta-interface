@@ -1128,6 +1128,35 @@ def get_sample_results_experimental():
                                  )
 
 
+@prerequisite([SOURCE_PREREQS_MET])
+def get_sample_results_experimental_authenticated(*, account_id=None,
+                                                  source_id=None,
+                                                  sample_id=None):
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return source_output
+
+    has_error, sample_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples/%s' %
+        (account_id, source_id, sample_id))
+    if has_error:
+        return sample_output
+
+    return _render_with_defaults('new_results_page.jinja2',
+                                 account_id=account_id,
+                                 source_id=source_id,
+                                 sample=sample_output,
+                                 source_name=source_output['source_name'],
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 beta_metric=SERVER_CONFIG["beta_metric"],
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 )
+
+
 # Note: ideally this would be represented as a DELETE, not as a POST
 # However, it is used as a form submission action, and HTML forms do not
 # support delete as an action

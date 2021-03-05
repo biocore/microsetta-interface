@@ -328,7 +328,7 @@
                 url: state.public_endpoint + "/dataset/" +
                      state.dataset_input.value +
                      "/diversity/alpha/group/" +
-                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
+                     state.alpha_metric + "?" + $.param({summary_statistics: false, return_raw: true}),
                 method: "POST",
                 data: JSON.stringify(
                 {
@@ -365,73 +365,109 @@
             {
                 let country = countries[i];
                 let alpha_summary = arguments[i][0];
-
-                let fill = "tozeroy";
-                if (i > 0)
-                    fill = "tozeroy";
                 let trace = {
-                    name: countries[i],
-                    x: alpha_summary.group_summary.percentile_values,
-                    y: alpha_summary.group_summary.percentile,
-                    fill: fill
+                    name: country,
+                    x: Object.values(alpha_summary.alpha_diversity),
+                    type: "histogram",
+                    // "probability" normalizes bin height so that the sum
+                    // of all bin heights is 1.
+                    histnorm: "probability",
+                    xbins: {
+                        // set size and start of bins so that all of
+                        // the country's bins overlap with each other
+                        // if these are not set, the bins will be
+                        // weirdly offset.
+                        // a bin-width (size) of 1 seemed sufficient to convey an outline of the
+                        // alpha diversity distributions.
+                        // start at 1 because as far as I could tell, that
+                        // captured all of the points in the data on the staging system.
+                        size: 1,
+                        start: 1,
+                    },
+                    opacity: 0.5,
                 };
                 traces.push(trace);
             }
 
             let myQueryIndex = countries.length;
             let myAlphaMetric = arguments[myQueryIndex][0].data;
-            let trace = {
-                name: "Me",
-                x: [myAlphaMetric, myAlphaMetric],
-                y: [0, 100],
-                mode: "line"
-            };
-            traces.push(trace);
 
             let layout = {
-                title: "Faith PD by Country"
-            };
-            Plotly.newPlot("diversity-vis", traces);
-        })
-    }
+                // "overlay" makes it so bars are overlayed on each
+                // other instead of offset. If offset, the participant
+                // annotation gets kind of weird, due becuase it might
+                // point between bins.
+                barmode: "overlay",
+                title: "Alpha-Diversity by Country",
+                xaxis: {
+                    title: "Faith's PD",
+                },
+                yaxis: {
+                    title: "Relative Frequency",
+                },
+                // adds a vertical line to label this participant's sample
+                // annotation is preferred to a vertical line because
+                // annotation lines can be set to automatically scale with
+                // the y axis of the histograms.
+                annotations: [
+                    {
+                        x: myAlphaMetric,
+                        y: 0,
+                        xref: 'x',
+                        yref: 'paper',
+                        text: 'You',
+                        showarrow: true,
+                        arrowhead: 0,
+                        ax: 0,
+                        ay: 1,
+                        ayref: 'paper',
+                    }
+                ]
+              };
+              let config = {
+                  displayModeBar: false,
+              }
+              Plotly.newPlot("diversity-vis", traces, layout, config);
+          })
+      }
 
-    function updateSimilarity(similarityData, state){
-        if (similarityData === null){
-            $("#emperor-notebook").empty();
-<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
-            return;
-        }
+      function updateSimilarity(similarityData, state){
+          if (similarityData === null){
+              $("#emperor-notebook").empty();
+  <!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
+              return;
+          }
 
-        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
-        // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
-        loadEmperor(
-            url,
-            "/static/vendor/emperor",
-            function(){
-            },
-            state.barcode_prefix + state.sample_id
-        );
-    }
-    function updateTaxonomy(taxonomyData, state){
-        // Rebuild taxonomy table when we switch dataset
-        createTaxonomyTable(state);
+          let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
+          // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
+          loadEmperor(
+              url,
+              "/static/vendor/emperor",
+              function(){
+              },
+              state.barcode_prefix + state.sample_id
+          );
+      }
+      function updateTaxonomy(taxonomyData, state){
+          // Rebuild taxonomy table when we switch dataset
+          createTaxonomyTable(state);
 
-        //Need to make taxa rank plot
-        let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
-            $.param({sample_size: 30000});
-        let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
+          //Need to make taxa rank plot
+          let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
+              $.param({sample_size: 30000});
+          let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
 
-        let query1 = $.ajax({
-            url: sampling_url,
-            type: "GET"
-        });
+          let query1 = $.ajax({
+              url: sampling_url,
+              type: "GET"
+          });
 
-        let query2 = $.ajax({
-            url: my_sample_url,
-            type: "GET"
-        });
+          let query2 = $.ajax({
+              url: my_sample_url,
+              type: "GET"
+          });
 
-        $.when(query1, query2).done(function(sampling_results, sample_results){
+          $.when(query1, query2).done(function(sampling_results, sample_results){
             let X = 10;
             let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
             $("#top_ranked_genus_from_plot").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");

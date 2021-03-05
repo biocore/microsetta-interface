@@ -1,0 +1,38 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Emperor Playground" %}
+{% set show_breadcrumbs = False %}
+{% set show_logout = True %}
+{% block head %}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type="text/javascript">
+    function load_plotly(){
+        var plotlyData = {{ plotly_data | tojson }};
+        for (var divKey in plotlyData) {
+            Plotly.newPlot(divKey,
+                           plotlyData[divKey]["data"],
+                           plotlyData[divKey]["layout"]);
+        }
+    }
+
+    $(load_plotly)
+</script>
+{% endblock %}
+{% block content %}
+<h4> Plotly Playground </h4>
+<div class="row">
+    <div class="col-sm border">
+        <div id="plotly1"></div>
+    </div>
+    <div class="col-sm border">
+        <div id="plotly2"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm border">
+        <div id="plotly3"></div>
+    </div>
+    <div class="col-sm border">
+        <div id="plotly4"></div>
+    </div>
+</div>
+{% endblock %}

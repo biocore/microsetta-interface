@@ -20,6 +20,10 @@
         background-color: #FFFFFF;
         color: #000000;
     }
+
+    div.results_text {
+        text-align: left;
+    }
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -588,14 +592,14 @@
           <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How you compare?</a>
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
           <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
-          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Taxonomy</a>
+          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
         </div>
     </div>
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
-            <div class="column" style="text-align: center">
-                <h3>How You Compare</h3>
+            <div class="column results_text">
+                <h3>How You Compare?</h3>
                 <br/>
               <p>
                   In your <span id="sample_type" class="info-loader text-info" >SAMPLE_TYPE</span> sample, we observed
@@ -636,8 +640,8 @@
             </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
-            <div class="column" style="text-align: center">
-                <h3>Alpha Diversity</h3>
+            <div class="column results_text">
+                <h3>Your sample diversity</h3>
                 <br>
                 <p>Here, we're providing a measure of the diversity of your sample, and how
                 it compares to the diversities of all of the same type of samples in The
@@ -656,8 +660,8 @@
             </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
-            <div class="column" style="text-align: center">
-            <h3>Beta Diversity</h3>
+            <div class="column results_text">
+            <h3>Diversity similarities</h3>
             <br>
             <p>Here we display how your sample fits in among the other samples
             of The Microsetta Initiative in terms of shared microbes. There are many
@@ -676,7 +680,7 @@
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
-                  <div class="column" style="text-align: center">
+                  <div class="column results_text">
                     <h3> What is in your sample? </h3>
                     <br>
                     <p>The table below shows the relative abundances of all of the organisms we
@@ -708,7 +712,7 @@
               </div>
               <hr/>
               <div class="row">
-                  <div class="column" style="text-align: center">
+                  <div class="column results_text">
                     <p>
                     In the plot below, you can see the most commonly observed
                     microbial genera in the dataset, and distribution of ranks of

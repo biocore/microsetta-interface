@@ -272,7 +272,7 @@
         <div class="row">
             <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.">
                 <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_name}}');">
-                    <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}disabled{% endif %}>Delete Source: {{source_name}}</button>
+                    <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>Delete Source: {{source_name}}</button>
                 </form>
             </div>
         </div>

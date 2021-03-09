@@ -20,6 +20,9 @@
         background-color: #FFFFFF;
         color: #000000;
     }
+    .microbe-count {
+        font-weight: bold;
+    }
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -300,8 +303,8 @@
         // TODO: Fill in these URLs
         retrieveText("GET", state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id + "/counts?level=Kingdom", null).then(
             function(result, textStatus, jqXHR){
-                $("#n_bacteria").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
-                $("#n_archaea").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_bacteria").text(result["Bacteria"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveText(
             "POST",
@@ -309,8 +312,8 @@
             {"sample_ids":[]}
         ).then(
             function(result, textStatus, jqXHR){
-                $("#n_bacteria_background").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
-                $("#n_archaea_background").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_bacteria_background").text(result["Bacteria"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea_background").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveNeighbors(state, 1)
             .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))

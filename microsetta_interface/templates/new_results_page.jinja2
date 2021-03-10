@@ -20,7 +20,9 @@
         background-color: #FFFFFF;
         color: #000000;
     }
-
+    .microbe-count {
+        font-weight: bold;
+    }
     div.results_text {
         text-align: left;
     }
@@ -304,8 +306,8 @@
         // TODO: Fill in these URLs
         retrieveText("GET", state.public_endpoint + "/dataset/" + state.dataset_input.value + "/taxonomy/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id + "/counts?level=Kingdom", null).then(
             function(result, textStatus, jqXHR){
-                $("#n_bacteria").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
-                $("#n_archaea").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_bacteria").text(result["Bacteria"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveText(
             "POST",
@@ -313,8 +315,8 @@
             {"sample_ids":[]}
         ).then(
             function(result, textStatus, jqXHR){
-                $("#n_bacteria_background").text(result["Bacteria"]).removeClass("spinner-grow spinner-grow-sm");
-                $("#n_archaea_background").text(result["Archaea"]).removeClass("spinner-grow spinner-grow-sm");
+                $("#n_bacteria_background").text(result["Bacteria"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
+                $("#n_archaea_background").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveNeighbors(state, 1)
             .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
@@ -602,13 +604,13 @@
                 <h3>How You Compare?</h3>
                 <br/>
               <p>
-                  In your <span id="sample_type" class="info-loader text-info" >SAMPLE_TYPE</span> sample, we observed
-              <span id="n_bacteria" class="info-loader text-info" >N_BACTERIA</span> unique bacterial features
-              and <span id="n_archaea" class="info-loader text-info" >N_ARCHAEA</span> unique archaeal features.  Within
-              <span id="dataset_name" class="info-loader text-info" >DATASET_NAME</span>, we have observed
-              <span id="n_bacteria_background" class="info-loader text-info" >N_BACTERIA_BACKGROUND</span>
+                  In your <span id="sample_type" class="info-loader text-success" >SAMPLE_TYPE</span> sample, we observed
+              <span id="n_bacteria" class="info-loader text-success" >N_BACTERIA</span> unique bacterial features
+              and <span id="n_archaea" class="info-loader text-success" >N_ARCHAEA</span> unique archaeal features.  Within
+              <span id="dataset_name" class="info-loader text-success" >DATASET_NAME</span>, we have observed
+              <span id="n_bacteria_background" class="info-loader text-success" >N_BACTERIA_BACKGROUND</span>
               unique bacterial features and
-              <span id="n_archaea_background" class="info-loader text-info" >N_ARCHAEA_BACKGROUND</span>
+              <span id="n_archaea_background" class="info-loader text-success" >N_ARCHAEA_BACKGROUND</span>
               unique archaeal features.  The most common types of organisms (in a very
               broad sense) that we observe in human associated microbiome samples
               are bacteria and archaea.  But what are bacteria and archaea?
@@ -625,8 +627,8 @@
               <p>
               How does your sample compare to others?  We can compare your sample
               to others by way of your microbiome.  For example, the person most
-              microbially similar to you <span id="age_nearest_neighbor" class="info-loader text-info" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
-              and <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-info" >eats MORE_OR_LESS sugary sweets than you</span>!
+              microbially similar to you <span id="age_nearest_neighbor" class="info-loader text-success" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
+              and <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-success" >eats MORE_OR_LESS sugary sweets than you</span>!
               If you'd like to visualize how you compare
               to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
               bar.
@@ -716,7 +718,7 @@
                     <p>
                     In the plot below, you can see the most commonly observed
                     microbial genera in the dataset, and distribution of ranks of
-                    those genera.  For example, <span id="top_ranked_genus_from_plot" class="info-loader text-info" >TOP_RANKED_GENUS_FROM_PLOT</span>
+                    those genera.  For example, <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
                     typically has the highest relative abundance of samples in the
                     dataset.
                     </p>

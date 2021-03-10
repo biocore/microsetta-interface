@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
-
+<link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
 <style>
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
@@ -25,6 +25,14 @@
     }
     div.results_text {
         text-align: left;
+    }
+    .tooltipper {
+        display: inline-block; /* tooltip misplaced horizontally otherwise */
+        color: #747678;    
+    }
+    .tooltip-inner {
+      text-align: center;
+      /* background-color: #747678;  /* ucsd grey, but transparency is on and opacity: 1 does not turn it off, UGH */
     }
 </style>
 
@@ -240,7 +248,7 @@
                         {
                             if (sampleResults[i][selector_index] !== "Unspecified")
                             {
-                                nearest_age = sampleResults[i][selector_index];
+                                nearest_age = Math.round(sampleResults[i][selector_index]);
                                 break;
                             }
                         }
@@ -517,7 +525,13 @@
         }
     }
 
+    function enableTooltips(){
+        $('.tooltipper').tooltip({position: "bottom"});
+    }
+
     function init(){
+        enableTooltips();
+
         // Hook up fake tab links
         $('.fake-tab').click(function() {
             let link = this.dataset.link;
@@ -604,40 +618,41 @@
                 <h3>How You Compare?</h3>
                 <br/>
               <p>
-                  In your <span id="sample_type" class="info-loader text-success" >SAMPLE_TYPE</span> sample, we observed
-              <span id="n_bacteria" class="info-loader text-success" >N_BACTERIA</span> unique bacterial features
-              and <span id="n_archaea" class="info-loader text-success" >N_ARCHAEA</span> unique archaeal features.  Within
-              <span id="dataset_name" class="info-loader text-success" >DATASET_NAME</span>, we have observed
+              The most common types of organisms (in a very broad sense) that we observe in human associated microbiome samples are bacteria and archaea. But what are bacteria and archaea? Well, these are two domains of life that diverged from each other billions of years ago. Humans, on the other hand, are part of the eukaryotic domain of life. 
+              </p>
+              
+              <p>
+              In your 
+              <span id="sample_type" class="info-loader text-success" >SAMPLE_TYPE</span> 
+              sample, we observed
+              <span id="n_bacteria" class="info-loader text-success" >N_BACTERIA</span> 
+              unique bacterial 
+              <span id="taxa-tooltip" class="tooltipper" data-title="The term 'taxa' refers to many organisms, and is the plural of 'taxon' which refers to a single organism.">taxa</span>
+              and 
+              <span id="n_archaea" class="info-loader text-success" >N_ARCHAEA</span> 
+              unique archaeal taxa. In contrast, in the
+              <span id="dataset-tooltip" class="tooltipper" data-title="Dataset refers to the collection of samples included, and how they were processed. Your sample is part of multiple datasets, which can changed by using the 'Dataset' pulldown menu in the navigation bar.">dataset</span>
+              as a whole, we have observed
               <span id="n_bacteria_background" class="info-loader text-success" >N_BACTERIA_BACKGROUND</span>
-              unique bacterial features and
+              unique bacterial taxa and
               <span id="n_archaea_background" class="info-loader text-success" >N_ARCHAEA_BACKGROUND</span>
-              unique archaeal features.  The most common types of organisms (in a very
-              broad sense) that we observe in human associated microbiome samples
-              are bacteria and archaea.  But what are bacteria and archaea?
-              Well, these are two domains of life that diverged from each other
-              billions of years ago.  Humans, on the other hand, are part of the
-              eukaryotic domain of life.
+              unique archaeal taxa.
               </p>
+              
               <p>
-              How diverse is your microbiome?  How many types of organisms are
-              there?  Did your sample capture everything there is to see- even
-              the rarest of microbes?  You can check several measures of this
-              on the <a class="fake-tab" href="#diversity" data-link="#diversity-tab">Your sample diversity</a> tab.
+              We just told you the number of taxa there are in your microbiome, but which important groups do they represent? How diverse is your sample? What is diversity? Did your sample capture everything there is to see, even the rarest of microbes? You can check several measures of this on the <a class="fake-tab" href="#diversity" data-link="#diversity-tab">Your sample diversity</a> tab.
               </p>
+              
               <p>
-              How does your sample compare to others?  We can compare your sample
-              to others by way of your microbiome.  For example, the person most
-              microbially similar to you <span id="age_nearest_neighbor" class="info-loader text-success" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
-              and <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-success" >eats MORE_OR_LESS sugary sweets than you</span>!
-              If you'd like to visualize how you compare
-              to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation
-              bar.
+              How does your sample compare to others?  We can compare your sample to others by way of your microbiome.  For example, the person most microbially similar to you 
+              <span id="age_nearest_neighbor" class="info-loader text-success" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
+              and 
+              <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-success" >eats MORE_OR_LESS sugary sweets than you</span>!
+              If you'd like to visualize how you compare to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation bar.
               </p>
+              
               <p>
-              What are these organisms in your sample?  To check what types of
-              organisms we observed in your sample, please select
-              <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a>
-              from the navigation bar.
+              What are the names of the organisms in your sample? To find out, please select <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a> from the navigation bar.
               </p>
             </div>
           </div>

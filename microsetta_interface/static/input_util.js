@@ -34,6 +34,13 @@ function preventImplicitSubmission(form_name){
     });
 }
 
+function disableInputOnSubmit(form_selector, input_selector, disabled_text)
+{
+    $(form_selector).submit(function() {
+        $(input_selector).prop("disabled", true).val(disabled_text);
+    });
+}
+
 function replicate_text(input_selector, destination_selector) {
     $(input_selector).bind('input', function(){
         $(this).val(function(_, v){

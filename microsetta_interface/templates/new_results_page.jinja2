@@ -398,12 +398,13 @@
                 // annotation gets kind of weird, due becuase it might
                 // point between bins.
                 barmode: "overlay",
-                title: "Alpha-Diversity by Country",
+                title: "Microbial Richness by Country",
                 xaxis: {
-                    title: "Faith's PD",
+                    title: "\u2190 Less Diverse | More Diverse \u2192",
                 },
                 yaxis: {
-                    title: "Relative Frequency",
+                    title: "Percentage of Individuals",
+                    tickformat: ',.0%',
                 },
                 // adds a vertical line to label this participant's sample
                 // annotation is preferred to a vertical line because

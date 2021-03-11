@@ -497,15 +497,15 @@
             };
             let data = [trace1, trace2];
             let layout = {
-                "title": "Ranked Relative Abundance",
+                "title": "How abundant are my taxa compared to everyone else?",
                 "yaxis": {
-                    "title": "Common Genera",
+                    "title": "Common Taxa",
                     "automargin": true,
                     "categoryorder": "array",
                     "categoryarray": topXOrdered
                 },
                 xaxis: {
-                    title: 'Rank'
+                    title: '← Least Abundant | Most Abundant →'
                 }
             };
             Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});

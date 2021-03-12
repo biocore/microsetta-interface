@@ -195,9 +195,9 @@
                 {% endif %}  <!-- end of if sample.ffq -->
                 </div>
                 {% endif %}  <!-- end of if is_human -->
-                <div class="col-sm">
+                <div class="col-sm {% if sample.sample_remove_locked and not admin_mode %}tooltipper{% endif %}" data-title="This sample has been received and cannot be removed.">
                     <form name="remove_{{ sample.sample_id }}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove" onsubmit="return verifyDissociateSample('{{sample.sample_id}}');">
-                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}disabled{% endif %}>Remove</button>
+                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}style="pointer-events: none;" disabled{% endif %}>Remove</button>
                     </form>
                 </div>
             </div>

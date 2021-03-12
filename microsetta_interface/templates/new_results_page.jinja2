@@ -554,10 +554,10 @@
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
                     if (info.datatype == "WGS"){
-                        $("#dataset_datatype").text("whole genome sequencing, a technique that reads sequences from anywhere in the genomes of any of the bacteria in the gut.  With enough read coverage, you can even see the variation that exists between individuals of the same species. ").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else if (info.datatype == "16S"){
-                        $("#dataset_datatype").text("16S sequencing.  This technique uses a specially designed probe to focus sequencing on the 16S V4 region.  The region has both elements that are highly conserved, so it can be seen in the vast majority of bacterial species, and that are highly variable, so small differences between reads can be used to identify individual bacterial taxa").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
                         $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");

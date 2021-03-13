@@ -25,14 +25,38 @@
     div.results_text {
         text-align: left;
     }
+    div.how_you_compare_section {
+        background-color: #EDECEF;
+        /*border-radius: 15px; */
+        padding: 10px;
+    }
+
     .tooltipper {
-        display: inline-block; /* tooltip misplaced horizontally otherwise */
-        color: var(--ucsd-dark-grey)
+        color: #fc8900;
     }
+    .tooltip.show {
+        opacity: 1;
+    }
+     
     .tooltip-inner {
-      text-align: center;
-      /* background-color: #747678;  /* ucsd grey, but transparency is on and opacity: 1 does not turn it off, UGH */
+      background-color: #ffffff; !important;
+      color: #747678;
+      border: 2px solid #fc8900;
+      }
+     
+    .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before {
+        border-bottom-color: #fc8900 !important;
     }
+    .bs-tooltip-auto[x-placement^=top] .arrow::before, .bs-tooltip-top .arrow::before {
+        border-top-color: #fc8900 !important;
+    }
+    .bs-tooltip-auto[x-placement^=left] .arrow::before, .bs-tooltip-left .arrow::before {
+        border-left-color: #fc8900 !important;
+    }
+    .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
+        border-right-color: #fc8900 !important;
+    }
+ 
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -627,7 +651,7 @@
                 <br/>
                 <p>
                     Your microbiome is a rainforest of diverse microbes dominated
-                    by microbes - some 40 trillion bacteria, weighing around 1 lb,
+                    by bacteria - some 40 trillion bacteria, weighing around 1 lb,
                     live all over and in your body. The diversity of your
                     microbiome, how similar it is to other peoples', and the types
                     of bacteria living inside you have all been linked to health,
@@ -645,45 +669,56 @@
                 Scientists often use 3 different approaches to see how your microbiome differs:
                 </p>
 
-                <p>
-                <strong>DIVERSITY</strong>: Scientists will count the number of different types
-                of microbes found in a sample and see if that changes in people
-                with different diseases or lifestyles. This is called diversity
-                analysis. Counting the number of different types of microbes in
-                a sample is like figuring out the biodiversity of the sample,
-                and as we all know, for the most part, more biodiversity is
-                better. For more information on how diverse your microbiome is
-                in compared to different people, check out <a class="fake-tab" 
-                href="#diversity" data-link="#diversity-tab">Your sample diversity</a>.
-                </p>
+                <div class="how_you_compare_section">
+                    <h4>Diversity</h4>
+                    <p>
+                    Scientists will count the number of different types
+                    of microbes found in a sample and see if that changes in people
+                    with different diseases or lifestyles. This is called <i>diversity
+                    analysis</i>. Counting the number of different types of microbes in
+                    a sample is like figuring out the biodiversity of the sample,
+                    and as we all know, for the most part, more biodiversity is
+                    better. For more information on how diverse your microbiome is
+                    in compared to different people, check out <a class="fake-tab" 
+                    href="#diversity" data-link="#diversity-tab">Your sample diversity</a>.
+                    </p>
+                </div>
+                </br>
 
-                <p>
-                <strong>SIMILARITY</strong>: Scientists often find that people with similar
-                microbiomes (similar types of microbes living on or inside you) share
-                health, disease, and lifestyle traits – almost like your
-                microbiome is a signature of how "you are, what you eat," and
-                how much you exercise, etc.
-                </p>
+                <div class="how_you_compare_section">
+                    <h4>Similarity</h4>
+                    <p>
+                    Scientists often find that people with similar
+                    microbiomes (similar types of microbes living on or inside you) share
+                    health, disease, and lifestyle traits – almost like your
+                    microbiome is a signature of how "you are, what you eat," and
+                    how much you exercise, etc.
+                    </p>
 
-                <p>
-                We looked at how often the types of microbes found in
-                your sample were also in other people's microbiomes in our
-                database. Then we identified all the people whose microbiomes
-                were similar to your microbiome (which means
-                the people with whom you share a lot of the same types of
-                bacteria). This information is then compared to that group of
-                people's questionnaire responses. You can see how they answered
-                their questionnaires in <a class="fake-tab" href="#similarity" 
-                data-link="#similarity-tab">Diversity similarities</a>.
-                </p>
+                    <p>
+                    We looked at how often the types of microbes found in
+                    your sample were also in other people's microbiomes in our
+                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
+                    were similar to your microbiome (which means
+                    the people with whom you share a lot of the same types of
+                    bacteria). This information is then compared to that group of
+                    people's questionnaire responses. You can see how they answered
+                    their questionnaires in <a class="fake-tab" href="#similarity" 
+                    data-link="#similarity-tab">Diversity similarities</a>.
+                    </p>
+                </div>
+                </br>
 
-                <p>
-                <strong>TAXONOMY</strong>: If you REALLY want to know the names of the microbes
-                that live inside you, and a little bit of information on what
-                they do, go to <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What's in your sample?</a> 
-                to browse a list of your microbial friends, and see how abundant 
-                they were in your sample!
-                </p>
+                <div class="how_you_compare_section">
+                    <h4>Taxonomy</h4>
+                    <p>
+                    If you REALLY want to know the names of the microbes
+                    that live inside you, and a little bit of information on what
+                    they do, go to <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What's in your sample?</a> 
+                    to browse a list of your microbial friends, and see how abundant 
+                    they were in your sample!
+                    </p>
+                </div>
             </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">

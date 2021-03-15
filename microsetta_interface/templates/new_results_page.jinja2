@@ -564,7 +564,7 @@
 
                     }
                     for (var qiita_id of info['qiita-study-ids'])
-                        $("#dataset_links").append('<li><a href="https://qiita.ucsd.edu/study/description/10317">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_links").append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
 
                     if (info['qiita-study-ids'].length > 1)
                         $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");

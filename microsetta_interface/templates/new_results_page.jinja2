@@ -519,6 +519,45 @@
         });
     }
 
+    function updateDatasetDetails(state){
+        $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" + state.dataset_input.value,
+                success: function(data)
+                {
+                    var info = data[state.dataset_input.value]
+                    if (info == null)
+                        return
+                    $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
+                    if (info.datatype == "WGS"){
+                        $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
+                    }
+                    else if (info.datatype == "16S"){
+                        $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
+                    }
+                    else {
+                        $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
+
+                    }
+                    for (var qiita_id of info['qiita-study-ids'])
+                        $("#dataset_links").append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
+
+                    if (info['qiita-study-ids'].length > 1)
+                        $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");
+                    else
+                        $("#dataset_meta_analysis").text("").removeClass("spinner-grow spinner-grow-sm")
+
+
+                },
+                function(result, textStatus, errorThrown){
+                    console.log("Couldn't retrieve text for " + method + " " + url);
+                }
+            }
+        );
+
+
+    }
+
     //Called immediately after a tab is shown
     function onTabShown(evt){
         if (evt.target.id === "similarity-tab")
@@ -589,6 +628,7 @@
             updateDiversity(state);
             updateSimilarity(similarityData, state);
             updateTaxonomy(taxonomyData, state);
+            updateDatasetDetails(state);
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -617,6 +657,7 @@
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
           <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
           <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
+          <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can you learn more?</a>
         </div>
     </div>
     <div class="col-sm border">
@@ -660,7 +701,11 @@
               </p>
               
               <p>
-              What are the names of the organisms in your sample? To find out, please select <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Taxonomy</a> from the navigation bar.
+              What are the names of the organisms in your sample? To find out, please select <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What is in your sample</a> from the navigation bar.
+              </p>
+
+              <p>
+              Want to know more?  Or even discover something completely new?  You can learn more about the dataset all these results are derived from and how you can access it in <a class="fake-tab" href="#dataset-link" data-link="#dataset-tab">How can you learn more</a>.
               </p>
             </div>
           </div>
@@ -753,6 +798,32 @@
               </div>
           </div>
         </div>
+          <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
+            <div class="row">
+              <div class="column results_text">
+                <h3>How can you learn more?</h3>
+                <br/>
+                  <p>
+                  Microbiome analysis is a burgeoning new field, and the information
+                  displayed here is only an example of what is becoming possible
+                  thanks to the data that you helped collect.
+
+                  So if you want to learn more, you can even take a look at the dataset for yourself!
+                  </p>
+                  <p>
+                  The dataset you're looking at is called <span id="dataset_title" class="info-loader text-success" >DATASET_TITLE</span>.
+                  It was sequenced with <span id="dataset_datatype" class="info-loader text-success" >DATASET_DATATYPE</span>
+                  </p>
+                  <p>
+                  To dig deeper and start your own self directed research into the microbiome, this dataset<span id="dataset_meta_analysis" class="info-loader text-success" >DATASET_META_ANALYSIS</span> and others like it are available (after free registration) at the following link(s):
+                    <ul>
+                        <span id="dataset_links" class="info-loader text-success" >DATASET_LINKS</span>
+                    </ul>
+                  </p>
+              </div>
+            </div>
+          </div>
+
     </div>
 </div>
 {% endblock %}

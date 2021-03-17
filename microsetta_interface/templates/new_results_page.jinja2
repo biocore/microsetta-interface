@@ -178,7 +178,12 @@
                         for (let genus_key in generaSums){
                             let rep = representatives[genus_key];
                             let sum = generaSums[genus_key];
-                            rep.relativeAbundance = (sum * 100).toFixed(4);
+                            let relativeAbundance = (sum * 100)
+                            if (relativeAbundance <= 0.001) {
+                                continue;
+                            }
+                            rep.relativeAbundance = relativeAbundance.toFixed(3);
+                            
                             for (var key of ["Kingdom", "Phylum", "Class", "Order", "Family", "Genus"]){
                                 if (rep[key] != null && rep[key].startsWith("[") && rep[key].endsWith("]"))
                                     rep[key] = rep[key].substring(1,rep[key].length-1)
@@ -186,12 +191,12 @@
                             newData.push(rep);
                         }
                         return newData;
-                    }
+                    },
                 },
                 columns: [
                     {
                         data: "relativeAbundance",
-                        render: $.fn.dataTable.render.percentBar('round','#FFF', '#269ABC', '#31B0D5', '#286090', 4, 'groove')
+                        render: $.fn.dataTable.render.percentBar('round','#FFF', '#269ABC', '#31B0D5', '#286090', 3, 'groove')
                     },
                     {data: "Kingdom"},
                     {data: "Phylum"},
@@ -451,7 +456,7 @@
             let layout = {
                 title: "Faith PD by Country"
             };
-            Plotly.newPlot("diversity-vis", traces);
+            // Plotly.newPlot("diversity-vis", traces);
         })
     }
 
@@ -461,17 +466,8 @@
 <!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
             return;
         }
+        }
 
-        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
-        // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
-        loadEmperor(
-            url,
-            "/static/vendor/emperor",
-            function(){
-            },
-            state.barcode_prefix + state.sample_id
-        );
-    }
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset
         createTaxonomyTable(state);
@@ -547,6 +543,7 @@
             let data = [trace1, trace2];
             let layout = {
                 "title": "How abundant are my taxa compared to everyone else?",
+                "hovermode": false,
                 "yaxis": {
                     "title": "Common Taxa",
                     "automargin": true,
@@ -660,8 +657,8 @@
                 return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateSimilarity(null, state);
-            updateTaxonomy(null, state);
+            //updateSimilarity(null, state);
+            //updateTaxonomy(null, state);
 
             let similarityData = { "result": "Similarity AJAX: " + dataset };
             let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
@@ -1056,15 +1053,23 @@
                   Microbiome analysis is a burgeoning new field, and the information
                   displayed here is only an example of what is becoming possible
                   thanks to the data that you helped collect.
+                  </p>
 
+                  <p>
                   So if you want to learn more, you can even take a look at the dataset for yourself!
                   </p>
+                  
                   <p>
                   The dataset you're looking at is called <span id="dataset_title" class="info-loader text-success" >DATASET_TITLE</span>.
-                  It was sequenced with <span id="dataset_datatype" class="info-loader text-success" >DATASET_DATATYPE</span>
+                  It was sequenced with <span id="dataset_datatype" class="info-loader" >DATASET_DATATYPE</span>
                   </p>
+
                   <p>
-                  To dig deeper and start your own self directed research into the microbiome, this dataset<span id="dataset_meta_analysis" class="info-loader text-success" >DATASET_META_ANALYSIS</span> and others like it are available (after free registration) at the following link(s):
+                  To dig deeper and start your own self directed research into
+                  the microbiome, this dataset<span id="dataset_meta_analysis"
+                  class="info-loader text-success"
+                  >DATASET_META_ANALYSIS</span> and others like it are
+                  available (after free registration) at the following link(s):
                     <ul>
                         <span id="dataset_links" class="info-loader text-success" >DATASET_LINKS</span>
                     </ul>

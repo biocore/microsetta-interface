@@ -13,6 +13,20 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
 <style>
+    .diversity-icon {
+      vertical-align: middle;
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+     }
+    .diversity-text {
+        vertical-align:middle; 
+        display:inline;
+    }
+    .diversity-header {
+        background-color: #EDECEF;
+        padding: 10px;
+    }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
     .tab-pane {
@@ -25,14 +39,42 @@
     div.results_text {
         text-align: left;
     }
+    div.how_you_compare_section {
+        background-color: #EDECEF;
+        /*border-radius: 15px; */
+        padding: 10px;
+    }
+    div.your_sample_diversity_inset {
+        background-color: #EDECEF;
+        padding: 10px;
+    }
+
     .tooltipper {
-        display: inline-block; /* tooltip misplaced horizontally otherwise */
-        color: var(--ucsd-dark-grey)
+        color: #fc8900;
     }
+    .tooltip.show {
+        opacity: 1;
+    }
+     
     .tooltip-inner {
-      text-align: center;
-      /* background-color: #747678;  /* ucsd grey, but transparency is on and opacity: 1 does not turn it off, UGH */
+      background-color: #ffffff; !important;
+      color: #747678;
+      border: 2px solid #fc8900;
+      }
+     
+    .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before {
+        border-bottom-color: #fc8900 !important;
     }
+    .bs-tooltip-auto[x-placement^=top] .arrow::before, .bs-tooltip-top .arrow::before {
+        border-top-color: #fc8900 !important;
+    }
+    .bs-tooltip-auto[x-placement^=left] .arrow::before, .bs-tooltip-left .arrow::before {
+        border-left-color: #fc8900 !important;
+    }
+    .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
+        border-right-color: #fc8900 !important;
+    }
+ 
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -136,7 +178,12 @@
                         for (let genus_key in generaSums){
                             let rep = representatives[genus_key];
                             let sum = generaSums[genus_key];
-                            rep.relativeAbundance = (sum * 100).toFixed(4);
+                            let relativeAbundance = (sum * 100)
+                            if (relativeAbundance <= 0.001) {
+                                continue;
+                            }
+                            rep.relativeAbundance = relativeAbundance.toFixed(3);
+                            
                             for (var key of ["Kingdom", "Phylum", "Class", "Order", "Family", "Genus"]){
                                 if (rep[key] != null && rep[key].startsWith("[") && rep[key].endsWith("]"))
                                     rep[key] = rep[key].substring(1,rep[key].length-1)
@@ -144,12 +191,12 @@
                             newData.push(rep);
                         }
                         return newData;
-                    }
+                    },
                 },
                 columns: [
                     {
                         data: "relativeAbundance",
-                        render: $.fn.dataTable.render.percentBar('round','#FFF', '#269ABC', '#31B0D5', '#286090', 4, 'groove')
+                        render: $.fn.dataTable.render.percentBar('round','#FFF', '#269ABC', '#31B0D5', '#286090', 3, 'groove')
                     },
                     {data: "Kingdom"},
                     {data: "Phylum"},
@@ -164,7 +211,7 @@
             }
         );
     }
-
+    
     function updateCompare(state){
         // Reset all the fields to spinners
         $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm");
@@ -409,7 +456,7 @@
             let layout = {
                 title: "Faith PD by Country"
             };
-            Plotly.newPlot("diversity-vis", traces);
+            // Plotly.newPlot("diversity-vis", traces);
         })
     }
 
@@ -419,17 +466,8 @@
 <!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
             return;
         }
+        }
 
-        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/beta/' + state.beta_metric + '/pcoa/' + state.sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat&metadata_categories=country';
-        // url += '&metadata_categories=title';  //We want to include this, but public api doesn't support it yet.
-        loadEmperor(
-            url,
-            "/static/vendor/emperor",
-            function(){
-            },
-            state.barcode_prefix + state.sample_id
-        );
-    }
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset
         createTaxonomyTable(state);
@@ -505,6 +543,7 @@
             let data = [trace1, trace2];
             let layout = {
                 "title": "How abundant are my taxa compared to everyone else?",
+                "hovermode": false,
                 "yaxis": {
                     "title": "Common Taxa",
                     "automargin": true,
@@ -618,8 +657,8 @@
                 return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            updateSimilarity(null, state);
-            updateTaxonomy(null, state);
+            //updateSimilarity(null, state);
+            //updateTaxonomy(null, state);
 
             let similarityData = { "result": "Similarity AJAX: " + dataset };
             let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
@@ -666,104 +705,311 @@
             <div class="column results_text">
                 <h3>How You Compare?</h3>
                 <br/>
-              <p>
-              The most common types of organisms (in a very broad sense) that we observe in human associated microbiome samples are bacteria and archaea. But what are bacteria and archaea? Well, these are two domains of life that diverged from each other billions of years ago. Humans, on the other hand, are part of the eukaryotic domain of life. 
-              </p>
-              
-              <p>
-              In your 
-              <span id="sample_type" class="info-loader text-success" >SAMPLE_TYPE</span> 
-              sample, we observed
-              <span id="n_bacteria" class="info-loader text-success" >N_BACTERIA</span> 
-              unique bacterial 
-              <span id="taxa-tooltip" class="tooltipper" data-title="The term 'taxa' refers to many organisms, and is the plural of 'taxon' which refers to a single organism.">taxa</span>
-              and 
-              <span id="n_archaea" class="info-loader text-success" >N_ARCHAEA</span> 
-              unique archaeal taxa. In contrast, in the
-              <span id="dataset-tooltip" class="tooltipper" data-title="Dataset refers to the collection of samples included, and how they were processed. Your sample is part of multiple datasets, which can changed by using the 'Dataset' pulldown menu in the navigation bar.">dataset</span>
-              as a whole, we have observed
-              <span id="n_bacteria_background" class="info-loader text-success" >N_BACTERIA_BACKGROUND</span>
-              unique bacterial taxa and
-              <span id="n_archaea_background" class="info-loader text-success" >N_ARCHAEA_BACKGROUND</span>
-              unique archaeal taxa.
-              </p>
-              
-              <p>
-              We just told you the number of taxa there are in your microbiome, but which important groups do they represent? How diverse is your sample? What is diversity? Did your sample capture everything there is to see, even the rarest of microbes? You can check several measures of this on the <a class="fake-tab" href="#diversity" data-link="#diversity-tab">Your sample diversity</a> tab.
-              </p>
-              
-              <p>
-              How does your sample compare to others?  We can compare your sample to others by way of your microbiome.  For example, the person most microbially similar to you 
-              <span id="age_nearest_neighbor" class="info-loader text-success" >is AGE_IN_YEARS_OF_NEAREST_NEIGHBOR</span>
-              and 
-              <span id="more_or_less_sweets_nearest_neighbor" class="info-loader text-success" >eats MORE_OR_LESS sugary sweets than you</span>!
-              If you'd like to visualize how you compare to others, please select <a class="fake-tab" href="#similarity" data-link="#similarity-tab">Diversity similarities</a> from the navigation bar.
-              </p>
-              
-              <p>
-              What are the names of the organisms in your sample? To find out, please select <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What is in your sample</a> from the navigation bar.
-              </p>
+                <p>
+                    Your microbiome is a rainforest of diverse microbes dominated
+                    by microbes - some 40 trillion bacteria, weighing around 1 lb,
+                    live all over and in your body. The diversity of your
+                    microbiome, how similar it is to other peoples', and the types
+                    of bacteria living inside you have all been linked to health,
+                    disease and lifestyle traits in numerous studies. Scientists
+                    use microbiome data from large groups of people to compare the
+                    microbiome between different groups of people. For example, we
+                    explore how the microbiome differs between people that eat many
+                    kinds of plants (salads, vegetables, fruits) each week,
+                    compared to those that eat very few. Or we can look at how
+                    exercising frequently or rarely influences the number of
+                    different bacteria inside your body
+                </p>
+                
+                <p>
+                Scientists often use 3 different approaches to see how your microbiome differs:
+                </p>
 
-              <p>
-              Want to know more?  Or even discover something completely new?  You can learn more about the dataset all these results are derived from and how you can access it in <a class="fake-tab" href="#dataset-link" data-link="#dataset-tab">How can you learn more</a>.
-              </p>
+                <div class="how_you_compare_section">
+                    <h4>Diversity</h4>
+                    <p>
+                    Scientists will count the number of different types
+                    of microbes found in a sample and see if that changes in people
+                    with different diseases or lifestyles. This is called <i>diversity
+                    analysis</i>. Counting the number of different types of microbes in
+                    a sample is like figuring out the biodiversity of the sample,
+                    and as we all know, for the most part, more biodiversity is
+                    better. For more information on how diverse your microbiome is
+                    in compared to different people, check out <a class="fake-tab" 
+                    href="#diversity" data-link="#diversity-tab">Your sample diversity</a>.
+                    </p>
+                </div>
+                </br>
+
+                <div class="how_you_compare_section">
+                    <h4>Similarity</h4>
+                    <p>
+                    Scientists often find that people with similar
+                    microbiomes (similar types of microbes living on or inside you) share
+                    health, disease, and lifestyle traits – almost like your
+                    microbiome is a signature of how "you are, what you eat," and
+                    how much you exercise, etc.
+                    </p>
+
+                    <p>
+                    We looked at how often the types of microbes found in
+                    your sample were also in other people's microbiomes in our
+                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
+                    were similar to your microbiome (which means
+                    the people with whom you share a lot of the same types of
+                    bacteria). This information is then compared to that group of
+                    people's questionnaire responses. You can see how they answered
+                    their questionnaires in <a class="fake-tab" href="#similarity" 
+                    data-link="#similarity-tab">Diversity similarities</a>.
+                    </p>
+                </div>
+                </br>
+
+                <div class="how_you_compare_section">
+                    <h4>Taxonomy</h4>
+                    <p>
+                    If you REALLY want to know the names of the microbes
+                    that live inside you, and a little bit of information on what
+                    they do, go to <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What's in your sample?</a> 
+                    to browse a list of your microbial friends, and see how abundant 
+                    they were in your sample!
+                    </p>
+                </div>
             </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
-            <div class="column results_text">
-                <h3>Your sample diversity</h3>
-                <br>
-                <p>Here, we're providing a measure of the diversity of your sample, and how
-                it compares to the diversities of all of the same type of samples in The
-                Microsetta Initiative. There are many ways to calculate diversity. For
-                instance, you could compute a diversity value by counting the number of
-                unique organisms observed (i.e., the sample "richness"). Or, you might be
-                interested in weighting the calculation by the relative abundance of the
-                organisms (i.e., the sample "evenness"). The metric we're computing here is
-                called Faith's Phylogenetic Diversity (originally defined
-                <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith's Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary
-                breadth represented by your sample. The way we compute alpha diversity is
-                also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
-                more information on it can be found in the alpha and beta diversity
-                <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
-                <div id="diversity-vis"></div>
-            </div>
+              <div class="column results_text">
+                  <h3>Your sample diversity</h3>
+                  <br>
+                  <p>
+                  There are hundreds of millions to billions of different types
+                  of bacteria living on planet earth, which dwarfs the meager 2
+                  million different kinds of animals and plants that you can see
+                  with your eyes. The average American has <strong>187</strong>
+                  different types of microbes in a stool sample, which is lower
+                  than we find in people living a more hunter-gatherer
+                  lifestyle, like the <strong>306</strong> we find in samples
+                  from the Hadza Tribe. 
+                  </p>
+
+                  <div class="card your_sample_diversity_inset">
+                      <div class="card-header">Microbes found in your sample</div>
+                      <div class="card-body">
+                          <h5 class="card-title">XXX</h5>
+                          <p class="card-text"> 
+                          Is the number of microbes found in your sample. 
+                          </p>
+                      </div>
+                  </div>
+
+                  <p>
+                  When scientists talk about the number of different types of
+                  microbes in your sample, they call that Alpha Diversity.
+                  </p>
+
+                  <p>
+                  When we calculated diversity of groups of samples in our
+                  database, we found that diversity is assocaited by how you live
+                  your life. So, the answers people gave to their questionnaires
+                  enables us to see the average microbiome diversity for people
+                  who (i) eat more than 30 plants a week; (ii) Exercise Regularly; 
+                  (iii) eat fermented foods regularly; (iv) Sleep more than 
+                  6 hours a night.
+                  </p>
+
+                  <div class="row mb-2 mt-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/vegetables.png'>
+                          <div class="diversity-text">
+                              ----- Eat more than 30 plants a week = <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/exercise.png'>
+                          <div class="diversity-text">
+                              ----- Exercise regularly = <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mb-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/fermented.png'>
+                          <div class="diversity-text">
+                              ----- Eat fermented foods regularly = <span id="diversity_fermented_regularly" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/sleep.png'>
+                          <div class="diversity-text">
+                              ----- Sleep more than 6 hours per night = <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
-            <div class="column results_text">
-            <h3>Diversity similarities</h3>
-            <br>
-            <p>Here we display how your sample fits in among the other samples
-            of The Microsetta Initiative in terms of shared microbes. There are many
-            ways to calculate beta diversity, differing in how to weight the distance
-            between any two microbes. We take evolutionary distance into account with
-            the metric displayed here, known as Unweighted Unifrac. You can
-            find an overview of this metric
-            <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or
-            better understand its derivation
-            <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>.
-            This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
-            more information on it can be found in the alpha and beta diversity
-            <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
-            <div id='emperor-notebook' style="position: relative; width:100%; height:500px;"></div>
-            </div>
+              <div class="column results_text">
+                  <h3>Diversity similarities</h3>
+                  <br>
+                  <p>
+                  When microbiome scientists talk about how similar your
+                  microbiome is to someone else that call that beta diversity.
+                  This is basically a calculation that compares the list of
+                  different bacteria living in you to a list of bacteria living
+                  in someone else. If the list has a lot of overlap then the
+                  samples are very similar, if the list has very little overlap
+                  the samples are not very similar. 
+                  </p>
+
+                  <p>
+                  Scientists (because we love to complicate things) calculate
+                  this using a backwards scale, so the higher the number the
+                  lower the similarity between two samples! 
+                  </p>
+
+                  <p>
+                  There are <i>a lot</i> of ways to calculate how similar
+                  microbiome samples are. At a high level, there are two types
+                  of similarity comparisions: 
+                  </p>
+
+                  <ul>
+                      <li>
+                      Unweighted similarity: this is simply a comparison of
+                      the list of microbes in each sample, the more overlap
+                      there between those lists the more similar samples
+                      are.
+                      </li>
+                      <li>
+                      Weighted similarity: this adds the abundance of each
+                      microbe into the calculation. So even if you have the
+                      exact same list of bacteria as someone else (e.g.
+                      A,B,C,D,E), but bacteria A, B and C are really abundant
+                      in your sample and rare in the other sample, and vice
+                      versa, then you would actually have a low weighted
+                      similarity.
+                      </li>
+                  </ul>
+
+                  <p>
+                  We compared your sample to our database, and examined the 100
+                  most similar samples to yours. These people answered their
+                  questionnaires in the following way:
+                  </p>
+
+                  <div id="beta-diversity-comparisons">
+                  </div>
+
+
+                  <div class="row mb-2">
+                      <div class="col">
+                          <h4 class="diversity-header">Diet</h4>
+                      </div>
+                  </div>
+                  <div class="row mb-2 mt-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/vegetables.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_plants_per_week_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours eat 
+                              <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/diet.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_diet_type_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours had a similar diet
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row mb-2">
+                      <div class="col">
+                          <h4 class="diversity-header">Supplements</h4>
+                      </div>
+                  </div>
+                  <div class="row mb-2 mt-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/probiotics.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_probiotics_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours take probiotics 
+                              <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/vitamins.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_multivitamin_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours take vitamins
+                              <span id="beta_diversity_multivitamin_response" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="row mb-2">
+                      <div class="col">
+                          <h4 class="diversity-header">Activity</h4>
+                      </div>
+                  </div>
+                  <div class="row mb-2 mt-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/exercise.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_exercise_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours exercise 
+                              <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/sleep.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours sleep more than 
+                              <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="row mb-2">
+                      <div class="col">
+                          <h4 class="diversity-header">Demographic</h4>
+                      </div>
+                  </div>
+                  <div class="row mb-2 mt-2">
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/age.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_age_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours are a similar age
+                          </div>
+                      </div>
+                      <div class="col">
+                          <img class="diversity-icon" src='/static/img/gender.png'>
+                          <div class="diversity-text">
+                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
+                              of people with a microbiome like yours were the same gender
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
                   <div class="column results_text">
                     <h3> What is in your sample? </h3>
                     <br>
-                    <p>The table below shows the relative abundances of all of the organisms we
-                    observed in your sample. To produce this, we took the DNA sequences from
-                    your sample, and compared them against publicly available annotated
-                    reference databases. In some cases, one of the DNA sequences we recover
-                    from your sample may uniquely match a database record, in other cases a
-                    sequence may match two or more different records.
-                    To handle the uncertainty that can arise, we rely on a well used and
-                    publicly available microbiome software package called <a
-                    href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
-                    taken is highlighted in the main tutorial on
-                    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
+                    <p>
+                    Microbes have different names, which are all written in
+                    Latin! Scientists do like to make things complicated!
+                    </p>
+
+                    <p>
+                    Below you will find a table of all of the different
+                    microbes we found in your sample, and their proportions.
+                    </p>
+                    
                     <div style="padding:10px">
                       <table id="taxonomyTable" class="display" style="width:100%">
                         <thead>
@@ -807,15 +1053,23 @@
                   Microbiome analysis is a burgeoning new field, and the information
                   displayed here is only an example of what is becoming possible
                   thanks to the data that you helped collect.
+                  </p>
 
+                  <p>
                   So if you want to learn more, you can even take a look at the dataset for yourself!
                   </p>
+                  
                   <p>
                   The dataset you're looking at is called <span id="dataset_title" class="info-loader text-success" >DATASET_TITLE</span>.
-                  It was sequenced with <span id="dataset_datatype" class="info-loader text-success" >DATASET_DATATYPE</span>
+                  It was sequenced with <span id="dataset_datatype" class="info-loader" >DATASET_DATATYPE</span>
                   </p>
+
                   <p>
-                  To dig deeper and start your own self directed research into the microbiome, this dataset<span id="dataset_meta_analysis" class="info-loader text-success" >DATASET_META_ANALYSIS</span> and others like it are available (after free registration) at the following link(s):
+                  To dig deeper and start your own self directed research into
+                  the microbiome, this dataset<span id="dataset_meta_analysis"
+                  class="info-loader text-success"
+                  >DATASET_META_ANALYSIS</span> and others like it are
+                  available (after free registration) at the following link(s):
                     <ul>
                         <span id="dataset_links" class="info-loader text-success" >DATASET_LINKS</span>
                     </ul>

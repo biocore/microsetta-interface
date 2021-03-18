@@ -110,7 +110,7 @@
                 let resultMap = {};
                 for (var key in data)
                     resultMap[data[key]] = data[key]
-                populateSelect("#dataset", resultMap, data[0]);
+                //populateSelect("#dataset", resultMap, data[0]);
                 //TODO FIXME HACK:
                 //Updating $("#dataset") should have automatically updated
                 //the state but jquery's change event is not triggering linked
@@ -122,7 +122,7 @@
                 //emperor is slow and there is some kind of race condition)
                 //We thus bypass the jquery event handling and directly update
                 //the state which does correctly queue events.
-                state.dataset_input.value = $("#dataset").val();
+                //state.dataset_input.value = $("#dataset").val();
             }
         });
     }
@@ -684,10 +684,6 @@
 {% endblock %}
 
 {% block content %}
-<label for="dataset">Dataset:</label>
-<select id="dataset" name="dataset" autocomplete="off" disabled>
-    <option>Loading...</option>
-</select>
 
 <div class="row">
     <div class="col-sm-auto">

@@ -27,6 +27,12 @@
         background-color: #EDECEF;
         padding: 10px;
     }
+    .micromap {
+        height: 600px;
+        width: 800px;
+        border-style: solid;
+        border-width: thin;
+    }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
     .tab-pane {
@@ -92,6 +98,148 @@
 
 <script>
     "use strict";
+
+    function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
+        let renderPlot = function(data){
+            console.log(data)
+            // Data is an object with three fields,
+            //    * decomposition - Two fields:
+            //        *coordinates - Array of arrays:
+            //            coordinates[0][2] is the first sample's value along
+            //                the third principal component.
+            //        *percents_explained - Array:
+            //            percents_explained[1] is the second principal components % explained.
+            //    * metadata - Docs claim array of array of arrays, but unclear
+            //                 what would be kept in metadata[0]
+            //      metadata[0][1][2] is the value of the second sample for
+            //      the third metadata column.
+            //    * metadata_headers - Array of names of metadata columns
+            //        metadata_headers[0] = name of first metadata column
+
+            let cat_index = 0
+            let category_name = data.metadata_headers[cat_index]
+            let category_values = {}
+            for (var i = 0; i < data.metadata.length; i++){
+                var sample = data.metadata[i]
+                var val = data.metadata[i][cat_index]
+                category_values[val] = 1
+            }
+
+            let traces = [];
+            let user_sample_id = state.barcode_prefix + state.sample_id
+            console.log(user_sample_id)
+            for (var key in category_values)
+            {
+                // have to de-interleave the data.
+                var xs = []
+                var ys = []
+                for (var i = 0; i < data.decomposition.coordinates.length; i++){
+                    if (data.decomposition.sample_ids[i] == user_sample_id)
+                        continue;
+                    if (data.metadata[i][cat_index] == key){
+                        xs.push(data.decomposition.coordinates[i][0])
+                        ys.push(data.decomposition.coordinates[i][1])
+                    }
+                }
+                let trace =
+                {
+                    name: key,
+                    x: xs,
+                    y: ys,
+                    mode: 'markers',
+                    type: 'scatter'
+                };
+                traces.push(trace);
+            }
+
+            for (var i = 0; i < data.decomposition.coordinates.length; i++){
+                if (data.decomposition.sample_ids[i] == user_sample_id){
+                    let trace = {
+                        name: "Your sample",
+                        x: [data.decomposition.coordinates[i][0]],
+                        y: [data.decomposition.coordinates[i][1]],
+                        mode: "markers",
+                        type: "scatter",
+                        marker: {
+                            size: 18
+                        }
+                    }
+                    traces.push(trace)
+                    break;
+                }
+            }
+
+            let layout = {
+                title: plotTitle,
+                xaxis: {
+                    title: {
+                        text: 'Principal Component 1'
+                    },
+                },
+                yaxis: {
+                    title: {
+                        text: 'Principal Component 2'
+                    },
+                },
+                "hovermode": false
+            };
+
+            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
+        }
+
+        //REMOVE THIS EXAMPLE DATA WHEN WWW-DEV HAS REAL DATA
+        let example_data = {
+          "decomposition": {
+            "coordinates": [[1, 0],[0, 2],[2, 3]],
+            "percents_explained": [64, 36],
+            "sample_ids": ["10317.000001234", "10317.000005678", "10317.000004220"]
+          },
+          "metadata": [[["fecal", 0.7],["sebum",20.4],["fecal", 10.5]]],
+          "metadata_headers": ["body-habitat", "latitude"]
+        };
+//        renderPlot(example_data);
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: renderPlot
+        });
+    }
+
+    function buildMicrobialMapsPlots(state)
+    {
+        //Plot 1, plot sample type from tmi-datatype-allsamples
+        var url = state.public_endpoint + '/dataset/' +
+              state.dataset_input.value + '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "micromap1", //contents inserted into div name
+                           "All of the Microsetta Initiative")
+
+        //Plot 2, plot country from multipop-datatype-sampletype
+        var url = state.public_endpoint + '/dataset/' +
+              state.dataset_input.value + '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "micromap2", //contents inserted into div name
+                           "Multipopulation")
+
+
+        //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
+        var url = state.public_endpoint + '/dataset/' +
+              state.dataset_input.value + '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "micromap3", //contents inserted into div name
+                           "You and the Microbes Around You")
+    }
+
     function formatAlphaURL(state) {
         let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
         if (state.sample_id !== "") {
@@ -466,7 +614,7 @@
 <!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
             return;
         }
-        }
+    }
 
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset
@@ -668,6 +816,8 @@
             updateSimilarity(similarityData, state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
+
+            buildMicrobialMapsPlots(state)
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -697,6 +847,7 @@
           <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
           <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
           <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can you learn more?</a>
+          <a class="nav-link" id="temp-plots-tab" data-toggle="pill" href="#temp-plots" role="tab" aria-controls="temp-plots" aria-selected="false">TEMPORARY PLOTS</a>
         </div>
     </div>
     <div class="col-sm border">
@@ -1077,6 +1228,13 @@
               </div>
             </div>
           </div>
+        <div class="tab-pane fade" id="temp-plots" role="tabpanel" aria-labelledby="temp-plots-tab">
+          <div class="row">
+              <div id="micromap1" class="micromap"></div>
+              <div id="micromap2" class="micromap"></div>
+              <div id="micromap3" class="micromap"></div>
+          </div>
+        </div>
 
     </div>
 </div>

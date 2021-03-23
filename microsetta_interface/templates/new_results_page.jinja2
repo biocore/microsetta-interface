@@ -74,6 +74,13 @@
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
     }
+
+    .virtualPlaceholder {
+        display:block;
+        height:500px;
+        width:500px;
+        background:#eee;
+    }
  
 </style>
 
@@ -752,7 +759,7 @@
                     <p>
                     We looked at how often the types of microbes found in
                     your sample were also in other people's microbiomes in our
-                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
+                    database. Then we identified all the people whose microbiomes
                     were similar to your microbiome (which means
                     the people with whom you share a lot of the same types of
                     bacteria). This information is then compared to that group of
@@ -1092,8 +1099,139 @@
                 <h3>Microbial maps</h3>
                 <br/>
                 <p>
-                foobar
+                As an extension of <a class="fake-tab" href="#similarity" 
+                data-link="#similarity-tab">Diversity similarities</a> we
+                compared your microbiome sample to ALL of the microbiome
+                samples within The Microsetta Initiative, as well as a few
+                published studies. We actually did this for every sample. 
+                As you can imagine, that is A LOT of comparisons. This process
+                produces a few very large matrices that describe how similar
+                every sample is to every other one. In mathematical terms, we
+                would say these matrices are high dimensional (think of a X-Y
+                plot with two axes, but these data have 10s of thousands of
+                axes). 
                 </p>
+
+                <p>
+                Visualizing high dimensional data is difficult. One way
+                microbiome researchers do it though is through a technique
+                called <span id="taxa-tooltip" class="tooltipper"
+                data-title="Principal coordinates analysis (PCoA) is a common
+                dimensionality reduction technique in the microbiome field. It
+                attempts to identify the axes if major variation in high
+                dimensional data. We can then plot the position of each sample
+                from a few of these axes (typically the top two or three as
+                they explain the most variation).">principal coordinates
+                analysis</span>. The math is complex, but the concept is
+                simple: it allows us to cast a data shadow, which we can be
+                used for plotting.
+                </p>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <h4 class="diversity-header">All of The Microsetta Initiative</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-tmi-all-samples">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        In this map, we’ve placed your sample relative to all the
+                        other samples we have in Microsetta. As you can see, there
+                        are a few different types of samples people have
+                        contributed, and the microbial configurations present can
+                        be REALLY different. 
+                        </p>
+
+                        <p>
+                        In general, skin samples tend to look like skin, oral
+                        like oral, and stool like stool. Microbial communities
+                        specialze to these environments, and as you can
+                        imagine, the conditions differ a lot! The microbes
+                        inside of you are exposed to constant high temperature,
+                        limited to no oxygen, the curious mix of molecules from
+                        the foods you eat and so much more! In contrast, the
+                        microbes on your skin might need to tolerate very
+                        different ranges of temperatures -- think about the
+                        wind blowing on your forehead. There also is quite a
+                        bit of oxygen, contact with microbes coming from the
+                        wind or surfaces, and of course, your skin secretions
+                        to interact with and the compounds used like soaps and
+                        moisturisers.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">Multipopulation</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-multipopulation">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Here, we’re looking at data from FILL IN different studies
+                        and we’re examining FILL IN samples.
+                        </p>
+
+                        <p>
+                        Researchers have noted large differences in our
+                        microbiomes depending on where we live. The reason WHY
+                        is not well understood, but we suspect factors such as
+                        diet or environmental exposures (e.g., plants, what’s
+                        in your house, pollution, how often you come in contact
+                        with soil, etc) may be be major factors.
+                        </p>
+
+                        <p>
+                        Researchers also DO NOT know how much these differences
+                        matter! But, they certainly may. Science does not know
+                        whether results from one population translate to
+                        another, meaning that microbial associations with
+                        health and disease from the United States <i>may not</i> be
+                        the same in other parts of the world. 
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">You and the microbes around you</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-builtenv">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Microbes are EVERYWHERE, even on the International Space
+                        Station!! Using these same techniques described above, we
+                        compared your microbiome to samples collected from all over
+                        the planet [TOOLTIP], surfaces from a brand new hospital
+                        [TOOLTIP], and a set of samples collected by astronauts
+                        [TOOLTIP]! 
+                        </p>
+
+                        <p>
+                        As you can see, skin samples tend to more closely
+                        resemble those from “the built environment”, which
+                        makes sense as skin cells are constantly shedding from
+                        you.
+                        </p>
+                    </div>
+                </div>
               </div>
             </div>
           </div>

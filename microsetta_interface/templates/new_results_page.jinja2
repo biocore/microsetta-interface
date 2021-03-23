@@ -80,6 +80,13 @@
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
     }
+
+    .virtualPlaceholder {
+        display:block;
+        height:500px;
+        width:500px;
+        background:#eee;
+    }
  
 </style>
 
@@ -258,7 +265,7 @@
                 let resultMap = {};
                 for (var key in data)
                     resultMap[data[key]] = data[key]
-                populateSelect("#dataset", resultMap, data[0]);
+                //populateSelect("#dataset", resultMap, data[0]);
                 //TODO FIXME HACK:
                 //Updating $("#dataset") should have automatically updated
                 //the state but jquery's change event is not triggering linked
@@ -270,7 +277,7 @@
                 //emperor is slow and there is some kind of race condition)
                 //We thus bypass the jquery event handling and directly update
                 //the state which does correctly queue events.
-                state.dataset_input.value = $("#dataset").val();
+                //state.dataset_input.value = $("#dataset").val();
             }
         });
     }
@@ -834,10 +841,6 @@
 {% endblock %}
 
 {% block content %}
-<label for="dataset">Dataset:</label>
-<select id="dataset" name="dataset" autocomplete="off" disabled>
-    <option>Loading...</option>
-</select>
 
 <div class="row">
     <div class="col-sm-auto">
@@ -846,10 +849,11 @@
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
           <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
           <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
+          <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbial maps</a>
           <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can you learn more?</a>
-          <a class="nav-link" id="temp-plots-tab" data-toggle="pill" href="#temp-plots" role="tab" aria-controls="temp-plots" aria-selected="false">TEMPORARY PLOTS</a>
         </div>
     </div>
+
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
@@ -873,7 +877,7 @@
                 </p>
                 
                 <p>
-                Scientists often use 3 different approaches to see how your microbiome differs:
+                Scientists often use many different approaches to see how your microbiome differs:
                 </p>
 
                 <div class="how_you_compare_section">
@@ -905,7 +909,7 @@
                     <p>
                     We looked at how often the types of microbes found in
                     your sample were also in other people's microbiomes in our
-                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
+                    database. Then we identified all the people whose microbiomes
                     were similar to your microbiome (which means
                     the people with whom you share a lot of the same types of
                     bacteria). This information is then compared to that group of
@@ -926,7 +930,18 @@
                     they were in your sample!
                     </p>
                 </div>
-            </div>
+                </br>
+
+                <div class="how_you_compare_section">
+                    <h4>Microbial maps</h4>
+                    <p>
+                    Using the microbial similarities mentioned above, we have
+                    constructed <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbial maps</a> to help you see how your sample
+                    relates to other populations, different animals, and
+                    surfaces places we spend a lot of time (like office spaces)!
+                    </p>
+                </div>
+              </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               <div class="column results_text">
@@ -1228,14 +1243,148 @@
               </div>
             </div>
           </div>
-        <div class="tab-pane fade" id="temp-plots" role="tabpanel" aria-labelledby="temp-plots-tab">
-          <div class="row">
-              <div id="micromap1" class="micromap"></div>
-              <div id="micromap2" class="micromap"></div>
-              <div id="micromap3" class="micromap"></div>
-          </div>
-        </div>
+          <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
+            <div class="row">
+              <div class="column results_text">
+                <h3>Microbial maps</h3>
+                <br/>
+                <p>
+                As an extension of <a class="fake-tab" href="#similarity" 
+                data-link="#similarity-tab">Diversity similarities</a> we
+                compared your microbiome sample to ALL of the microbiome
+                samples within The Microsetta Initiative, as well as a few
+                published studies. We actually did this for every sample. 
+                As you can imagine, that is A LOT of comparisons. This process
+                produces a few very large matrices that describe how similar
+                every sample is to every other one. In mathematical terms, we
+                would say these matrices are high dimensional (think of a X-Y
+                plot with two axes, but these data have 10s of thousands of
+                axes). 
+                </p>
 
+                <p>
+                Visualizing high dimensional data is difficult. One way
+                microbiome researchers do it though is through a technique
+                called <span id="taxa-tooltip" class="tooltipper"
+                data-title="Principal coordinates analysis (PCoA) is a common
+                dimensionality reduction technique in the microbiome field. It
+                attempts to identify the axes if major variation in high
+                dimensional data. We can then plot the position of each sample
+                from a few of these axes (typically the top two or three as
+                they explain the most variation).">principal coordinates
+                analysis</span>. The math is complex, but the concept is
+                simple: it allows us to cast a data shadow, which we can be
+                used for plotting.
+                </p>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <h4 class="diversity-header">All of The Microsetta Initiative</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-tmi-all-samples">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        In this map, we’ve placed your sample relative to all the
+                        other samples we have in Microsetta. As you can see, there
+                        are a few different types of samples people have
+                        contributed, and the microbial configurations present can
+                        be REALLY different. 
+                        </p>
+
+                        <p>
+                        In general, skin samples tend to look like skin, oral
+                        like oral, and stool like stool. Microbial communities
+                        specialze to these environments, and as you can
+                        imagine, the conditions differ a lot! The microbes
+                        inside of you are exposed to constant high temperature,
+                        limited to no oxygen, the curious mix of molecules from
+                        the foods you eat and so much more! In contrast, the
+                        microbes on your skin might need to tolerate very
+                        different ranges of temperatures -- think about the
+                        wind blowing on your forehead. There also is quite a
+                        bit of oxygen, contact with microbes coming from the
+                        wind or surfaces, and of course, your skin secretions
+                        to interact with and the compounds used like soaps and
+                        moisturisers.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">Multipopulation</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-multipopulation">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Here, we’re looking at data from FILL IN different studies
+                        and we’re examining FILL IN samples.
+                        </p>
+
+                        <p>
+                        Researchers have noted large differences in our
+                        microbiomes depending on where we live. The reason WHY
+                        is not well understood, but we suspect factors such as
+                        diet or environmental exposures (e.g., plants, what’s
+                        in your house, pollution, how often you come in contact
+                        with soil, etc) may be be major factors.
+                        </p>
+
+                        <p>
+                        Researchers also DO NOT know how much these differences
+                        matter! But, they certainly may. Science does not know
+                        whether results from one population translate to
+                        another, meaning that microbial associations with
+                        health and disease from the United States <i>may not</i> be
+                        the same in other parts of the world. 
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">You and the microbes around you</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-builtenv">
+                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Microbes are EVERYWHERE, even on the International Space
+                        Station!! Using these same techniques described above, we
+                        compared your microbiome to samples collected from all over
+                        the planet [TOOLTIP], surfaces from a brand new hospital
+                        [TOOLTIP], and a set of samples collected by astronauts
+                        [TOOLTIP]! 
+                        </p>
+
+                        <p>
+                        As you can see, skin samples tend to more closely
+                        resemble those from “the built environment”, which
+                        makes sense as skin cells are constantly shedding from
+                        you.
+                        </p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
 </div>
 {% endblock %}

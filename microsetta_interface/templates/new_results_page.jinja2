@@ -27,6 +27,10 @@
         background-color: #EDECEF;
         padding: 10px;
     }
+    .micromap {
+        border-style: solid;
+        border-width: thin;
+    }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
     .tab-pane {
@@ -74,7 +78,7 @@
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
     }
- 
+
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -92,6 +96,140 @@
 
 <script>
     "use strict";
+
+    function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
+        let renderPlot = function(data){
+            // Data is an object with three fields,
+            //    * decomposition - Two fields:
+            //        *coordinates - Array of arrays:
+            //            coordinates[0][2] is the first sample's value along
+            //                the third principal component.
+            //        *percents_explained - Array:
+            //            percents_explained[1] is the second principal components % explained.
+            //    * metadata - Docs claim array of array of arrays, but unclear
+            //                 what would be kept in metadata[0]
+            //      metadata[0][1][2] is the value of the second sample for
+            //      the third metadata column.
+            //    * metadata_headers - Array of names of metadata columns
+            //        metadata_headers[0] = name of first metadata column
+
+            let cat_index = 0;
+            let category_name = data.metadata_headers[cat_index];
+            let category_values = {};
+            for (var i = 0; i < data.metadata.length; i++){
+                var sample = data.metadata[i];
+                var val = data.metadata[i][cat_index];
+                category_values[val] = 1;
+            }
+
+            let traces = [];
+            let user_sample_id = state.barcode_prefix + state.sample_id;
+            for (let key in category_values)
+            {
+                // have to de-interleave the data.
+                let xs = [];
+                let ys = [];
+                for (let i = 0; i < data.decomposition.coordinates.length; i++){
+                    if (data.decomposition.sample_ids[i] == user_sample_id)
+                        continue;
+                    if (data.metadata[i][cat_index] == key){
+                        xs.push(data.decomposition.coordinates[i][0]);
+                        ys.push(data.decomposition.coordinates[i][1]);
+                    }
+                }
+                let trace =
+                {
+                    name: key,
+                    x: xs,
+                    y: ys,
+                    mode: 'markers',
+                    type: 'scatter'
+                };
+                traces.push(trace);
+            }
+
+            for (let i = 0; i < data.decomposition.coordinates.length; i++){
+                if (data.decomposition.sample_ids[i] === user_sample_id){
+                    let trace = {
+                        name: "Your sample",
+                        x: [data.decomposition.coordinates[i][0]],
+                        y: [data.decomposition.coordinates[i][1]],
+                        mode: "markers",
+                        type: "scatter",
+                        marker: {
+                            size: 18
+                        }
+                    };
+                    traces.push(trace);
+                    break;
+                }
+            }
+
+            let layout = {
+                title: plotTitle,
+                xaxis: {
+                    title: {
+                        text: 'Principal Component 1'
+                    },
+                    showticklabels: false,
+                    zeroline: false
+
+                },
+                yaxis: {
+                    title: {
+                        text: 'Principal Component 2'
+                    },
+                    showticklabels: false,
+                    zeroline: false
+                },
+                "hovermode": false
+            };
+
+            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
+        }
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: renderPlot
+        });
+    }
+
+    function buildMicrobialMapsPlots(state)
+    {
+        //Plot 1, plot sample type from tmi-datatype-allsamples
+        let url = state.public_endpoint + '/dataset/' +
+              'tmi-' + state.dataset_type.value + '-allsamples' +
+              '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-tmi-all-samples", //contents inserted into div name
+                           "All of the Microsetta Initiative")
+
+        //Plot 2, plot country from multipop-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-multipopulation", //contents inserted into div name
+                           "Multipopulation")
+
+
+        //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'builtenv-16S-allsamples/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-builtenv", //contents inserted into div name
+                           "You and the Microbes Around You")
+    }
+
     function formatAlphaURL(state) {
         let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
         if (state.sample_id !== "") {
@@ -107,22 +245,71 @@
             type: "GET",
             success: function(data)
             {
-                let resultMap = {};
-                for (var key in data)
-                    resultMap[data[key]] = data[key]
-                populateSelect("#dataset", resultMap, data[0]);
-                //TODO FIXME HACK:
-                //Updating $("#dataset") should have automatically updated
-                //the state but jquery's change event is not triggering linked
-                //events at the time populate select is called, even when
-                //explicitly calling $("#dataset").change().
-                //This issue appears to only occur while emperor is loading
-                //suggesting that emperor is either messing with the DOM or
-                //with jquery itself when it first loads in.  (or that loading
-                //emperor is slow and there is some kind of race condition)
-                //We thus bypass the jquery event handling and directly update
-                //the state which does correctly queue events.
-                state.dataset_input.value = $("#dataset").val();
+                //Not sure that this will matter much longer, but for now
+                //we still need to pick a single dataset for many of the queries
+                //Need to pick a proper business rule to do that.
+                //    For now, we'll prefer things named tmi-
+                //    and we'll use 16S over WGS
+                if (data.length === 0)
+                {
+                    //Ack, this sample isn't in any datasets, pick one arbitrarily.
+                    state.dataset_input.value = "tmi-WGS-gut"
+                    return
+                }
+
+                var best_score = -1
+                var best_index = -1
+                for (var i = 0; i < data.length; i++)
+                {
+                    var score = 0
+                    if (data[i].includes("tmi-"))
+                        score += 1
+                    if (data[i].includes("WGS"))
+                        score += 1
+                    if (data[i].includes("gut") ||
+                        data[i].includes("oral") ||
+                        data[i].includes("skin"))
+                        score += 1
+
+                    if (score > best_score){
+                        best_score = score
+                        best_index = i
+                    }
+                }
+
+                if (data[best_index].includes("16S"))
+                {
+                    state.dataset_type.value = "16S"
+                }
+                else if (data[best_index].includes("WGS"))
+                {
+                    state.dataset_type.value = "WGS"
+                }
+                else
+                {
+                    console.log("Unknown dataset type")
+                    state.dataset_type.value = null
+                }
+
+                if (data[best_index].includes("oral"))
+                {
+                    state.dataset_site.value = "oral"
+                }
+                else if (data[best_index].includes("skin"))
+                {
+                    state.dataset_site.value = "skin"
+                }
+                else if (data[best_index].includes("gut"))
+                {
+                    state.dataset_site.value = "gut"
+                }
+                else
+                {
+                    console.log("Unknown dataset site")
+                    state.dataset_site.value = null
+                }
+
+                state.dataset_input.value = data[best_index]
             }
         });
     }
@@ -474,7 +661,7 @@
     function updateSimilarity(similarityData, state){
         if (similarityData === null){
             $("#emperor-notebook").empty();
-<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
+            //$(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
             return;
         }
 
@@ -594,10 +781,10 @@
                     if (info == null)
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
-                    if (info.datatype == "WGS"){
+                    if (info.datatype === "WGS"){
                         $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
                     }
-                    else if (info.datatype == "16S"){
+                    else if (info.datatype === "16S"){
                         $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
@@ -656,7 +843,11 @@
         let state = {};
 
         // Initialize state
-        state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.dataset_input = new NamedExpression("Dataset", "Loading...");
+        //oral/gut/skin
+        state.dataset_site = new NamedExpression("Dataset-Site", "Loading...");
+        //16S/WGS
+        state.dataset_type = new NamedExpression("Dataset-Type", "Loading...");
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";
@@ -694,6 +885,8 @@
             updateSimilarity(similarityData, state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
+
+            buildMicrobialMapsPlots(state)
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -710,10 +903,6 @@
 {% endblock %}
 
 {% block content %}
-<label for="dataset">Dataset:</label>
-<select id="dataset" name="dataset" autocomplete="off" disabled>
-    <option>Loading...</option>
-</select>
 
 <div class="row">
     <div class="col-sm-auto">
@@ -722,9 +911,11 @@
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
           <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
           <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
+          <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbial maps</a>
           <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can you learn more?</a>
         </div>
     </div>
+
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
@@ -748,7 +939,7 @@
                 </p>
                 
                 <p>
-                Scientists often use 3 different approaches to see how your microbiome differs:
+                Scientists often use many different approaches to see how your microbiome differs:
                 </p>
 
                 <div class="how_you_compare_section">
@@ -780,7 +971,7 @@
                     <p>
                     We looked at how often the types of microbes found in
                     your sample were also in other people's microbiomes in our
-                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
+                    database. Then we identified all the people whose microbiomes
                     were similar to your microbiome (which means
                     the people with whom you share a lot of the same types of
                     bacteria). This information is then compared to that group of
@@ -801,7 +992,18 @@
                     they were in your sample!
                     </p>
                 </div>
-            </div>
+                </br>
+
+                <div class="how_you_compare_section">
+                    <h4>Microbial maps</h4>
+                    <p>
+                    Using the microbial similarities mentioned above, we have
+                    constructed <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbial maps</a> to help you see how your sample
+                    relates to other populations, different animals, and
+                    surfaces places we spend a lot of time (like office spaces)!
+                    </p>
+                </div>
+              </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               <div class="column results_text">
@@ -1103,7 +1305,145 @@
               </div>
             </div>
           </div>
+          <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
+            <div class="row">
+              <div class="column results_text">
+                <h3>Microbial maps</h3>
+                <br/>
+                <p>
+                As an extension of <a class="fake-tab" href="#similarity" 
+                data-link="#similarity-tab">Diversity similarities</a> we
+                compared your microbiome sample to ALL of the microbiome
+                samples within The Microsetta Initiative, as well as a few
+                published studies. We actually did this for every sample. 
+                As you can imagine, that is A LOT of comparisons. This process
+                produces a few very large matrices that describe how similar
+                every sample is to every other one. In mathematical terms, we
+                would say these matrices are high dimensional (think of a X-Y
+                plot with two axes, but these data have 10s of thousands of
+                axes). 
+                </p>
 
+                <p>
+                Visualizing high dimensional data is difficult. One way
+                microbiome researchers do it though is through a technique
+                called <span id="taxa-tooltip" class="tooltipper"
+                data-title="Principal coordinates analysis (PCoA) is a common
+                dimensionality reduction technique in the microbiome field. It
+                attempts to identify the axes if major variation in high
+                dimensional data. We can then plot the position of each sample
+                from a few of these axes (typically the top two or three as
+                they explain the most variation).">principal coordinates
+                analysis</span>. The math is complex, but the concept is
+                simple: it allows us to cast a data shadow, which we can be
+                used for plotting.
+                </p>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <h4 class="diversity-header">All of The Microsetta Initiative</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-tmi-all-samples" class="micromap">
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        In this map, we’ve placed your sample relative to all the
+                        other samples we have in Microsetta. As you can see, there
+                        are a few different types of samples people have
+                        contributed, and the microbial configurations present can
+                        be REALLY different. 
+                        </p>
+
+                        <p>
+                        In general, skin samples tend to look like skin, oral
+                        like oral, and stool like stool. Microbial communities
+                        specialze to these environments, and as you can
+                        imagine, the conditions differ a lot! The microbes
+                        inside of you are exposed to constant high temperature,
+                        limited to no oxygen, the curious mix of molecules from
+                        the foods you eat and so much more! In contrast, the
+                        microbes on your skin might need to tolerate very
+                        different ranges of temperatures -- think about the
+                        wind blowing on your forehead. There also is quite a
+                        bit of oxygen, contact with microbes coming from the
+                        wind or surfaces, and of course, your skin secretions
+                        to interact with and the compounds used like soaps and
+                        moisturisers.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">Multipopulation</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-multipopulation" class="micromap">
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Here, we’re looking at data from FILL IN different studies
+                        and we’re examining FILL IN samples.
+                        </p>
+
+                        <p>
+                        Researchers have noted large differences in our
+                        microbiomes depending on where we live. The reason WHY
+                        is not well understood, but we suspect factors such as
+                        diet or environmental exposures (e.g., plants, what’s
+                        in your house, pollution, how often you come in contact
+                        with soil, etc) may be be major factors.
+                        </p>
+
+                        <p>
+                        Researchers also DO NOT know how much these differences
+                        matter! But, they certainly may. Science does not know
+                        whether results from one population translate to
+                        another, meaning that microbial associations with
+                        health and disease from the United States <i>may not</i> be
+                        the same in other parts of the world. 
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">You and the microbes around you</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div id="pcoa-builtenv" class="micromap">
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                        Microbes are EVERYWHERE, even on the International Space
+                        Station!! Using these same techniques described above, we
+                        compared your microbiome to samples collected from all over
+                        the planet [TOOLTIP], surfaces from a brand new hospital
+                        [TOOLTIP], and a set of samples collected by astronauts
+                        [TOOLTIP]! 
+                        </p>
+
+                        <p>
+                        As you can see, skin samples tend to more closely
+                        resemble those from “the built environment”, which
+                        makes sense as skin cells are constantly shedding from
+                        you.
+                        </p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
 </div>
 {% endblock %}

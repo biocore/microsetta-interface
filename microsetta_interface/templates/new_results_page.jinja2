@@ -28,8 +28,6 @@
         padding: 10px;
     }
     .micromap {
-        height: 600px;
-        width: 800px;
         border-style: solid;
         border-width: thin;
     }
@@ -81,13 +79,6 @@
         border-right-color: #fc8900 !important;
     }
 
-    .virtualPlaceholder {
-        display:block;
-        height:500px;
-        width:500px;
-        background:#eee;
-    }
- 
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -108,7 +99,6 @@
 
     function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
         let renderPlot = function(data){
-            console.log(data)
             // Data is an object with three fields,
             //    * decomposition - Two fields:
             //        *coordinates - Array of arrays:
@@ -134,7 +124,6 @@
 
             let traces = [];
             let user_sample_id = state.barcode_prefix + state.sample_id
-            console.log(user_sample_id)
             for (var key in category_values)
             {
                 // have to de-interleave the data.
@@ -217,7 +206,8 @@
     {
         //Plot 1, plot sample type from tmi-datatype-allsamples
         var url = state.public_endpoint + '/dataset/' +
-              state.dataset_input.value + '/plotting/diversity/beta/' +
+              'tmi-' + state.dataset_type.value + '-allsamples' +
+              '/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
         buildPlotlyEmperor(state,
@@ -227,7 +217,7 @@
 
         //Plot 2, plot country from multipop-datatype-sampletype
         var url = state.public_endpoint + '/dataset/' +
-              state.dataset_input.value + '/plotting/diversity/beta/' +
+              'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
         buildPlotlyEmperor(state,
@@ -238,7 +228,7 @@
 
         //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
         var url = state.public_endpoint + '/dataset/' +
-              state.dataset_input.value + '/plotting/diversity/beta/' +
+              'builtenv-16S-allsamples/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
         buildPlotlyEmperor(state,
@@ -262,22 +252,71 @@
             type: "GET",
             success: function(data)
             {
-                let resultMap = {};
-                for (var key in data)
-                    resultMap[data[key]] = data[key]
-                //populateSelect("#dataset", resultMap, data[0]);
-                //TODO FIXME HACK:
-                //Updating $("#dataset") should have automatically updated
-                //the state but jquery's change event is not triggering linked
-                //events at the time populate select is called, even when
-                //explicitly calling $("#dataset").change().
-                //This issue appears to only occur while emperor is loading
-                //suggesting that emperor is either messing with the DOM or
-                //with jquery itself when it first loads in.  (or that loading
-                //emperor is slow and there is some kind of race condition)
-                //We thus bypass the jquery event handling and directly update
-                //the state which does correctly queue events.
-                //state.dataset_input.value = $("#dataset").val();
+                //Not sure that this will matter much longer, but for now
+                //we still need to pick a single dataset for many of the queries
+                //Need to pick a proper business rule to do that.
+                //    For now, we'll prefer things named tmi-
+                //    and we'll use 16S over WGS
+                if (data.length == 0)
+                {
+                    //Ack, this sample isn't in any datasets, pick one arbitrarily.
+                    state.dataset_input.value = "tmi-WGS-allsamples"
+                    return
+                }
+
+                var best_score = -1
+                var best_index = -1
+                for (var i = 0; i < data.length; i++)
+                {
+                    var score = 0
+                    if (data[i].includes("tmi-"))
+                        score += 1
+                    if (data[i].includes("WGS"))
+                        score += 1
+                    if (data[i].includes("gut") ||
+                        data[i].includes("oral") ||
+                        data[i].includes("skin"))
+                        score += 1
+
+                    if (score > best_score){
+                        best_score = score
+                        best_index = i
+                    }
+                }
+
+                if (data[best_index].includes("16S"))
+                {
+                    state.dataset_type.value = "16S"
+                }
+                else if (data[best_index].includes("WGS"))
+                {
+                    state.dataset_type.value = "WGS"
+                }
+                else
+                {
+                    console.log("Unknown dataset type")
+                    state.dataset_type.value = null
+                }
+
+                if (data[best_index].includes("oral"))
+                {
+                    state.dataset_site.value = "oral"
+                }
+                else if (data[best_index].includes("skin"))
+                {
+                    state.dataset_site.value = "skin"
+                }
+                else if (data[best_index].includes("gut"))
+                {
+                    state.dataset_site.value = "gut"
+                }
+                else
+                {
+                    console.log("Unknown dataset site")
+                    state.dataset_site.value = null
+                }
+
+                state.dataset_input.value = data[best_index]
             }
         });
     }
@@ -785,7 +824,11 @@
         let state = {};
 
         // Initialize state
-        state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.dataset_input = new NamedExpression("Dataset", "Loading...");
+        //oral/gut/skin
+        state.dataset_site = new NamedExpression("Dataset-Site", "Loading...");
+        //16S/WGS
+        state.dataset_type = new NamedExpression("Dataset-Type", "Loading...");
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";
@@ -1284,8 +1327,7 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <div id="pcoa-tmi-all-samples">
-                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        <div id="pcoa-tmi-all-samples" class="micromap">
                         </div>
                     </div>
                     <div class="col-9">
@@ -1323,8 +1365,7 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <div id="pcoa-multipopulation">
-                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        <div id="pcoa-multipopulation" class="micromap">
                         </div>
                     </div>
                     <div class="col-9">
@@ -1360,8 +1401,7 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <div id="pcoa-builtenv">
-                            <img src="http://placehold.it/500x500" class="img-fluid"/>
+                        <div id="pcoa-builtenv" class="micromap">
                         </div>
                     </div>
                     <div class="col-9">

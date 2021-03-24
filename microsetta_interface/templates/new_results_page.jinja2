@@ -113,28 +113,28 @@
             //    * metadata_headers - Array of names of metadata columns
             //        metadata_headers[0] = name of first metadata column
 
-            let cat_index = 0
-            let category_name = data.metadata_headers[cat_index]
-            let category_values = {}
+            let cat_index = 0;
+            let category_name = data.metadata_headers[cat_index];
+            let category_values = {};
             for (var i = 0; i < data.metadata.length; i++){
-                var sample = data.metadata[i]
-                var val = data.metadata[i][cat_index]
-                category_values[val] = 1
+                var sample = data.metadata[i];
+                var val = data.metadata[i][cat_index];
+                category_values[val] = 1;
             }
 
             let traces = [];
-            let user_sample_id = state.barcode_prefix + state.sample_id
-            for (var key in category_values)
+            let user_sample_id = state.barcode_prefix + state.sample_id;
+            for (let key in category_values)
             {
                 // have to de-interleave the data.
-                var xs = []
-                var ys = []
-                for (var i = 0; i < data.decomposition.coordinates.length; i++){
+                let xs = [];
+                let ys = [];
+                for (let i = 0; i < data.decomposition.coordinates.length; i++){
                     if (data.decomposition.sample_ids[i] == user_sample_id)
                         continue;
                     if (data.metadata[i][cat_index] == key){
-                        xs.push(data.decomposition.coordinates[i][0])
-                        ys.push(data.decomposition.coordinates[i][1])
+                        xs.push(data.decomposition.coordinates[i][0]);
+                        ys.push(data.decomposition.coordinates[i][1]);
                     }
                 }
                 let trace =
@@ -148,8 +148,8 @@
                 traces.push(trace);
             }
 
-            for (var i = 0; i < data.decomposition.coordinates.length; i++){
-                if (data.decomposition.sample_ids[i] == user_sample_id){
+            for (let i = 0; i < data.decomposition.coordinates.length; i++){
+                if (data.decomposition.sample_ids[i] === user_sample_id){
                     let trace = {
                         name: "Your sample",
                         x: [data.decomposition.coordinates[i][0]],
@@ -159,8 +159,8 @@
                         marker: {
                             size: 18
                         }
-                    }
-                    traces.push(trace)
+                    };
+                    traces.push(trace);
                     break;
                 }
             }
@@ -183,18 +183,6 @@
             Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
         }
 
-        //REMOVE THIS EXAMPLE DATA WHEN WWW-DEV HAS REAL DATA
-        let example_data = {
-          "decomposition": {
-            "coordinates": [[1, 0],[0, 2],[2, 3]],
-            "percents_explained": [64, 36],
-            "sample_ids": ["10317.000001234", "10317.000005678", "10317.000004220"]
-          },
-          "metadata": [[["fecal", 0.7],["sebum",20.4],["fecal", 10.5]]],
-          "metadata_headers": ["body-habitat", "latitude"]
-        };
-//        renderPlot(example_data);
-
         $.ajax({
             url: url,
             type: "GET",
@@ -205,7 +193,7 @@
     function buildMicrobialMapsPlots(state)
     {
         //Plot 1, plot sample type from tmi-datatype-allsamples
-        var url = state.public_endpoint + '/dataset/' +
+        let url = state.public_endpoint + '/dataset/' +
               'tmi-' + state.dataset_type.value + '-allsamples' +
               '/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
@@ -216,7 +204,7 @@
                            "All of the Microsetta Initiative")
 
         //Plot 2, plot country from multipop-datatype-sampletype
-        var url = state.public_endpoint + '/dataset/' +
+        url = state.public_endpoint + '/dataset/' +
               'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
@@ -227,7 +215,7 @@
 
 
         //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
-        var url = state.public_endpoint + '/dataset/' +
+        url = state.public_endpoint + '/dataset/' +
               'builtenv-16S-allsamples/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
@@ -257,7 +245,7 @@
                 //Need to pick a proper business rule to do that.
                 //    For now, we'll prefer things named tmi-
                 //    and we'll use 16S over WGS
-                if (data.length == 0)
+                if (data.length === 0)
                 {
                     //Ack, this sample isn't in any datasets, pick one arbitrarily.
                     state.dataset_input.value = "tmi-WGS-allsamples"
@@ -657,7 +645,7 @@
     function updateSimilarity(similarityData, state){
         if (similarityData === null){
             $("#emperor-notebook").empty();
-<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
+            //$(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
             return;
         }
     }
@@ -762,10 +750,10 @@
                     if (info == null)
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
-                    if (info.datatype == "WGS"){
+                    if (info.datatype === "WGS"){
                         $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
                     }
-                    else if (info.datatype == "16S"){
+                    else if (info.datatype === "16S"){
                         $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {

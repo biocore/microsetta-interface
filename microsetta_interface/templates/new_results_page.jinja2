@@ -210,7 +210,7 @@
 
         //Plot 2, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
-              'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/emperor?metadata_categories=country'
         buildPlotlyEmperor(state,

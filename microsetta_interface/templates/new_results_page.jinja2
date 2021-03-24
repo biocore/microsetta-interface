@@ -398,7 +398,57 @@
             }
         );
     }
-    
+
+    function retrieveNeighbors(state, k){
+        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
+        return $.ajax({
+            method: "GET",
+            url: url,
+            data: {
+                sample_id: state.barcode_prefix + state.sample_id,
+                k:k
+            }
+        }).fail(function(result, textStatus, errorThrown){
+            console.log("Couldn't retrieve neighbors" + textStatus)
+        });
+    }
+
+    function logNNResults(state)
+    {
+        return function(samplesQueried, sampleResults)
+        {
+            console.log("Logging Nearest Neighbors")
+            console.log(samplesQueried)
+            console.log(sampleResults)
+        }
+    }
+
+
+    function queryNeighborAndSelfMetadata(state, metadata_cats){
+        return function(result, textStatus, jqXHR)
+        {
+            let toQuery = result;
+            toQuery.push(state.barcode_prefix + state.sample_id);
+
+            return $.ajax(
+            {
+                method: "POST",
+                url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                data: JSON.stringify(toQuery),
+                contentType: "application/json"
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
+            }).then(function(result, textStatus, jqXHR){
+                let thenner = {};
+                thenner.then = function(func){
+                    // Need to pass on the sample ids. Argh.
+                    return func(toQuery, result);
+                };
+                return thenner;
+            });
+        };
+    }
+
     function updateCompare(state){
         // Reset all the fields to spinners
         $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm");
@@ -422,45 +472,6 @@
         function setInfoText(resultSelector){
             return function(result, textStatus, jqXHR){
                 return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm");
-            };
-        }
-
-        function retrieveNeighbors(state, k){
-            let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
-            return $.ajax({
-                method: "GET",
-                url: url,
-                data: {
-                    sample_id: state.barcode_prefix + state.sample_id,
-                    k:k
-                }
-            }).fail(function(result, textStatus, errorThrown){
-                console.log("Couldn't retrieve neighbors" + textStatus)
-            });
-        }
-
-        function queryNeighborAndSelfMetadata(state, metadata_cats){
-            return function(result, textStatus, jqXHR)
-            {
-                let toQuery = result;
-                toQuery.push(state.barcode_prefix + state.sample_id);
-
-                return $.ajax(
-                {
-                    method: "POST",
-                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
-                    data: JSON.stringify(toQuery),
-                    contentType: "application/json"
-                }).fail(function(result, textStatus, errorThrown){
-                    console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
-                }).then(function(result, textStatus, jqXHR){
-                    let thenner = {};
-                    thenner.then = function(func){
-                        // Need to pass on the sample ids. Argh.
-                        return func(toQuery, result);
-                    };
-                    return thenner;
-                });
             };
         }
 
@@ -653,6 +664,21 @@
             //$(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
             return;
         }
+
+        const K = 100 // However many neighbors we want to pull metadata for
+        const CATEGORIES = [
+            "types_of_plants",
+            "probiotic_frequency",
+            "exercise_frequency",
+            "age_years",
+            "diet",
+            "multivitamin",
+            "sleep_duration",
+            "sex",
+            "pm_gender"]
+        retrieveNeighbors(state, K)
+            .then(queryNeighborAndSelfMetadata(state, CATEGORIES))
+            .then(logNNResults(state)) //TODO: Switch from logging to filling in divs by adding selectors here
     }
 
     function updateTaxonomy(taxonomyData, state){

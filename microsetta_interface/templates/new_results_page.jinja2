@@ -28,8 +28,11 @@
         padding: 10px;
     }
     .micromap {
-        border-style: solid;
-        border-width: thin;
+        min-width: 600px;
+        min-height: 450px;
+    }
+    .microinfo {
+        min-width: 40%;
     }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
@@ -172,7 +175,9 @@
                         text: 'Principal Component 1'
                     },
                     showticklabels: false,
-                    zeroline: false
+                    showgrid: false,
+                    zeroline: false,
+                    fixedrange:true
 
                 },
                 yaxis: {
@@ -180,9 +185,20 @@
                         text: 'Principal Component 2'
                     },
                     showticklabels: false,
-                    zeroline: false
+                    showgrid: false,
+                    zeroline: false,
+                    fixedrange: true
                 },
-                "hovermode": false
+                "hovermode": false,
+                height: 450,
+                width: 600,
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t:0,
+                    pad:0
+                }
             };
 
             Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
@@ -658,13 +674,7 @@
         })
     }
 
-    function updateSimilarity(similarityData, state){
-        if (similarityData === null){
-            $("#emperor-notebook").empty();
-            //$(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
-            return;
-        }
-
+    function updateSimilarity(state){
         const K = 100 // However many neighbors we want to pull metadata for
         const CATEGORIES = [
             "types_of_plants",
@@ -874,15 +884,13 @@
                 return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            //updateSimilarity(null, state);
             //updateTaxonomy(null, state);
 
-            let similarityData = { "result": "Similarity AJAX: " + dataset };
             let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
 
             updateCompare(state);
             updateDiversity(state);
-            updateSimilarity(similarityData, state);
+            updateSimilarity(state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
 
@@ -1345,34 +1353,34 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
-                        <div id="pcoa-tmi-all-samples" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-tmi-all-samples" >
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col microinfo">
                         <p>
-                        In this map, we’ve placed your sample relative to all the
-                        other samples we have in Microsetta. As you can see, there
-                        are a few different types of samples people have
-                        contributed, and the microbial configurations present can
-                        be REALLY different. 
+                            In this map, we’ve placed your sample relative to all the
+                            other samples we have in Microsetta. As you can see, there
+                            are a few different types of samples people have
+                            contributed, and the microbial configurations present can
+                            be REALLY different.
                         </p>
 
                         <p>
-                        In general, skin samples tend to look like skin, oral
-                        like oral, and stool like stool. Microbial communities
-                        specialze to these environments, and as you can
-                        imagine, the conditions differ a lot! The microbes
-                        inside of you are exposed to constant high temperature,
-                        limited to no oxygen, the curious mix of molecules from
-                        the foods you eat and so much more! In contrast, the
-                        microbes on your skin might need to tolerate very
-                        different ranges of temperatures -- think about the
-                        wind blowing on your forehead. There also is quite a
-                        bit of oxygen, contact with microbes coming from the
-                        wind or surfaces, and of course, your skin secretions
-                        to interact with and the compounds used like soaps and
-                        moisturisers.
+                            In general, skin samples tend to look like skin, oral
+                            like oral, and stool like stool. Microbial communities
+                            specialze to these environments, and as you can
+                            imagine, the conditions differ a lot! The microbes
+                            inside of you are exposed to constant high temperature,
+                            limited to no oxygen, the curious mix of molecules from
+                            the foods you eat and so much more! In contrast, the
+                            microbes on your skin might need to tolerate very
+                            different ranges of temperatures -- think about the
+                            wind blowing on your forehead. There also is quite a
+                            bit of oxygen, contact with microbes coming from the
+                            wind or surfaces, and of course, your skin secretions
+                            to interact with and the compounds used like soaps and
+                            moisturisers.
                         </p>
                     </div>
                 </div>
@@ -1383,11 +1391,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
-                        <div id="pcoa-multipopulation" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-multipopulation">
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col microinfo">
                         <p>
                         Here, we’re looking at data from FILL IN different studies
                         and we’re examining FILL IN samples.
@@ -1419,11 +1427,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
-                        <div id="pcoa-builtenv" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-builtenv">
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col microinfo">
                         <p>
                         Microbes are EVERYWHERE, even on the International Space
                         Station!! Using these same techniques described above, we

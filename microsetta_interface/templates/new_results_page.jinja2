@@ -178,7 +178,6 @@
 
             let layout = {
             //title: plotTitle,
-                margin: {l: 0, r: 0, b: 0, t: 0},
                 xaxis: {
                     //title: {
                     //    text: 'Principal Component 1'
@@ -212,28 +211,28 @@
                 }
             };
 
-            //Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false, responsive: true});
+            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
             //Plotly.Plots.resize(divSelector);
-            let options = {title: 'hate', 
-                           legend: 'none', 
-                           height: 300, 
-                           width: 300, 
-                           lineWidth: 0,
-                           chartArea: {'width': '100%', 
-                                       'height': '90%', 
-                                       left: 0,
-                                       legend: 'right',
-                                       top: 0},
-                           enableInteractivity: false,
-                           hAxis: { textPosition: 'none',
-                                    gridlines: { count: 1, color: 'black' } },
-                           vAxis: { textPosition: 'none',
-                                   gridlines: { count: 1, color: 'black' } },
+            //let options = {title: 'hate',
+            //               legend: 'none',
+            //               height: 300,
+            //               width: 300,
+            //               lineWidth: 0,
+            //               chartArea: {'width': '100%',
+            //                           'height': '90%',
+            //                           left: 0,
+            //                           legend: 'right',
+            //                           top: 0},
+            //               enableInteractivity: false,
+            //               hAxis: { textPosition: 'none',
+            //                        gridlines: { count: 1, color: 'black' } },
+            //               vAxis: { textPosition: 'none',
+            //                       gridlines: { count: 1, color: 'black' } },
                            //gridlines: { color: 'none' },
-                           trendlines: {  0: { opacity: 0 }}
-                          };
-            let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
-            chart.draw(gtable, options);
+            //               trendlines: {  0: { opacity: 0 }}
+            //              };
+            //let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
+            //chart.draw(gtable, options);
         }
 
         $.ajax({

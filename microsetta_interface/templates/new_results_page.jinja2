@@ -28,13 +28,11 @@
         padding: 10px;
     }
     .micromap {
-        /*border-style: solid;
-        border-width: thin;*/
-        width: 100%; 
-        height: 100%;
-        /*min-height: 300px;
-        min-width: 300px;*/
-        display: inline-block;
+        min-width: 600px;
+        min-height: 450px;
+    }
+    .microinfo {
+        min-width: 40%;
     }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
@@ -180,7 +178,6 @@
 
             let layout = {
             //title: plotTitle,
-                margin: {l: 0, r: 0, b: 0, t: 0},
                 xaxis: {
                     //title: {
                     //    text: 'Principal Component 1'
@@ -197,37 +194,45 @@
                     //    text: 'Principal Component 2'
                     //},
                     showticklabels: false,
-                    zeroline: false,
                     showgrid: false,
+                    zeroline: false,
                     fixedrange: true,
                     showline: true
                 },
-                "hovermode": false//,
-                //autoresize: true,
+                "hovermode": false,
+                height: 450,
+                width: 600,
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t:0,
+                    pad:0
+                }
             };
 
-            //Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false, responsive: true});
+            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
             //Plotly.Plots.resize(divSelector);
-            let options = {title: 'hate', 
-                           legend: 'none', 
-                           height: 300, 
-                           width: 300, 
-                           lineWidth: 0,
-                           chartArea: {'width': '100%', 
-                                       'height': '90%', 
-                                       left: 0,
-                                       legend: 'right',
-                                       top: 0},
-                           enableInteractivity: false,
-                           hAxis: { textPosition: 'none',
-                                    gridlines: { count: 1, color: 'black' } },
-                           vAxis: { textPosition: 'none',
-                                   gridlines: { count: 1, color: 'black' } },
+            //let options = {title: 'hate',
+            //               legend: 'none',
+            //               height: 300,
+            //               width: 300,
+            //               lineWidth: 0,
+            //               chartArea: {'width': '100%',
+            //                           'height': '90%',
+            //                           left: 0,
+            //                           legend: 'right',
+            //                           top: 0},
+            //               enableInteractivity: false,
+            //               hAxis: { textPosition: 'none',
+            //                        gridlines: { count: 1, color: 'black' } },
+            //               vAxis: { textPosition: 'none',
+            //                       gridlines: { count: 1, color: 'black' } },
                            //gridlines: { color: 'none' },
-                           trendlines: {  0: { opacity: 0 }}
-                          };
-            let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
-            chart.draw(gtable, options);
+            //               trendlines: {  0: { opacity: 0 }}
+            //              };
+            //let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
+            //chart.draw(gtable, options);
         }
 
         $.ajax({
@@ -251,25 +256,25 @@
                            "All of the Microsetta Initiative")
 
         //Plot 2, plot country from multipop-datatype-sampletype
-        //url = state.public_endpoint + '/dataset/' +
-        //      'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
-        //      state.beta_metric + '/pcoa/full-dataset' +
-        //      '/emperor?metadata_categories=country'
-        //buildPlotlyEmperor(state,
-        //                   url,
-        //                   "pcoa-multipopulation", //contents inserted into div name
-        //                   "Multipopulation")
+        url = state.public_endpoint + '/dataset/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-multipopulation", //contents inserted into div name
+                           "Multipopulation")
 
 
-        ////Plot 3, plot sample type from empbuiltenv-datatype-sampletype
-        //url = state.public_endpoint + '/dataset/' +
-        //      'builtenv-16S-allsamples/plotting/diversity/beta/' +
-        //      state.beta_metric + '/pcoa/full-dataset' +
-        //      '/emperor?metadata_categories=country'
-        //buildPlotlyEmperor(state,
-        //                   url,
-        //                   "pcoa-builtenv", //contents inserted into div name
-        //                   "You and the Microbes Around You")
+        //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'builtenv-16S-allsamples/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=country'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-builtenv", //contents inserted into div name
+                           "You and the Microbes Around You")
     }
 
     function formatAlphaURL(state) {
@@ -700,13 +705,7 @@
         })
     }
 
-    function updateSimilarity(similarityData, state){
-        if (similarityData === null){
-            $("#emperor-notebook").empty();
-            //$(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...
-            return;
-        }
-
+    function updateSimilarity(state){
         const K = 100 // However many neighbors we want to pull metadata for
         const CATEGORIES = [
             "types_of_plants",
@@ -916,15 +915,13 @@
                 return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            //updateSimilarity(null, state);
             //updateTaxonomy(null, state);
 
-            let similarityData = { "result": "Similarity AJAX: " + dataset };
             let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
 
             updateCompare(state);
             updateDiversity(state);
-            updateSimilarity(similarityData, state);
+            updateSimilarity(state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
 
@@ -1387,34 +1384,34 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4" style="max-width:34%">
-                        <div id="pcoa-tmi-all-samples" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-tmi-all-samples" >
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col microinfo">
                         <p>
-                        In this map, we’ve placed your sample relative to all the
-                        other samples we have in Microsetta. As you can see, there
-                        are a few different types of samples people have
-                        contributed, and the microbial configurations present can
-                        be REALLY different. 
+                            In this map, we’ve placed your sample relative to all the
+                            other samples we have in Microsetta. As you can see, there
+                            are a few different types of samples people have
+                            contributed, and the microbial configurations present can
+                            be REALLY different.
                         </p>
 
                         <p>
-                        In general, skin samples tend to look like skin, oral
-                        like oral, and stool like stool. Microbial communities
-                        specialze to these environments, and as you can
-                        imagine, the conditions differ a lot! The microbes
-                        inside of you are exposed to constant high temperature,
-                        limited to no oxygen, the curious mix of molecules from
-                        the foods you eat and so much more! In contrast, the
-                        microbes on your skin might need to tolerate very
-                        different ranges of temperatures -- think about the
-                        wind blowing on your forehead. There also is quite a
-                        bit of oxygen, contact with microbes coming from the
-                        wind or surfaces, and of course, your skin secretions
-                        to interact with and the compounds used like soaps and
-                        moisturisers.
+                            In general, skin samples tend to look like skin, oral
+                            like oral, and stool like stool. Microbial communities
+                            specialze to these environments, and as you can
+                            imagine, the conditions differ a lot! The microbes
+                            inside of you are exposed to constant high temperature,
+                            limited to no oxygen, the curious mix of molecules from
+                            the foods you eat and so much more! In contrast, the
+                            microbes on your skin might need to tolerate very
+                            different ranges of temperatures -- think about the
+                            wind blowing on your forehead. There also is quite a
+                            bit of oxygen, contact with microbes coming from the
+                            wind or surfaces, and of course, your skin secretions
+                            to interact with and the compounds used like soaps and
+                            moisturisers.
                         </p>
                     </div>
                 </div>
@@ -1425,11 +1422,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
-                        <div id="pcoa-multipopulation" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-multipopulation">
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col microinfo">
                         <p>
                         Here, we’re looking at data from FILL IN different studies
                         and we’re examining FILL IN samples.
@@ -1461,11 +1458,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
-                        <div id="pcoa-builtenv" class="micromap">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-builtenv">
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col microinfo">
                         <p>
                         Microbes are EVERYWHERE, even on the International Space
                         Station!! Using these same techniques described above, we

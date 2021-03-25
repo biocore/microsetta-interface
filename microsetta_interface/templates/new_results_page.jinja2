@@ -28,8 +28,13 @@
         padding: 10px;
     }
     .micromap {
-        border-style: solid;
-        border-width: thin;
+        /*border-style: solid;
+        border-width: thin;*/
+        width: 100%; 
+        height: 100%;
+        /*min-height: 300px;
+        min-width: 300px;*/
+        display: inline-block;
     }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
@@ -93,9 +98,12 @@
 
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
     "use strict";
+      google.charts.load('current', {'packages':['corechart']});
+      //google.charts.setOnLoadCallback(drawChart);
 
     function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
         let renderPlot = function(data){
@@ -122,6 +130,8 @@
                 category_values[val] = 1;
             }
 
+            let gdata = [['x', 'y']];
+
             let traces = [];
             let user_sample_id = state.barcode_prefix + state.sample_id;
             for (let key in category_values)
@@ -135,6 +145,7 @@
                     if (data.metadata[i][cat_index] == key){
                         xs.push(data.decomposition.coordinates[i][0]);
                         ys.push(data.decomposition.coordinates[i][1]);
+                        gdata.push([data.decomposition.coordinates[i][0], data.decomposition.coordinates[i][1]]);
                     }
                 }
                 let trace =
@@ -147,6 +158,8 @@
                 };
                 traces.push(trace);
             }
+            
+            let gtable=google.visualization.arrayToDataTable(gdata);
 
             for (let i = 0; i < data.decomposition.coordinates.length; i++){
                 if (data.decomposition.sample_ids[i] === user_sample_id){
@@ -166,26 +179,55 @@
             }
 
             let layout = {
-                title: plotTitle,
+            //title: plotTitle,
+                margin: {l: 0, r: 0, b: 0, t: 0},
                 xaxis: {
-                    title: {
-                        text: 'Principal Component 1'
-                    },
+                    //title: {
+                    //    text: 'Principal Component 1'
+                    //},
                     showticklabels: false,
-                    zeroline: false
+                    zeroline: false,
+                    showgrid: false,
+                    fixedrange: true,
+                    showline: true
 
                 },
                 yaxis: {
-                    title: {
-                        text: 'Principal Component 2'
-                    },
+                    //title: {
+                    //    text: 'Principal Component 2'
+                    //},
                     showticklabels: false,
-                    zeroline: false
+                    zeroline: false,
+                    showgrid: false,
+                    fixedrange: true,
+                    showline: true
                 },
-                "hovermode": false
+                "hovermode": false//,
+                //autoresize: true,
             };
 
-            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
+            //Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false, responsive: true});
+            //Plotly.Plots.resize(divSelector);
+            let options = {title: 'hate', 
+                           legend: 'none', 
+                           height: 300, 
+                           width: 300, 
+                           lineWidth: 0,
+                           chartArea: {'width': '100%', 
+                                       'height': '90%', 
+                                       left: 0,
+                                       legend: 'right',
+                                       top: 0},
+                           enableInteractivity: false,
+                           hAxis: { textPosition: 'none',
+                                    gridlines: { count: 1, color: 'black' } },
+                           vAxis: { textPosition: 'none',
+                                   gridlines: { count: 1, color: 'black' } },
+                           //gridlines: { color: 'none' },
+                           trendlines: {  0: { opacity: 0 }}
+                          };
+            let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
+            chart.draw(gtable, options);
         }
 
         $.ajax({
@@ -209,25 +251,25 @@
                            "All of the Microsetta Initiative")
 
         //Plot 2, plot country from multipop-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=country'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-multipopulation", //contents inserted into div name
-                           "Multipopulation")
+        //url = state.public_endpoint + '/dataset/' +
+        //      'hadza-' + state.dataset_type.value + '-gut/plotting/diversity/beta/' +
+        //      state.beta_metric + '/pcoa/full-dataset' +
+        //      '/emperor?metadata_categories=country'
+        //buildPlotlyEmperor(state,
+        //                   url,
+        //                   "pcoa-multipopulation", //contents inserted into div name
+        //                   "Multipopulation")
 
 
-        //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'builtenv-16S-allsamples/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=country'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-builtenv", //contents inserted into div name
-                           "You and the Microbes Around You")
+        ////Plot 3, plot sample type from empbuiltenv-datatype-sampletype
+        //url = state.public_endpoint + '/dataset/' +
+        //      'builtenv-16S-allsamples/plotting/diversity/beta/' +
+        //      state.beta_metric + '/pcoa/full-dataset' +
+        //      '/emperor?metadata_categories=country'
+        //buildPlotlyEmperor(state,
+        //                   url,
+        //                   "pcoa-builtenv", //contents inserted into div name
+        //                   "You and the Microbes Around You")
     }
 
     function formatAlphaURL(state) {
@@ -1345,11 +1387,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4" style="max-width:34%">
                         <div id="pcoa-tmi-all-samples" class="micromap">
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <p>
                         In this map, we’ve placed your sample relative to all the
                         other samples we have in Microsetta. As you can see, there
@@ -1383,11 +1425,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <div id="pcoa-multipopulation" class="micromap">
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <p>
                         Here, we’re looking at data from FILL IN different studies
                         and we’re examining FILL IN samples.
@@ -1419,11 +1461,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <div id="pcoa-builtenv" class="micromap">
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <p>
                         Microbes are EVERYWHERE, even on the International Space
                         Station!! Using these same techniques described above, we

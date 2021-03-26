@@ -96,12 +96,9 @@
 
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script>
     "use strict";
-      google.charts.load('current', {'packages':['corechart']});
-      //google.charts.setOnLoadCallback(drawChart);
 
     function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
         let renderPlot = function(data){
@@ -125,13 +122,21 @@
             for (var i = 0; i < data.metadata.length; i++){
                 var sample = data.metadata[i];
                 var val = data.metadata[i][cat_index];
+                if (val === 'NA')
+                    continue;
                 category_values[val] = 1;
             }
 
-            let gdata = [['x', 'y']];
-
             let traces = [];
             let user_sample_id = state.barcode_prefix + state.sample_id;
+            
+            let markersize = 5;
+            if (data.decomposition.coordinates.length > 10000) {
+                markersize = 2;
+            } else if (data.decomposition.coordinates.length > 2000) {
+                markersize = 3;
+            }
+
             for (let key in category_values)
             {
                 // have to de-interleave the data.
@@ -143,22 +148,21 @@
                     if (data.metadata[i][cat_index] == key){
                         xs.push(data.decomposition.coordinates[i][0]);
                         ys.push(data.decomposition.coordinates[i][1]);
-                        gdata.push([data.decomposition.coordinates[i][0], data.decomposition.coordinates[i][1]]);
                     }
                 }
+
                 let trace =
                 {
                     name: key,
                     x: xs,
                     y: ys,
                     mode: 'markers',
-                    type: 'scatter'
+                    type: 'scatter',
+                    marker: { size: markersize }
                 };
                 traces.push(trace);
             }
             
-            let gtable=google.visualization.arrayToDataTable(gdata);
-
             for (let i = 0; i < data.decomposition.coordinates.length; i++){
                 if (data.decomposition.sample_ids[i] === user_sample_id){
                     let trace = {
@@ -177,11 +181,7 @@
             }
 
             let layout = {
-            //title: plotTitle,
                 xaxis: {
-                    //title: {
-                    //    text: 'Principal Component 1'
-                    //},
                     showticklabels: false,
                     zeroline: false,
                     showgrid: false,
@@ -190,9 +190,6 @@
 
                 },
                 yaxis: {
-                    //title: {
-                    //    text: 'Principal Component 2'
-                    //},
                     showticklabels: false,
                     showgrid: false,
                     zeroline: false,
@@ -208,6 +205,9 @@
                     b: 0,
                     t:0,
                     pad:0
+                },
+                legend: {
+                    'itemsizing': 'constant'
                 }
             };
 
@@ -249,7 +249,7 @@
               'tmi-' + state.dataset_type.value + '-allsamples' +
               '/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=country'
+              '/emperor?metadata_categories=microbial_map'
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-tmi-all-samples", //contents inserted into div name
@@ -259,18 +259,29 @@
         url = state.public_endpoint + '/dataset/' +
               'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=country'
+              '/emperor?metadata_categories=microbial_map_region'
         buildPlotlyEmperor(state,
                            url,
-                           "pcoa-multipopulation", //contents inserted into div name
+                           "pcoa-multipopulation-region", //contents inserted into div name
                            "Multipopulation")
 
 
-        //Plot 3, plot sample type from empbuiltenv-datatype-sampletype
+        //Plot 3, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
-              'builtenv-16S-allsamples/plotting/diversity/beta/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=country'
+              '/emperor?metadata_categories=microbial_map_lifestage'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-multipopulation-lifestage", //contents inserted into div name
+                           "Multipopulation")
+
+
+        //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=microbial_map'
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-builtenv", //contents inserted into div name
@@ -348,6 +359,8 @@
                     state.dataset_site.value = null
                 }
 
+                // WARNING: FORCING 16S FOR RIGHT NOW FOR SCALE TESTING
+                state.dataset_type.value = '16S';
                 state.dataset_input.value = data[best_index]
             }
         });
@@ -1493,12 +1506,12 @@
                 
                 <div class="row mb-2 mt-3">
                     <div class="col">
-                        <h4 class="diversity-header">Multipopulation</h4>
+                        <h4 class="diversity-header">Multipopulation (regions)</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-7 micromap">
-                        <div id="pcoa-multipopulation">
+                        <div id="pcoa-multipopulation-region">
                         </div>
                     </div>
                     <div class="col microinfo">
@@ -1517,12 +1530,40 @@
                         </p>
 
                         <p>
-                        Researchers also DO NOT know how much these differences
-                        matter! But, they certainly may. Science does not know
-                        whether results from one population translate to
-                        another, meaning that microbial associations with
-                        health and disease from the United States <i>may not</i> be
-                        the same in other parts of the world. 
+                        Researchers do not know how much these differences
+                        matter! They certainly may. 
+                        </p>
+
+                        <p>
+                        But, we do know why the Norwegian samples seem to be so
+                        different. Can you guess what type of host factor explains
+                        the difference? (hint: see the next map)
+                    </div>
+                </div>
+                
+                <div class="row mb-2 mt-3">
+                    <div class="col">
+                        <h4 class="diversity-header">Multipopulation (lifestage)</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7 micromap">
+                        <div id="pcoa-multipopulation-lifestage">
+                        </div>
+                    </div>
+                    <div class="col microinfo">
+                        <p>
+                        If we recolor the microbial map based on the lifestage of the 
+                        individuals, we can see that infants and children have very
+                        different microbiomes. The particular Norwegian data here
+                        include samples from many children. 
+                        </p>
+
+                        <p>
+                        Interestingly we tend to see that infants are relatively 
+                        similar microbially regardless of where they were born. But,
+                        as individuals age, it seems like their microbiomes reflect 
+                        regional or population differences.
                         </p>
                     </div>
                 </div>

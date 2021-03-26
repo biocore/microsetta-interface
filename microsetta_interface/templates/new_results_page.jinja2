@@ -277,14 +277,6 @@
                            "You and the Microbes Around You")
     }
 
-    function formatAlphaURL(state) {
-        let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
-        if (state.sample_id !== "") {
-            base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
-        }
-        return base;
-    }
-
     function refreshDatasets(state) {
         let url = state.public_endpoint + '/sample/list/dataset/' + state.barcode_prefix + state.sample_id;
         $.ajax({
@@ -460,13 +452,63 @@
         });
     }
 
-    function logNNResults(state)
-    {
-        return function(samplesQueried, sampleResults)
-        {
-            console.log("Logging Nearest Neighbors")
-            console.log(samplesQueried)
-            console.log(sampleResults)
+    function fillNNResults(state, categories, chooserMap, selectorMap) {
+        return function(samplesQueried, sampleResults) {
+            // Count number of responses for each answer of each question
+            let categoryCounts = {}
+            let display = {}
+            for (let i = 0; i < samplesQueried.length; i++) {
+                for (let j = 0; j < categories.length; j++) {
+                    let cat = categories[j]
+                    if (!(cat in categoryCounts))
+                        categoryCounts[cat] = {}
+                    let val = sampleResults[i][j]
+                    if (!(val in categoryCounts[cat]))
+                        categoryCounts[cat][val] = 0
+                    categoryCounts[cat][val] += 1
+                }
+            }
+
+            for (let j = 0; j < categories.length; j++){
+                let cat = categories[j]
+                let sum = 0
+                let maxval = -1
+                let maxkey = null
+                for (let key in categoryCounts[cat]) {
+                    let val = categoryCounts[cat][key]
+                    sum += val
+                    if (key !== "Not provided" && val > maxval) {
+                        maxval = val
+                        maxkey = key
+                    }
+                }
+
+                let chosen = null
+                if (!(cat in chooserMap) || chooserMap[cat]["type"] === "max")
+                    chosen = maxkey
+                else if (chooserMap[cat]["type"] === "specified")
+                    chosen = chooserMap[cat]["value"]
+                else if (chooserMap[cat]["type"] === "same") {
+                    let me = samplesQueried.indexOf(state.barcode_prefix + state.sample_id)
+                    let j = categories.indexOf(cat)
+                    chosen = sampleResults[me][j]
+                }
+                display[cat] = {}
+                display[cat]["response"] = chosen
+                display[cat]["value"] = Math.round((categoryCounts[cat][chosen] / sum) * 100) + "%"
+            }
+
+            for (let cat of categories) {
+                if (!(cat in selectorMap))
+                    continue;
+                let resp_selector = selectorMap[cat][0]
+                let val_selector = selectorMap[cat][1]
+                let resp = display[cat]["response"]
+                let val = display[cat]["value"]
+                $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm");
+                $(val_selector).text(val).removeClass("spinner-grow spinner-grow-sm");
+            }
+
         }
     }
 
@@ -630,96 +672,127 @@
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
-        let queries = [];
-        let countries = ["USA", "United Kingdom"];
-        for (let country of countries){
-            let query = $.ajax(
+        const more_than_30_plants =
             {
-                url: state.public_endpoint + "/dataset/" +
-                     state.dataset_input.value +
-                     "/diversity/alpha/group/" +
-                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
-                method: "POST",
-                data: JSON.stringify(
-                {
-                    "metadata_query":
+                "metadata_query":
                     {
                         "condition": "OR",
-                        "rules":
-                        [
+                        "rules": [
                             {
-                                "id": "country",
+                                "id": "types_of_plants",
                                 "operator": "equal",
-                                "value": country
+                                "value": "More than 30"
                             }
                         ]
                     }
-                }),
-                contentType: "application/json"
-            });
-            queries.push(query)
+            }
+        //Oops, I don't have a field for this yet.
+        //let more_than_30_fermented =
+        const exercise_regularly =
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "exercise_frequency",
+                                "operator": "equal",
+                                "value": "Regularly (3-5 times/week)"
+                            }
+                        ]
+                    }
+            }
+        //I wish we had ordered categorical variables because this query is stupid
+        const sleep_more_than_6_hrs =
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "6-7 hours"
+                            },
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "7-8 hours"
+                            },
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "8 or more hours"
+                            }
+                        ]
+                    }
+            }
+
+        const POST_DATA = {
+            "plants": more_than_30_plants,
+            //"fermented": more_than_30_fermented,
+            "exercise": exercise_regularly,
+            "sleep": sleep_more_than_6_hrs
         }
 
-        let queryMe = $.ajax(
-            {
-                url: state.public_endpoint + "/dataset/" +
-                     state.dataset_input.value +
-                     "/diversity/alpha/single/" +
-                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
-            }
-        );
-        queries.push(queryMe);
-        $.when.apply($, queries).done(function(){
-            let traces = [];
-            for (let i = 0; i < countries.length; i++)
-            {
-                let country = countries[i];
-                let alpha_summary = arguments[i][0];
+        const SELECTORS = {
+            "plants": "#diversity_30_plants_per_week",
+//            "fermented": "#diversity_fermented_regularly",
+            "exercise": "#diversity_exercise_regularly",
+            "sleep": "#diversity_sleep_alot"
+        }
 
-                let fill = "tozeroy";
-                if (i > 0)
-                    fill = "tozeroy";
-                let trace = {
-                    name: countries[i],
-                    x: alpha_summary.group_summary.percentile_values,
-                    y: alpha_summary.group_summary.percentile,
-                    fill: fill
-                };
-                traces.push(trace);
-            }
-
-            let myQueryIndex = countries.length;
-            let myAlphaMetric = arguments[myQueryIndex][0].data;
-            let trace = {
-                name: "Me",
-                x: [myAlphaMetric, myAlphaMetric],
-                y: [0, 100],
-                mode: "line"
-            };
-            traces.push(trace);
-
-            let layout = {
-                title: "Faith PD by Country"
-            };
-            // Plotly.newPlot("diversity-vis", traces);
-        })
+        // We override the default alpha_metric from state for this page.
+        let alpha_metric = "observed_features"
+        for (let key in POST_DATA) {
+            $.ajax(
+                {
+                    url: state.public_endpoint + "/dataset/" +
+                        state.dataset_input.value +
+                        "/diversity/alpha/group/" +
+                        alpha_metric + "?" + $.param({summary_statistics: true}),
+                    method: "POST",
+                    data: JSON.stringify(POST_DATA[key]),
+                    contentType: "application/json",
+                    success: function (data) {
+                        let display = data["group_summary"]["median"]
+                        $(SELECTORS[key]).text(display).removeClass("spinner-grow spinner-grow-sm");
+                    }
+                }).fail(function (result, textStatus, errorThrown) {
+                console.log("Couldn't retrieve alpha metrics (" + key + ")")
+            });
+        }
     }
 
     function updateSimilarity(state){
         const K = 100 // However many neighbors we want to pull metadata for
-        const CATEGORIES = [
-            "types_of_plants",
-            "probiotic_frequency",
-            "exercise_frequency",
-            "age_years",
-            "diet",
-            "multivitamin",
-            "sleep_duration",
-            "sex",
-            "pm_gender"]
+        const SELECTOR_MAP = {
+            "types_of_plants": ["#beta_diversity_plants_per_week_response", "#beta_diversity_plants_per_week_value"],
+            "probiotic_frequency": ["#beta_diversity_probiotics_response", "#beta_diversity_probiotics_value"],
+            "exercise_frequency": ["#beta_diversity_exercise_response", "#beta_diversity_exercise_value"],
+            "age_years": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
+            //"diet": ["",""],
+            "multivitamin": ["#beta_diversity_multivitamin_response", "#beta_diversity_multivitamin_value"],
+            "sleep_duration": ["#beta_diversity_sleep_response", "#beta_diversity_sleep_value"],
+            "sex":  ["#beta_diversity_sex_response", "#beta_diversity_sex_value"]
+        }
+        const CHOOSER = {
+            "types_of_plants": {"type": "max"},
+            "probiotic_frequency": {"type": "max"},
+            "exercise_frequency": {"type": "max"},
+            "age_years": {"type": "same"},
+            //"diet": {"type": "same"},
+            "multivitamin": {"type": "specified", "value": true},
+            "sleep_duration": {"type": "max"},
+            "sex":  {"type": "same"}
+        }
+        const CATEGORIES = []
+        for (let key in SELECTOR_MAP)
+            CATEGORIES.push(key)
+
         retrieveNeighbors(state, K)
             .then(queryNeighborAndSelfMetadata(state, CATEGORIES))
-            .then(logNNResults(state)) //TODO: Switch from logging to filling in divs by adding selectors here
+            .then(fillNNResults(state, CATEGORIES, CHOOSER, SELECTOR_MAP)) //TODO: Switch from logging to filling in divs by adding selectors here
     }
 
     function updateTaxonomy(taxonomyData, state){
@@ -1088,13 +1161,13 @@
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
-                              ----- Eat more than 30 plants a week = <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
+                              ----- Eat more than 30 plants a week = <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> unique microbial features
                           </div>
                       </div>
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
-                              ----- Exercise regularly = <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
+                              ----- Exercise regularly = <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> unique microbial features
                           </div>
                       </div>
                   </div>
@@ -1102,13 +1175,13 @@
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
-                              ----- Eat fermented foods regularly = <span id="diversity_fermented_regularly" class="info-loader text-success">...</span>
+                              ----- Eat fermented foods regularly = <span id="diversity_fermented_regularly" class="info-loader text-success">...</span>  unique microbial features
                           </div>
                       </div>
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
-                              ----- Sleep more than 6 hours per night = <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
+                              ----- Sleep more than 6 hours per night = <span id="diversity_sleep_alot" class="info-loader text-success">...</span> unique microbial features
                           </div>
                       </div>
                   </div>
@@ -1180,6 +1253,7 @@
                               ----- <span id="beta_diversity_plants_per_week_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours eat 
                               <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
+                              plants per week
                           </div>
                       </div>
                       <div class="col">
@@ -1201,8 +1275,9 @@
                           <img class="diversity-icon" src='/static/img/probiotics.png'>
                           <div class="diversity-text">
                               ----- <span id="beta_diversity_probiotics_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours take probiotics 
+                              of people with a microbiome like yours
                               <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span>
+                              take probiotics
                           </div>
                       </div>
                       <div class="col">
@@ -1210,7 +1285,6 @@
                           <div class="diversity-text">
                               ----- <span id="beta_diversity_multivitamin_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours take vitamins
-                              <span id="beta_diversity_multivitamin_response" class="info-loader text-success">...</span>
                           </div>
                       </div>
                   </div>
@@ -1233,8 +1307,9 @@
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
                               ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours sleep more than 
+                              of people with a microbiome like yours get
                               <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span>
+                              of sleep at night
                           </div>
                       </div>
                   </div>
@@ -1249,13 +1324,13 @@
                           <img class="diversity-icon" src='/static/img/age.png'>
                           <div class="diversity-text">
                               ----- <span id="beta_diversity_age_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours are a similar age
+                              of people with a microbiome like yours were the same age as you
                           </div>
                       </div>
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/gender.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
+                              ----- <span id="beta_diversity_sex_value" class="info-loader text-success">...</span>
                               of people with a microbiome like yours were the same gender
                           </div>
                       </div>

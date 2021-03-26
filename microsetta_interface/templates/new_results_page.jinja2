@@ -300,68 +300,71 @@
                 //Need to pick a proper business rule to do that.
                 //    For now, we'll prefer things named tmi-
                 //    and we'll use 16S over WGS
-                if (data.length === 0)
-                {
-                    //Ack, this sample isn't in any datasets, pick one arbitrarily.
-                    state.dataset_input.value = "tmi-WGS-gut"
-                    return
-                }
+                //if (data.length === 0)
+                //{
+                //    //Ack, this sample isn't in any datasets, pick one arbitrarily.
+                //    state.dataset_input.value = "tmi-WGS-gut"
+                //    return
+                //}
 
-                var best_score = -1
-                var best_index = -1
-                for (var i = 0; i < data.length; i++)
-                {
-                    var score = 0
-                    if (data[i].includes("tmi-"))
-                        score += 1
-                    if (data[i].includes("WGS"))
-                        score += 1
-                    if (data[i].includes("gut") ||
-                        data[i].includes("oral") ||
-                        data[i].includes("skin"))
-                        score += 1
+                //var best_score = -1
+                //var best_index = -1
+                //for (var i = 0; i < data.length; i++)
+                //{
+                //    var score = 0
+                //    if (data[i].includes("tmi-"))
+                //        score += 1
+                //    if (data[i].includes("WGS"))
+                //        score += 1
+                //    if (data[i].includes("gut") ||
+                //        data[i].includes("oral") ||
+                //        data[i].includes("skin"))
+                //        score += 1
 
-                    if (score > best_score){
-                        best_score = score
-                        best_index = i
-                    }
-                }
+                //    if (score > best_score){
+                //        best_score = score
+                //        best_index = i
+                //    }
+                //}
 
-                if (data[best_index].includes("16S"))
-                {
-                    state.dataset_type.value = "16S"
-                }
-                else if (data[best_index].includes("WGS"))
-                {
-                    state.dataset_type.value = "WGS"
-                }
-                else
-                {
-                    console.log("Unknown dataset type")
-                    state.dataset_type.value = null
-                }
+                //if (data[best_index].includes("16S"))
+                //{
+                //    state.dataset_type.value = "16S"
+                //}
+                //else if (data[best_index].includes("WGS"))
+                //{
+                //    state.dataset_type.value = "WGS"
+                //}
+                //else
+                //{
+                //    console.log("Unknown dataset type")
+                //    state.dataset_type.value = null
+                //}
 
-                if (data[best_index].includes("oral"))
-                {
-                    state.dataset_site.value = "oral"
-                }
-                else if (data[best_index].includes("skin"))
-                {
-                    state.dataset_site.value = "skin"
-                }
-                else if (data[best_index].includes("gut"))
-                {
-                    state.dataset_site.value = "gut"
-                }
-                else
-                {
-                    console.log("Unknown dataset site")
-                    state.dataset_site.value = null
-                }
+                //if (data[best_index].includes("oral"))
+                //{
+                //    state.dataset_site.value = "oral"
+                //}
+                //else if (data[best_index].includes("skin"))
+                //{
+                //    state.dataset_site.value = "skin"
+                //}
+                //else if (data[best_index].includes("gut"))
+                //{
+                //    state.dataset_site.value = "gut"
+                //}
+                //else
+                //{
+                //    console.log("Unknown dataset site")
+                //    state.dataset_site.value = null
+                //}
 
                 // WARNING: FORCING 16S FOR RIGHT NOW FOR SCALE TESTING
                 state.dataset_type.value = '16S';
-                state.dataset_input.value = data[best_index]
+                state.dataset_site.value = "gut";
+                state.dataset_input.value = 'tmi-16S-gut';
+
+                //state.dataset_input.value = data[best_index]
             }
         });
     }
@@ -518,6 +521,7 @@
                 let val_selector = selectorMap[cat][1]
                 let resp = display[cat]["response"]
                 let val = display[cat]["value"]
+
                 $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm");
                 $(val_selector).text(val).removeClass("spinner-grow spinner-grow-sm");
             }
@@ -698,9 +702,21 @@
                             }
                         ]
                     }
-            }
-        //Oops, I don't have a field for this yet.
-        //let more_than_30_fermented =
+            };
+        const water_frequency = 
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "one_liter_of_water_a_day_frequency",
+                                "operator": "equal",
+                                "value": "Regularly (3-5 times/week)"
+                            }
+                        ]
+                    }
+            };
         const exercise_regularly =
             {
                 "metadata_query":
@@ -714,7 +730,7 @@
                             }
                         ]
                     }
-            }
+            };
         //I wish we had ordered categorical variables because this query is stupid
         const sleep_more_than_6_hrs =
             {
@@ -743,14 +759,14 @@
 
         const POST_DATA = {
             "plants": more_than_30_plants,
-            //"fermented": more_than_30_fermented,
+            "water": water_frequency,
             "exercise": exercise_regularly,
             "sleep": sleep_more_than_6_hrs
         }
 
         const SELECTORS = {
             "plants": "#diversity_30_plants_per_week",
-//            "fermented": "#diversity_fermented_regularly",
+            "water": "#diversity_water_regularly",
             "exercise": "#diversity_exercise_regularly",
             "sleep": "#diversity_sleep_alot"
         }
@@ -775,6 +791,22 @@
                 console.log("Couldn't retrieve alpha metrics (" + key + ")")
             });
         }
+        $.ajax(
+            {
+                url: state.public_endpoint + "/dataset/" + 
+                    state.dataset_input.value +
+                    "/diversity/alpha/single/" +
+                    alpha_metric + "/" + state.barcode_prefix + state.sample_id,
+                method: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    let display = data["data"]
+                    $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
+                }
+            }).fail(function (result, textStatus, errorThrown) {
+            console.log("Couldn't retrieve alpha metric for the sample")
+        });
+
     }
 
     function updateSimilarity(state){
@@ -785,6 +817,7 @@
             "exercise_frequency": ["#beta_diversity_exercise_response", "#beta_diversity_exercise_value"],
             "age_years": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
             //"diet": ["",""],
+            "diet_type": ["#beta_diversity_diet_type_response", "#beta_diversity_diet_type_value"],
             "multivitamin": ["#beta_diversity_multivitamin_response", "#beta_diversity_multivitamin_value"],
             "sleep_duration": ["#beta_diversity_sleep_response", "#beta_diversity_sleep_value"],
             "sex":  ["#beta_diversity_sex_response", "#beta_diversity_sex_value"]
@@ -795,6 +828,7 @@
             "exercise_frequency": {"type": "max"},
             "age_years": {"type": "same"},
             //"diet": {"type": "same"},
+            "diet_type": {"type": "same"},
             "multivitamin": {"type": "specified", "value": true},
             "sleep_duration": {"type": "max"},
             "sex":  {"type": "same"}
@@ -1148,7 +1182,7 @@
                   <div class="card your_sample_diversity_inset">
                       <div class="card-header">Microbes found in your sample</div>
                       <div class="card-body">
-                          <h5 class="card-title">XXX</h5>
+                          <h5 class="card-title"><span id="diversity_in_sample" class="info-loader text-success">...</span></h5>
                           <p class="card-text"> 
                           Is the number of microbes found in your sample. 
                           </p>
@@ -1166,7 +1200,7 @@
                   your life. So, the answers people gave to their questionnaires
                   enables us to see the average microbiome diversity for people
                   who (i) eat more than 30 plants a week; (ii) Exercise Regularly; 
-                  (iii) eat fermented foods regularly; (iv) Sleep more than 
+                  (iii) drink water regularly; (iv) Sleep more than 
                   6 hours a night.
                   </p>
 
@@ -1188,7 +1222,7 @@
                       <div class="col">
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
-                              ----- Eat fermented foods regularly = <span id="diversity_fermented_regularly" class="info-loader text-success">...</span>  unique microbial features
+                              ----- Drink 1L of water regularly = <span id="diversity_water_regularly" class="info-loader text-success">...</span>  unique microbial features
                           </div>
                       </div>
                       <div class="col">

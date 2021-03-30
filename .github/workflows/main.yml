@@ -23,7 +23,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2a
+
+    - name: Setup for conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:        
+        auto-update-conda: true
+        python-version: 3.7
+      
     - name: exercise
       run: |
+        conda create --yes -n test-microsetta-interface python=3.7
+        conda activate test-microsetta-interface
+        conda install --yes --file ci/conda_requirements.txt
+        pip install -r ci/pip_requirements.txt
+        pip install -e . --no-deps 
+     
         pytest

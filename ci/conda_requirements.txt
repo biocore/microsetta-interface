@@ -4,3 +4,4 @@ natsort
 pycryptodome
 redis-py
 redis
+pytest

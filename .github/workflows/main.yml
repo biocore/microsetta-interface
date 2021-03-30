@@ -20,7 +20,6 @@ jobs:
     - name: lint
       run: |
         pip install -q flake8
-        flake8 scripts/*.py
   test:
     runs-on: ubuntu-latest
     steps:

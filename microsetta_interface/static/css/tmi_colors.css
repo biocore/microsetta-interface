@@ -21,8 +21,28 @@ wrap any parent of them with a tmi-content div.
     color: var(--tmi-grey);
 }
 
+.tmi-content p {
+    color: var(--tmi-grey)
+}
+
 .tmi-header {
-    color: var(--tmi-light-blue);
+    color: var(--tmi-blue);
+}
+
+.tmi-header3 {
+    color: var(--tmi-blue);
+}
+
+.tmi-header4 {
+    color: var(--tmi-blue);
+}
+
+/* Should be kept in sync with tmi-header classes */
+.tmi-content h3{
+    color: var(--tmi-blue);
+}
+.tmi-content h4{
+    color: var(--tmi-blue);
 }
 
 .tmi-link {
@@ -32,4 +52,14 @@ wrap any parent of them with a tmi-content div.
 /* Should be kept in sync with .tmi-link */
 .tmi-content a {
     color: var(--tmi-blue);
+}
+
+/* Bootstrap tweaks -
+    To override bootstrap:
+        inspect element,
+        copy paste the css selector of the item you want to overwrite,
+        add .tmi-content in front (with a space, so it becomes a descendent selector)
+*/
+.tmi-content .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: var(--tmi-blue)
 }

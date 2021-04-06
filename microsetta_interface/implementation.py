@@ -1099,7 +1099,8 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 show_breadcrumbs=True
                                  )
 
 
@@ -1124,7 +1125,8 @@ def get_sample_results_experimental():
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 show_breadcrumbs=False
                                  )
 
 

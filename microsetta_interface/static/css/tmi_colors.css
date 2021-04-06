@@ -1,0 +1,65 @@
+/*
+Standard microsetta initiative colors,
+just declares classes, doesn't override anything
+To enable standard tmi styling for links, headers, paragraphs etc.
+wrap any parent of them with a tmi-content div.
+ */
+
+:root {
+    --tmi-blue: #006A96;
+    --tmi-grey: #747678;
+    --tmi-gray: #747678;
+    --tmi-light-blue: #00C6D7;
+    --tmi-orange: #FC8900;
+    --tmi-yellow: #F3E500;
+    --tmi-light-grey: #E5E2E1;
+    --tmi-lighter-grey: #F1F1F1;
+    --tmi-brown: #765C52;
+}
+
+.tmi-normal {
+    color: var(--tmi-grey);
+}
+
+.tmi-content p {
+    color: var(--tmi-grey)
+}
+
+.tmi-header {
+    color: var(--tmi-blue);
+}
+
+.tmi-header3 {
+    color: var(--tmi-blue);
+}
+
+.tmi-header4 {
+    color: var(--tmi-blue);
+}
+
+/* Should be kept in sync with tmi-header classes */
+.tmi-content h3{
+    color: var(--tmi-blue);
+}
+.tmi-content h4{
+    color: var(--tmi-blue);
+}
+
+.tmi-link {
+    color: var(--tmi-blue);
+}
+
+/* Should be kept in sync with .tmi-link */
+.tmi-content a {
+    color: var(--tmi-blue);
+}
+
+/* Bootstrap tweaks -
+    To override bootstrap:
+        inspect element,
+        copy paste the css selector of the item you want to overwrite,
+        add .tmi-content in front (with a space, so it becomes a descendent selector)
+*/
+.tmi-content .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: var(--tmi-blue)
+}

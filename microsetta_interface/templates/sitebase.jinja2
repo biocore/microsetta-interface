@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/minimal_interface.css" />
     <link rel="stylesheet" href="/static/css/ucsd_colors.css" />
+    <link rel="stylesheet" href="/static/css/tmi_colors.css" />
     <style>
         body {
             padding-top: 50px;
@@ -58,7 +59,7 @@
           <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {% if login_info %}
                 {% if login_info.email %}
-                  {{login_info.email |e}}
+                  <span class="tmi-normal">{{login_info.email |e}}</span>
                 {% else %}
 <!--                  <i>Awaiting Account Creation</i>-->
                 {% endif %}
@@ -95,7 +96,7 @@
 
     {% if show_breadcrumbs %}
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
+          <ol class="breadcrumb tmi-content">
             <li class="breadcrumb-item"><a href="/home">Home</a></li>
             {%block breadcrumb%}
             {%endblock%}

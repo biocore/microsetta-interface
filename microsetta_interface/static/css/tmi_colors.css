@@ -1,3 +1,10 @@
+/*
+Standard microsetta initiative colors,
+just declares classes, doesn't override anything
+To enable standard tmi styling for links, headers, paragraphs etc.
+wrap any parent of them with a tmi-content div.
+ */
+
 :root {
     --tmi-blue: #006A96;
     --tmi-grey: #747678;
@@ -8,4 +15,21 @@
     --tmi-light-grey: #E5E2E1;
     --tmi-lighter-grey: #F1F1F1;
     --tmi-brown: #765C52;
+}
+
+.tmi-normal {
+    color: var(--tmi-grey);
+}
+
+.tmi-header {
+    color: var(--tmi-light-blue);
+}
+
+.tmi-link {
+    color: var(--tmi-blue);
+}
+
+/* Should be kept in sync with .tmi-link */
+.tmi-content a {
+    color: var(--tmi-blue);
 }

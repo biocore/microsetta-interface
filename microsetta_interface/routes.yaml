@@ -660,6 +660,47 @@ paths:
               schema:
                 type: string
 
+  '/admin/activation':
+    get:
+      operationId: microsetta_interface.implementation.get_interactive_activation
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: email_query
+          description: Email to search for
+          schema:
+            type: string
+        - in: query
+          name: code_query
+          description: Activation code to search for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activation code info for query
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_generate_activation
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Search results showing new email
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/system_message':
     get:
       operationId: microsetta_interface.implementation.get_system_message

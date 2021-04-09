@@ -1266,6 +1266,49 @@ def get_interactive_account_search(email_query):
                                  accounts=accounts)
 
 
+def get_interactive_activation(email_query=None, code_query=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return = False
+    diagnostics = None
+    if email_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"email_query": email_query}
+        )
+    elif code_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"code_query": code_query}
+        )
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults(
+        'admin_activation_codes.jinja2',
+        email_query=email_query,
+        code_query=code_query,
+        diagnostics=diagnostics
+    )
+
+
+def post_generate_activation(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    email = body["email"]
+    do_return, diagnostics, _ = ApiRequest.post(
+        "/admin/activation",
+        json={"emails": [email]}
+    )
+
+    if do_return:
+        return diagnostics
+
+    return get_interactive_activation(email, None)
+
+
 def get_system_message():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

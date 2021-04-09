@@ -29,9 +29,20 @@
                     post_code: "required",
                     {% if CREATE_ACCT %}
                     kit_name: {
-                        required: true,
+                        required: "#code:blank",
                         remote: {
                             url: "/check_kit_valid"
+                        }
+                    },
+                    code: {
+                        required: "#kit_name:blank",
+                        remote: {
+                            url: "/check_activation_code",
+                            data: {
+                                email: function() {
+                                    return $("#email").val();
+                                }
+                            }
                         }
                     },
                     {% endif %}
@@ -153,9 +164,21 @@
                 <input id="post_code" name="post_code" class="form-control" value="{{account.address.post_code |e}}" type="text" />
             </div>
             {% if CREATE_ACCT %}
-            <div class="form-group">
-                <label for="kit_name" name="kit_name_label">Kit ID/ID del kit</label>
-                <input id="kit_name" name="kit_name" class="form-control" type="text"/>
+            <div class="card mb-3">
+                <div class="card-header">
+                    Activation Info
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="kit_name" name="kit_name_label">Kit ID/ID del kit</label>
+                        <input id="kit_name" name="kit_name" class="form-control" type="text"/>
+                    </div>
+                    <div class="text-center">-OR-</div>
+                    <div class="form-group">
+                        <label for="code" name="code_label">Activation Code</label>
+                        <input id="code" name="code" class="form-control" type="text" placeholder="TMI-XXXXX-XXXXX-XXXXX"/>
+                    </div>
+                </div>
             </div>
             {% endif %}
             {% if CREATE_ACCT %}

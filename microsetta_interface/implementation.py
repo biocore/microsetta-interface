@@ -42,6 +42,7 @@ HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
 REROUTE_KEY = "reroute"
 
+ACTIVATION_CODE_KEY = "code"
 KIT_NAME_KEY = "kit_name"
 EMAIL_CHECK_KEY = "email_checked"
 ACCT_FNAME_KEY = "first_name"
@@ -560,7 +561,8 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        KIT_NAME_KEY: kit_name
+        KIT_NAME_KEY: kit_name,
+        ACTIVATION_CODE_KEY: body["code"]
     }
 
     has_error, accts_output, _ = \
@@ -1201,6 +1203,20 @@ def get_ajax_list_kit_samples(kit_name):
     kit, error, code = _get_kit(kit_name)
     result = kit if error is None else error
     return flask.jsonify(result), code
+
+
+def get_ajax_check_activation_code(code, email):
+    response = requests.get(
+        ApiRequest.API_URL + '/can_activate',
+        auth=BearerAuth(session[TOKEN_KEY_NAME]),
+        verify=ApiRequest.CAfile,
+        params=ApiRequest.build_params({"email": email, "code": code}))
+    if response.status_code != 200:
+        # Damn, couldn't properly communicate to backend server...
+        return "Unable to validate Activation Code at this time"
+    result_data = response.json()
+    result = True if result_data["can_activate"] else result_data["error"]
+    return flask.jsonify(result)
 
 
 # NB: associating surveys with samples when samples are claimed means that any

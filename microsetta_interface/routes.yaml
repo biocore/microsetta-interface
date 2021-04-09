@@ -641,6 +641,22 @@ paths:
               schema:
                 type: array
 
+  '/check_activation_code':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_check_activation_code
+      tags:
+        - Activation
+      parameters:
+        - $ref: '#/components/parameters/activation_code'
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: Result of check
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/account_search':
     get:
       operationId: microsetta_interface.implementation.get_interactive_account_search
@@ -759,6 +775,20 @@ components:
       schema:
         $ref: '#/components/schemas/account_id'
       required: true
+    activation_code:
+      name: code
+      in: query
+      description: Activation code
+      schema:
+        $ref: '#/components/schemas/activation_code'
+      required: true
+    email:
+      name: email
+      in: query
+      description: User's email
+      schema:
+        $ref: '#/components/schemas/email'
+      required: true
     kit_id:
       name: kit_id
       in: path
@@ -822,6 +852,10 @@ components:
       type: string
       readOnly: true
       example: "aaaaaaaa-bbbb-cccc-dddd-eeeeffffffff"
+    email:
+      type: string
+      format: email
+      example: "janedoe@example.com"
     source_id:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
@@ -843,4 +877,7 @@ components:
     kit_name:
       type: string
       example: "aaaaa"
+    activation_code:
+      type: string
+      example: TMI-XXXXX-XXXXX-XXXXX
 

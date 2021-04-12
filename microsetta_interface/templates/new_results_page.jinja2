@@ -49,6 +49,13 @@
     .diversity-info {
 
     }
+    .diversity-banner {
+      width: 100%;
+      max-width: 1920px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
     .similarity-fontstyle-same {
         color: var(--ucsd-green);
     }
@@ -1250,7 +1257,7 @@
 {% block content %}
 <div class="tmi-content">
 <div class="row">
-    <div class="col-sm-auto">
+    <div class="col-sm-auto full-height">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
@@ -1266,6 +1273,7 @@
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
                 <h3>How do you compare?</h3>
+                <img class="diversity-banner" src='/static/img/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
                     Your microbiome is a rainforest of diverse microbes dominated

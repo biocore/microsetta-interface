@@ -1333,7 +1333,7 @@
                   <h3>Diversity</h3>
                   <br>
                   <p>
-                   There are any where from hundreds of millions to hundreds of
+                   There are anywhere from hundreds of millions to hundreds of
                    billions of different types of bacteria living on planet earth.
                    This dwarfs the meager 2 million different kinds of animals
                    and plants that you can see with your eyes. The
@@ -1435,7 +1435,7 @@
                   Here, we your sample to all the others in our database, and examined the 100
                   most similar samples to yours. These people answered their
                   questionnaires in the following way; the response is colored in 
-                  <span class="similarity-fontstyle-same">light blue</span> if it matches your 
+                  <span class="similarity-fontstyle-same">light green</span> if it matches your 
                   response and <span class="similarity-fontstyle-different">brown</span> if your response differed. 
                   </p>
 
@@ -1449,19 +1449,19 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_plants_per_week_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_plants_per_week_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours eat 
                               <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
                               plants per week
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/diet.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_diet_type_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_diet_type_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours had a similar diet
                           </div>
                       </div>
@@ -1473,19 +1473,19 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/probiotics.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_probiotics_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_probiotics_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours
                               <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span>
                               take probiotics
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/vitamins.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_multivitamin_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_multivitamin_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours take vitamins
                           </div>
                       </div>
@@ -1497,18 +1497,18 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_exercise_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_exercise_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours exercise 
                               <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours get
                               <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span>
                               of sleep at night
@@ -1522,17 +1522,17 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/age.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_age_value" class="info-loader text-success">...</span> 
+                              <span id="beta_diversity_age_value" class="info-loader text-success">...</span> 
                               of people with a microbiome like yours were the same age as you
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/gender.png'>
                           <div class="diversity-text">
-                              ----- <span id="beta_diversity_sex_value" class="info-loader text-success">...</span>
+                              <span id="beta_diversity_sex_value" class="info-loader text-success">...</span>
                               of people with a microbiome like yours were the same gender
                           </div>
                       </div>
@@ -1587,7 +1587,9 @@
                   </div>
               </div>
               <div class="row">
-                <div id="taxa-violin">
+                  <div class="col-md-8 mx-auto">
+                  <div id="taxa-violin">
+                  </div>
               </div>
           </div>
         </div>

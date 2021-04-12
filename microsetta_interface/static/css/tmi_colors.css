@@ -6,6 +6,7 @@ wrap any parent of them with a tmi-content div.
  */
 
 :root {
+    --tmi-dark-blue: #182b49;
     --tmi-blue: #006A96;
     --tmi-grey: #747678;
     --tmi-gray: #747678;
@@ -15,6 +16,21 @@ wrap any parent of them with a tmi-content div.
     --tmi-light-grey: #E5E2E1;
     --tmi-lighter-grey: #F1F1F1;
     --tmi-brown: #765C52;
+}
+
+.tmi-footer {
+    background-color: var(--tmi-dark-blue);
+}
+
+.tmi-footer a {
+    color: #FFFFFF
+}
+
+.tmi-icon {
+    background-size: 1.25rem;
+    background-position: 0;
+    background-repeat: no-repeat;
+    padding-left: 1.925rem;
 }
 
 .tmi-normal {

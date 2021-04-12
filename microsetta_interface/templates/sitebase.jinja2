@@ -112,22 +112,17 @@
     </div>
 {%block footer%}
 {%endblock%}
-    {% if not admin_mode and not hide_footer %}
-    <div>
-        <br />
-        <hr>
-          <p>We will periodically update this site with minor revisions; we
-          apologize if you encounter any temporary inconveniences.</p>
-          
-           <p>
-        {% if not disable_faq %}
-            Questions?  Check out our <a href="/view_faq" target="_blank">FAQ</a>!</br>
-        {% endif %}
-            Stuck?  Please contact
-            <a href="mailto:microsetta@ucsd.edu">microsetta@ucsd.edu</a>
-            for help.
-        </p>
-    </div> 
+    {%  if not admin_mode and not hide_footer %}
+    <div class="tmi-footer">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            {% if not disable_faq %}
+                <a style="background-image: url('/static/img/icon-question-mark.svg')" href="https://microsetta.ucsd.edu/participant-resources/faqs/" target="_blank" class="tmi-icon m-3">FAQs</a>
+            {% endif %}
+            <a style="background-image: url('/static/img/icon-email.svg')" href="mailto:microsetta@ucsd.edu" class="tmi-icon m-3">Email</a>
+{#                <a style="background-image: url('/static/img/icon-phone.svg')" href="tel:858-246-5690" class="cta icon -phone">858-246-5690</a>#}
+    </div>
+    </div>
     {% endif %}
 </body>
 </html>

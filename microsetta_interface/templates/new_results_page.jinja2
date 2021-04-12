@@ -18,14 +18,43 @@
       width: 72px;
       height: 72px;
       object-fit: contain;
+      float:left;
      }
     .diversity-text {
         vertical-align:middle; 
         display:inline;
+        float:left;
+        padding: 10px;
+        padding-left: 20px;
     }
     .diversity-header {
         background-color: #EDECEF;
         padding: 10px;
+    }
+    .diversity-compare {
+      background-color: #ffffff;
+      color: #747678;
+      border-radius: 15px;
+      padding: 10px;
+      padding-left: 20px;
+      border-style: solid;
+      border-width: 2px;
+      border-color: #006a96;
+      width: 30%;
+      margin: 20px;
+    }
+    .diversity-category {
+      color: #006a96;
+    }
+    .diversity-info {
+
+    }
+    .diversity-banner {
+      width: 100%;
+      max-width: 1920px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
     }
     .similarity-fontstyle-same {
         color: var(--ucsd-green);
@@ -73,13 +102,57 @@
         text-align: left;
     }
     div.how_you_compare_section {
-        background-color: #EDECEF;
-        /*border-radius: 15px; */
+        background-color: #f1f1f1;
+        color: #747678;
+        border-radius: 15px;
         padding: 10px;
+        padding-left: 20px;
+        border-style: solid;
+        border-width: thin;
+        border-color: #006a96;
+        width: 70%;
+    }
+    div.how_you_compare_section h3 {
+      color: #006a96;
+      font-weight: lighter;
+      font-family: Mulish,sans-serif;
+      font-size: 36px;
+    }
+    div.how_you_compare_section h4 {
+      color: #006a96;
+      font-weight: lighter;
+      font-family: Mulish,sans-serif;
+      font-size: 20px;
+    }
+    div.how_you_compare_section p {
+      font: normal normal 400 14px/1.6 Muli,sans-serif;
+      font-variant-numeric: oldstyle-nums;
+      color: #747678;
+    }
+    div.how_you_compare_section a {
+      color: #006a96;
     }
     div.your_sample_diversity_inset {
-        background-color: #EDECEF;
-        padding: 10px;
+      background-color: #006a96;
+      color: #ffffff;
+      font-size: 20px;
+      border-radius: 15px;
+      border-style: solid;
+      border-width: thin;
+      border-color: #006a96;
+      width: 35%;
+      box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+
+    div.your_sample_diversity_inset .card-header {
+      color: #ffffff;
+      text-align: center;
+    }
+
+    div.your_sample_diversity_inset .card-body {
+      color: #ffffff;
+      font-size: 32px;
+      text-align: center;
     }
 
     .tooltipper {
@@ -1184,7 +1257,7 @@
 {% block content %}
 <div class="tmi-content">
 <div class="row">
-    <div class="col-sm-auto">
+    <div class="col-sm-auto full-height">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
           <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
@@ -1200,6 +1273,7 @@
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
                 <h3>How do you compare?</h3>
+                <img class="diversity-banner" src='/static/img/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
                     Your microbiome is a rainforest of diverse microbes dominated
@@ -1259,64 +1333,80 @@
                   <h3>Diversity</h3>
                   <br>
                   <p>
-                  There are hundreds of millions to billions of different types
-                  of bacteria living on planet earth, which dwarfs the meager 2
-                  million different kinds of animals and plants that you can see
-                  with your eyes. The <span id="average-us-tooltip" class="tooltipper"
-                  data-title="Based on fecal samples from Microsetta participants in the United States">average</span> 
-                  American has <strong>187</strong>
-                  different types of microbes in a stool sample, which is lower
-                  than we find in people living a more hunter-gatherer
-                  lifestyle, like the <strong>306</strong> we find in samples
-                  from the <span id="taxa-tooltip" class="tooltipper"
-                  data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.
+                   There are any where from hundreds of millions to hundreds of
+                   billions of different types of bacteria living on planet earth.
+                   This dwarfs the meager 2 million different kinds of animals
+                   and plants that you can see with your eyes. The
+                   <span id="average-us-tooltip" class="tooltipper"
+                   data-title="Based on fecal samples from Microsetta participants in the United States">average</span>
+                   American has <strong>187</strong> different types of microbes in a stool sample, which is
+                   lower than we find in people living a more hunter-gatherer
+                   lifestyle, like the <strong>306</strong> we find in samples from the 
+                   <span id="taxa-tooltip" class="tooltipper"
+                   data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.
                   </p>
 
                   <div class="card your_sample_diversity_inset">
-                      <div class="card-header">Kinds of microbes found in your sample</div>
+                      <div class="card-header">Number of different microbes found in your sample</div>
                       <div class="card-body">
-                          <h5 class="card-title"><span id="diversity_in_sample" class="info-loader text-success">...</span></h5>
-                          <p class="card-text"> 
-                          Is the number of kinds microbes found in your sample.
-                          </p>
+                          <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
                   </div>
 
                   <p>
-                  When we calculated diversity of groups of samples in our
-                  database, we found that diversity is associated by how you live
-                  your life. Here, we summarized the average microbiome diversity for
-                  a few of the questionnaire responses, specifically people 
-                  who (i) eat more than 30 plants a week; (ii) Exercise Regularly; 
-                  (iii) drink water regularly; (iv) Sleep more than 
-                  6 hours a night. 
+                    When we calculated the diversity of groups for samples in our database,
+                    we found diversity is associated with how you live your life.
+                    Here, we summarized the average microbiome diversity for a few of
+                    the questionnaire responses, specifically people who eat more than 30
+                    plants a week, exercise regularly, drink water regularly, or sleep
+                    more than 6 hours a night.
                   </p>
 
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
-                              ----- Eat more than 30 plants a week = <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> unique microbial features
+                            <div class="diversity-category">
+                              Eat more than 30 plants a week
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> unique microbial features
+                            </div>
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
-                              ----- Exercise regularly = <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> unique microbial features
+                            <div class="diversity-category">
+                              Exercise regularly
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> unique microbial features
+                            </div>
                           </div>
                       </div>
                   </div>
                   <div class="row mb-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
-                              ----- Drink 1L of water regularly = <span id="diversity_water_regularly" class="info-loader text-success">...</span>  unique microbial features
+                            <div class="diversity-category">
+                              Drink 1L or water regularly
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_water_regularly" class="info-loader text-success">...</span>  unique microbial features
+                            </div>
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
-                              ----- Sleep more than 6 hours per night = <span id="diversity_sleep_alot" class="info-loader text-success">...</span> unique microbial features
+                              <div class="diversity-category">
+                                Sleep more than 6 hours per night
+                              </div>
+                              <div class="diversity-info">
+                                <span id="diversity_sleep_alot" class="info-loader text-success">...</span> unique microbial features
+                              </div>
                           </div>
                       </div>
                   </div>

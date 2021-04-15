@@ -363,7 +363,7 @@
 
         //Plot 3, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
-              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              'lifestage-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
               '/png?category=microbial_map_lifestage&sample_id=' + state.barcode_prefix + state.sample_id;
         placeURLSourcedImage(state, url, "#pcoa-multipopulation-lifestage-img");

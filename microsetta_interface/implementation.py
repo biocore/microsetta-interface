@@ -1191,6 +1191,23 @@ def admin_emperor_playground():
     )
 
 
+def admin_empress_playground():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+    return _render_with_defaults('empress-playground.jinja2')
+
+
+def empress_standalone(dataset, taxonomy):
+    empress_url = SERVER_CONFIG["public_api_endpoint"] + \
+                  f"/dataset/{dataset}/taxonomy/empress/{taxonomy}"
+
+    return _render_with_defaults(
+        "empress-template.jinja2",
+        empress_url=empress_url,
+        base_url='/static/vendor/empress',
+    )
+
+
 def get_ajax_check_kit_valid(kit_name):
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error

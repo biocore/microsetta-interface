@@ -39,7 +39,7 @@
 </head>
 <body>
     {% if admin_mode %}
-    <nav class="navbar fixed-top navbar-light bg-warning">
+    <nav class="navbar fixed-top navbar-light bg-warning shadow">
       Administrator Toolbar
       <a class="btn btn-outline-success" href="/admin/system_message">System Panel</a>
       <a class="btn btn-outline-success" href="/admin/emperor_playground">Emperor Playground</a>
@@ -51,7 +51,7 @@
     </nav>
     {% endif %}
     {% if not admin_mode %}
-    <nav class="navbar fixed-top navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-light bg-light shadow">
         <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>
         </a>

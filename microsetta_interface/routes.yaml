@@ -447,7 +447,7 @@ paths:
               schema:
                 type: string
 
-  '/results-experimental':
+  '/results-example':
     get:
       operationId: microsetta_interface.implementation.get_sample_results_experimental
       tags:

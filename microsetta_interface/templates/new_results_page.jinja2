@@ -1,6 +1,6 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = "Sample Results" %}
-{% set show_breadcrumbs = True %}
+{% set show_breadcrumbs = show_breadcrumbs %}
 
 {% block head %}
 
@@ -15,24 +15,86 @@
 <style>
     .diversity-icon {
       vertical-align: middle;
-      width: 48px;
-      height: 48px;
+      width: 72px;
+      height: 72px;
       object-fit: contain;
+      float:left;
      }
     .diversity-text {
         vertical-align:middle; 
         display:inline;
+        float:left;
+        padding: 10px;
+        padding-left: 20px;
     }
     .diversity-header {
         background-color: #EDECEF;
         padding: 10px;
     }
+    .diversity-compare {
+      background-color: #ffffff;
+      color: #747678;
+      border-radius: 15px;
+      padding: 10px;
+      padding-left: 20px;
+      border-style: solid;
+      border-width: 2px;
+      border-color: #006a96;
+      width: 30%;
+      margin: 20px;
+    }
+    .diversity-category {
+      color: #006a96;
+    }
+    .diversity-info {
+
+    }
+    .diversity-banner {
+      width: 100%;
+      max-width: 1920px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .similarity-fontstyle-same {
+        color: var(--ucsd-green);
+    }
+    .similarity-fontstyle-different {
+        color: var(--ucsd-brown);
+    }
+    /*.micromap {
+        min-width: 400px;
+        min-height: 300px;
+    }*/
+    .microinfo {
+        min-width: 40%;
+    }
     /*Removes the .active, .accordion:hover effect from minimal_interface.css*/
     /* Could potentially use color: initial but has less support...? */
+    .accordion-microbiome-map
+    {
+        background-color: #eee;
+        color: #000;
+        cursor: pointer;
+        padding: 5px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+        margin-bottom: 1%;
+        margin-top: 1%;
+    }
+    .accordion-panel-microbiome-map {
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
     .tab-pane {
         background-color: #FFFFFF;
         color: #000000;
-    }
+    } 
     .microbe-count {
         font-weight: bold;
     }
@@ -40,13 +102,57 @@
         text-align: left;
     }
     div.how_you_compare_section {
-        background-color: #EDECEF;
-        /*border-radius: 15px; */
+        background-color: #f1f1f1;
+        color: #747678;
+        border-radius: 15px;
         padding: 10px;
+        padding-left: 20px;
+        border-style: solid;
+        border-width: thin;
+        border-color: #006a96;
+        width: 70%;
+    }
+    div.how_you_compare_section h3 {
+      color: #006a96;
+      font-weight: lighter;
+      font-family: Mulish,sans-serif;
+      font-size: 36px;
+    }
+    div.how_you_compare_section h4 {
+      color: #006a96;
+      font-weight: lighter;
+      font-family: Mulish,sans-serif;
+      font-size: 20px;
+    }
+    div.how_you_compare_section p {
+      font: normal normal 400 14px/1.6 Muli,sans-serif;
+      font-variant-numeric: oldstyle-nums;
+      color: #747678;
+    }
+    div.how_you_compare_section a {
+      color: #006a96;
     }
     div.your_sample_diversity_inset {
-        background-color: #EDECEF;
-        padding: 10px;
+      background-color: #006a96;
+      color: #ffffff;
+      font-size: 20px;
+      border-radius: 15px;
+      border-style: solid;
+      border-width: thin;
+      border-color: #006a96;
+      width: 35%;
+      box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+
+    div.your_sample_diversity_inset .card-header {
+      color: #ffffff;
+      text-align: center;
+    }
+
+    div.your_sample_diversity_inset .card-body {
+      color: #ffffff;
+      font-size: 32px;
+      text-align: center;
     }
 
     .tooltipper {
@@ -74,7 +180,7 @@
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
     }
- 
+
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -92,12 +198,306 @@
 
 <script>
     "use strict";
-    function formatAlphaURL(state) {
-        let base = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/plotting/diversity/alpha/' + state.alpha_metric + '/percentiles-plot';
-        if (state.sample_id !== "") {
-            base = base + '?sample_id=' + state.barcode_prefix + state.sample_id;
+
+    function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
+        let renderPlot = function(data){
+            // Data is an object with three fields,
+            //    * decomposition - Two fields:
+            //        *coordinates - Array of arrays:
+            //            coordinates[0][2] is the first sample's value along
+            //                the third principal component.
+            //        *percents_explained - Array:
+            //            percents_explained[1] is the second principal components % explained.
+            //    * metadata - Docs claim array of array of arrays, but unclear
+            //                 what would be kept in metadata[0]
+            //      metadata[0][1][2] is the value of the second sample for
+            //      the third metadata column.
+            //    * metadata_headers - Array of names of metadata columns
+            //        metadata_headers[0] = name of first metadata column
+
+            let cat_index = 0;
+            let category_name = data.metadata_headers[cat_index];
+            let category_values = {};
+            for (var i = 0; i < data.metadata.length; i++){
+                var sample = data.metadata[i];
+                var val = data.metadata[i][cat_index];
+                if (val === 'NA')
+                    continue;
+                category_values[val] = 1;
+            }
+
+            let traces = [];
+            let user_sample_id = state.barcode_prefix + state.sample_id;
+            
+            let markersize = 5;
+            if (data.decomposition.coordinates.length > 10000) {
+                markersize = 2;
+            } else if (data.decomposition.coordinates.length > 2000) {
+                markersize = 3;
+            }
+
+            for (let key in category_values)
+            {
+                // have to de-interleave the data.
+                let xs = [];
+                let ys = [];
+                for (let i = 0; i < data.decomposition.coordinates.length; i++){
+                    if (data.decomposition.sample_ids[i] == user_sample_id)
+                        continue;
+                    if (data.metadata[i][cat_index] == key){
+                        xs.push(data.decomposition.coordinates[i][0]);
+                        ys.push(data.decomposition.coordinates[i][1]);
+                    }
+                }
+
+                let trace =
+                {
+                    name: key,
+                    x: xs,
+                    y: ys,
+                    mode: 'markers',
+                    type: 'scatter',
+                    marker: { size: markersize }
+                };
+                traces.push(trace);
+            }
+            
+            for (let i = 0; i < data.decomposition.coordinates.length; i++){
+                if (data.decomposition.sample_ids[i] === user_sample_id){
+                    let trace = {
+                        name: "Your sample",
+                        x: [data.decomposition.coordinates[i][0]],
+                        y: [data.decomposition.coordinates[i][1]],
+                        mode: "markers",
+                        type: "scatter",
+                        marker: {
+                            size: 18
+                        }
+                    };
+                    traces.push(trace);
+                    break;
+                }
+            }
+
+            let layout = {
+                xaxis: {
+                    showticklabels: false,
+                    zeroline: false,
+                    showgrid: false,
+                    fixedrange: true,
+                    showline: true
+
+                },
+                yaxis: {
+                    showticklabels: false,
+                    showgrid: false,
+                    zeroline: false,
+                    fixedrange: true,
+                    showline: true
+                },
+                "hovermode": false,
+                height: 450,
+                width: 600,
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t:0,
+                    pad:0
+                },
+                legend: {
+                    'itemsizing': 'constant'
+                }
+            };
+
+            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
+            //Plotly.Plots.resize(divSelector);
+            //let options = {title: 'hate',
+            //               legend: 'none',
+            //               height: 300,
+            //               width: 300,
+            //               lineWidth: 0,
+            //               chartArea: {'width': '100%',
+            //                           'height': '90%',
+            //                           left: 0,
+            //                           legend: 'right',
+            //                           top: 0},
+            //               enableInteractivity: false,
+            //               hAxis: { textPosition: 'none',
+            //                        gridlines: { count: 1, color: 'black' } },
+            //               vAxis: { textPosition: 'none',
+            //                       gridlines: { count: 1, color: 'black' } },
+                           //gridlines: { color: 'none' },
+            //               trendlines: {  0: { opacity: 0 }}
+            //              };
+            //let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
+            //chart.draw(gtable, options);
         }
-        return base;
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: renderPlot
+        });
+    }
+
+    function placeURLSourcedImage(state, url, divSelector) {
+        $(divSelector).attr('src', url);
+    };
+
+    function getMicrobiomeMapsRasterizedPlots(state) {
+        //Plot 1, plot sample type from tmi-datatype-allsamples
+        let url = state.public_endpoint + '/dataset/' +
+              'tmi-' + state.dataset_type.value + '-allsamples' +
+              '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
+        placeURLSourcedImage(state, url, "#pcoa-tmi-all-samples-img");
+        
+        //Plot 2, plot country from multipop-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/png?category=microbial_map_region&sample_id=' + state.barcode_prefix + state.sample_id;
+        placeURLSourcedImage(state, url, "#pcoa-multipopulation-region-img");
+
+        //Plot 3, plot country from multipop-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'lifestage-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/png?category=microbial_map_lifestage&sample_id=' + state.barcode_prefix + state.sample_id;
+        placeURLSourcedImage(state, url, "#pcoa-multipopulation-lifestage-img");
+
+        //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
+        placeURLSourcedImage(state, url, "#pcoa-builtenv-img");
+    };
+
+    function buildMicrobialMapsPlots(state)
+    {
+        //Plot 1, plot sample type from tmi-datatype-allsamples
+        let url = state.public_endpoint + '/dataset/' +
+              'tmi-' + state.dataset_type.value + '-allsamples' +
+              '/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=microbial_map'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-tmi-all-samples", //contents inserted into div name
+                           "All of the Microsetta Initiative")
+
+        //Plot 2, plot country from multipop-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=microbial_map_region'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-multipopulation-region", //contents inserted into div name
+                           "Multipopulation")
+
+
+        //Plot 3, plot country from multipop-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=microbial_map_lifestage'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-multipopulation-lifestage", //contents inserted into div name
+                           "Multipopulation")
+
+
+        //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
+        url = state.public_endpoint + '/dataset/' +
+              'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
+              state.beta_metric + '/pcoa/full-dataset' +
+              '/emperor?metadata_categories=microbial_map'
+        buildPlotlyEmperor(state,
+                           url,
+                           "pcoa-builtenv", //contents inserted into div name
+                           "You and the Microbes Around You")
+    }
+
+    function addDatasetDetail(detail) {
+        let name = Object.keys(detail)[0];
+        let info = detail[name];
+        let span_id = "";
+
+        // Qiita doesn't provide an easy way to obtain this detail 
+        // soo... not ideal but let's provide a way to get study 
+        // links for various datasets
+        let study_lookup = {'10317': ["American Gut: an Open Platform for Citizen Science Microbiome Research", 
+                                      "https://msystems.asm.org/content/3/3/e00031-18"],
+                            "850": ["Human gut microbiome viewed across age and geography", 
+                                    "https://www.nature.com/articles/nature11053"],
+                            "10297": ["Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota", 
+                                      "https://www.nature.com/articles/srep40466"],
+                            "10080": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
+                            "10300": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
+                            "11076": ["Rapid change of fecal microbiome and disappearance of Clostridium difficile in a colonized infant after transition from breast milk to cow milk", "https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0198-6"],
+                            "11884": ["Natural history of the infant gut microbiome and impact of antibiotic treatment on bacterial strain diversity and stability", "https://stm.sciencemag.org/content/8/343/343ra81"],
+                            "1454": ["Persistent gut microbiota immaturity in malnourished Bangladeshi children", "https://www.nature.com/articles/nature13421"],
+                            "10249": ["Antibiotics, birth mode, and diet shape microbiome maturation during early life", "https://stm.sciencemag.org/content/8/343/343ra82"],
+                            "11937": ["Gut Microbiota in the First 2 Years of Life and the Association with Body Mass Index at Age 12 in a Norwegian Birth Cohort", "https://mbio.asm.org/content/9/5/e01751-18"],
+                            "10333": ["Walls talk: Microbial biogeography of homes spanning urbanization", "https://advances.sciencemag.org/content/2/2/e1501061"],
+                            "10423": ["Geography and location are the primary drivers of office microbiome composition", "https://msystems.asm.org/content/1/2/e00022-16"],
+                            "11358": ["Seasonal cycling in the gut microbiome of the Hadza hunter-gatherers of Tanzania", "https://science.sciencemag.org/content/357/6353/802"],
+                             "2024": ["Microbiota at Multiple Body Sites during Pregnancy in a Rural Tanzanian Population and Effects of Moringa-Supplemented Probiotic Yogurt", "https://aem.asm.org/content/81/15/4965"],
+                            "11993": ["Gut microbiota is associated with obesity and cardiometabolic disease in a population in the midst of Westernization", "https://www.nature.com/articles/s41598-018-29687-x"],
+                            "10581": ["Cohort of human mothers and babies from El Salvador ", "https://www.ebi.ac.uk/ena/browser/view/ERP112775"],
+                            "10352": ["Comparison of Fecal Collection Methods for Microbiota Studies in Bangladesh", "https://aem.asm.org/content/83/10/e00361-17"],
+                            "11757": ["Regional variation limits applications of healthy gut microbiome reference ranges and disease models", "https://www.nature.com/articles/s41591-018-0164-x"],
+                             "1481": ["Whole-grain wheat consumption reduces inflammation in a randomized controlled trial on overweight and obese subjects with unhealthy dietary and lifestyle behaviors: role of polyphenols bound to cereal dietary fiber", "https://academic.oup.com/ajcn/article/101/2/251/4494380"],
+                            "10052": ["The microbiome of uncontacted Amerindians", "https://advances.sciencemag.org/content/1/3/e1500183"],
+                             "1448": ["Subsistence strategies in traditional societies distinguish gut microbiomes", "https://www.nature.com/articles/ncomms7505"],
+                             "1718": ["Infant time series", "https://www.ebi.ac.uk/ena/browser/view/PRJEB36860"]
+        }
+        switch (name) {
+            case "builtenv-16S-allsamples":
+                span_id = "#dataset_links_builtenv";
+                break;
+            case "tmi-16S-gut":
+                span_id = "#dataset_links_tmi";
+                break;
+            case "multipop-16S-gut":
+                span_id = "#dataset_links_multipopgut";
+                break;
+            case "lifestage-16S-gut":
+                span_id = "#dataset_links_lifestagegut";
+                break;
+            default:
+                return;
+        };
+
+        let study_title = "";
+        let study_url = "";
+        let to_append = "";
+        for (var qiita_id of info['qiita-study-ids']) {
+            if(qiita_id in study_lookup) {
+                study_title = study_lookup[qiita_id][0];
+                study_url = study_lookup[qiita_id][1];
+                to_append = '<li><h6 style="margin-bottom: 0px;">' + study_title + '</h6>'; //<span>' + study_title + '</span>';
+                if(study_url !== "") {
+                    to_append = to_append + '<a href="' + study_url + '">Publication link</a><br />';
+                }
+                to_append = to_append + '<a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Data access (Qiita study ' + qiita_id + ')</a>';
+                to_append = to_append + '</li>';
+
+                $(span_id).append(to_append).removeClass("spinner-grow spinner-grow-sm");
+            }
+        }
+                
+                    
+            //$(span_id).append('<li><h6>' + study_title + '</h6><br /><span>' + study_title + '</span>
+            //$(span_id).append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
+        //if (detail['qiita-study-ids'].length > 1)
+        //    $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");
+        //else
+        //    $("#dataset_meta_analysis").text("").removeClass("spinner-grow spinner-grow-sm")
     }
 
     function refreshDatasets(state) {
@@ -107,22 +507,85 @@
             type: "GET",
             success: function(data)
             {
-                let resultMap = {};
-                for (var key in data)
-                    resultMap[data[key]] = data[key]
-                populateSelect("#dataset", resultMap, data[0]);
-                //TODO FIXME HACK:
-                //Updating $("#dataset") should have automatically updated
-                //the state but jquery's change event is not triggering linked
-                //events at the time populate select is called, even when
-                //explicitly calling $("#dataset").change().
-                //This issue appears to only occur while emperor is loading
-                //suggesting that emperor is either messing with the DOM or
-                //with jquery itself when it first loads in.  (or that loading
-                //emperor is slow and there is some kind of race condition)
-                //We thus bypass the jquery event handling and directly update
-                //the state which does correctly queue events.
-                state.dataset_input.value = $("#dataset").val();
+                for (var i = 0; i < data.length; i++) {
+                    $.ajax({
+                        url: state.public_endpoint + "/dataset/" + data[i],
+                        type: "GET",
+                        success: function (detail) {
+                            addDatasetDetail(detail);
+                        }
+                    });
+                }
+                //Not sure that this will matter much longer, but for now
+                //we still need to pick a single dataset for many of the queries
+                //Need to pick a proper business rule to do that.
+                //    For now, we'll prefer things named tmi-
+                //    and we'll use 16S over WGS
+                //if (data.length === 0)
+                //{
+                //    //Ack, this sample isn't in any datasets, pick one arbitrarily.
+                //    state.dataset_input.value = "tmi-WGS-gut"
+                //    return
+                //}
+
+                //var best_score = -1
+                //var best_index = -1
+                //for (var i = 0; i < data.length; i++)
+                //{
+                //    var score = 0
+                //    if (data[i].includes("tmi-"))
+                //        score += 1
+                //    if (data[i].includes("WGS"))
+                //        score += 1
+                //    if (data[i].includes("gut") ||
+                //        data[i].includes("oral") ||
+                //        data[i].includes("skin"))
+                //        score += 1
+
+                //    if (score > best_score){
+                //        best_score = score
+                //        best_index = i
+                //    }
+                //}
+
+                //if (data[best_index].includes("16S"))
+                //{
+                //    state.dataset_type.value = "16S"
+                //}
+                //else if (data[best_index].includes("WGS"))
+                //{
+                //    state.dataset_type.value = "WGS"
+                //}
+                //else
+                //{
+                //    console.log("Unknown dataset type")
+                //    state.dataset_type.value = null
+                //}
+
+                //if (data[best_index].includes("oral"))
+                //{
+                //    state.dataset_site.value = "oral"
+                //}
+                //else if (data[best_index].includes("skin"))
+                //{
+                //    state.dataset_site.value = "skin"
+                //}
+                //else if (data[best_index].includes("gut"))
+                //{
+                //    state.dataset_site.value = "gut"
+                //}
+                //else
+                //{
+                //    console.log("Unknown dataset site")
+                //    state.dataset_site.value = null
+                //}
+
+                // WARNING: FORCING 16S FOR RIGHT NOW FOR SCALE TESTING
+                state.dataset_type.value = '16S';
+                state.dataset_site.value = "gut";
+                state.dataset_input.value = 'tmi-16S-gut';
+
+                //state.dataset_input.value = data[best_index]
             }
         });
     }
@@ -207,11 +670,168 @@
                 ],
                 order: [[ 0, "desc" ]],
                 dom: "Bfrtip",
-                buttons: [{extend: 'csv', className: 'btn btn-info'}],
+                buttons: [{extend: 'csv', className: 'btn btn-info', text: 'Download the spreadsheet'}],
+                initComplete: function(settings) {
+                    $('#taxonomyTable thead th').each(function () {
+                       let $td = $(this);
+                       let value = $td.text();
+                       switch (value) {
+                           case "Kingdom":
+                               value = "The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)";
+                               break;
+                           case "Phylum":
+                               value = "Within the kingdom Eukarya, this is like the difference between humans and plants";
+                               break;
+                           case "Class":
+                               value = "Within the phylum Chordata, this is along the lines of humans and fish";
+                               break;
+                           case "Order":
+                               value = "Within the class Mammalia, this is like the difference between whales and a dogs";
+                               break;
+                           case "Family":
+                               value = "With the order Carnivora are the families for dogs and cats";
+                               break;
+                           case "Genus":
+                               value = "Within the family Canidae, you would find a genus for foxes and one for wolves";
+                               break;
+                           default:
+                               value = "";
+                               break; 
+                       }
+                       $td.attr('title', value);
+                    });
+                    
+                    /* Apply the tooltips */
+                    $('#taxonomyTable thead th[title]').tooltip(
+                    {
+                        container: 'body',
+                        placement: 'auto'
+                    });
+                }
             }
         );
     }
-    
+
+    function retrieveNeighbors(state, k){
+        let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
+        return $.ajax({
+            method: "GET",
+            url: url,
+            data: {
+                sample_id: state.barcode_prefix + state.sample_id,
+                k:k
+            }
+        }).fail(function(result, textStatus, errorThrown){
+            console.log("Couldn't retrieve neighbors" + textStatus)
+        });
+    }
+
+    function fillNNResults(state, categories, chooserMap, selectorMap) {
+        return function(samplesQueried, sampleResults) {
+            // Count number of responses for each answer of each question
+            let categoryCounts = {}
+            let display = {}
+            for (let i = 0; i < samplesQueried.length; i++) {
+                for (let j = 0; j < categories.length; j++) {
+                    let cat = categories[j]
+                    if (!(cat in categoryCounts))
+                        categoryCounts[cat] = {}
+                    let val = sampleResults[i][j]
+                    if (!(val in categoryCounts[cat]))
+                        categoryCounts[cat][val] = 0
+                    categoryCounts[cat][val] += 1
+                }
+            }
+
+            for (let j = 0; j < categories.length; j++){
+                let cat = categories[j]
+                let sum = 0
+                let maxval = -1
+                let maxkey = null
+                for (let key in categoryCounts[cat]) {
+                    let val = categoryCounts[cat][key]
+                    sum += val
+                    if (key !== "Not provided" && val > maxval) {
+                        maxval = val
+                        maxkey = key
+                    }
+                }
+
+                let me = samplesQueried.indexOf(state.barcode_prefix + state.sample_id);
+                let my_cat = categories.indexOf(cat);
+                let my_value = sampleResults[me][my_cat];
+                let set_color = null;
+
+                let chosen = null
+                if (!(cat in chooserMap) || chooserMap[cat]["type"] === "max") {
+                    chosen = maxkey
+                    if(chosen === my_value) {
+                        set_color = 'similarity-fontstyle-same';
+                    } else {
+                        set_color = 'similarity-fontstyle-different';
+                    }
+                }
+                else if (chooserMap[cat]["type"] === "specified")
+                    chosen = chooserMap[cat]["value"]
+                else if (chooserMap[cat]["type"] === "same") {
+                    me = samplesQueried.indexOf(state.barcode_prefix + state.sample_id)
+                    j = categories.indexOf(cat)
+                    chosen = sampleResults[me][j]
+                }
+                display[cat] = {}
+                display[cat]["response"] = chosen
+                display[cat]["value"] = Math.round((categoryCounts[cat][chosen] / sum) * 100) + "%"
+                display[cat]["color"] = set_color;
+            }
+
+            for (let cat of categories) {
+                if (!(cat in selectorMap))
+                    continue;
+                let resp_selector = selectorMap[cat][0]
+                let val_selector = selectorMap[cat][1]
+                let resp = display[cat]["response"]
+                let val = display[cat]["value"]
+                let color = display[cat]["color"]
+
+                $(val_selector).text(val).removeClass("spinner-grow spinner-grow-sm");
+                if(color !== null) {
+                    $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm text-success").addClass(color);
+                } else {
+                    $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm");
+                }
+
+                
+            }
+
+        }
+    }
+
+
+    function queryNeighborAndSelfMetadata(state, metadata_cats){
+        return function(result, textStatus, jqXHR)
+        {
+            let toQuery = result;
+            toQuery.push(state.barcode_prefix + state.sample_id);
+
+            return $.ajax(
+            {
+                method: "POST",
+                url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                data: JSON.stringify(toQuery),
+                contentType: "application/json"
+            }).fail(function(result, textStatus, errorThrown){
+                console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
+            }).then(function(result, textStatus, jqXHR){
+                let thenner = {};
+                thenner.then = function(func){
+                    // Need to pass on the sample ids. Argh.
+                    return func(toQuery, result);
+                };
+                return thenner;
+            });
+        };
+    }
+
     function updateCompare(state){
         // Reset all the fields to spinners
         $(".info-loader").empty().addClass("spinner-grow spinner-grow-sm");
@@ -235,45 +855,6 @@
         function setInfoText(resultSelector){
             return function(result, textStatus, jqXHR){
                 return $(resultSelector).text(result).removeClass("spinner-grow spinner-grow-sm");
-            };
-        }
-
-        function retrieveNeighbors(state, k){
-            let url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/diversity/beta/' + state.beta_metric + '/nearest';
-            return $.ajax({
-                method: "GET",
-                url: url,
-                data: {
-                    sample_id: state.barcode_prefix + state.sample_id,
-                    k:k
-                }
-            }).fail(function(result, textStatus, errorThrown){
-                console.log("Couldn't retrieve neighbors" + textStatus)
-            });
-        }
-
-        function queryNeighborAndSelfMetadata(state, metadata_cats){
-            return function(result, textStatus, jqXHR)
-            {
-                let toQuery = result;
-                toQuery.push(state.barcode_prefix + state.sample_id);
-
-                return $.ajax(
-                {
-                    method: "POST",
-                    url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/metadata/values?" + $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
-                    data: JSON.stringify(toQuery),
-                    contentType: "application/json"
-                }).fail(function(result, textStatus, errorThrown){
-                    console.log("Couldn't retrieve metadata for neighbors and self " + errorThrown)
-                }).then(function(result, textStatus, jqXHR){
-                    let thenner = {};
-                    thenner.then = function(func){
-                        // Need to pass on the sample ids. Argh.
-                        return func(toQuery, result);
-                    };
-                    return thenner;
-                });
             };
         }
 
@@ -385,88 +966,158 @@
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
-        let queries = [];
-        let countries = ["USA", "United Kingdom"];
-        for (let country of countries){
-            let query = $.ajax(
+        const more_than_30_plants =
             {
-                url: state.public_endpoint + "/dataset/" +
-                     state.dataset_input.value +
-                     "/diversity/alpha/group/" +
-                     state.alpha_metric + "?" + $.param({summary_statistics: true}),
-                method: "POST",
-                data: JSON.stringify(
-                {
-                    "metadata_query":
+                "metadata_query":
                     {
                         "condition": "OR",
-                        "rules":
-                        [
+                        "rules": [
                             {
-                                "id": "country",
+                                "id": "types_of_plants",
                                 "operator": "equal",
-                                "value": country
+                                "value": "More than 30"
                             }
                         ]
                     }
-                }),
-                contentType: "application/json"
-            });
-            queries.push(query)
+            };
+        const water_frequency = 
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "one_liter_of_water_a_day_frequency",
+                                "operator": "equal",
+                                "value": "Regularly (3-5 times/week)"
+                            }
+                        ]
+                    }
+            };
+        const exercise_regularly =
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "exercise_frequency",
+                                "operator": "equal",
+                                "value": "Regularly (3-5 times/week)"
+                            }
+                        ]
+                    }
+            };
+        //I wish we had ordered categorical variables because this query is stupid
+        const sleep_more_than_6_hrs =
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "6-7 hours"
+                            },
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "7-8 hours"
+                            },
+                            {
+                                "id": "sleep_duration",
+                                "operator": "equal",
+                                "value": "8 or more hours"
+                            }
+                        ]
+                    }
+            }
+
+        const POST_DATA = {
+            "plants": more_than_30_plants,
+            "water": water_frequency,
+            "exercise": exercise_regularly,
+            "sleep": sleep_more_than_6_hrs
         }
 
-        let queryMe = $.ajax(
+        const SELECTORS = {
+            "plants": "#diversity_30_plants_per_week",
+            "water": "#diversity_water_regularly",
+            "exercise": "#diversity_exercise_regularly",
+            "sleep": "#diversity_sleep_alot"
+        }
+
+        // We override the default alpha_metric from state for this page.
+        let alpha_metric = "observed_features"
+        for (let key in POST_DATA) {
+            $.ajax(
+                {
+                    url: state.public_endpoint + "/dataset/" +
+                        state.dataset_input.value +
+                        "/diversity/alpha/group/" +
+                        alpha_metric + "?" + $.param({summary_statistics: true}),
+                    method: "POST",
+                    data: JSON.stringify(POST_DATA[key]),
+                    contentType: "application/json",
+                    success: function (data) {
+                        let display = data["group_summary"]["median"]
+                        $(SELECTORS[key]).text(display).removeClass("spinner-grow spinner-grow-sm");
+                    }
+                }).fail(function (result, textStatus, errorThrown) {
+                console.log("Couldn't retrieve alpha metrics (" + key + ")")
+            });
+        }
+        $.ajax(
             {
-                url: state.public_endpoint + "/dataset/" +
-                     state.dataset_input.value +
-                     "/diversity/alpha/single/" +
-                     state.alpha_metric + "/" + state.barcode_prefix + state.sample_id
-            }
-        );
-        queries.push(queryMe);
-        $.when.apply($, queries).done(function(){
-            let traces = [];
-            for (let i = 0; i < countries.length; i++)
-            {
-                let country = countries[i];
-                let alpha_summary = arguments[i][0];
+                url: state.public_endpoint + "/dataset/" + 
+                    state.dataset_input.value +
+                    "/diversity/alpha/single/" +
+                    alpha_metric + "/" + state.barcode_prefix + state.sample_id,
+                method: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    let display = data["data"]
+                    $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
+                }
+            }).fail(function (result, textStatus, errorThrown) {
+            console.log("Couldn't retrieve alpha metric for the sample")
+        });
 
-                let fill = "tozeroy";
-                if (i > 0)
-                    fill = "tozeroy";
-                let trace = {
-                    name: countries[i],
-                    x: alpha_summary.group_summary.percentile_values,
-                    y: alpha_summary.group_summary.percentile,
-                    fill: fill
-                };
-                traces.push(trace);
-            }
-
-            let myQueryIndex = countries.length;
-            let myAlphaMetric = arguments[myQueryIndex][0].data;
-            let trace = {
-                name: "Me",
-                x: [myAlphaMetric, myAlphaMetric],
-                y: [0, 100],
-                mode: "line"
-            };
-            traces.push(trace);
-
-            let layout = {
-                title: "Faith PD by Country"
-            };
-            // Plotly.newPlot("diversity-vis", traces);
-        })
     }
 
-    function updateSimilarity(similarityData, state){
-        if (similarityData === null){
-            $("#emperor-notebook").empty();
-<!--        $(".content").nextAll().remove(); //Why does emperor put stuff out here?  This is hard to find and deal with...-->
-            return;
+    function updateSimilarity(state){
+        const K = 100 // However many neighbors we want to pull metadata for
+        const SELECTOR_MAP = {
+            "types_of_plants": ["#beta_diversity_plants_per_week_response", "#beta_diversity_plants_per_week_value"],
+            "probiotic_frequency": ["#beta_diversity_probiotics_response", "#beta_diversity_probiotics_value"],
+            "exercise_frequency": ["#beta_diversity_exercise_response", "#beta_diversity_exercise_value"],
+            "age_years": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
+            //"diet": ["",""],
+            "diet_type": ["#beta_diversity_diet_type_response", "#beta_diversity_diet_type_value"],
+            "multivitamin": ["#beta_diversity_multivitamin_response", "#beta_diversity_multivitamin_value"],
+            "sleep_duration": ["#beta_diversity_sleep_response", "#beta_diversity_sleep_value"],
+            "sex":  ["#beta_diversity_sex_response", "#beta_diversity_sex_value"]
         }
+        const CHOOSER = {
+            "types_of_plants": {"type": "max"},
+            "probiotic_frequency": {"type": "max"},
+            "exercise_frequency": {"type": "max"},
+            "age_years": {"type": "same"},
+            //"diet": {"type": "same"},
+            "diet_type": {"type": "same"},
+            "multivitamin": {"type": "specified", "value": true},
+            "sleep_duration": {"type": "max"},
+            "sex":  {"type": "same"}
         }
+        const CATEGORIES = []
+        for (let key in SELECTOR_MAP)
+            CATEGORIES.push(key)
+
+        retrieveNeighbors(state, K)
+            .then(queryNeighborAndSelfMetadata(state, CATEGORIES))
+            .then(fillNNResults(state, CATEGORIES, CHOOSER, SELECTOR_MAP)) //TODO: Switch from logging to filling in divs by adding selectors here
+    }
 
     function updateTaxonomy(taxonomyData, state){
         // Rebuild taxonomy table when we switch dataset
@@ -499,6 +1150,7 @@
             let sampling_y = [];
             let sample_x = [];
             let sample_y = [];
+
             for (let i =0; i < sampling_results[0].Rank.length; i++)
             {
                 if (topX.has(sampling_results[0].Taxon[i]))
@@ -542,10 +1194,10 @@
             };
             let data = [trace1, trace2];
             let layout = {
-                "title": "How abundant are my taxa compared to everyone else?",
+                "title": "How abundant are my microbes compared everyone in Microsetta?",
                 "hovermode": false,
                 "yaxis": {
-                    "title": "Common Taxa",
+                    "title": "Common types of microbes",
                     "automargin": true,
                     "categoryorder": "array",
                     "categoryarray": topXOrdered
@@ -568,25 +1220,16 @@
                     if (info == null)
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
-                    if (info.datatype == "WGS"){
+                    if (info.datatype === "WGS"){
                         $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
                     }
-                    else if (info.datatype == "16S"){
+                    else if (info.datatype === "16S"){
                         $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
                         $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
 
                     }
-                    for (var qiita_id of info['qiita-study-ids'])
-                        $("#dataset_links").append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
-
-                    if (info['qiita-study-ids'].length > 1)
-                        $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");
-                    else
-                        $("#dataset_meta_analysis").text("").removeClass("spinner-grow spinner-grow-sm")
-
-
                 },
                 function(result, textStatus, errorThrown){
                     console.log("Couldn't retrieve text for " + method + " " + url);
@@ -612,11 +1255,31 @@
     }
 
     function enableTooltips(){
-        $('.tooltipper').tooltip({position: "bottom"});
+      $('.tooltipper').tooltip({position: "bottom"});
+    }
+
+    function setupAccordions() {
+        let acc = document.getElementsByClassName("accordion-microbiome-map");
+        let i;
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                /* Toggle between adding and removing the "active" class,
+          to highlight the button that controls the panel */
+                this.classList.toggle("active");
+                /* Show/closes  the active panel */
+                let panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
     }
 
     function init(){
         enableTooltips();
+        setupAccordions();
 
         // Hook up fake tab links
         $('.fake-tab').click(function() {
@@ -630,7 +1293,13 @@
         let state = {};
 
         // Initialize state
-        state.dataset_input = new JQuerySelectInput("Dataset", "#dataset");
+        state.dataset_input = new NamedExpression("Dataset", "Loading...");
+        //oral/gut/skin
+        state.dataset_site = new NamedExpression("Dataset-Site", "Loading...");
+        //16S/WGS
+        state.dataset_type = new NamedExpression("Dataset-Type", "Loading...");
+        state.known_datasets = [];
+
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";
@@ -657,17 +1326,18 @@
                 return;
 
             //TODO: Decide how to tell each control it is waiting on ajax data
-            //updateSimilarity(null, state);
             //updateTaxonomy(null, state);
 
-            let similarityData = { "result": "Similarity AJAX: " + dataset };
             let taxonomyData = { "result": "Taxonomy AJAX: " + dataset };
 
             updateCompare(state);
             updateDiversity(state);
-            updateSimilarity(similarityData, state);
+            updateSimilarity(state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
+
+            //buildMicrobialMapsPlots(state);
+            getMicrobiomeMapsRasterizedPlots(state);
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -684,26 +1354,25 @@
 {% endblock %}
 
 {% block content %}
-<label for="dataset">Dataset:</label>
-<select id="dataset" name="dataset" autocomplete="off" disabled>
-    <option>Loading...</option>
-</select>
-
+<div class="tmi-content">
 <div class="row">
-    <div class="col-sm-auto">
+    <div class="col-sm-auto full-height">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How you compare?</a>
-          <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Your sample diversity</a>
-          <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Diversity similarities</a>
-          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">What is in your sample?</a>
-          <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can you learn more?</a>
+          <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
+          <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
+          <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Similarity</a>
+          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Your Inner Zoo</a>
+          <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbiome Map</a>
+          <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can I learn more?</a>
         </div>
     </div>
+
     <div class="col-sm border">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
-                <h3>How You Compare?</h3>
+                <h3>How do you compare?</h3>
+                <img class="diversity-banner" src='/static/img/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
                     Your microbiome is a rainforest of diverse microbes dominated
@@ -711,32 +1380,22 @@
                     live all over and in your body. The diversity of your
                     microbiome, how similar it is to other peoples', and the types
                     of bacteria living inside you have all been linked to health,
-                    disease and lifestyle traits in numerous studies. Scientists
-                    use microbiome data from large groups of people to compare the
-                    microbiome between different groups of people. For example, we
-                    explore how the microbiome differs between people that eat many
-                    kinds of plants (salads, vegetables, fruits) each week,
-                    compared to those that eat very few. Or we can look at how
-                    exercising frequently or rarely influences the number of
-                    different bacteria inside your body
+                    disease and lifestyle traits in numerous studies. 
                 </p>
-                
+
                 <p>
-                Scientists often use 3 different approaches to see how your microbiome differs:
+                Scientists often use many different approaches to see how your
+                microbiome differs. We've analyzed your microbiome sample using
+                standard microbiome research tools, and the results are broken
+                down below in a few different categories:
                 </p>
 
                 <div class="how_you_compare_section">
                     <h4>Diversity</h4>
                     <p>
-                    Scientists will count the number of different types
-                    of microbes found in a sample and see if that changes in people
-                    with different diseases or lifestyles. This is called <i>diversity
-                    analysis</i>. Counting the number of different types of microbes in
-                    a sample is like figuring out the biodiversity of the sample,
-                    and as we all know, for the most part, more biodiversity is
-                    better. For more information on how diverse your microbiome is
-                    in compared to different people, check out <a class="fake-tab" 
-                    href="#diversity" data-link="#diversity-tab">Your sample diversity</a>.
+                    How many kinds of microbes were in your sample?
+                    Check out your <a class="fake-tab" 
+                    href="#diversity" data-link="#diversity-tab">Diversity</a>.
                     </p>
                 </div>
                 </br>
@@ -744,104 +1403,109 @@
                 <div class="how_you_compare_section">
                     <h4>Similarity</h4>
                     <p>
-                    Scientists often find that people with similar
-                    microbiomes (similar types of microbes living on or inside you) share
-                    health, disease, and lifestyle traits – almost like your
-                    microbiome is a signature of how "you are, what you eat," and
-                    how much you exercise, etc.
-                    </p>
-
-                    <p>
-                    We looked at how often the types of microbes found in
-                    your sample were also in other people's microbiomes in our
-                    database. Then we identified all the people whose <span id="taxa-tooltip" class="tooltipper" data-title="testtest">microbiomes</span>
-                    were similar to your microbiome (which means
-                    the people with whom you share a lot of the same types of
-                    bacteria). This information is then compared to that group of
-                    people's questionnaire responses. You can see how they answered
-                    their questionnaires in <a class="fake-tab" href="#similarity" 
-                    data-link="#similarity-tab">Diversity similarities</a>.
+                    What kinds of people have microbiomes like yours? Check out
+                    your microbiome <a class="fake-tab" href="#similarity" 
+                    data-link="#similarity-tab">Similarity</a>.
                     </p>
                 </div>
                 </br>
 
                 <div class="how_you_compare_section">
-                    <h4>Taxonomy</h4>
+                    <h4>Your Inner Zoo</h4>
                     <p>
-                    If you REALLY want to know the names of the microbes
-                    that live inside you, and a little bit of information on what
-                    they do, go to <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">What's in your sample?</a> 
-                    to browse a list of your microbial friends, and see how abundant 
-                    they were in your sample!
+                    What particular kinds of microbes are in your sample?
+                    Wander through <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Your Inner Zoo</a>. 
                     </p>
                 </div>
-            </div>
+                </br>
+
+                <div class="how_you_compare_section">
+                    <h4>Microbiome Map</h4>
+                    <p>
+                    Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome Map</a>?
+                    </p>
+                </div>
+              </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               <div class="column results_text">
-                  <h3>Your sample diversity</h3>
+                  <h3>Diversity</h3>
                   <br>
                   <p>
-                  There are hundreds of millions to billions of different types
-                  of bacteria living on planet earth, which dwarfs the meager 2
-                  million different kinds of animals and plants that you can see
-                  with your eyes. The average American has <strong>187</strong>
-                  different types of microbes in a stool sample, which is lower
-                  than we find in people living a more hunter-gatherer
-                  lifestyle, like the <strong>306</strong> we find in samples
-                  from the Hadza Tribe. 
+                   There are anywhere from hundreds of millions to hundreds of
+                   billions of different types of bacteria living on planet earth.
+                   This dwarfs the meager 2 million different kinds of animals
+                   and plants that you can see with your eyes. The
+                   <span id="average-us-tooltip" class="tooltipper"
+                   data-title="Based on fecal samples from Microsetta participants in the United States">average</span>
+                   American has <strong>187</strong> different types of microbes in a stool sample, which is
+                   lower than we find in people living a more hunter-gatherer
+                   lifestyle, like the <strong>306</strong> we find in samples from the 
+                   <span id="taxa-tooltip" class="tooltipper"
+                   data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.
                   </p>
 
                   <div class="card your_sample_diversity_inset">
-                      <div class="card-header">Microbes found in your sample</div>
+                      <div class="card-header">Number of different microbes found in your sample</div>
                       <div class="card-body">
-                          <h5 class="card-title">XXX</h5>
-                          <p class="card-text"> 
-                          Is the number of microbes found in your sample. 
-                          </p>
+                          <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
                   </div>
 
                   <p>
-                  When scientists talk about the number of different types of
-                  microbes in your sample, they call that Alpha Diversity.
-                  </p>
-
-                  <p>
-                  When we calculated diversity of groups of samples in our
-                  database, we found that diversity is assocaited by how you live
-                  your life. So, the answers people gave to their questionnaires
-                  enables us to see the average microbiome diversity for people
-                  who (i) eat more than 30 plants a week; (ii) Exercise Regularly; 
-                  (iii) eat fermented foods regularly; (iv) Sleep more than 
-                  6 hours a night.
+                    When we calculated the diversity of groups for samples in our database,
+                    we found diversity is associated with how you live your life.
+                    Here, we summarized the average microbiome diversity for a few of
+                    the questionnaire responses, specifically people who eat more than 30
+                    plants a week, exercise regularly, drink water regularly, or sleep
+                    more than 6 hours a night.
                   </p>
 
                   <div class="row mb-2 mt-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
-                              ----- Eat more than 30 plants a week = <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
+                            <div class="diversity-category">
+                              Eat more than 30 plants a week
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> unique microbial features
+                            </div>
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
-                              ----- Exercise regularly = <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
+                            <div class="diversity-category">
+                              Exercise regularly
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> unique microbial features
+                            </div>
                           </div>
                       </div>
                   </div>
                   <div class="row mb-2">
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
-                              ----- Eat fermented foods regularly = <span id="diversity_fermented_regularly" class="info-loader text-success">...</span>
+                            <div class="diversity-category">
+                              Drink 1L or water regularly
+                            </div>
+                            <div class="diversity-info">
+                              <span id="diversity_water_regularly" class="info-loader text-success">...</span>  unique microbial features
+                            </div>
                           </div>
                       </div>
-                      <div class="col">
+                      <div class="col diversity-compare">
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
-                              ----- Sleep more than 6 hours per night = <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
+                              <div class="diversity-category">
+                                Sleep more than 6 hours per night
+                              </div>
+                              <div class="diversity-info">
+                                <span id="diversity_sleep_alot" class="info-loader text-success">...</span> unique microbial features
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -849,52 +1513,29 @@
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
               <div class="column results_text">
-                  <h3>Diversity similarities</h3>
+                  <h3>Similarity</h3>
                   <br>
                   <p>
-                  When microbiome scientists talk about how similar your
-                  microbiome is to someone else that call that beta diversity.
-                  This is basically a calculation that compares the list of
-                  different bacteria living in you to a list of bacteria living
-                  in someone else. If the list has a lot of overlap then the
-                  samples are very similar, if the list has very little overlap
-                  the samples are not very similar. 
+                  One of the powerful ways microbiome scientists analyze data
+                  is by looking at similarities among samples. To do this,
+                  we compute a <span id="similarity-tooltip" class="tooltipper" 
+                  data-html="true" data-title="
+                  There are <i>a lot</i> of ways to form a distance. One way is
+                  to base the distance off of the fraction of microbes in
+                  common in your sample with each other sample. We typically share
+                  few of the exact same microbes in common with other people though
+                  which is problematic when comparing exact microbes. To account for 
+                  this, researchers often take the evolutionary relationships among microbes
+                  into account when forming these distances.">distance</span> from your sample to all 
+                  other samples based on the microbes observed. 
                   </p>
 
                   <p>
-                  Scientists (because we love to complicate things) calculate
-                  this using a backwards scale, so the higher the number the
-                  lower the similarity between two samples! 
-                  </p>
-
-                  <p>
-                  There are <i>a lot</i> of ways to calculate how similar
-                  microbiome samples are. At a high level, there are two types
-                  of similarity comparisions: 
-                  </p>
-
-                  <ul>
-                      <li>
-                      Unweighted similarity: this is simply a comparison of
-                      the list of microbes in each sample, the more overlap
-                      there between those lists the more similar samples
-                      are.
-                      </li>
-                      <li>
-                      Weighted similarity: this adds the abundance of each
-                      microbe into the calculation. So even if you have the
-                      exact same list of bacteria as someone else (e.g.
-                      A,B,C,D,E), but bacteria A, B and C are really abundant
-                      in your sample and rare in the other sample, and vice
-                      versa, then you would actually have a low weighted
-                      similarity.
-                      </li>
-                  </ul>
-
-                  <p>
-                  We compared your sample to our database, and examined the 100
+                  Here, we your sample to all the others in our database, and examined the 100
                   most similar samples to yours. These people answered their
-                  questionnaires in the following way:
+                  questionnaires in the following way; the response is colored in 
+                  <span class="similarity-fontstyle-same">light green</span> if it matches your 
+                  response and <span class="similarity-fontstyle-different">brown</span> if your response differed. 
                   </p>
 
                   <div id="beta-diversity-comparisons">
@@ -907,18 +1548,23 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/vegetables.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_plants_per_week_value" class="info-loader text-success">...</span> 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/vegetables.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_plants_per_week_value" class="info-loader font-weight-bold">...</span> 
                               of people with a microbiome like yours eat 
                               <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
+                              plants per week
                           </div>
                       </div>
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/diet.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_diet_type_value" class="info-loader text-success">...</span> 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/diet.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_diet_type_value" class="info-loader font-weight-bold">...</span> 
                               of people with a microbiome like yours had a similar diet
                           </div>
                       </div>
@@ -930,20 +1576,24 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/probiotics.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_probiotics_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours take probiotics 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/probiotics.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_probiotics_value" class="info-loader font-weight-bold">...</span> 
+                              of people with a microbiome like yours
                               <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span>
+                              take probiotics
                           </div>
                       </div>
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/vitamins.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_multivitamin_value" class="info-loader text-success">...</span> 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/vitamins.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_multivitamin_value" class="info-loader font-weight-bold">...</span> 
                               of people with a microbiome like yours take vitamins
-                              <span id="beta_diversity_multivitamin_response" class="info-loader text-success">...</span>
                           </div>
                       </div>
                   </div>
@@ -954,20 +1604,25 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/exercise.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_exercise_value" class="info-loader text-success">...</span> 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/exercise.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_exercise_value" class="info-loader font-weight-bold">...</span> 
                               of people with a microbiome like yours exercise 
                               <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>
                           </div>
                       </div>
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/sleep.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours sleep more than 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/sleep.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_sleep_value" class="info-loader font-weight-bold">...</span> 
+                              of people with a microbiome like yours get
                               <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span>
+                              of sleep at night
                           </div>
                       </div>
                   </div>
@@ -978,17 +1633,21 @@
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/age.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_age_value" class="info-loader text-success">...</span> 
-                              of people with a microbiome like yours are a similar age
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/age.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> 
+                              of people with a microbiome like yours were the same age as you
                           </div>
                       </div>
-                      <div class="col">
-                          <img class="diversity-icon" src='/static/img/gender.png'>
-                          <div class="diversity-text">
-                              ----- <span id="beta_diversity_sleep_value" class="info-loader text-success">...</span> 
+                      <div class="col diversity-compare">
+                          <div class="col-sm-2">
+                              <img class="diversity-icon" src='/static/img/gender.png'>
+                          </div>
+                          <div class="col-sm-8 diversity-text">
+                              <span id="beta_diversity_sex_value" class="info-loader font-weight-bold">...</span>
                               of people with a microbiome like yours were the same gender
                           </div>
                       </div>
@@ -998,16 +1657,19 @@
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
                   <div class="column results_text">
-                    <h3> What is in your sample? </h3>
+                    <h3>Your Inner Zoo (aka What's in your sample?)</h3>
                     <br>
-                    <p>
-                    Microbes have different names, which are all written in
-                    Latin! Scientists do like to make things complicated!
-                    </p>
-
                     <p>
                     Below you will find a table of all of the different
                     microbes we found in your sample, and their proportions.
+                    </p>
+                    
+                    <p>
+                    Microbes sometimes have difficult names to pronounce. Some of the names are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a pronounciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.
+                    </p>
+
+                    <p>
+                    Please mouse over the header to learn more about how to interpret these taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms.
                     </p>
                     
                     <div style="padding:10px">
@@ -1040,14 +1702,16 @@
                   </div>
               </div>
               <div class="row">
-                <div id="taxa-violin">
+                  <div class="col-md-8 mx-auto">
+                  <div id="taxa-violin">
+                  </div>
               </div>
           </div>
         </div>
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
               <div class="column results_text">
-                <h3>How can you learn more?</h3>
+                <h3>How can I learn more?</h3>
                 <br/>
                   <p>
                   Microbiome analysis is a burgeoning new field, and the information
@@ -1060,24 +1724,190 @@
                   </p>
                   
                   <p>
-                  The dataset you're looking at is called <span id="dataset_title" class="info-loader text-success" >DATASET_TITLE</span>.
-                  It was sequenced with <span id="dataset_datatype" class="info-loader" >DATASET_DATATYPE</span>
+                  For your sample, we performed a technique called amplicon sequencing where we examine
+                  pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth
+                  variable region ("V4") of the 16S rRNA small subunit ribosomal gene. DNA sequences from this 
+                  region of this gene can be used like a microbial barcode, providing researchers evidence of 
+                  the types of microbes that may be present in your sample.
                   </p>
 
                   <p>
-                  To dig deeper and start your own self directed research into
-                  the microbiome, this dataset<span id="dataset_meta_analysis"
-                  class="info-loader text-success"
-                  >DATASET_META_ANALYSIS</span> and others like it are
-                  available (after free registration) at the following link(s):
-                    <ul>
-                        <span id="dataset_links" class="info-loader text-success" >DATASET_LINKS</span>
-                    </ul>
+                  There are many resources for microbiome information available online. If you'd like to learn
+                  more, we recommend the <a href="https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome">American Society for Microbiology</a>, 
+                  <a href="https://microbe.net/">microBEnet</a>, the <a href="http://www.probioticchart.ca/">Canadian Probiotics Chart</a>, and the <a href="https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/">American Gastroenterological Association</a>. 
                   </p>
+
+                  <h4 style="color:black;">Datasets used in your results report</h4>
+                  <p>
+                  The results shown in the Microbiome Maps portion of the
+                  report relied on data from many different publically
+                  accessible microbiome datasets. These different datasets, and
+                  links to them, are listed below.
+                  </p>
+
+                  <h5>The Microsetta Initiatiave</h5>
+                  <ul>
+                        <span id="dataset_links_tmi" class="info-loader text-success" >DATASET_LINKS</span>
+                  </ul>
+                  </br>
+                  <h5>Microbiomes Across the World</h5>
+                  <ul>
+                        <span id="dataset_links_multipopgut" class="info-loader text-success" >DATASET_LINKS</span>
+                  </ul>
+                  </br>
+                  <h5>Microbiomes Across the Lifespan</h5>
+                  <ul>
+                        <span id="dataset_links_lifestagegut" class="info-loader text-success" >DATASET_LINKS</span>
+                  </ul>
+                  </br>
+                  <h5>Microbiomes in the Environment</h5>
+                  <ul>
+                        <span id="dataset_links_builtenv" class="info-loader text-success" >DATASET_LINKS</span>
+                  </ul>
+                  </br>
               </div>
             </div>
           </div>
+          <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
+            <div class="row">
+              <div class="column results_text">
+                <h3>Microbiome Map</h3>
+                <br/>
+                <p>
+                Microbiome maps turn the similarities and differences among
+                microbiomes into a two-dimensional picture. Each dot is a whole
+                microbiome, and dots close to yours are more similar
+                microbiomes. 
+                </p>
 
+                <p>
+                    <span id="microbiome-maps-tooltip" class="tooltipper" 
+                    data-title="Visualizing complex data is difficult. One way
+                microbiome researchers do it though is through a technique
+                called principal coordinates analysis (PCoA). We provide
+                PCoA with the millions of microbiome similarities we compute
+                (we use tens of thousands of samples, and compare each sample
+                to each other), and in turn, PCoA provides perspectives into
+                massive data matrix that place very similar samples near each 
+                other and less similar samples far apart.">How are these maps produced?</span>
+                </p>
+    
+                <div id="microbiome-map-all-tmi-accordian">
+                    <button class="accordion-microbiome-map">
+                        <h4 class="diversity-header">Microbiomes Across the Body</h4>
+                    </button>
+                    <div class="accordion-panel-microbiome-map" style="">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="pcoa-tmi-all-samples" >
+                                    <img id="pcoa-tmi-all-samples-img" src="#" alt="img" class="img-fluid"/>
+                                </div>
+                            </div>
+                            <div class="col microinfo">
+                                <p>
+                                    In this map, we’ve placed your sample relative to all the
+                                    other samples we have in Microsetta. As you can see, there
+                                    are a few different types of samples people have
+                                    contributed, and the microbial configurations present can
+                                    be REALLY different. 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="microbiome-map-multipop-region-accordian">
+                    <button class="accordion-microbiome-map">
+                        <h4 class="diversity-header">Microbiomes Across the World</h4>
+                    </button>
+                    <div class="accordion-panel-microbiome-map" style="">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="pcoa-multipopulation-region">
+                                    <img id="pcoa-multipopulation-region-img" src="#" alt="img" class="img-fluid"/>
+                                </div>
+                            </div>
+                            <div class="col microinfo">
+                                <p>
+                                Researchers have noted large differences in our
+                                microbiomes depending on where we live. The reason WHY
+                                is not well understood, but we suspect factors such as
+                                diet or environmental exposures (e.g., plants, what’s
+                                in your house, pollution, how often you come in contact
+                                with soil, etc) may be be major factors.
+                                </p>
+
+                                <p>
+                                Researchers do not know how much these differences
+                                matter! They certainly may. 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="microbiome-map-multipop-lifestage-accordian">
+                    <button class="accordion-microbiome-map">
+                        <h4 class="diversity-header">Microbiomes Across the Lifespan</h4>
+                    </button>
+                    <div class="accordion-panel-microbiome-map" style="">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="pcoa-multipopulation-lifestage">
+                                    <img id="pcoa-multipopulation-lifestage-img" src="#" alt="img" class="img-fluid"/>
+                                </div>
+                            </div>
+                            <div class="col microinfo">
+                                <p>
+                                One major factor associated with gut
+                                microbiomes is the age of the individual,
+                                emphasized here by life stages.
+                                </p>
+
+                                <p>
+                                Interestingly, infants are relatively similar
+                                microbially regardless of where they were born.
+                                But, as individuals age, it seems like their
+                                microbiomes reflect regional or population
+                                differences.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="microbiome-map-builtenv-accordian">
+                    <button class="accordion-microbiome-map">
+                        <h4 class="diversity-header">Microbiomes in the Environment</h4>
+                    </button>
+                    <div class="accordion-panel-microbiome-map" style="">
+                        <div class="row">
+                            <div class="col-5">
+                                <div id="pcoa-builtenv">
+                                    <img id="pcoa-builtenv-img" src="#" alt="img" class="img-fluid"/>
+                                </div>
+                            </div>
+                            <div class="col microinfo">
+                                <p>
+                                Microbes are EVERYWHERE though! Using these
+                                same techniques described above, we compared
+                                your microbiome to samples collected from all
+                                over the surfaces from a brand new hospital.
+                                </p>
+
+                                <p>
+                                As you can see, skin samples tend to more
+                                closely resemble those from "the built
+                                environment", which makes sense as skin cells
+                                are constantly shedding from you.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
+</div>
 </div>
 {% endblock %}

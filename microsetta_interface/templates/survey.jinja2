@@ -205,23 +205,6 @@
             active_section = new_active_section;
         }
 
-
-        function nextPage() {
-            new_active_section = active_section + 1;
-            display_active_section = new_active_section+1;
-
-            fieldsetObject = document.getElementsByTagName("fieldset");
-
-            fieldsetObject[active_section].style.display = "none";
-            document.getElementById("form-progress").innerHTML = "Step " + display_active_section + " of " + fieldsetObject.length + " - " + Math.round((new_active_section/fieldsetObject.length)*100) + "% Complete";
-            fieldsetObject[new_active_section].style.display = "block";
-            if(new_active_section == (fieldsetObject.length-1)) {
-                document.getElementById("survey-nav-button-next").style.display = "none";
-            }
-            window.scrollTo(0,0);
-            active_section = new_active_section;
-        }
-
         $(paginateForm);
     </script>
     <script type="text/javascript" src="/static/vue_survey_form.js"></script>

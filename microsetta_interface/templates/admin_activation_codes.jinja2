@@ -14,8 +14,9 @@
     </form>
     <form method="post">
         <label for="email">Email:</label>
-        <input type="text" name="email">
-        <input type="submit" value="Generate">
+        <input type="text" name="email" value="{{ email_query |e if email_query is not none}}">
+        <input type="submit" name="generate" value="Generate">
+        <input type="submit" name="generate_send" value="Generate + Send Email">
     </form>
 <h4>Search Results</h4>
 <div class="container">

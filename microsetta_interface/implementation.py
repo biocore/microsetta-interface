@@ -1314,14 +1314,37 @@ def post_generate_activation(body):
         raise Unauthorized()
 
     email = body["email"]
-    do_return, diagnostics, _ = ApiRequest.post(
-        "/admin/activation",
-        json={"emails": [email]}
-    )
 
-    if do_return:
-        return diagnostics
+    # Generate the activation code and update the list
+    if 'generate' in body or 'generate_send' in body:
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/activation",
+            json={"emails": [email]}
+        )
 
+        if do_return:
+            return diagnostics
+
+    # Also send an email out to the user
+    if 'generate_send' in body:
+        url = SERVER_CONFIG["endpoint"]
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/email",
+            json={
+                "issue_type": "activation",
+                "template": "send_activation_code",
+                "template_args": {
+                    "join_url": url,
+                    "new_account_email": email
+                    # don't need to send activation code,
+                    # will be pulled from db on private api side.
+                    # "new_account_code": XXX
+                }
+            }
+        )
+
+        if do_return:
+            return diagnostics
     return get_interactive_activation(email, None)
 
 

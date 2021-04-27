@@ -49,10 +49,10 @@
         var form_submitted = 0;
 
         function postSurvey() {
-            fieldsetObject = document.getElementsByTagName("fieldset");
+            let fieldsetObject = document.getElementsByTagName("fieldset");
 
-            // workaround to make the first six sections of the survey visible to the DOM so they submit, but hidden to the user
-            for(i=1; i<(fieldsetObject.length-1); i++) {
+            // workaround to make the earlier sections of the survey visible to the DOM so they submit, but hidden to the user
+            for(let i=1; i<(fieldsetObject.length-1); i++) {
                 fieldsetObject[i].style.position = "absolute";
                 fieldsetObject[i].style.top = "-9999px";
                 fieldsetObject[i].style.left = "-9999px";
@@ -145,14 +145,15 @@
             type: "submit",
             validateBeforeSubmit: true,
             onSubmit: function(){
-                if(form_submitted == 0) {
-                    confirm_submit = confirm("Please note: Once you've submitted this survey, you'll be unable to edit your answers. If you'd like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.");
+                let confirm_submit = false;
+                if(form_submitted === 0) {
+                    confirm_submit = confirm("Please note: Once you've submitted this survey, you'll be unable to edit your answers.\r\n\r\nIf you'd like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.\r\n\r\nThis warning will only appear once.");
                     form_submitted = 1;
                 } else {
                     confirm_submit = true;
                 }
 
-                if(confirm_submit == true) {
+                if(confirm_submit === true) {
                     $("input").prop('disabled', true);
                     return postSurvey();
                 }
@@ -162,14 +163,14 @@
         var active_section = 0;
 
         function paginateForm() {
-            fieldsetObject = document.getElementsByTagName("fieldset");
+            let fieldsetObject = document.getElementsByTagName("fieldset");
 
             if(fieldsetObject.length <= 1) {
                 document.getElementById("survey-nav-button-next").style.display = "none";
             } else {
                 document.getElementById("form-progress").style.display = "block";
                 document.getElementById("form-progress").innerHTML = "Step 1 of " + fieldsetObject.length + " - 0% Complete";
-                for(i=1; i<fieldsetObject.length; i++) {
+                for(let i=1; i<fieldsetObject.length; i++) {
                     fieldsetObject[i].style.display = "none";
                 }
                 document.getElementById("survey-nav-button-next").style.display = "inline-block";
@@ -177,25 +178,26 @@
         }
 
         function changePage(direction) {
-            if(direction == "next") {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+            let new_active_section = 0;
+
+            if(direction === "next") {
                 new_active_section = active_section + 1;
             } else {
                 new_active_section = active_section - 1;
             }
-            display_active_section = new_active_section+1;
-
-            fieldsetObject = document.getElementsByTagName("fieldset");
+            let display_active_section = new_active_section+1;
 
             fieldsetObject[active_section].style.display = "none";
             document.getElementById("form-progress").innerHTML = "Step " + display_active_section + " of " + fieldsetObject.length + " - " + Math.round((new_active_section/fieldsetObject.length)*100) + "% Complete";
             fieldsetObject[new_active_section].style.display = "block";
 
-            if(new_active_section == 0) {
+            if(new_active_section === 0) {
                 document.getElementById("survey-nav-button-previous").style.display = "none";
             } else {
                 document.getElementById("survey-nav-button-previous").style.display = "inline-block";
             }
-            if(new_active_section == (fieldsetObject.length-1)) {
+            if(new_active_section === (fieldsetObject.length-1)) {
                 document.getElementById("survey-nav-button-next").style.display = "none";
             } else {
                 document.getElementById("survey-nav-button-next").style.display = "inline-block";

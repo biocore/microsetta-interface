@@ -5,11 +5,60 @@
     <script type="text/javascript" src="/static/vendor/js/vue-2.5.17.min.js"></script>
     <script type="text/javascript" src="/static/vendor/vue-form-generator-2.3.4/vfg.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/vendor/vue-form-generator-2.3.4/vfg.css">
+    <style type="text/css">
+        .vue-form-generator .field-radios .radio-list label {
+            padding-right: 25px;
+            display: inline-block;
+        }
+
+        .survey-nav-button {
+            padding: 6px 12px;
+            color: #ffffff!important;
+            background-color: #337ab7!important;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            display: none;
+        }
+
+        .form-group label span{
+            font-weight: 700;
+        }
+
+        .form-group {
+            padding-bottom: 5px;
+        }
+
+        .field-wrap {
+            font-size: 90%;
+        }
+
+        #form-progress {
+            width: 100%;
+            text-align: center;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
     <script>
         var result_txt = "";
         var error_txt = "";
+        var form_submitted = 0;
 
         function postSurvey() {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+
+            // workaround to make the earlier sections of the survey visible to the DOM so they submit, but hidden to the user
+            for(let i=1; i<(fieldsetObject.length-1); i++) {
+                fieldsetObject[i].style.position = "absolute";
+                fieldsetObject[i].style.top = "-9999px";
+                fieldsetObject[i].style.left = "-9999px";
+                fieldsetObject[i].style.display = "inline-block";
+            }
+
             $.ajax({
                 type: "POST",
                 url: "{{ endpoint }}/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ survey_template_id }}",
@@ -65,14 +114,16 @@
     <li class="breadcrumb-item active" aria-current="page">Participant Survey</li>
 {% endblock %}
 {% block content %}
+    <div id="form-progress">Progress</div>
     <div class="panel panel-default">
         <div class="panel-body">
             <form id="survey_form" name="survey_form">
                 <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
             </form>
         </div>
+	<input type="button" id="survey-nav-button-previous" class="survey-nav-button" value="&lt;&lt; Previous Section" onClick="changePage('previous');">
+	<input type="button" id="survey-nav-button-next" class="survey-nav-button" value="Next Section &gt;&gt;" onClick="changePage('next');">
     </div>
-
     <script type="text/javascript">
         var survey_model = {};
         var survey_schema= {{survey_schema|tojson}};
@@ -94,10 +145,70 @@
             type: "submit",
             validateBeforeSubmit: true,
             onSubmit: function(){
-                $("input").prop('disabled', true);
-                return postSurvey();
+                let confirm_submit = false;
+                if(form_submitted === 0) {
+                    confirm_submit = confirm("Please note: Once you've submitted this survey, you'll be unable to edit your answers.\r\n\r\nIf you'd like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.\r\n\r\nThis warning will only appear once.");
+                    form_submitted = 1;
+                } else {
+                    confirm_submit = true;
+                }
+
+                if(confirm_submit === true) {
+                    $("input").prop('disabled', true);
+                    return postSurvey();
+                }
             }
         });
+
+        var active_section = 0;
+
+        function paginateForm() {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+
+            if(fieldsetObject.length <= 1) {
+                document.getElementById("survey-nav-button-next").style.display = "none";
+            } else {
+                document.getElementById("form-progress").style.display = "block";
+                document.getElementById("form-progress").innerHTML = "Step 1 of " + fieldsetObject.length + " - 0% Complete";
+                for(let i=1; i<fieldsetObject.length; i++) {
+                    fieldsetObject[i].style.display = "none";
+                }
+                document.getElementById("survey-nav-button-next").style.display = "inline-block";
+            }
+        }
+
+        function changePage(direction) {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+            let new_active_section = 0;
+
+            if(direction === "next") {
+                new_active_section = active_section + 1;
+            } else {
+                new_active_section = active_section - 1;
+            }
+            let display_active_section = new_active_section+1;
+
+            fieldsetObject[active_section].style.display = "none";
+            document.getElementById("form-progress").innerHTML = "Step " + display_active_section + " of " + fieldsetObject.length + " - " + Math.round((new_active_section/fieldsetObject.length)*100) + "% Complete";
+            fieldsetObject[new_active_section].style.display = "block";
+
+            if(new_active_section === 0) {
+                document.getElementById("survey-nav-button-previous").style.display = "none";
+            } else {
+                document.getElementById("survey-nav-button-previous").style.display = "inline-block";
+            }
+            if(new_active_section === (fieldsetObject.length-1)) {
+                document.getElementById("survey-nav-button-next").style.display = "none";
+            } else {
+                document.getElementById("survey-nav-button-next").style.display = "inline-block";
+            }
+
+            window.scrollTo(0,0);
+            active_section = new_active_section;
+        }
+
+        $(paginateForm);
     </script>
     <script type="text/javascript" src="/static/vue_survey_form.js"></script>
 {% endblock %}
+

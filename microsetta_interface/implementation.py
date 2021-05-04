@@ -42,6 +42,7 @@ HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
 REROUTE_KEY = "reroute"
 
+ACTIVATION_CODE_KEY = "code"
 KIT_NAME_KEY = "kit_name"
 EMAIL_CHECK_KEY = "email_checked"
 ACCT_FNAME_KEY = "first_name"
@@ -560,7 +561,8 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        KIT_NAME_KEY: kit_name
+        KIT_NAME_KEY: kit_name,
+        ACTIVATION_CODE_KEY: body["code"]
     }
 
     has_error, accts_output, _ = \
@@ -1205,6 +1207,20 @@ def get_ajax_list_kit_samples(kit_name):
     return flask.jsonify(result), code
 
 
+def get_ajax_check_activation_code(code, email):
+    response = requests.get(
+        ApiRequest.API_URL + '/can_activate',
+        auth=BearerAuth(session[TOKEN_KEY_NAME]),
+        verify=ApiRequest.CAfile,
+        params=ApiRequest.build_params({"email": email, "code": code}))
+    if response.status_code != 200:
+        # Damn, couldn't properly communicate to backend server...
+        return "Unable to validate Activation Code at this time"
+    result_data = response.json()
+    result = True if result_data["can_activate"] else result_data["error"]
+    return flask.jsonify(result)
+
+
 # NB: associating surveys with samples when samples are claimed means that any
 # surveys added to this source AFTER these samples are claimed will NOT be
 # associated with these samples.  This behavior is by design.
@@ -1266,6 +1282,72 @@ def get_interactive_account_search(email_query):
                 for acct in email_diagnostics['accounts']]
     return _render_with_defaults('admin_home.jinja2',
                                  accounts=accounts)
+
+
+def get_interactive_activation(email_query=None, code_query=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return = False
+    diagnostics = None
+    if email_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"email_query": email_query}
+        )
+    elif code_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"code_query": code_query}
+        )
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults(
+        'admin_activation_codes.jinja2',
+        email_query=email_query,
+        code_query=code_query,
+        diagnostics=diagnostics
+    )
+
+
+def post_generate_activation(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    email = body["email"]
+
+    # Generate the activation code and update the list
+    if 'generate' in body or 'generate_send' in body:
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/activation",
+            json={"emails": [email]}
+        )
+
+        if do_return:
+            return diagnostics
+
+    # Also send an email out to the user
+    if 'generate_send' in body:
+        url = SERVER_CONFIG["endpoint"]
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/email",
+            json={
+                "issue_type": "activation",
+                "template": "send_activation_code",
+                "template_args": {
+                    "join_url": url,
+                    "new_account_email": email
+                    # don't need to send activation code,
+                    # will be pulled from db on private api side.
+                    # "new_account_code": XXX
+                }
+            }
+        )
+
+        if do_return:
+            return diagnostics
+    return get_interactive_activation(email, None)
 
 
 def get_system_message():

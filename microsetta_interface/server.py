@@ -7,6 +7,7 @@ from flask import jsonify
 from werkzeug.utils import redirect
 
 import connexion
+from flask_babel import Babel
 
 
 # https://stackoverflow.com/a/37842465
@@ -51,6 +52,8 @@ def build_app():
         app.app.logger.handlers = gunicorn_logger.handlers
         app.app.logger.setLevel(gunicorn_logger.level)
 
+    app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
+
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):
         # This is dumb as rocks, but it fixes static images referenced in
@@ -75,6 +78,7 @@ def run(app):
 
 
 app = build_app()
+babel = Babel(app.app)
 
 
 # If we're running in stand alone mode, run the application

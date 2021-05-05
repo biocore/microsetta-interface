@@ -1,4 +1,7 @@
+from gettext import gettext
+
 import flask
+import flask_babel
 from flask import render_template, session, redirect, make_response
 import jwt
 import requests
@@ -373,8 +376,9 @@ def _refresh_state_and_route_to_sink(account_id=None, source_id=None):
 
 
 def _get_kit(kit_name):
-    unable_to_validate_msg = "Unable to validate the kit name; please " \
-                             "reload the page."
+    unable_to_validate_msg = gettext(
+        "Unable to validate the kit name; please "
+        "reload the page.")
     error_msg = None
     response = None
 
@@ -390,8 +394,11 @@ def _get_kit(kit_name):
             params=ApiRequest.build_params({KIT_NAME_KEY: kit_name}))
 
         if response.status_code == 404:
-            error_msg = ("The provided kit id is not valid or has "
-                         "already been used; please re-check your entry.")
+            error_msg = \
+                gettext(
+                    "The provided kit id is not valid or has "
+                    "already been used; please re-check your entry."
+                )
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
     except:  # noqa
@@ -929,7 +936,12 @@ def get_source(*, account_id=None, source_id=None):
             needs_assignment = True
         else:
             dt = datetime.fromisoformat(sample['sample_datetime'])
-            sample['sample_datetime'] = dt.strftime("%b-%d-%Y %-I:%M %p")
+            # sample['sample_datetime'] = dt.strftime("%b-%d-%Y %-I:%M %p")
+            # rebase=True - show in user's locale, rebase=False, UTC (I think?)
+            sample['sample_datetime'] = flask_babel.format_datetime(
+                dt,
+                format=None,  # Use babel default (short/medium/long/full)
+                rebase=False)
 
     needs_assignment = any([sample['sample_datetime'] is None
                             for sample in samples_output])
@@ -995,15 +1007,37 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Nares", "Nasal mucus", "Right hand", "Left hand",
                         "Forehead", "Torso", "Right leg", "Left leg",
                         "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
+        # babel scraping doesn't understand anything but constant strings.
+        sample_site_translations = [
+            gettext("Blood (skin prick)"),
+            gettext("Saliva"),
+            gettext("Stool"),
+            gettext("Mouth"),
+            gettext("Nares"),
+            gettext("Nasal mucus"),
+            gettext("Right hand"),
+            gettext("Left hand"),
+            gettext("Forehead"),
+            gettext("Torso"),
+            gettext("Right leg"),
+            gettext("Left leg"),
+            gettext("Vaginal mucus"),
+            gettext("Tears"),
+            gettext("Ear wax"),
+            gettext("Hair"),
+            gettext("Fur")
+        ]
     elif is_environmental:
         # Environment settings
         sample_sites = [None]
+        sample_site_translations = [None]
     else:
         raise BadRequest("Sources of type %s are not supported at this time"
                          % source_output['source_type'])
 
     if sample_output['sample_datetime'] is not None:
         dt = datetime.fromisoformat(sample_output['sample_datetime'])
+        # TODO: This might need some flask_babel calls, hmm...
         sample_output['date'] = dt.strftime("%m/%d/%Y")
         sample_output['time'] = dt.strftime("%-I:%M %p")
     else:
@@ -1016,6 +1050,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                                  source_name=source_output['source_name'],
                                  sample=sample_output,
                                  sample_sites=sample_sites,
+                                 sample_sites_text=sample_site_translations,
                                  is_environmental=is_environmental)
 
 
@@ -1215,7 +1250,7 @@ def get_ajax_check_activation_code(code, email):
         params=ApiRequest.build_params({"email": email, "code": code}))
     if response.status_code != 200:
         # Damn, couldn't properly communicate to backend server...
-        return "Unable to validate Activation Code at this time"
+        return gettext("Unable to validate Activation Code at this time")
     result_data = response.json()
     result = True if result_data["can_activate"] else result_data["error"]
     return flask.jsonify(result)
@@ -1358,6 +1393,8 @@ def get_system_message():
 
 
 def post_system_message(body):
+    # TODO: Localizing system messages means
+    #  a dropdown instead of free text.
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 

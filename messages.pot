@@ -1,0 +1,101 @@
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-05-04 17:09-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+#: microsetta_interface/implementation.py:379
+msgid "Unable to validate the kit name; please reload the page."
+msgstr ""
+
+#: microsetta_interface/implementation.py:398
+msgid ""
+"The provided kit id is not valid or has already been used; please re-"
+"check your entry."
+msgstr ""
+
+#: microsetta_interface/implementation.py:1012
+msgid "Blood (skin prick)"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1013
+msgid "Saliva"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1014
+msgid "Stool"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1015
+msgid "Mouth"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1016
+msgid "Nares"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1017
+msgid "Nasal mucus"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1018
+msgid "Right hand"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1019
+msgid "Left hand"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1020
+msgid "Forehead"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1021
+msgid "Torso"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1022
+msgid "Right leg"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1023
+msgid "Left leg"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1024
+msgid "Vaginal mucus"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1025
+msgid "Tears"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1026
+msgid "Ear wax"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1027
+msgid "Hair"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1028
+msgid "Fur"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1253
+msgid "Unable to validate Activation Code at this time"
+msgstr ""
+

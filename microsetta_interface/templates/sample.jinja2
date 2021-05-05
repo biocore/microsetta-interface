@@ -166,8 +166,10 @@
                         {% if not sample.sample_site %}
                         <option disabled selected value> -- Select a sample type -- </option>
                         {% endif %}
-                        {% for site in sample_sites %}
-                        <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site}}</option>
+                        {% for i in range(sample_sites| length) %}
+                            {% set site=sample_sites[i] %}
+                            {% set site_text=sample_sites_text[i] %}
+                        <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site_text}}</option>
                         {% endfor %}
                       </select>
                     </div>

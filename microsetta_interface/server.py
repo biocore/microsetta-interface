@@ -109,11 +109,13 @@ def get_locale():
     # TODO: We update this as we add support for new languages
     return request.accept_languages.best_match(['en', 'es'])
 
+
 @babel.timezoneselector
 def get_timezone():
     user = getattr(g, 'user', None)
     if user is not None:
         return user.timezone
+
 
 app = build_app()
 babel = Babel(app.app)

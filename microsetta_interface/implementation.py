@@ -1130,17 +1130,18 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
     if has_error:
         return sample_output
 
-    return _render_with_defaults('sample_results.jinja2',
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 sample=sample_output,
-                                 source_name=source_output['source_name'],
-                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
-                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
-                                 beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
-                                 show_breadcrumbs=True
-                                 )
+    return _render_with_defaults(
+        'sample_results.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        sample=sample_output,
+        source_name=source_output['source_name'],
+        taxonomy=SERVER_CONFIG["taxonomy_resource"],
+        alpha_metric=SERVER_CONFIG["alpha_metric"],
+        beta_metric=SERVER_CONFIG["beta_metric"],
+        barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+        show_breadcrumbs=True
+        )
 
 
 # WARNING: this endpoint is NOT authenticated
@@ -1156,17 +1157,18 @@ def get_sample_results_experimental():
                      'sample_remove_locked': False,
                      'sample_site': 'Stool',
                      'source_id': 'NA'}
-    return _render_with_defaults('new_results_page.jinja2',
-                                 account_id='NA',
-                                 source_id='NA',
-                                 sample=sample_output,
-                                 source_name='NA',
-                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
-                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
-                                 beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
-                                 show_breadcrumbs=False
-                                 )
+    return _render_with_defaults(
+        'new_results_page.jinja2',
+        account_id='NA',
+        source_id='NA',
+        sample=sample_output,
+        source_name='NA',
+        taxonomy=SERVER_CONFIG["taxonomy_resource"],
+        alpha_metric=SERVER_CONFIG["alpha_metric"],
+        beta_metric=SERVER_CONFIG["beta_metric"],
+        barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+        show_breadcrumbs=False
+    )
 
 
 @prerequisite([SOURCE_PREREQS_MET])

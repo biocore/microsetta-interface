@@ -2,8 +2,6 @@
 import secrets
 import logging
 
-import babel
-
 from microsetta_interface.config_manager import SERVER_CONFIG
 from flask import jsonify, g, request
 from werkzeug.utils import redirect
@@ -79,6 +77,10 @@ def run(app):
     )
 
 
+app = build_app()
+babel = Babel(app.app)
+
+
 @babel.localeselector
 def get_locale():
     # OKAY, So, we can use this snippet from https://flask-babel.tkte.ch/
@@ -115,10 +117,6 @@ def get_timezone():
     user = getattr(g, 'user', None)
     if user is not None:
         return user.timezone
-
-
-app = build_app()
-babel = Babel(app.app)
 
 
 # If we're running in stand alone mode, run the application

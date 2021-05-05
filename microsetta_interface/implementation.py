@@ -1,7 +1,7 @@
-from gettext import gettext
 
 import flask
 import flask_babel
+from flask_babel import gettext
 from flask import render_template, session, redirect, make_response
 import jwt
 import requests
@@ -1008,6 +1008,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Forehead", "Torso", "Right leg", "Left leg",
                         "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
         # babel scraping doesn't understand anything but constant strings.
+        # do not collapse this into a for loop unless you can verify
+        # that the POT file is correctly updated.
         sample_site_translations = [
             gettext("Blood (skin prick)"),
             gettext("Saliva"),

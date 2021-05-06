@@ -29,12 +29,35 @@
     let sampleId = "{{sample.sample_barcode}}";
     let barcodePrefix = "{{barcode_prefix}}";
     var opt = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
+    var sample_type = "{{sample.sample_site}}";
+    switch(sample_type) {
+        case "Stool":
+            sample_type = "gut";
+            break;
+        case "Saliva":
+        case "Mouth":
+            sample_type = "oral";
+            break;
+        case "Forehead":
+        case "Hair":
+        case "Left hand":
+        case "Left leg":
+        case "Nares": 
+        case "Nasal mucus":
+        case "Right hand":
+        case "Right leg":
+        case "Tears":
+        case "Torso": 
+        case "Vaginal mucus":
+            sample_type = 'skin';
+            break
+    };
 
     function createDataTable() {
         return function() {
             $('#taxonomyTable').DataTable({
                 ajax: {
-                    url: "{{public_endpoint}}/dataset/16S/taxonomy/present/single/" + taxonomy + "/" + barcodePrefix + sampleId
+                    url: "{{public_endpoint}}/dataset/tmi-16S-" + sample_type + "/taxonomy/present/single/" + taxonomy + "/" + barcodePrefix + sampleId
                 },
                 columns: [
                     {
@@ -54,7 +77,7 @@
     }
 
     function formatAlphaURL() {
-        let base = '{{public_endpoint}}/dataset/16S/plotting/diversity/alpha/' + alpha_metric + '/percentiles-plot';
+        let base = '{{public_endpoint}}/dataset/tmi-16S-' + sample_type + '/plotting/diversity/alpha/' + alpha_metric + '/percentiles-plot';
         if (sampleId !== "") {
             base = base + '?sample_id=' + barcodePrefix + sampleId;
         }
@@ -78,10 +101,7 @@
           createDataTable()();
           createAlphaPlot();
 
-          var sample_type = "oral"
-          if ("{{sample.sample_site}}" == "Stool")
-            sample_type="fecal"
-          var url = '{{public_endpoint}}/dataset/16S/plotting/diversity/beta/' + beta_metric + '/pcoa/' + sample_type + '/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
+          var url = '{{public_endpoint}}/dataset/tmi-16S-' + sample_type + '/plotting/diversity/beta/' + beta_metric + '/pcoa/full-dataset/emperor?metadata_categories=age_cat&metadata_categories=bmi_cat';
 
           loadEmperor(
             url,

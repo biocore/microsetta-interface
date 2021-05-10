@@ -641,6 +641,22 @@ paths:
               schema:
                 type: array
 
+  '/check_activation_code':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_check_activation_code
+      tags:
+        - Activation
+      parameters:
+        - $ref: '#/components/parameters/activation_code'
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: Result of check
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/account_search':
     get:
       operationId: microsetta_interface.implementation.get_interactive_account_search
@@ -655,6 +671,47 @@ paths:
       responses:
         '200':
           description: List of identified accounts
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/activation':
+    get:
+      operationId: microsetta_interface.implementation.get_interactive_activation
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: email_query
+          description: Email to search for
+          schema:
+            type: string
+        - in: query
+          name: code_query
+          description: Activation code to search for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activation code info for query
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_generate_activation
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Search results showing new email
           content:
             text/html:
               schema:
@@ -717,6 +774,20 @@ components:
       description: Unique id specifying a user account
       schema:
         $ref: '#/components/schemas/account_id'
+      required: true
+    activation_code:
+      name: code
+      in: query
+      description: Activation code
+      schema:
+        $ref: '#/components/schemas/activation_code'
+      required: true
+    email:
+      name: email
+      in: query
+      description: User's email
+      schema:
+        $ref: '#/components/schemas/email'
       required: true
     kit_id:
       name: kit_id
@@ -781,6 +852,10 @@ components:
       type: string
       readOnly: true
       example: "aaaaaaaa-bbbb-cccc-dddd-eeeeffffffff"
+    email:
+      type: string
+      format: email
+      example: "janedoe@example.com"
     source_id:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
@@ -802,4 +877,7 @@ components:
     kit_name:
       type: string
       example: "aaaaa"
+    activation_code:
+      type: string
+      example: TMI-XXXXX-XXXXX-XXXXX
 

@@ -13,6 +13,10 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
 <style>
+    .nav-white-bg {
+      background-color: #fff;
+      width: auto;
+    }
     .diversity-icon {
       vertical-align: middle;
       width: 72px;
@@ -142,6 +146,14 @@
       border-color: #006a96;
       width: 35%;
       box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+
+    .scatter-bg {
+      background: url('/static/img/scatter.png');
+      background-position: top 400px left 0px;
+      background-size: 220px;
+      background-origin: content-box;
+      background-repeat: no-repeat;
     }
 
     div.your_sample_diversity_inset .card-header {
@@ -1354,20 +1366,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="tmi-content">
+<div class="tmi-content scatter-bg">
 <div class="row">
     <div class="col-sm-auto full-height">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
-          <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
-          <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Similarity</a>
-          <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Your Inner Zoo</a>
-          <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbiome Map</a>
-          <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can I learn more?</a>
+        <div class="nav-white-bg row">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-right:20px;">
+            <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
+            <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
+            <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Similarity</a>
+            <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Your Inner Zoo</a>
+            <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbiome Map</a>
+            <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can I learn more?</a>
+          </div>
         </div>
     </div>
 
-    <div class="col-sm border">
+    <div class="col-sm border" style="background-color:#fff">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">

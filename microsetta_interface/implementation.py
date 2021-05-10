@@ -440,12 +440,6 @@ def get_show_error_page(error_msg):
     return output
 
 
-# FAQ display does not require any prereqs, so this method doesn't check any
-def get_show_faq():
-    output = _render_with_defaults('faq.jinja2')
-    return output
-
-
 def get_home():
     email_verified = False
     accts_output = None

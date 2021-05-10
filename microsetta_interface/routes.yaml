@@ -31,19 +31,6 @@ paths:
               schema:
                 type: string
 
-  '/view_faq':
-    get:
-      operationId: microsetta_interface.implementation.get_show_faq
-      tags:
-        - General
-      responses:
-        '200':
-          description: Display of FAQ page
-          content:
-            text/html:
-              schema:
-                type: string
-
   '/error':
     get:
       operationId: microsetta_interface.implementation.get_show_error_page

@@ -1,0 +1,1000 @@
+# Translations template for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-05-11 13:19-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: microsetta_interface/implementation.py:379
+msgid "Unable to validate the kit name; please reload the page."
+msgstr ""
+
+#: microsetta_interface/implementation.py:398
+msgid ""
+"The provided kit id is not valid or has already been used; please re-"
+"check your entry."
+msgstr ""
+
+#: microsetta_interface/implementation.py:1014
+msgid "Blood (skin prick)"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1015
+msgid "Saliva"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1016
+msgid "Stool"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1017
+msgid "Mouth"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1018
+msgid "Nares"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1019
+msgid "Nasal mucus"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1020
+msgid "Right hand"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1021
+msgid "Left hand"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1022
+msgid "Forehead"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1023
+msgid "Torso"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1024
+msgid "Right leg"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1025
+msgid "Left leg"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1026
+msgid "Vaginal mucus"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1027
+msgid "Tears"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1028
+msgid "Ear wax"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1029
+msgid "Hair"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1030
+msgid "Fur"
+msgstr ""
+
+#: microsetta_interface/implementation.py:1257
+msgid "Unable to validate Activation Code at this time"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:2
+#: microsetta_interface/templates/account_overview.jinja2:47
+msgid "Account Details"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:91
+msgid "City"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:92
+msgid "State"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:93
+msgid "Zip Code"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:114
+msgid "Profile"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:116
+#: microsetta_interface/templates/account_details.jinja2:120
+#: microsetta_interface/templates/sitebase.jinja2:76
+#: microsetta_interface/templates/sitebase.jinja2:78
+msgid "Profile Details"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:124
+#: microsetta_interface/templates/admin_activation_codes.jinja2:6
+#: microsetta_interface/templates/admin_activation_codes.jinja2:16
+#: microsetta_interface/templates/admin_activation_codes.jinja2:27
+#: microsetta_interface/templates/admin_home.jinja2:11
+#: microsetta_interface/templates/sitebase.jinja2:124
+msgid "Email"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:129
+msgid "First Name"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:133
+msgid "Last Name"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:138
+msgid "Note to non-US/GB users"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:138
+msgid ""
+"We are working on support for additional countries and expect to have "
+"that available soon."
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:141
+msgid "United States"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:142
+msgid "United Kingdom"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:146
+msgid "Street Address"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:168
+msgid "Activation Info"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:172
+msgid "Kit ID"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:175
+msgid "OR"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:177
+#: microsetta_interface/templates/admin_activation_codes.jinja2:11
+msgid "Activation Code"
+msgstr ""
+
+#: microsetta_interface/templates/account_details.jinja2:184
+#: microsetta_interface/templates/account_details.jinja2:186
+msgid "Save Profile"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:2
+#: microsetta_interface/templates/account_overview.jinja2:44
+#: microsetta_interface/templates/sample.jinja2:112
+#: microsetta_interface/templates/sample_results.jinja2:107
+#: microsetta_interface/templates/source.jinja2:140
+msgid "Account"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:53
+msgid "View Account Details"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:58
+msgid "Sources"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:62
+msgid ""
+"You have now set up your profile for your account! Please proceed to "
+"identify your source."
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:66
+msgid ""
+"Choose a source to assign samples to by clicking on a name, listed in "
+"blue below:"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:71
+msgid "Name"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:74
+msgid "Source type"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:95
+msgid "What is the Source of Your Sample?"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:103
+msgid ""
+"Our lab needs to know what type of sample(s) you are submitting (a.k.a. "
+"the “source”). Add a new source and assign samples to it so we can "
+"perform the correct analysis in our laboratory."
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:108
+msgid ""
+"If you have multiple sources, you may add one source at a time. You can "
+"return to this page after you finish registering the first one."
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:114
+msgid "Human Source"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:116
+#: microsetta_interface/templates/account_overview.jinja2:118
+#: microsetta_interface/templates/account_overview.jinja2:139
+msgid "Collect sample(s) from"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:116
+msgid "yourself"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:116
+#: microsetta_interface/templates/account_overview.jinja2:118
+#: microsetta_interface/templates/account_overview.jinja2:139
+msgid "(e.g. fecal, saliva, skin, etc.)"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:118
+msgid "someone else"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:121
+#: microsetta_interface/templates/account_overview.jinja2:131
+#: microsetta_interface/templates/account_overview.jinja2:144
+msgid "Select"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:126
+msgid "Environmental Source"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:128
+msgid "Collect sample(s) from a"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:128
+msgid "surface"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:128
+msgid "(e.g. kitchen counter, backyard soil, food, etc.)"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:136
+msgid "Animal Source"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:139
+msgid "your pet"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:139
+msgid "or an"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:139
+msgid "animal"
+msgstr ""
+
+#: microsetta_interface/templates/account_overview.jinja2:141
+msgid "Animal sources are currently unavailable."
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:2
+msgid "Admin Activation Codes"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:13
+msgid "Search"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:18
+msgid "Generate"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:19
+msgid "Generate + Send Email"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:21
+#: microsetta_interface/templates/admin_home.jinja2:5
+msgid "Search Results"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:30
+msgid "Code"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:33
+msgid "Activated"
+msgstr ""
+
+#: microsetta_interface/templates/admin_activation_codes.jinja2:54
+#: microsetta_interface/templates/admin_home.jinja2:34
+msgid "No accounts found"
+msgstr ""
+
+#: microsetta_interface/templates/admin_home.jinja2:2
+msgid "ADMINISTRATOR MODE"
+msgstr ""
+
+#: microsetta_interface/templates/admin_home.jinja2:14
+msgid "Account ID"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:2
+msgid "ADMINISTRATOR SYSTEM PANEL"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:14
+#: microsetta_interface/templates/admin_system_panel.jinja2:36
+msgid "Set System Message"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:21
+msgid "System Message"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:25
+msgid "primary"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:26
+msgid "secondary"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:27
+msgid "success"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:28
+msgid "danger"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:29
+msgid "warning"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:30
+msgid "info"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:31
+msgid "light"
+msgstr ""
+
+#: microsetta_interface/templates/admin_system_panel.jinja2:32
+msgid "dark"
+msgstr ""
+
+#: microsetta_interface/templates/create_nonhuman_source.jinja2:2
+msgid "Create Non-human Source"
+msgstr ""
+
+#: microsetta_interface/templates/create_nonhuman_source.jinja2:8
+msgid "Creating Source..."
+msgstr ""
+
+#: microsetta_interface/templates/create_nonhuman_source.jinja2:20
+msgid "Environment description (optional)"
+msgstr ""
+
+#: microsetta_interface/templates/create_nonhuman_source.jinja2:23
+msgid "Create Source"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:2
+msgid "Awaiting Email Confirmation"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:20
+msgid "Check your email inbox"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:21
+msgid ""
+"To complete your verification, click on the link in the email AuthRocket "
+"has sent to"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:25
+msgid "Waiting for you to confirm"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:28
+msgid "Please check both your spam and inbox"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:29
+msgid "AuthRocket is our authentication service"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:30
+msgid "Email wrong or didn't receive an email?"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:30
+msgid "Go to your AuthRocket Profile"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:30
+msgid "to update your email or resend a verification email"
+msgstr ""
+
+#: microsetta_interface/templates/email_confirmation.jinja2:33
+msgid "You can close this browser tab!"
+msgstr ""
+
+#: microsetta_interface/templates/embedded_pdf.jinja2:24
+msgid ""
+"This report is generated by a third party without information regarding "
+"age, height or weight."
+msgstr ""
+
+#: microsetta_interface/templates/emperor.jinja2:2
+#: microsetta_interface/templates/emperor.jinja2:65
+#: microsetta_interface/templates/sitebase.jinja2:45
+msgid "Emperor Playground"
+msgstr ""
+
+#: microsetta_interface/templates/emperor.jinja2:68
+msgid "PCOA URL"
+msgstr ""
+
+#: microsetta_interface/templates/emperor.jinja2:73
+msgid "Go!"
+msgstr ""
+
+#: microsetta_interface/templates/error.jinja2:2
+msgid "Error Page"
+msgstr ""
+
+#: microsetta_interface/templates/error.jinja2:10
+msgid ""
+"An error seemed to have occurred (see below). It is most likely our "
+"fault. We are actively modifying our infrastructure to support COVID-19 "
+"research, and we're still in the process of handling the different type "
+"of scenarios that can happen on a website. We apologize for any "
+"inconvenience."
+msgstr ""
+
+#: microsetta_interface/templates/error.jinja2:13
+msgid "If you have any concerns, please email us at"
+msgstr ""
+
+#: microsetta_interface/templates/error.jinja2:13
+msgid "and please note the error below"
+msgstr ""
+
+#: microsetta_interface/templates/error.jinja2:15
+msgid "Error"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:2
+#: microsetta_interface/templates/sitebase.jinja2:101
+msgid "Home"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:22
+#: microsetta_interface/templates/home.jinja2:29
+#: microsetta_interface/templates/home.jinja2:30
+#: microsetta_interface/templates/home.jinja2:31
+msgid "en_us"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:34
+msgid "Welcome!"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:38
+msgid "SIGN UP"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:42
+msgid "Already have an account?"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:43
+msgid "Welcome back!"
+msgstr ""
+
+#: microsetta_interface/templates/home.jinja2:43
+msgid "LOG IN"
+msgstr ""
+
+#: microsetta_interface/templates/new_participant.jinja2:2
+#: microsetta_interface/templates/new_participant.jinja2:129
+msgid "Consent"
+msgstr ""
+
+#: microsetta_interface/templates/new_participant.jinja2:107
+#: microsetta_interface/templates/new_participant.jinja2:108
+#: microsetta_interface/templates/new_participant.jinja2:109
+#: microsetta_interface/templates/new_participant.jinja2:110
+msgid "Saving..."
+msgstr ""
+
+#: microsetta_interface/templates/new_participant.jinja2:164
+#: microsetta_interface/templates/new_participant.jinja2:204
+#: microsetta_interface/templates/new_participant.jinja2:238
+#: microsetta_interface/templates/new_participant.jinja2:259
+msgid "I Accept"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:2
+msgid "Optional Sample Surveys"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:9
+msgid "Your diet can provide researchers valuable information"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:12
+msgid "Would you like to take our additional survey, the"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:12
+#: microsetta_interface/templates/source.jinja2:194
+msgid "Food Frequency Questionnaire"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:12
+msgid "FFQ"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:12
+msgid ""
+"By completing the questionnaire, you can enhance information about your "
+"sample, which will power more insightful research!"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:13
+msgid "Note"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:13
+msgid ""
+"If you took multiple samples within a short time frame, you only need to "
+"take the FFQ for one such sample"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:16
+msgid "Approx time: 30 minutes"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:20
+msgid "Take FFQ"
+msgstr ""
+
+#: microsetta_interface/templates/post_sample_questionnaire.jinja2:23
+msgid "Back to Samples"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:2
+#: microsetta_interface/templates/sample.jinja2:114
+msgid "Sample Information"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:42
+msgid "Required Format: MM/DD/YYYY"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:113
+#: microsetta_interface/templates/sample_results.jinja2:108
+msgid "Source"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:122
+msgid "Sample Recorded, Editing is Locked"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:126
+#: microsetta_interface/templates/source.jinja2:155
+msgid "Barcode"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:133
+msgid "Date"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:141
+msgid "Time"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:155
+msgid "Guidelines for site identification"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:156
+msgid "If collecting a"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:156
+msgid "BLOOD"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:156
+msgid "sample, please select Blood (skin prick)"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:157
+msgid ""
+"For all swabs, please select the site as precisely as possible from the "
+"options available"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:163
+msgid "Site sampled"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:167
+msgid "Select a sample type"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:183
+msgid "Notes"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:185
+msgid "(Optional) Is there else about this sample that you would like to add?"
+msgstr ""
+
+#: microsetta_interface/templates/sample.jinja2:188
+msgid "Update"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:2
+msgid "Sample Results"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:109
+#: microsetta_interface/templates/source.jinja2:165
+msgid "Results"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:120
+msgid "What is in your sample?"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:122
+msgid ""
+"The table below shows the relative abundances of all of the organisms we "
+"observed in your sample. To produce this, we took the DNA sequences from "
+"your sample, and compared them against publicly available annotated "
+"reference databases. In some cases, a sequence may uniquely match a "
+"database record, in other cases a sequence may match may different "
+"records. To handle the uncertainty that can arise, we rely on a well used"
+" and publicly available microbiome software package called <a "
+"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>. The exact "
+"approach taken is highlighted in the main tutorial on <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
+"/#taxonomic-analysis\" target=\"_blank\">feature-classification</a>"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:127
+msgid "Relative Abundance"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:128
+msgid "Kingdom"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:129
+msgid "Phylum"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:130
+msgid "Class"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:131
+msgid "Order"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:132
+msgid "Family"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:133
+msgid "Genus"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:141
+msgid "Alpha Diversity"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:143
+msgid ""
+"Here, we're providing a measure of the diversity of your sample, and how "
+"it compares to the diversities of all of the same type of samples in The "
+"Microsetta Initiative. There are many ways to calculate diversity. For "
+"instance, you could compute a diversity value by counting the number of "
+"unique organisms observed (i.e., the sample \"richness\"). Or, you might "
+"be interested in weighting the calculation by the relative abundance of "
+"the organisms (i.e., the sample \"evenness\"). The metric we're computing"
+" here is called Faith's Phylogenetic Diversity (originally defined <a "
+"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\""
+" target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the"
+" \"richness\" of your sample as the amount of evolutionary breadth "
+"represented by your sample. The way we compute alpha diversity is also "
+"through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and"
+" more information on it can be found in the alpha and beta diversity <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
+"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
+" 2 tutorial"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:148
+msgid "Beta Diversity"
+msgstr ""
+
+#: microsetta_interface/templates/sample_results.jinja2:150
+msgid ""
+"Here we display how your sample fits in among the other samples of The "
+"Microsetta Initiative in terms of shared microbes. There are many ways to"
+" calculate beta diversity, differing in how to weight the distance "
+"between any two microbes. We take evolutionary distance into account with"
+" the metric displayed here, known as Unweighted Unifrac. You can find an "
+"overview of this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\""
+" target=\"_blank\">here</a> or better understand its derivation <a "
+"href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" "
+"target=\"_blank\">here</a>. This computation is performed with <a "
+"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and more "
+"information on it can be found in the alpha and beta diversity <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
+"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
+" 2 tutorial"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:5
+msgid "Microsetta"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:43
+msgid "Administrator Toolbar"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:44
+msgid "System Panel"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:46
+#: microsetta_interface/templates/sitebase.jinja2:80
+msgid "Log Out"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:47
+msgid "Activation Codes"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:50
+msgid "Find Account"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:82
+msgid "Log In"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:83
+msgid "Sign Up"
+msgstr ""
+
+#: microsetta_interface/templates/sitebase.jinja2:122
+msgid "FAQs"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:2
+msgid "Account Samples"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:84
+msgid "Do you really want to remove this sample from this source?"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:85
+msgid "Doing so will remove any collection info saved for this sample and will"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:86
+msgid "unlink it from all surveys."
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:91
+msgid "You are deleting source"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:91
+msgid "and all surveys associated with it!"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:92
+msgid ""
+"This operation cannot be undone.  Are you sure you want to delete this "
+"source?"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:100
+msgid "View"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:146
+msgid "It looks like some samples do not have collection information recorded."
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:150
+msgid "Samples (click on a barcode to provide collection information)"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:158
+msgid "Collection date"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:162
+msgid "Sample type"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:168
+msgid "Sample-specific survey"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:192
+msgid "View Top Food Report"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:198
+msgid "This sample has been received and cannot be removed."
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:200
+msgid "Remove"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:210
+msgid "Do I need to take more than one Food Frequency Questionnaire (FFQ)"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:211
+msgid ""
+"If you are taking all of your samples at the same time, you will only "
+"need to complete one. If you are collecting samples over time (e.g., once"
+" per week), then please consider taking an FFQ per time point. The FFQs "
+"provide valuable dietary research data for the project, so researchers "
+"can better understand the relationship between the food you eat and your "
+"microbes."
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:219
+msgid ""
+"The kit ID used to create your account has unclaimed samples. To claim "
+"samples from this kit, please click \"List samples\". To claim samples "
+"from another kit ID, please enter it here and then click \"List Samples\""
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:222
+msgid "To add samples, please enter a kit ID here"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:226
+msgid "List Samples"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:231
+msgid "Select all samples that should be associated with this source"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:237
+msgid "Claim Selected Samples"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:244
+msgid "Surveys taken"
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:270
+msgid ""
+"Sources with one or more samples assigned cannot be deleted.  All samples"
+" above must be removed prior to deleting this source."
+msgstr ""
+
+#: microsetta_interface/templates/source.jinja2:272
+msgid "Delete Source"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:2
+#: microsetta_interface/templates/survey.jinja2:114
+msgid "Participant Survey"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:117
+msgid "Progress"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:124
+msgid "Previous Section"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:125
+msgid "Next Section"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:144
+msgid "Submit Survey"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:150
+msgid ""
+"Please note: Once you've submitted this survey, you'll be unable to edit "
+"your answers."
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:150
+msgid ""
+"If you'd like to review or change any of your responses, please press the"
+" Cancel button. Otherwise, press OK to submit your responses."
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:150
+msgid "This warning will only appear once."
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:172
+#: microsetta_interface/templates/survey.jinja2:192
+msgid "Step"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:172
+#: microsetta_interface/templates/survey.jinja2:192
+msgid "of"
+msgstr ""
+
+#: microsetta_interface/templates/survey.jinja2:172
+#: microsetta_interface/templates/survey.jinja2:192
+msgid "Complete"
+msgstr ""
+
+#: microsetta_interface/templates/update_email.jinja2:2
+msgid "Email Update"
+msgstr ""
+
+#: microsetta_interface/templates/update_email.jinja2:12
+msgid ""
+"It appears that the email we have for your account is not the same as the"
+" email you logged in with.  Would you like us to update your email in our"
+" records?"
+msgstr ""
+
+#: microsetta_interface/templates/update_email.jinja2:18
+msgid "No, skip and continue"
+msgstr ""
+
+#: microsetta_interface/templates/update_email.jinja2:21
+msgid "Yes, update and continue"
+msgstr ""
+

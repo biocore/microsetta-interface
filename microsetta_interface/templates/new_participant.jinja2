@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Consent" %}
+{% set page_title = _("Consent") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
 <script type="text/javascript" src="/static/vendor/js/jquery-3.4.1.min.js"></script>
@@ -104,10 +104,10 @@
         $("#7-12-div").hide();
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
-        disableInputOnSubmit("#0-6-form", "#0-6-submit_button", "Saving...");
-        disableInputOnSubmit("#7-12-form", "#7-12-submit_button", "Saving...");
-        disableInputOnSubmit("#13-17-form", "#13-17-submit_button", "Saving...");
-        disableInputOnSubmit("#18-form", "#18-submit_button", "Saving...");
+        disableInputOnSubmit("#0-6-form", "#0-6-submit_button", "{{ _('Saving...') }}");
+        disableInputOnSubmit("#7-12-form", "#7-12-submit_button", "{{ _('Saving...') }}");
+        disableInputOnSubmit("#13-17-form", "#13-17-submit_button", "{{ _('Saving...') }}");
+        disableInputOnSubmit("#18-form", "#18-submit_button", "{{ _('Saving...') }}");
     });
 </script>
 <style>
@@ -126,7 +126,7 @@
 </style>
 {% endblock %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item active" aria-current="page">Consent</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Consent') }}</li>
 {% endblock %}
 {% block content%}
 <h2>{{ tl['ADD_HUMAN_TITLE'] |e}}</h2>
@@ -161,7 +161,7 @@
         <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}</td><td><input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}</td><td><input tabindex="8" type="text" name="parent_2_name" id="0-6-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}</td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
-        <tr><td><input type="submit" id="0-6-submit_button" value="I Accept"></td><td></td></tr>
+        <tr><td><input type="submit" id="0-6-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table>
     </form>
 </div>
@@ -201,7 +201,7 @@
         <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="7-12-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="8" type="text" name="parent_2_name" id="7-12-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
-        <tr><td><input type="submit" id="7-12-submit_button" value="I Accept"></td><td></td></tr>
+        <tr><td><input type="submit" id="7-12-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table>
     </form>
 </div>
@@ -235,7 +235,7 @@
         <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="13-17-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="7" type="text" name="parent_2_name" id="13-17-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
-        <tr><td><input type="submit" id="13-17-submit_button" value="I Accept"></td><td></td></tr>
+        <tr><td><input type="submit" id="13-17-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table>
     </form>
 </div>
@@ -256,7 +256,7 @@
     <p><table>
         <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td><input type="submit" id="18-submit_button" value="I Accept"></td><td></td></tr>
+        <tr><td><input type="submit" id="18-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table></p>
     </form>
 </div>

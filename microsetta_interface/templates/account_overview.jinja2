@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Account" %}
+{% set page_title = _("Account") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
 <script src="/static/vendor/js/jquery-3.4.1.min.js"></script>
@@ -41,37 +41,37 @@
 </style>
 {% endblock %}
 {% block breadcrumb %}
-<li class="breadcrumb-item active" aria-current="page">Account</li>
+<li class="breadcrumb-item active" aria-current="page">{{ _('Account') }}</li>
 {% endblock %}
 {% block content %}
-<h4>Account Details</h4>
+<h4>{{ _('Account Details') }}</h4>
 <div class="container">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">{{account.first_name |e}} {{account.last_name |e}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{account.email |e}}</h6>
-            <a href="/accounts/{{account.account_id}}/details" class="card-link">View Account Details</a>
+            <a href="/accounts/{{account.account_id}}/details" class="card-link">{{ _('View Account Details') }}</a>
         </div>
     </div>
 </div>
 <hr style="border-top: dotted 1px;" />
-<h4>Sources</h4>
+<h4>{{ _('Sources') }}</h4>
 <div class="container">
 {% if sources|length == 0 %}
     <div class="alert alert-success" role="alert">
-        You have now set up your profile for your account! Please proceed to identify your source.
+        {{ _('You have now set up your profile for your account! Please proceed to identify your source.') }}
     </div>
 {% endif %}
 {% if sources|length > 0 %}
-    Choose a source to assign samples to by clicking on a name, listed in blue below:
+    {{ _('Choose a source to assign samples to by clicking on a name, listed in blue below:') }}
     <div class="list-group">
         <br>
         <div class="row">
             <div class="col-sm">
-                <i>Name</i>
+                <i>{{ _('Name') }}</i>
             </div>
             <div class="col-sm">
-                <i>Source type</i>
+                <i>{{ _('Source type') }}</i>
             </div>
         </div>
         {% for source in sources %}
@@ -92,7 +92,7 @@
 {% endif %}
 </div>
 <br>
-<h2 id="new-source-title">What is the Source of Your Sample?</h2>
+<h2 id="new-source-title">{{ _('What is the Source of Your Sample?') }}</h2>
 <br>
 <div class="container">
     <div class="row">
@@ -100,48 +100,48 @@
             <div class="card info-col border-0 mb-3">
                 <div class="card bg-light mb-3 info-card">
                     <div class="card-body">
-                        <p>Our lab needs to know what type of sample(s) you are submitting (a.k.a. the “source”). Add a new source and assign samples to it so we can perform the correct analysis in our laboratory. </p>
+                        <p>{{ _('Our lab needs to know what type of sample(s) you are submitting (a.k.a. the “source”). Add a new source and assign samples to it so we can perform the correct analysis in our laboratory.') }}</p>
                     </div>
                 </div>
                 <div class="card bg-light info-card">
                     <div class="card-body">
-                        <p>If you have multiple sources, you may add one source at a time. You can return to this page after you finish registering the first one.</p>
+                        <p>{{ _('If you have multiple sources, you may add one source at a time. You can return to this page after you finish registering the first one.') }}</p>
                     </div>
                 </div>
             </div>
             <div class="card source-card mb-3" id="human-source">
                 <img src="/static/img/source_human.png" class="card-img-top card-img mx-auto my-3" alt="..."/>
-                <div class="card-title center-text">Human Source</div>
+                <div class="card-title center-text">{{ _('Human Source') }}</div>
                 <div class="card-body">
-                    Collect sample(s) from <b>yourself</b> (e.g. fecal, saliva, skin, etc.)
+                    {{ _('Collect sample(s) from') }} <b>{{ _('yourself') }}</b> {{ _('(e.g. fecal, saliva, skin, etc.)') }}
                     <br/>
-                    Collect sample(s) from <b>someone else</b> (fecal, saliva, skin, etc.)
+                    {{ _('Collect sample(s) from') }} <b>{{ _('someone else') }}</b> {{ _('(e.g. fecal, saliva, skin, etc.)') }}
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_human_source" role="button">Select</a>
+                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_human_source" role="button">{{ _('Select') }}</a>
                 </div>
             </div>
             <div class="card source-card mb-3" id="environmental-source">
                 <img src="/static/img/source_environmental.png" class="card-img-top card-img mx-auto my-3" alt="..."/>
-                <div class="card-title center-text">Environmental Source</div>
+                <div class="card-title center-text">{{ _('Environmental Source') }}</div>
                 <div class="card-body">
-                    Collect sample(s) from a <b>surface</b> (e.g. kitchen counter, backyard soil, food, etc.)
+                    {{ _('Collect sample(s) from a') }} <b>{{ _('surface') }}</b> {{ _('(e.g. kitchen counter, backyard soil, food, etc.)') }}
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_nonhuman_source" role="button">Select</a>
+                    <a class="btn btn-primary btn-lg" href="/accounts/{{ account.account_id }}/create_nonhuman_source" role="button">{{ _('Select') }}</a>
                 </div>
             </div>
             <div class="card source-card mb-3" id="animal-source">
                 <img src="/static/img/source_animal.png" class="card-img-top card-img mx-auto my-3" alt="..."/>
-                <div class="card-title center-text">Animal Source</div>
+                <div class="card-title center-text">{{ _('Animal Source') }}</div>
                 <div class="card-body d-flex flex-column">
                     <div>
-                        Collect sample(s) from <b>your pet</b> or an <b>animal</b> (e.g. fecal, oral, skin, etc.)
+                        {{ _('Collect sample(s) from') }} <b>{{ _('your pet') }}</b> {{ _('or an') }} <b>{{ _('animal') }}</b> {{ _('(e.g. fecal, saliva, skin, etc.)') }}
                     </div>
-                    <div class="mt-auto"><i class="align-self-end">Animal sources are currently unavailable.</i></div>
+                    <div class="mt-auto"><i class="align-self-end">{{ _('Animal sources are currently unavailable.') }}</i></div>
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a class="btn btn-primary btn-lg disabled" href="#" role="button">Select</a>
+                    <a class="btn btn-primary btn-lg disabled" href="#" role="button">{{ _('Select') }}</a>
                 </div>
             </div>
         </div>

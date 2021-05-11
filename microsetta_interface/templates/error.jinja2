@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Error Page" %}
+{% set page_title = _("Error Page") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
 {% endblock %}
@@ -7,16 +7,12 @@
 {% endblock %}
 {% block content %}
 <p>
-    An error seemed to have occurred (see below). It is most likely our fault.
-    We are actively modifying our infrastructure to support COVID-19 research,
-    and we’re still in the process of handling the different type of scenarios
-    that can happen on a website. We apologize for any inconvenience.
+    {{ _('An error seemed to have occurred (see below). It is most likely our fault. We are actively modifying our infrastructure to support COVID-19 research, and we\'re still in the process of handling the different type of scenarios that can happen on a website. We apologize for any inconvenience.') }}
 </p>
 <p>
-    If you have any concerns, please email us at <a href="{{ mailto_url }}">microsetta@ucsd.edu</a>
-    and please note the error below.
+    {{ _('If you have any concerns, please email us at') }} <a href="{{ mailto_url }}">microsetta@ucsd.edu</a> {{ _('and please note the error below') }}.
 </p>
-<strong>Error:</strong>
+<strong>{{ _('Error') }}:</strong>
 <br/>
 <pre>{{ error_msg }}</pre>
 {% endblock %}

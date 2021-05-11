@@ -1,17 +1,17 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "ADMINISTRATOR MODE" %}
+{% set page_title = _("ADMINISTRATOR MODE") %}
 {% set show_breadcrumbs = False %}
 {% block content %}
-<h4>Search Results</h4>
+<h4>{{ _('Search Results') }}</h4>
 <div class="container">
     {% if accounts|length > 0 %}
     <div class="list-group">
         <div class="row">
             <div class="col-sm">
-                <i>Email</i>
+                <i>{{ _('Email') }}</i>
             </div>
             <div class="col-sm">
-                <i>Account ID</i>
+                <i>{{ _('Account ID') }}</i>
             </div>
         </div>
         {% for account in accounts %}
@@ -31,7 +31,7 @@
     </div>
     <br/><br/>
     {% else %}
-    No accounts found
+    {{ _('No accounts found') }}
     {% endif %}
 </div>
 {% endblock %}

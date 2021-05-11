@@ -1,26 +1,26 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Optional Sample Surveys" %}
+{% set page_title = _("Optional Sample Surveys") %}
 {% block head %}
 {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
-            <h4>Your diet can provide researchers valuable information.</h4>
+            <h4>{{ _('Your diet can provide researchers valuable information') }}.</h4>
         </div>
         <div class="row">
-            <p>Would you like to take our additional survey, the <b>Food Frequency Questionnaire</b> (FFQ)?  By completing the questionnaire, you can enhance information about your sample, which will power more insightful research!</p>
-            <p><b>Note:</b> If you took multiple samples within a short time frame, you only need to take the FFQ for one such sample.</p>
+            <p>{{ _('Would you like to take our additional survey, the') }} <b>{{ _('Food Frequency Questionnaire') }}</b> ({{ _('FFQ') }})?  {{ _('By completing the questionnaire, you can enhance information about your sample, which will power more insightful research!') }}</p>
+            <p><b>{{ _('Note') }}:</b> {{ _('If you took multiple samples within a short time frame, you only need to take the FFQ for one such sample') }}.</p>
         </div>
         <div class="row">
-            <p><b>Approx time: 30 minutes.</b></p>
+            <p><b>{{ _('Approx time: 30 minutes') }}.</b></p>
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample_id}}/survey_templates/{{vioscreen_id}}" role="button">Take FFQ</a>
+                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample_id}}/survey_templates/{{vioscreen_id}}" role="button">{{ _('Take FFQ') }}</a>
             </div>
             <div class="col-sm-3">
-                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}" role="button">Back to Samples</a>
+                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}" role="button">{{ _('Back to Samples') }}</a>
             </div>
         </div>
     </div>

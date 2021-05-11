@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Microsetta {{page_title}}</title>
+    <title>{{ _('Microsetta') }} {{page_title}}</title>
 
     <link rel="stylesheet" href="/static/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/minimal_interface.css" />
@@ -40,14 +40,14 @@
 <body>
     {% if admin_mode %}
     <nav class="navbar fixed-top navbar-light bg-warning shadow">
-      Administrator Toolbar
-      <a class="btn btn-outline-success" href="/admin/system_message">System Panel</a>
-      <a class="btn btn-outline-success" href="/admin/emperor_playground">Emperor Playground</a>
-      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
-      <a class="btn btn-outline-success" href="/admin/activation">Activation Codes</a>
+      {{ _('Administrator Toolbar') }}
+      <a class="btn btn-outline-success" href="/admin/system_message">{{ _('System Panel') }}</a>
+      <a class="btn btn-outline-success" href="/admin/emperor_playground">{{ _('Emperor Playground') }}</a>
+      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
+      <a class="btn btn-outline-success" href="/admin/activation">{{ _('Activation Codes') }}</a>
       <form class="form-inline" action="/admin/account_search" method="get">
         <input id="email_query" name="email_query" class="form-control mr-sm-2" type="search" placeholder="User Email" aria-label="Search"/>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Find Account</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
       </form>
     </nav>
     {% endif %}
@@ -73,14 +73,14 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
           {% if login_info %}
               {% if login_info.account_id %}
-                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">Profile Details</a>
+                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Profile Details') }}</a>
               {% else %}
-                <a class="dropdown-item disabled" href="#">Profile Details</a>
+                <a class="dropdown-item disabled" href="#">{{ _('Profile Details') }}</a>
               {% endif %}
-            <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">Log Out</a>
+            <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
           {% else %}
-              <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">Log In</a>
-              <a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">Sign Up</a>
+              <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Log In') }}</a>
+              <a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Sign Up') }}</a>
           {% endif %}
           </div>
         </div>
@@ -98,7 +98,7 @@
     {% if show_breadcrumbs %}
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb tmi-content">
-            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/home">{{ _('Home') }}</a></li>
             {%block breadcrumb%}
             {%endblock%}
           </ol>
@@ -119,9 +119,9 @@
     <div class="container">
         <div class="d-flex justify-content-center">
             {% if not disable_faq %}
-                <a style="background-image: url('/static/img/icon-question-mark.svg')" href="https://microsetta.ucsd.edu/participant-resources/faqs/" target="_blank" class="tmi-icon m-3">FAQs</a>
+                <a style="background-image: url('/static/img/icon-question-mark.svg')" href="https://microsetta.ucsd.edu/participant-resources/faqs/" target="_blank" class="tmi-icon m-3">{{ _('FAQs') }}</a>
             {% endif %}
-            <a style="background-image: url('/static/img/icon-email.svg')" href="mailto:microsetta@ucsd.edu" class="tmi-icon m-3">Email</a>
+            <a style="background-image: url('/static/img/icon-email.svg')" href="mailto:microsetta@ucsd.edu" class="tmi-icon m-3">{{ _('Email') }}</a>
 {#                <a style="background-image: url('/static/img/icon-phone.svg')" href="tel:858-246-5690" class="cta icon -phone">858-246-5690</a>#}
     </div>
     </div>

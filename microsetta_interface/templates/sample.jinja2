@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Sample Information" %}
+{% set page_title = _("Sample Information") %}
 {% set show_breadcrumbs = True %}
 {% set disable_bootstrap = True %}
 {% block head %}
@@ -39,7 +39,7 @@
                 check = false;
             }
             return this.optional(element) || check;
-        }, "Required Format: MM/DD/YYYY");
+        }, "{{ _('Required Format: MM/DD/YYYY') }}");
 
         $(document).ready(function(){
             let form_name = 'sample_form';
@@ -109,9 +109,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Sample Information</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Sample Information') }}</li>
 {% endblock %}
 
 {% block content %}
@@ -119,18 +119,18 @@
       <form method="post" id="sample_form" name="sample_form">
           {% if sample.sample_edit_locked %}
           <div class="alert alert-success" role="alert">
-              Sample Recorded, Editing is Locked
+              {{ _('Sample Recorded, Editing is Locked') }}
           </div>
           {% endif %}
           <div class="form-group row">
-            <label for="sample" name="sample_label" class="col-sm-2 col-form-label">Barcode</label>
+            <label for="sample" name="sample_label" class="col-sm-2 col-form-label">{{ _('Barcode') }}</label>
             <div class="col-sm-4">
                 <input id="view_sample" name="view_sample" class="form-control" type="text" value="{{ sample.sample_barcode |e }}" disabled="disabled" readonly/>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">Date</label>
+            <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">{{ _('Date') }}</label>
             <div class="col-sm-4">
                 <input id="sample_date" name="sample_date" class="form-control" type="text" value="{{ sample.date | e }}" autocomplete="off" required\>
             </div>
@@ -138,7 +138,7 @@
           </div>
 
           <div class="form-group row">
-            <label for="sample_time" name="sample_time_label" class="col-sm-2 col-form-label">Time</label>
+            <label for="sample_time" name="sample_time_label" class="col-sm-2 col-form-label">{{ _('Time') }}</label>
             <div class="col-sm-4">
               <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" required\>
             </div>
@@ -152,19 +152,19 @@
                 <div class="row">
                     <div class="col-sm-6">
                     <ul>
-                        <lh><small id="sample_site_help" class="form-text text-muted">Guidelines for site identification:</small></lh>
-                        <li><small id="sample_site_help" class="form-text text-muted">If collecting a <i>BLOOD</i> sample, please select Blood (skin prick) </small></li>
-                        <li><small id="sample_site_help" class="form-text text-muted">For all swabs, please select the site as precisely as possible from the options available</small></li>
+                        <lh><small id="sample_site_help" class="form-text text-muted">{{ _('Guidelines for site identification') }}:</small></lh>
+                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('If collecting a') }} <i>{{ _('BLOOD') }}</i> {{ _('sample, please select Blood (skin prick)') }}</small></li>
+                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('For all swabs, please select the site as precisely as possible from the options available') }}</small></li>
                     </ul>
                     </div>
                 </div>
                 {% endif %}
                 <div class="row">
-                    <label for="sample_site" name="sample_site_label" class="col-sm-2 col-form-label">Site sampled</label>
+                    <label for="sample_site" name="sample_site_label" class="col-sm-2 col-form-label">{{ _('Site sampled') }}</label>
                     <div class="col-sm-4">
                       <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
                         {% if not sample.sample_site %}
-                        <option disabled selected value> -- Select a sample type -- </option>
+                        <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
                         {% endif %}
                         {% for i in range(sample_sites| length) %}
                             {% set site=sample_sites[i] %}
@@ -180,12 +180,12 @@
           {% endif %}
 
           <div class="form-group">
-            <label for="sample_notes" id="sample_notes_label">Notes</label>
+            <label for="sample_notes" id="sample_notes_label">{{ _('Notes') }}</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="(Optional) Is there else about this sample that you would like to add?" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
             </div>
           </div>
-         <button type="submit" class="btn btn-primary" {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>Update</button>
+         <button type="submit" class="btn btn-primary" {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ _('Update') }}</button>
       </form>
     </div>
 {% endblock %}

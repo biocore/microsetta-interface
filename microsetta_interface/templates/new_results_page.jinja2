@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Sample Results" %}
+{% set page_title = _("Sample Results") %}
 {% set show_breadcrumbs = show_breadcrumbs %}
 
 {% block head %}
@@ -399,7 +399,7 @@
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-tmi-all-samples", //contents inserted into div name
-                           "All of the Microsetta Initiative")
+                           "{{ _('All of the Microsetta Initiative') }}")
 
         //Plot 2, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
@@ -409,7 +409,7 @@
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-multipopulation-region", //contents inserted into div name
-                           "Multipopulation")
+                           "{{ _('Multipopulation') }}")
 
 
         //Plot 3, plot country from multipop-datatype-sampletype
@@ -420,7 +420,7 @@
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-multipopulation-lifestage", //contents inserted into div name
-                           "Multipopulation")
+                           "{{ _('Multipopulation') }}")
 
 
         //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
@@ -431,7 +431,7 @@
         buildPlotlyEmperor(state,
                            url,
                            "pcoa-builtenv", //contents inserted into div name
-                           "You and the Microbes Around You")
+                           "{{ _('You and the Microbes Around You') }}")
     }
 
     function addDatasetDetail(detail) {
@@ -494,9 +494,9 @@
                 study_url = study_lookup[qiita_id][1];
                 to_append = '<li><h6 style="margin-bottom: 0px;">' + study_title + '</h6>'; //<span>' + study_title + '</span>';
                 if(study_url !== "") {
-                    to_append = to_append + '<a href="' + study_url + '">Publication link</a><br />';
+                    to_append = to_append + '<a href="' + study_url + '">{{ _('Publication link') }}</a><br />';
                 }
-                to_append = to_append + '<a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Data access (Qiita study ' + qiita_id + ')</a>';
+                to_append = to_append + '<a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">{{ _('Data access (Qiita study') }} ' + qiita_id + ')</a>';
                 to_append = to_append + '</li>';
 
                 $(span_id).append(to_append).removeClass("spinner-grow spinner-grow-sm");
@@ -682,29 +682,29 @@
                 ],
                 order: [[ 0, "desc" ]],
                 dom: "Bfrtip",
-                buttons: [{extend: 'csv', className: 'btn btn-info', text: 'Download the spreadsheet'}],
+                buttons: [{extend: 'csv', className: 'btn btn-info', text: '{{ _('Download the spreadsheet') }}'}],
                 initComplete: function(settings) {
                     $('#taxonomyTable thead th').each(function () {
                        let $td = $(this);
                        let value = $td.text();
                        switch (value) {
                            case "Kingdom":
-                               value = "The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)";
+                               value = "{{ _('The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)') }}";
                                break;
                            case "Phylum":
-                               value = "Within the kingdom Eukarya, this is like the difference between humans and plants";
+                               value = "{{ _('Within the kingdom Eukarya, this is like the difference between humans and plants') }}";
                                break;
                            case "Class":
-                               value = "Within the phylum Chordata, this is along the lines of humans and fish";
+                               value = "{{ _('Within the phylum Chordata, this is along the lines of humans and fish') }}";
                                break;
                            case "Order":
-                               value = "Within the class Mammalia, this is like the difference between whales and a dogs";
+                               value = "{{ _('Within the class Mammalia, this is like the difference between whales and a dogs') }}";
                                break;
                            case "Family":
-                               value = "With the order Carnivora are the families for dogs and cats";
+                               value = "{{ _('With the order Carnivora are the families for dogs and cats') }}";
                                break;
                            case "Genus":
-                               value = "Within the family Canidae, you would find a genus for foxes and one for wolves";
+                               value = "{{ _('Within the family Canidae, you would find a genus for foxes and one for wolves') }}";
                                break;
                            default:
                                value = "";
@@ -887,28 +887,28 @@
                     if (selectors[selector_index] === "#age_nearest_neighbor")
                     {
                         // Find age of first neighbor with age
-                        let nearest_age = "Unspecified";
+                        let nearest_age = "{{ _('Unspecified') }}";
                         for (let i = 0; i < samplesQueried.length; i++)
                         {
-                            if (sampleResults[i][selector_index] !== "Unspecified")
+                            if (sampleResults[i][selector_index] !== "{{ _('Unspecified') }}")
                             {
                                 nearest_age = Math.round(sampleResults[i][selector_index]);
                                 break;
                             }
                         }
-                        if (nearest_age === "Unspecified")
-                            setInfoText(selectors[selector_index])("chose not to provide their age", null, null);
+                        if (nearest_age === "{{ _('Unspecified') }}")
+                            setInfoText(selectors[selector_index])("{{ _('chose not to provide their age') }}", null, null);
                         else
-                            setInfoText(selectors[selector_index])("is " + nearest_age + " years old", null, null);
+                            setInfoText(selectors[selector_index])("{{ _('is') }} " + nearest_age + " {{ _('years old') }}", null, null);
                     }
                     if (selectors[selector_index] === "#more_or_less_sweets_nearest_neighbor")
                     {
                         // Find string value for first neighbor with a string value
-                        let nearest_sweets = "Unspecified";
+                        let nearest_sweets = "{{ _('Unspecified') }}";
                         for (let i = 0; i < samplesQueried.length; i++)
                         {
-                            if (sampleResults[i][selector_index] !== "Unspecified" &&
-                                sampleResults[i][selector_index] !== "Not provided")
+                            if (sampleResults[i][selector_index] !== "{{ _('Unspecified') }}" &&
+                                sampleResults[i][selector_index] !== "{{ _('Not provided') }}")
                             {
                                 nearest_sweets = sampleResults[i][selector_index];
                                 break;
@@ -917,13 +917,13 @@
 
                         // Comparing metadata is an absolute nightmare.
                         let possible_values = {
-                            "Unspecified" : NaN,
-                            "Not provided" : NaN,
-                            "Never" : 0,
-                            "Rarely (less than once/week)" : 1,
-                            "Occasionally (1-2 times/week)" : 2,
-                            "Regularly (3-5 times/week)" : 3,
-                            "Daily": 4
+                            "{{ _('Unspecified') }}" : NaN,
+                            "{{ _('Not provided') }}" : NaN,
+                            "{{ _('Never') }}" : 0,
+                            "{{ _('Rarely (less than once/week)') }}" : 1,
+                            "{{ _('Occasionally (1-2 times/week)') }}" : 2,
+                            "{{ _('Regularly (3-5 times/week)') }}" : 3,
+                            "{{ _('Daily') }}": 4
                         }
 
                         let my_sweets = possible_values[my_data[selector_index]];
@@ -932,19 +932,19 @@
                         let info_text = "";
                         if (isNaN(my_sweets)){
                             if (isNaN(their_sweets))
-                                info_text = "chose not to say how many sweets they eat";
+                                info_text = "{{ _('chose not to say how many sweets they eat') }}";
                             else
-                                info_text = nearest_sweets.toLowerCase() + " eats sweets";
+                                info_text = nearest_sweets.toLowerCase() + " {{ _('eats sweets') }}";
                         }
                         else{
                             if (my_sweets < their_sweets)
-                                info_text = "eats more sugary sweets than you";
+                                info_text = "{{ _('eats more sugary sweets than you') }}";
                             else if (my_sweets > their_sweets)
-                                info_text = "eats fewer sugary sweets than you";
+                                info_text = "{{ _('eats fewer sugary sweets than you') }}";
                             else if (my_sweets === their_sweets)
-                                info_text = "eats about the same number of sugary sweets as you";
+                                info_text = "{{ _('eats about the same number of sugary sweets as you') }}";
                             else
-                                info_text = "chose not to say how many sweets they eat";
+                                info_text = "{{ _('chose not to say how many sweets they eat') }}";
                         }
 
                         setInfoText(selectors[selector_index])(info_text, null, null);
@@ -987,7 +987,7 @@
                             {
                                 "id": "types_of_plants",
                                 "operator": "equal",
-                                "value": "More than 30"
+                                "value": "{{ _('More than 30') }}"
                             }
                         ]
                     }
@@ -1001,7 +1001,7 @@
                             {
                                 "id": "one_liter_of_water_a_day_frequency",
                                 "operator": "equal",
-                                "value": "Regularly (3-5 times/week)"
+                                "value": "{{ _('Regularly (3-5 times/week)') }}"
                             }
                         ]
                     }
@@ -1015,7 +1015,7 @@
                             {
                                 "id": "exercise_frequency",
                                 "operator": "equal",
-                                "value": "Regularly (3-5 times/week)"
+                                "value": "{{ _('Regularly (3-5 times/week)') }}"
                             }
                         ]
                     }
@@ -1030,17 +1030,17 @@
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "6-7 hours"
+                                "value": "{{ _('6-7 hours') }}"
                             },
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "7-8 hours"
+                                "value": "{{ _('7-8 hours') }}"
                             },
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "8 or more hours"
+                                "value": "{{ _('8 or more hours') }}"
                             }
                         ]
                     }
@@ -1182,7 +1182,7 @@
             }
 
             let trace1 = {
-                "name": "Rank Distributions",
+                "name": "{{ _('Rank Distributions') }}",
                 "showlegend": false,
                 "spanmode": "hard",
                 "type": "violin",
@@ -1200,22 +1200,22 @@
             let trace2 = {
                 "type": "scatter",
                 "mode": "markers",
-                "name": "My Sample",
+                "name": "{{ _('My Sample') }}",
                 "x": sample_x,
                 "y": sample_y
             };
             let data = [trace1, trace2];
             let layout = {
-                "title": "How abundant are my microbes compared everyone in Microsetta?",
+                "title": "{{ _('How abundant are my microbes compared everyone in Microsetta?') }}",
                 "hovermode": false,
                 "yaxis": {
-                    "title": "Common types of microbes",
+                    "title": "{{ _('Common types of microbes') }}",
                     "automargin": true,
                     "categoryorder": "array",
                     "categoryarray": topXOrdered
                 },
                 xaxis: {
-                    title: '← Least Abundant | Most Abundant →'
+                    title: '← {{ _('Least Abundant') }} | {{ _('Most Abundant') }} →'
                 }
             };
             Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});
@@ -1233,10 +1233,10 @@
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
                     if (info.datatype === "WGS"){
-                        $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text("{{ _('whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species.') }} ").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else if (info.datatype === "16S"){
-                        $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text('{{ _('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
                         $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
@@ -1360,9 +1360,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Results</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Results') }}</li>
 {% endblock %}
 
 {% block content %}
@@ -1371,12 +1371,12 @@
     <div class="col-sm-auto full-height">
         <div class="nav-white-bg row">
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-right:20px;">
-            <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">How do you compare?</a>
-            <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">Diversity</a>
-            <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">Similarity</a>
-            <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">Your Inner Zoo</a>
-            <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">Microbiome Map</a>
-            <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">How can I learn more?</a>
+            <a class="nav-link active" id="compare-tab" data-toggle="pill" href="#compare" role="tab" aria-controls="compare" aria-selected="true">{{ _('How do you compare?') }}</a>
+            <a class="nav-link" id="diversity-tab" data-toggle="pill" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
+            <a class="nav-link" id="similarity-tab" data-toggle="pill" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
+            <a class="nav-link" id="taxonomy-tab" data-toggle="pill" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Your Inner Zoo') }}</a>
+            <a class="nav-link" id="microbial-map-tab" data-toggle="pill" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
+            <a class="nav-link" id="dataset-tab" data-toggle="pill" href="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">{{ _('How can I learn more?') }}</a>
           </div>
         </div>
     </div>
@@ -1385,94 +1385,66 @@
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
-                <h3>How do you compare?</h3>
+                <h3>{{ _('How do you compare?') }}</h3>
                 <img class="diversity-banner" src='/static/img/{{ _("en_us") }}/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
-                    Your microbiome is a rainforest of diverse microbes dominated
-                    by microbes - some 40 trillion bacteria, weighing around 1 lb,
-                    live all over and in your body. The diversity of your
-                    microbiome, how similar it is to other peoples', and the types
-                    of bacteria living inside you have all been linked to health,
-                    disease and lifestyle traits in numerous studies. 
+                    {{ _('Your microbiome is a rainforest of diverse microbes dominated by microbes - some 40 trillion bacteria, weighing around 1 lb, live all over and in your body. The diversity of your microbiome, how similar it is to other peoples\', and the types of bacteria living inside you have all been linked to health, disease and lifestyle traits in numerous studies.') }}
                 </p>
 
                 <p>
-                Scientists often use many different approaches to see how your
-                microbiome differs. We've analyzed your microbiome sample using
-                standard microbiome research tools, and the results are broken
-                down below in a few different categories:
+                    {{ _('Scientists often use many different approaches to see how your microbiome differs. We\'ve analyzed your microbiome sample using standard microbiome research tools, and the results are broken down below in a few different categories') }}:
                 </p>
 
                 <div class="how_you_compare_section">
-                    <h4>Diversity</h4>
+                    <h4>{{ _('Diversity') }}</h4>
                     <p>
-                    How many kinds of microbes were in your sample?
-                    Check out your <a class="fake-tab" 
-                    href="#diversity" data-link="#diversity-tab">Diversity</a>.
+                    {{ _('How many kinds of microbes were in your sample? Check out your') }} <a class="fake-tab" href="#diversity" data-link="#diversity-tab">{{ _('Diversity') }}</a>.
                     </p>
                 </div>
                 </br>
 
                 <div class="how_you_compare_section">
-                    <h4>Similarity</h4>
+                    <h4>{{ _('Similarity') }}</h4>
                     <p>
-                    What kinds of people have microbiomes like yours? Check out
-                    your microbiome <a class="fake-tab" href="#similarity" 
-                    data-link="#similarity-tab">Similarity</a>.
+                    {{ _('What kinds of people have microbiomes like yours? Check out your microbiome') }} <a class="fake-tab" href="#similarity" data-link="#similarity-tab">{{ _('Similarity') }}</a>.
                     </p>
                 </div>
                 </br>
 
                 <div class="how_you_compare_section">
-                    <h4>Your Inner Zoo</h4>
+                    <h4>{{ _('Your Inner Zoo') }}</h4>
                     <p>
-                    What particular kinds of microbes are in your sample?
-                    Wander through <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">Your Inner Zoo</a>. 
+                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Your Inner Zoo') }}</a>. 
                     </p>
                 </div>
                 </br>
 
                 <div class="how_you_compare_section">
-                    <h4>Microbiome Map</h4>
+                    <h4>{{ _('Microbiome Map') }}</h4>
                     <p>
-                    Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome Map</a>?
+                    {{ _('Where are you on the') }} <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">{{ _('Microbiome Map') }}</a>?
                     </p>
                 </div>
               </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               <div class="column results_text">
-                  <h3>Diversity</h3>
+                  <h3>{{ _('Diversity') }}</h3>
                   <br>
                   <p>
-                   There are anywhere from hundreds of millions to hundreds of
-                   billions of different types of bacteria living on planet earth.
-                   This dwarfs the meager 2 million different kinds of animals
-                   and plants that you can see with your eyes. The
-                   <span id="average-us-tooltip" class="tooltipper"
-                   data-title="Based on fecal samples from Microsetta participants in the United States">average</span>
-                   American has <strong>187</strong> different types of microbes in a stool sample, which is
-                   lower than we find in people living a more hunter-gatherer
-                   lifestyle, like the <strong>306</strong> we find in samples from the 
-                   <span id="taxa-tooltip" class="tooltipper"
-                   data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.
+                   {{ _('There are anywhere from hundreds of millions to hundreds of billions of different types of bacteria living on planet earth. This dwarfs the meager 2 million different kinds of animals and plants that you can see with your eyes. The <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong>187</strong> different types of microbes in a stool sample, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong>306</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.') }}
                   </p>
 
                   <div class="card your_sample_diversity_inset">
-                      <div class="card-header">Number of different microbes found in your sample</div>
+                      <div class="card-header">{{ _('Number of different microbes found in your sample') }}</div>
                       <div class="card-body">
                           <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
                   </div>
 
                   <p>
-                    When we calculated the diversity of groups for samples in our database,
-                    we found diversity is associated with how you live your life.
-                    Here, we summarized the average microbiome diversity for a few of
-                    the questionnaire responses, specifically people who eat more than 30
-                    plants a week, exercise regularly, drink water regularly, or sleep
-                    more than 6 hours a night.
+                    {{ _('When we calculated the diversity of groups for samples in our database, we found diversity is associated with how you live your life. Here, we summarized the average microbiome diversity for a few of the questionnaire responses, specifically people who eat more than 30 plants a week, exercise regularly, drink water regularly, or sleep more than 6 hours a night.') }}
                   </p>
 
                   <div class="row mb-2 mt-2">
@@ -1480,10 +1452,10 @@
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              Eat more than 30 plants a week
+                              {{ _('Eat more than 30 plants a week') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> unique microbial features
+                              <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
                             </div>
                           </div>
                       </div>
@@ -1491,10 +1463,10 @@
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              Exercise regularly
+                              {{ _('Exercise regularly') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> unique microbial features
+                              <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
                             </div>
                           </div>
                       </div>
@@ -1504,10 +1476,10 @@
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              Drink 1L or water regularly
+                              {{ _('Drink 1L or water regularly') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_water_regularly" class="info-loader text-success">...</span>  unique microbial features
+                              <span id="diversity_water_regularly" class="info-loader text-success">...</span>  {{ _('unique microbial features') }}
                             </div>
                           </div>
                       </div>
@@ -1515,10 +1487,10 @@
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
                               <div class="diversity-category">
-                                Sleep more than 6 hours per night
+                                {{ _('Sleep more than 6 hours per night') }}
                               </div>
                               <div class="diversity-info">
-                                <span id="diversity_sleep_alot" class="info-loader text-success">...</span> unique microbial features
+                                <span id="diversity_sleep_alot" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
                               </div>
                           </div>
                       </div>
@@ -1527,29 +1499,14 @@
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
               <div class="column results_text">
-                  <h3>Similarity</h3>
+                  <h3>{{ _('Similarity') }}</h3>
                   <br>
                   <p>
-                  One of the powerful ways microbiome scientists analyze data
-                  is by looking at similarities among samples. To do this,
-                  we compute a <span id="similarity-tooltip" class="tooltipper" 
-                  data-html="true" data-title="
-                  There are <i>a lot</i> of ways to form a distance. One way is
-                  to base the distance off of the fraction of microbes in
-                  common in your sample with each other sample. We typically share
-                  few of the exact same microbes in common with other people though
-                  which is problematic when comparing exact microbes. To account for 
-                  this, researchers often take the evolutionary relationships among microbes
-                  into account when forming these distances.">distance</span> from your sample to all 
-                  other samples based on the microbes observed. 
+                  {{ _('One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <span id="similarity-tooltip" class="tooltipper" data-html="true" data-title="There are <i>a lot</i> of ways to form a distance. One way is to base the distance off of the fraction of microbes in common in your sample with each other sample. We typically share few of the exact same microbes in common with other people though which is problematic when comparing exact microbes. To account for this, researchers often take the evolutionary relationships among microbes into account when forming these distances.">distance</span> from your sample to all other samples based on the microbes observed.') }}
                   </p>
 
                   <p>
-                  Here, we your sample to all the others in our database, and examined the 100
-                  most similar samples to yours. These people answered their
-                  questionnaires in the following way; the response is colored in 
-                  <span class="similarity-fontstyle-same">light green</span> if it matches your 
-                  response and <span class="similarity-fontstyle-different">brown</span> if your response differed. 
+                  {{ _('Here, we your sample to all the others in our database, and examined the 100 most similar samples to yours. These people answered their questionnaires in the following way; the response is colored in <span class="similarity-fontstyle-same">light green</span> if it matches your response and <span class="similarity-fontstyle-different">brown</span> if your response differed.') }}
                   </p>
 
                   <div id="beta-diversity-comparisons">
@@ -1558,7 +1515,7 @@
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">Diet</h4>
+                          <h4 class="diversity-header">{{ _('Diet') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
@@ -1568,9 +1525,9 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_plants_per_week_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours eat 
+                              {{ _('of people with a microbiome like yours eat') }} 
                               <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
-                              plants per week
+                              {{ _('plants per week') }}
                           </div>
                       </div>
                       <div class="col diversity-compare">
@@ -1579,14 +1536,14 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_diet_type_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours had a similar diet
+                              {{ _('of people with a microbiome like yours had a similar diet') }}
                           </div>
                       </div>
                   </div>
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">Supplements</h4>
+                          <h4 class="diversity-header">{{ _('Supplements') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
@@ -1596,9 +1553,9 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_probiotics_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours
+                              {{ _('of people with a microbiome like yours') }}
                               <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span>
-                              take probiotics
+                              {{ _('take probiotics') }}
                           </div>
                       </div>
                       <div class="col diversity-compare">
@@ -1607,14 +1564,14 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_multivitamin_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours take vitamins
+                              {{ _('of people with a microbiome like yours take vitamins') }}
                           </div>
                       </div>
                   </div>
                   
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">Activity</h4>
+                          <h4 class="diversity-header">{{ _('Activity') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
@@ -1624,7 +1581,7 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_exercise_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours exercise 
+                              {{ _('of people with a microbiome like yours exercise') }} 
                               <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>
                           </div>
                       </div>
@@ -1634,16 +1591,16 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_sleep_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours get
+                              {{ _('of people with a microbiome like yours get') }}
                               <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span>
-                              of sleep at night
+                              {{ _('of sleep at night') }}
                           </div>
                       </div>
                   </div>
                   
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">Demographic</h4>
+                          <h4 class="diversity-header">{{ _('Demographic') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
@@ -1653,7 +1610,7 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> 
-                              of people with a microbiome like yours were the same age as you
+                              {{ _('of people with a microbiome like yours were the same age as you') }}
                           </div>
                       </div>
                       <div class="col diversity-compare">
@@ -1662,7 +1619,7 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_sex_value" class="info-loader font-weight-bold">...</span>
-                              of people with a microbiome like yours were the same gender
+                              {{ _('of people with a microbiome like yours were the same gender') }}
                           </div>
                       </div>
                   </div>
@@ -1671,32 +1628,31 @@
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
                   <div class="column results_text">
-                    <h3>Your Inner Zoo (aka What's in your sample?)</h3>
+                    <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
                     <br>
                     <p>
-                    Below you will find a table of all of the different
-                    microbes we found in your sample, and their proportions.
+                    {{ _('Below you will find a table of all of the different microbes we found in your sample, and their proportions.') }}
                     </p>
                     
                     <p>
-                    Microbes sometimes have difficult names to pronounce. Some of the names are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a pronounciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.
+                    {{ _('Microbes sometimes have difficult names to pronounce. Some of the names are Latin, Greek, Norse, Chinese and more. If you\'d like to know more, a pronounciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
                     </p>
 
                     <p>
-                    Please mouse over the header to learn more about how to interpret these taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms.
+                    {{ _('Please mouse over the header to learn more about how to interpret these taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms.') }}
                     </p>
                     
                     <div style="padding:10px">
                       <table id="taxonomyTable" class="display" style="width:100%">
                         <thead>
                         <tr>
-                          <th>% of Sample</th>
-                          <th>Kingdom</th>
-                          <th>Phylum</th>
-                          <th>Class</th>
-                          <th>Order</th>
-                          <th>Family</th>
-                          <th>Genus</th>
+                          <th>{{ _('% of Sample') }}</th>
+                          <th>{{ _('Kingdom') }}</th>
+                          <th>{{ _('Phylum') }}</th>
+                          <th>{{ _('Class') }}</th>
+                          <th>{{ _('Order') }}</th>
+                          <th>{{ _('Family') }}</th>
+                          <th>{{ _('Genus') }}</th>
                         </tr>
                         </thead>
                       </table>
@@ -1707,11 +1663,9 @@
               <div class="row">
                   <div class="column results_text">
                     <p>
-                    In the plot below, you can see the most commonly observed
-                    microbial genera in the dataset, and distribution of ranks of
-                    those genera.  For example, <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
-                    typically has the highest relative abundance of samples in the
-                    dataset.
+                    {{ _('In the plot below, you can see the most commonly observed microbial genera in the dataset, and distribution of ranks of those genera.  For example,') }}
+                    <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
+                    {{ _('typically has the highest relative abundance of samples in the dataset.') }}
                     </p>
                   </div>
               </div>
@@ -1725,56 +1679,45 @@
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
               <div class="column results_text">
-                <h3>How can I learn more?</h3>
+                <h3>{{ _('How can I learn more?') }}</h3>
                 <br/>
                   <p>
-                  Microbiome analysis is a burgeoning new field, and the information
-                  displayed here is only an example of what is becoming possible
-                  thanks to the data that you helped collect.
+                  {{ _('Microbiome analysis is a burgeoning new field, and the information displayed here is only an example of what is becoming possible thanks to the data that you helped collect.') }}
                   </p>
 
                   <p>
-                  So if you want to learn more, you can even take a look at the dataset for yourself!
+                  {{ _('So if you want to learn more, you can even take a look at the dataset for yourself!') }}
                   </p>
                   
                   <p>
-                  For your sample, we performed a technique called amplicon sequencing where we examine
-                  pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth
-                  variable region ("V4") of the 16S rRNA small subunit ribosomal gene. DNA sequences from this 
-                  region of this gene can be used like a microbial barcode, providing researchers evidence of 
-                  the types of microbes that may be present in your sample.
+                  {{ _('For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth variable region ("V4") of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.')) }
                   </p>
 
                   <p>
-                  There are many resources for microbiome information available online. If you'd like to learn
-                  more, we recommend the <a href="https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome">American Society for Microbiology</a>, 
-                  <a href="https://microbe.net/">microBEnet</a>, the <a href="http://www.probioticchart.ca/">Canadian Probiotics Chart</a>, and the <a href="https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/">American Gastroenterological Association</a>. 
+                  {{ _('There are many resources for microbiome information available online. If you'd like to learn more, we recommend the <a href="https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome">American Society for Microbiology</a>, <a href="https://microbe.net/">microBEnet</a>, the <a href="http://www.probioticchart.ca/">Canadian Probiotics Chart</a>, and the <a href="https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/">American Gastroenterological Association</a>.')) }
                   </p>
 
-                  <h4 style="color:black;">Datasets used in your results report</h4>
+                  <h4 style="color:black;">{{ _('Datasets used in your results report') }}</h4>
                   <p>
-                  The results shown in the Microbiome Maps portion of the
-                  report relied on data from many different publically
-                  accessible microbiome datasets. These different datasets, and
-                  links to them, are listed below.
+                  {{ _('The results shown in the Microbiome Maps portion of the report relied on data from many different publically accessible microbiome datasets. These different datasets, and links to them, are listed below.') }}
                   </p>
 
-                  <h5>The Microsetta Initiatiave</h5>
+                  <h5>{{ _('The Microsetta Initiatiave') }}</h5>
                   <ul>
                         <span id="dataset_links_tmi" class="info-loader text-success" >DATASET_LINKS</span>
                   </ul>
                   </br>
-                  <h5>Microbiomes Across the World</h5>
+                  <h5>{{ _('Microbiomes Across the World') }}</h5>
                   <ul>
                         <span id="dataset_links_multipopgut" class="info-loader text-success" >DATASET_LINKS</span>
                   </ul>
                   </br>
-                  <h5>Microbiomes Across the Lifespan</h5>
+                  <h5>{{ _('Microbiomes Across the Lifespan') }}</h5>
                   <ul>
                         <span id="dataset_links_lifestagegut" class="info-loader text-success" >DATASET_LINKS</span>
                   </ul>
                   </br>
-                  <h5>Microbiomes in the Environment</h5>
+                  <h5>{{ _('Microbiomes in the Environment') }}</h5>
                   <ul>
                         <span id="dataset_links_builtenv" class="info-loader text-success" >DATASET_LINKS</span>
                   </ul>
@@ -1785,30 +1728,19 @@
           <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
             <div class="row">
               <div class="column results_text">
-                <h3>Microbiome Map</h3>
+                <h3>{{ _('Microbiome Map') }}</h3>
                 <br/>
                 <p>
-                Microbiome maps turn the similarities and differences among
-                microbiomes into a two-dimensional picture. Each dot is a whole
-                microbiome, and dots close to yours are more similar
-                microbiomes. 
+                {{ _('Microbiome maps turn the similarities and differences among microbiomes into a two-dimensional picture. Each dot is a whole microbiome, and dots close to yours are more similar microbiomes.') }} 
                 </p>
 
                 <p>
-                    <span id="microbiome-maps-tooltip" class="tooltipper" 
-                    data-title="Visualizing complex data is difficult. One way
-                microbiome researchers do it though is through a technique
-                called principal coordinates analysis (PCoA). We provide
-                PCoA with the millions of microbiome similarities we compute
-                (we use tens of thousands of samples, and compare each sample
-                to each other), and in turn, PCoA provides perspectives into
-                massive data matrix that place very similar samples near each 
-                other and less similar samples far apart.">How are these maps produced?</span>
+                    {{ _('<span id="microbiome-maps-tooltip" class="tooltipper" data-title="Visualizing complex data is difficult. One way microbiome researchers do it though is through a technique called principal coordinates analysis (PCoA). We provide PCoA with the millions of microbiome similarities we compute (we use tens of thousands of samples, and compare each sample to each other), and in turn, PCoA provides perspectives into massive data matrix that place very similar samples near each other and less similar samples far apart.">How are these maps produced?</span>') }}
                 </p>
     
                 <div id="microbiome-map-all-tmi-accordian">
                     <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">Microbiomes Across the Body</h4>
+                        <h4 class="diversity-header">{{ _('Microbiomes Across the Body') }}</h4>
                     </button>
                     <div class="accordion-panel-microbiome-map" style="">
                         <div class="row">
@@ -1819,11 +1751,7 @@
                             </div>
                             <div class="col microinfo">
                                 <p>
-                                    In this map, we’ve placed your sample relative to all the
-                                    other samples we have in Microsetta. As you can see, there
-                                    are a few different types of samples people have
-                                    contributed, and the microbial configurations present can
-                                    be REALLY different. 
+                                    {{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be REALLY different.') }}
                                 </p>
                             </div>
                         </div>
@@ -1832,7 +1760,7 @@
 
                 <div id="microbiome-map-multipop-region-accordian">
                     <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">Microbiomes Across the World</h4>
+                        <h4 class="diversity-header">{{ _('Microbiomes Across the World') }}</h4>
                     </button>
                     <div class="accordion-panel-microbiome-map" style="">
                         <div class="row">
@@ -1843,17 +1771,11 @@
                             </div>
                             <div class="col microinfo">
                                 <p>
-                                Researchers have noted large differences in our
-                                microbiomes depending on where we live. The reason WHY
-                                is not well understood, but we suspect factors such as
-                                diet or environmental exposures (e.g., plants, what’s
-                                in your house, pollution, how often you come in contact
-                                with soil, etc) may be be major factors.
+                                {{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}
                                 </p>
 
                                 <p>
-                                Researchers do not know how much these differences
-                                matter! They certainly may. 
+                                {{ _('Researchers do not know how much these differences matter! They certainly may.') }}
                                 </p>
                             </div>
                         </div>
@@ -1862,7 +1784,7 @@
 
                 <div id="microbiome-map-multipop-lifestage-accordian">
                     <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">Microbiomes Across the Lifespan</h4>
+                        <h4 class="diversity-header">{{ _('Microbiomes Across the Lifespan') }}</h4>
                     </button>
                     <div class="accordion-panel-microbiome-map" style="">
                         <div class="row">
@@ -1873,17 +1795,11 @@
                             </div>
                             <div class="col microinfo">
                                 <p>
-                                One major factor associated with gut
-                                microbiomes is the age of the individual,
-                                emphasized here by life stages.
+                                {{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}
                                 </p>
 
                                 <p>
-                                Interestingly, infants are relatively similar
-                                microbially regardless of where they were born.
-                                But, as individuals age, it seems like their
-                                microbiomes reflect regional or population
-                                differences.
+                                {{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}
                                 </p>
                             </div>
                         </div>
@@ -1891,7 +1807,7 @@
                 </div>
                 <div id="microbiome-map-builtenv-accordian">
                     <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">Microbiomes in the Environment</h4>
+                        <h4 class="diversity-header">{{ _('Microbiomes in the Environment') }}</h4>
                     </button>
                     <div class="accordion-panel-microbiome-map" style="">
                         <div class="row">
@@ -1902,17 +1818,11 @@
                             </div>
                             <div class="col microinfo">
                                 <p>
-                                Microbes are EVERYWHERE though! Using these
-                                same techniques described above, we compared
-                                your microbiome to samples collected from all
-                                over the surfaces from a brand new hospital.
+                                {{ _('Microbes are EVERYWHERE though! Using these same techniques described above, we compared your microbiome to samples collected from all over the surfaces from a brand new hospital.') }}
                                 </p>
 
                                 <p>
-                                As you can see, skin samples tend to more
-                                closely resemble those from "the built
-                                environment", which makes sense as skin cells
-                                are constantly shedding from you.
+                                {{ _('As you can see, skin samples tend to more closely resemble those from "the built environment", which makes sense as skin cells are constantly shedding from you.') }}
                                 </p>
                             </div>
                         </div>

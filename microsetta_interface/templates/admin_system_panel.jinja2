@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "ADMINISTRATOR SYSTEM PANEL" %}
+{% set page_title = _("ADMINISTRATOR SYSTEM PANEL") %}
 {% set show_breadcrumbs = False %}
 {% block head %}
     <script>
@@ -11,28 +11,28 @@
     </script>
 {% endblock %}
 {% block content %}
-    <h4> Set System Message </h4>
+    <h4> {{ _('Set System Message') }} </h4>
     <div id="test_msg" class="alert alert-{{system_msg_style|e}}" role="alert">
       {{system_msg_text}}
     </div>
 
     <form method="post" id="system_msg_form" name="system_msg_form">
     <div class="form-group row">
-        <label for="system_msg_text" name="system_msg_label" class="col-sm-2 col-form-label">System Message:</label>
+        <label for="system_msg_text" name="system_msg_label" class="col-sm-2 col-form-label">{{ _('System Message') }}:</label>
         <div class="col-sm-8">
             <textarea class="form-control" id="system_msg_text" name="system_msg_text" rows="5">{{system_msg_text |e}}</textarea>
             <select id="system_msg_style" name="system_msg_style" class="form-control" required>
-                <option value="primary" {% if system_msg_style == "primary" %} selected {% endif %}>primary</option>
-                <option value="secondary" {% if system_msg_style == "secondary" %} selected {% endif %}>secondary</option>
-                <option value="success" {% if system_msg_style == "success" %} selected {% endif %}>success</option>
-                <option value="danger" {% if system_msg_style == "danger" %} selected {% endif %}>danger</option>
-                <option value="warning" {% if system_msg_style == "warning" %} selected {% endif %}>warning</option>
-                <option value="info" {% if system_msg_style == "info" %} selected {% endif %}>info</option>
-                <option value="light" {% if system_msg_style == "light" %} selected {% endif %}>light</option>
-                <option value="dark" {% if system_msg_style == "dark" %} selected {% endif %}>dark</option>
+                <option value="primary" {% if system_msg_style == "primary" %} selected {% endif %}>{{ _('primary') }}</option>
+                <option value="secondary" {% if system_msg_style == "secondary" %} selected {% endif %}>{{ _('secondary') }}</option>
+                <option value="success" {% if system_msg_style == "success" %} selected {% endif %}>{{ _('success') }}</option>
+                <option value="danger" {% if system_msg_style == "danger" %} selected {% endif %}>{{ _('danger') }}</option>
+                <option value="warning" {% if system_msg_style == "warning" %} selected {% endif %}>{{ _('warning') }}</option>
+                <option value="info" {% if system_msg_style == "info" %} selected {% endif %}>{{ _('info') }}</option>
+                <option value="light" {% if system_msg_style == "light" %} selected {% endif %}>{{ _('light') }}</option>
+                <option value="dark" {% if system_msg_style == "dark" %} selected {% endif %}>{{ _('dark') }}</option>
             </select>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Set System Message</button>
+    <button type="submit" class="btn btn-primary">{{ _('Set System Message') }}</button>
     </form>
 {% endblock %}

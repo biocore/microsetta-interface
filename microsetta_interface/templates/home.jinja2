@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Home" %}
+{% set page_title = _("Home") %}
 {% set show_breadcrumbs = False %}
 {% set hide_footer = True %}
 
@@ -31,16 +31,16 @@
                                /static/img/{{ _("en_us") }}/the-microsetta-initiative-logo-rgb-1@3x.png 3x" />
                       </div>
                       <div class="flex-fill">
-                          <h1>Welcome!</h1>
+                          <h1>{{ _('Welcome!') }}</h1>
                       </div>
                       <div class="flex-fill">
                           <a href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">
-                              <button class="btn btn-primary">SIGN UP</button>
+                              <button class="btn btn-primary">{{ _('SIGN UP') }}</button>
                           </a>
                       </div>
                       <div class="flex-fill">
-                         Already have an account?<br/>
-                          Welcome back! <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">LOG IN</a>
+                         {{ _('Already have an account?') }}<br/>
+                         {{ _('Welcome back!') }} <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('LOG IN') }}</a>
                       </div>
               </div>
           </div>

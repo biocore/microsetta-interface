@@ -20,7 +20,7 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
     'contextmenu': emperor_root + '/vendor/js/jquery.contextMenu.min',
 
     /* other libraries */
-    'underscore': emperor_root + '/vendor/js/underscore-min',
+    'underscore': emperor_root + '/vendor/js/underscore-umd-min',
     'chroma': emperor_root + '/vendor/js/chroma.min',
     'filesaver': emperor_root + '/vendor/js/FileSaver.min',
     'blob': emperor_root + '/vendor/js/Blob',

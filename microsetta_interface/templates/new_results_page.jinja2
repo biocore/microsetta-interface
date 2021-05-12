@@ -1206,7 +1206,7 @@
             };
             let data = [trace1, trace2];
             let layout = {
-                "title": "How abundant are my microbes compared everyone in Microsetta?",
+                "title": "How abundant are my microbes compared to everyone in Microsetta?",
                 "hovermode": false,
                 "yaxis": {
                     "title": "Common types of microbes",
@@ -1236,7 +1236,7 @@
                         $("#dataset_datatype").text("whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species. ").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else if (info.datatype === "16S"){
-                        $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers with evidence of the types of microbes that may be present in your sample.').removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
                         $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
@@ -1390,7 +1390,7 @@
                 <br/>
                 <p>
                     Your microbiome is a rainforest of diverse microbes dominated
-                    by microbes - some 40 trillion bacteria, weighing around 1 lb,
+                    by bacteria - some 40 trillion bacteria, weighing around 1 lb,
                     live all over and in your body. The diversity of your
                     microbiome, how similar it is to other peoples', and the types
                     of bacteria living inside you have all been linked to health,
@@ -1453,8 +1453,8 @@
                    <span id="average-us-tooltip" class="tooltipper"
                    data-title="Based on fecal samples from Microsetta participants in the United States">average</span>
                    American has <strong>187</strong> different types of microbes in a stool sample, which is
-                   lower than we find in people living a more hunter-gatherer
-                   lifestyle, like the <strong>306</strong> we find in samples from the 
+                   lower than what we find in people living a more hunter-gatherer
+                   lifestyle, like the <strong>306</strong> microbes we find in samples from the 
                    <span id="taxa-tooltip" class="tooltipper"
                    data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.
                   </p>
@@ -1467,10 +1467,10 @@
                   </div>
 
                   <p>
-                    When we calculated the diversity of groups for samples in our database,
-                    we found diversity is associated with how you live your life.
-                    Here, we summarized the average microbiome diversity for a few of
-                    the questionnaire responses, specifically people who eat more than 30
+                    When we calculated the diversity of groups of samples in our database,
+                    we found that diversity is associated with how you live your life.
+                    Here, we summarized the average microbiome diversity for a few
+                    questionnaire responses, specifically people who eat more than 30
                     plants a week, exercise regularly, drink water regularly, or sleep
                     more than 6 hours a night.
                   </p>
@@ -1545,7 +1545,7 @@
                   </p>
 
                   <p>
-                  Here, we your sample to all the others in our database, and examined the 100
+                  Here, we compared your sample to all the others in our database, and examined the 100
                   most similar samples to yours. These people answered their
                   questionnaires in the following way; the response is colored in 
                   <span class="similarity-fontstyle-same">light green</span> if it matches your 
@@ -1708,9 +1708,9 @@
                   <div class="column results_text">
                     <p>
                     In the plot below, you can see the most commonly observed
-                    microbial genera in the dataset, and distribution of ranks of
+                    microbial genera in the dataset, and distribution of ranks for
                     those genera.  For example, <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
-                    typically has the highest relative abundance of samples in the
+                    typically have the highest relative abundance of samples in the
                     dataset.
                     </p>
                   </div>
@@ -1797,11 +1797,11 @@
                 <p>
                     <span id="microbiome-maps-tooltip" class="tooltipper" 
                     data-title="Visualizing complex data is difficult. One way
-                microbiome researchers do it though is through a technique
+                microbiome researchers do it is through a technique
                 called principal coordinates analysis (PCoA). We provide
                 PCoA with the millions of microbiome similarities we compute
                 (we use tens of thousands of samples, and compare each sample
-                to each other), and in turn, PCoA provides perspectives into
+                to each other), and in turn, PCoA provides perspectives into a
                 massive data matrix that place very similar samples near each 
                 other and less similar samples far apart.">How are these maps produced?</span>
                 </p>

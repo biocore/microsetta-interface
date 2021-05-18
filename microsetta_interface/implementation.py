@@ -42,6 +42,7 @@ HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
 REROUTE_KEY = "reroute"
 
+ACTIVATION_CODE_KEY = "code"
 KIT_NAME_KEY = "kit_name"
 EMAIL_CHECK_KEY = "email_checked"
 ACCT_FNAME_KEY = "first_name"
@@ -560,7 +561,8 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        KIT_NAME_KEY: kit_name
+        KIT_NAME_KEY: kit_name,
+        ACTIVATION_CODE_KEY: body["code"]
     }
 
     has_error, accts_output, _ = \
@@ -906,6 +908,7 @@ def get_source(*, account_id=None, source_id=None):
     # Identify answered surveys for the samples
     for sample in samples_output:
         sample['ffq'] = None
+        sample['ffq_status'] = None
         sample_id = sample['sample_id']
         # TODO:  This is a really awkward and slow way to get this information
         has_error, per_sample_answers, _ = ApiRequest.get(
@@ -917,6 +920,7 @@ def get_source(*, account_id=None, source_id=None):
         for answer in per_sample_answers:
             if answer['survey_template_id'] == VIOSCREEN_ID:
                 sample['ffq'] = answer['survey_id']
+                sample['ffq_status'] = answer['survey_status']
 
     # prettify datetime
     needs_assignment = False
@@ -946,6 +950,24 @@ def get_source(*, account_id=None, source_id=None):
                                  barcode_prefix=SERVER_CONFIG[
                                      "barcode_prefix"],
                                  )
+
+
+# Note: ideally this would be represented as a DELETE, not as a POST
+# However, it is used as a form submission action, and HTML forms do not
+# support delete as an action
+@prerequisite([SOURCE_PREREQS_MET])
+def post_remove_source(*,
+                       account_id=None,
+                       source_id=None):
+
+    has_error, delete_output, _ = ApiRequest.delete(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id))
+
+    if has_error:
+        return delete_output
+
+    return _refresh_state_and_route_to_sink(account_id)
 
 
 @prerequisite([SOURCE_PREREQS_MET])
@@ -1010,6 +1032,13 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     sample_datetime = datetime.strptime(date_and_time, "%m/%d/%Y %I:%M %p")
     model['sample_datetime'] = sample_datetime.isoformat()
 
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return source_output
+
     has_error, sample_output, _ = ApiRequest.put(
         '/accounts/%s/sources/%s/samples/%s' %
         (account_id, source_id, sample_id),
@@ -1018,22 +1047,25 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     if has_error:
         return sample_output
 
-    # Check if this sample has an ffq associated with it, if not, ask the user
-    # if they'd like to fill one out.
-    has_error, per_sample_answers, _ = ApiRequest.get(
-        '/accounts/%s/sources/%s/samples/%s/surveys' %
-        (account_id, source_id, sample_id))
-    if has_error:
-        return per_sample_answers
+    # If the user is human, see if they need ffq
+    if source_output['source_type'] == Source.SOURCE_TYPE_HUMAN:
+        # Check if this sample has an ffq associated with it,
+        # if not, ask the user
+        # if they'd like to fill one out.
+        has_error, per_sample_answers, _ = ApiRequest.get(
+            '/accounts/%s/sources/%s/samples/%s/surveys' %
+            (account_id, source_id, sample_id))
+        if has_error:
+            return per_sample_answers
 
-    has_ffq = False
-    for answer in per_sample_answers:
-        if answer['survey_template_id'] == VIOSCREEN_ID:
-            has_ffq = True
+        has_ffq = False
+        for answer in per_sample_answers:
+            if answer['survey_template_id'] == VIOSCREEN_ID:
+                has_ffq = True
 
-    if not has_ffq:
-        url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
-        return redirect(url % (account_id, source_id, sample_id))
+        if not has_ffq:
+            url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
+            return redirect(url % (account_id, source_id, sample_id))
     return _refresh_state_and_route_to_sink(account_id, source_id)
 
 
@@ -1062,6 +1094,62 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     return _render_with_defaults('sample_results.jinja2',
+                                 account_id=account_id,
+                                 source_id=source_id,
+                                 sample=sample_output,
+                                 source_name=source_output['source_name'],
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 beta_metric=SERVER_CONFIG["beta_metric"],
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 show_breadcrumbs=True
+                                 )
+
+
+# WARNING: this endpoint is NOT authenticated
+def get_sample_results_experimental():
+    # use an arbitrary set of credentials
+    sample_output = {'account_id': 'NA',
+                     'sample_barcode': '000004220',
+                     'sample_datetime': '2013-04-21T22:00:00',
+                     'sample_edit_locked': False,
+                     'sample_id': 'NA',
+                     'sample_notes': 'na',
+                     'sample_projects': ['American Gut Project'],
+                     'sample_remove_locked': False,
+                     'sample_site': 'Stool',
+                     'source_id': 'NA'}
+    return _render_with_defaults('new_results_page.jinja2',
+                                 account_id='NA',
+                                 source_id='NA',
+                                 sample=sample_output,
+                                 source_name='NA',
+                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
+                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
+                                 beta_metric=SERVER_CONFIG["beta_metric"],
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 show_breadcrumbs=False
+                                 )
+
+
+@prerequisite([SOURCE_PREREQS_MET])
+def get_sample_results_experimental_authenticated(*, account_id=None,
+                                                  source_id=None,
+                                                  sample_id=None):
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return source_output
+
+    has_error, sample_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples/%s' %
+        (account_id, source_id, sample_id))
+    if has_error:
+        return sample_output
+
+    return _render_with_defaults('new_results_page.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
                                  sample=sample_output,
@@ -1136,6 +1224,20 @@ def get_ajax_list_kit_samples(kit_name):
     return flask.jsonify(result), code
 
 
+def get_ajax_check_activation_code(code, email):
+    response = requests.get(
+        ApiRequest.API_URL + '/can_activate',
+        auth=BearerAuth(session[TOKEN_KEY_NAME]),
+        verify=ApiRequest.CAfile,
+        params=ApiRequest.build_params({"email": email, "code": code}))
+    if response.status_code != 200:
+        # Damn, couldn't properly communicate to backend server...
+        return "Unable to validate Activation Code at this time"
+    result_data = response.json()
+    result = True if result_data["can_activate"] else result_data["error"]
+    return flask.jsonify(result)
+
+
 # NB: associating surveys with samples when samples are claimed means that any
 # surveys added to this source AFTER these samples are claimed will NOT be
 # associated with these samples.  This behavior is by design.
@@ -1197,6 +1299,72 @@ def get_interactive_account_search(email_query):
                 for acct in email_diagnostics['accounts']]
     return _render_with_defaults('admin_home.jinja2',
                                  accounts=accounts)
+
+
+def get_interactive_activation(email_query=None, code_query=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return = False
+    diagnostics = None
+    if email_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"email_query": email_query}
+        )
+    elif code_query is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/search/activation",
+            params={"code_query": code_query}
+        )
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults(
+        'admin_activation_codes.jinja2',
+        email_query=email_query,
+        code_query=code_query,
+        diagnostics=diagnostics
+    )
+
+
+def post_generate_activation(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    email = body["email"]
+
+    # Generate the activation code and update the list
+    if 'generate' in body or 'generate_send' in body:
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/activation",
+            json={"emails": [email]}
+        )
+
+        if do_return:
+            return diagnostics
+
+    # Also send an email out to the user
+    if 'generate_send' in body:
+        url = SERVER_CONFIG["endpoint"]
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/email",
+            json={
+                "issue_type": "activation",
+                "template": "send_activation_code",
+                "template_args": {
+                    "join_url": url,
+                    "new_account_email": email
+                    # don't need to send activation code,
+                    # will be pulled from db on private api side.
+                    # "new_account_code": XXX
+                }
+            }
+        )
+
+        if do_return:
+            return diagnostics
+    return get_interactive_activation(email, None)
 
 
 def get_system_message():

@@ -1,0 +1,57 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = "Admin Activation Codes" %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+    <form method="get">
+        <label for="email_query">Email:</label>
+        <input type="text" name="email_query" value="{{ email_query |e if email_query is not none}}">
+        <input type="submit" value="Search">
+    </form>
+    <form method="get">
+        <label for="code_query">Activation Code:</label>
+        <input type="text" name="code_query" value="{{ code_query |e if code_query is not none}}">
+        <input type="submit" value="Search">
+    </form>
+    <form method="post">
+        <label for="email">Email:</label>
+        <input type="text" name="email" value="{{ email_query |e if email_query is not none}}">
+        <input type="submit" name="generate" value="Generate">
+        <input type="submit" name="generate_send" value="Generate + Send Email">
+    </form>
+<h4>Search Results</h4>
+<div class="container">
+    {% if diagnostics is not none and diagnostics|length > 0 %}
+    <div class="list-group">
+        <div class="row">
+            <div class="col-sm">
+                <i>Email</i>
+            </div>
+            <div class="col-sm">
+                <i>Code</i>
+            </div>
+            <div class="col-sm">
+                <i>Activated</i>
+            </div>
+        </div>
+        {% for row in diagnostics %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+          <div class="row">
+            <div class="col-sm">
+              {{ row.email |e}}
+            </div>
+            <div class="col-sm">
+              {{ row.code|e }}
+            </div>
+            <div class="col-sm">
+                {{ row.activated|e }}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br/><br/>
+    {% else %}
+    No accounts found
+    {% endif %}
+</div>
+{% endblock %}

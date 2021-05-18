@@ -109,10 +109,14 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
         $.get(
           pcoa_url,
           function (data) {
+            var foundMe = false
             // Add a new metadata category indicating the user's sample
             for (var i = 0; i < data.decomposition.sample_ids.length; i++){
               if (data.decomposition.sample_ids[i] === user_sample_id)
+              {
                 data.metadata[i].push("Me")
+                foundMe = true
+              }
               else
                 data.metadata[i].push("Not Me")
             }
@@ -121,29 +125,37 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
             // Wrap the data as necessary to plug into emperor
             data = {"plot": data}
 
+            var colorScheme = {
+                "Me":"#fbb4ae",
+                "Not Me":"#b3cde3"
+            };
+            var scaleScheme = {
+                "Me":"2.5",
+                "Not Me":"0.5"
+            };
+            if (!foundMe){
+                delete colorScheme["Me"]
+                delete scaleScheme["Me"]
+            }
             // Add default plot settings that highlight the user's sample
             data["plot"]["settings"]={
                "color":{
                   "category":"My Data",
-                  "data":{
-                     "Me":"#fbb4ae",
-                     "Not Me":"#b3cde3"
-                  },
+                  "data":colorScheme,
                   "colormap":"Pastel1",
                   "continuous":false
                },
                "scale":{
                   "category":"My Data",
-                  "data":{
-                     "Me":"2.5",
-                     "Not Me":"0.5"
-                  },
+                  "data":scaleScheme,
                   "globalScale":"1",
                   "scaleVal":false
                }
             }
 
-          var plot, biplot = null, ec;
+          var plot = null;
+          var biplot = null;
+          var ec;
 
           function init() {
             // Initialize the DecompositionModel for the scatter plot, and optionally
@@ -167,19 +179,20 @@ function loadEmperor(pcoa_url, emperor_root, onLoad, user_sample_id){
             requestAnimationFrame(animate);
             ec.render();
           }
-          $(window).resize(function() {
-            ec.resize(div.innerWidth(), div.innerHeight());
-          });
 
           $(function(){
             init();
             animate();
+            $(window).resize(function() {
+              ec.resize(div.innerWidth(), div.innerHeight());
+            });
 
             ec.ready = function () {
               // any other code that needs to be executed when emperor is loaded should
               // go here
               ec.loadConfig(data.plot.settings);
               onLoad();
+              $.noConflict(true)
             }
           });
         });

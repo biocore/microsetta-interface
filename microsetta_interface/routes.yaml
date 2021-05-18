@@ -307,6 +307,25 @@ paths:
               schema:
                 type: string
 
+  # Note: ideally this would be represented as a DELETE, not as a POST
+  # However, it is used as a form submission action, and HTML forms do not support
+  # delete as an action
+  '/accounts/{account_id}/sources/{source_id}/remove':
+    post:
+      operationId: microsetta_interface.implementation.post_remove_source
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of revised info or error info
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/claim_samples':
     post:
       operationId: microsetta_interface.implementation.post_claim_samples
@@ -403,6 +422,36 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/sample_id'
+      responses:
+        '200':
+          description: Display of sample results
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/results-experimental':
+    get:
+      operationId: microsetta_interface.implementation.get_sample_results_experimental_authenticated
+      tags:
+        - Sample
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/sample_id'
+      responses:
+        '200':
+          description: Display of sample results
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/results-example':
+    get:
+      operationId: microsetta_interface.implementation.get_sample_results_experimental
+      tags:
+        - Sample
       responses:
         '200':
           description: Display of sample results
@@ -592,6 +641,22 @@ paths:
               schema:
                 type: array
 
+  '/check_activation_code':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_check_activation_code
+      tags:
+        - Activation
+      parameters:
+        - $ref: '#/components/parameters/activation_code'
+        - $ref: '#/components/parameters/email'
+      responses:
+        '200':
+          description: Result of check
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/account_search':
     get:
       operationId: microsetta_interface.implementation.get_interactive_account_search
@@ -606,6 +671,47 @@ paths:
       responses:
         '200':
           description: List of identified accounts
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/activation':
+    get:
+      operationId: microsetta_interface.implementation.get_interactive_activation
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: email_query
+          description: Email to search for
+          schema:
+            type: string
+        - in: query
+          name: code_query
+          description: Activation code to search for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activation code info for query
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_generate_activation
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Search results showing new email
           content:
             text/html:
               schema:
@@ -696,6 +802,13 @@ components:
       schema:
         $ref: '#/components/schemas/account_id'
       required: true
+    activation_code:
+      name: code
+      in: query
+      description: Activation code
+      schema:
+        $ref: '#/components/schemas/activation_code'
+      required: true
     dataset:
       name: dataset
       in: query
@@ -703,6 +816,12 @@ components:
       schema:
         type: string
         example: "16S"
+    email:
+      name: email
+      in: query
+      description: User's email
+      schema:
+        $ref: '#/components/schemas/email'
       required: true
     kit_id:
       name: kit_id
@@ -775,6 +894,10 @@ components:
       type: string
       readOnly: true
       example: "aaaaaaaa-bbbb-cccc-dddd-eeeeffffffff"
+    email:
+      type: string
+      format: email
+      example: "janedoe@example.com"
     source_id:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
@@ -796,4 +919,7 @@ components:
     kit_name:
       type: string
       example: "aaaaa"
+    activation_code:
+      type: string
+      example: TMI-XXXXX-XXXXX-XXXXX
 

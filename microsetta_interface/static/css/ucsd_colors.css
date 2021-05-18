@@ -1,0 +1,24 @@
+/* standard UCSD colors from 
+ * https://ucpa.ucsd.edu/brand/applications/web/
+ *
+ * TODO: include the color combinations 
+ */
+:root {
+    /* core colors */
+    --ucsd-dark-blue: #182B49;
+    --ucsd-less-dark-blue: #006A96;
+    --ucsd-brown: #C69214;
+    --ucsd-yellow-brown: #FFCD00;
+
+    /* accents */
+    --ucsd-light-blue: #00C6D7;
+    --ucsd-green: #6E963B;
+    --ucsd-yellow: #F3E500;
+    --ucsd-orange: #FC8900;
+
+    /* neutrals */
+    --ucsd-black: #000000;
+    --ucsd-dark-grey: #747678;
+    --ucsd-light-grey: #B6B1A9;
+    --ucsd-white: #FFFFFF; 
+}

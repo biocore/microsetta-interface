@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-17 16:53-0700\n"
+"POT-Creation-Date: 2021-05-18 11:10-0700\n"
 "PO-Revision-Date: 2021-05-17 16:56-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.6.0\n"
 
 #: implementation.py:379
 msgid "Unable to validate the kit name; please reload the page."
@@ -185,8 +185,8 @@ msgid "Save Profile"
 msgstr ""
 
 #: templates/account_overview.jinja2:2 templates/account_overview.jinja2:44
-#: templates/sample.jinja2:112 templates/sample_results.jinja2:127
-#: templates/source.jinja2:140
+#: templates/new_results_page.jinja2:1364 templates/sample.jinja2:112
+#: templates/sample_results.jinja2:127 templates/source.jinja2:140
 msgid "Account"
 msgstr ""
 
@@ -490,7 +490,7 @@ msgid "Home"
 msgstr ""
 
 #: templates/home.jinja2:22 templates/home.jinja2:29 templates/home.jinja2:30
-#: templates/home.jinja2:31
+#: templates/home.jinja2:31 templates/new_results_page.jinja2:1390
 msgid "en_us"
 msgstr ""
 
@@ -526,6 +526,611 @@ msgstr ""
 #: templates/new_participant.jinja2:164 templates/new_participant.jinja2:204
 #: templates/new_participant.jinja2:238 templates/new_participant.jinja2:259
 msgid "I Accept"
+msgstr ""
+
+#: templates/new_results_page.jinja2:2 templates/sample_results.jinja2:2
+msgid "Sample Results"
+msgstr ""
+
+#: templates/new_results_page.jinja2:403
+msgid "All of the Microsetta Initiative"
+msgstr ""
+
+#: templates/new_results_page.jinja2:413 templates/new_results_page.jinja2:424
+msgid "Multipopulation"
+msgstr ""
+
+#: templates/new_results_page.jinja2:435
+msgid "You and the Microbes Around You"
+msgstr ""
+
+#: templates/new_results_page.jinja2:498
+msgid "Publication link"
+msgstr ""
+
+#: templates/new_results_page.jinja2:500
+msgid "Data access (Qiita study"
+msgstr ""
+
+#: templates/new_results_page.jinja2:686
+msgid "Download the spreadsheet"
+msgstr ""
+
+#: templates/new_results_page.jinja2:693
+msgid ""
+"The broadest classification like Bacteria, Archaea and Eukaryokes (what "
+"humans are!)"
+msgstr ""
+
+#: templates/new_results_page.jinja2:696
+msgid ""
+"Within the kingdom Eukarya, this is like the difference between humans "
+"and plants"
+msgstr ""
+
+#: templates/new_results_page.jinja2:699
+msgid "Within the phylum Chordata, this is along the lines of humans and fish"
+msgstr ""
+
+#: templates/new_results_page.jinja2:702
+msgid ""
+"Within the class Mammalia, this is like the difference between whales and"
+" a dogs"
+msgstr ""
+
+#: templates/new_results_page.jinja2:705
+msgid "With the order Carnivora are the families for dogs and cats"
+msgstr ""
+
+#: templates/new_results_page.jinja2:708
+msgid ""
+"Within the family Canidae, you would find a genus for foxes and one for "
+"wolves"
+msgstr ""
+
+#: templates/new_results_page.jinja2:891 templates/new_results_page.jinja2:894
+#: templates/new_results_page.jinja2:900 templates/new_results_page.jinja2:908
+#: templates/new_results_page.jinja2:911 templates/new_results_page.jinja2:921
+msgid "Unspecified"
+msgstr ""
+
+#: templates/new_results_page.jinja2:901
+msgid "chose not to provide their age"
+msgstr ""
+
+#: templates/new_results_page.jinja2:903
+msgid "is"
+msgstr ""
+
+#: templates/new_results_page.jinja2:903
+msgid "years old"
+msgstr ""
+
+#: templates/new_results_page.jinja2:912 templates/new_results_page.jinja2:922
+msgid "Not provided"
+msgstr ""
+
+#: templates/new_results_page.jinja2:923
+msgid "Never"
+msgstr ""
+
+#: templates/new_results_page.jinja2:924
+msgid "Rarely (less than once/week)"
+msgstr ""
+
+#: templates/new_results_page.jinja2:925
+msgid "Occasionally (1-2 times/week)"
+msgstr ""
+
+#: templates/new_results_page.jinja2:926 templates/new_results_page.jinja2:1005
+#: templates/new_results_page.jinja2:1019
+msgid "Regularly (3-5 times/week)"
+msgstr ""
+
+#: templates/new_results_page.jinja2:927
+msgid "Daily"
+msgstr ""
+
+#: templates/new_results_page.jinja2:936 templates/new_results_page.jinja2:948
+msgid "chose not to say how many sweets they eat"
+msgstr ""
+
+#: templates/new_results_page.jinja2:938
+msgid "eats sweets"
+msgstr ""
+
+#: templates/new_results_page.jinja2:942
+msgid "eats more sugary sweets than you"
+msgstr ""
+
+#: templates/new_results_page.jinja2:944
+msgid "eats fewer sugary sweets than you"
+msgstr ""
+
+#: templates/new_results_page.jinja2:946
+msgid "eats about the same number of sugary sweets as you"
+msgstr ""
+
+#: templates/new_results_page.jinja2:991
+msgid "More than 30"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1034
+msgid "6-7 hours"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1039
+msgid "7-8 hours"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1044
+msgid "8 or more hours"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1186
+msgid "Rank Distributions"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1204
+msgid "My Sample"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1210
+msgid "How abundant are my microbes compared everyone in Microsetta?"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1213
+msgid "Common types of microbes"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1219
+msgid "Least Abundant"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1219
+msgid "Most Abundant"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1237
+msgid ""
+"whole genome sequencing, a technique that produces a large number of "
+"small DNA sequences from all of the microbial genomes in your sample. "
+"With enough sequences you can even see the variation that exists between "
+"microbes of the same species."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1240
+msgid ""
+"16S.  This technique produces DNA sequences from a specific variable "
+"region (\"V4\") within a microbial gene (\"the 16S small subunit "
+"ribosomal gene\"). DNA sequences from this region of this gene can be "
+"used like a microbial barcode, providing researchers evidence of the "
+"types of microbes that may be present in your sample."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1365 templates/sample.jinja2:113
+#: templates/sample_results.jinja2:128
+msgid "Source"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1366 templates/sample_results.jinja2:129
+#: templates/source.jinja2:165
+msgid "Results"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1375
+#: templates/new_results_page.jinja2:1389
+msgid "How do you compare?"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1376
+#: templates/new_results_page.jinja2:1401
+#: templates/new_results_page.jinja2:1403
+#: templates/new_results_page.jinja2:1434
+msgid "Diversity"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1377
+#: templates/new_results_page.jinja2:1409
+#: templates/new_results_page.jinja2:1411
+#: templates/new_results_page.jinja2:1503
+msgid "Similarity"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1378
+#: templates/new_results_page.jinja2:1417
+#: templates/new_results_page.jinja2:1419
+msgid "Your Inner Zoo"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1379
+#: templates/new_results_page.jinja2:1425
+#: templates/new_results_page.jinja2:1427
+#: templates/new_results_page.jinja2:1732
+msgid "Microbiome Map"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1380
+#: templates/new_results_page.jinja2:1683
+msgid "How can I learn more?"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1393
+msgid ""
+"Your microbiome is a rainforest of diverse microbes dominated by microbes"
+" - some 40 trillion bacteria, weighing around 1 lb, live all over and in "
+"your body. The diversity of your microbiome, how similar it is to other "
+"peoples', and the types of bacteria living inside you have all been "
+"linked to health, disease and lifestyle traits in numerous studies."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1397
+msgid ""
+"Scientists often use many different approaches to see how your microbiome"
+" differs. We've analyzed your microbiome sample using standard microbiome"
+" research tools, and the results are broken down below in a few different"
+" categories"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1403
+msgid "How many kinds of microbes were in your sample? Check out your"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1411
+msgid ""
+"What kinds of people have microbiomes like yours? Check out your "
+"microbiome"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1419
+msgid "What particular kinds of microbes are in your sample? Wander through"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1427
+msgid "Where are you on the"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1437
+msgid ""
+"There are anywhere from hundreds of millions to hundreds of billions of "
+"different types of bacteria living on planet earth. This dwarfs the "
+"meager 2 million different kinds of animals and plants that you can see "
+"with your eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" "
+"data-title=\"Based on fecal samples from Microsetta participants in the "
+"United States\">average</span> American has <strong>187</strong> "
+"different types of microbes in a stool sample, which is lower than we "
+"find in people living a more hunter-gatherer lifestyle, like the "
+"<strong>306</strong> we find in samples from the <span id=\"taxa-"
+"tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous "
+"hunter-gather group in Tanzania. The summary of the Hadza microbiome is "
+"based on <a href='foobar.com'>Smits et al. Science 2017</a>\" data-"
+"html=\"true\">Hadza</span>."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1441
+msgid "Number of different microbes found in your sample"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1448
+msgid ""
+"When we calculated the diversity of groups for samples in our database, "
+"we found diversity is associated with how you live your life. Here, we "
+"summarized the average microbiome diversity for a few of the "
+"questionnaire responses, specifically people who eat more than 30 plants "
+"a week, exercise regularly, drink water regularly, or sleep more than 6 "
+"hours a night."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1456
+msgid "Eat more than 30 plants a week"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1459
+#: templates/new_results_page.jinja2:1470
+#: templates/new_results_page.jinja2:1483
+#: templates/new_results_page.jinja2:1494
+msgid "unique microbial features"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1467
+msgid "Exercise regularly"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1480
+msgid "Drink 1L or water regularly"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1491
+msgid "Sleep more than 6 hours per night"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1506
+msgid ""
+"One of the powerful ways microbiome scientists analyze data is by looking"
+" at similarities among samples. To do this, we compute a <span id"
+"=\"similarity-tooltip\" class=\"tooltipper\" data-html=\"true\" data-"
+"title=\"There are <i>a lot</i> of ways to form a distance. One way is to "
+"base the distance off of the fraction of microbes in common in your "
+"sample with each other sample. We typically share few of the exact same "
+"microbes in common with other people though which is problematic when "
+"comparing exact microbes. To account for this, researchers often take the"
+" evolutionary relationships among microbes into account when forming "
+"these distances.\">distance</span> from your sample to all other samples "
+"based on the microbes observed."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1510
+msgid ""
+"Here, we your sample to all the others in our database, and examined the "
+"100 most similar samples to yours. These people answered their "
+"questionnaires in the following way; the response is colored in <span "
+"class=\"similarity-fontstyle-same\">light green</span> if it matches your"
+" response and <span class=\"similarity-fontstyle-different\">brown</span>"
+" if your response differed."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1519
+msgid "Diet"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1529
+msgid "of people with a microbiome like yours eat"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1531
+msgid "plants per week"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1540
+msgid "of people with a microbiome like yours had a similar diet"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1547
+msgid "Supplements"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1557
+msgid "of people with a microbiome like yours"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1559
+msgid "take probiotics"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1568
+msgid "of people with a microbiome like yours take vitamins"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1575
+msgid "Activity"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1585
+msgid "of people with a microbiome like yours exercise"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1595
+msgid "of people with a microbiome like yours get"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1597
+msgid "of sleep at night"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1604
+msgid "Demographic"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1614
+msgid "of people with a microbiome like yours were the same age as you"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1623
+msgid "of people with a microbiome like yours were the same gender"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1632
+msgid "Your Inner Zoo (aka What's in your sample?)"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1635
+msgid ""
+"Below you will find a table of all of the different microbes we found in "
+"your sample, and their proportions."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1639
+msgid ""
+"Microbes sometimes have difficult names to pronounce. Some of the names "
+"are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a "
+"pronounciation guide can be found <a "
+"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1643
+msgid ""
+"Please mouse over the header to learn more about how to interpret these "
+"taxonomic ranks (e.g., Kingdom) using examples of non-microbial "
+"organisms."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1650
+#, python-format
+msgid "% of Sample"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1651 templates/sample_results.jinja2:148
+msgid "Kingdom"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1652 templates/sample_results.jinja2:149
+msgid "Phylum"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1653 templates/sample_results.jinja2:150
+msgid "Class"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1654 templates/sample_results.jinja2:151
+msgid "Order"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1655 templates/sample_results.jinja2:152
+msgid "Family"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1656 templates/sample_results.jinja2:153
+msgid "Genus"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1667
+msgid ""
+"In the plot below, you can see the most commonly observed microbial "
+"genera in the dataset, and distribution of ranks of those genera.  For "
+"example,"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1669
+msgid "typically has the highest relative abundance of samples in the dataset."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1686
+msgid ""
+"Microbiome analysis is a burgeoning new field, and the information "
+"displayed here is only an example of what is becoming possible thanks to "
+"the data that you helped collect."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1690
+msgid ""
+"So if you want to learn more, you can even take a look at the dataset for"
+" yourself!"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1694
+msgid ""
+"For your sample, we performed a technique called amplicon sequencing "
+"where we examine pieces of DNA corresponding to a particular gene. "
+"Specifically, we sequenced the fourth variable region (\"V4\") of the 16S"
+" rRNA small subunit ribosomal gene. DNA sequences from this region of "
+"this gene can be used like a microbial barcode, providing researchers "
+"evidence of the types of microbes that may be present in your sample."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1698
+msgid ""
+"There are many resources for microbiome information available online. If "
+"you'd like to learn more, we recommend the <a href=\"https://asm.org"
+"/Browse-By-Topic/Newsroom/Clinical/Microbiome\">American Society for "
+"Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a"
+" href=\"http://www.probioticchart.ca/\">Canadian Probiotics Chart</a>, "
+"and the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-"
+"for-gut-microbiome-research-education/\">American Gastroenterological "
+"Association</a>."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1701
+msgid "Datasets used in your results report"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1703
+msgid ""
+"The results shown in the Microbiome Maps portion of the report relied on "
+"data from many different publically accessible microbiome datasets. These"
+" different datasets, and links to them, are listed below."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1706
+msgid "The Microsetta Initiatiave"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1711
+#: templates/new_results_page.jinja2:1764
+msgid "Microbiomes Across the World"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1716
+#: templates/new_results_page.jinja2:1788
+msgid "Microbiomes Across the Lifespan"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1721
+#: templates/new_results_page.jinja2:1811
+msgid "Microbiomes in the Environment"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1735
+msgid ""
+"Microbiome maps turn the similarities and differences among microbiomes "
+"into a two-dimensional picture. Each dot is a whole microbiome, and dots "
+"close to yours are more similar microbiomes."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1739
+msgid ""
+"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
+"title=\"Visualizing complex data is difficult. One way microbiome "
+"researchers do it though is through a technique called principal "
+"coordinates analysis (PCoA). We provide PCoA with the millions of "
+"microbiome similarities we compute (we use tens of thousands of samples, "
+"and compare each sample to each other), and in turn, PCoA provides "
+"perspectives into massive data matrix that place very similar samples "
+"near each other and less similar samples far apart.\">How are these maps "
+"produced?</span>"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1744
+msgid "Microbiomes Across the Body"
+msgstr ""
+
+#: templates/new_results_page.jinja2:1755
+msgid ""
+"In this map, we've placed your sample relative to all the other samples "
+"we have in Microsetta. As you can see, there are a few different types of"
+" samples people have contributed, and the microbial configurations "
+"present can be REALLY different."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1775
+msgid ""
+"Researchers have noted large differences in our microbiomes depending on "
+"where we live. The reason WHY is not well understood, but we suspect "
+"factors such as diet or environmental exposures (e.g., plants, what's in "
+"your house, pollution, how often you come in contact with soil, etc) may "
+"be be major factors."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1779
+msgid ""
+"Researchers do not know how much these differences matter! They certainly"
+" may."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1799
+msgid ""
+"One major factor associated with gut microbiomes is the age of the "
+"individual, emphasized here by life stages."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1803
+msgid ""
+"Interestingly, infants are relatively similar microbially regardless of "
+"where they were born. But, as individuals age, it seems like their "
+"microbiomes reflect regional or population differences."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1822
+msgid ""
+"Microbes are EVERYWHERE though! Using these same techniques described "
+"above, we compared your microbiome to samples collected from all over the"
+" surfaces from a brand new hospital."
+msgstr ""
+
+#: templates/new_results_page.jinja2:1826
+msgid ""
+"As you can see, skin samples tend to more closely resemble those from "
+"\"the built environment\", which makes sense as skin cells are constantly"
+" shedding from you."
 msgstr ""
 
 #: templates/post_sample_questionnaire.jinja2:2
@@ -582,10 +1187,6 @@ msgstr ""
 
 #: templates/sample.jinja2:42
 msgid "Required Format: MM/DD/YYYY"
-msgstr ""
-
-#: templates/sample.jinja2:113 templates/sample_results.jinja2:128
-msgid "Source"
 msgstr ""
 
 #: templates/sample.jinja2:122
@@ -646,14 +1247,6 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: templates/sample_results.jinja2:2
-msgid "Sample Results"
-msgstr ""
-
-#: templates/sample_results.jinja2:129 templates/source.jinja2:165
-msgid "Results"
-msgstr ""
-
 #: templates/sample_results.jinja2:140
 msgid "What is in your sample?"
 msgstr ""
@@ -675,30 +1268,6 @@ msgstr ""
 
 #: templates/sample_results.jinja2:147
 msgid "Relative Abundance"
-msgstr ""
-
-#: templates/sample_results.jinja2:148
-msgid "Kingdom"
-msgstr ""
-
-#: templates/sample_results.jinja2:149
-msgid "Phylum"
-msgstr ""
-
-#: templates/sample_results.jinja2:150
-msgid "Class"
-msgstr ""
-
-#: templates/sample_results.jinja2:151
-msgid "Order"
-msgstr ""
-
-#: templates/sample_results.jinja2:152
-msgid "Family"
-msgstr ""
-
-#: templates/sample_results.jinja2:153
-msgid "Genus"
 msgstr ""
 
 #: templates/sample_results.jinja2:161

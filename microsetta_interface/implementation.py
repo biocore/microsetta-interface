@@ -59,6 +59,7 @@ ACCT_ADDR_CITY_KEY = "city"
 ACCT_ADDR_STATE_KEY = "state"
 ACCT_ADDR_POST_CODE_KEY = "post_code"
 ACCT_ADDR_COUNTRY_CODE_KEY = "country_code"
+ACCT_LANG_KEY = "language"
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -538,7 +539,8 @@ def get_create_account():
             ACCT_ADDR_STATE_KEY: 'CA',
             ACCT_ADDR_POST_CODE_KEY: '',
             ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
-        }
+        },
+        ACCT_LANG_KEY: "en-US"
     }
 
     return _render_with_defaults('account_details.jinja2',
@@ -562,6 +564,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
+        ACCT_LANG_KEY: body['language'],
         KIT_NAME_KEY: kit_name,
         ACTIVATION_CODE_KEY: body["code"]
     }
@@ -653,7 +656,8 @@ def post_account_details(*, account_id=None, body=None):
             ACCT_ADDR_STATE_KEY: body['state'],
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
-        }
+        },
+        ACCT_LANG_KEY: body['language']
     }
 
     do_return, acct_output, _ = ApiRequest.put('/accounts/%s' %

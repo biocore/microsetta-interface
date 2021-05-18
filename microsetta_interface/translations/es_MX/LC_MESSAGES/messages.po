@@ -517,7 +517,7 @@ msgstr "Casa"
 #: templates/home.jinja2:22 templates/home.jinja2:29 templates/home.jinja2:30
 #: templates/home.jinja2:31
 msgid "en_us"
-msgstr "en_us"
+msgstr "es_mx"
 
 #: templates/home.jinja2:34
 msgid "Welcome!"

@@ -53,6 +53,7 @@ def build_app():
         app.app.logger.setLevel(gunicorn_logger.level)
 
     app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
+    app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):
@@ -109,7 +110,7 @@ def get_locale():
         return user.locale
 
     # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match(['en', 'es'])
+    return request.accept_languages.best_match(['en_US', 'es_MX'])
 
 
 @babel.timezoneselector

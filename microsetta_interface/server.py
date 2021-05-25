@@ -53,6 +53,7 @@ def build_app():
         app.app.logger.setLevel(gunicorn_logger.level)
 
     app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
+    app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):

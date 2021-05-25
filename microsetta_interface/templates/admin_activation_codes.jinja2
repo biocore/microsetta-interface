@@ -5,7 +5,7 @@
     <form method="get">
         <label for="email_query">{{ _('Email') }}:</label>
         <input type="text" name="email_query" value="{{ email_query |e if email_query is not none}}">
-        <input type="submit" value="{{ __('Search') }}">
+        <input type="submit" value="{{ _('Search') }}">
     </form>
     <form method="get">
         <label for="code_query">{{ _('Activation Code') }}:</label>

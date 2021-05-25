@@ -1064,7 +1064,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     for x in flask.request.form:
         model[x] = flask.request.form[x]
 
-    date = model.pop('sample_date')
+    date = model.pop('sample_date_normalized')
     time = model.pop('sample_time')
     date_and_time = date + " " + time
     sample_datetime = datetime.strptime(date_and_time, "%m/%d/%Y %I:%M %p")

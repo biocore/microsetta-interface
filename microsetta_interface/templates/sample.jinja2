@@ -9,47 +9,66 @@
     <script type="text/javascript" src="/static/vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/vendor/js/jquery.timepicker.min.js"></script>
 
+    <!-- Download and include supported languages and dialects here -->
+    <script type="text/javascript" src="/static/vendor/jquery-ui-i18n/datepicker-es.js"></script>
+
     <script>
-        //  Let jquery validate check mm/dd/yyyy
-        $.validator.addMethod("monthDayYear", function(value, element)
-        {
-        //  Derived from the dateITA (dd/mm/yyyy) jquery validate additional method
-        //  by swapping day and month in the parseInt calls.
-        //  See the additional-methods.js file in the jquery-validate distribution
-        //  Note: the additional-methods.js file is
-        //      Copyright (c) 2020 Jörn Zaefferer
-        //      Released under the MIT license
-	        var check = false;
-	        var regex = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-	        if (regex.test(value))
-	        {
-		        var data = value.split("/");
-		        var mm = parseInt(data[0], 10);
-		        var dd = parseInt(data[1], 10);
-		        var yyyy = parseInt(data[2], 10);
-                var parsedDate = new Date(Date.UTC(yyyy, mm - 1, dd, 12, 0, 0, 0));
-                if ((parsedDate.getUTCFullYear() === yyyy) &&
-                    (parsedDate.getUTCMonth() === mm - 1) &&
-                    (parsedDate.getUTCDate() === dd)) {
-                    check = true;
-                } else {
-                    check = false;
-                }
-            } else {
-                check = false;
-            }
-            return this.optional(element) || check;
-        }, "{{ _('Required Format: MM/DD/YYYY') }}");
 
         $(document).ready(function(){
             let form_name = 'sample_form';
             preventImplicitSubmission(form_name);
 
-            $("#sample_date" ).datepicker({
-                onClose: function() {
-                    $(this).valid();
+            // TODO - this parsing will break for one part and three part language tags.
+            let lang = "{{ _("en_us") }}";
+            let first = lang.split("_")[0];
+            let second = lang.split("_")[1];
+
+            let datepicker_args = {};
+            if (first != null && second != null && (first + "-" + second.toUpperCase()) in $.datepicker.regional)
+                datepicker_args = $.datepicker.regional[first + "-" + second.toUpperCase()]
+            else if (first != null && first in $.datepicker.regional)
+                datepicker_args = $.datepicker.regional[first]
+            else
+                console.log("Unsupported datepicker language, defaulting to english")
+
+            datepicker_args.onClose = function(){
+                $(this).valid()
+            }
+
+            // Determine date picker format
+            let datePickerFormat = "mm/dd/yy"  //datepicker defaults to this if unspecified
+            if ("dateFormat" in datepicker_args)
+                datePickerFormat = datepicker_args.dateFormat;
+
+            // Set initial date from normalized hidden field
+            let normalizedInitialDate = $("#sample_date_normalized").val()
+            if (normalizedInitialDate !== "") {
+                let initial = $.datepicker.parseDate("mm/dd/yy", normalizedInitialDate)
+                $("#sample_date").val($.datepicker.formatDate(datePickerFormat, initial))
+            }
+
+            //  Let jquery validate check date format, update hidden field with normalized value
+            $.validator.addMethod("monthDayYear", function(value, element)
+            {
+                let localizedValue = value;
+                let check;
+                try {
+                    let parsed = $.datepicker.parseDate(datePickerFormat, localizedValue);
+                    let normalized = $.datepicker.formatDate("mm/dd/yy", parsed)
+                    $("#sample_date_normalized").val(normalized)
+                    check = true
                 }
-            });
+                catch (e) {
+                    check = false
+                }
+                return this.optional(element) || check;
+
+                //Note that when we translate this string,
+                //we have to switch MM/DD/YYYY to the
+                //expected localized date format matching the datepicker settings.
+            }, "{{ _('Required Format: MM/DD/YYYY') }}");
+
+            $("#sample_date").datepicker(datepicker_args)
 
             $( "#sample_time" ).timepicker({
                 timeFormat: 'h:mm p',
@@ -132,8 +151,9 @@
           <div class="form-group row">
             <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">{{ _('Date') }}</label>
             <div class="col-sm-4">
-                <input id="sample_date" name="sample_date" class="form-control" type="text" value="{{ sample.date | e }}" autocomplete="off" required\>
+                <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" required\>
             </div>
+            <input id="sample_date_normalized" name="sample_date_normalized" type="hidden" value="{{ sample.date | e }}" />
             <label for="sample_date" generated="true" class="error"></label>
           </div>
 

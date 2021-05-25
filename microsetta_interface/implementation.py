@@ -60,6 +60,7 @@ ACCT_ADDR_CITY_KEY = "city"
 ACCT_ADDR_STATE_KEY = "state"
 ACCT_ADDR_POST_CODE_KEY = "post_code"
 ACCT_ADDR_COUNTRY_CODE_KEY = "country_code"
+ACCT_LANG_KEY = "language"
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -528,6 +529,9 @@ def get_logout():
 @prerequisite([NEEDS_ACCOUNT])
 def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
+
+    browser_lang = request.accept_languages.best_match(
+        ['en_US', 'es_MX'], default="es_MX")
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -540,7 +544,8 @@ def get_create_account():
             ACCT_ADDR_STATE_KEY: 'CA',
             ACCT_ADDR_POST_CODE_KEY: '',
             ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
-        }
+        },
+        ACCT_LANG_KEY: browser_lang
     }
 
     return _render_with_defaults('account_details.jinja2',
@@ -564,6 +569,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
+        ACCT_LANG_KEY: body['language'],
         KIT_NAME_KEY: kit_name,
         ACTIVATION_CODE_KEY: body["code"]
     }
@@ -661,7 +667,8 @@ def post_account_details(*, account_id=None, body=None):
             ACCT_ADDR_STATE_KEY: body['state'],
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
-        }
+        },
+        ACCT_LANG_KEY: body['language']
     }
 
     do_return, acct_output, _ = ApiRequest.put('/accounts/%s' %
@@ -1066,7 +1073,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     for x in flask.request.form:
         model[x] = flask.request.form[x]
 
-    date = model.pop('sample_date')
+    date = model.pop('sample_date_normalized')
     time = model.pop('sample_time')
     date_and_time = date + " " + time
     sample_datetime = datetime.strptime(date_and_time, "%m/%d/%Y %I:%M %p")

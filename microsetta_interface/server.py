@@ -109,7 +109,10 @@ def get_locale():
         return user.locale
 
     # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match(['en', 'es'])
+    # Flask babel uses _ separator when parsing.
+    lang = request.accept_languages.best_match(
+        ['en_US', 'es_MX'], default="en_US")
+    return lang
 
 
 @babel.timezoneselector

@@ -2,7 +2,7 @@
 import flask
 import flask_babel
 from flask_babel import gettext
-from flask import render_template, session, redirect, make_response
+from flask import render_template, session, redirect, make_response, request
 import jwt
 import requests
 from requests.auth import AuthBase
@@ -527,6 +527,9 @@ def get_logout():
 @prerequisite([NEEDS_ACCOUNT])
 def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
+
+    browser_lang = request.accept_languages.best_match(
+        ['en_US', 'es_MX'], default="es_MX")
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -540,7 +543,7 @@ def get_create_account():
             ACCT_ADDR_POST_CODE_KEY: '',
             ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
         },
-        ACCT_LANG_KEY: "en-US"
+        ACCT_LANG_KEY: browser_lang
     }
 
     return _render_with_defaults('account_details.jinja2',

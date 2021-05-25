@@ -3,7 +3,7 @@ import secrets
 import logging
 
 from microsetta_interface.config_manager import SERVER_CONFIG
-from flask import jsonify, g, request
+from flask import jsonify, g
 from werkzeug.utils import redirect
 
 import connexion

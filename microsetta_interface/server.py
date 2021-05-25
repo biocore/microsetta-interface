@@ -9,7 +9,7 @@ from werkzeug.utils import redirect
 import connexion
 from flask_babel import Babel
 
-from implementation import session_locale
+from microsetta_interface.implementation import session_locale
 
 
 # https://stackoverflow.com/a/37842465

@@ -1428,6 +1428,11 @@ def session_locale():
     if LANG_KEY in session:
         return session[LANG_KEY]
 
+    # Awful.  Can't resolve languages when inside unit tests,
+    # so have to pick a default
+    if not flask.has_request_context():
+        return "en_US"
+
     # TODO: We update this as we add support for new languages
     return request.accept_languages.best_match(['en_US', 'es_MX'])
 

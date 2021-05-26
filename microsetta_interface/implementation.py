@@ -40,6 +40,7 @@ PUB_KEY = pkg_resources.read_text(
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
+LANG_KEY = "language"
 
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
@@ -505,6 +506,7 @@ def get_authrocket_callback(token, redirect_uri=None):
             "account_id": primary['account_id'],
             "email": primary['email']
         }
+        session[LANG_KEY] = primary["language"]
     else:
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {
@@ -582,6 +584,7 @@ def post_create_account(*, body=None):
         "account_id": new_acct_id,
         "email": accts_output["email"]
     }
+    session[LANG_KEY] = accts_output['language']
 
     return _refresh_state_and_route_to_sink(new_acct_id)
 
@@ -631,6 +634,11 @@ def get_account(*, account_id=None):
     if has_error:
         return sources
 
+    # Update their language preferences cookie whenever they load this page.
+    # So if changed from another browser/tab/computer,
+    # going home will reset language
+    session[LANG_KEY] = account["language"]
+
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources)
@@ -672,6 +680,7 @@ def post_account_details(*, account_id=None, body=None):
         "account_id": acct_output["account_id"],
         "email": acct_output["email"]
     }
+    session[LANG_KEY] = acct_output["language"]
 
     return _refresh_state_and_route_to_sink(account_id)
 
@@ -1411,8 +1420,21 @@ def post_system_message(body):
         style = None
 
     client_state[RedisCache.SYSTEM_BANNER] = (text, style)
-
     return _render_with_defaults('admin_system_panel.jinja2')
+
+
+def session_locale():
+    # Based on snippet from https://flask-babel.tkte.ch/
+    if LANG_KEY in session:
+        return session[LANG_KEY]
+
+    # Awful.  Can't resolve languages when inside unit tests,
+    # so have to pick a default
+    if not flask.has_request_context():
+        return "en_US"
+
+    # TODO: We update this as we add support for new languages
+    return request.accept_languages.best_match(['en_US', 'es_MX'])
 
 
 class BearerAuth(AuthBase):
@@ -1426,14 +1448,12 @@ class BearerAuth(AuthBase):
 
 class ApiRequest:
     API_URL = SERVER_CONFIG["private_api_endpoint"]
-    DEFAULT_PARAMS = {'language_tag': 'en-US'}
     CAfile = SERVER_CONFIG["CAfile"]
 
     @classmethod
     def build_params(cls, params):
         all_params = {}
-        for key in ApiRequest.DEFAULT_PARAMS:
-            all_params[key] = ApiRequest.DEFAULT_PARAMS[key]
+        all_params["language_tag"] = session_locale()
         if params:
             for key in params:
                 all_params[key] = params[key]

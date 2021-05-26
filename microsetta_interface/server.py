@@ -89,7 +89,6 @@ def get_locale():
     return session_locale()
 
 
-
 @babel.timezoneselector
 def get_timezone():
     user = getattr(g, 'user', None)

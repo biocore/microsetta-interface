@@ -100,7 +100,7 @@ def _render_with_defaults(template_name, **context):
 
     defaults["system_msg_text"] = msg
     defaults["system_msg_style"] = style
-    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt, 'h:mm a');
+    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt, 'h:mm a')
     defaults["system_msg_dictionary"] = SYSTEM_MSG_DICTIONARY
 
     endpoint = SERVER_CONFIG["endpoint"]

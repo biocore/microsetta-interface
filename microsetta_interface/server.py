@@ -3,13 +3,11 @@ import secrets
 import logging
 
 from microsetta_interface.config_manager import SERVER_CONFIG
-from flask import jsonify, g
+from flask import jsonify, g, request
 from werkzeug.utils import redirect
 
 import connexion
 from flask_babel import Babel
-
-from microsetta_interface.implementation import session_locale
 
 
 # https://stackoverflow.com/a/37842465
@@ -54,7 +52,7 @@ def build_app():
         app.app.logger.handlers = gunicorn_logger.handlers
         app.app.logger.setLevel(gunicorn_logger.level)
 
-    app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
+    app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
     app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 
     @app.route('/americangut/static/<path:filename>')
@@ -86,7 +84,33 @@ babel = Babel(app.app)
 
 @babel.localeselector
 def get_locale():
-    return session_locale()
+    # OKAY, So, we can use this snippet from https://flask-babel.tkte.ch/
+    # to pick the user locale, or we can do something else.
+    # User locale could come from:
+    #   user preferences in microsetta-interface (EXPLICIT)
+    #       Doesn't work on login page,
+    #       all requests must have access to session to pull this
+    #       requires special handoff to external services like
+    #           vioscreen/authrocket
+    #   user accept header (IMPLICIT)
+    #       Generally set by user in browser,
+    #       or more likely configured at user's OS
+    #   exact url (EXPLICIT)
+    #       microsetta-rest.ucsd.mx
+    #       microsetta-rest.ucsd.edu/MX/resourcename
+    #       microsetta-rest.ucsd.edu/blahblah?lang=es-MX
+    # Best practice seems to be to use whatever user explicitly specified first
+    # then if nothing is available, fall back to the user accept header.
+
+    # TODO: We could move these settings into our SESSION cookie, but
+    #  all the flask-babel examples seem to use this 'user' pattern, so
+    #  may be standard practice to leave it exactly as is in their example.
+    user = getattr(g, 'user', None)
+    if user is not None:
+        return user.locale
+
+    # TODO: We update this as we add support for new languages
+    return request.accept_languages.best_match(['en_US', 'es_MX'])
 
 
 @babel.timezoneselector

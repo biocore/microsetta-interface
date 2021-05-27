@@ -89,7 +89,8 @@ def _render_with_defaults(template_name, **context):
     defaults["login_info"] = session.get(LOGIN_INFO_KEY, None)
     defaults["admin_mode"] = admin_mode
 
-    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER, (None, None, None, None))
+    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER, 
+                                                  (None, None, None, None))
 
     sys_msg_dt = datetime(datetime.today().year,datetime.today().month,datetime.today().day);
     if hours is not None:

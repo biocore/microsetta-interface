@@ -92,9 +92,11 @@ def _render_with_defaults(template_name, **context):
     msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER, 
                                                   (None, None, None, None))
 
-    sys_msg_dt = datetime(datetime.today().year,datetime.today().month,datetime.today().day);
-    if hours is not None:
-        sys_msg_dt = datetime(datetime.today().year,datetime.today().month,datetime.today().day,int(hours),int(minutes));
+    today = datetime.today()
+    if hours is None:
+        sys_msg_dt = datetime(today.year, today.month, today.day)
+    else:
+        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours), int(minutes))
 
     defaults["system_msg_text"] = msg
     defaults["system_msg_style"] = style

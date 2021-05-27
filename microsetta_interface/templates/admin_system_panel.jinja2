@@ -5,22 +5,36 @@
     <script>
     $(function(){
         to_class = function(choice){ return ["alert", "alert-"+choice]; }
-        replicate_text("#system_msg_text", "#test_msg");
+        update_test_msg();
         select_class("#system_msg_style", "#test_msg", to_class);
     });
+
+    function update_test_msg() {
+        let msg_text_field = document.system_msg_form.system_msg_text;
+        let msg_hours_field = document.system_msg_form.system_msg_hours;
+        let msg_mins_field = document.system_msg_form.system_msg_minutes;
+
+        if(msg_text_field.selectedIndex < 1) {
+            document.getElementById("test_msg").innerHTML = "";
+        } else {
+            document.getElementById("test_msg").innerHTML = msg_text_field.options[msg_text_field.selectedIndex].text + " " + msg_hours_field.options[msg_hours_field.selectedIndex].text + ":" + msg_mins_field.options[msg_mins_field.selectedIndex].text.padStart(2,'0');
+        }
+    }
     </script>
 {% endblock %}
 {% block content %}
     <h4> {{ _('Set System Message') }} </h4>
     <div id="test_msg" class="alert alert-{{system_msg_style|e}}" role="alert">
-      {{system_msg_text}}
+      {% if system_msg_text %}
+      {{system_msg_dictionary[system_msg_text][_('en_us')]}}
+      {% endif %}
     </div>
 
     <form method="post" id="system_msg_form" name="system_msg_form">
     <div class="form-group row">
         <label for="system_msg_text" name="system_msg_label" class="col-sm-2 col-form-label">{{ _('System Message') }}:</label>
         <div class="col-sm-8">
-            <textarea class="form-control" id="system_msg_text" name="system_msg_text" rows="5">{{system_msg_text |e}}</textarea>
+            System Message Class: 
             <select id="system_msg_style" name="system_msg_style" class="form-control" required>
                 <option value="primary" {% if system_msg_style == "primary" %} selected {% endif %}>{{ _('primary') }}</option>
                 <option value="secondary" {% if system_msg_style == "secondary" %} selected {% endif %}>{{ _('secondary') }}</option>
@@ -30,7 +44,24 @@
                 <option value="info" {% if system_msg_style == "info" %} selected {% endif %}>{{ _('info') }}</option>
                 <option value="light" {% if system_msg_style == "light" %} selected {% endif %}>{{ _('light') }}</option>
                 <option value="dark" {% if system_msg_style == "dark" %} selected {% endif %}>{{ _('dark') }}</option>
-            </select>
+            </select><br />
+            System Message Text:
+            <select id="system_msg_text" name="system_msg_text" class="form-control" onChange="update_test_msg()">
+                <option value="">--None--</option>
+                {% for key, value in system_msg_dictionary.items() %}
+                    <option value="{{ key }}">{{ value[_('en_us')] }}</option>
+                {% endfor %}
+            </select><br />
+            Shutdown Time Hours: <select id="system_msg_hours" name="system_msg_hours" class="form-control" onChange="update_test_msg()">
+            {% for i in range(24) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+            </select><br />
+            Shutdown Time Minutes: <select id="system_msg_minutes" name="system_msg_minutes" class="form-control" onChange="update_test_msg()">
+            {% for i in range(60) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+            </select><br />
         </div>
     </div>
     <button type="submit" class="btn btn-primary">{{ _('Set System Message') }}</button>

@@ -56,13 +56,15 @@ def build_app():
 
     app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
     app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
-    app.app.jinja_options['extensions'].append('jinja2.ext.i18n')
 
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):
         # This is dumb as rocks, but it fixes static images referenced in
         # surveys without a schema change.
         return redirect('/static/' + filename)
+
+    global babel
+    babel = Babel(app.app)
     return app
 
 
@@ -81,8 +83,8 @@ def run(app):
     )
 
 
+babel = None
 app = build_app()
-babel = Babel(app.app)
 
 
 @babel.localeselector

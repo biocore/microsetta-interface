@@ -32,10 +32,12 @@ setup(
         'microsetta_interface': [
             'routes.yaml',
             'server_config.json',
+            'babel.cfg',
             'templates/*.*',
             'static/*',
             'static/css/*',
             'static/img/*',
+            'static/img/*/*',
             'static/js/*',
             'static/vendor/js/*',
             'static/vendor/images/*',

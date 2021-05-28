@@ -7,24 +7,13 @@
 # ----------------------------------------------------------------------------
 
 from setuptools import setup, find_packages
-from setuptools.command.install import install
+from babel.messages import frontend as babel
 
 import versioneer
 
-# adapting https://stackoverflow.com/a/41120180/19741
-class InstallWithCompile(install):
-    def run(self):
-        from babel.messages.frontend import compile_catalog
-        compiler = compile_catalog(self.distribution)
-        option_dict = self.distribution.get_option_dict('compile_catalog')
-        compiler.domain = [option_dict['domain'][1]]
-        compiler.directory = option_dict['directory'][1]
-        compiler.run()
-        super().run()
-
 
 command_classes = versioneer.get_cmdclass()
-command_classes['install'] = InstallWithCompile
+command_classes['compile_catalog'] = babel.compile_catalog
 
 
 setup(

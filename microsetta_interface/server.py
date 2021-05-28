@@ -56,6 +56,7 @@ def build_app():
 
     app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'PT'
     app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
+    app.app.jinja_options['extensions'].append('jinja2.ext.i18n')
 
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):

@@ -65,6 +65,17 @@ def build_app():
 
     global babel
     babel = Babel(app.app)
+
+    @babel.localeselector
+    def get_locale():
+        return session_locale()
+
+    @babel.timezoneselector
+    def get_timezone():
+        user = getattr(g, 'user', None)
+        if user is not None:
+            return user.timezone
+
     return app
 
 
@@ -85,18 +96,6 @@ def run(app):
 
 babel = None
 app = build_app()
-
-
-@babel.localeselector
-def get_locale():
-    return session_locale()
-
-
-@babel.timezoneselector
-def get_timezone():
-    user = getattr(g, 'user', None)
-    if user is not None:
-        return user.timezone
 
 
 # If we're running in stand alone mode, run the application

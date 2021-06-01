@@ -87,6 +87,32 @@
                         }
                     }
                 }
+                else if (code === "MX") {
+                    $("#city_label").text("{{ _('City') }}*");
+                    $("#state_label").text("{{ _('State') }}*");
+                    $("#post_code_label").text("{{ _('Zip Code') }}*");
+                    $("#state").empty();
+
+                    for (var country of COUNTRIES_LIST)
+                    {
+                        if (country.country !== "Mexico")
+                            continue;
+
+                        for (var state of country.states)
+                        {
+                            var option = $('<option></option>')
+                                .attr("value", state)
+                                .text(state);
+
+                            // We don't really have state codes for other
+                            // countries...
+                            if (state == start_code)
+                                option.attr('selected','selected');
+
+                            $("#state").append(option);
+                        }
+                    }
+                }
                 else
                 {
                     $("#city_label").text("{{ _('City') }}*");

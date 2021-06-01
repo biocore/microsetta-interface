@@ -62,6 +62,20 @@ def build_app():
         # This is dumb as rocks, but it fixes static images referenced in
         # surveys without a schema change.
         return redirect('/static/' + filename)
+
+    global babel
+    babel = Babel(app.app)
+
+    @babel.localeselector
+    def get_locale():
+        return session_locale()
+
+    @babel.timezoneselector
+    def get_timezone():
+        user = getattr(g, 'user', None)
+        if user is not None:
+            return user.timezone
+
     return app
 
 
@@ -80,20 +94,8 @@ def run(app):
     )
 
 
+babel = None
 app = build_app()
-babel = Babel(app.app)
-
-
-@babel.localeselector
-def get_locale():
-    return session_locale()
-
-
-@babel.timezoneselector
-def get_timezone():
-    user = getattr(g, 'user', None)
-    if user is not None:
-        return user.timezone
 
 
 # If we're running in stand alone mode, run the application

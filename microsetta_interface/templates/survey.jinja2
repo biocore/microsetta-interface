@@ -3,6 +3,11 @@
 {% set show_breadcrumbs = True %}
 {% block head %}
     <script type="text/javascript" src="/static/vendor/js/vue-2.5.17.min.js"></script>
+
+    <script type="text/javascript">
+        // Override the hardecoded " selected" string in vfg.js
+        _SELECTED = "{{ _(' selected') }}"
+    </script>
     <script type="text/javascript" src="/static/vendor/vue-form-generator-2.3.4/vfg.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/vendor/vue-form-generator-2.3.4/vfg.css">
     <style type="text/css">

@@ -212,6 +212,29 @@
 <script>
     "use strict";
 
+    var dynamic_text_dictionary = {
+        "11 to 20": "{{ _('11 to 20') }}",
+        "21 to 30": "{{ _('21 to 30') }}",
+        "5-6 hours": "{{ _('5-6 hours') }}",
+        "6 to 10": "{{ _('6 to 10') }}",
+        "6-7 hours": "{{ _('6-7 hours') }}",
+        "7-8 hours": "{{ _('7-8 hours') }}",
+        "8 or more hours": "{{ _('8 or more hours') }}",
+        "Daily": "{{ _('Daily') }}",
+        "Less than 5": "{{ _('Less than 5') }}",
+        "Less than 5 hours": "{{ _('Less than 5 hours') }}",
+        "More than 30": "{{ _('More than 30') }}",
+        "Never": "{{ _('Never') }}",
+        "Not provided": "{{ _('Not provided') }}",
+        "Occasionally (1-2 times/week)": "{{ _('Occasionally (1-2 times/week)') }}",
+        "Rarely (a few times/month)": "{{ _('Rarely (a few times/month)') }}",
+        "Rarely (less than once/week)": "{{ _('Rarely (less than once/week)') }}",
+        "Regularly (3-5 times/week)": "{{ _('Regularly (3-5 times/week)') }}",
+        "not applicable": "{{ _('Not provided') }}",
+        "not collected": "{{ _('Not provided') }}",
+        "not provided": "{{ _('Not provided') }}"
+    };
+
     function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
         let renderPlot = function(data){
             // Data is an object with three fields,
@@ -626,6 +649,9 @@
         $('#taxonomyTable').DataTable(
             {
                 destroy: true, // Necessary to replace existing datatable
+                language: {
+                    url: '/static/vendor/DataTables/{{ _('en_us') }}.json'
+                },
                 ajax: {
                     url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
                     dataSrc: function(d){
@@ -658,8 +684,9 @@
                             if (relativeAbundance <= 0.001) {
                                 continue;
                             }
+
                             rep.relativeAbundance = relativeAbundance.toFixed(3);
-                            
+
                             for (var key of ["Kingdom", "Phylum", "Class", "Order", "Family", "Genus"]){
                                 if (rep[key] != null && rep[key].startsWith("[") && rep[key].endsWith("]"))
                                     rep[key] = rep[key].substring(1,rep[key].length-1)
@@ -792,7 +819,11 @@
                     chosen = sampleResults[me][j]
                 }
                 display[cat] = {}
-                display[cat]["response"] = chosen
+                if(chosen in dynamic_text_dictionary) {
+                    display[cat]["response"] = dynamic_text_dictionary[chosen]
+                } else {
+                    display[cat]["response"] = chosen
+                }
                 display[cat]["value"] = Math.round((categoryCounts[cat][chosen] / sum) * 100) + "%"
                 display[cat]["color"] = set_color;
             }
@@ -988,7 +1019,7 @@
                             {
                                 "id": "types_of_plants",
                                 "operator": "equal",
-                                "value": "{{ _('More than 30') }}"
+                                "value": "More than 30"
                             }
                         ]
                     }
@@ -1002,7 +1033,7 @@
                             {
                                 "id": "one_liter_of_water_a_day_frequency",
                                 "operator": "equal",
-                                "value": "{{ _('Regularly (3-5 times/week)') }}"
+                                "value": "Regularly (3-5 times/week)"
                             }
                         ]
                     }
@@ -1016,7 +1047,7 @@
                             {
                                 "id": "exercise_frequency",
                                 "operator": "equal",
-                                "value": "{{ _('Regularly (3-5 times/week)') }}"
+                                "value": "Regularly (3-5 times/week)"
                             }
                         ]
                     }
@@ -1031,17 +1062,17 @@
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "{{ _('6-7 hours') }}"
+                                "value": "6-7 hours"
                             },
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "{{ _('7-8 hours') }}"
+                                "value": "7-8 hours"
                             },
                             {
                                 "id": "sleep_duration",
                                 "operator": "equal",
-                                "value": "{{ _('8 or more hours') }}"
+                                "value": "8 or more hours"
                             }
                         ]
                     }
@@ -1647,7 +1678,7 @@
                       <table id="taxonomyTable" class="display" style="width:100%">
                         <thead>
                         <tr>
-                          <th>{{ _('% of Sample') }}</th>
+                          <th>{{ _('Pct of Sample') }}</th>
                           <th>{{ _('Kingdom') }}</th>
                           <th>{{ _('Phylum') }}</th>
                           <th>{{ _('Class') }}</th>

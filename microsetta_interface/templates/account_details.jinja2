@@ -7,6 +7,7 @@
     <!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
     <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
     <script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+    <script type="text/javascript" language="javascript" src="/static/js/mx_states.js"></script>
     <script>
         $(document).ready(function(){
             let form_name = 'acct_form';
@@ -87,6 +88,32 @@
                         }
                     }
                 }
+                else if (code == "MX") {
+                    $("#city_label").text("{{ _('City') }}*");
+                    $("#state_label").text("{{ _('State') }}*");
+                    $("#post_code_label").text("{{ _('Zip Code') }}*");
+                    $("#state").empty();
+
+                    for (var country of COUNTRIES_LIST)
+                    {
+                        if (country.country != "Mexico")
+                            continue;
+
+                        for (var state of country.states)
+                        {
+                            var option = $('<option></option>')
+                                .attr("value", state)
+                                .text(state);
+
+                            // We don't really have state codes for other
+                            // countries...
+                            if (state == start_code)
+                                option.attr('selected','selected');
+
+                            $("#state").append(option);
+                        }
+                    }
+                }
                 else
                 {
                     $("#city_label").text("{{ _('City') }}*");
@@ -136,9 +163,10 @@
             </div>
             <div class="form-group">
                 <p>
-                <strong>{{ _('Note to non-US/GB users') }}:</strong> {{ _('We are working on support for additional countries and expect to have that available soon.') }}
+                <strong>{{ _('Country') }}:</strong>
                 </p>
                 <select id="country_code" name="country_code">
+                    <option value="MX" {% if account.address.country_code == "MX" %} selected {% endif %} >{{ _('Mexico') }}</option>
                     <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >{{ _('United States') }}</option>
                     <option value="GB" {% if account.address.country_code == "GB" %} selected {% endif %} >{{ _('United Kingdom') }}</option>
                 </select>

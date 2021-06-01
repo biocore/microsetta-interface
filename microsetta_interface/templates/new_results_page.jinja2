@@ -822,7 +822,7 @@
                 if(chosen in dynamic_text_dictionary) {
                     display[cat]["response"] = dynamic_text_dictionary[chosen]
                 } else {
-                    display[cat]["response"] = chosen
+                    display[cat]["response"] = chosen;
                 }
                 display[cat]["value"] = Math.round((categoryCounts[cat][chosen] / sum) * 100) + "%"
                 display[cat]["color"] = set_color;

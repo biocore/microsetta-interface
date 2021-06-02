@@ -3,7 +3,6 @@
 {% set show_breadcrumbs = True %}
 {% block head %}
     <script type="text/javascript" src="/static/vendor/js/vue-2.5.17.min.js"></script>
-
     <script type="text/javascript">
         // Override the hardecoded " selected" string in vfg.js
         _SELECTED = "{{ _(' selected') }}"
@@ -12,8 +11,8 @@
     <link rel="stylesheet" type="text/css" href="/static/vendor/vue-form-generator-2.3.4/vfg.css">
     <style type="text/css">
         img#bristol-chart {
-        height: auto;
-        width: 50%;
+            height: auto;
+            width: 50%;
         }
 
         .vue-form-generator .field-radios .radio-list label {
@@ -128,7 +127,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <form id="survey_form" name="survey_form">
-                <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+                <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated"></vue-form-generator>
             </form>
         </div>
 	<input type="button" id="survey-nav-button-previous" class="survey-nav-button" value="&lt;&lt; {{ _('Previous Section') }}" onClick="changePage('previous');">
@@ -171,6 +170,7 @@
         });
 
         var active_section = 0;
+        var errors_on_page = 0;
 
         function paginateForm() {
             let fieldsetObject = document.getElementsByTagName("fieldset");
@@ -188,6 +188,11 @@
         }
 
         function changePage(direction) {
+            if(errors_on_page !== 0) {
+                alert("{{ _('Please correct the fields with errors.') }}");
+                return false;
+            }
+
             let fieldsetObject = document.getElementsByTagName("fieldset");
             let new_active_section = 0;
 
@@ -215,6 +220,14 @@
 
             window.scrollTo(0,0);
             active_section = new_active_section;
+        }
+
+        function onValidated(isValid,errors) {
+            if(isValid === false) {
+                errors_on_page = 1;
+            } else {
+                errors_on_page = 0;
+            }
         }
 
         $(paginateForm);

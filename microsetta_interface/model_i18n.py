@@ -68,5 +68,3 @@ def declare_enum_values():
     gettext("Personal Microbiome Information")
     gettext("COVID-19 Questionnaire")
     gettext("Vioscreen Food Frequency Questionnaire")
-
-

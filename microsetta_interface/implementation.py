@@ -78,7 +78,12 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 
-SYSTEM_MSG_DICTIONARY = {"going_down": {"en_us": "The system is going down at ","es_mx": "El sistema se apaga a las "}}
+SYSTEM_MSG_DICTIONARY = {
+        "going_down": {
+              "en_us": "The system is going down at ",
+              "es_mx": "El sistema se apaga a las "
+          }
+    }
 
 client_state = RedisCache()
 
@@ -90,18 +95,20 @@ def _render_with_defaults(template_name, **context):
     defaults["login_info"] = session.get(LOGIN_INFO_KEY, None)
     defaults["admin_mode"] = admin_mode
 
-    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER, 
+    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER,
                                                   (None, None, None, None))
 
     today = datetime.today()
     if hours is None:
         sys_msg_dt = datetime(today.year, today.month, today.day)
     else:
-        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours), int(minutes))
+        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours),
+                              int(minutes))
 
     defaults["system_msg_text"] = msg
     defaults["system_msg_style"] = style
-    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt, 'h:mm a')
+    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt,
+                                                              'h:mm a')
     defaults["system_msg_dictionary"] = SYSTEM_MSG_DICTIONARY
 
     endpoint = SERVER_CONFIG["endpoint"]

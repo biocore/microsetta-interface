@@ -11,6 +11,8 @@ from os import path
 from datetime import datetime
 import base64
 import functools
+from microsetta_interface.model_i18n import translate_source, \
+    translate_sample, translate_survey_template
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -77,7 +79,12 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 
-SYSTEM_MSG_DICTIONARY = {"going_down": {"en_us": "The system is going down at ","es_mx": "El sistema se apaga a las "}}
+SYSTEM_MSG_DICTIONARY = {
+        "going_down": {
+              "en_us": "The system is going down at ",
+              "es_mx": "El sistema se apaga a las "
+          }
+    }
 
 client_state = RedisCache()
 
@@ -89,18 +96,20 @@ def _render_with_defaults(template_name, **context):
     defaults["login_info"] = session.get(LOGIN_INFO_KEY, None)
     defaults["admin_mode"] = admin_mode
 
-    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER, 
+    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER,
                                                   (None, None, None, None))
 
     today = datetime.today()
     if hours is None:
         sys_msg_dt = datetime(today.year, today.month, today.day)
     else:
-        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours), int(minutes))
+        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours),
+                              int(minutes))
 
     defaults["system_msg_text"] = msg
     defaults["system_msg_style"] = style
-    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt, 'h:mm a')
+    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt,
+                                                              'h:mm a')
     defaults["system_msg_dictionary"] = SYSTEM_MSG_DICTIONARY
 
     endpoint = SERVER_CONFIG["endpoint"]
@@ -651,6 +660,7 @@ def get_account(*, account_id=None):
     # going home will reset language
     session[LANG_KEY] = account["language"]
 
+    sources = [translate_source(s) for s in sources]
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources)
@@ -969,6 +979,10 @@ def get_source(*, account_id=None, source_id=None):
                             for sample in samples_output])
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
+
+    samples_output = [translate_sample(s) for s in samples_output]
+    per_source = [translate_survey_template(s) for s in per_source]
+
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,

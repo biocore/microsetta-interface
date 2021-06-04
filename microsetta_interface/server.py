@@ -5,7 +5,6 @@ import logging
 from microsetta_interface.config_manager import SERVER_CONFIG
 from flask import jsonify
 from werkzeug.utils import redirect
-from flask_cors import CORS
 
 import connexion
 
@@ -58,7 +57,6 @@ def build_app():
         # surveys without a schema change.
         return redirect('/static/' + filename)
 
-    CORS(app.app)
     return app
 
 

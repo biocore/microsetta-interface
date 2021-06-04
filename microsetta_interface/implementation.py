@@ -11,7 +11,8 @@ from os import path
 from datetime import datetime
 import base64
 import functools
-from microsetta_interface import model_i18n
+from microsetta_interface.model_i18n import translate_source, \
+    translate_sample, translate_survey_template
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -659,7 +660,7 @@ def get_account(*, account_id=None):
     # going home will reset language
     session[LANG_KEY] = account["language"]
 
-    sources = [model_i18n.translate_source(s) for s in sources]
+    sources = [translate_source(s) for s in sources]
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources)
@@ -979,8 +980,8 @@ def get_source(*, account_id=None, source_id=None):
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
-    samples_output = [model_i18n.translate_sample(s) for s in samples_output]
-    per_source = [model_i18n.translate_survey_template(s) for s in per_source]
+    samples_output = [translate_sample(s) for s in samples_output]
+    per_source = [translate_survey_template(s) for s in per_source]
 
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,

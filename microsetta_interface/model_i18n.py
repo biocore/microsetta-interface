@@ -5,6 +5,10 @@ import copy
 def translate_sample(sample):
     i18n_sample = copy.deepcopy(sample)
     i18n_sample["sample_site"] = gettext(sample["sample_site"])
+    if i18n_sample["sample_site"] is None:
+        i18n_sample["sample_site"] = ""
+    if i18n_sample["sample_datetime"] is None:
+        i18n_sample["sample_datetime"] = ""
     return i18n_sample
 
 

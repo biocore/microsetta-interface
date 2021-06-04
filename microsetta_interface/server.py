@@ -5,6 +5,7 @@ import logging
 from microsetta_interface.config_manager import SERVER_CONFIG
 from flask import jsonify
 from werkzeug.utils import redirect
+from flask_cors import CORS
 
 import connexion
 
@@ -56,6 +57,8 @@ def build_app():
         # This is dumb as rocks, but it fixes static images referenced in
         # surveys without a schema change.
         return redirect('/static/' + filename)
+
+    CORS(app.app)
     return app
 
 

@@ -7,7 +7,12 @@
   function setSource() {
       let taxonomy = $("#taxonomyName").val();
       let dataset = $("#datasetName").val();
+      let sampleId = $("#sampleId").val();
+      console.log(sampleId);
       let src = "/empress?dataset=" + dataset + "&taxonomy=" +taxonomy;
+      if (sampleId) {
+          src = src + "?sample_id=" + sampleId;
+      }
       $("#empress-frame").attr("src", src);
   }
 </script>
@@ -24,6 +29,10 @@
     <div class="form-group">
       <label for="taxonomyName">Taxonomy</label>
       <input class="form-control" id="taxonomyName" placeholder="taxonomy">
+    </div>
+    <div class="form-group">
+      <label for="sampleId">Sample ID</label>
+      <input class="form-control" id="sampleId" placeholder="Sample ID">
     </div>
     <button class="btn btn-primary" onclick="setSource()">Go!</button>
   </div>

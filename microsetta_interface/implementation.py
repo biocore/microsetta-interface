@@ -11,7 +11,7 @@ from os import path
 from datetime import datetime
 import base64
 import functools
-import model_i18n
+from microsetta_interface import model_i18n
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code

@@ -7,102 +7,165 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-03 16:27-0700\n"
+"POT-Creation-Date: 2021-06-04 16:59-0700\n"
 "PO-Revision-Date: 2021-06-03 14:30-0700\n"
 "Last-Translator: Edgar Diaz <ediaz@ucsd.edu>\n"
-"Language: es_MX\n"
 "Language-Team: es_MX <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: implementation.py:393
+#: implementation.py:407
 msgid "Unable to validate the kit name; please reload the page."
 msgstr ""
-"No se pude validar el nombre del kit; por favor, vuelva a cargar la "
-"página."
+"No se pude validar el nombre del kit; por favor, vuelva a cargar la página."
 
-#: implementation.py:412
+#: implementation.py:426
 msgid ""
-"The provided kit id is not valid or has already been used; please re-"
-"check your entry."
+"The provided kit id is not valid or has already been used; please re-check "
+"your entry."
 msgstr ""
 "El id del kit proporcionado no es válido o ya se ha utilizado; por favor "
 "comprobar su entrada."
 
-#: implementation.py:1036
+#: implementation.py:1055 model_i18n.py:40
 msgid "Blood (skin prick)"
 msgstr "Sangre (pinchazo cutáneo)"
 
-#: implementation.py:1037
+#: implementation.py:1056 model_i18n.py:41
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:1038
+#: implementation.py:1057 model_i18n.py:53
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:1039
+#: implementation.py:1058 model_i18n.py:48
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:1040
+#: implementation.py:1059 model_i18n.py:49
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:1041
+#: implementation.py:1060 model_i18n.py:50
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:1042
+#: implementation.py:1061 model_i18n.py:51
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:1043
+#: implementation.py:1062 model_i18n.py:46
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:1044
+#: implementation.py:1063 model_i18n.py:43
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:1045
+#: implementation.py:1064 model_i18n.py:55
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:1046
+#: implementation.py:1065 model_i18n.py:52
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:1047
+#: implementation.py:1066 model_i18n.py:47
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:1048
+#: implementation.py:1067 model_i18n.py:56
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:1049
+#: implementation.py:1068 model_i18n.py:54
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:1050
+#: implementation.py:1069 model_i18n.py:42
 msgid "Ear wax"
 msgstr "Cera del oído"
 
-#: implementation.py:1051
+#: implementation.py:1070 model_i18n.py:45
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:1052
+#: implementation.py:1071 model_i18n.py:44
 msgid "Fur"
 msgstr "Pelo (animal)"
 
-#: implementation.py:1279
+#: implementation.py:1298
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se puede validar el código de activación en este momento"
+
+#: model_i18n.py:7
+#, fuzzy
+msgid "sample_site"
+msgstr "Tipo de ejemplo"
+
+#: model_i18n.py:17
+#, fuzzy
+msgid "source_type"
+msgstr "Tipo de fuente"
+
+#: model_i18n.py:24
+#, fuzzy
+msgid "survey_template_title"
+msgstr "survey_template_title"
+
+#: model_i18n.py:61
+#, fuzzy
+msgid "human"
+msgstr "humano"
+
+#: model_i18n.py:62 templates/account_overview.jinja2:139
+msgid "animal"
+msgstr "animal"
+
+#: model_i18n.py:63
+#, fuzzy
+msgid "environmental"
+msgstr "Fuente ambiental"
+
+#: model_i18n.py:68
+#, fuzzy
+msgid "Primary"
+msgstr "primario"
+
+#: model_i18n.py:69
+#, fuzzy
+msgid "Pet Information"
+msgstr "Información de muestra"
+
+#: model_i18n.py:70
+#, fuzzy
+msgid "Fermented Foods Questionnaire"
+msgstr "Cuestionario sobre alimentos fermentados"
+
+#: model_i18n.py:71
+#, fuzzy
+msgid "Surfer Questionnaire"
+msgstr "Cuestionario de surf"
+
+#: model_i18n.py:72
+#, fuzzy
+msgid "Personal Microbiome Information"
+msgstr "Información personal del microbioma"
+
+#: model_i18n.py:73
+#, fuzzy
+msgid "COVID-19 Questionnaire"
+msgstr "Cuestionario COVID-19"
+
+#: model_i18n.py:74
+#, fuzzy
+msgid "Vioscreen Food Frequency Questionnaire"
+msgstr "Cuestionario de frecuencia alimentaria de Vioscreen"
 
 #: templates/account_details.jinja2:2 templates/account_overview.jinja2:47
 msgid "Account Details"
@@ -210,13 +273,12 @@ msgid ""
 "You have now set up your profile for your account! Please proceed to "
 "identify your source."
 msgstr ""
-"Ya ha configurado su perfil para su cuenta! Proceda a identificar su "
-"fuente."
+"Ya ha configurado su perfil para su cuenta! Proceda a identificar su fuente."
 
 #: templates/account_overview.jinja2:66
 msgid ""
-"Choose a source to assign samples to by clicking on a name, listed in "
-"blue below:"
+"Choose a source to assign samples to by clicking on a name, listed in blue "
+"below:"
 msgstr ""
 "Elija una fuente para asignar las muestras haciendo clic en un nombre, "
 "listado a continuación en azul:"
@@ -235,13 +297,13 @@ msgstr "Cuál es la fuente de su muestra?"
 
 #: templates/account_overview.jinja2:103
 msgid ""
-"Our lab needs to know what type of sample(s) you are submitting (a.k.a. "
-"the “source”). Add a new source and assign samples to it so we can "
-"perform the correct analysis in our laboratory."
+"Our lab needs to know what type of sample(s) you are submitting (a.k.a. the "
+"“source”). Add a new source and assign samples to it so we can perform the "
+"correct analysis in our laboratory."
 msgstr ""
-"Nuestro laboratorio necesita saber qué tipo de muestra (s) está enviando "
-"(la “fuente”). Agregue una nueva fuente y asígnele muestras para que "
-"podamos realizar el análisis correcto en nuestro laboratorio."
+"Nuestro laboratorio necesita saber qué tipo de muestra (s) está enviando (la"
+" “fuente”). Agregue una nueva fuente y asígnele muestras para que podamos "
+"realizar el análisis correcto en nuestro laboratorio."
 
 #: templates/account_overview.jinja2:108
 msgid ""
@@ -306,10 +368,6 @@ msgstr "su mascota"
 msgid "or an"
 msgstr "o un"
 
-#: templates/account_overview.jinja2:139
-msgid "animal"
-msgstr "animal"
-
 #: templates/account_overview.jinja2:141
 msgid "Animal sources are currently unavailable."
 msgstr "Las fuentes animales no están disponibles en este momento."
@@ -367,8 +425,9 @@ msgstr "Establecer Mensaje del Sistema"
 #: templates/admin_system_panel.jinja2:29
 #: templates/admin_system_panel.jinja2:52 templates/home.jinja2:22
 #: templates/home.jinja2:29 templates/home.jinja2:30 templates/home.jinja2:31
-#: templates/new_results_page.jinja2:653 templates/new_results_page.jinja2:1421
-#: templates/sample.jinja2:22 templates/sitebase.jinja2:92
+#: templates/new_results_page.jinja2:653
+#: templates/new_results_page.jinja2:1421 templates/sample.jinja2:22
+#: templates/sitebase.jinja2:92
 msgid "en_us"
 msgstr "es_mx"
 
@@ -439,8 +498,8 @@ msgstr "Revise la bandeja de entrada de su correo electrónico"
 
 #: templates/email_confirmation.jinja2:21
 msgid ""
-"To complete your verification, click on the link in the email AuthRocket "
-"has sent to"
+"To complete your verification, click on the link in the email AuthRocket has"
+" sent to"
 msgstr ""
 "Para completar su verificación, haga clic en el enlace en el correo "
 "electrónico que AuthRocket ha enviado a"
@@ -468,8 +527,8 @@ msgstr "Vaya a su perfil de AuthRocket"
 #: templates/email_confirmation.jinja2:30
 msgid "to update your email or resend a verification email"
 msgstr ""
-"para actualizar su correo electrónico o reenviar un correo electrónico de"
-" verificación"
+"para actualizar su correo electrónico o reenviar un correo electrónico de "
+"verificación"
 
 #: templates/email_confirmation.jinja2:33
 msgid "You can close this browser tab!"
@@ -478,20 +537,19 @@ msgstr "Puede cerrar esta pestaña del navegador!"
 #: templates/email_confirmation.jinja2:33
 #, fuzzy
 msgid ""
-"After email verification, a new tab will automatically open, and you will"
-" proceed with filling out your profile details"
+"After email verification, a new tab will automatically open, and you will "
+"proceed with filling out your profile details"
 msgstr ""
-"Después de la verificación por correo electrónico, se abrirá "
-"automáticamente una nueva pestaña y procederá a completar los detalles de"
-" su perfil"
+"Después de la verificación por correo electrónico, se abrirá automáticamente"
+" una nueva pestaña y procederá a completar los detalles de su perfil"
 
 #: templates/embedded_pdf.jinja2:24
 msgid ""
-"This report is generated by a third party without information regarding "
-"age, height or weight."
+"This report is generated by a third party without information regarding age,"
+" height or weight."
 msgstr ""
-"Este informe es generado por un tercero sin información sobre edad, "
-"altura o peso."
+"Este informe es generado por un tercero sin información sobre edad, altura o"
+" peso."
 
 #: templates/emperor.jinja2:2 templates/emperor.jinja2:65
 #: templates/sitebase.jinja2:45
@@ -512,18 +570,16 @@ msgstr "Página de error"
 
 #: templates/error.jinja2:10
 msgid ""
-"An error seemed to have occurred (see below). It is most likely our "
-"fault. We are actively modifying our infrastructure to support COVID-19 "
-"research, and we're still in the process of handling the different type "
-"of scenarios that can happen on a website. We apologize for any "
-"inconvenience."
+"An error seemed to have occurred (see below). It is most likely our fault. "
+"We are actively modifying our infrastructure to support COVID-19 research, "
+"and we're still in the process of handling the different type of scenarios "
+"that can happen on a website. We apologize for any inconvenience."
 msgstr ""
-"Parece que se ha producido un error (ver más abajo). Lo más probable es "
-"que sea culpa nuestra. Estamos modificando activamente nuestra "
-"infraestructura para respaldar la investigación de COVID-19 y todavía "
-"estamos en el proceso de manejar los diferentes tipos de escenarios que "
-"pueden ocurrir en un sitio web. Nos disculpamos por cualquier "
-"inconveniente."
+"Parece que se ha producido un error (ver más abajo). Lo más probable es que "
+"sea culpa nuestra. Estamos modificando activamente nuestra infraestructura "
+"para respaldar la investigación de COVID-19 y todavía estamos en el proceso "
+"de manejar los diferentes tipos de escenarios que pueden ocurrir en un sitio"
+" web. Nos disculpamos por cualquier inconveniente."
 
 #: templates/error.jinja2:13
 msgid "If you have any concerns, please email us at"
@@ -572,8 +628,10 @@ msgstr "Grabando..."
 
 #: templates/new_participant.jinja2:153 templates/new_participant.jinja2:197
 #: templates/new_participant.jinja2:231 templates/new_participant.jinja2:251
-msgid "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
-msgstr "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights_sp.pdf"
+msgid ""
+"https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
+msgstr ""
+"https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights_sp.pdf"
 
 #: templates/new_participant.jinja2:164 templates/new_participant.jinja2:204
 #: templates/new_participant.jinja2:238 templates/new_participant.jinja2:259
@@ -690,25 +748,26 @@ msgid ""
 "The broadest classification like Bacteria, Archaea and Eukaryokes (what "
 "humans are!)"
 msgstr ""
-"La clasificación más amplia como Bacteria, Archaea y Eukaryotes (qué son "
-"los humanos!)"
+"La clasificación más amplia como Bacteria, Archaea y Eukaryotes (qué son los"
+" humanos!)"
 
 #: templates/new_results_page.jinja2:723
 msgid ""
-"Within the kingdom Eukarya, this is like the difference between humans "
-"and plants"
+"Within the kingdom Eukarya, this is like the difference between humans and "
+"plants"
 msgstr ""
 "Dentro del reino Eukariote, esto es como la diferencia entre humanos y "
 "plantas"
 
 #: templates/new_results_page.jinja2:726
 msgid "Within the phylum Chordata, this is along the lines of humans and fish"
-msgstr "Dentro del filo Chordata, esto está en la línea de los humanos y los peces"
+msgstr ""
+"Dentro del filo Chordata, esto está en la línea de los humanos y los peces"
 
 #: templates/new_results_page.jinja2:729
 msgid ""
-"Within the class Mammalia, this is like the difference between whales and"
-" a dogs"
+"Within the class Mammalia, this is like the difference between whales and a "
+"dogs"
 msgstr ""
 "Dentro de la clase Mammalia, esto es como la diferencia entre ballenas y "
 "perros"
@@ -722,8 +781,8 @@ msgid ""
 "Within the family Canidae, you would find a genus for foxes and one for "
 "wolves"
 msgstr ""
-"Dentro de la familia Canidae, encontrarás un género para zorros y otro "
-"para lobos"
+"Dentro de la familia Canidae, encontrarás un género para zorros y otro para "
+"lobos"
 
 #: templates/new_results_page.jinja2:922 templates/new_results_page.jinja2:925
 #: templates/new_results_page.jinja2:931 templates/new_results_page.jinja2:939
@@ -791,28 +850,28 @@ msgstr "Mas abundante"
 
 #: templates/new_results_page.jinja2:1268
 msgid ""
-"whole genome sequencing, a technique that produces a large number of "
-"small DNA sequences from all of the microbial genomes in your sample. "
-"With enough sequences you can even see the variation that exists between "
-"microbes of the same species."
+"whole genome sequencing, a technique that produces a large number of small "
+"DNA sequences from all of the microbial genomes in your sample. With enough "
+"sequences you can even see the variation that exists between microbes of the"
+" same species."
 msgstr ""
-"secuenciación del genoma completo, una técnica que produce una gran "
-"cantidad de pequeñas secuencias de ADN de todos los genomas microbianos "
-"en su muestra. Con suficientes secuencias se puede incluso ver la "
-"variación que existe entre microbios de la misma especie."
+"secuenciación del genoma completo, una técnica que produce una gran cantidad"
+" de pequeñas secuencias de ADN de todos los genomas microbianos en su "
+"muestra. Con suficientes secuencias se puede incluso ver la variación que "
+"existe entre microbios de la misma especie."
 
 #: templates/new_results_page.jinja2:1271
 msgid ""
-"16S.  This technique produces DNA sequences from a specific variable "
-"region (\"V4\") within a microbial gene (\"the 16S small subunit "
-"ribosomal gene\"). DNA sequences from this region of this gene can be "
-"used like a microbial barcode, providing researchers evidence of the "
-"types of microbes that may be present in your sample."
+"16S.  This technique produces DNA sequences from a specific variable region "
+"(\"V4\") within a microbial gene (\"the 16S small subunit ribosomal gene\")."
+" DNA sequences from this region of this gene can be used like a microbial "
+"barcode, providing researchers evidence of the types of microbes that may be"
+" present in your sample."
 msgstr ""
 "16S. Esta técnica produce secuencias de ADN de una región variable "
-"específica (\"V4\") dentro de un gen microbiano (“la subunidad menor 16S "
-"del gen ribosómico”). Las secuencias de ADN de esta región de este gen se"
-" pueden usar como un código de barras microbiano, proporcionando a los "
+"específica (\"V4\") dentro de un gen microbiano (“la subunidad menor 16S del"
+" gen ribosómico”). Las secuencias de ADN de esta región de este gen se "
+"pueden usar como un código de barras microbiano, proporcionando a los "
 "investigadores evidencia de los tipos de microbios que pueden estar "
 "presentes en su muestra."
 
@@ -865,28 +924,28 @@ msgstr "Cómo puedo obtener más información?"
 
 #: templates/new_results_page.jinja2:1424
 msgid ""
-"Your microbiome is a rainforest of diverse microbes dominated by microbes"
-" - some 40 trillion bacteria, weighing around 1 lb, live all over and in "
-"your body. The diversity of your microbiome, how similar it is to other "
-"peoples', and the types of bacteria living inside you have all been "
-"linked to health, disease and lifestyle traits in numerous studies."
+"Your microbiome is a rainforest of diverse microbes dominated by microbes - "
+"some 40 trillion bacteria, weighing around 1 lb, live all over and in your "
+"body. The diversity of your microbiome, how similar it is to other peoples',"
+" and the types of bacteria living inside you have all been linked to health,"
+" disease and lifestyle traits in numerous studies."
 msgstr ""
 "Su microbioma es una selva tropical de diversos microbios dominados por "
-"microbios: unos 40 billones de bacterias, que pesan alrededor de 1 libra,"
-" viven por todas partes de su cuerpo. La diversidad de su microbioma, lo "
-"similar que es al de otras personas y los tipos de bacterias que viven en"
-" su interior se han relacionado con la salud, las enfermedades y rasgos "
-"de estilo de vida en numerosos estudios."
+"microbios: unos 40 billones de bacterias, que pesan alrededor de 1 libra, "
+"viven por todas partes de su cuerpo. La diversidad de su microbioma, lo "
+"similar que es al de otras personas y los tipos de bacterias que viven en su"
+" interior se han relacionado con la salud, las enfermedades y rasgos de "
+"estilo de vida en numerosos estudios."
 
 #: templates/new_results_page.jinja2:1428
 msgid ""
-"Scientists often use many different approaches to see how your microbiome"
-" differs. We've analyzed your microbiome sample using standard microbiome"
-" research tools, and the results are broken down below in a few different"
-" categories"
+"Scientists often use many different approaches to see how your microbiome "
+"differs. We've analyzed your microbiome sample using standard microbiome "
+"research tools, and the results are broken down below in a few different "
+"categories"
 msgstr ""
-"Los científicos a menudo usan muchos enfoques diferentes para ver en qué "
-"se diferencia su microbioma. Hemos analizado su muestra de microbioma "
+"Los científicos a menudo usan muchos enfoques diferentes para ver en qué se "
+"diferencia su microbioma. Hemos analizado su muestra de microbioma "
 "utilizando herramientas estándar de investigación de microbiomas, y los "
 "resultados se desglosan a continuación en algunas categorías diferentes"
 
@@ -896,9 +955,9 @@ msgstr "Cuántos tipos de microbios había en su muestra? Revisa tu"
 
 #: templates/new_results_page.jinja2:1442
 msgid ""
-"What kinds of people have microbiomes like yours? Check out your "
-"microbiome"
-msgstr "Qué tipo de personas tienen microbiomas como el tuyo? Revisa tu microbioma"
+"What kinds of people have microbiomes like yours? Check out your microbiome"
+msgstr ""
+"Qué tipo de personas tienen microbiomas como el tuyo? Revisa tu microbioma"
 
 #: templates/new_results_page.jinja2:1450
 msgid "What particular kinds of microbes are in your sample? Wander through"
@@ -911,33 +970,32 @@ msgstr "Dónde estás en el"
 #: templates/new_results_page.jinja2:1468
 msgid ""
 "There are anywhere from hundreds of millions to hundreds of billions of "
-"different types of bacteria living on planet earth. This dwarfs the "
-"meager 2 million different kinds of animals and plants that you can see "
-"with your eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" "
-"data-title=\"Based on fecal samples from Microsetta participants in the "
-"United States\">average</span> American has <strong>187</strong> "
-"different types of microbes in a stool sample, which is lower than we "
-"find in people living a more hunter-gatherer lifestyle, like the "
-"<strong>306</strong> we find in samples from the <span id=\"taxa-"
-"tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous "
-"hunter-gather group in Tanzania. The summary of the Hadza microbiome is "
-"based on <a href='foobar.com'>Smits et al. Science 2017</a>\" data-"
-"html=\"true\">Hadza</span>."
+"different types of bacteria living on planet earth. This dwarfs the meager 2"
+" million different kinds of animals and plants that you can see with your "
+"eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" data-"
+"title=\"Based on fecal samples from Microsetta participants in the United "
+"States\">average</span> American has <strong>187</strong> different types of"
+" microbes in a stool sample, which is lower than we find in people living a "
+"more hunter-gatherer lifestyle, like the <strong>306</strong> we find in "
+"samples from the <span id=\"taxa-tooltip\" class=\"tooltipper\" data-"
+"title=\"The Hadza are an indigenous hunter-gather group in Tanzania. The "
+"summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et "
+"al. Science 2017</a>\" data-html=\"true\">Hadza</span>."
 msgstr ""
 "Hay desde cientos de millones hasta cientos de miles de millones de "
-"diferentes tipos de bacterias que viven en el planeta tierra. Esto "
-"eclipsa los escasos 2 millones de diferentes tipos de animales y plantas "
-"que puedes ver con tus ojos. El <span id = \"average-us-tooltip\" class ="
-" \"tooltipper\" data-title = \"Basado en muestras fecales de los "
+"diferentes tipos de bacterias que viven en el planeta tierra. Esto eclipsa "
+"los escasos 2 millones de diferentes tipos de animales y plantas que puedes "
+"ver con tus ojos. El <span id = \"average-us-tooltip\" class = "
+"\"tooltipper\" data-title = \"Basado en muestras fecales de los "
 "participantes de Microsetta en los Estados Unidos\"> promedio </span> "
-"estadounidense tiene <strong> 187 </strong> diferentes tipos de microbios"
-" en una muestra de heces, que es más baja que la que encontramos en "
-"personas que llevan un estilo de vida más cazador-recolector, como el "
-"<strong> 306 </strong> que encontramos en muestras de <span id = \"taxa-"
-"tooltip\" class = \"tooltipper\" data-title = \"Los Hadza son un grupo de"
-" cazadores-recolectores indígenas en Tanzania. El resumen del microbioma "
-"Hadza se basa en <a href='foobar.com'> Smits et al. Science 2017 </ a > "
-"\"data-html =\" true \"> Hadza </span>."
+"estadounidense tiene <strong> 187 </strong> diferentes tipos de microbios en"
+" una muestra de heces, que es más baja que la que encontramos en personas "
+"que llevan un estilo de vida más cazador-recolector, como el <strong> 306 "
+"</strong> que encontramos en muestras de <span id = \"taxa-tooltip\" class ="
+" \"tooltipper\" data-title = \"Los Hadza son un grupo de cazadores-"
+"recolectores indígenas en Tanzania. El resumen del microbioma Hadza se basa "
+"en <a href='foobar.com'> Smits et al. Science 2017 </ a > \"data-html =\" "
+"true \"> Hadza </span>."
 
 #: templates/new_results_page.jinja2:1472
 msgid "Number of different microbes found in your sample"
@@ -945,20 +1003,18 @@ msgstr "Número de microbios diferentes encontrados en su muestra"
 
 #: templates/new_results_page.jinja2:1479
 msgid ""
-"When we calculated the diversity of groups for samples in our database, "
-"we found diversity is associated with how you live your life. Here, we "
-"summarized the average microbiome diversity for a few of the "
-"questionnaire responses, specifically people who eat more than 30 plants "
-"a week, exercise regularly, drink water regularly, or sleep more than 6 "
-"hours a night."
+"When we calculated the diversity of groups for samples in our database, we "
+"found diversity is associated with how you live your life. Here, we "
+"summarized the average microbiome diversity for a few of the questionnaire "
+"responses, specifically people who eat more than 30 plants a week, exercise "
+"regularly, drink water regularly, or sleep more than 6 hours a night."
 msgstr ""
-"Cuando calculamos la diversidad de grupos para las muestras en nuestra "
-"base de datos, encontramos que la diversidad está asociada con la forma "
-"en que vive su vida. Aquí, resumimos la diversidad de microbiomas "
-"promedio para algunas de las respuestas al cuestionario, específicamente "
-"las personas que comen más de 30 plantas a la semana, hacen ejercicio "
-"regularmente, beben agua con regularidad o duermen más de 6 horas por "
-"noche."
+"Cuando calculamos la diversidad de grupos para las muestras en nuestra base "
+"de datos, encontramos que la diversidad está asociada con la forma en que "
+"vive su vida. Aquí, resumimos la diversidad de microbiomas promedio para "
+"algunas de las respuestas al cuestionario, específicamente las personas que "
+"comen más de 30 plantas a la semana, hacen ejercicio regularmente, beben "
+"agua con regularidad o duermen más de 6 horas por noche."
 
 #: templates/new_results_page.jinja2:1487
 msgid "Eat more than 30 plants a week"
@@ -985,39 +1041,37 @@ msgstr "Duerme más de 6 horas por noche"
 
 #: templates/new_results_page.jinja2:1537
 msgid ""
-"One of the powerful ways microbiome scientists analyze data is by looking"
-" at similarities among samples. To do this, we compute a <span id"
-"=\"similarity-tooltip\" class=\"tooltipper\" data-html=\"true\" data-"
-"title=\"There are <i>a lot</i> of ways to form a distance. One way is to "
-"base the distance off of the fraction of microbes in common in your "
-"sample with each other sample. We typically share few of the exact same "
-"microbes in common with other people though which is problematic when "
-"comparing exact microbes. To account for this, researchers often take the"
-" evolutionary relationships among microbes into account when forming "
-"these distances.\">distance</span> from your sample to all other samples "
-"based on the microbes observed."
+"One of the powerful ways microbiome scientists analyze data is by looking at"
+" similarities among samples. To do this, we compute a <span id=\"similarity-"
+"tooltip\" class=\"tooltipper\" data-html=\"true\" data-title=\"There are "
+"<i>a lot</i> of ways to form a distance. One way is to base the distance off"
+" of the fraction of microbes in common in your sample with each other "
+"sample. We typically share few of the exact same microbes in common with "
+"other people though which is problematic when comparing exact microbes. To "
+"account for this, researchers often take the evolutionary relationships "
+"among microbes into account when forming these distances.\">distance</span> "
+"from your sample to all other samples based on the microbes observed."
 msgstr ""
-"Una de las formas poderosas en que los científicos del microbioma "
-"analizan los datos, es observando las similitudes entre las muestras. "
-"Para hacer esto, calculamos una <span id = \"similarity-tooltip\" class ="
-" \"tooltipper\" data-html = \"true\" data-title = \"Hay <i> muchas </i> "
+"Una de las formas poderosas en que los científicos del microbioma analizan "
+"los datos, es observando las similitudes entre las muestras. Para hacer "
+"esto, calculamos una <span id = \"similarity-tooltip\" class = "
+"\"tooltipper\" data-html = \"true\" data-title = \"Hay <i> muchas </i> "
 "formas de formar una distancia . Una forma es basar la distancia de la "
-"fracción de microbios en común en su muestra con cada otra muestra. Por "
-"lo general, tenemos pocos de los mismos exactos microbios en común con "
-"otras personas, lo que es problemático cuando se comparan microbios "
-"exactos. Por esto, los investigadores a menudo toman en cuenta las "
-"relaciones evolutivas entre los microbios cuando forman estas distancias."
-" \"> distancia </span> de su muestra a todas las demás muestras basadas "
-"en los microbios observados."
+"fracción de microbios en común en su muestra con cada otra muestra. Por lo "
+"general, tenemos pocos de los mismos exactos microbios en común con otras "
+"personas, lo que es problemático cuando se comparan microbios exactos. Por "
+"esto, los investigadores a menudo toman en cuenta las relaciones evolutivas "
+"entre los microbios cuando forman estas distancias. \"> distancia </span> de"
+" su muestra a todas las demás muestras basadas en los microbios observados."
 
 #: templates/new_results_page.jinja2:1541
 msgid ""
-"Here, we your sample to all the others in our database, and examined the "
-"100 most similar samples to yours. These people answered their "
-"questionnaires in the following way; the response is colored in <span "
-"class=\"similarity-fontstyle-same\">light green</span> if it matches your"
-" response and <span class=\"similarity-fontstyle-different\">brown</span>"
-" if your response differed."
+"Here, we your sample to all the others in our database, and examined the 100"
+" most similar samples to yours. These people answered their questionnaires "
+"in the following way; the response is colored in <span class=\"similarity-"
+"fontstyle-same\">light green</span> if it matches your response and <span "
+"class=\"similarity-fontstyle-different\">brown</span> if your response "
+"differed."
 msgstr ""
 "Aquí, comparamos su muestra a todas las demás en nuestra base de datos y "
 "examinamos las 100 muestras más similares a la suya. Estas personas "
@@ -1040,7 +1094,8 @@ msgstr "plantas por semana"
 
 #: templates/new_results_page.jinja2:1571
 msgid "of people with a microbiome like yours had a similar diet"
-msgstr "de las personas con un microbioma como el tuyo tienen una dieta similar"
+msgstr ""
+"de las personas con un microbioma como el tuyo tienen una dieta similar"
 
 #: templates/new_results_page.jinja2:1578
 msgid "Supplements"
@@ -1080,7 +1135,8 @@ msgstr "Demográfico"
 
 #: templates/new_results_page.jinja2:1645
 msgid "of people with a microbiome like yours were the same age as you"
-msgstr "de las personas con un microbioma como el tuyo tenían la misma edad que tú"
+msgstr ""
+"de las personas con un microbioma como el tuyo tenían la misma edad que tú"
 
 #: templates/new_results_page.jinja2:1654
 msgid "of people with a microbiome like yours were the same gender"
@@ -1095,30 +1151,29 @@ msgid ""
 "Below you will find a table of all of the different microbes we found in "
 "your sample, and their proportions."
 msgstr ""
-"A continuación, encontrará una tabla de todos los diferentes microbios "
-"que encontramos en su muestra y sus proporciones."
+"A continuación, encontrará una tabla de todos los diferentes microbios que "
+"encontramos en su muestra y sus proporciones."
 
 #: templates/new_results_page.jinja2:1670
 msgid ""
-"Microbes sometimes have difficult names to pronounce. Some of the names "
-"are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a "
+"Microbes sometimes have difficult names to pronounce. Some of the names are "
+"Latin, Greek, Norse, Chinese and more. If you'd like to know more, a "
 "pronounciation guide can be found <a "
 "href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
 msgstr ""
-"Los microbios a veces tienen nombres difíciles de pronunciar. Algunos de "
-"los nombres son latinos, griegos, nórdicos, chinos y más. Si desea "
-"obtener más información, puede encontrar una guía de pronunciación <a "
-"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\"> "
-"aquí </a>."
+"Los microbios a veces tienen nombres difíciles de pronunciar. Algunos de los"
+" nombres son latinos, griegos, nórdicos, chinos y más. Si desea obtener más "
+"información, puede encontrar una guía de pronunciación <a "
+"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\"> aquí "
+"</a>."
 
 #: templates/new_results_page.jinja2:1674
 msgid ""
 "Please mouse over the header to learn more about how to interpret these "
-"taxonomic ranks (e.g., Kingdom) using examples of non-microbial "
-"organisms."
+"taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms."
 msgstr ""
-"Pase el mouse sobre el encabezado para obtener más información sobre cómo"
-" interpretar estos rangos taxonómicos (por ejemplo, Reino) utilizando "
+"Pase el mouse sobre el encabezado para obtener más información sobre cómo "
+"interpretar estos rangos taxonómicos (por ejemplo, Reino) utilizando "
 "ejemplos de organismos no microbianos."
 
 #: templates/new_results_page.jinja2:1681
@@ -1152,65 +1207,64 @@ msgstr "Género"
 
 #: templates/new_results_page.jinja2:1698
 msgid ""
-"In the plot below, you can see the most commonly observed microbial "
-"genera in the dataset, and distribution of ranks of those genera.  For "
-"example,"
+"In the plot below, you can see the most commonly observed microbial genera "
+"in the dataset, and distribution of ranks of those genera.  For example,"
 msgstr ""
-"En la siguiente gráfica, puede ver los géneros microbianos más comúnmente"
-" observados en el conjunto de datos y la distribución de los rangos de "
-"esos géneros. Por ejemplo,"
+"En la siguiente gráfica, puede ver los géneros microbianos más comúnmente "
+"observados en el conjunto de datos y la distribución de los rangos de esos "
+"géneros. Por ejemplo,"
 
 #: templates/new_results_page.jinja2:1700
-msgid "typically has the highest relative abundance of samples in the dataset."
+msgid ""
+"typically has the highest relative abundance of samples in the dataset."
 msgstr ""
-"normalmente tiene la mayor abundancia relativa de muestras en el conjunto"
-" de datos."
+"normalmente tiene la mayor abundancia relativa de muestras en el conjunto de"
+" datos."
 
 #: templates/new_results_page.jinja2:1717
 msgid ""
-"Microbiome analysis is a burgeoning new field, and the information "
-"displayed here is only an example of what is becoming possible thanks to "
-"the data that you helped collect."
+"Microbiome analysis is a burgeoning new field, and the information displayed"
+" here is only an example of what is becoming possible thanks to the data "
+"that you helped collect."
 msgstr ""
-"El análisis del microbioma es un campo nuevo y floreciente, y la "
-"información que se muestra aquí es solo un ejemplo de lo que se está "
-"volviendo posible gracias a los datos que ayudó a recopilar."
+"El análisis del microbioma es un campo nuevo y floreciente, y la información"
+" que se muestra aquí es solo un ejemplo de lo que se está volviendo posible "
+"gracias a los datos que ayudó a recopilar."
 
 #: templates/new_results_page.jinja2:1721
 msgid ""
-"So if you want to learn more, you can even take a look at the dataset for"
-" yourself!"
+"So if you want to learn more, you can even take a look at the dataset for "
+"yourself!"
 msgstr ""
 "Entonces, si desea obtener más información, incluso puede revisar el "
 "conjunto de datos usted mismo!"
 
 #: templates/new_results_page.jinja2:1725
 msgid ""
-"For your sample, we performed a technique called amplicon sequencing "
-"where we examine pieces of DNA corresponding to a particular gene. "
-"Specifically, we sequenced the fourth variable region (\"V4\") of the 16S"
-" rRNA small subunit ribosomal gene. DNA sequences from this region of "
-"this gene can be used like a microbial barcode, providing researchers "
-"evidence of the types of microbes that may be present in your sample."
+"For your sample, we performed a technique called amplicon sequencing where "
+"we examine pieces of DNA corresponding to a particular gene. Specifically, "
+"we sequenced the fourth variable region (\"V4\") of the 16S rRNA small "
+"subunit ribosomal gene. DNA sequences from this region of this gene can be "
+"used like a microbial barcode, providing researchers evidence of the types "
+"of microbes that may be present in your sample."
 msgstr ""
-"Para su muestra, realizamos una técnica llamada secuenciación de "
-"amplicones en la que examinamos fragmentos de ADN correspondientes a un "
-"gen en particular. Específicamente, secuenciamos la cuarta región "
-"variable (\"V4\") del gen ribosómico de subunidad menor de ARNr 16S. Las "
-"secuencias de ADN de esta región de este gen se pueden usar como un "
-"código de barras microbiano, proporcionando a los investigadores "
-"evidencia de los tipos de microbios que pueden estar presentes en su "
-"muestra."
+"Para su muestra, realizamos una técnica llamada secuenciación de amplicones "
+"en la que examinamos fragmentos de ADN correspondientes a un gen en "
+"particular. Específicamente, secuenciamos la cuarta región variable (\"V4\")"
+" del gen ribosómico de subunidad menor de ARNr 16S. Las secuencias de ADN de"
+" esta región de este gen se pueden usar como un código de barras microbiano,"
+" proporcionando a los investigadores evidencia de los tipos de microbios que"
+" pueden estar presentes en su muestra."
 
 #: templates/new_results_page.jinja2:1729
 msgid ""
 "There are many resources for microbiome information available online. If "
-"you'd like to learn more, we recommend the <a href=\"https://asm.org"
-"/Browse-By-Topic/Newsroom/Clinical/Microbiome\">American Society for "
-"Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a"
-" href=\"http://www.probioticchart.ca/\">Canadian Probiotics Chart</a>, "
-"and the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-"
-"for-gut-microbiome-research-education/\">American Gastroenterological "
+"you'd like to learn more, we recommend the <a href=\"https://asm.org/Browse-"
+"By-Topic/Newsroom/Clinical/Microbiome\">American Society for "
+"Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a "
+"href=\"http://www.probioticchart.ca/\">Canadian Probiotics Chart</a>, and "
+"the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-for-gut-"
+"microbiome-research-education/\">American Gastroenterological "
 "Association</a>."
 msgstr ""
 "Hay muchos recursos disponibles en línea para obtener información sobre "
@@ -1218,10 +1272,10 @@ msgstr ""
 "href=\"https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome\"> "
 "Sociedad Estadounidense de Microbiología </a>, <a href = "
 "\"https://microbe.net/\"> microBEnet </a>, la <a "
-"href=\"http://www.probioticchart.ca/\"> Tabla canadiense de probióticos "
-"</a> y la <a href = \"https://gastro.org/aga-leadership/centers/aga-"
-"center-for-gut-microbiome-research-education/\">Asociación Estadounidense"
-" de Gastroenterología </a>."
+"href=\"http://www.probioticchart.ca/\"> Tabla canadiense de probióticos </a>"
+" y la <a href = \"https://gastro.org/aga-leadership/centers/aga-center-for-"
+"gut-microbiome-research-education/\">Asociación Estadounidense de "
+"Gastroenterología </a>."
 
 #: templates/new_results_page.jinja2:1732
 msgid "Datasets used in your results report"
@@ -1230,13 +1284,13 @@ msgstr "Conjuntos de datos utilizados en su informe de resultados"
 #: templates/new_results_page.jinja2:1734
 msgid ""
 "The results shown in the Microbiome Maps portion of the report relied on "
-"data from many different publically accessible microbiome datasets. These"
-" different datasets, and links to them, are listed below."
+"data from many different publically accessible microbiome datasets. These "
+"different datasets, and links to them, are listed below."
 msgstr ""
 "Los resultados que se muestran en la parte de Mapas de microbiomas del "
-"informe se basaron en datos de muchos sets de datos de microbiomas de "
-"acceso público. Estos diferentes conjuntos de datos y los enlaces a ellos"
-" se enumeran a continuación."
+"informe se basaron en datos de muchos sets de datos de microbiomas de acceso"
+" público. Estos diferentes conjuntos de datos y los enlaces a ellos se "
+"enumeran a continuación."
 
 #: templates/new_results_page.jinja2:1737
 msgid "The Microsetta Initiatiave"
@@ -1259,35 +1313,34 @@ msgstr "Microbiomas en el medio ambiente"
 
 #: templates/new_results_page.jinja2:1766
 msgid ""
-"Microbiome maps turn the similarities and differences among microbiomes "
-"into a two-dimensional picture. Each dot is a whole microbiome, and dots "
-"close to yours are more similar microbiomes."
+"Microbiome maps turn the similarities and differences among microbiomes into"
+" a two-dimensional picture. Each dot is a whole microbiome, and dots close "
+"to yours are more similar microbiomes."
 msgstr ""
-"Los mapas de microbiomas convierten las similitudes y diferencias entre "
-"los microbiomas en una imagen bidimensional. Cada punto es un microbioma "
+"Los mapas de microbiomas convierten las similitudes y diferencias entre los "
+"microbiomas en una imagen bidimensional. Cada punto es un microbioma "
 "completo y los puntos cercanos al tuyo son microbiomas más similares."
 
 #: templates/new_results_page.jinja2:1770
 msgid ""
 "<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
 "title=\"Visualizing complex data is difficult. One way microbiome "
-"researchers do it though is through a technique called principal "
-"coordinates analysis (PCoA). We provide PCoA with the millions of "
-"microbiome similarities we compute (we use tens of thousands of samples, "
-"and compare each sample to each other), and in turn, PCoA provides "
-"perspectives into massive data matrix that place very similar samples "
-"near each other and less similar samples far apart.\">How are these maps "
-"produced?</span>"
+"researchers do it though is through a technique called principal coordinates"
+" analysis (PCoA). We provide PCoA with the millions of microbiome "
+"similarities we compute (we use tens of thousands of samples, and compare "
+"each sample to each other), and in turn, PCoA provides perspectives into "
+"massive data matrix that place very similar samples near each other and less"
+" similar samples far apart.\">How are these maps produced?</span>"
 msgstr ""
-"<span id = \"microbiome-maps-tooltip\" class = \"tooltipper\" data-title "
-"= \"Visualizar datos complejos es difícil. Sin embargo, una forma en que "
-"los investigadores de microbiomas lo hacen es a través de una técnica "
-"llamada análisis de coordenadas principales (PCoA). los millones de "
-"similitudes de microbiomas que calculamos (usamos decenas de miles de "
-"muestras y comparamos cada muestra entre sí) y, a su vez, PCoA "
-"proporciona perspectivas en una matriz de datos masiva que colocan "
-"muestras muy similares cerca unas de otras y muestras menos similares "
-"alejadas . \"> ¿Cómo se producen estos mapas? </span>"
+"<span id = \"microbiome-maps-tooltip\" class = \"tooltipper\" data-title = "
+"\"Visualizar datos complejos es difícil. Sin embargo, una forma en que los "
+"investigadores de microbiomas lo hacen es a través de una técnica llamada "
+"análisis de coordenadas principales (PCoA). los millones de similitudes de "
+"microbiomas que calculamos (usamos decenas de miles de muestras y comparamos"
+" cada muestra entre sí) y, a su vez, PCoA proporciona perspectivas en una "
+"matriz de datos masiva que colocan muestras muy similares cerca unas de "
+"otras y muestras menos similares alejadas . \"> ¿Cómo se producen estos "
+"mapas? </span>"
 
 #: templates/new_results_page.jinja2:1775
 msgid "Microbiomes Across the Body"
@@ -1295,10 +1348,10 @@ msgstr "Microbiomas en todo el cuerpo"
 
 #: templates/new_results_page.jinja2:1786
 msgid ""
-"In this map, we've placed your sample relative to all the other samples "
-"we have in Microsetta. As you can see, there are a few different types of"
-" samples people have contributed, and the microbial configurations "
-"present can be REALLY different."
+"In this map, we've placed your sample relative to all the other samples we "
+"have in Microsetta. As you can see, there are a few different types of "
+"samples people have contributed, and the microbial configurations present "
+"can be REALLY different."
 msgstr ""
 "En este mapa, hemos colocado su muestra en relación con todas las demás "
 "muestras que tenemos en Microsetta. Como puede ver, hay algunos tipos "
@@ -1308,33 +1361,33 @@ msgstr ""
 #: templates/new_results_page.jinja2:1806
 msgid ""
 "Researchers have noted large differences in our microbiomes depending on "
-"where we live. The reason WHY is not well understood, but we suspect "
-"factors such as diet or environmental exposures (e.g., plants, what's in "
-"your house, pollution, how often you come in contact with soil, etc) may "
-"be be major factors."
+"where we live. The reason WHY is not well understood, but we suspect factors"
+" such as diet or environmental exposures (e.g., plants, what's in your "
+"house, pollution, how often you come in contact with soil, etc) may be be "
+"major factors."
 msgstr ""
-"Los investigadores han observado grandes diferencias en nuestros "
-"microbiomas según el lugar donde vivimos. El POR QUÉ no se comprende "
-"bien, pero sospechamos que factores como la dieta o la exposición "
-"ambiental (por ejemplo, plantas, lo que hay en su casa, la contaminación,"
-" la frecuencia con la que entra en contacto con el suelo, etc.) pueden "
-"ser factores importantes."
+"Los investigadores han observado grandes diferencias en nuestros microbiomas"
+" según el lugar donde vivimos. El POR QUÉ no se comprende bien, pero "
+"sospechamos que factores como la dieta o la exposición ambiental (por "
+"ejemplo, plantas, lo que hay en su casa, la contaminación, la frecuencia con"
+" la que entra en contacto con el suelo, etc.) pueden ser factores "
+"importantes."
 
 #: templates/new_results_page.jinja2:1810
 msgid ""
-"Researchers do not know how much these differences matter! They certainly"
-" may."
+"Researchers do not know how much these differences matter! They certainly "
+"may."
 msgstr ""
-"Los investigadores no saben cuánto importan estas diferencias! "
-"Ciertamente pueden hacerlo."
+"Los investigadores no saben cuánto importan estas diferencias! Ciertamente "
+"pueden hacerlo."
 
 #: templates/new_results_page.jinja2:1830
 msgid ""
 "One major factor associated with gut microbiomes is the age of the "
 "individual, emphasized here by life stages."
 msgstr ""
-"Un factor importante asociado con los microbiomas intestinales es la edad"
-" del individuo, enfatizado aquí por las etapas de la vida."
+"Un factor importante asociado con los microbiomas intestinales es la edad "
+"del individuo, enfatizado aquí por las etapas de la vida."
 
 #: templates/new_results_page.jinja2:1834
 msgid ""
@@ -1344,28 +1397,28 @@ msgid ""
 msgstr ""
 "Curiosamente, los bebés son relativamente similares microbianamente "
 "independientemente de dónde nacieron. Pero, a medida que los individuos "
-"envejecen, parece que sus microbiomas reflejan diferencias regionales o "
-"de población."
+"envejecen, parece que sus microbiomas reflejan diferencias regionales o de "
+"población."
 
 #: templates/new_results_page.jinja2:1853
 msgid ""
-"Microbes are EVERYWHERE though! Using these same techniques described "
-"above, we compared your microbiome to samples collected from all over the"
-" surfaces from a brand new hospital."
+"Microbes are EVERYWHERE though! Using these same techniques described above,"
+" we compared your microbiome to samples collected from all over the surfaces"
+" from a brand new hospital."
 msgstr ""
-"Los microbios están EN TODAS PARTES! Usando estas mismas técnicas "
-"descritas anteriormente, comparamos tu microbioma con muestras "
-"recolectadas de todas las superficies de un hospital completamente nuevo."
+"Los microbios están EN TODAS PARTES! Usando estas mismas técnicas descritas "
+"anteriormente, comparamos tu microbioma con muestras recolectadas de todas "
+"las superficies de un hospital completamente nuevo."
 
 #: templates/new_results_page.jinja2:1857
 msgid ""
-"As you can see, skin samples tend to more closely resemble those from "
-"\"the built environment\", which makes sense as skin cells are constantly"
-" shedding from you."
+"As you can see, skin samples tend to more closely resemble those from \"the "
+"built environment\", which makes sense as skin cells are constantly shedding"
+" from you."
 msgstr ""
 "Como puede ver, las muestras de piel tienden a parecerse más a las del "
-"\"entorno construido\", lo que tiene sentido ya que las células de la "
-"piel se desprenden constantemente de usted."
+"\"entorno construido\", lo que tiene sentido ya que las células de la piel "
+"se desprenden constantemente de usted."
 
 #: templates/post_sample_questionnaire.jinja2:2
 msgid "Optional Sample Surveys"
@@ -1392,8 +1445,8 @@ msgid ""
 "By completing the questionnaire, you can enhance information about your "
 "sample, which will power more insightful research!"
 msgstr ""
-"Al completar el cuestionario, puede mejorar la información sobre su "
-"muestra, lo que impulsará una investigación más profunda!"
+"Al completar el cuestionario, puede mejorar la información sobre su muestra,"
+" lo que impulsará una investigación más profunda!"
 
 #: templates/post_sample_questionnaire.jinja2:13
 msgid "Note"
@@ -1404,8 +1457,8 @@ msgid ""
 "If you took multiple samples within a short time frame, you only need to "
 "take the FFQ for one such sample"
 msgstr ""
-"Si tomó varias muestras en un período de tiempo corto, solo necesita "
-"tomar el FFQ para una de esas muestras"
+"Si tomó varias muestras en un período de tiempo corto, solo necesita tomar "
+"el FFQ para una de esas muestras"
 
 #: templates/post_sample_questionnaire.jinja2:16
 msgid "Approx time: 30 minutes"
@@ -1464,8 +1517,8 @@ msgid ""
 "For all swabs, please select the site as precisely as possible from the "
 "options available"
 msgstr ""
-"Para todos los hisopos, seleccione el sitio con la mayor precisión "
-"posible entre las opciones disponibles"
+"Para todos los hisopos, seleccione el sitio con la mayor precisión posible "
+"entre las opciones disponibles"
 
 #: templates/sample.jinja2:183
 msgid "Site sampled"
@@ -1496,29 +1549,27 @@ msgid ""
 "The table below shows the relative abundances of all of the organisms we "
 "observed in your sample. To produce this, we took the DNA sequences from "
 "your sample, and compared them against publicly available annotated "
-"reference databases. In some cases, a sequence may uniquely match a "
-"database record, in other cases a sequence may match may different "
-"records. To handle the uncertainty that can arise, we rely on a well used"
-" and publicly available microbiome software package called <a "
-"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>. The exact "
-"approach taken is highlighted in the main tutorial on <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
-"/#taxonomic-analysis\" target=\"_blank\">feature-classification</a>"
+"reference databases. In some cases, a sequence may uniquely match a database"
+" record, in other cases a sequence may match may different records. To "
+"handle the uncertainty that can arise, we rely on a well used and publicly "
+"available microbiome software package called <a href=\"https://qiime2.org\" "
+"target=\"_blank\">QIIME 2</a>. The exact approach taken is highlighted in "
+"the main tutorial on <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-"
+"analysis\" target=\"_blank\">feature-classification</a>"
 msgstr ""
-"La siguiente tabla muestra las abundancias relativas de todos los "
-"organismos que observamos en su muestra. Para producir esto, tomamos las "
-"secuencias de ADN de su muestra y las comparamos con bases de datos de "
-"referencia anotadas disponibles públicamente. En algunos casos, una "
-"secuencia puede coincidir de forma única con un registro de la base de "
-"datos, en otros casos, una secuencia puede coincidir con registros "
-"diferentes. Para manejar la incertidumbre que puede surgir, nos basamos "
-"en un paquete de software de microbioma ampliamente utilizado y "
-"disponible públicamente llamado <a href=“https://qiime2.org” "
-"target=“_blank”> QIIME 2 </a>. El enfoque exacto adoptado se destaca en "
-"el tutorial principal sobre <a "
-"href=“https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
-"/#taxonomic-analysis” target=“_blank”> clasificación de características "
-"</ a>"
+"La siguiente tabla muestra las abundancias relativas de todos los organismos"
+" que observamos en su muestra. Para producir esto, tomamos las secuencias de"
+" ADN de su muestra y las comparamos con bases de datos de referencia "
+"anotadas disponibles públicamente. En algunos casos, una secuencia puede "
+"coincidir de forma única con un registro de la base de datos, en otros "
+"casos, una secuencia puede coincidir con registros diferentes. Para manejar "
+"la incertidumbre que puede surgir, nos basamos en un paquete de software de "
+"microbioma ampliamente utilizado y disponible públicamente llamado <a "
+"href=“https://qiime2.org” target=“_blank”> QIIME 2 </a>. El enfoque exacto "
+"adoptado se destaca en el tutorial principal sobre <a "
+"href=“https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-"
+"analysis” target=“_blank”> clasificación de características </ a>"
 
 #: templates/sample_results.jinja2:147
 msgid "Relative Abundance"
@@ -1530,23 +1581,23 @@ msgstr "Diversidad alfa"
 
 #: templates/sample_results.jinja2:163
 msgid ""
-"Here, we're providing a measure of the diversity of your sample, and how "
-"it compares to the diversities of all of the same type of samples in The "
+"Here, we're providing a measure of the diversity of your sample, and how it "
+"compares to the diversities of all of the same type of samples in The "
 "Microsetta Initiative. There are many ways to calculate diversity. For "
 "instance, you could compute a diversity value by counting the number of "
-"unique organisms observed (i.e., the sample \"richness\"). Or, you might "
-"be interested in weighting the calculation by the relative abundance of "
-"the organisms (i.e., the sample \"evenness\"). The metric we're computing"
-" here is called Faith's Phylogenetic Diversity (originally defined <a "
-"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\""
-" target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the"
-" \"richness\" of your sample as the amount of evolutionary breadth "
+"unique organisms observed (i.e., the sample \"richness\"). Or, you might be "
+"interested in weighting the calculation by the relative abundance of the "
+"organisms (i.e., the sample \"evenness\"). The metric we're computing here "
+"is called Faith's Phylogenetic Diversity (originally defined <a "
+"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\" "
+"target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the "
+"\"richness\" of your sample as the amount of evolutionary breadth "
 "represented by your sample. The way we compute alpha diversity is also "
-"through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and"
-" more information on it can be found in the alpha and beta diversity <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
-"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
-" 2 tutorial"
+"through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and "
+"more information on it can be found in the alpha and beta diversity <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
+"beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 "
+"tutorial"
 msgstr ""
 "Aquí, proporcionamos una medida de la diversidad de su muestra y cómo se "
 "compara con la diversidad de todas las muestras del mismo tipo en la "
@@ -1557,16 +1608,15 @@ msgstr ""
 "organismos (es decir, la “uniformidad” de la muestra). La métrica que "
 "estamos calculando aquí se llama Diversidad filogenética de Faith "
 "(originalmente definida <a "
-"href=“https://www.sciencedirect.com/science/article/pii/0006320792912013”"
-" target=“_blank”> aquí </a>) . La diversidad filogenética de Faith "
-"calcula la “riqueza” de su muestra como la cantidad de amplitud evolutiva"
-" representada por su muestra. La forma en que calculamos la diversidad "
-"alfa también es a través de <a href=“https://qiime2.org” target=“_blank”>"
-" QIIME 2 </a>, y se puede encontrar más información al respecto en la "
-"diversidad alfa y beta < a href = "
-"“https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
-"beta-diversity-analysis” target = “_ blank”> secciones </a> del tutorial "
-"de QIIME 2"
+"href=“https://www.sciencedirect.com/science/article/pii/0006320792912013” "
+"target=“_blank”> aquí </a>) . La diversidad filogenética de Faith calcula la"
+" “riqueza” de su muestra como la cantidad de amplitud evolutiva representada"
+" por su muestra. La forma en que calculamos la diversidad alfa también es a "
+"través de <a href=“https://qiime2.org” target=“_blank”> QIIME 2 </a>, y se "
+"puede encontrar más información al respecto en la diversidad alfa y beta < a"
+" href = “https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
+"and-beta-diversity-analysis” target = “_ blank”> secciones </a> del tutorial"
+" de QIIME 2"
 
 #: templates/sample_results.jinja2:168
 msgid "Beta Diversity"
@@ -1575,30 +1625,30 @@ msgstr "Diversidad Beta"
 #: templates/sample_results.jinja2:170
 msgid ""
 "Here we display how your sample fits in among the other samples of The "
-"Microsetta Initiative in terms of shared microbes. There are many ways to"
-" calculate beta diversity, differing in how to weight the distance "
-"between any two microbes. We take evolutionary distance into account with"
-" the metric displayed here, known as Unweighted Unifrac. You can find an "
-"overview of this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\""
-" target=\"_blank\">here</a> or better understand its derivation <a "
+"Microsetta Initiative in terms of shared microbes. There are many ways to "
+"calculate beta diversity, differing in how to weight the distance between "
+"any two microbes. We take evolutionary distance into account with the metric"
+" displayed here, known as Unweighted Unifrac. You can find an overview of "
+"this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\" "
+"target=\"_blank\">here</a> or better understand its derivation <a "
 "href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" "
 "target=\"_blank\">here</a>. This computation is performed with <a "
 "href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and more "
 "information on it can be found in the alpha and beta diversity <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
-"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
-" 2 tutorial"
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
+"beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 "
+"tutorial"
 msgstr ""
 "Aquí mostramos cómo su muestra encaja entre las otras muestras de la "
 "Iniciativa Microsetta en términos de microbios compartidos. Hay muchas "
 "formas de calcular la diversidad beta, que difieren en cómo ponderar la "
-"distancia entre dos microbios. Tomamos en cuenta la distancia evolutiva "
-"con la métrica que se muestra aquí, conocida como Unifrac no ponderado. "
-"Puede encontrar una descripción general de esta métrica <a "
-"href=“https://en.wikipedia.org/wiki/UniFrac” target=“_blank”> aquí </a> o"
-" comprender mejor su derivación <a href = “https: "
-"//www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/ “target =“ _ blank “> "
-"aquí </a>. Este cálculo se realiza con <a href=“https://qiime2.org” "
+"distancia entre dos microbios. Tomamos en cuenta la distancia evolutiva con "
+"la métrica que se muestra aquí, conocida como Unifrac no ponderado. Puede "
+"encontrar una descripción general de esta métrica <a "
+"href=“https://en.wikipedia.org/wiki/UniFrac” target=“_blank”> aquí </a> o "
+"comprender mejor su derivación <a href = “https: "
+"//www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/ “target =“ _ blank “> aquí "
+"</a>. Este cálculo se realiza con <a href=“https://qiime2.org” "
 "target=“_blank”> QIIME 2 </a>, y se puede encontrar más información al "
 "respecto en la diversidad alfa y beta <a href = “ "
 "https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-"
@@ -1650,10 +1700,11 @@ msgid "Do you really want to remove this sample from this source?"
 msgstr "Realmente desea eliminar esta muestra de esta fuente?"
 
 #: templates/source.jinja2:85
-msgid "Doing so will remove any collection info saved for this sample and will"
+msgid ""
+"Doing so will remove any collection info saved for this sample and will"
 msgstr ""
-"Si lo hace, eliminará cualquier información de colección guardada para "
-"esta muestra y"
+"Si lo hace, eliminará cualquier información de colección guardada para esta "
+"muestra y"
 
 #: templates/source.jinja2:86
 msgid "unlink it from all surveys."
@@ -1672,15 +1723,16 @@ msgid ""
 "This operation cannot be undone.  Are you sure you want to delete this "
 "source?"
 msgstr ""
-"Esta operación no se puede deshacer. ¿Está seguro de que desea eliminar "
-"esta fuente?"
+"Esta operación no se puede deshacer. ¿Está seguro de que desea eliminar esta"
+" fuente?"
 
 #: templates/source.jinja2:100
 msgid "View"
 msgstr "Ver"
 
 #: templates/source.jinja2:146
-msgid "It looks like some samples do not have collection information recorded."
+msgid ""
+"It looks like some samples do not have collection information recorded."
 msgstr ""
 "Parece que algunas muestras no tienen registrada la información de la "
 "recolección."
@@ -1717,34 +1769,34 @@ msgstr "Eliminar"
 
 #: templates/source.jinja2:210
 msgid "Do I need to take more than one Food Frequency Questionnaire (FFQ)"
-msgstr "Necesito tomar más de un Cuestionario de frecuencia alimenticia (FFQ)?"
+msgstr ""
+"Necesito tomar más de un Cuestionario de frecuencia alimenticia (FFQ)?"
 
 #: templates/source.jinja2:211
 msgid ""
-"If you are taking all of your samples at the same time, you will only "
-"need to complete one. If you are collecting samples over time (e.g., once"
-" per week), then please consider taking an FFQ per time point. The FFQs "
-"provide valuable dietary research data for the project, so researchers "
-"can better understand the relationship between the food you eat and your "
-"microbes."
+"If you are taking all of your samples at the same time, you will only need "
+"to complete one. If you are collecting samples over time (e.g., once per "
+"week), then please consider taking an FFQ per time point. The FFQs provide "
+"valuable dietary research data for the project, so researchers can better "
+"understand the relationship between the food you eat and your microbes."
 msgstr ""
 "Si está tomando todas sus muestras al mismo tiempo, solo necesitará "
 "completar una. Si está recolectando muestras a lo largo del tiempo (por "
 "ejemplo, una vez por semana), considere tomar un FFQ por intervalo de "
 "tiempo. Los FFQ proporcionan valiosos datos de sobre la dieta para el "
-"proyecto, de modo que los investigadores puedan comprender mejor la "
-"relación entre los alimentos que consume y sus microbios."
+"proyecto, de modo que los investigadores puedan comprender mejor la relación"
+" entre los alimentos que consume y sus microbios."
 
 #: templates/source.jinja2:219
 msgid ""
 "The kit ID used to create your account has unclaimed samples. To claim "
-"samples from this kit, please click \"List samples\". To claim samples "
-"from another kit ID, please enter it here and then click \"List Samples\""
+"samples from this kit, please click \"List samples\". To claim samples from "
+"another kit ID, please enter it here and then click \"List Samples\""
 msgstr ""
 "El ID del kit que se utilizó para crear su cuenta tiene muestras no "
 "reclamadas. Para reclamar muestras de este kit, haga clic en “Listar "
-"muestras”. Para reclamar muestras de otro ID de kit, ingréselo aquí y "
-"luego haga clic en “Lista de muestras”"
+"muestras”. Para reclamar muestras de otro ID de kit, ingréselo aquí y luego "
+"haga clic en “Lista de muestras”"
 
 #: templates/source.jinja2:222
 msgid "To add samples, please enter a kit ID here"
@@ -1756,7 +1808,8 @@ msgstr "Listado de Muestras"
 
 #: templates/source.jinja2:231
 msgid "Select all samples that should be associated with this source"
-msgstr "Seleccione todas las muestras que deberían estar asociadas con esta fuente"
+msgstr ""
+"Seleccione todas las muestras que deberían estar asociadas con esta fuente"
 
 #: templates/source.jinja2:237
 msgid "Claim Selected Samples"
@@ -1768,11 +1821,11 @@ msgstr "Encuestas realizadas"
 
 #: templates/source.jinja2:270
 msgid ""
-"Sources with one or more samples assigned cannot be deleted.  All samples"
-" above must be removed prior to deleting this source."
+"Sources with one or more samples assigned cannot be deleted.  All samples "
+"above must be removed prior to deleting this source."
 msgstr ""
-"Las fuentes con una o más muestras asignadas no se pueden eliminar. Todas"
-" las muestras anteriores deben eliminarse antes de eliminar esta fuente."
+"Las fuentes con una o más muestras asignadas no se pueden eliminar. Todas "
+"las muestras anteriores deben eliminarse antes de eliminar esta fuente."
 
 #: templates/source.jinja2:272
 msgid "Delete Source"
@@ -1807,16 +1860,16 @@ msgid ""
 "Please note: Once you've submitted this survey, you'll be unable to edit "
 "your answers."
 msgstr ""
-"Tenga en cuenta: una vez que haya enviado esta encuesta, no podrá editar "
-"sus respuestas."
+"Tenga en cuenta: una vez que haya enviado esta encuesta, no podrá editar sus"
+" respuestas."
 
 #: templates/survey.jinja2:159
 msgid ""
-"If you'd like to review or change any of your responses, please press the"
-" Cancel button. Otherwise, press OK to submit your responses."
+"If you'd like to review or change any of your responses, please press the "
+"Cancel button. Otherwise, press OK to submit your responses."
 msgstr ""
-"Si desea revisar o cambiar alguna de sus respuestas, presione el botón de"
-" Cancelar. De lo contrario, presione OK para enviar sus respuestas."
+"Si desea revisar o cambiar alguna de sus respuestas, presione el botón de "
+"Cancelar. De lo contrario, presione OK para enviar sus respuestas."
 
 #: templates/survey.jinja2:159
 msgid "This warning will only appear once."
@@ -1845,13 +1898,13 @@ msgstr "Actualización de correo electrónico"
 
 #: templates/update_email.jinja2:12
 msgid ""
-"It appears that the email we have for your account is not the same as the"
-" email you logged in with.  Would you like us to update your email in our"
-" records?"
+"It appears that the email we have for your account is not the same as the "
+"email you logged in with.  Would you like us to update your email in our "
+"records?"
 msgstr ""
-"Parece que el correo electrónico que tenemos para su cuenta no es el "
-"mismo que el correo electrónico con el que inició sesión. ¿Le gustaría "
-"que actualicemos su correo electrónico en nuestros registros?"
+"Parece que el correo electrónico que tenemos para su cuenta no es el mismo "
+"que el correo electrónico con el que inició sesión. ¿Le gustaría que "
+"actualicemos su correo electrónico en nuestros registros?"
 
 #: templates/update_email.jinja2:18
 msgid "No, skip and continue"
@@ -1865,14 +1918,11 @@ msgstr "Sí, actualizar y continuar"
 #~ msgstr "Nota para usuarios que no sean de EE. UU. / GB"
 
 #~ msgid ""
-#~ "We are working on support for "
-#~ "additional countries and expect to have"
-#~ " that available soon."
+#~ "We are working on support for additional countries and expect to have that "
+#~ "available soon."
 #~ msgstr ""
-#~ "Estamos trabajando en el soporte para"
-#~ " países adicionales y esperamos tenerlo "
-#~ "disponible pronto."
+#~ "Estamos trabajando en el soporte para países adicionales y esperamos tenerlo"
+#~ " disponible pronto."
 
 #~ msgid "bill_of_rights.pdf"
 #~ msgstr "bill_of_rights_sp.pdf"
-

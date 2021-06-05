@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-03 16:27-0700\n"
+"POT-Creation-Date: 2021-06-04 16:59-0700\n"
 "PO-Revision-Date: 2021-05-17 16:56-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -18,86 +18,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: implementation.py:393
+#: implementation.py:407
 msgid "Unable to validate the kit name; please reload the page."
 msgstr ""
 
-#: implementation.py:412
+#: implementation.py:426
 msgid ""
 "The provided kit id is not valid or has already been used; please re-"
 "check your entry."
 msgstr ""
 
-#: implementation.py:1036
+#: implementation.py:1055 model_i18n.py:40
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1037
+#: implementation.py:1056 model_i18n.py:41
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1038
+#: implementation.py:1057 model_i18n.py:53
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1039
+#: implementation.py:1058 model_i18n.py:48
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1040
+#: implementation.py:1059 model_i18n.py:49
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1041
+#: implementation.py:1060 model_i18n.py:50
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1042
+#: implementation.py:1061 model_i18n.py:51
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1043
+#: implementation.py:1062 model_i18n.py:46
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1044
+#: implementation.py:1063 model_i18n.py:43
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1045
+#: implementation.py:1064 model_i18n.py:55
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1046
+#: implementation.py:1065 model_i18n.py:52
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1047
+#: implementation.py:1066 model_i18n.py:47
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1048
+#: implementation.py:1067 model_i18n.py:56
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1049
+#: implementation.py:1068 model_i18n.py:54
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1050
+#: implementation.py:1069 model_i18n.py:42
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1051
+#: implementation.py:1070 model_i18n.py:45
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1052
+#: implementation.py:1071 model_i18n.py:44
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:1279
+#: implementation.py:1298
 msgid "Unable to validate Activation Code at this time"
+msgstr ""
+
+#: model_i18n.py:7
+msgid "sample_site"
+msgstr ""
+
+#: model_i18n.py:17
+msgid "source_type"
+msgstr ""
+
+#: model_i18n.py:24
+msgid "survey_template_title"
+msgstr ""
+
+#: model_i18n.py:61
+msgid "human"
+msgstr ""
+
+#: model_i18n.py:62 templates/account_overview.jinja2:139
+msgid "animal"
+msgstr ""
+
+#: model_i18n.py:63
+msgid "environmental"
+msgstr ""
+
+#: model_i18n.py:68
+msgid "Primary"
+msgstr ""
+
+#: model_i18n.py:69
+msgid "Pet Information"
+msgstr ""
+
+#: model_i18n.py:70
+msgid "Fermented Foods Questionnaire"
+msgstr ""
+
+#: model_i18n.py:71
+msgid "Surfer Questionnaire"
+msgstr ""
+
+#: model_i18n.py:72
+msgid "Personal Microbiome Information"
+msgstr ""
+
+#: model_i18n.py:73
+msgid "COVID-19 Questionnaire"
+msgstr ""
+
+#: model_i18n.py:74
+msgid "Vioscreen Food Frequency Questionnaire"
 msgstr ""
 
 #: templates/account_details.jinja2:2 templates/account_overview.jinja2:47
@@ -290,10 +342,6 @@ msgstr ""
 
 #: templates/account_overview.jinja2:139
 msgid "or an"
-msgstr ""
-
-#: templates/account_overview.jinja2:139
-msgid "animal"
 msgstr ""
 
 #: templates/account_overview.jinja2:141

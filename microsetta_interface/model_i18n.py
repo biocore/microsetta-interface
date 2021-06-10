@@ -65,7 +65,7 @@ def declare_enum_values():
     # SurveyTemplate.survey_template_title:
     # Not defined in the microsetta-private-api yaml at the moment
     # Taken from survey_template_repo.py
-    gettext("Primary")
+    gettext("Primary Questionnaire")
     gettext("Pet Information")
     gettext("Fermented Foods Questionnaire")
     gettext("Surfer Questionnaire")

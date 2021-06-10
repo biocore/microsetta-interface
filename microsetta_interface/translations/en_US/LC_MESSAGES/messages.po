@@ -125,7 +125,7 @@ msgid "environmental"
 msgstr ""
 
 #: model_i18n.py:68
-msgid "Primary"
+msgid "Primary Questionnaire"
 msgstr ""
 
 #: model_i18n.py:69

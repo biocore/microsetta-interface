@@ -973,7 +973,6 @@ def get_source(*, account_id=None, source_id=None):
             needs_assignment = True
         else:
             dt = datetime.fromisoformat(sample['sample_datetime'])
-            # sample['sample_datetime'] = dt.strftime("%b-%d-%Y %-I:%M %p")
             # rebase=True - show in user's locale, rebase=False, UTC (I think?)
             sample['sample_datetime'] = flask_babel.format_datetime(
                 dt,

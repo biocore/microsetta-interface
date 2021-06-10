@@ -557,7 +557,7 @@ def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
     browser_lang = request.accept_languages.best_match(
-        [lang.value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
+        [LANGUAGES[lang].value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -1474,7 +1474,7 @@ def session_locale():
 
     # TODO: We update this as we add support for new languages
     return request.accept_languages.best_match(
-        [lang.value for lang in LANGUAGES])
+        [LANGUAGES[lang].value for lang in LANGUAGES])
 
 
 class BearerAuth(AuthBase):

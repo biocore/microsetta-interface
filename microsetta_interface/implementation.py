@@ -121,7 +121,7 @@ def _render_with_defaults(template_name, **context):
     defaults["authrocket_url"] = authrocket_url
     defaults["public_endpoint"] = public_endpoint
 
-    defaults["EN_US_KEY" ] = EN_US_KEY
+    defaults["EN_US_KEY"] = EN_US_KEY
     defaults["languages"] = LANGUAGES
 
     defaults.update(context)
@@ -1474,7 +1474,8 @@ def session_locale():
         return LANGUAGES[EN_US_KEY].value
 
     # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match([lang.value for lang in LANGUAGES])
+    return request.accept_languages.best_match(
+        [lang.value for lang in LANGUAGES])
 
 
 class BearerAuth(AuthBase):

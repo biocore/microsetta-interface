@@ -1293,7 +1293,7 @@ msgstr ""
 "enumeran a continuación."
 
 #: templates/new_results_page.jinja2:1737
-msgid "The Microsetta Initiatiave"
+msgid "The Microsetta Initiative"
 msgstr "La iniciativa Microsetta"
 
 #: templates/new_results_page.jinja2:1742

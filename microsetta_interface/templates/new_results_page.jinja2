@@ -650,7 +650,7 @@
             {
                 destroy: true, // Necessary to replace existing datatable
                 language: {
-                    url: '/static/vendor/DataTables/{{ _('en_us') }}.json'
+                    url: '/static/vendor/DataTables/{{ _(EN_US_KEY) }}.json'
                 },
                 ajax: {
                     url: state.public_endpoint + '/dataset/' + state.dataset_input.value + "/taxonomy/present/single/" + state.taxonomy + "/" + state.barcode_prefix + state.sample_id,
@@ -1418,7 +1418,7 @@
           <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
                 <h3>{{ _('How do you compare?') }}</h3>
-                <img class="diversity-banner" src='/static/img/{{ _("en_us") }}/hero-home-4-xl.jpeg'>
+                <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
                     {{ _('Your microbiome is a rainforest of diverse microbes dominated by microbes - some 40 trillion bacteria, weighing around 1 lb, live all over and in your body. The diversity of your microbiome, how similar it is to other peoples\', and the types of bacteria living inside you have all been linked to health, disease and lifestyle traits in numerous studies.') }}

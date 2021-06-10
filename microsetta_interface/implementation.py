@@ -12,7 +12,8 @@ from datetime import datetime
 import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
-    translate_sample, translate_survey_template
+    translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
+    ES_MX_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -79,11 +80,12 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 
+
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
-              "en_us": "The system is going down at ",
-              "es_mx": "El sistema se apaga a las "
-          }
+            EN_US_KEY: "The system is going down at ",
+            ES_MX_KEY: "El sistema se apaga a las "
+        }
     }
 
 client_state = RedisCache()
@@ -118,6 +120,9 @@ def _render_with_defaults(template_name, **context):
     defaults["endpoint"] = endpoint
     defaults["authrocket_url"] = authrocket_url
     defaults["public_endpoint"] = public_endpoint
+
+    defaults["EN_US_KEY" ] = EN_US_KEY
+    defaults["languages"] = LANGUAGES
 
     defaults.update(context)
 
@@ -552,7 +557,7 @@ def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
     browser_lang = request.accept_languages.best_match(
-        ['en_US', 'es_MX'], default="es_MX")
+        [lang.value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -590,7 +595,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        ACCT_LANG_KEY: body['language'],
+        ACCT_LANG_KEY: body[LANG_KEY],
         KIT_NAME_KEY: kit_name,
         ACTIVATION_CODE_KEY: body["code"]
     }
@@ -1466,10 +1471,10 @@ def session_locale():
     # Awful.  Can't resolve languages when inside unit tests,
     # so have to pick a default
     if not flask.has_request_context():
-        return "en_US"
+        return LANGUAGES[EN_US_KEY].value
 
     # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match(['en_US', 'es_MX'])
+    return request.accept_languages.best_match([lang.value for lang in LANGUAGES])
 
 
 class BearerAuth(AuthBase):

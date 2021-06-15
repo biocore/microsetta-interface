@@ -6,3 +6,4 @@ redis-py
 redis
 pytest
 flask-babel
+pandas

@@ -193,8 +193,11 @@
                 <label for="language" name="language_label">{{ _('Preferred language for future communications') }}*</label>
                 <br>
                 <select id="language" name="language">
-                    <option value="en_US" {% if account.language == "en_US" %} selected {% endif %} >English</option>
-                    <option value="es_MX" {% if account.language == "es_MX" %} selected {% endif %} >Español</option>
+                {% for lang_key in languages %}
+                    {% set lang_val = languages[lang_key].value %}
+                    {% set lang_display = languages[lang_key].display_text %}
+                    <option value={{ lang_val }} {% if account.language == lang_val %} selected {% endif %} >{{ lang_display }}</option>
+                {% endfor %}
                 </select>
             </div>
             {% if CREATE_ACCT %}

@@ -89,7 +89,7 @@
 
     {% if system_msg_text %}
     <div id="system_message" class="alert alert-{{system_msg_style|e}}" role="alert">
-      {{system_msg_dictionary[system_msg_text][_('en_us')]}} {{ system_msg_time }}
+      {{system_msg_dictionary[system_msg_text][_(EN_US_KEY)]}} {{ system_msg_time }}
     </div>
     {% endif %}
 

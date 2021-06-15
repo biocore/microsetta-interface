@@ -1,5 +1,17 @@
+from collections import namedtuple
+
 from flask_babel import gettext
 import copy
+
+
+EN_US_KEY = "en_us"
+ES_MX_KEY = "es_mx"
+
+Lang = namedtuple('Lang', ['value', 'display_text'])
+LANGUAGES = {
+    EN_US_KEY: Lang("en_US", "English"),
+    ES_MX_KEY: Lang("es_MX", "Español")
+}
 
 
 def translate_sample(sample):
@@ -72,3 +84,6 @@ def declare_enum_values():
     gettext("Personal Microbiome Information")
     gettext("COVID-19 Questionnaire")
     gettext("Vioscreen Food Frequency Questionnaire")
+
+    # Ensure that EN_US_KEY is added to the POT file
+    gettext("en_us")

@@ -26,7 +26,7 @@
     <h4> {{ _('Set System Message') }} </h4>
     <div id="test_msg" class="alert alert-{{system_msg_style|e}}" role="alert">
       {% if system_msg_text %}
-      {{system_msg_dictionary[system_msg_text][_('en_us')]}}
+      {{system_msg_dictionary[system_msg_text][_(EN_US_KEY)]}}
       {% endif %}
     </div>
 
@@ -49,7 +49,7 @@
             <select id="system_msg_text" name="system_msg_text" class="form-control" onChange="update_test_msg()">
                 <option value="">--None--</option>
                 {% for key, value in system_msg_dictionary.items() %}
-                    <option value="{{ key }}">{{ value[_('en_us')] }}</option>
+                    <option value="{{ key }}">{{ value[_(EN_US_KEY)] }}</option>
                 {% endfor %}
             </select><br />
             Shutdown Time Hours: <select id="system_msg_hours" name="system_msg_hours" class="form-control" onChange="update_test_msg()">

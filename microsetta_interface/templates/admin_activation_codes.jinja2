@@ -3,21 +3,34 @@
 {% set show_breadcrumbs = False %}
 {% block content %}
     <form method="get">
+        {{ _('Search by Email') }}<br />
         <label for="email_query">{{ _('Email') }}:</label>
         <input type="text" name="email_query" value="{{ email_query |e if email_query is not none}}">
         <input type="submit" value="{{ _('Search') }}">
     </form>
+    <hr />
     <form method="get">
+        {{ _('Search by Activation Code') }}<br />
         <label for="code_query">{{ _('Activation Code') }}:</label>
         <input type="text" name="code_query" value="{{ code_query |e if code_query is not none}}">
         <input type="submit" value="{{ _('Search') }}">
     </form>
+    <hr />
     <form method="post">
+        {{ _('Generate Activation Code') }}<br />
         <label for="email">{{ _('Email') }}:</label>
         <input type="text" name="email" value="{{ email_query |e if email_query is not none}}">
         <input type="submit" name="generate" value="{{ _('Generate') }}">
         <input type="submit" name="generate_send" value="{{ _('Generate + Send Email') }}">
     </form>
+    <hr />
+    <form method="post" enctype="multipart/form-data">
+        {{ _('Generate Activation Codes from CSV File') }}<br />
+        <label for="email_csv">{{ _('CSV File of Emails') }}:</label>
+        <input type="file" name="email_csv">
+        <input type="submit" name="generate_csv" value="{{ _('Generate') }}">
+    </form>
+    <hr />
 <h4>{{ _('Search Results') }}</h4>
 <div class="container">
     {% if diagnostics is not none and diagnostics|length > 0 %}

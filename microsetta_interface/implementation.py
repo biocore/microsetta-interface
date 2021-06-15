@@ -12,8 +12,7 @@ from datetime import datetime
 import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
-    translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY
+    translate_sample, translate_survey_template
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -26,7 +25,8 @@ from werkzeug.exceptions import BadRequest, Unauthorized
 from microsetta_interface.config_manager import SERVER_CONFIG
 import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
-from microsetta_interface.util import has_non_keyword_arguments
+from microsetta_interface.util import has_non_keyword_arguments, \
+    parse_request_csv_col
 
 
 # TODO: source from a microsetta_private_api endpoint
@@ -80,12 +80,11 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 
-
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
-            EN_US_KEY: "The system is going down at ",
-            ES_MX_KEY: "El sistema se apaga a las "
-        }
+              "en_us": "The system is going down at ",
+              "es_mx": "El sistema se apaga a las "
+          }
     }
 
 client_state = RedisCache()
@@ -120,9 +119,6 @@ def _render_with_defaults(template_name, **context):
     defaults["endpoint"] = endpoint
     defaults["authrocket_url"] = authrocket_url
     defaults["public_endpoint"] = public_endpoint
-
-    defaults["EN_US_KEY"] = EN_US_KEY
-    defaults["languages"] = LANGUAGES
 
     defaults.update(context)
 
@@ -557,7 +553,7 @@ def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
     browser_lang = request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
+        ['en_US', 'es_MX'], default="es_MX")
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -595,7 +591,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        ACCT_LANG_KEY: body[LANG_KEY],
+        ACCT_LANG_KEY: body['language'],
         KIT_NAME_KEY: kit_name,
         ACTIVATION_CODE_KEY: body["code"]
     }
@@ -1398,39 +1394,76 @@ def post_generate_activation(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    email = body["email"]
-
-    # Generate the activation code and update the list
-    if 'generate' in body or 'generate_send' in body:
-        do_return, diagnostics, _ = ApiRequest.post(
-            "/admin/activation",
-            json={"emails": [email]}
+    if 'generate_csv' in body:
+        emails, upload_err = parse_request_csv_col(
+            request,
+            'email_csv',
+            'email'
         )
+        if upload_err is not None:
+            return upload_err
+        else:
+            emails = list({e.lower() for e in emails})
+            code_map = {}
+            for e in emails:
+                do_return, diagnostics, _ = ApiRequest.post(
+                    "/admin/activation",
+                    json={"emails": [e]}
+                )
 
-        if do_return:
-            return diagnostics
+                if do_return:
+                    return diagnostics
+                else:
+                    do_return, diagnostics, _ = ApiRequest.get(
+                        "/admin/search/activation",
+                        params={"email_query": e}
+                    )
+                    if do_return:
+                        return diagnostics
+                    else:
+                        code_map[e] = diagnostics[0]['code']
 
-    # Also send an email out to the user
-    if 'generate_send' in body:
-        url = SERVER_CONFIG["endpoint"]
-        do_return, diagnostics, _ = ApiRequest.post(
-            "/admin/email",
-            json={
-                "issue_type": "activation",
-                "template": "send_activation_code",
-                "template_args": {
-                    "join_url": url,
-                    "new_account_email": email
-                    # don't need to send activation code,
-                    # will be pulled from db on private api side.
-                    # "new_account_code": XXX
+            csv_output = "EMAIL,ACTIVATION_CODE\n"
+            for email,code in code_map.items():
+                csv_output += email + "," + code + "\n"
+            response = make_response(csv_output)
+            response.headers["Content-Disposition"] = "attachment; filename=activation_codes.csv"
+            response.headers["Content-Type"] = "text/csv"
+            return response
+    else:
+        email = body["email"]
+
+        # Generate the activation code and update the list
+        if 'generate' in body or 'generate_send' in body:
+            do_return, diagnostics, _ = ApiRequest.post(
+                "/admin/activation",
+                json={"emails": [email]}
+            )
+
+            if do_return:
+                return diagnostics
+
+        # Also send an email out to the user
+        if 'generate_send' in body:
+            url = SERVER_CONFIG["endpoint"]
+            do_return, diagnostics, _ = ApiRequest.post(
+                "/admin/email",
+                json={
+                    "issue_type": "activation",
+                    "template": "send_activation_code",
+                    "template_args": {
+                        "join_url": url,
+                        "new_account_email": email
+                        # don't need to send activation code,
+                        # will be pulled from db on private api side.
+                        # "new_account_code": XXX
+                    }
                 }
-            }
-        )
+            )
 
-        if do_return:
-            return diagnostics
-    return get_interactive_activation(email, None)
+            if do_return:
+                return diagnostics
+        return get_interactive_activation(email, None)
 
 
 def get_system_message():
@@ -1470,11 +1503,10 @@ def session_locale():
     # Awful.  Can't resolve languages when inside unit tests,
     # so have to pick a default
     if not flask.has_request_context():
-        return LANGUAGES[EN_US_KEY].value
+        return "en_US"
 
     # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES])
+    return request.accept_languages.best_match(['en_US', 'es_MX'])
 
 
 class BearerAuth(AuthBase):

@@ -135,7 +135,7 @@ msgstr "Fuente ambiental"
 #: model_i18n.py:68
 #, fuzzy
 msgid "Primary Questionnaire"
-msgstr "Cuestionario Primario"
+msgstr "Cuestionario Principal"
 
 #: model_i18n.py:69
 #, fuzzy

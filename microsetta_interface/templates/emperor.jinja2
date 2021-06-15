@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Emperor Playground" %}
+{% set page_title = _("Emperor Playground") %}
 {% set show_breadcrumbs = False %}
 {% set show_logout = True %}
 {% block head %}
@@ -62,15 +62,15 @@
     </style>
 {% endblock %}
 {% block content %}
-    <h4> Emperor Playground </h4>
+    <h4> {{ _('Emperor Playground') }} </h4>
 
     <div class="form-group row">
-        <label for="pcoa_url_input" class="col-sm-2 col-form-label">PCOA URL:</label>
+        <label for="pcoa_url_input" class="col-sm-2 col-form-label">{{ _('PCOA URL') }}:</label>
         <div class="col-sm-8">
             <textarea class="form-control" id="pcoa_url_input" rows="5">{{pcoa_url |e}}</textarea>
         </div>
     </div>
-    <button class="btn btn-primary" onclick="load_emperor_pcoa(this)">Go!</button>
+    <button class="btn btn-primary" onclick="load_emperor_pcoa(this)">{{ _('Go!') }}</button>
   <div id='emperor-notebook' style="position: relative; width:100%; height:500px;">
 
   </div>

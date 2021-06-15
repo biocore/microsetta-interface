@@ -1,11 +1,11 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Create Non-human Source" %}
+{% set page_title = _("Create Non-human Source") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
     <script>
         $(document).ready(function(){
             preventImplicitSubmission("new_source_form");
-            disableInputOnSubmit("#new_source_form", "#submit_button", "Creating Source...")
+            disableInputOnSubmit("#new_source_form", "#submit_button", "{{ _('Creating Source...') }}")
         });
     </script>
 {% endblock %}
@@ -13,14 +13,14 @@
     <div class="container">
         <form method="post" id="new_source_form" name="new_source_form" action="/accounts/{{account_id}}/create_nonhuman_source/">
             <div class="form-group">
-                <label for="source_name" name="source_name_label">Environment name (e.g., microwave):</label>
+                <label for="source_name" name="source_name_label">{{ _('Environment name (e.g., microwave)') }}:</label>
                 <input id="source_name" name="source_name" class="form-control" type="text" required/>
                 <input id="source_type" name="source_type" type="hidden" value="environmental" />
                 <br />
-                <label for="source_description" name="source_description_label">Environment description (optional):</label>
+                <label for="source_description" name="source_description_label">{{ _('Environment description (optional)') }}:</label>
                 <input id="source_description" name="source_description" class="form-control" type="text"/>
              </div>
-            <input id="submit_button" type="submit" class="btn btn-primary" value="Create Source"/>
+            <input id="submit_button" type="submit" class="btn btn-primary" value="{{ _('Create Source') }}"/>
         </form>
     </div>
 {% endblock %}

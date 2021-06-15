@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Sample Information" %}
+{% set page_title = _("Sample Information") %}
 {% set show_breadcrumbs = True %}
 {% set disable_bootstrap = True %}
 {% block head %}
@@ -9,47 +9,66 @@
     <script type="text/javascript" src="/static/vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/vendor/js/jquery.timepicker.min.js"></script>
 
+    <!-- Download and include supported languages and dialects here -->
+    <script type="text/javascript" src="/static/vendor/jquery-ui-i18n/datepicker-es.js"></script>
+
     <script>
-        //  Let jquery validate check mm/dd/yyyy
-        $.validator.addMethod("monthDayYear", function(value, element)
-        {
-        //  Derived from the dateITA (dd/mm/yyyy) jquery validate additional method
-        //  by swapping day and month in the parseInt calls.
-        //  See the additional-methods.js file in the jquery-validate distribution
-        //  Note: the additional-methods.js file is
-        //      Copyright (c) 2020 Jörn Zaefferer
-        //      Released under the MIT license
-	        var check = false;
-	        var regex = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-	        if (regex.test(value))
-	        {
-		        var data = value.split("/");
-		        var mm = parseInt(data[0], 10);
-		        var dd = parseInt(data[1], 10);
-		        var yyyy = parseInt(data[2], 10);
-                var parsedDate = new Date(Date.UTC(yyyy, mm - 1, dd, 12, 0, 0, 0));
-                if ((parsedDate.getUTCFullYear() === yyyy) &&
-                    (parsedDate.getUTCMonth() === mm - 1) &&
-                    (parsedDate.getUTCDate() === dd)) {
-                    check = true;
-                } else {
-                    check = false;
-                }
-            } else {
-                check = false;
-            }
-            return this.optional(element) || check;
-        }, "Required Format: MM/DD/YYYY");
 
         $(document).ready(function(){
             let form_name = 'sample_form';
             preventImplicitSubmission(form_name);
 
-            $("#sample_date" ).datepicker({
-                onClose: function() {
-                    $(this).valid();
+            // TODO - this parsing will break for one part and three part language tags.
+            let lang = "{{ _(EN_US_KEY) }}";
+            let first = lang.split("_")[0];
+            let second = lang.split("_")[1];
+
+            let datepicker_args = {};
+            if (first != null && second != null && (first + "-" + second.toUpperCase()) in $.datepicker.regional)
+                datepicker_args = $.datepicker.regional[first + "-" + second.toUpperCase()]
+            else if (first != null && first in $.datepicker.regional)
+                datepicker_args = $.datepicker.regional[first]
+            else
+                console.log("Unsupported datepicker language, defaulting to english")
+
+            datepicker_args.onClose = function(){
+                $(this).valid()
+            }
+
+            // Determine date picker format
+            let datePickerFormat = "mm/dd/yy"  //datepicker defaults to this if unspecified
+            if ("dateFormat" in datepicker_args)
+                datePickerFormat = datepicker_args.dateFormat;
+
+            // Set initial date from normalized hidden field
+            let normalizedInitialDate = $("#sample_date_normalized").val()
+            if (normalizedInitialDate !== "") {
+                let initial = $.datepicker.parseDate("mm/dd/yy", normalizedInitialDate)
+                $("#sample_date").val($.datepicker.formatDate(datePickerFormat, initial))
+            }
+
+            //  Let jquery validate check date format, update hidden field with normalized value
+            $.validator.addMethod("monthDayYear", function(value, element)
+            {
+                let localizedValue = value;
+                let check;
+                try {
+                    let parsed = $.datepicker.parseDate(datePickerFormat, localizedValue);
+                    let normalized = $.datepicker.formatDate("mm/dd/yy", parsed)
+                    $("#sample_date_normalized").val(normalized)
+                    check = true
                 }
-            });
+                catch (e) {
+                    check = false
+                }
+                return this.optional(element) || check;
+
+                //Note that when we translate this string,
+                //we have to switch MM/DD/YYYY to the
+                //expected localized date format matching the datepicker settings.
+            }, "{{ _('Required Format: MM/DD/YYYY') }}");
+
+            $("#sample_date").datepicker(datepicker_args)
 
             $( "#sample_time" ).timepicker({
                 timeFormat: 'h:mm p',
@@ -109,9 +128,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Sample Information</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Sample Information') }}</li>
 {% endblock %}
 
 {% block content %}
@@ -119,26 +138,27 @@
       <form method="post" id="sample_form" name="sample_form">
           {% if sample.sample_edit_locked %}
           <div class="alert alert-success" role="alert">
-              Sample Recorded, Editing is Locked
+              {{ _('Sample Recorded, Editing is Locked') }}
           </div>
           {% endif %}
           <div class="form-group row">
-            <label for="sample" name="sample_label" class="col-sm-2 col-form-label">Barcode</label>
+            <label for="sample" name="sample_label" class="col-sm-2 col-form-label">{{ _('Barcode') }}</label>
             <div class="col-sm-4">
                 <input id="view_sample" name="view_sample" class="form-control" type="text" value="{{ sample.sample_barcode |e }}" disabled="disabled" readonly/>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">Date</label>
+            <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">{{ _('Date') }}</label>
             <div class="col-sm-4">
-                <input id="sample_date" name="sample_date" class="form-control" type="text" value="{{ sample.date | e }}" autocomplete="off" required\>
+                <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" required\>
             </div>
+            <input id="sample_date_normalized" name="sample_date_normalized" type="hidden" value="{{ sample.date | e }}" />
             <label for="sample_date" generated="true" class="error"></label>
           </div>
 
           <div class="form-group row">
-            <label for="sample_time" name="sample_time_label" class="col-sm-2 col-form-label">Time</label>
+            <label for="sample_time" name="sample_time_label" class="col-sm-2 col-form-label">{{ _('Time') }}</label>
             <div class="col-sm-4">
               <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" required\>
             </div>
@@ -152,22 +172,24 @@
                 <div class="row">
                     <div class="col-sm-6">
                     <ul>
-                        <lh><small id="sample_site_help" class="form-text text-muted">Guidelines for site identification:</small></lh>
-                        <li><small id="sample_site_help" class="form-text text-muted">If collecting a <i>BLOOD</i> sample, please select Blood (skin prick) </small></li>
-                        <li><small id="sample_site_help" class="form-text text-muted">For all swabs, please select the site as precisely as possible from the options available</small></li>
+                        <lh><small id="sample_site_help" class="form-text text-muted">{{ _('Guidelines for site identification') }}:</small></lh>
+                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('If collecting a') }} <i>{{ _('BLOOD') }}</i> {{ _('sample, please select Blood (skin prick)') }}</small></li>
+                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('For all swabs, please select the site as precisely as possible from the options available') }}</small></li>
                     </ul>
                     </div>
                 </div>
                 {% endif %}
                 <div class="row">
-                    <label for="sample_site" name="sample_site_label" class="col-sm-2 col-form-label">Site sampled</label>
+                    <label for="sample_site" name="sample_site_label" class="col-sm-2 col-form-label">{{ _('Site sampled') }}</label>
                     <div class="col-sm-4">
                       <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
                         {% if not sample.sample_site %}
-                        <option disabled selected value> -- Select a sample type -- </option>
+                        <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
                         {% endif %}
-                        {% for site in sample_sites %}
-                        <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site}}</option>
+                        {% for i in range(sample_sites| length) %}
+                            {% set site=sample_sites[i] %}
+                            {% set site_text=sample_sites_text[i] %}
+                        <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site_text}}</option>
                         {% endfor %}
                       </select>
                     </div>
@@ -178,12 +200,12 @@
           {% endif %}
 
           <div class="form-group">
-            <label for="sample_notes" id="sample_notes_label">Notes</label>
+            <label for="sample_notes" id="sample_notes_label">{{ _('Notes') }}</label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="(Optional) Is there else about this sample that you would like to add?" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
             </div>
           </div>
-         <button type="submit" class="btn btn-primary" {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>Update</button>
+         <button type="submit" class="btn btn-primary" {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ _('Update') }}</button>
       </form>
     </div>
 {% endblock %}

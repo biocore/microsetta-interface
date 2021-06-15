@@ -1,5 +1,8 @@
+
 import flask
-from flask import render_template, session, redirect, make_response
+import flask_babel
+from flask_babel import gettext
+from flask import render_template, session, redirect, make_response, request
 import jwt
 import requests
 from requests.auth import AuthBase
@@ -8,6 +11,9 @@ from os import path
 from datetime import datetime
 import base64
 import functools
+from microsetta_interface.model_i18n import translate_source, \
+    translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
+    ES_MX_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -37,6 +43,7 @@ PUB_KEY = pkg_resources.read_text(
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
+LANG_KEY = "language"
 
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
@@ -56,6 +63,7 @@ ACCT_ADDR_CITY_KEY = "city"
 ACCT_ADDR_STATE_KEY = "state"
 ACCT_ADDR_POST_CODE_KEY = "post_code"
 ACCT_ADDR_COUNTRY_CODE_KEY = "country_code"
+ACCT_LANG_KEY = "language"
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -72,6 +80,14 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 
+
+SYSTEM_MSG_DICTIONARY = {
+        "going_down": {
+            EN_US_KEY: "The system is going down at ",
+            ES_MX_KEY: "El sistema se apaga a las "
+        }
+    }
+
 client_state = RedisCache()
 
 
@@ -82,9 +98,21 @@ def _render_with_defaults(template_name, **context):
     defaults["login_info"] = session.get(LOGIN_INFO_KEY, None)
     defaults["admin_mode"] = admin_mode
 
-    msg, style = client_state.get(RedisCache.SYSTEM_BANNER, (None, None))
+    msg, style, hours, minutes = client_state.get(RedisCache.SYSTEM_BANNER,
+                                                  (None, None, None, None))
+
+    today = datetime.today()
+    if hours is None:
+        sys_msg_dt = datetime(today.year, today.month, today.day)
+    else:
+        sys_msg_dt = datetime(today.year, today.month, today.day, int(hours),
+                              int(minutes))
+
     defaults["system_msg_text"] = msg
     defaults["system_msg_style"] = style
+    defaults["system_msg_time"] = flask_babel.format_datetime(sys_msg_dt,
+                                                              'h:mm a')
+    defaults["system_msg_dictionary"] = SYSTEM_MSG_DICTIONARY
 
     endpoint = SERVER_CONFIG["endpoint"]
     public_endpoint = SERVER_CONFIG["public_api_endpoint"]
@@ -92,6 +120,9 @@ def _render_with_defaults(template_name, **context):
     defaults["endpoint"] = endpoint
     defaults["authrocket_url"] = authrocket_url
     defaults["public_endpoint"] = public_endpoint
+
+    defaults["EN_US_KEY"] = EN_US_KEY
+    defaults["languages"] = LANGUAGES
 
     defaults.update(context)
 
@@ -373,8 +404,9 @@ def _refresh_state_and_route_to_sink(account_id=None, source_id=None):
 
 
 def _get_kit(kit_name):
-    unable_to_validate_msg = "Unable to validate the kit name; please " \
-                             "reload the page."
+    unable_to_validate_msg = gettext(
+        "Unable to validate the kit name; please "
+        "reload the page.")
     error_msg = None
     response = None
 
@@ -390,8 +422,11 @@ def _get_kit(kit_name):
             params=ApiRequest.build_params({KIT_NAME_KEY: kit_name}))
 
         if response.status_code == 404:
-            error_msg = ("The provided kit id is not valid or has "
-                         "already been used; please re-check your entry.")
+            error_msg = \
+                gettext(
+                    "The provided kit id is not valid or has "
+                    "already been used; please re-check your entry."
+                )
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
     except:  # noqa
@@ -430,12 +465,6 @@ def get_show_error_page(error_msg):
                                    mailto_url=mailto_url,
                                    error_msg=error_msg)
 
-    return output
-
-
-# FAQ display does not require any prereqs, so this method doesn't check any
-def get_show_faq():
-    output = _render_with_defaults('faq.jinja2')
     return output
 
 
@@ -503,6 +532,7 @@ def get_authrocket_callback(token, redirect_uri=None):
             "account_id": primary['account_id'],
             "email": primary['email']
         }
+        session[LANG_KEY] = primary["language"]
     else:
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {
@@ -525,6 +555,9 @@ def get_logout():
 @prerequisite([NEEDS_ACCOUNT])
 def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
+
+    browser_lang = request.accept_languages.best_match(
+        [LANGUAGES[lang].value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -537,7 +570,8 @@ def get_create_account():
             ACCT_ADDR_STATE_KEY: 'CA',
             ACCT_ADDR_POST_CODE_KEY: '',
             ACCT_ADDR_COUNTRY_CODE_KEY: 'US'
-        }
+        },
+        ACCT_LANG_KEY: browser_lang
     }
 
     return _render_with_defaults('account_details.jinja2',
@@ -561,6 +595,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
+        ACCT_LANG_KEY: body[LANG_KEY],
         KIT_NAME_KEY: kit_name,
         ACTIVATION_CODE_KEY: body["code"]
     }
@@ -575,6 +610,7 @@ def post_create_account(*, body=None):
         "account_id": new_acct_id,
         "email": accts_output["email"]
     }
+    session[LANG_KEY] = accts_output['language']
 
     return _refresh_state_and_route_to_sink(new_acct_id)
 
@@ -624,6 +660,12 @@ def get_account(*, account_id=None):
     if has_error:
         return sources
 
+    # Update their language preferences cookie whenever they load this page.
+    # So if changed from another browser/tab/computer,
+    # going home will reset language
+    session[LANG_KEY] = account["language"]
+
+    sources = [translate_source(s) for s in sources]
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources)
@@ -652,7 +694,8 @@ def post_account_details(*, account_id=None, body=None):
             ACCT_ADDR_STATE_KEY: body['state'],
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
-        }
+        },
+        ACCT_LANG_KEY: body['language']
     }
 
     do_return, acct_output, _ = ApiRequest.put('/accounts/%s' %
@@ -664,6 +707,7 @@ def post_account_details(*, account_id=None, body=None):
         "account_id": acct_output["account_id"],
         "email": acct_output["email"]
     }
+    session[LANG_KEY] = acct_output["language"]
 
     return _refresh_state_and_route_to_sink(account_id)
 
@@ -929,12 +973,20 @@ def get_source(*, account_id=None, source_id=None):
             needs_assignment = True
         else:
             dt = datetime.fromisoformat(sample['sample_datetime'])
-            sample['sample_datetime'] = dt.strftime("%b-%d-%Y %-I:%M %p")
+            # rebase=True - show in user's locale, rebase=False, UTC (I think?)
+            sample['sample_datetime'] = flask_babel.format_datetime(
+                dt,
+                format=None,  # Use babel default (short/medium/long/full)
+                rebase=False)
 
     needs_assignment = any([sample['sample_datetime'] is None
                             for sample in samples_output])
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
+
+    samples_output = [translate_sample(s) for s in samples_output]
+    per_source = [translate_survey_template(s) for s in per_source]
+
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
@@ -995,15 +1047,39 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Nares", "Nasal mucus", "Right hand", "Left hand",
                         "Forehead", "Torso", "Right leg", "Left leg",
                         "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
+        # babel scraping doesn't understand anything but constant strings.
+        # do not collapse this into a for loop unless you can verify
+        # that the POT file is correctly updated.
+        sample_site_translations = [
+            gettext("Blood (skin prick)"),
+            gettext("Saliva"),
+            gettext("Stool"),
+            gettext("Mouth"),
+            gettext("Nares"),
+            gettext("Nasal mucus"),
+            gettext("Right hand"),
+            gettext("Left hand"),
+            gettext("Forehead"),
+            gettext("Torso"),
+            gettext("Right leg"),
+            gettext("Left leg"),
+            gettext("Vaginal mucus"),
+            gettext("Tears"),
+            gettext("Ear wax"),
+            gettext("Hair"),
+            gettext("Fur")
+        ]
     elif is_environmental:
         # Environment settings
         sample_sites = [None]
+        sample_site_translations = [None]
     else:
         raise BadRequest("Sources of type %s are not supported at this time"
                          % source_output['source_type'])
 
     if sample_output['sample_datetime'] is not None:
         dt = datetime.fromisoformat(sample_output['sample_datetime'])
+        # TODO: This might need some flask_babel calls, hmm...
         sample_output['date'] = dt.strftime("%m/%d/%Y")
         sample_output['time'] = dt.strftime("%-I:%M %p")
     else:
@@ -1016,6 +1092,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                                  source_name=source_output['source_name'],
                                  sample=sample_output,
                                  sample_sites=sample_sites,
+                                 sample_sites_text=sample_site_translations,
                                  is_environmental=is_environmental)
 
 
@@ -1026,7 +1103,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     for x in flask.request.form:
         model[x] = flask.request.form[x]
 
-    date = model.pop('sample_date')
+    date = model.pop('sample_date_normalized')
     time = model.pop('sample_time')
     date_and_time = date + " " + time
     sample_datetime = datetime.strptime(date_and_time, "%m/%d/%Y %I:%M %p")
@@ -1124,17 +1201,18 @@ def get_sample_results_experimental():
                      'sample_remove_locked': False,
                      'sample_site': 'Stool',
                      'source_id': 'NA'}
-    return _render_with_defaults('new_results_page.jinja2',
-                                 account_id='NA',
-                                 source_id='NA',
-                                 sample=sample_output,
-                                 source_name='NA',
-                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
-                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
-                                 beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
-                                 show_breadcrumbs=False
-                                 )
+    return _render_with_defaults(
+        'new_results_page.jinja2',
+        account_id='NA',
+        source_id='NA',
+        sample=sample_output,
+        source_name='NA',
+        taxonomy=SERVER_CONFIG["taxonomy_resource"],
+        alpha_metric=SERVER_CONFIG["alpha_metric"],
+        beta_metric=SERVER_CONFIG["beta_metric"],
+        barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+        show_breadcrumbs=False
+    )
 
 
 @prerequisite([SOURCE_PREREQS_MET])
@@ -1220,7 +1298,7 @@ def get_ajax_check_activation_code(code, email):
         params=ApiRequest.build_params({"email": email, "code": code}))
     if response.status_code != 200:
         # Damn, couldn't properly communicate to backend server...
-        return "Unable to validate Activation Code at this time"
+        return gettext("Unable to validate Activation Code at this time")
     result_data = response.json()
     result = True if result_data["can_activate"] else result_data["error"]
     return flask.jsonify(result)
@@ -1363,19 +1441,40 @@ def get_system_message():
 
 
 def post_system_message(body):
+    # TODO: Localizing system messages means
+    #  a dropdown instead of free text.
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
     text = body.get("system_msg_text")
     style = body.get("system_msg_style")
+    hours = body.get("system_msg_hours")
+    minutes = body.get("system_msg_minutes")
 
     if text is None or len(text) == 0:
         text = None
         style = None
+        hours = None
+        minutes = None
 
-    client_state[RedisCache.SYSTEM_BANNER] = (text, style)
+    client_state[RedisCache.SYSTEM_BANNER] = (text, style, hours, minutes)
 
     return _render_with_defaults('admin_system_panel.jinja2')
+
+
+def session_locale():
+    # Based on snippet from https://flask-babel.tkte.ch/
+    if LANG_KEY in session:
+        return session[LANG_KEY]
+
+    # Awful.  Can't resolve languages when inside unit tests,
+    # so have to pick a default
+    if not flask.has_request_context():
+        return LANGUAGES[EN_US_KEY].value
+
+    # TODO: We update this as we add support for new languages
+    return request.accept_languages.best_match(
+        [LANGUAGES[lang].value for lang in LANGUAGES])
 
 
 class BearerAuth(AuthBase):
@@ -1389,14 +1488,12 @@ class BearerAuth(AuthBase):
 
 class ApiRequest:
     API_URL = SERVER_CONFIG["private_api_endpoint"]
-    DEFAULT_PARAMS = {'language_tag': 'en-US'}
     CAfile = SERVER_CONFIG["CAfile"]
 
     @classmethod
     def build_params(cls, params):
         all_params = {}
-        for key in ApiRequest.DEFAULT_PARAMS:
-            all_params[key] = ApiRequest.DEFAULT_PARAMS[key]
+        all_params["language_tag"] = session_locale()
         if params:
             for key in params:
                 all_params[key] = params[key]

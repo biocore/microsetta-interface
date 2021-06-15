@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Sample Results" %}
+{% set page_title = _("Sample Results") %}
 {% set show_breadcrumbs = True %}
 
 {% block head %}
@@ -124,9 +124,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">Source</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Results</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Results') }}</li>
 {% endblock %}
 
 {% block content %}
@@ -137,29 +137,20 @@
 </div>
 <div class="row">
   <div class="column" style="text-align: center">
-    <h3> What is in your sample? </h3>
+    <h3>{{ _('What is in your sample?') }}</h3>
     <br>
-    <p>The table below shows the relative abundances of all of the organisms we
-    observed in your sample. To produce this, we took the DNA sequences from
-    your sample, and compared them against publicly available annotated
-    reference databases. In some cases, a sequence may uniquely match a
-    database record, in other cases a sequence may match may different records.
-    To handle the uncertainty that can arise, we rely on a well used and
-    publicly available microbiome software package called <a
-    href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach
-    taken is highlighted in the main tutorial on 
-    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>.</p>
+    <p>{{ _('The table below shows the relative abundances of all of the organisms we observed in your sample. To produce this, we took the DNA sequences from your sample, and compared them against publicly available annotated reference databases. In some cases, a sequence may uniquely match a database record, in other cases a sequence may match may different records. To handle the uncertainty that can arise, we rely on a well used and publicly available microbiome software package called <a href="https://qiime2.org" target="_blank">QIIME 2</a>. The exact approach taken is highlighted in the main tutorial on <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-analysis" target="_blank">feature-classification</a>') }}.</p>
     <div style="padding:10px">
       <table id="taxonomyTable" class="display" style="width:100%">
         <thead>
         <tr>
-          <th>Relative Abundance</th>
-          <th>Kingdom</th>
-          <th>Phylum</th>
-          <th>Class</th>
-          <th>Order</th>
-          <th>Family</th>
-          <th>Genus</th>
+          <th>{{ _('Relative Abundance') }}</th>
+          <th>{{ _('Kingdom') }}</th>
+          <th>{{ _('Phylum') }}</th>
+          <th>{{ _('Class') }}</th>
+          <th>{{ _('Order') }}</th>
+          <th>{{ _('Family') }}</th>
+          <th>{{ _('Genus') }}</th>
         </tr>
         </thead>
       </table>
@@ -167,39 +158,16 @@
   </div>
 
   <div class="column" style="text-align: center">
-    <h3>Alpha Diversity</h3>
+    <h3>{{ _('Alpha Diversity') }}</h3>
     <br>
-    <p>Here, we're providing a measure of the diversity of your sample, and how
-    it compares to the diversities of all of the same type of samples in The
-    Microsetta Initiative. There are many ways to calculate diversity. For
-    instance, you could compute a diversity value by counting the number of
-    unique organisms observed (i.e., the sample "richness"). Or, you might be
-    interested in weighting the calculation by the relative abundance of the
-    organisms (i.e., the sample "evenness"). The metric we're computing here is
-    called Faith's Phylogenetic Diversity (originally defined 
-    <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith's Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary 
-    breadth represented by your sample. The way we compute alpha diversity is
-    also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
-    more information on it can be found in the alpha and beta diversity 
-    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p> 
+    <p>{{ _('Here, we\'re providing a measure of the diversity of your sample, and how it compares to the diversities of all of the same type of samples in The Microsetta Initiative. There are many ways to calculate diversity. For instance, you could compute a diversity value by counting the number of unique organisms observed (i.e., the sample "richness"). Or, you might be interested in weighting the calculation by the relative abundance of the organisms (i.e., the sample "evenness"). The metric we\'re computing here is called Faith\'s Phylogenetic Diversity (originally defined <a href="https://www.sciencedirect.com/science/article/pii/0006320792912013" target="_blank">here</a>). Faith\'s Phylogenetic Diversity computes the "richness" of your sample as the amount of evolutionary breadth represented by your sample. The way we compute alpha diversity is also through <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and more information on it can be found in the alpha and beta diversity <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial') }}.</p> 
     <div id="vis"></div>
   </div>
 </div>
     <div class="column" style="text-align: center">
-    <h3>Beta Diversity</h3>
+    <h3>{{ _('Beta Diversity') }}</h3>
     <br>
-    <p>Here we display how your sample fits in among the other samples
-    of The Microsetta Initiative in terms of shared microbes. There are many
-    ways to calculate beta diversity, differing in how to weight the distance
-    between any two microbes. We take evolutionary distance into account with
-    the metric displayed here, known as Unweighted Unifrac. You can
-    find an overview of this metric
-    <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or
-    better understand its derivation
-    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>.
-    This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and
-    more information on it can be found in the alpha and beta diversity
-    <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial.</p>
+    <p>{{ _('Here we display how your sample fits in among the other samples of The Microsetta Initiative in terms of shared microbes. There are many ways to calculate beta diversity, differing in how to weight the distance between any two microbes. We take evolutionary distance into account with the metric displayed here, known as Unweighted Unifrac. You can find an overview of this metric <a href="https://en.wikipedia.org/wiki/UniFrac" target="_blank">here</a> or better understand its derivation <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/" target="_blank">here</a>. This computation is performed with <a href="https://qiime2.org" target="_blank">QIIME 2</a>, and more information on it can be found in the alpha and beta diversity <a href="https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis" target="_blank">sections</a> of the QIIME 2 tutorial') }}.</p>
     <div id='emperor-notebook' style="position: relative; width:100%; height:500px;"></div>
   </div>
 {% endblock %}

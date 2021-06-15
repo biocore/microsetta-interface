@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Awaiting Email Confirmation" %}
+{% set page_title = _("Awaiting Email Confirmation") %}
 {% set show_breadcrumbs = False %}
 
 {% block head %}
@@ -17,20 +17,20 @@
 
 {% block content %}
     <div class="jumbotron local_jumbotron mx-auto">
-        <h2 class="text-center linespace">Check your email inbox.</h2>
-        <h4>To complete your verification, click on the link in the email AuthRocket has sent to <strong>{{ login_info.email }}</strong>.</h4><br />
+        <h2 class="text-center linespace">{{ _('Check your email inbox') }}.</h2>
+        <h4>{{ _('To complete your verification, click on the link in the email AuthRocket has sent to') }} <strong>{{ login_info.email }}</strong>.</h4><br />
         <br />
         <br />
         <img src="/static/img/Mail.svg" class="d-block mx-auto" style="padding: 1rem;"/>
-        <h4 class="text-center linespace">Waiting for you to confirm <img src="/static/img/Ellipses.svg" /></h4>
+        <h4 class="text-center linespace">{{ _('Waiting for you to confirm') }} <img src="/static/img/Ellipses.svg" /></h4>
         <br />
         <ul>
-            <li>Please check both your spam and inbox</li>
-            <li>AuthRocket is our authentication service</li>
-            <li>Email wrong or didn't receive an email? <a href="{{ authrocket_url }}/profile">Go to your AuthRocket Profile &rarr;</a> to update your email or resend a verification email.</li>
+            <li>{{ _('Please check both your spam and inbox') }}</li>
+            <li>{{ _('AuthRocket is our authentication service') }}</li>
+            <li>{{ _('Email wrong or didn\'t receive an email?') }} <a href="{{ authrocket_url }}/profile">{{ _('Go to your AuthRocket Profile') }} &rarr;</a> {{ _('to update your email or resend a verification email') }}.</li>
         </ul>
         <h4>
-            <strong>You can close this browser tab!</strong> After email verification, a new tab will automatically open, and you will proceed with filling out your profile details.
+            <strong>{{ _('You can close this browser tab!') }}</strong> {{ _('After email verification, a new tab will automatically open, and you will proceed with filling out your profile details') }}.
         </h4>
         &nbsp;&nbsp;
     </div>

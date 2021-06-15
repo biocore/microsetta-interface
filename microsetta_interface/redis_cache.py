@@ -3,7 +3,7 @@ import redis
 
 
 class RedisCache:
-    # System Banner Format: ["Blah blah blah", "primary"]
+    # System Banner Format: ["Blah blah blah", "primary", "hours", "minutes"]
     SYSTEM_BANNER = "system_banner"
 
     def __init__(self):

@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = "Account Samples" %}
+{% set page_title = _("Account Samples") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
@@ -81,15 +81,15 @@
         };
 
         function verifyDissociateSample(sampleId){
-            let confirmMsg = "Do you really want to remove this sample from this source? " +
-                "Doing so will remove any collection info saved for this sample and will " +
-                "unlink it from all surveys.";
+            let confirmMsg = "{{ _('Do you really want to remove this sample from this source?') }} " +
+                "{{ _('Doing so will remove any collection info saved for this sample and will') }} " +
+                "{{ _('unlink it from all surveys.') }}";
             return window.confirm(confirmMsg);
         }
 
         function verifyDeleteSource(sourceName){
-            let confirmMsg = "You are deleting source " + sourceName + " and all surveys associated with it! " +
-                "This operation cannot be undone.  Are you sure you want to delete this source? ";
+            let confirmMsg = "{{ _('You are deleting source') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
+                "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
             return window.confirm(confirmMsg);
         }
 
@@ -97,7 +97,7 @@
             var buttonDiv = document.getElementById("btn-view-" + sampleId);
             var button = document.createElement("a");
             button.type = "button";
-            button.text = "View";
+            button.text = "{{ _('View') }}";
             button.className = "btn btn-outline-info";
             button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
             buttonDiv.appendChild(button);
@@ -137,35 +137,35 @@
     </script>
 {% endblock %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">Account</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{source_name}}</li>
 {% endblock %}
 {% block content %}
     {% if needs_assignment %}
     <div class="alert alert-warning" role="alert">
-        It looks like some samples do not have collection information recorded.
+        {{ _('It looks like some samples do not have collection information recorded.') }}
     </div>
     {% endif %}
     {% if samples|length > 0 %}
-    Samples (click on a barcode to provide collection information):
+    {{ _('Samples (click on a barcode to provide collection information)') }}:
     <div class="list-group">
         <div class="container">
             <div class="row">
                 <div class="col-sm">
-                    <i>Barcode</i>
+                    <i>{{ _('Barcode') }}</i>
                 </div>
                 <div class="col-sm">
-                    <i>Collection date</i>
+                    <i>{{ _('Collection date') }}</i>
                 </div>
                 {% if is_human %}
                 <div class="col-sm">
-                    <i>Sample type</i>
+                    <i>{{ _('Sample type') }}</i>
                 </div>
                 <div class="col-sm">
-                    <i>Results</i>
+                    <i>{{ _('Results') }}</i>
                 </div>
                 <div class="col-sm">
-                    <i>Sample-specific survey</i>
+                    <i>{{ _('Sample-specific survey') }}</i>
                 </div>
                 {% endif %}
                 <div class="col-sm"></div>
@@ -189,15 +189,15 @@
                 </div>
                 <div class="col-sm">
                 {% if sample.ffq and sample.ffq_status == 3 %}
-                    <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">View Top Food Report</a>
+                    <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
                 {% else %}
-                    <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}">Food Frequency Questionnaire</a><span class="fa fa-unchecked"/>
+                    <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
                 {% endif %}  <!-- end of if sample.ffq -->
                 </div>
                 {% endif %}  <!-- end of if is_human -->
-                <div class="col-sm {% if sample.sample_remove_locked and not admin_mode %}tooltipper{% endif %}" data-title="This sample has been received and cannot be removed.">
+                <div class="col-sm {% if sample.sample_remove_locked and not admin_mode %}tooltipper{% endif %}" data-title="{{ _('This sample has been received and cannot be removed.') }}">
                     <form name="remove_{{ sample.sample_id }}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove" onsubmit="return verifyDissociateSample('{{sample.sample_id}}');">
-                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}style="pointer-events: none;" disabled{% endif %}>Remove</button>
+                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}style="pointer-events: none;" disabled{% endif %}>{{ _('Remove') }}</button>
                     </form>
                 </div>
             </div>
@@ -207,11 +207,8 @@
     {% endif %}
     {% if samples|length > 1 and is_human %}
         <br>
-                    <u><i>Do I need to take more than one Food Frequency Questionnaire (FFQ)</i></u>?
-                    If you are taking all of your samples at the same time, you will only need to complete one.
-                    If you are collecting samples over time (e.g., once per week), then please consider taking an FFQ per
-                    time point. The FFQs provide valuable dietary research data for the project, so researchers can better
-                    understand the relationship between the food you eat and your microbes.
+                    <u><i>{{ _('Do I need to take more than one Food Frequency Questionnaire (FFQ)') }}</i></u>?
+                    {{ _('If you are taking all of your samples at the same time, you will only need to complete one. If you are collecting samples over time (e.g., once per week), then please consider taking an FFQ per time point. The FFQs provide valuable dietary research data for the project, so researchers can better understand the relationship between the food you eat and your microbes.') }}
     {% endif %}  <!-- end of if samples|length > 1 and is_human -->
     {% if samples|length > 0 %}
     <hr style="border-top: dotted 1px"/>
@@ -219,32 +216,32 @@
     <form method="get" name="list_kit_form" action="/list_kit_samples">
         <div class="form-group">
             {% if claim_kit_name_hint is not none %}
-            <label for="kit_name" name="kit_name_label">The kit ID used to create your account has unclaimed samples. To claim samples from this kit, please click "List samples". To claim samples from another kit ID, please enter it here and then click "List Samples":</label>
+            <label for="kit_name" name="kit_name_label">{{ _('The kit ID used to create your account has unclaimed samples. To claim samples from this kit, please click "List samples". To claim samples from another kit ID, please enter it here and then click "List Samples"') }}:</label>
             <input id="kit_name" name="kit_name" class="form-control" type="text" value="{{ claim_kit_name_hint }}"/>
             {% else %}
-            <label for="kit_name" name="kit_name_label">To add samples, please enter a kit ID here:</label>
+            <label for="kit_name" name="kit_name_label">{{ _('To add samples, please enter a kit ID here') }}:</label>
             <input id="kit_name" name="kit_name" class="form-control" type="text"/>
             {% endif %}
          </div>
-        <input type="submit" class="btn btn-primary" value="List Samples"/>
+        <input type="submit" class="btn btn-primary" value="{{ _('List Samples') }}"/>
     </form>
     <p></p>
     <div class="panel-collapse collapse" id="choose_sample_div">
         <div class="card card-body">
-            Select all samples that should be associated with this source
+            {{ _('Select all samples that should be associated with this source') }}
                     <form method="post" name="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples">
                 <div class="form-group">
                     <div id="samples" class="list-group">
                     </div>
                     <p></p>
-                    <input type="submit" class="btn btn-primary" value="Claim Selected Samples"/>
+                    <input type="submit" class="btn btn-primary" value="{{ _('Claim Selected Samples') }}"/>
                 </div>
             </form>
         </div>
     </div>
     {% if surveys|length > 0 %}
     <hr style="border-top: dotted 1px"/>
-    <p>Surveys taken:</p>
+    <p>{{ _('Surveys taken') }}:</p>
     <div class="list-group">
         {% for survey in surveys %}
         <a>
@@ -270,9 +267,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.">
+            <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.') }}">
                 <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_name}}');">
-                    <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>Delete Source: {{source_name}}</button>
+                    <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>{{ _('Delete Source') }}: {{source_name}}</button>
                 </form>
             </div>
         </div>

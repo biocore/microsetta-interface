@@ -3,10 +3,13 @@ import secrets
 import logging
 
 from microsetta_interface.config_manager import SERVER_CONFIG
-from flask import jsonify
+from flask import jsonify, g
 from werkzeug.utils import redirect
 
 import connexion
+from flask_babel import Babel
+
+from microsetta_interface.implementation import session_locale
 
 
 # https://stackoverflow.com/a/37842465
@@ -51,11 +54,28 @@ def build_app():
         app.app.logger.handlers = gunicorn_logger.handlers
         app.app.logger.setLevel(gunicorn_logger.level)
 
+    app.app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
+    app.app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
+
     @app.route('/americangut/static/<path:filename>')
     def reroute_americangut(filename):
         # This is dumb as rocks, but it fixes static images referenced in
         # surveys without a schema change.
         return redirect('/static/' + filename)
+
+    global babel
+    babel = Babel(app.app)
+
+    @babel.localeselector
+    def get_locale():
+        return session_locale()
+
+    @babel.timezoneselector
+    def get_timezone():
+        user = getattr(g, 'user', None)
+        if user is not None:
+            return user.timezone
+
     return app
 
 
@@ -74,6 +94,7 @@ def run(app):
     )
 
 
+babel = None
 app = build_app()
 
 

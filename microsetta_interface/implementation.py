@@ -26,7 +26,8 @@ from werkzeug.exceptions import BadRequest, Unauthorized
 from microsetta_interface.config_manager import SERVER_CONFIG
 import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
-from microsetta_interface.util import has_non_keyword_arguments
+from microsetta_interface.util import has_non_keyword_arguments, \
+    parse_request_csv_col
 
 
 # TODO: source from a microsetta_private_api endpoint
@@ -1398,39 +1399,76 @@ def post_generate_activation(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    email = body["email"]
-
-    # Generate the activation code and update the list
-    if 'generate' in body or 'generate_send' in body:
-        do_return, diagnostics, _ = ApiRequest.post(
-            "/admin/activation",
-            json={"emails": [email]}
+    if 'generate_csv' in body:
+        emails, upload_err = parse_request_csv_col(
+            request,
+            'email_csv',
+            'email'
         )
+        if upload_err is not None:
+            return upload_err
+        else:
+            emails = list({e.lower() for e in emails})
+            code_map = {}
+            for e in emails:
+                do_return, diagnostics, _ = ApiRequest.post(
+                    "/admin/activation",
+                    json={"emails": [e]}
+                )
 
-        if do_return:
-            return diagnostics
+                if do_return:
+                    return diagnostics
+                else:
+                    do_return, diagnostics, _ = ApiRequest.get(
+                        "/admin/search/activation",
+                        params={"email_query": e}
+                    )
+                    if do_return:
+                        return diagnostics
+                    else:
+                        code_map[e] = diagnostics[0]['code']
 
-    # Also send an email out to the user
-    if 'generate_send' in body:
-        url = SERVER_CONFIG["endpoint"]
-        do_return, diagnostics, _ = ApiRequest.post(
-            "/admin/email",
-            json={
-                "issue_type": "activation",
-                "template": "send_activation_code",
-                "template_args": {
-                    "join_url": url,
-                    "new_account_email": email
-                    # don't need to send activation code,
-                    # will be pulled from db on private api side.
-                    # "new_account_code": XXX
+            csv_output = "EMAIL,ACTIVATION_CODE\n"
+            for email,code in code_map.items():
+                csv_output += email + "," + code + "\n"
+            response = make_response(csv_output)
+            response.headers["Content-Disposition"] = "attachment; filename=activation_codes.csv"
+            response.headers["Content-Type"] = "text/csv"
+            return response
+    else:
+        email = body["email"]
+
+        # Generate the activation code and update the list
+        if 'generate' in body or 'generate_send' in body:
+            do_return, diagnostics, _ = ApiRequest.post(
+                "/admin/activation",
+                json={"emails": [email]}
+            )
+
+            if do_return:
+                return diagnostics
+
+        # Also send an email out to the user
+        if 'generate_send' in body:
+            url = SERVER_CONFIG["endpoint"]
+            do_return, diagnostics, _ = ApiRequest.post(
+                "/admin/email",
+                json={
+                    "issue_type": "activation",
+                    "template": "send_activation_code",
+                    "template_args": {
+                        "join_url": url,
+                        "new_account_email": email
+                        # don't need to send activation code,
+                        # will be pulled from db on private api side.
+                        # "new_account_code": XXX
+                    }
                 }
-            }
-        )
+            )
 
-        if do_return:
-            return diagnostics
-    return get_interactive_activation(email, None)
+            if do_return:
+                return diagnostics
+        return get_interactive_activation(email, None)
 
 
 def get_system_message():

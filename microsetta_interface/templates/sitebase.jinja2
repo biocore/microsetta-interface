@@ -73,9 +73,9 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
           {% if login_info %}
               {% if login_info.account_id %}
-                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Profile Details') }}</a>
+                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a>
               {% else %}
-                <a class="dropdown-item disabled" href="#">{{ _('Profile Details') }}</a>
+                <a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a>
               {% endif %}
             <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
           {% else %}

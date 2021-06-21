@@ -2,8 +2,15 @@
 {% set page_title = _("Optional Sample Surveys") %}
 {% block head %}
 {% endblock %}
-
 {% block content %}
+    <script type="text/javascript">
+        function disable_link(link_obj) {
+            link_obj.style.opacity = .65;
+            link_obj.style.pointerEvents = "none";
+            return true;
+        }
+    </script>
+
     <div class="container">
         <div class="row">
             <h4>{{ _('Your diet can provide researchers valuable information') }}.</h4>
@@ -17,7 +24,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample_id}}/survey_templates/{{vioscreen_id}}" role="button">{{ _('Take FFQ') }}</a>
+                <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample_id}}/survey_templates/{{vioscreen_id}}" role="button" onClick="return disable_link(this);">{{ _('Take FFQ') }}</a>
             </div>
             <div class="col-sm-3">
                 <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}" role="button">{{ _('Back to Samples') }}</a>

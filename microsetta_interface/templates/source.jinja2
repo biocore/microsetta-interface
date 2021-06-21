@@ -116,6 +116,12 @@
             });
         }
 
+        function disable_link(link_obj) {
+            link_obj.style.opacity = .65;
+            link_obj.style.pointerEvents = "none";
+            return true;
+        }
+
         function enableTooltips(){
             $('.tooltipper').tooltip({position: "bottom"});
         }
@@ -191,7 +197,7 @@
                 {% if sample.ffq and sample.ffq_status == 3 %}
                     <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
                 {% else %}
-                    <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
+                    <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}" onClick="return disable_link(this);">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
                 {% endif %}  <!-- end of if sample.ffq -->
                 </div>
                 {% endif %}  <!-- end of if is_human -->

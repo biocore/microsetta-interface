@@ -138,13 +138,13 @@
 {% endblock %}
 {% block breadcrumb %}
     {% if not CREATE_ACCT %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account.account_id}}">{{ _('Profile') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account.account_id}}">{{ _('Account') }}</a></li>
     {% endif %}
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Profile Details') }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Account Details') }}</li>
 {% endblock %}
 {% block content %}
 <div class="card">
-    <h5 class="card-header">{{ _('Profile Details') }}</h5>
+    <h5 class="card-header">{{ _('Account Details') }}</h5>
     <div class="card-body">
         <form id="acct_form" name="acct_form" method="post">
             <div class="form-group">
@@ -219,9 +219,9 @@
             </div>
             {% endif %}
             {% if CREATE_ACCT %}
-            <button type="submit" class="btn btn-primary">{{ _('Save Profile') }}</button>
+            <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
             {% else %}
-            <button type="submit" class="btn btn-primary">{{ _('Save Profile') }}</button>
+            <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
             {% endif %}
         </form>
     </div>

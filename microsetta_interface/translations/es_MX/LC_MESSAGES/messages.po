@@ -184,13 +184,13 @@ msgid "Zip Code"
 msgstr "Código postal"
 
 #: templates/account_details.jinja2:141
-msgid "Profile"
-msgstr "Perfil"
+msgid "Account"
+msgstr "La cuenta"
 
 #: templates/account_details.jinja2:143 templates/account_details.jinja2:147
 #: templates/sitebase.jinja2:76 templates/sitebase.jinja2:78
-msgid "Profile Details"
-msgstr "Detalles del perfil"
+msgid "Account Details"
+msgstr "Detalles de cuenta"
 
 #: templates/account_details.jinja2:151
 #: templates/admin_activation_codes.jinja2:6
@@ -251,8 +251,8 @@ msgid "Activation Code"
 msgstr "Código de activación"
 
 #: templates/account_details.jinja2:219 templates/account_details.jinja2:221
-msgid "Save Profile"
-msgstr "Guardar perfil"
+msgid "Save"
+msgstr "Guardar"
 
 #: templates/account_overview.jinja2:2 templates/account_overview.jinja2:44
 #: templates/new_results_page.jinja2:1395 templates/sample.jinja2:131
@@ -270,7 +270,7 @@ msgstr "Fuentes"
 
 #: templates/account_overview.jinja2:62
 msgid ""
-"You have now set up your profile for your account! Please proceed to "
+"You have now set up your account! Please proceed to "
 "identify your source."
 msgstr ""
 "Ya ha configurado su perfil para su cuenta! Proceda a identificar su fuente."
@@ -521,8 +521,8 @@ msgid "Email wrong or didn't receive an email?"
 msgstr "Correo electrónico incorrecto o no recibió un correo electrónico?"
 
 #: templates/email_confirmation.jinja2:30
-msgid "Go to your AuthRocket Profile"
-msgstr "Vaya a su perfil de AuthRocket"
+msgid "Go to your AuthRocket Account"
+msgstr "Vaya a su cuenta de AuthRocket"
 
 #: templates/email_confirmation.jinja2:30
 msgid "to update your email or resend a verification email"
@@ -538,10 +538,10 @@ msgstr "Puede cerrar esta pestaña del navegador!"
 #, fuzzy
 msgid ""
 "After email verification, a new tab will automatically open, and you will "
-"proceed with filling out your profile details"
+"proceed with filling out your account details"
 msgstr ""
 "Después de la verificación por correo electrónico, se abrirá automáticamente"
-" una nueva pestaña y procederá a completar los detalles de su perfil"
+" una nueva pestaña y procederá a completar los detalles de su cuenta"
 
 #: templates/embedded_pdf.jinja2:24
 msgid ""

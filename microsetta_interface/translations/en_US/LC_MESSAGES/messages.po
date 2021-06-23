@@ -169,12 +169,12 @@ msgid "Zip Code"
 msgstr ""
 
 #: templates/account_details.jinja2:141
-msgid "Profile"
+msgid "Account"
 msgstr ""
 
 #: templates/account_details.jinja2:143 templates/account_details.jinja2:147
 #: templates/sitebase.jinja2:76 templates/sitebase.jinja2:78
-msgid "Profile Details"
+msgid "Account Details"
 msgstr ""
 
 #: templates/account_details.jinja2:151
@@ -235,7 +235,7 @@ msgid "Activation Code"
 msgstr ""
 
 #: templates/account_details.jinja2:219 templates/account_details.jinja2:221
-msgid "Save Profile"
+msgid "Save"
 msgstr ""
 
 #: templates/account_overview.jinja2:2 templates/account_overview.jinja2:44
@@ -254,7 +254,7 @@ msgstr ""
 
 #: templates/account_overview.jinja2:62
 msgid ""
-"You have now set up your profile for your account! Please proceed to "
+"You have now set up your account! Please proceed to "
 "identify your source."
 msgstr ""
 
@@ -493,7 +493,7 @@ msgid "Email wrong or didn't receive an email?"
 msgstr ""
 
 #: templates/email_confirmation.jinja2:30
-msgid "Go to your AuthRocket Profile"
+msgid "Go to your AuthRocket Account"
 msgstr ""
 
 #: templates/email_confirmation.jinja2:30
@@ -507,7 +507,7 @@ msgstr ""
 #: templates/email_confirmation.jinja2:33
 msgid ""
 "After email verification, a new tab will automatically open, and you will"
-" proceed with filling out your profile details"
+" proceed with filling out your account details"
 msgstr ""
 
 #: templates/embedded_pdf.jinja2:24

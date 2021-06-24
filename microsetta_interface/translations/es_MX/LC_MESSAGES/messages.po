@@ -185,7 +185,7 @@ msgstr "Código postal"
 
 #: templates/account_details.jinja2:141
 msgid "Account"
-msgstr "La cuenta"
+msgstr "Cuenta"
 
 #: templates/account_details.jinja2:143 templates/account_details.jinja2:147
 #: templates/sitebase.jinja2:76 templates/sitebase.jinja2:78

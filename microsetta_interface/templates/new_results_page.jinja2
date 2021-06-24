@@ -1268,7 +1268,7 @@
                         $("#dataset_datatype").text("{{ _('whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species.') }} ").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else if (info.datatype === "16S"){
-                        $("#dataset_datatype").text("{{ _('16S.  This technique produces DNA sequences from a specific variable region ("V4") within a microbial gene ("the 16S small subunit ribosomal gene"). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset_datatype").text("{{ _('16S.  This technique produces DNA sequences from a specific variable region (V4) within a microbial gene (the 16S small subunit ribosomal gene). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
                         $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
@@ -1722,7 +1722,7 @@
                   </p>
                   
                   <p>
-                  {{ _('For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth variable region ("V4") of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}
+                  {{ _("For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.") }}
                   </p>
 
                   <p>

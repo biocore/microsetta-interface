@@ -43,6 +43,8 @@ setup(
             'static/vendor/images/*',
             'static/vendor/css/*',
             'static/vendor/js/jquery.form-4.2.2/*',
+            'static/vendor/jquery-validation/*',
+            'static/vendor/jquery-ui-i18n/*',
             'static/vendor/jquery-ui-1.12.1/*',
             'static/vendor/jquery-ui-1.12.1/images/*',
             'static/vendor/popper-1.11.0/*',

@@ -753,6 +753,39 @@ paths:
               schema:
                 type: string
 
+  '/admin/barcode_search':
+    get:
+      operationId: microsetta_interface.implementation.admin_barcode_search
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Barcode Search
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/barcode_search/query':
+    get:
+      operationId: microsetta_interface.implementation.admin_barcode_search_query
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: cond
+          description: Sql condition
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Barcode Search
+          content:
+            text/html:
+              schema:
+                type: string
+
+
 components:
   parameters:
     account_id: # Can be referenced as '#/components/parameters/account_id'

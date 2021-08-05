@@ -2,7 +2,8 @@
 import flask
 import flask_babel
 from flask_babel import gettext
-from flask import render_template, session, redirect, make_response, request
+from flask import render_template, session, redirect, make_response, request, \
+    jsonify
 import jwt
 import requests
 from requests.auth import AuthBase
@@ -1277,6 +1278,34 @@ def admin_emperor_playground():
         "&metadata_categories=bmi_cat"
         "&metadata_categories=latitude"
     )
+
+
+def admin_barcode_search():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    has_error, query_fields, _ = ApiRequest.get(
+        '/admin/barcode_query_fields')
+
+    if has_error:
+        return query_fields
+
+    return _render_with_defaults('admin_barcode_search.jinja2', query_fields=query_fields)
+
+
+def admin_barcode_search_query(cond):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    has_error, query_results, _ = ApiRequest.get(
+        '/admin/barcode_query',
+        params={"cond": cond}
+    )
+
+    if has_error:
+        return query_results
+    print(query_results)
+    return jsonify({'data': [[x] for x in query_results]}), 200
 
 
 def get_ajax_check_kit_valid(kit_name):

@@ -1,0 +1,83 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("ADMINISTRATOR BARCODE SEARCH") %}
+{% set show_breadcrumbs = False %}
+{% block head %}
+    <link rel="stylesheet" href="/static/vendor/css/query-builder.default.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/vendor/css/jquery.dataTables.css" />
+
+    <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
+    <script src="/static/vendor/DataTables/Buttons-1.6.2/js/dataTables.buttons.min.js"></script>
+    <script src="/static/vendor/DataTables/Buttons-1.6.2/js/buttons.html5.min.js"></script>
+
+
+    <script src="/static/vendor/jquery-extendext/jquery-extendext.js"></script>
+    <script type="text/javascript" src="/static/vendor/doT/doT.js"></script>
+    <script type="text/javascript" src="/static/vendor/js/query-builder.min.js"></script>
+
+    <script>
+        function createBarcodeTable(query)
+        {
+            console.log(query)
+            $('#barcodeTable').DataTable(
+                {
+                    destroy: true, // Necessary to replace existing datatable
+                    ajax: {
+                        url: query,
+                    },
+                    dom: "Bfrtip",
+                    buttons: [{extend: 'csv', className: 'btn btn-info', text: '{{ _('Download spreadsheet') }}'}],
+                    columns: [
+                        { "type": "string" },
+                    ]
+                }
+            );
+        }
+
+        $(document).ready(function(){
+            var query_fields = {{ query_fields }};
+            $('#builder').queryBuilder({
+                filters: query_fields,
+                allow_groups: false,
+                conditions: ['AND']
+            });
+            $('#builder').on('rulesChanged.queryBuilder', function(e) {
+                try {
+                    result = $('#builder').queryBuilder('getSQL');
+                    $('#sql_query').text(result.sql);
+                    $('#submit_button').prop('disabled', false);
+                }
+                catch {
+                    $('submit_button').prop('disabled', true);
+                    $('#sql_query').text("")
+                }
+            });
+            $('#submit_button').click(function(e){
+                createBarcodeTable('/admin/barcode_search/query?cond=' + $('#builder').queryBuilder('getSQL').sql)
+            });
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div id="builder"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <textarea id="sql_query" class="w-100"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <button id='submit_button' type="submit" class="btn btn-primary">{{ _('Search') }}</button>
+    </div>
+    <div class="row">
+        <table id="barcodeTable">
+            <thead>
+            <tr>
+                <th>{{ _('Barcode') }}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+{% endblock %}

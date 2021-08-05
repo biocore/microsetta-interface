@@ -559,7 +559,8 @@ def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
     browser_lang = request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
+        [LANGUAGES[lang].value for lang in LANGUAGES],
+        default=LANGUAGES[EN_US_KEY].value)
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -1290,7 +1291,8 @@ def admin_barcode_search():
     if has_error:
         return query_fields
 
-    return _render_with_defaults('admin_barcode_search.jinja2', query_fields=query_fields)
+    return _render_with_defaults('admin_barcode_search.jinja2',
+                                 query_fields=query_fields)
 
 
 def admin_barcode_search_query(cond):
@@ -1457,10 +1459,11 @@ def post_generate_activation(body):
                         code_map[e] = diagnostics[0]['code']
 
             csv_output = "EMAIL,ACTIVATION_CODE\n"
-            for email,code in code_map.items():
+            for email, code in code_map.items():
                 csv_output += email + "," + code + "\n"
             response = make_response(csv_output)
-            response.headers["Content-Disposition"] = "attachment; filename=activation_codes.csv"
+            response.headers["Content-Disposition"] = \
+                "attachment; filename=activation_codes.csv"
             response.headers["Content-Type"] = "text/csv"
             return response
     else:

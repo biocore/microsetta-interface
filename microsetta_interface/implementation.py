@@ -1304,7 +1304,6 @@ def admin_barcode_search_query(cond):
 
     if has_error:
         return query_results
-    print(query_results)
     return jsonify({'data': [[x] for x in query_results]}), 200
 
 

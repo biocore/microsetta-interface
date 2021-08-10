@@ -26,3 +26,31 @@ def parse_request_csv_col(request, file_name, col_name):
         return None, 'Could not parse csv file'
 
     return col, None
+
+def parse_request_csv(request, file_name):
+    """
+    :param request: Flask request object
+    :param file_name: Name of csv file in flask request
+    :return: The tuple: (csv_data: dict, error: Optional[string])
+    """
+    if file_name not in request.files or request.files[file_name].filename == '':
+        return None, 'Must specify a valid file'
+
+    request_file = request.files[file_name]
+    try:
+        df = pd.read_csv(request_file, dtype=str,keep_default_na=False)
+        csv_contents = df.to_dict('index')
+    except Exception as e:  # noqa
+        return None, 'Could not parse csv file'
+
+    return csv_contents, None
+
+def dict_to_csv(dict_convert):
+    """
+    :param dict_convert: The dictionary to write to a CSV
+    :param cols_write: List of columns to write
+    :return: String to write to file
+    """
+    df = pd.DataFrame.from_dict(dict_convert,orient='index')
+    csv_str = df.to_csv(index=False)
+    return csv_str

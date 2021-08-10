@@ -27,7 +27,7 @@ from microsetta_interface.config_manager import SERVER_CONFIG
 import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
-    parse_request_csv_col
+    parse_request_csv_col, parse_request_csv, dict_to_csv
 
 
 # TODO: source from a microsetta_private_api endpoint
@@ -1367,6 +1367,92 @@ def get_interactive_account_search(email_query):
     return _render_with_defaults('admin_home.jinja2',
                                  accounts=accounts)
 
+def get_address_verification(address_1=None, address_2=None, city=None,\
+    state=None, postal=None, country=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    diagnostics=None
+    error=None
+
+    if address_1 is not None and len(address_1) > 0 and \
+        postal is not None and len(postal) > 0 and \
+        country is not None and len(country) > 0:
+        do_return, diagnostics, _ = ApiRequest.get(
+            "/admin/verify_address",
+            params={"address_1": address_1,
+                    "address_2": address_2,
+                    "city": city,
+                    "state": state,
+                    "postal": postal,
+                    "country": country}
+        )
+
+        if do_return:
+            return diagnostics
+    else:
+        error='Address 1, Postal Code, and Country are required'
+
+
+    return _render_with_defaults('admin_address_verification.jinja2',
+        address_1=address_1,
+        address_2=address_2,
+        city=city,
+        state=state,
+        postal=postal,
+        country=country,
+        diagnostics=diagnostics,
+        error=error)
+
+def post_address_verification(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    csv_contents, upload_err = parse_request_csv(request,'address_csv')
+
+    ar = None
+
+    if upload_err is not None:
+        return upload_err
+    else:
+        csv_output = {}
+
+        for address_index in csv_contents:
+            csv_output[address_index] = csv_contents[address_index]
+            address_row = csv_contents[address_index]
+            if address_row['Address 1'] is not None:
+                do_return, diagnostics, _ = ApiRequest.get(
+                    "/admin/verify_address",
+                    params={"address_1": address_row['Address 1'],
+                            "address_2": address_row['Address 2'],
+                            "city": address_row['City'],
+                            "state": address_row['State'],
+                            "postal": address_row['Postal Code'],
+                            "country": address_row['Country']}
+                )
+
+                if do_return:
+                    return diagnostics
+
+                address_row['Output - Valid Address'] = diagnostics['valid']
+                address_row['Output - Address 1'] = diagnostics['address_1']
+                address_row['Output - Address 2'] = diagnostics['address_2']
+                address_row['Output - City'] = diagnostics['city']
+                address_row['Output - State'] = diagnostics['state']
+                address_row['Output - Postal Code'] = diagnostics['postal']
+                address_row['Output - Country'] = diagnostics['country']
+                address_row['Output - Latitude'] = diagnostics['latitude']
+                address_row['Output - Longitude'] = diagnostics['longitude']
+                csv_output[address_index] = address_row
+
+        csv_output = dict_to_csv(csv_output)
+
+        response = make_response(csv_output)
+        response.headers["Content-Disposition"] = \
+            "attachment; filename=verified_addresses.csv"
+        response.headers["Content-Type"] = "text/csv"
+        return response
+
 
 def get_interactive_activation(email_query=None, code_query=None):
     if not session.get(ADMIN_MODE_KEY, False):
@@ -1393,7 +1479,6 @@ def get_interactive_activation(email_query=None, code_query=None):
         code_query=code_query,
         diagnostics=diagnostics
     )
-
 
 def post_generate_activation(body):
     if not session.get(ADMIN_MODE_KEY, False):

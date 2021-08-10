@@ -1,0 +1,110 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Admin Address Verification") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td colspan="2" align="center">{{ _('Verify CSV File of Addresses') }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td><label for="address_csv">{{ _('CSV File') }}:</label></td>
+                <td><input type="file" name="address_csv"></td>
+                <td>NOTE: Header must be Address 1,Address 2,City,State,Postal Code,Country</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" name="verify_csv" value="{{ _('Verify') }}"></td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </form>
+    <hr />
+    <form method="get">
+        <table>
+            <tr>
+                <td colspan="2" align="center">{{ _('Verify Single Address') }}</td>
+            </tr>
+            <tr>
+                <td><label for="address_1">{{ _('Address 1') }}:</label></td>
+                <td><input type="text" name="address_1" value="{{ address_1 |e if address_1 is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="address_2">{{ _('Address 2') }}:</label></td>
+                <td><input type="text" name="address_2" value="{{ address_2 |e if address_2 is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="City">{{ _('City') }}:</label></td>
+                <td><input type="text" name="city" value="{{ city |e if city is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="state">{{ _('State') }}:</label></td>
+                <td><input type="text" name="state" value="{{ state |e if state is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="postal">{{ _('Postal Code') }}:</label></td>
+                <td><input type="text" name="postal" value="{{ postal |e if postal is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="country">{{ _('Country') }}:</label></td>
+                <td><input type="text" name="country" value="{{ country |e if country is not none}}"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="{{ _('Verify') }}"></td>
+            </tr>
+        </table>
+    </form>
+    <hr />
+    {% if error is not none %}
+        <font color="red">{{ error }}
+    {% endif %}
+
+    {% if diagnostics is not none %}
+    <table>
+        <tr>
+            <td colspan="2" align="center">Verification Results</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                {% if diagnostics['valid'] %}
+                    <font color="green">VALID ADDRESS</font>
+                {% else %}
+                    <font color="red">INVALID ADDRESS</font>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ _('Address 1') }}:</td>
+            <td>{{ diagnostics['address_1'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Address 2') }}:</td>
+            <td>{{ diagnostics['address_2'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('City') }}:</td>
+            <td>{{ diagnostics['city'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('State') }}:</td>
+            <td>{{ diagnostics['state'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Postal Code') }}:</td>
+            <td>{{ diagnostics['postal'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Country') }}:</td>
+            <td>{{ diagnostics['country'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Latitude') }}:</td>
+            <td>{{ diagnostics['latitude'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Longitude') }}:</td>
+            <td>{{ diagnostics['longitude'] }}</td>
+        </tr>
+    </table>
+    {% endif %}
+{% endblock %}

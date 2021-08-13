@@ -225,7 +225,7 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
     current_state = {} if current_state is None else current_state
     current_state['source_id'] = source_id
 
-    if not session[ADMIN_MODE_KEY]:
+    if not session.get(ADMIN_MODE_KEY, False):
         # Get the input source
         needs_reroute, source_output, _ = ApiRequest.get(
             '/accounts/%s/sources/%s' %

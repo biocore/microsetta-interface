@@ -200,7 +200,8 @@ def _check_acct_prereqs(account_id, current_state=None):
     # If we haven't yet checked for email mismatches and gotten user decision,
     # and the user isn't an admin (who could be looking at another person's
     # account and thus have that email not match their login one):
-    if not session.get(EMAIL_CHECK_KEY, False) and not session[ADMIN_MODE_KEY]:
+    if not session.get(EMAIL_CHECK_KEY, False) and \
+            not session.get(ADMIN_MODE_KEY, False):
         # Does email in our accounts table match email in authrocket?
         needs_reroute, email_match, _ = ApiRequest.get(
             '/accounts/{0}/email_match'.format(account_id))

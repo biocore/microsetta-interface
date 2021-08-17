@@ -15,13 +15,18 @@
     <script type="text/javascript" src="/static/vendor/js/query-builder.min.js"></script>
 
     <script>
-        function createBarcodeTable(query)
+        function createBarcodeTable(queryURL, queryData)
         {
             $('#barcodeTable').DataTable(
                 {
                     destroy: true, // Necessary to replace existing datatable
                     ajax: {
-                        url: query,
+                        url: queryURL,
+                        data: function ( d ) {
+                            return JSON.stringify(queryData);
+                        },
+                        contentType: "application/json",
+                        method: "POST"
                     },
                     dom: "Bfrtip",
                     buttons: [{extend: 'csv', className: 'btn btn-info', text: '{{ _('Download spreadsheet') }}'}],
@@ -51,7 +56,8 @@
                 }
             });
             $('#submit_button').click(function(e){
-                createBarcodeTable('/admin/barcode_search/query?cond=' + $('#builder').queryBuilder('getSQL').sql)
+                //console.log(JSON.stringify($('#builder').queryBuilder('getRules'), null, 2))
+                createBarcodeTable('/admin/barcode_search/query', $('#builder').queryBuilder('getRules'))
             });
         });
     </script>

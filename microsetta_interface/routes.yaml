@@ -767,16 +767,15 @@ paths:
                 type: string
 
   '/admin/barcode_search/query':
-    get:
+    post:
       operationId: microsetta_interface.implementation.admin_barcode_search_query
       tags:
         - Admin
-      parameters:
-        - in: query
-          name: cond
-          description: Sql condition
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         '200':
           description: Barcode Search

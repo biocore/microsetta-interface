@@ -1295,13 +1295,13 @@ def admin_barcode_search():
                                  query_fields=query_fields)
 
 
-def admin_barcode_search_query(cond):
+def admin_barcode_search_query(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    has_error, query_results, _ = ApiRequest.get(
+    has_error, query_results, _ = ApiRequest.post(
         '/admin/barcode_query',
-        params={"cond": cond}
+        json=body
     )
 
     if has_error:

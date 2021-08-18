@@ -200,7 +200,8 @@ def _check_acct_prereqs(account_id, current_state=None):
     # If we haven't yet checked for email mismatches and gotten user decision,
     # and the user isn't an admin (who could be looking at another person's
     # account and thus have that email not match their login one):
-    if not session.get(EMAIL_CHECK_KEY, False) and not session[ADMIN_MODE_KEY]:
+    if not session.get(EMAIL_CHECK_KEY, False) and \
+            not session.get(ADMIN_MODE_KEY, False):
         # Does email in our accounts table match email in authrocket?
         needs_reroute, email_match, _ = ApiRequest.get(
             '/accounts/{0}/email_match'.format(account_id))
@@ -224,7 +225,7 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
     current_state = {} if current_state is None else current_state
     current_state['source_id'] = source_id
 
-    if not session[ADMIN_MODE_KEY]:
+    if not session.get(ADMIN_MODE_KEY, False):
         # Get the input source
         needs_reroute, source_output, _ = ApiRequest.get(
             '/accounts/%s/sources/%s' %
@@ -558,7 +559,8 @@ def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
     browser_lang = request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES], default=LANGUAGES[EN_US_KEY].value)
+        [LANGUAGES[lang].value for lang in LANGUAGES],
+        default=LANGUAGES[EN_US_KEY].value)
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -1429,10 +1431,11 @@ def post_generate_activation(body):
                         code_map[e] = diagnostics[0]['code']
 
             csv_output = "EMAIL,ACTIVATION_CODE\n"
-            for email,code in code_map.items():
+            for email, code in code_map.items():
                 csv_output += email + "," + code + "\n"
             response = make_response(csv_output)
-            response.headers["Content-Disposition"] = "attachment; filename=activation_codes.csv"
+            response.headers["Content-Disposition"] = \
+                "attachment; filename=activation_codes.csv"
             response.headers["Content-Type"] = "text/csv"
             return response
     else:
@@ -1512,7 +1515,8 @@ def session_locale():
 
     # TODO: We update this as we add support for new languages
     return request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES])
+        [LANGUAGES[lang].value for lang in LANGUAGES],
+        default=LANGUAGES[EN_US_KEY].value)
 
 
 class BearerAuth(AuthBase):

@@ -57,14 +57,14 @@ ACCT_FNAME_KEY = "first_name"
 ACCT_LNAME_KEY = "last_name"
 ACCT_EMAIL_KEY = "email"
 ACCT_ADDR_KEY = "address"
-ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
-                       ACCT_ADDR_KEY]
 ACCT_ADDR_STREET_KEY = "street"
 ACCT_ADDR_CITY_KEY = "city"
 ACCT_ADDR_STATE_KEY = "state"
 ACCT_ADDR_POST_CODE_KEY = "post_code"
 ACCT_ADDR_COUNTRY_CODE_KEY = "country_code"
 ACCT_LANG_KEY = "language"
+ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
+                       ACCT_ADDR_KEY, ACCT_LANG_KEY]
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -211,8 +211,6 @@ def _check_acct_prereqs(account_id, current_state=None):
         # if they don't match AND the user hasn't already refused update
         if not email_match["email_match"]:
             return NEEDS_EMAIL_CHECK, current_state
-
-        session[EMAIL_CHECK_KEY] = True
 
     # IF we decide that every acct needs at least one source,
     # this is where that check would go
@@ -646,6 +644,11 @@ def post_update_email(*, account_id=None, body=None):
             '/accounts/%s' % account_id, json=mod_acct)
         if has_error:
             return put_output
+
+        login_info = session.get(LOGIN_INFO_KEY, None)
+        if login_info is not None:
+            login_info["email"] = authrocket_email
+            session[LOGIN_INFO_KEY] = login_info
 
     # even if they decided NOT to update, don't ask again this session
     session[EMAIL_CHECK_KEY] = True

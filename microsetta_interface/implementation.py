@@ -1,3 +1,4 @@
+import json
 
 import flask
 import flask_babel
@@ -1292,7 +1293,7 @@ def admin_barcode_search():
         return query_fields
 
     return _render_with_defaults('admin_barcode_search.jinja2',
-                                 query_fields=query_fields)
+                                 query_fields=json.dumps(query_fields))
 
 
 def admin_barcode_search_query(body):

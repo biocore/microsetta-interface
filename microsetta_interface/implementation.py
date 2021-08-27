@@ -1408,7 +1408,7 @@ def post_address_verification(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    csv_contents, upload_err = parse_request_csv(request,'address_csv')
+    csv_contents, upload_err = parse_request_csv(request, 'address_csv')
 
     ar = None
 

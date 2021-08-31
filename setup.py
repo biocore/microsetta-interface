@@ -77,5 +77,6 @@ setup(
             'static/vendor/emperor/vendor/js/*',
             'static/vendor/emperor/vendor/js/three.js-plugins/*',
             'static/vendor/emperor/vendor/',
+            'static/vendor/moment/*',
             'authrocket.pubkey']},
 )

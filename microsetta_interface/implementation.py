@@ -1408,7 +1408,11 @@ def post_address_verification(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    csv_contents, upload_err = parse_request_csv(request, 'address_csv')
+    req_csv_columns = ["Address 1","Address 2","City","State","Postal Code",\
+        "Country"]
+
+    csv_contents, upload_err = parse_request_csv(request, 'address_csv', 
+        req_csv_columns)
 
     ar = None
 
@@ -1444,6 +1448,18 @@ def post_address_verification(body):
                 address_row['Output - Latitude'] = diagnostics['latitude']
                 address_row['Output - Longitude'] = diagnostics['longitude']
                 csv_output[address_index] = address_row
+            else:
+                address_row['Output - Valid Address'] = ''
+                address_row['Output - Address 1'] = ''
+                address_row['Output - Address 2'] = ''
+                address_row['Output - City'] = ''
+                address_row['Output - State'] = ''
+                address_row['Output - Postal Code'] = ''
+                address_row['Output - Country'] = ''
+                address_row['Output - Latitude'] = ''
+                address_row['Output - Longitude'] = ''
+                csv_output[address_index] = address_row
+
 
         csv_output = dict_to_csv(csv_output)
 

@@ -704,6 +704,67 @@ paths:
               schema:
                 type: string
 
+  '/admin/address_verification':
+    get:
+      operationId: microsetta_interface.implementation.get_address_verification
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: address_1
+          description: First line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: address_2
+          description: Second line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: city
+          description: City of address to verify
+          schema:
+            type: string
+        - in: query
+          name: state
+          description: State of address to verify
+          schema:
+            type: string
+        - in: query
+          name: postal
+          description: Postal code of address to verify
+          schema:
+            type: string
+        - in: query
+          name: country
+          description: Country of address to verify
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Address verification info
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_address_verification
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Search results showing new email
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/system_message':
     get:
       operationId: microsetta_interface.implementation.get_system_message

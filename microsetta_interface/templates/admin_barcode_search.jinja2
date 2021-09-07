@@ -13,9 +13,9 @@
     <script type="text/javascript" src="/static/vendor/js/query-builder.standalone.min.js"></script>
 
     <script>
-        function createBarcodeTable(queryURL, queryData)
+        function createBarcodeTable(queryURL, queryData, table)
         {
-            $('#barcodeTable').DataTable(
+            $(table).DataTable(
                 {
                     destroy: true, // Necessary to replace existing datatable
                     ajax: {
@@ -27,15 +27,17 @@
                         method: "POST"
                     },
                     dom: "Bfrtip",
-                    buttons: [{extend: 'csv', className: 'btn btn-info', text: '{{ _('Download spreadsheet') }}'}],
-                    columns: [
-                        { "type": "string" },
+                    buttons: [
+                        {extend: 'csv', className: 'btn btn-info', text: '{{ _('Download CSV') }}'},
+                        {extend: 'excel', className: 'btn btn-info', text: '{{ _('Download Excel') }}'}
                     ]
                 }
             );
         }
 
         $(document).ready(function(){
+            $("#barcodeDiv").hide()
+            $("#qiitaDiv").hide()
             var query_fields = {{ query_fields }};
             $('#builder').queryBuilder({
                 filters: query_fields,
@@ -55,7 +57,17 @@
             });
             $('#submit_button').click(function(e){
                 //console.log(JSON.stringify($('#builder').queryBuilder('getRules'), null, 2))
-                createBarcodeTable('/admin/barcode_search/query', $('#builder').queryBuilder('getRules'))
+                $("#barcodeDiv").show()
+                $("#qiitaDiv").hide()
+                createBarcodeTable('/admin/barcode_search/query', $('#builder').queryBuilder('getRules'),
+                    "#barcodeTable")
+            });
+            $('#submit_button_qiita').click(function(e){
+                $("#barcodeDiv").hide()
+                $("#qiitaDiv").show()
+                //console.log(JSON.stringify($('#builder').queryBuilder('getRules'), null, 2))
+                createBarcodeTable('/admin/barcode_search/query_qiita', $('#builder').queryBuilder('getRules'),
+                "#qiitaTable")
             });
         });
     </script>
@@ -75,10 +87,30 @@
         <button id='submit_button' type="submit" class="btn btn-primary">{{ _('Search') }}</button>
     </div>
     <div class="row">
+        <button id='submit_button_qiita' type="submit" class="btn btn-primary">{{ _('Search Qiita') }}</button>
+    </div>
+
+    <div id="barcodeDiv" class="row">
         <table id="barcodeTable">
             <thead>
             <tr>
                 <th>{{ _('Barcode') }}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div id="qiitaDiv" class="row">
+        <table id="qiitaTable">
+            <thead>
+            <tr>
+                <th>sample_id</th>
+                <th>sample_found</th>
+                <th>preparation_id</th>
+                <th>preparation_type</th>
+                <th>preparation_visibility</th>
+                <th>ebi_experiment_accession</th>
+                <th>ebi_sample_accession</th>
             </tr>
             </thead>
         </table>

@@ -1311,7 +1311,41 @@ def admin_barcode_search_query(body):
 
     if has_error:
         return query_results
+
     return jsonify({'data': [[x] for x in query_results]}), 200
+
+
+def admin_barcode_search_query_qiita(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    has_error, query_results, _ = ApiRequest.post(
+        '/admin/barcode_query',
+        json=body
+    )
+
+    if has_error:
+        return query_results
+
+    has_error, query_results, _ = ApiRequest.post(
+        '/admin/qiita_barcode_query',
+        json={"barcodes": query_results}
+    )
+
+    if has_error:
+        return query_results
+
+    return jsonify({'data': [
+        [x["sample_id"],
+         x["sample_found"],
+         x["preparation_id"],
+         x["preparation_type"],
+         x["preparation_visibility"],
+         x["ebi_experiment_accession"],
+         x["ebi_sample_accession"],
+         ] for x in query_results]
+    }), 200
+
 
 
 def get_ajax_check_kit_valid(kit_name):

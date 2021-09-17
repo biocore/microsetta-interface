@@ -137,7 +137,20 @@
 {% block content %}
     <div class="container">
       <form method="post" id="sample_form" name="sample_form">
-          {% if sample.sample_edit_locked %}
+          {% if sample.accession_urls is not none and sample.accession_urls | length >= 1 %}
+              <div class="alert alert-success" role="alert">
+                  {{ _("Sample sequencing results are now available:") }}
+                  <ul>
+                      {%  for acc_url in sample.accession_urls %}
+                      <li><a href="{{acc_url}}">{{ acc_url }}</a></li>
+                      {% endfor %}
+                  </ul>
+                  {% if sample.sample_edit_locked %}
+                  {{ _("As the sample has been fully processed, further editing is locked.")}}
+                  {% endif %}
+              </div>
+          {% endif %}
+          {% if sample.sample_edit_locked and sample.accession_urls is none or sample.accession_urls | length == 0 %}
           <div class="alert alert-success" role="alert">
               {{ _('Sample Recorded, Editing is Locked') }}
           </div>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-04 16:59-0700\n"
+"POT-Creation-Date: 2021-09-24 12:24-0700\n"
 "PO-Revision-Date: 2021-05-17 16:56-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -16,232 +16,244 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:407
+#: implementation.py:409
 msgid "Unable to validate the kit name; please reload the page."
 msgstr ""
 
-#: implementation.py:426
+#: implementation.py:428
 msgid ""
 "The provided kit id is not valid or has already been used; please re-"
 "check your entry."
 msgstr ""
 
-#: implementation.py:1055 model_i18n.py:40
+#: implementation.py:1062 model_i18n.py:52
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1056 model_i18n.py:41
+#: implementation.py:1063 model_i18n.py:53
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1057 model_i18n.py:53
+#: implementation.py:1064 model_i18n.py:65
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1058 model_i18n.py:48
+#: implementation.py:1065 model_i18n.py:60
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1059 model_i18n.py:49
+#: implementation.py:1066 model_i18n.py:61
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1060 model_i18n.py:50
+#: implementation.py:1067 model_i18n.py:62
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1061 model_i18n.py:51
+#: implementation.py:1068 model_i18n.py:63
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1062 model_i18n.py:46
+#: implementation.py:1069 model_i18n.py:58
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1063 model_i18n.py:43
+#: implementation.py:1070 model_i18n.py:55
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1064 model_i18n.py:55
+#: implementation.py:1071 model_i18n.py:67
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1065 model_i18n.py:52
+#: implementation.py:1072 model_i18n.py:64
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1066 model_i18n.py:47
+#: implementation.py:1073 model_i18n.py:59
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1067 model_i18n.py:56
+#: implementation.py:1074 model_i18n.py:68
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1068 model_i18n.py:54
+#: implementation.py:1075 model_i18n.py:66
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1069 model_i18n.py:42
+#: implementation.py:1076 model_i18n.py:54
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1070 model_i18n.py:45
+#: implementation.py:1077 model_i18n.py:57
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1071 model_i18n.py:44
+#: implementation.py:1078 model_i18n.py:56
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:1298
+#: implementation.py:1371
 msgid "Unable to validate Activation Code at this time"
 msgstr ""
 
-#: model_i18n.py:7
+#: model_i18n.py:19
 msgid "sample_site"
 msgstr ""
 
-#: model_i18n.py:17
+#: model_i18n.py:29
 msgid "source_type"
 msgstr ""
 
-#: model_i18n.py:24
+#: model_i18n.py:36
 msgid "survey_template_title"
 msgstr ""
 
-#: model_i18n.py:61
+#: model_i18n.py:73
 msgid "human"
 msgstr ""
 
-#: model_i18n.py:62 templates/account_overview.jinja2:139
+#: model_i18n.py:74 templates/account_overview.jinja2:139
 msgid "animal"
 msgstr ""
 
-#: model_i18n.py:63
+#: model_i18n.py:75
 msgid "environmental"
 msgstr ""
 
-#: model_i18n.py:68
+#: model_i18n.py:80
 msgid "Primary Questionnaire"
 msgstr ""
 
-#: model_i18n.py:69
+#: model_i18n.py:81
 msgid "Pet Information"
 msgstr ""
 
-#: model_i18n.py:70
+#: model_i18n.py:82
 msgid "Fermented Foods Questionnaire"
 msgstr ""
 
-#: model_i18n.py:71
+#: model_i18n.py:83
 msgid "Surfer Questionnaire"
 msgstr ""
 
-#: model_i18n.py:72
+#: model_i18n.py:84
 msgid "Personal Microbiome Information"
 msgstr ""
 
-#: model_i18n.py:73
+#: model_i18n.py:85
 msgid "COVID-19 Questionnaire"
 msgstr ""
 
-#: model_i18n.py:74
+#: model_i18n.py:86
 msgid "Vioscreen Food Frequency Questionnaire"
 msgstr ""
 
-#: templates/account_details.jinja2:2 templates/account_overview.jinja2:47
-msgid "Account Details"
+#: model_i18n.py:89
+msgid "en_us"
 msgstr ""
 
-#: templates/account_details.jinja2:91 templates/account_details.jinja2:118
-msgid "City"
+#: templates/account_details.jinja2:2 templates/account_details.jinja2:144
+#: templates/account_details.jinja2:148 templates/account_overview.jinja2:47
+#: templates/sitebase.jinja2:78 templates/sitebase.jinja2:80
+msgid "Account Details"
 msgstr ""
 
 #: templates/account_details.jinja2:92 templates/account_details.jinja2:119
-msgid "State"
+#: templates/admin_address_verification.jinja2:37
+#: templates/admin_address_verification.jinja2:85
+msgid "City"
 msgstr ""
 
 #: templates/account_details.jinja2:93 templates/account_details.jinja2:120
+#: templates/admin_address_verification.jinja2:41
+#: templates/admin_address_verification.jinja2:89
+msgid "State"
+msgstr ""
+
+#: templates/account_details.jinja2:94 templates/account_details.jinja2:121
 msgid "Zip Code"
 msgstr ""
 
-#: templates/account_details.jinja2:141
+#: templates/account_details.jinja2:142 templates/account_overview.jinja2:2
+#: templates/account_overview.jinja2:44 templates/new_results_page.jinja2:1395
+#: templates/sample.jinja2:132 templates/sample_results.jinja2:127
+#: templates/source.jinja2:146
 msgid "Account"
 msgstr ""
 
-#: templates/account_details.jinja2:143 templates/account_details.jinja2:147
-#: templates/sitebase.jinja2:76 templates/sitebase.jinja2:78
-msgid "Account Details"
-msgstr ""
-
-#: templates/account_details.jinja2:151
-#: templates/admin_activation_codes.jinja2:6
-#: templates/admin_activation_codes.jinja2:16
-#: templates/admin_activation_codes.jinja2:27 templates/admin_home.jinja2:11
-#: templates/sitebase.jinja2:124
+#: templates/account_details.jinja2:152
+#: templates/admin_activation_codes.jinja2:7
+#: templates/admin_activation_codes.jinja2:21
+#: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
+#: templates/sitebase.jinja2:126
 msgid "Email"
 msgstr ""
 
 #: templates/account_details.jinja2:156
-msgid "First Name"
+msgid "Prefer to use a different email account?  You can change it "
 msgstr ""
 
-#: templates/account_details.jinja2:160
-msgid "Last Name"
+#: templates/account_details.jinja2:158
+msgid "here"
 msgstr ""
 
 #: templates/account_details.jinja2:164
-msgid "Country"
-msgstr ""
-
-#: templates/account_details.jinja2:167
-msgid "Mexico"
+msgid "First Name"
 msgstr ""
 
 #: templates/account_details.jinja2:168
+msgid "Last Name"
+msgstr ""
+
+#: templates/account_details.jinja2:172
+#: templates/admin_address_verification.jinja2:49
+#: templates/admin_address_verification.jinja2:97
+msgid "Country"
+msgstr ""
+
+#: templates/account_details.jinja2:175
+msgid "Mexico"
+msgstr ""
+
+#: templates/account_details.jinja2:176
 msgid "United States"
 msgstr ""
 
-#: templates/account_details.jinja2:169
+#: templates/account_details.jinja2:177
 msgid "United Kingdom"
 msgstr ""
 
-#: templates/account_details.jinja2:173
+#: templates/account_details.jinja2:181
 msgid "Street Address"
 msgstr ""
 
-#: templates/account_details.jinja2:193
+#: templates/account_details.jinja2:201
 msgid "Preferred language for future communications"
 msgstr ""
 
-#: templates/account_details.jinja2:203
+#: templates/account_details.jinja2:214
 msgid "Activation Info"
 msgstr ""
 
-#: templates/account_details.jinja2:207
+#: templates/account_details.jinja2:218
 msgid "Kit ID"
 msgstr ""
 
-#: templates/account_details.jinja2:210
+#: templates/account_details.jinja2:221
 msgid "OR"
 msgstr ""
 
-#: templates/account_details.jinja2:212
-#: templates/admin_activation_codes.jinja2:11
+#: templates/account_details.jinja2:223
+#: templates/admin_activation_codes.jinja2:14
 msgid "Activation Code"
 msgstr ""
 
-#: templates/account_details.jinja2:219 templates/account_details.jinja2:221
+#: templates/account_details.jinja2:230 templates/account_details.jinja2:232
 msgid "Save"
-msgstr ""
-
-#: templates/account_overview.jinja2:2 templates/account_overview.jinja2:44
-#: templates/new_results_page.jinja2:1395 templates/sample.jinja2:131
-#: templates/sample_results.jinja2:127 templates/source.jinja2:140
-msgid "Account"
 msgstr ""
 
 #: templates/account_overview.jinja2:53
@@ -253,9 +265,7 @@ msgid "Sources"
 msgstr ""
 
 #: templates/account_overview.jinja2:62
-msgid ""
-"You have now set up your account! Please proceed to "
-"identify your source."
+msgid "You have now set up your account! Please proceed to identify your source."
 msgstr ""
 
 #: templates/account_overview.jinja2:66
@@ -279,7 +289,7 @@ msgstr ""
 #: templates/account_overview.jinja2:103
 msgid ""
 "Our lab needs to know what type of sample(s) you are submitting (a.k.a. "
-"the “source”). Add a new source and assign samples to it so we can "
+"the \"source\"). Add a new source and assign samples to it so we can "
 "perform the correct analysis in our laboratory."
 msgstr ""
 
@@ -352,33 +362,120 @@ msgstr ""
 msgid "Admin Activation Codes"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:8
-#: templates/admin_activation_codes.jinja2:13
+#: templates/admin_activation_codes.jinja2:6
+msgid "Search by Email"
+msgstr ""
+
+#: templates/admin_activation_codes.jinja2:9
+#: templates/admin_activation_codes.jinja2:16
+#: templates/admin_barcode_search.jinja2:87
 msgid "Search"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:18
+#: templates/admin_activation_codes.jinja2:13
+msgid "Search by Activation Code"
+msgstr ""
+
+#: templates/admin_activation_codes.jinja2:20
+msgid "Generate Activation Code"
+msgstr ""
+
+#: templates/admin_activation_codes.jinja2:23
+#: templates/admin_activation_codes.jinja2:31
 msgid "Generate"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:19
+#: templates/admin_activation_codes.jinja2:24
 msgid "Generate + Send Email"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:21 templates/admin_home.jinja2:5
+#: templates/admin_activation_codes.jinja2:28
+msgid "Generate Activation Codes from CSV File"
+msgstr ""
+
+#: templates/admin_activation_codes.jinja2:29
+msgid "CSV File of Emails"
+msgstr ""
+
+#: templates/admin_activation_codes.jinja2:34 templates/admin_home.jinja2:5
 msgid "Search Results"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:30
+#: templates/admin_activation_codes.jinja2:43
 msgid "Code"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:33
+#: templates/admin_activation_codes.jinja2:46
 msgid "Activated"
 msgstr ""
 
-#: templates/admin_activation_codes.jinja2:54 templates/admin_home.jinja2:34
+#: templates/admin_activation_codes.jinja2:67 templates/admin_home.jinja2:34
 msgid "No accounts found"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:2
+msgid "Admin Address Verification"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:8
+msgid "Verify CSV File of Addresses"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:12
+msgid "CSV File"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:17
+#: templates/admin_address_verification.jinja2:53
+msgid "Verify"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:26
+msgid "Verify Single Address"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:29
+#: templates/admin_address_verification.jinja2:77
+msgid "Address 1"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:33
+#: templates/admin_address_verification.jinja2:81
+msgid "Address 2"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:45
+#: templates/admin_address_verification.jinja2:93
+msgid "Postal Code"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:101
+msgid "Latitude"
+msgstr ""
+
+#: templates/admin_address_verification.jinja2:105
+msgid "Longitude"
+msgstr ""
+
+#: templates/admin_barcode_search.jinja2:2
+msgid "ADMINISTRATOR BARCODE SEARCH"
+msgstr ""
+
+#: templates/admin_barcode_search.jinja2:31
+msgid "Download CSV"
+msgstr ""
+
+#: templates/admin_barcode_search.jinja2:32
+msgid "Download Excel"
+msgstr ""
+
+#: templates/admin_barcode_search.jinja2:90
+msgid "Search Qiita"
+msgstr ""
+
+#: templates/admin_barcode_search.jinja2:97 templates/sample.jinja2:146
+#: templates/source.jinja2:161
+msgid "Barcode"
 msgstr ""
 
 #: templates/admin_home.jinja2:2
@@ -396,14 +493,6 @@ msgstr ""
 #: templates/admin_system_panel.jinja2:26
 #: templates/admin_system_panel.jinja2:67
 msgid "Set System Message"
-msgstr ""
-
-#: templates/admin_system_panel.jinja2:29
-#: templates/admin_system_panel.jinja2:52 templates/home.jinja2:22
-#: templates/home.jinja2:29 templates/home.jinja2:30 templates/home.jinja2:31
-#: templates/new_results_page.jinja2:653 templates/new_results_page.jinja2:1421
-#: templates/sample.jinja2:22 templates/sitebase.jinja2:92
-msgid "en_us"
 msgstr ""
 
 #: templates/admin_system_panel.jinja2:35
@@ -510,7 +599,11 @@ msgid ""
 " proceed with filling out your account details"
 msgstr ""
 
-#: templates/embedded_pdf.jinja2:24
+#: templates/embedded_pdf.jinja2:2
+msgid "Embedded PDF"
+msgstr ""
+
+#: templates/embedded_pdf.jinja2:25
 msgid ""
 "This report is generated by a third party without information regarding "
 "age, height or weight."
@@ -554,7 +647,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: templates/home.jinja2:2 templates/sitebase.jinja2:101
+#: templates/home.jinja2:2 templates/sitebase.jinja2:103
 msgid "Home"
 msgstr ""
 
@@ -800,19 +893,19 @@ msgstr ""
 #: templates/new_results_page.jinja2:1271
 msgid ""
 "16S.  This technique produces DNA sequences from a specific variable "
-"region (V4) within a microbial gene (the 16S small subunit "
-"ribosomal gene). DNA sequences from this region of this gene can be "
-"used like a microbial barcode, providing researchers evidence of the "
-"types of microbes that may be present in your sample."
+"region (V4) within a microbial gene (the 16S small subunit ribosomal "
+"gene). DNA sequences from this region of this gene can be used like a "
+"microbial barcode, providing researchers evidence of the types of "
+"microbes that may be present in your sample."
 msgstr ""
 
-#: templates/new_results_page.jinja2:1396 templates/sample.jinja2:132
+#: templates/new_results_page.jinja2:1396 templates/sample.jinja2:133
 #: templates/sample_results.jinja2:128
 msgid "Source"
 msgstr ""
 
 #: templates/new_results_page.jinja2:1397 templates/sample_results.jinja2:129
-#: templates/source.jinja2:165
+#: templates/source.jinja2:171
 msgid "Results"
 msgstr ""
 
@@ -895,9 +988,9 @@ msgid ""
 "meager 2 million different kinds of animals and plants that you can see "
 "with your eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" "
 "data-title=\"Based on fecal samples from Microsetta participants in the "
-"United States\">average</span> American has <strong>93</strong> "
-"different types of microbes in a stool sample, which is lower than we "
-"find in people living a more hunter-gatherer lifestyle, like the "
+"United States\">average</span> American has <strong>93</strong> different"
+" types of microbes in a stool sample, which is lower than we find in "
+"people living a more hunter-gatherer lifestyle, like the "
 "<strong>132</strong> we find in samples from the <span id=\"taxa-"
 "tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous "
 "hunter-gather group in Tanzania. The summary of the Hadza microbiome is "
@@ -1109,9 +1202,9 @@ msgstr ""
 msgid ""
 "For your sample, we performed a technique called amplicon sequencing "
 "where we examine pieces of DNA corresponding to a particular gene. "
-"Specifically, we sequenced the fourth variable region (V4) of the 16S"
-" rRNA small subunit ribosomal gene. DNA sequences from this region of "
-"this gene can be used like a microbial barcode, providing researchers "
+"Specifically, we sequenced the fourth variable region (V4) of the 16S "
+"rRNA small subunit ribosomal gene. DNA sequences from this region of this"
+" gene can be used like a microbial barcode, providing researchers "
 "evidence of the types of microbes that may be present in your sample."
 msgstr ""
 
@@ -1139,7 +1232,7 @@ msgid ""
 msgstr ""
 
 #: templates/new_results_page.jinja2:1737
-msgid "The Microsetta Initiatiave"
+msgid "The Microsetta Initiative"
 msgstr ""
 
 #: templates/new_results_page.jinja2:1742
@@ -1235,113 +1328,109 @@ msgstr ""
 msgid "Optional Sample Surveys"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:9
+#: templates/post_sample_questionnaire.jinja2:16
 msgid "Your diet can provide researchers valuable information"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:12
+#: templates/post_sample_questionnaire.jinja2:19
 msgid "Would you like to take our additional survey, the"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:12 templates/source.jinja2:194
+#: templates/post_sample_questionnaire.jinja2:19 templates/source.jinja2:200
 msgid "Food Frequency Questionnaire"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:12
+#: templates/post_sample_questionnaire.jinja2:19
 msgid "FFQ"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:12
+#: templates/post_sample_questionnaire.jinja2:19
 msgid ""
 "By completing the questionnaire, you can enhance information about your "
 "sample, which will power more insightful research!"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:13
+#: templates/post_sample_questionnaire.jinja2:20
 msgid "Note"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:13
+#: templates/post_sample_questionnaire.jinja2:20
 msgid ""
 "If you took multiple samples within a short time frame, you only need to "
 "take the FFQ for one such sample"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:16
+#: templates/post_sample_questionnaire.jinja2:23
 msgid "Approx time: 30 minutes"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:20
+#: templates/post_sample_questionnaire.jinja2:27
 msgid "Take FFQ"
 msgstr ""
 
-#: templates/post_sample_questionnaire.jinja2:23
+#: templates/post_sample_questionnaire.jinja2:30
 msgid "Back to Samples"
 msgstr ""
 
-#: templates/sample.jinja2:2 templates/sample.jinja2:133
+#: templates/sample.jinja2:2 templates/sample.jinja2:134
 msgid "Sample Information"
 msgstr ""
 
-#: templates/sample.jinja2:69
+#: templates/sample.jinja2:70
 msgid "Required Format: MM/DD/YYYY"
 msgstr ""
 
-#: templates/sample.jinja2:141
+#: templates/sample.jinja2:142
 msgid "Sample Recorded, Editing is Locked"
 msgstr ""
 
-#: templates/sample.jinja2:145 templates/source.jinja2:155
-msgid "Barcode"
-msgstr ""
-
-#: templates/sample.jinja2:152
+#: templates/sample.jinja2:153
 msgid "Date"
 msgstr ""
 
-#: templates/sample.jinja2:161
+#: templates/sample.jinja2:162
 msgid "Time"
 msgstr ""
 
-#: templates/sample.jinja2:175
+#: templates/sample.jinja2:176
 msgid "Guidelines for site identification"
 msgstr ""
 
-#: templates/sample.jinja2:176
+#: templates/sample.jinja2:177
 msgid "If collecting a"
 msgstr ""
 
-#: templates/sample.jinja2:176
+#: templates/sample.jinja2:177
 msgid "BLOOD"
 msgstr ""
 
-#: templates/sample.jinja2:176
+#: templates/sample.jinja2:177
 msgid "sample, please select Blood (skin prick)"
 msgstr ""
 
-#: templates/sample.jinja2:177
+#: templates/sample.jinja2:178
 msgid ""
 "For all swabs, please select the site as precisely as possible from the "
 "options available"
 msgstr ""
 
-#: templates/sample.jinja2:183
+#: templates/sample.jinja2:184
 msgid "Site sampled"
 msgstr ""
 
-#: templates/sample.jinja2:187
+#: templates/sample.jinja2:188
 msgid "Select a sample type"
 msgstr ""
 
-#: templates/sample.jinja2:203
+#: templates/sample.jinja2:204
 msgid "Notes"
 msgstr ""
 
-#: templates/sample.jinja2:205
+#: templates/sample.jinja2:206
 msgid "(Optional) Is there else about this sample that you would like to add?"
 msgstr ""
 
-#: templates/sample.jinja2:208
+#: templates/sample.jinja2:209
 msgid "Update"
 msgstr ""
 
@@ -1427,7 +1516,7 @@ msgstr ""
 msgid "System Panel"
 msgstr ""
 
-#: templates/sitebase.jinja2:46 templates/sitebase.jinja2:80
+#: templates/sitebase.jinja2:46 templates/sitebase.jinja2:82
 msgid "Log Out"
 msgstr ""
 
@@ -1435,19 +1524,27 @@ msgstr ""
 msgid "Activation Codes"
 msgstr ""
 
-#: templates/sitebase.jinja2:50
+#: templates/sitebase.jinja2:48
+msgid "Address Verification"
+msgstr ""
+
+#: templates/sitebase.jinja2:51
 msgid "Find Account"
 msgstr ""
 
-#: templates/sitebase.jinja2:82
+#: templates/sitebase.jinja2:53
+msgid "Barcode Search"
+msgstr ""
+
+#: templates/sitebase.jinja2:84
 msgid "Log In"
 msgstr ""
 
-#: templates/sitebase.jinja2:83
+#: templates/sitebase.jinja2:85
 msgid "Sign Up"
 msgstr ""
 
-#: templates/sitebase.jinja2:122
+#: templates/sitebase.jinja2:124
 msgid "FAQs"
 msgstr ""
 
@@ -1485,43 +1582,43 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: templates/source.jinja2:146
+#: templates/source.jinja2:152
 msgid "It looks like some samples do not have collection information recorded."
 msgstr ""
 
-#: templates/source.jinja2:150
+#: templates/source.jinja2:156
 msgid "Samples (click on a barcode to provide collection information)"
 msgstr ""
 
-#: templates/source.jinja2:158
+#: templates/source.jinja2:164
 msgid "Collection date"
 msgstr ""
 
-#: templates/source.jinja2:162
+#: templates/source.jinja2:168
 msgid "Sample type"
 msgstr ""
 
-#: templates/source.jinja2:168
+#: templates/source.jinja2:174
 msgid "Sample-specific survey"
 msgstr ""
 
-#: templates/source.jinja2:192
+#: templates/source.jinja2:198
 msgid "View Top Food Report"
 msgstr ""
 
-#: templates/source.jinja2:198
+#: templates/source.jinja2:204
 msgid "This sample has been received and cannot be removed."
 msgstr ""
 
-#: templates/source.jinja2:200
+#: templates/source.jinja2:206
 msgid "Remove"
 msgstr ""
 
-#: templates/source.jinja2:210
+#: templates/source.jinja2:216
 msgid "Do I need to take more than one Food Frequency Questionnaire (FFQ)"
 msgstr ""
 
-#: templates/source.jinja2:211
+#: templates/source.jinja2:217
 msgid ""
 "If you are taking all of your samples at the same time, you will only "
 "need to complete one. If you are collecting samples over time (e.g., once"
@@ -1531,40 +1628,40 @@ msgid ""
 "microbes."
 msgstr ""
 
-#: templates/source.jinja2:219
+#: templates/source.jinja2:225
 msgid ""
 "The kit ID used to create your account has unclaimed samples. To claim "
 "samples from this kit, please click \"List samples\". To claim samples "
 "from another kit ID, please enter it here and then click \"List Samples\""
 msgstr ""
 
-#: templates/source.jinja2:222
+#: templates/source.jinja2:228
 msgid "To add samples, please enter a kit ID here"
 msgstr ""
 
-#: templates/source.jinja2:226
+#: templates/source.jinja2:232
 msgid "List Samples"
 msgstr ""
 
-#: templates/source.jinja2:231
+#: templates/source.jinja2:237
 msgid "Select all samples that should be associated with this source"
 msgstr ""
 
-#: templates/source.jinja2:237
+#: templates/source.jinja2:243
 msgid "Claim Selected Samples"
 msgstr ""
 
-#: templates/source.jinja2:244
+#: templates/source.jinja2:250
 msgid "Surveys taken"
 msgstr ""
 
-#: templates/source.jinja2:270
+#: templates/source.jinja2:276
 msgid ""
 "Sources with one or more samples assigned cannot be deleted.  All samples"
 " above must be removed prior to deleting this source."
 msgstr ""
 
-#: templates/source.jinja2:272
+#: templates/source.jinja2:278
 msgid "Delete Source"
 msgstr ""
 
@@ -1659,5 +1756,17 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "http://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Our lab needs to know what type"
+#~ " of sample(s) you are submitting "
+#~ "(a.k.a. the “source”). Add a new "
+#~ "source and assign samples to it so"
+#~ " we can perform the correct analysis"
+#~ " in our laboratory."
+#~ msgstr ""
+
+#~ msgid "The Microsetta Initiatiave"
 #~ msgstr ""
 

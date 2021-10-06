@@ -74,7 +74,7 @@ class TestImplementation(TestBase):
 
         resp = self.app.get('/authrocket_callback')
         self.assertEqual(exp_status, resp.status_code)
-        self.assertEqual(exp_location, resp.headers['Location'])
+        self.assertTrue(resp.headers['Location'].endswith(exp_location))
 
 
 if __name__ == '__main__':

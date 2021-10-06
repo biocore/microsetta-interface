@@ -1347,7 +1347,6 @@ def admin_barcode_search_query_qiita(body):
     }), 200
 
 
-
 def get_ajax_check_kit_valid(kit_name):
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error
@@ -1436,17 +1435,23 @@ def get_interactive_account_search(email_query):
     return _render_with_defaults('admin_home.jinja2',
                                  accounts=accounts)
 
-def get_address_verification(address_1=None, address_2=None, city=None,\
-    state=None, postal=None, country=None):
+
+def get_address_verification(address_1=None, address_2=None, city=None,
+                             state=None, postal=None, country=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    diagnostics=None
-    error=None
+    diagnostics = None
+    error = None
 
-    if address_1 is not None and len(address_1) > 0 and \
-        postal is not None and len(postal) > 0 and \
-        country is not None and len(country) > 0:
+    def notnull(var):
+        return var is not None and len(var) > 0
+
+    conditions = [notnull(address_1),
+                  notnull(postal),
+                  notnull(country)]
+
+    if all(conditions):
         do_return, diagnostics, _ = ApiRequest.get(
             "/admin/verify_address",
             params={"address_1": address_1,
@@ -1460,30 +1465,28 @@ def get_address_verification(address_1=None, address_2=None, city=None,\
         if do_return:
             return diagnostics
     else:
-        error='Address 1, Postal Code, and Country are required'
-
+        error = 'Address 1, Postal Code, and Country are required'
 
     return _render_with_defaults('admin_address_verification.jinja2',
-        address_1=address_1,
-        address_2=address_2,
-        city=city,
-        state=state,
-        postal=postal,
-        country=country,
-        diagnostics=diagnostics,
-        error=error)
+                                 address_1=address_1,
+                                 address_2=address_2,
+                                 city=city,
+                                 state=state,
+                                 postal=postal,
+                                 country=country,
+                                 diagnostics=diagnostics,
+                                 error=error)
+
 
 def post_address_verification(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    req_csv_columns = ["Address 1","Address 2","City","State","Postal Code",\
-        "Country"]
+    req_csv_columns = ["Address 1", "Address 2", "City", "State",
+                       "Postal Code", "Country"]
 
-    csv_contents, upload_err = parse_request_csv(request, 'address_csv', 
-        req_csv_columns)
-
-    ar = None
+    csv_contents, upload_err = parse_request_csv(request, 'address_csv',
+                                                 req_csv_columns)
 
     if upload_err is not None:
         return upload_err
@@ -1529,7 +1532,6 @@ def post_address_verification(body):
                 address_row['Output - Longitude'] = ''
                 csv_output[address_index] = address_row
 
-
         csv_output = dict_to_csv(csv_output)
 
         response = make_response(csv_output)
@@ -1564,6 +1566,7 @@ def get_interactive_activation(email_query=None, code_query=None):
         code_query=code_query,
         diagnostics=diagnostics
     )
+
 
 def post_generate_activation(body):
     if not session.get(ADMIN_MODE_KEY, False):

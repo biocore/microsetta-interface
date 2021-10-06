@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from unittest.mock import patch
 from microsetta_interface.server import app
 
@@ -29,11 +29,13 @@ class TestBase(TestCase):
 
         app.app.testing = True
         self.app = app.app.test_client()
+        self.app.__enter__()
 
     def tearDown(self):
         self.patch_for_get.stop()
         self.patch_for_render_template.stop()
         self.patch_for_session.stop()
+        self.app.__exit__(None, None, None)
 
 
 class TestImplementation(TestBase):
@@ -62,3 +64,18 @@ class TestImplementation(TestBase):
         response = impl.get_source(account_id="1", source_id="2")
         self.assertEqual(302, response.status_code)
         self.assertEqual('/home', response.headers['Location'])
+
+    def test_authrocket_callback_noargs_error(self):
+        # We are observing exceptions on /authrocket_callback which occur with
+        # malformed requests. Currently, we are throwing a 500, but instead
+        # we should redirect
+        exp_status = 302
+        exp_location = '/home'
+
+        resp = self.app.get('/authrocket_callback')
+        self.assertEqual(exp_status, resp.status_code)
+        self.assertEqual(exp_location, resp.headers['Location'])
+
+
+if __name__ == '__main__':
+    main()

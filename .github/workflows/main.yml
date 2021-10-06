@@ -20,6 +20,7 @@ jobs:
     - name: lint
       run: |
         pip install -q flake8
+        flake8 microsetta_interface
   test:
     runs-on: ubuntu-latest
     steps:

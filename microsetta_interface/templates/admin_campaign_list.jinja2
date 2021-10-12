@@ -1,0 +1,50 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Admin Address Verification") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+<h4>{{ _('Campaigns') }}</h4>
+<center>
+    <a href="/admin/campaigns/edit">Add New Campaign</a>
+</center><br />
+<div class="container">
+    {% if diagnostics is not none and diagnostics|length > 0 %}
+    <div class="list-group">
+        <div class="row">
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Campaign Name') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Permitted Countries') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Accepting Participants') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                &nbsp;
+            </div>
+        </div>
+        {% for row in diagnostics %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+          <div class="row">
+            <div class="col-sm">
+                {{ row.title |e}}
+            </div>
+            <div class="col-sm">
+                {{ row.permitted_countries |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.accepting_participants |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <a href="/admin/campaigns/edit?campaign_id={{ row.campaign_id |e }}">View/Edit</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br/><br/>
+    {% else %}
+    {{ _('No campaigns found') }}
+    {% endif %}
+</div>
+{% endblock %}

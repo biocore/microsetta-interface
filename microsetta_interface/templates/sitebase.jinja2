@@ -46,6 +46,7 @@
       <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
       <a class="btn btn-outline-success" href="/admin/activation">{{ _('Activation Codes') }}</a>
       <a class="btn btn-outline-success" href="/admin/address_verification">{{ _('Address Verification') }}</a>
+      <a class="btn btn-outline-success" href="/admin/campaigns/list">{{ _('Campaigns') }}</a>
       <form class="form-inline" action="/admin/account_search" method="get">
         <input id="email_query" name="email_query" class="form-control mr-sm-2" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
@@ -53,7 +54,7 @@
       <a class="btn btn-outline-success" href="/admin/barcode_search">{{ _('Barcode Search') }}</a>
     </nav>
     {% endif %}
-    {% if not admin_mode %}
+    {% if not admin_mode and not hide_header %}
     <nav class="navbar fixed-top navbar-light bg-light shadow">
         <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>

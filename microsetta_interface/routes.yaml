@@ -87,6 +87,17 @@ paths:
         '302':
           description: Returning home
 
+  '/signup_form':
+    get:
+      operationId: microsetta_interface.implementation.get_submit_interest
+      responses:
+        '200':
+          description: Form to express interest in signing up
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/create_account':
     get:
       operationId: microsetta_interface.implementation.get_create_account
@@ -760,6 +771,55 @@ paths:
       responses:
         '200':
           description: Search results showing new email
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/campaigns/list':
+    get:
+      operationId: microsetta_interface.implementation.get_campaigns
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: List of campaigns for admin users to view/edit
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/campaigns/edit':
+    get:
+      operationId: microsetta_interface.implementation.get_campaign_edit
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: campaign_id
+          description: ID of campaign to edit
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Form to add or edit an existing campaign
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_campaign_edit
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Output confirming the edit/creation of a campaign
           content:
             text/html:
               schema:

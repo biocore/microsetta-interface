@@ -1642,6 +1642,154 @@ def post_generate_activation(body):
         return get_interactive_activation(email, None)
 
 
+def get_campaigns():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        "/admin/campaigns/list",
+        params={}
+    )
+
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults('admin_campaign_list.jinja2',
+                                 diagnostics=diagnostics)
+
+
+def get_campaign_edit(campaign_id=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    campaign_info = None
+    do_return = None
+
+    if campaign_id is not None:
+        do_return, campaign_info, _ = ApiRequest.get(
+            "/campaign_information",
+            params={"campaign_id": campaign_id}
+        )
+
+    if do_return:
+        return campaign_info
+
+    has_error, project_list, _ = ApiRequest.get(
+        "/admin/projects",
+        params={"include_stats": False}
+    )
+
+    if has_error:
+        return project_list
+
+    if campaign_info is not None:
+        ap = []
+        campaign_info['associated_projects'].split(",")
+    else:
+        ap = []
+        campaign_info = {}
+        campaign_info['title'] = None
+        campaign_info['instructions'] = None
+        campaign_info['header_image'] = None
+        campaign_info['permitted_countries'] = None
+        campaign_info['language_key'] = None
+        campaign_info['accepting_participants'] = None
+        campaign_info['associated_projects'] = None
+        campaign_info['language_key_alt'] = None
+        campaign_info['title_alt'] = None
+        campaign_info['instructions_alt'] = None
+
+    projects = []
+    for project in project_list:
+        project_dict = {"project_id": project['project_id'],
+                        "project_name": project['project_name']}
+        projects.append(project_dict)
+        if campaign_info['associated_projects'] is not None:
+            if str(project['project_id']) in\
+                    campaign_info['associated_projects']:
+                ap.append(project['project_name'])
+
+    campaign_info['associated_projects'] = ", ".join(ap)
+
+    return _render_with_defaults('admin_campaign_edit.jinja2',
+                                 campaign_id=campaign_id,
+                                 campaign_info=campaign_info,
+                                 endpoint=SERVER_CONFIG['endpoint'],
+                                 languages=LANGUAGES,
+                                 projects=projects)
+
+
+def post_campaign_edit(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    extension = ''
+    if request.files['header_image'].filename != '':
+        filename = request.files['header_image'].filename
+        extension = filename.split(".")[len(filename.split("."))-1].lower()
+        if extension not in {"png", "jpg", "jpeg"}:
+            raise Exception("Invalid file type selected for header image")
+
+    title = request.form['title']
+    instructions = request.form['instructions']
+    permitted_countries = ','.join(request.form.getlist('permitted_countries'))
+    language_key = request.form['language_key']
+    accepting_participants = request.form['accepting_participants']
+    language_key_alt = request.form['language_key_alt']
+    title_alt = request.form['title_alt']
+    instructions_alt = request.form['instructions_alt']
+
+    if 'campaign_id' in request.form:
+        do_return, campaign_info, _ = ApiRequest.post(
+            "/campaign_information",
+            json={
+                "campaign_id": request.form['campaign_id'],
+                "title": title,
+                "instructions": instructions,
+                "permitted_countries": permitted_countries,
+                "language_key": language_key,
+                "accepting_participants": accepting_participants,
+                "language_key_alt": language_key_alt,
+                "title_alt": title_alt,
+                "instructions_alt": instructions_alt,
+                "extension": extension
+            }
+        )
+    else:
+        associated_projects = ','.join(request.form.getlist('associated_projects'))
+
+        do_return, campaign_info, _ = ApiRequest.post(
+            "/campaign_information",
+            json={
+                "title": title,
+                "instructions": instructions,
+                "permitted_countries": permitted_countries,
+                "language_key": language_key,
+                "accepting_participants": accepting_participants,
+                "associated_projects": associated_projects,
+                "language_key_alt": language_key_alt,
+                "title_alt": title_alt,
+                "instructions_alt": instructions_alt,
+                "extension": extension
+            }
+        )
+
+    if do_return:
+        return campaign_info
+
+    # save new header image
+    if request.files['header_image'].filename != '':
+        fn = path.join("microsetta_interface", "static", "img", "campaigns",
+                          campaign_info['header_image'])
+        request.files['header_image'].save(fn)
+
+    return get_campaign_edit(campaign_info['campaign_id'])
+
+
+def get_submit_interest():
+    return _render_with_defaults('submit_interest.jinja2')
+
+
 def get_system_message():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

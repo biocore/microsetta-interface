@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-24 12:24-0700\n"
+"POT-Creation-Date: 2021-10-13 14:45-0700\n"
 "PO-Revision-Date: 2021-06-03 14:30-0700\n"
 "Last-Translator: Edgar Diaz <ediaz@ucsd.edu>\n"
 "Language: es_MX\n"
@@ -1941,7 +1941,7 @@ msgstr ""
 msgid "Delete Source"
 msgstr "Eliminar fuente"
 
-#: templates/survey.jinja2:2 templates/survey.jinja2:123
+#: templates/survey.jinja2:2 templates/survey.jinja2:128
 msgid "Participant Survey"
 msgstr "Encuesta del participante"
 
@@ -1949,23 +1949,31 @@ msgstr "Encuesta del participante"
 msgid " selected"
 msgstr " seleccione"
 
-#: templates/survey.jinja2:126
+#: templates/survey.jinja2:58
+msgid "The value is not an integer"
+msgstr "El valor no es un número entero"
+
+#: templates/survey.jinja2:59
+msgid "Invalid number"
+msgstr "Número invalido"
+
+#: templates/survey.jinja2:131
 msgid "Progress"
 msgstr "Progreso"
 
-#: templates/survey.jinja2:133
+#: templates/survey.jinja2:138
 msgid "Previous Section"
 msgstr "Sección previa"
 
-#: templates/survey.jinja2:134
+#: templates/survey.jinja2:139
 msgid "Next Section"
 msgstr "Siguiente sección"
 
-#: templates/survey.jinja2:153
+#: templates/survey.jinja2:158
 msgid "Submit Survey"
 msgstr "Enviar Encuesta"
 
-#: templates/survey.jinja2:159
+#: templates/survey.jinja2:164
 msgid ""
 "Please note: Once you've submitted this survey, you'll be unable to edit "
 "your answers."
@@ -1973,7 +1981,7 @@ msgstr ""
 "Tenga en cuenta: una vez que haya enviado esta encuesta, no podrá editar "
 "sus respuestas."
 
-#: templates/survey.jinja2:159
+#: templates/survey.jinja2:164
 msgid ""
 "If you'd like to review or change any of your responses, please press the"
 " Cancel button. Otherwise, press OK to submit your responses."
@@ -1981,23 +1989,23 @@ msgstr ""
 "Si desea revisar o cambiar alguna de sus respuestas, presione el botón de"
 " Cancelar. De lo contrario, presione OK para enviar sus respuestas."
 
-#: templates/survey.jinja2:159
+#: templates/survey.jinja2:164
 msgid "This warning will only appear once."
 msgstr "Esta advertencia solo aparecerá una vez."
 
-#: templates/survey.jinja2:182 templates/survey.jinja2:207
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "Step"
 msgstr "Paso"
 
-#: templates/survey.jinja2:182 templates/survey.jinja2:207
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "of"
 msgstr "de"
 
-#: templates/survey.jinja2:182 templates/survey.jinja2:207
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "Complete"
 msgstr "Completo"
 
-#: templates/survey.jinja2:192
+#: templates/survey.jinja2:197
 #, fuzzy
 msgid "Please correct the fields with errors."
 msgstr "Corrija los campos con errores."

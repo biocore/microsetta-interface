@@ -1,6 +1,7 @@
 import inspect
 import pandas as pd
 
+
 def has_non_keyword_arguments(func):
     sig = inspect.signature(func)
     params = sig.parameters
@@ -8,17 +9,18 @@ def has_non_keyword_arguments(func):
         if params[p].kind != inspect.Parameter.KEYWORD_ONLY:
             return True
 
-def parse_request_csv_col(request, file_name, col_name):
+
+def parse_request_csv_col(request, filename, col_name):
     """
     :param request: Flask request object
-    :param file_name: Name of csv file in flask request
+    :param filename: Name of csv file in flask request
     :param col_name: Name of column to retrieve from csv file
     :return: The tuple: (column_data: list, error: Optional[string])
     """
-    if file_name not in request.files or request.files[file_name].filename == '':
+    if filename not in request.files or request.files[filename].filename == '':
         return None, 'Must specify a valid file'
 
-    request_file = request.files[file_name]
+    request_file = request.files[filename]
     try:
         df = pd.read_csv(request_file, dtype=str)
         col = df[col_name].tolist()
@@ -27,19 +29,20 @@ def parse_request_csv_col(request, file_name, col_name):
 
     return col, None
 
-def parse_request_csv(request, file_name, required_cols):
+
+def parse_request_csv(request, filename, required_cols):
     """
     :param request: Flask request object
-    :param file_name: Name of csv file in flask request
+    :param filename: Name of csv file in flask request
     :param required_cols: Columns that must be in CSV header
     :return: The tuple: (csv_data: dict, error: Optional[string])
     """
-    if file_name not in request.files or request.files[file_name].filename == '':
+    if filename not in request.files or request.files[filename].filename == '':
         return None, 'Must specify a valid file'
 
-    request_file = request.files[file_name]
+    request_file = request.files[filename]
     try:
-        df = pd.read_csv(request_file, dtype=str,keep_default_na=False)
+        df = pd.read_csv(request_file, dtype=str, keep_default_na=False)
 
         missing_cols = []
 
@@ -57,12 +60,13 @@ def parse_request_csv(request, file_name, required_cols):
 
     return csv_contents, None
 
+
 def dict_to_csv(dict_convert):
     """
     :param dict_convert: The dictionary to write to a CSV
     :param cols_write: List of columns to write
     :return: String to write to file
     """
-    df = pd.DataFrame.from_dict(dict_convert,orient='index')
+    df = pd.DataFrame.from_dict(dict_convert, orient='index')
     csv_str = df.to_csv(index=False)
     return csv_str

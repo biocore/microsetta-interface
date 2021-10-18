@@ -516,7 +516,10 @@ def get_rootpath():
     return redirect(HOME_URL)
 
 
-def get_authrocket_callback(token, redirect_uri=None):
+def get_authrocket_callback(token=None, redirect_uri=None):
+    if token is None:
+        return redirect('/home')
+
     session[TOKEN_KEY_NAME] = token
     email, _ = _parse_jwt(token)
     session[LOGIN_INFO_KEY] = {
@@ -1480,7 +1483,7 @@ def post_address_verification(body):
     req_csv_columns = ["Address 1","Address 2","City","State","Postal Code",\
         "Country"]
 
-    csv_contents, upload_err = parse_request_csv(request, 'address_csv', 
+    csv_contents, upload_err = parse_request_csv(request, 'address_csv',
         req_csv_columns)
 
     ar = None

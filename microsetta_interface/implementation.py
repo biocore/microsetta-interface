@@ -516,7 +516,10 @@ def get_rootpath():
     return redirect(HOME_URL)
 
 
-def get_authrocket_callback(token, redirect_uri=None):
+def get_authrocket_callback(token=None, redirect_uri=None):
+    if token is None:
+        return redirect('/home')
+
     session[TOKEN_KEY_NAME] = token
     email, _ = _parse_jwt(token)
     session[LOGIN_INFO_KEY] = {

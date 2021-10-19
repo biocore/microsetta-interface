@@ -1682,11 +1682,7 @@ def get_campaign_edit(campaign_id=None):
     if has_error:
         return project_list
 
-    if campaign_info is not None:
-        ap = []
-        campaign_info['associated_projects'].split(",")
-    else:
-        ap = []
+    if campaign_info is None:
         campaign_info = {}
         campaign_info['title'] = None
         campaign_info['instructions'] = None
@@ -1704,12 +1700,6 @@ def get_campaign_edit(campaign_id=None):
         project_dict = {"project_id": project['project_id'],
                         "project_name": project['project_name']}
         projects.append(project_dict)
-        if campaign_info['associated_projects'] is not None:
-            if str(project['project_id']) in\
-                    campaign_info['associated_projects']:
-                ap.append(project['project_name'])
-
-    campaign_info['associated_projects'] = ", ".join(ap)
 
     return _render_with_defaults('admin_campaign_edit.jinja2',
                                  campaign_id=campaign_id,

@@ -1746,7 +1746,8 @@ def post_campaign_edit(body):
             }
         )
     else:
-        associated_projects = ','.join(request.form.getlist('associated_projects'))
+        associated_projects = \
+            ','.join(request.form.getlist('associated_projects'))
 
         do_return, campaign_info, _ = ApiRequest.post(
             "/campaign_information",
@@ -1770,7 +1771,7 @@ def post_campaign_edit(body):
     # save new header image
     if request.files['header_image'].filename != '':
         fn = path.join("microsetta_interface", "static", "img", "campaigns",
-                          campaign_info['header_image'])
+                       campaign_info['header_image'])
         request.files['header_image'].save(fn)
 
     return get_campaign_edit(campaign_info['campaign_id'])

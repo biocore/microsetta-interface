@@ -1730,7 +1730,7 @@ def post_campaign_edit(body):
     instructions_alt = request.form['instructions_alt']
 
     if 'campaign_id' in request.form:
-        do_return, campaign_info, _ = ApiRequest.post(
+        do_return, campaign_info, _ = ApiRequest.put(
             "/campaign_information",
             json={
                 "campaign_id": request.form['campaign_id'],
@@ -1777,8 +1777,34 @@ def post_campaign_edit(body):
     return get_campaign_edit(campaign_info['campaign_id'])
 
 
-def get_submit_interest():
-    return _render_with_defaults('submit_interest.jinja2')
+def get_submit_interest(campaign_id=None, source=None):
+    valid_campaign = False
+    campaign_info = None
+    show_alt_info = False
+
+    if campaign_id is not None:
+        do_return, campaign_info, _ = ApiRequest.get_no_auth(
+            "/campaign_information",
+            params={"campaign_id": campaign_id}
+        )
+
+        if do_return:
+            return campaign_info
+
+        if campaign_info['campaign_id'] != "BADID":
+            valid_campaign = True
+
+            # need user language to decide which title/instructions to show
+            user_lang = session_locale()
+            if user_lang == campaign_info['language_key_alt']:
+                show_alt_info = True
+
+    return _render_with_defaults('submit_interest.jinja2',
+                                 valid_campaign=valid_campaign,
+                                 campaign_id=campaign_id,
+                                 source=source,
+                                 campaign_info=campaign_info,
+                                 show_alt_info=show_alt_info)
 
 
 def get_system_message():
@@ -1876,6 +1902,15 @@ class ApiRequest:
         response = requests.get(
             ApiRequest.API_URL + input_path,
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
+            verify=ApiRequest.CAfile,
+            params=cls.build_params(params))
+
+        return cls._check_response(response, parse_json=parse_json)
+
+    @classmethod
+    def get_no_auth(cls, input_path, parse_json=True, params=None):
+        response = requests.get(
+            ApiRequest.API_URL + input_path,
             verify=ApiRequest.CAfile,
             params=cls.build_params(params))
 

@@ -62,65 +62,23 @@
             var start_code = {{ account.address.state | e | tojson }};
             cc = new JQuerySelectInput("country_code", "#country_code");
             new DelegateOutput(function(code){
+                let current_country = COUNTRY_CODE_LOOKUP[code];
                 if (code == "GB")
                 {
+                    // TODO: remove if/when we add en_GB as a locale
                     $("#city_label").text("Town*");
                     $("#state_label").text("County*");
                     $("#post_code_label").text("Postcode*");
                     $("#state").empty();
-                    for (var country of COUNTRIES_LIST)
-                    {
-                        if (country.country != "United Kingdom")
-                            continue;
-
-                        for (var state of country.states)
-                        {
-                            var option = $('<option></option>')
-                                .attr("value", state)
-                                .text(state);
-
-                            // We don't really have state codes for other
-                            // countries...
-                            if (state == start_code)
-                                option.attr('selected','selected');
-
-                            $("#state").append(option);
-                        }
-                    }
-                }
-                else if (code === "MX") {
+                } else {
                     $("#city_label").text("{{ _('City') }}*");
                     $("#state_label").text("{{ _('State') }}*");
                     $("#post_code_label").text("{{ _('Zip Code') }}*");
                     $("#state").empty();
-
-                    for (var country of COUNTRIES_LIST)
-                    {
-                        if (country.country !== "Mexico")
-                            continue;
-
-                        for (var state of country.states)
-                        {
-                            var option = $('<option></option>')
-                                .attr("value", state)
-                                .text(state);
-
-                            // We don't really have state codes for other
-                            // countries...
-                            if (state == start_code)
-                                option.attr('selected','selected');
-
-                            $("#state").append(option);
-                        }
-                    }
                 }
-                else
-                {
-                    $("#city_label").text("{{ _('City') }}*");
-                    $("#state_label").text("{{ _('State') }}*");
-                    $("#post_code_label").text("{{ _('Zip Code') }}*");
-                    $("#state").empty();
 
+                // special case the use of codes for US states
+                if (code == "US") {
                     for (var state of US_STATES)
                     {
                         var option = $('<option></option>')
@@ -129,6 +87,26 @@
                         if (state[0] == start_code)
                             option.attr('selected','selected');
                         $("#state").append(option);
+                    }
+                } else {
+                    for (var country of COUNTRIES_LIST)
+                    {
+                        if (country.country != current_country)
+                            continue;
+
+                        for (var state of country.states)
+                        {
+                            var option = $('<option></option>')
+                                .attr("value", state)
+                                .text(state);
+
+                            // We don't really have state codes for other
+                            // countries...
+                            if (state == start_code)
+                                option.attr('selected','selected');
+
+                            $("#state").append(option);
+                        }
                     }
                 }
             },cc);
@@ -172,9 +150,198 @@
                 <label for="country_code" id="country_code_label">{{ _('Country') }}*</label>
                 <br>
                 <select id="country_code" name="country_code">
-                    <option value="MX" {% if account.address.country_code == "MX" %} selected {% endif %} >{{ _('Mexico') }}</option>
                     <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >{{ _('United States') }}</option>
                     <option value="GB" {% if account.address.country_code == "GB" %} selected {% endif %} >{{ _('United Kingdom') }}</option>
+                    <option value="MX" {% if account.address.country_code == "MX" %} selected {% endif %} >{{ _('Mexico') }}</option>
+                    <option value="AF" {% if account.address.country_code == "AF" %} selected {% endif %} >{{ _('Afghanistan') }}</option>
+                    <option value="AL" {% if account.address.country_code == "AL" %} selected {% endif %} >{{ _('Albania') }}</option>
+                    <option value="DZ" {% if account.address.country_code == "DZ" %} selected {% endif %} >{{ _('Algeria') }}</option>
+                    <option value="AD" {% if account.address.country_code == "AD" %} selected {% endif %} >{{ _('Andorra') }}</option>
+                    <option value="AO" {% if account.address.country_code == "AO" %} selected {% endif %} >{{ _('Angola') }}</option>
+                    <option value="AQ" {% if account.address.country_code == "AQ" %} selected {% endif %} >{{ _('Antarctica') }}</option>
+                    <option value="AG" {% if account.address.country_code == "AG" %} selected {% endif %} >{{ _('Antigua and Barbuda') }}</option>
+                    <option value="AR" {% if account.address.country_code == "AR" %} selected {% endif %} >{{ _('Argentina') }}</option>
+                    <option value="AM" {% if account.address.country_code == "AM" %} selected {% endif %} >{{ _('Armenia') }}</option>
+                    <option value="AU" {% if account.address.country_code == "AU" %} selected {% endif %} >{{ _('Australia') }}</option>
+                    <option value="AT" {% if account.address.country_code == "AT" %} selected {% endif %} >{{ _('Austria') }}</option>
+                    <option value="AZ" {% if account.address.country_code == "AZ" %} selected {% endif %} >{{ _('Azerbaijan') }}</option>
+                    <option value="BS" {% if account.address.country_code == "BS" %} selected {% endif %} >{{ _('Bahamas') }}</option>
+                    <option value="BH" {% if account.address.country_code == "BH" %} selected {% endif %} >{{ _('Bahrain') }}</option>
+                    <option value="BD" {% if account.address.country_code == "BD" %} selected {% endif %} >{{ _('Bangladesh') }}</option>
+                    <option value="BB" {% if account.address.country_code == "BB" %} selected {% endif %} >{{ _('Barbados') }}</option>
+                    <option value="BY" {% if account.address.country_code == "BY" %} selected {% endif %} >{{ _('Belarus') }}</option>
+                    <option value="BE" {% if account.address.country_code == "BE" %} selected {% endif %} >{{ _('Belgium') }}</option>
+                    <option value="BZ" {% if account.address.country_code == "BZ" %} selected {% endif %} >{{ _('Belize') }}</option>
+                    <option value="BJ" {% if account.address.country_code == "BJ" %} selected {% endif %} >{{ _('Benin') }}</option>
+                    <option value="BM" {% if account.address.country_code == "BM" %} selected {% endif %} >{{ _('Bermuda') }}</option>
+                    <option value="BT" {% if account.address.country_code == "BT" %} selected {% endif %} >{{ _('Bhutan') }}</option>
+                    <option value="BO" {% if account.address.country_code == "BO" %} selected {% endif %} >{{ _('Bolivia') }}</option>
+                    <option value="BA" {% if account.address.country_code == "BA" %} selected {% endif %} >{{ _('Bosnia and Herzegovina') }}</option>
+                    <option value="BW" {% if account.address.country_code == "BW" %} selected {% endif %} >{{ _('Botswana') }}</option>
+                    <option value="BR" {% if account.address.country_code == "BR" %} selected {% endif %} >{{ _('Brazil') }}</option>
+                    <option value="BN" {% if account.address.country_code == "BN" %} selected {% endif %} >{{ _('Brunei') }}</option>
+                    <option value="BG" {% if account.address.country_code == "BG" %} selected {% endif %} >{{ _('Bulgaria') }}</option>
+                    <option value="BF" {% if account.address.country_code == "BF" %} selected {% endif %} >{{ _('Burkina Faso') }}</option>
+                    <option value="MM" {% if account.address.country_code == "MM" %} selected {% endif %} >{{ _('Burma') }}</option>
+                    <option value="BI" {% if account.address.country_code == "BI" %} selected {% endif %} >{{ _('Burundi') }}</option>
+                    <option value="KH" {% if account.address.country_code == "KH" %} selected {% endif %} >{{ _('Cambodia') }}</option>
+                    <option value="CM" {% if account.address.country_code == "CM" %} selected {% endif %} >{{ _('Cameroon') }}</option>
+                    <option value="CA" {% if account.address.country_code == "CA" %} selected {% endif %} >{{ _('Canada') }}</option>
+                    <option value="CV" {% if account.address.country_code == "CV" %} selected {% endif %} >{{ _('Cape Verde') }}</option>
+                    <option value="CF" {% if account.address.country_code == "CF" %} selected {% endif %} >{{ _('Central African Republic') }}</option>
+                    <option value="TD" {% if account.address.country_code == "TD" %} selected {% endif %} >{{ _('Chad') }}</option>
+                    <option value="CL" {% if account.address.country_code == "CL" %} selected {% endif %} >{{ _('Chile') }}</option>
+                    <option value="CN" {% if account.address.country_code == "CN" %} selected {% endif %} >{{ _('China') }}</option>
+                    <option value="CO" {% if account.address.country_code == "CO" %} selected {% endif %} >{{ _('Colombia') }}</option>
+                    <option value="KM" {% if account.address.country_code == "KM" %} selected {% endif %} >{{ _('Comoros') }}</option>
+                    <option value="CD" {% if account.address.country_code == "CD" %} selected {% endif %} >{{ _('Congo, Democratic Republic') }}</option>
+                    <option value="CG" {% if account.address.country_code == "CG" %} selected {% endif %} >{{ _('Congo, Republic of the') }}</option>
+                    <option value="CR" {% if account.address.country_code == "CR" %} selected {% endif %} >{{ _('Costa Rica') }}</option>
+                    <option value="CI" {% if account.address.country_code == "CI" %} selected {% endif %} >{{ _("Cote d'Ivoire") }}</option>
+                    <option value="HR" {% if account.address.country_code == "HR" %} selected {% endif %} >{{ _('Croatia') }}</option>
+                    <option value="CU" {% if account.address.country_code == "CU" %} selected {% endif %} >{{ _('Cuba') }}</option>
+                    <option value="CY" {% if account.address.country_code == "CY" %} selected {% endif %} >{{ _('Cyprus') }}</option>
+                    <option value="CZ" {% if account.address.country_code == "CZ" %} selected {% endif %} >{{ _('Czech Republic') }}</option>
+                    <option value="DK" {% if account.address.country_code == "DK" %} selected {% endif %} >{{ _('Denmark') }}</option>
+                    <option value="DJ" {% if account.address.country_code == "DJ" %} selected {% endif %} >{{ _('Djibouti') }}</option>
+                    <option value="DM" {% if account.address.country_code == "DM" %} selected {% endif %} >{{ _('Dominica') }}</option>
+                    <option value="DO" {% if account.address.country_code == "DO" %} selected {% endif %} >{{ _('Dominican Republic') }}</option>
+                    <option value="TL" {% if account.address.country_code == "TL" %} selected {% endif %} >{{ _('East Timor') }}</option>
+                    <option value="EC" {% if account.address.country_code == "EC" %} selected {% endif %} >{{ _('Ecuador') }}</option>
+                    <option value="EG" {% if account.address.country_code == "EG" %} selected {% endif %} >{{ _('Egypt') }}</option>
+                    <option value="SV" {% if account.address.country_code == "SV" %} selected {% endif %} >{{ _('El Salvador') }}</option>
+                    <option value="GQ" {% if account.address.country_code == "GQ" %} selected {% endif %} >{{ _('Equatorial Guinea') }}</option>
+                    <option value="ER" {% if account.address.country_code == "ER" %} selected {% endif %} >{{ _('Eritrea') }}</option>
+                    <option value="EE" {% if account.address.country_code == "EE" %} selected {% endif %} >{{ _('Estonia') }}</option>
+                    <option value="ET" {% if account.address.country_code == "ET" %} selected {% endif %} >{{ _('Ethiopia') }}</option>
+                    <option value="FJ" {% if account.address.country_code == "FJ" %} selected {% endif %} >{{ _('Fiji') }}</option>
+                    <option value="FI" {% if account.address.country_code == "FI" %} selected {% endif %} >{{ _('Finland') }}</option>
+                    <option value="FR" {% if account.address.country_code == "FR" %} selected {% endif %} >{{ _('France') }}</option>
+                    <option value="GA" {% if account.address.country_code == "GA" %} selected {% endif %} >{{ _('Gabon') }}</option>
+                    <option value="GM" {% if account.address.country_code == "GM" %} selected {% endif %} >{{ _('Gambia') }}</option>
+                    <option value="GE" {% if account.address.country_code == "GE" %} selected {% endif %} >{{ _('Georgia') }}</option>
+                    <option value="DE" {% if account.address.country_code == "DE" %} selected {% endif %} >{{ _('Germany') }}</option>
+                    <option value="GH" {% if account.address.country_code == "GH" %} selected {% endif %} >{{ _('Ghana') }}</option>
+                    <option value="GR" {% if account.address.country_code == "GR" %} selected {% endif %} >{{ _('Greece') }}</option>
+                    <option value="GL" {% if account.address.country_code == "GL" %} selected {% endif %} >{{ _('Greenland') }}</option>
+                    <option value="GD" {% if account.address.country_code == "GD" %} selected {% endif %} >{{ _('Grenada') }}</option>
+                    <option value="GT" {% if account.address.country_code == "GT" %} selected {% endif %} >{{ _('Guatemala') }}</option>
+                    <option value="GN" {% if account.address.country_code == "GN" %} selected {% endif %} >{{ _('Guinea') }}</option>
+                    <option value="GW" {% if account.address.country_code == "GW" %} selected {% endif %} >{{ _('Guinea-Bissau') }}</option>
+                    <option value="GY" {% if account.address.country_code == "GY" %} selected {% endif %} >{{ _('Guyana') }}</option>
+                    <option value="HT" {% if account.address.country_code == "HT" %} selected {% endif %} >{{ _('Haiti') }}</option>
+                    <option value="HN" {% if account.address.country_code == "HN" %} selected {% endif %} >{{ _('Honduras') }}</option>
+                    <option value="HK" {% if account.address.country_code == "HK" %} selected {% endif %} >{{ _('Hong Kong') }}</option>
+                    <option value="HU" {% if account.address.country_code == "HU" %} selected {% endif %} >{{ _('Hungary') }}</option>
+                    <option value="IS" {% if account.address.country_code == "IS" %} selected {% endif %} >{{ _('Iceland') }}</option>
+                    <option value="IN" {% if account.address.country_code == "IN" %} selected {% endif %} >{{ _('India') }}</option>
+                    <option value="ID" {% if account.address.country_code == "ID" %} selected {% endif %} >{{ _('Indonesia') }}</option>
+                    <option value="IR" {% if account.address.country_code == "IR" %} selected {% endif %} >{{ _('Iran') }}</option>
+                    <option value="IQ" {% if account.address.country_code == "IQ" %} selected {% endif %} >{{ _('Iraq') }}</option>
+                    <option value="IE" {% if account.address.country_code == "IE" %} selected {% endif %} >{{ _('Ireland') }}</option>
+                    <option value="IL" {% if account.address.country_code == "IL" %} selected {% endif %} >{{ _('Israel') }}</option>
+                    <option value="IT" {% if account.address.country_code == "IT" %} selected {% endif %} >{{ _('Italy') }}</option>
+                    <option value="JM" {% if account.address.country_code == "JM" %} selected {% endif %} >{{ _('Jamaica') }}</option>
+                    <option value="JP" {% if account.address.country_code == "JP" %} selected {% endif %} >{{ _('Japan') }}</option>
+                    <option value="JO" {% if account.address.country_code == "JO" %} selected {% endif %} >{{ _('Jordan') }}</option>
+                    <option value="KZ" {% if account.address.country_code == "KZ" %} selected {% endif %} >{{ _('Kazakhstan') }}</option>
+                    <option value="KE" {% if account.address.country_code == "KE" %} selected {% endif %} >{{ _('Kenya') }}</option>
+                    <option value="KI" {% if account.address.country_code == "KI" %} selected {% endif %} >{{ _('Kiribati') }}</option>
+                    <option value="KP" {% if account.address.country_code == "KP" %} selected {% endif %} >{{ _('Korea North') }}</option>
+                    <option value="KR" {% if account.address.country_code == "KR" %} selected {% endif %} >{{ _('Korea South') }}</option>
+                    <option value="KW" {% if account.address.country_code == "KW" %} selected {% endif %} >{{ _('Kuwait') }}</option>
+                    <option value="KG" {% if account.address.country_code == "KG" %} selected {% endif %} >{{ _('Kyrgyzstan') }}</option>
+                    <option value="LA" {% if account.address.country_code == "LA" %} selected {% endif %} >{{ _('Laos') }}</option>
+                    <option value="LV" {% if account.address.country_code == "LV" %} selected {% endif %} >{{ _('Latvia') }}</option>
+                    <option value="LB" {% if account.address.country_code == "LB" %} selected {% endif %} >{{ _('Lebanon') }}</option>
+                    <option value="LS" {% if account.address.country_code == "LS" %} selected {% endif %} >{{ _('Lesotho') }}</option>
+                    <option value="LR" {% if account.address.country_code == "LR" %} selected {% endif %} >{{ _('Liberia') }}</option>
+                    <option value="LY" {% if account.address.country_code == "LY" %} selected {% endif %} >{{ _('Libya') }}</option>
+                    <option value="LI" {% if account.address.country_code == "LI" %} selected {% endif %} >{{ _('Liechtenstein') }}</option>
+                    <option value="LT" {% if account.address.country_code == "LT" %} selected {% endif %} >{{ _('Lithuania') }}</option>
+                    <option value="LU" {% if account.address.country_code == "LU" %} selected {% endif %} >{{ _('Luxembourg') }}</option>
+                    <option value="MK" {% if account.address.country_code == "MK" %} selected {% endif %} >{{ _('Macedonia') }}</option>
+                    <option value="MG" {% if account.address.country_code == "MG" %} selected {% endif %} >{{ _('Madagascar') }}</option>
+                    <option value="MW" {% if account.address.country_code == "MW" %} selected {% endif %} >{{ _('Malawi') }}</option>
+                    <option value="MY" {% if account.address.country_code == "MY" %} selected {% endif %} >{{ _('Malaysia') }}</option>
+                    <option value="MV" {% if account.address.country_code == "MV" %} selected {% endif %} >{{ _('Maldives') }}</option>
+                    <option value="ML" {% if account.address.country_code == "ML" %} selected {% endif %} >{{ _('Mali') }}</option>
+                    <option value="MT" {% if account.address.country_code == "MT" %} selected {% endif %} >{{ _('Malta') }}</option>
+                    <option value="MH" {% if account.address.country_code == "MH" %} selected {% endif %} >{{ _('Marshall Islands') }}</option>
+                    <option value="MR" {% if account.address.country_code == "MR" %} selected {% endif %} >{{ _('Mauritania') }}</option>
+                    <option value="MU" {% if account.address.country_code == "MU" %} selected {% endif %} >{{ _('Mauritius') }}</option>
+                    <option value="FM" {% if account.address.country_code == "FM" %} selected {% endif %} >{{ _('Micronesia') }}</option>
+                    <option value="MD" {% if account.address.country_code == "MD" %} selected {% endif %} >{{ _('Moldova') }}</option>
+                    <option value="MN" {% if account.address.country_code == "MN" %} selected {% endif %} >{{ _('Mongolia') }}</option>
+                    <option value="ME" {% if account.address.country_code == "ME" %} selected {% endif %} >{{ _('Montenegro') }}</option>
+                    <option value="MA" {% if account.address.country_code == "MA" %} selected {% endif %} >{{ _('Morocco') }}</option>
+                    <option value="MC" {% if account.address.country_code == "MC" %} selected {% endif %} >{{ _('Monaco') }}</option>
+                    <option value="MZ" {% if account.address.country_code == "MZ" %} selected {% endif %} >{{ _('Mozambique') }}</option>
+                    <option value="NA" {% if account.address.country_code == "NA" %} selected {% endif %} >{{ _('Namibia') }}</option>
+                    <option value="NR" {% if account.address.country_code == "NR" %} selected {% endif %} >{{ _('Nauru') }}</option>
+                    <option value="NP" {% if account.address.country_code == "NP" %} selected {% endif %} >{{ _('Nepal') }}</option>
+                    <option value="NL" {% if account.address.country_code == "NL" %} selected {% endif %} >{{ _('Netherlands') }}</option>
+                    <option value="NZ" {% if account.address.country_code == "NZ" %} selected {% endif %} >{{ _('New Zealand') }}</option>
+                    <option value="NI" {% if account.address.country_code == "NI" %} selected {% endif %} >{{ _('Nicaragua') }}</option>
+                    <option value="NE" {% if account.address.country_code == "NE" %} selected {% endif %} >{{ _('Niger') }}</option>
+                    <option value="NG" {% if account.address.country_code == "NG" %} selected {% endif %} >{{ _('Nigeria') }}</option>
+                    <option value="NO" {% if account.address.country_code == "NO" %} selected {% endif %} >{{ _('Norway') }}</option>
+                    <option value="OM" {% if account.address.country_code == "OM" %} selected {% endif %} >{{ _('Oman') }}</option>
+                    <option value="PK" {% if account.address.country_code == "PK" %} selected {% endif %} >{{ _('Pakistan') }}</option>
+                    <option value="PA" {% if account.address.country_code == "PA" %} selected {% endif %} >{{ _('Panama') }}</option>
+                    <option value="PG" {% if account.address.country_code == "PG" %} selected {% endif %} >{{ _('Papua New Guinea') }}</option>
+                    <option value="PY" {% if account.address.country_code == "PY" %} selected {% endif %} >{{ _('Paraguay') }}</option>
+                    <option value="PE" {% if account.address.country_code == "PE" %} selected {% endif %} >{{ _('Peru') }}</option>
+                    <option value="PH" {% if account.address.country_code == "PH" %} selected {% endif %} >{{ _('Philippines') }}</option>
+                    <option value="PL" {% if account.address.country_code == "PL" %} selected {% endif %} >{{ _('Poland') }}</option>
+                    <option value="PT" {% if account.address.country_code == "PT" %} selected {% endif %} >{{ _('Portugal') }}</option>
+                    <option value="QA" {% if account.address.country_code == "QA" %} selected {% endif %} >{{ _('Qatar') }}</option>
+                    <option value="RO" {% if account.address.country_code == "RO" %} selected {% endif %} >{{ _('Romania') }}</option>
+                    <option value="RU" {% if account.address.country_code == "RU" %} selected {% endif %} >{{ _('Russia') }}</option>
+                    <option value="RW" {% if account.address.country_code == "RW" %} selected {% endif %} >{{ _('Rwanda') }}</option>
+                    <option value="WS" {% if account.address.country_code == "WS" %} selected {% endif %} >{{ _('Samoa') }}</option>
+                    <option value="SM" {% if account.address.country_code == "SM" %} selected {% endif %} >{{ _('San Marino') }}</option>
+                    <option value="ST" {% if account.address.country_code == "ST" %} selected {% endif %} >{{ _('Sao Tome') }}</option>
+                    <option value="SA" {% if account.address.country_code == "SA" %} selected {% endif %} >{{ _('Saudi Arabia') }}</option>
+                    <option value="SN" {% if account.address.country_code == "SN" %} selected {% endif %} >{{ _('Senegal') }}</option>
+                    <option value="RS" {% if account.address.country_code == "RS" %} selected {% endif %} >{{ _('Serbia') }}</option>
+                    <option value="SC" {% if account.address.country_code == "SC" %} selected {% endif %} >{{ _('Seychelles') }}</option>
+                    <option value="SL" {% if account.address.country_code == "SL" %} selected {% endif %} >{{ _('Sierra Leone') }}</option>
+                    <option value="SG" {% if account.address.country_code == "SG" %} selected {% endif %} >{{ _('Singapore') }}</option>
+                    <option value="SK" {% if account.address.country_code == "SK" %} selected {% endif %} >{{ _('Slovakia') }}</option>
+                    <option value="SI" {% if account.address.country_code == "SI" %} selected {% endif %} >{{ _('Slovenia') }}</option>
+                    <option value="SB" {% if account.address.country_code == "SB" %} selected {% endif %} >{{ _('Solomon Islands') }}</option>
+                    <option value="SO" {% if account.address.country_code == "SO" %} selected {% endif %} >{{ _('Somalia') }}</option>
+                    <option value="ZA" {% if account.address.country_code == "ZA" %} selected {% endif %} >{{ _('South Africa') }}</option>
+                    <option value="ES" {% if account.address.country_code == "ES" %} selected {% endif %} >{{ _('Spain') }}</option>
+                    <option value="LK" {% if account.address.country_code == "LK" %} selected {% endif %} >{{ _('Sri Lanka') }}</option>
+                    <option value="SD" {% if account.address.country_code == "SD" %} selected {% endif %} >{{ _('Sudan') }}</option>
+                    <option value="SR" {% if account.address.country_code == "SR" %} selected {% endif %} >{{ _('Suriname') }}</option>
+                    <option value="SZ" {% if account.address.country_code == "SZ" %} selected {% endif %} >{{ _('Swaziland') }}</option>
+                    <option value="SE" {% if account.address.country_code == "SE" %} selected {% endif %} >{{ _('Sweden') }}</option>
+                    <option value="CH" {% if account.address.country_code == "CH" %} selected {% endif %} >{{ _('Switzerland') }}</option>
+                    <option value="SY" {% if account.address.country_code == "SY" %} selected {% endif %} >{{ _('Syria') }}</option>
+                    <option value="TW" {% if account.address.country_code == "TW" %} selected {% endif %} >{{ _('Taiwan') }}</option>
+                    <option value="TJ" {% if account.address.country_code == "TJ" %} selected {% endif %} >{{ _('Tajikistan') }}</option>
+                    <option value="TZ" {% if account.address.country_code == "TZ" %} selected {% endif %} >{{ _('Tanzania') }}</option>
+                    <option value="TH" {% if account.address.country_code == "TH" %} selected {% endif %} >{{ _('Thailand') }}</option>
+                    <option value="TG" {% if account.address.country_code == "TG" %} selected {% endif %} >{{ _('Togo') }}</option>
+                    <option value="TO" {% if account.address.country_code == "TO" %} selected {% endif %} >{{ _('Tonga') }}</option>
+                    <option value="TT" {% if account.address.country_code == "TT" %} selected {% endif %} >{{ _('Trinidad and Tobago') }}</option>
+                    <option value="TN" {% if account.address.country_code == "TN" %} selected {% endif %} >{{ _('Tunisia') }}</option>
+                    <option value="TR" {% if account.address.country_code == "TR" %} selected {% endif %} >{{ _('Turkey') }}</option>
+                    <option value="TM" {% if account.address.country_code == "TM" %} selected {% endif %} >{{ _('Turkmenistan') }}</option>
+                    <option value="UG" {% if account.address.country_code == "UG" %} selected {% endif %} >{{ _('Uganda') }}</option>
+                    <option value="UA" {% if account.address.country_code == "UA" %} selected {% endif %} >{{ _('Ukraine') }}</option>
+                    <option value="AE" {% if account.address.country_code == "AE" %} selected {% endif %} >{{ _('United Arab Emirates') }}</option>
+                    <option value="UY" {% if account.address.country_code == "UY" %} selected {% endif %} >{{ _('Uruguay') }}</option>
+                    <option value="UZ" {% if account.address.country_code == "UZ" %} selected {% endif %} >{{ _('Uzbekistan') }}</option>
+                    <option value="VU" {% if account.address.country_code == "VU" %} selected {% endif %} >{{ _('Vanuatu') }}</option>
+                    <option value="VE" {% if account.address.country_code == "VE" %} selected {% endif %} >{{ _('Venezuela') }}</option>
+                    <option value="VN" {% if account.address.country_code == "VN" %} selected {% endif %} >{{ _('Viet nam') }}</option>
+                    <option value="YE" {% if account.address.country_code == "YE" %} selected {% endif %} >{{ _('Yemen') }}</option>
+                    <option value="ZM" {% if account.address.country_code == "ZM" %} selected {% endif %} >{{ _('Zambia') }}</option>
+                    <option value="ZW" {% if account.address.country_code == "ZW" %} selected {% endif %} >{{ _('Zimbabwe') }}</option>
                 </select>
             </div>
             <div class="form-group">

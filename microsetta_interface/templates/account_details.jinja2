@@ -70,10 +70,15 @@
                     $("#state_label").text("County*");
                     $("#post_code_label").text("Postcode*");
                     $("#state").empty();
-                } else {
+                } else if (code == "US") {
                     $("#city_label").text("{{ _('City') }}*");
                     $("#state_label").text("{{ _('State') }}*");
                     $("#post_code_label").text("{{ _('Zip Code') }}*");
+                    $("#state").empty();
+                } else {
+                    $("#city_label").text("{{ _('City/Town') }}*");
+                    $("#state_label").text("{{ _('County/State') }}*");
+                    $("#post_code_label").text("{{ _('Postcode') }}*");
                     $("#state").empty();
                 }
 

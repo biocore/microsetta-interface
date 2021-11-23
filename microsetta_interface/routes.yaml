@@ -87,6 +87,43 @@ paths:
         '302':
           description: Returning home
 
+  '/signup_form':
+    get:
+      operationId: microsetta_interface.implementation.get_submit_interest
+      parameters:
+        - in: query
+          name: campaign_id
+          schema:
+            type: string
+        - in: query
+          name: source
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Form to express interest in signing up
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_submit_interest
+      tags:
+        - Account
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Page confirming form submission
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/create_account':
     get:
       operationId: microsetta_interface.implementation.get_create_account
@@ -644,6 +681,48 @@ paths:
               schema:
                 type: string
 
+  '/user_address_verification':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_address_verification
+      parameters:
+        - in: query
+          name: address_1
+          description: First line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: address_2
+          description: Second line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: city
+          description: City of address to verify
+          schema:
+            type: string
+        - in: query
+          name: state
+          description: State of address to verify
+          schema:
+            type: string
+        - in: query
+          name: postal
+          description: Postal code of address to verify
+          schema:
+            type: string
+        - in: query
+          name: country
+          description: Country of address to verify
+          schema:
+            type: string
+      responses:
+        '200':
+          description: True/false response of whether address is valid
+          content:
+            text/html:
+              schema:
+                type: boolean
+
   '/admin/account_search':
     get:
       operationId: microsetta_interface.implementation.get_interactive_account_search
@@ -760,6 +839,55 @@ paths:
       responses:
         '200':
           description: Search results showing new email
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/campaigns/list':
+    get:
+      operationId: microsetta_interface.implementation.get_campaigns
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: List of campaigns for admin users to view/edit
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/campaigns/edit':
+    get:
+      operationId: microsetta_interface.implementation.get_campaign_edit
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: campaign_id
+          description: ID of campaign to edit
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Form to add or edit an existing campaign
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_campaign_edit
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Output confirming the edit/creation of a campaign
           content:
             text/html:
               schema:

@@ -1565,7 +1565,7 @@ def get_ajax_address_verification(address_1=None, address_2=None, city=None,
         if do_return:
             error = diagnostics
     else:
-        error = 'Address 1, Postal Code, and Country are required'
+        error = gettext('Address 1, Postal Code, and Country are required')
 
     if error is not None:
         result = False
@@ -1703,7 +1703,7 @@ def get_campaign_edit(campaign_id=None):
         raise Unauthorized()
 
     campaign_info = None
-    do_return = None
+    do_return = False
 
     if campaign_id is not None:
         do_return, campaign_info, _ = ApiRequest.get(
@@ -1850,7 +1850,7 @@ def get_submit_interest(campaign_id=None, source=None):
 def post_submit_interest(body):
     show_alt_info = False
 
-    # will this need to be updated for nginx in production environment?
+    # TODO: Verify that this doesn't need to be modified due to reverse proxy
     ip_address = request.remote_addr
 
     do_return, interested_user, _ = ApiRequest.post_no_auth(
@@ -1869,6 +1869,7 @@ def post_submit_interest(body):
             "state": body['state'],
             "postal": body['postal'],
             "confirm_consent": body['confirm_consent'],
+            "over_18": body['over_18'],
             "ip_address": ip_address
         }
     )
@@ -1893,7 +1894,8 @@ def post_submit_interest(body):
                                      campaign_info=campaign_info,
                                      show_alt_info=show_alt_info)
     else:
-        raise Exception("Sorry, there was a problem saving your information.")
+        e_msg = gettext("Sorry, there was a problem saving your information.")
+        raise Exception(e_msg)
 
 
 def get_system_message():

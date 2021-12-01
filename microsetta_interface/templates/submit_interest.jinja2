@@ -157,7 +157,7 @@ $(document).ready(function(){
                 confirm_consent: "required",
             },
             messages: {
-                over_18: "{{ _('You must be at least 18 years old to enroll in this study.') }}",
+                over_18: "{{ _('Please select whether you are at least 18 years of age.') }}",
                 first_name: "{{ _('Please enter your first name.') }}",
                 last_name: "{{ _('Please enter your last name.') }}",
                 email: "{{ _('Please enter a valid email address.') }}",
@@ -256,29 +256,31 @@ $(document).ready(function(){
                         {% endif %}<br /><br />
                         <div class="form-group">
                             <label for="over_18" name="over_18_label">{{ _('Are you at least 18 years of age?') }}*</label><br />
-                            <input type="checkbox" name="over_18" value="1"> {{ _('Yes') }}
-                            <label for="over_18" class="error" style="display: none;">{{ _('You must be at least 18 years old to enroll in this study.') }}</label>
+                            <input type="radio" name="over_18" value="true" /> {{ _('Yes') }}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="over_18" value="false" /> {{ _('No') }}<br />
+                            <label for="over_18" class="error" style="display: none;">{{ _('Please select whether you are at least 18 years of age.') }}</label>
                         </div>
                     </fieldset>
                     <fieldset id="submit_interest_2">
                         <div class="form-group">
-                            <label for="first_name" name="first_name_label">{{ _('First Name') }}</label>
+                            <label for="first_name" name="first_name_label">{{ _('First Name') }}*</label>
                             <input id="first_name" name="first_name" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="last_name" name="last_name_label">{{ _('Last Name') }}</label>
+                            <label for="last_name" name="last_name_label">{{ _('Last Name') }}*</label>
                             <input id="last_name" name="last_name" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="email" name="email_label">{{ _('Email Address') }}</label>
+                            <label for="email" name="email_label">{{ _('Email Address') }}*</label>
                             <input id="email" name="email" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="phone" name="phone_label">{{ _('Phone Number') }}</label>
+                            <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
                             <input id="phone" name="phone" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="country" name="country_label">{{ _('Country') }}</label>
+                            <label for="country" name="country_label">{{ _('Country') }}*</label>
                             <select id="country" name="country" class="form-control">
                                 <option value="">-- {{ _('SELECT') }} --</option>
                             </select>
@@ -286,7 +288,7 @@ $(document).ready(function(){
                     </fieldset>
                     <fieldset id="submit_interest_3">
                         <div class="form-group">
-                            <label for="address_1" name="address_1_label">{{ _('Address 1') }}</label>
+                            <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
                             <input id="address_1" name="address_1" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
@@ -294,17 +296,17 @@ $(document).ready(function(){
                             <input id="address_2" name="address_2" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="city" name="city_label">{{ _('City') }}</label>
+                            <label for="city" name="city_label">{{ _('City') }}*</label>
                             <input id="city" name="city" class="form-control" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="state" name="state_label">{{ _('State') }}</label>
+                            <label for="state" name="state_label">{{ _('State') }}*</label>
                             <select id="state" name="state" class="form-control">
                                 <option value="">-- {{ _('SELECT') }}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="postal" name="postal_label">{{ _('Postal Code') }}</label>
+                            <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
                             <input id="postal" name="postal" class="form-control" type="text">
                         </div>
                     </fieldset>

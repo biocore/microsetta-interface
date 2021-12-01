@@ -721,7 +721,7 @@ paths:
           content:
             text/html:
               schema:
-                type: boolean
+                type: string
 
   '/admin/account_search':
     get:

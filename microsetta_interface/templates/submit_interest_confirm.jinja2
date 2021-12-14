@@ -1,0 +1,40 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Home") %}
+{% set show_breadcrumbs = False %}
+{% set hide_header = True %}
+
+{% block head %}
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<!-- Defines COUNTRIES_LIST, based on ebaranov's country/state json with corrections -->
+<!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
+<script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
+<script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+<script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
+
+<style type="text/css">
+    body {
+        padding-left: 0;
+        margin: 0;
+    }
+
+    #submit_interest_2, #submit_interest_3, #submit_interest_4 {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<center>
+    <img src="/static/img/campaigns/{{ campaign_info['header_image'] |e }}" style="max-height: 100px"><br /><br />
+    <div class="card"  style="max-width: 800px; text-align: left;">
+        {% if show_alt_info %}
+        <h5 class="card-header" style="text-align: center">{{ campaign_info['title_alt'] |e }}</h5>
+        {% else %}
+        <h5 class="card-header" style="text-align: center">{{ campaign_info['title'] |e }}</h5>
+        {% endif %}
+        <div class="card-body">
+            {{ _('Thank you for your interest! Your information has been saved, and we will contact you via email soon.') }}
+        </div>
+    </div>
+</center>
+{% endblock %}

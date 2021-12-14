@@ -1544,6 +1544,40 @@ def post_address_verification(body):
         return response
 
 
+def get_ajax_address_verification(address_1=None, address_2=None, city=None,
+                                  state=None, postal=None, country=None):
+    diagnostics = None
+    error = None
+
+    if address_1 is not None and len(address_1) > 0 and \
+            postal is not None and len(postal) > 0 and \
+            country is not None and len(country) > 0:
+        do_return, diagnostics, _ = ApiRequest.get_no_auth(
+            "/admin/verify_address",
+            params={"address_1": address_1,
+                    "address_2": address_2,
+                    "city": city,
+                    "state": state,
+                    "postal": postal,
+                    "country": country}
+        )
+
+        if do_return:
+            error = diagnostics
+    else:
+        error = gettext('Address 1, Postal Code, and Country are required')
+
+    if error is not None:
+        result = False
+    else:
+        if diagnostics['valid'] is True:
+            result = True
+        else:
+            result = False
+
+    return flask.jsonify(result)
+
+
 def get_interactive_activation(email_query=None, code_query=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
@@ -1648,6 +1682,222 @@ def post_generate_activation(body):
         return get_interactive_activation(email, None)
 
 
+def get_campaigns():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        "/admin/campaigns/list",
+        params={}
+    )
+
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults('admin_campaign_list.jinja2',
+                                 diagnostics=diagnostics)
+
+
+def get_campaign_edit(campaign_id=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    campaign_info = None
+    do_return = False
+
+    if campaign_id is not None:
+        do_return, campaign_info, _ = ApiRequest.get(
+            "/campaign_information",
+            params={"campaign_id": campaign_id}
+        )
+
+    if do_return:
+        return campaign_info
+
+    has_error, project_list, _ = ApiRequest.get(
+        "/admin/projects",
+        params={"include_stats": False}
+    )
+
+    if has_error:
+        return project_list
+
+    if campaign_info is None:
+        campaign_info = {}
+        campaign_info['title'] = None
+        campaign_info['instructions'] = None
+        campaign_info['header_image'] = None
+        campaign_info['permitted_countries'] = None
+        campaign_info['language_key'] = None
+        campaign_info['accepting_participants'] = None
+        campaign_info['associated_projects'] = None
+        campaign_info['language_key_alt'] = None
+        campaign_info['title_alt'] = None
+        campaign_info['instructions_alt'] = None
+
+    projects = []
+    for project in project_list:
+        project_dict = {"project_id": project['project_id'],
+                        "project_name": project['project_name']}
+        projects.append(project_dict)
+
+    return _render_with_defaults('admin_campaign_edit.jinja2',
+                                 campaign_id=campaign_id,
+                                 campaign_info=campaign_info,
+                                 endpoint=SERVER_CONFIG['endpoint'],
+                                 languages=LANGUAGES,
+                                 projects=projects)
+
+
+def post_campaign_edit(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    extension = ''
+    if request.files['header_image'].filename != '':
+        filename = request.files['header_image'].filename
+        extension = filename.split(".")[len(filename.split("."))-1].lower()
+        if extension not in {"png", "jpg", "jpeg"}:
+            raise Exception("Invalid file type selected for header image")
+
+    title = request.form['title']
+    instructions = request.form['instructions']
+    permitted_countries = ','.join(request.form.getlist('permitted_countries'))
+    language_key = request.form['language_key']
+    accepting_participants = request.form['accepting_participants']
+    language_key_alt = request.form['language_key_alt']
+    title_alt = request.form['title_alt']
+    instructions_alt = request.form['instructions_alt']
+
+    if 'campaign_id' in request.form:
+        do_return, campaign_info, _ = ApiRequest.put(
+            "/campaign_information",
+            json={
+                "campaign_id": request.form['campaign_id'],
+                "title": title,
+                "instructions": instructions,
+                "permitted_countries": permitted_countries,
+                "language_key": language_key,
+                "accepting_participants": accepting_participants,
+                "language_key_alt": language_key_alt,
+                "title_alt": title_alt,
+                "instructions_alt": instructions_alt,
+                "extension": extension
+            }
+        )
+    else:
+        associated_projects = \
+            ','.join(request.form.getlist('associated_projects'))
+
+        do_return, campaign_info, _ = ApiRequest.post(
+            "/campaign_information",
+            json={
+                "title": title,
+                "instructions": instructions,
+                "permitted_countries": permitted_countries,
+                "language_key": language_key,
+                "accepting_participants": accepting_participants,
+                "associated_projects": associated_projects,
+                "language_key_alt": language_key_alt,
+                "title_alt": title_alt,
+                "instructions_alt": instructions_alt,
+                "extension": extension
+            }
+        )
+
+    if do_return:
+        return campaign_info
+
+    # save new header image
+    if request.files['header_image'].filename != '':
+        fn = path.join("microsetta_interface", "static", "img", "campaigns",
+                       campaign_info['header_image'])
+        request.files['header_image'].save(fn)
+
+    return get_campaign_edit(campaign_info['campaign_id'])
+
+
+def get_submit_interest(campaign_id=None, source=None):
+    valid_campaign = False
+    campaign_info = None
+    show_alt_info = False
+
+    if campaign_id is not None:
+        do_return, campaign_info, _ = ApiRequest.get_no_auth(
+            "/campaign_information",
+            params={"campaign_id": campaign_id}
+        )
+
+        if do_return:
+            return campaign_info
+
+        if campaign_info['campaign_id'] != "BADID":
+            valid_campaign = True
+
+            # need user language to decide which title/instructions to show
+            user_lang = session_locale()
+            if user_lang == campaign_info['language_key_alt']:
+                show_alt_info = True
+
+    return _render_with_defaults('submit_interest.jinja2',
+                                 valid_campaign=valid_campaign,
+                                 campaign_id=campaign_id,
+                                 source=source,
+                                 campaign_info=campaign_info,
+                                 show_alt_info=show_alt_info)
+
+
+def post_submit_interest(body):
+    show_alt_info = False
+
+    # TODO: Verify that this doesn't need to be modified due to reverse proxy
+    ip_address = request.remote_addr
+
+    do_return, interested_user, _ = ApiRequest.post_no_auth(
+        "/interested_user",
+        json={
+            "campaign_id": body['campaign_id'],
+            "acquisition_source": body['acquisition_source'],
+            "first_name": body['first_name'],
+            "last_name": body['last_name'],
+            "email": body['email'],
+            "phone": body['phone'],
+            "country": body['country'],
+            "address_1": body['address_1'],
+            "address_2": body['address_2'],
+            "city": body['city'],
+            "state": body['state'],
+            "postal": body['postal'],
+            "confirm_consent": body['confirm_consent'],
+            "over_18": body['over_18'],
+            "ip_address": ip_address
+        }
+    )
+
+    if do_return:
+        return interested_user
+
+    if "user_id" in interested_user:
+        do_return, campaign_info, _ = ApiRequest.get_no_auth(
+            "/campaign_information",
+            params={"campaign_id": body['campaign_id']}
+        )
+
+        if do_return:
+            return campaign_info
+
+        user_lang = session_locale()
+        if user_lang == campaign_info['language_key_alt']:
+            show_alt_info = True
+
+        return _render_with_defaults('submit_interest_confirm.jinja2',
+                                     campaign_info=campaign_info,
+                                     show_alt_info=show_alt_info)
+    else:
+        e_msg = gettext("Sorry, there was a problem saving your information.")
+        raise Exception(e_msg)
+
+
 def get_system_message():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
@@ -1749,6 +1999,15 @@ class ApiRequest:
         return cls._check_response(response, parse_json=parse_json)
 
     @classmethod
+    def get_no_auth(cls, input_path, parse_json=True, params=None):
+        response = requests.get(
+            ApiRequest.API_URL + input_path,
+            verify=ApiRequest.CAfile,
+            params=cls.build_params(params))
+
+        return cls._check_response(response, parse_json=parse_json)
+
+    @classmethod
     def put(cls, input_path, params=None, json=None):
         response = requests.put(
             ApiRequest.API_URL + input_path,
@@ -1764,6 +2023,15 @@ class ApiRequest:
         response = requests.post(
             ApiRequest.API_URL + input_path,
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
+            verify=ApiRequest.CAfile,
+            params=cls.build_params(params),
+            json=json)
+        return cls._check_response(response)
+
+    @classmethod
+    def post_no_auth(cls, input_path, params=None, json=None):
+        response = requests.post(
+            ApiRequest.API_URL + input_path,
             verify=ApiRequest.CAfile,
             params=cls.build_params(params),
             json=json)

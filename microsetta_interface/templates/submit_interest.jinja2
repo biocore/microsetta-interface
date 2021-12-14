@@ -1,0 +1,331 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Home") %}
+{% set show_breadcrumbs = False %}
+{% set hide_header = True %}
+
+{% block head %}
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<!-- Defines COUNTRIES_LIST, based on ebaranov's country/state json with corrections -->
+<!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
+<script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
+<script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+<script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    preventImplicitSubmission("interest_form");
+
+    for (var country of COUNTRIES_LIST) {
+        var option = $('<option></option>')
+            .attr("value", country.country)
+            .text(country.country);
+        $("#country").append(option);
+    }
+
+    var active_section = 0;
+
+    $("#country").on('change', function() {
+        $("#state").empty();
+        var option = $('<option></option>')
+            .attr("value", "")
+            .text("-- SELECT --");
+        $("#state").append(option);
+
+        if(document.interest_form.country.selectedIndex > 0) {
+            var selected_country = document.interest_form.country.options[document.interest_form.country.selectedIndex].value;
+            if (selected_country == "United States") {
+                for (var state of US_STATES)
+                {
+                    var option = $('<option></option>')
+                        .attr("value", state[0])
+                        .text(state[1]);
+                    $("#state").append(option);
+                }
+            } else {
+                for (var country of COUNTRIES_LIST)
+                {
+                    if (country.country != selected_country)
+                        continue;
+
+                    for (var state of country.states)
+                    {
+                        var option = $('<option></option>')
+                            .attr("value", state)
+                            .text(state);
+                        $("#state").append(option);
+                    }
+                }
+            }
+        }
+    });
+
+    function changePage(direction) {
+        let fieldsetObject = document.getElementsByTagName("fieldset");
+        let new_active_section = 0;
+
+        if(direction === "next") {
+            new_active_section = active_section + 1;
+        } else {
+            new_active_section = active_section - 1;
+        }
+        let display_active_section = new_active_section+1;
+
+        fieldsetObject[active_section].style.display = "none";
+        fieldsetObject[new_active_section].style.display = "block";
+
+        if(new_active_section === 0) {
+            document.getElementById("button_previous").style.display = "none";
+        } else {
+            document.getElementById("button_previous").style.display = "inline-block";
+        }
+        if(new_active_section === (fieldsetObject.length-1)) {
+            document.getElementById("button_next").style.display = "none";
+            document.getElementById("button_submit").style.display = "inline-block";
+        } else {
+            document.getElementById("button_submit").style.display = "none";
+            document.getElementById("button_next").style.display = "inline-block";
+        }
+
+        window.scrollTo(0,0);
+        active_section = new_active_section;
+    }
+
+    $.validator.addMethod("countryValidation", function(value, element) {
+        var permitted_countries = '{{ campaign_info['permitted_countries'] |e }}';
+        permitted_countries = permitted_countries.split(',');
+        var country_found = false;
+        for(var i = 0; i < permitted_countries.length; i++) {
+            if(value === permitted_countries[i]) {
+                country_found = true;
+                break;
+            }
+        }
+        return country_found;
+    }, "{{ _('Sorry, this study is not open to residents of your country.') }}");
+
+	$('.button_continue').click(function() {
+	    document.getElementById("validation_modal").style.display = 'block';
+
+	    var form = $("#interest_form");
+
+        $("#postal").removeData("previousValue");
+
+	    form.validate({
+	        onkeyup: false,
+	        onfocusout: false,
+            rules: {
+                over_18: "required",
+                first_name: "required",
+                last_name: "required",
+                email: {
+                    required: true,
+                    email: true
+                },
+                phone: "required",
+                country: {
+                    required: true,
+                    countryValidation: true
+                },
+                address_1: "required",
+                city: "required",
+                state: "required",
+                postal: {
+                    required: true,
+                    remote: {
+                        url: "/user_address_verification",
+                        type: "get",
+                        async: false,
+                        data: {
+                            address_1: function() {
+                                return $("#address_1").val();
+                            },
+                            address_2: function () {
+                                return $("#address_2").val();
+                            },
+                            city: function() {
+                                return $("#city").val();
+                            },
+                            state: function() {
+                                return $("#state").val();
+                            },
+                            country: function() {
+                                return $("#country").val();
+                            }
+                        }
+                    }
+                },
+                confirm_consent: "required",
+            },
+            messages: {
+                over_18: "{{ _('Please select whether you are at least 18 years of age.') }}",
+                first_name: "{{ _('Please enter your first name.') }}",
+                last_name: "{{ _('Please enter your last name.') }}",
+                email: "{{ _('Please enter a valid email address.') }}",
+                phone: "{{ _('Please enter your phone number.') }}",
+                country: {
+                    required: "{{ _('Please select your country.') }}"
+                },
+                address_1: "{{ _('Please enter your street address.') }}",
+                city: "{{ _('Please enter your city.') }}",
+                state: "{{ _('Please select your state.') }}",
+                postal: {
+                    required: "{{ _('Please enter your postal code.') }}",
+                    remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                },
+                confirm_consent: "{{ _('Please agree to receiving communications from us.') }}"
+            }
+	    });
+
+	    if(form.valid() === true) {
+	        if(active_section < 3) {
+               changePage("next");
+            } else {
+                document.getElementById("button_submit").disabled = true;
+                form.submit();
+            }
+	    }
+	    document.getElementById("validation_modal").style.display = 'none';
+	});
+
+ 	$('#button_previous').click(function(){
+		changePage("previous");
+	});
+});
+</script>
+
+<style type="text/css">
+    body {
+        padding-left: 0;
+        margin: 0;
+    }
+
+    #submit_interest_2, #submit_interest_3, #submit_interest_4 {
+        display: none;
+    }
+
+    .val_modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .val_modal_content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<center>
+    {% if not valid_campaign %}
+        {{ _('Sorry, it appears the project you were interested in joining has ended.') }}<br /><br />
+        {{ _('If you are interested in other opportunities to participate in The Microsetta Initiative, please visit our <a href="https://microsetta.ucsd.edu/">website.') }}</a>
+    {% else %}
+    <div id="validation_modal" class="val_modal">
+        <div class="val_modal_content">
+        <div id="validation_modal_content">{{ _('Verifying your information, please wait just a moment.') }}</div>
+        </div>
+    </div>
+        <img src="/static/img/campaigns/{{ campaign_info['header_image'] |e }}" style="max-height: 100px"><br /><br />
+        <div class="card"  style="max-width: 800px; text-align: left;">
+            {% if show_alt_info %}
+            <h5 class="card-header" style="text-align: center">{{ campaign_info['title_alt'] |e }}</h5>
+            {% else %}
+            <h5 class="card-header" style="text-align: center">{{ campaign_info['title'] |e }}</h5>
+            {% endif %}
+            <div class="card-body">
+                <form id="interest_form" name="interest_form" method="post">
+                    <input type="hidden" name="campaign_id" value="{{ campaign_id |e }}" />
+                    <input type="hidden" name="acquisition_source" value="{{ source |e }}" />
+                    <fieldset id="submit_interest_1">
+                        {% if show_alt_info %}
+                            {{ campaign_info['instructions_alt'] |e }}
+                        {% else %}
+                            {{ campaign_info['instructions'] |e }}
+                        {% endif %}<br /><br />
+                        <div class="form-group">
+                            <label for="over_18" name="over_18_label">{{ _('Are you at least 18 years of age?') }}*</label><br />
+                            <input type="radio" name="over_18" value="true" /> {{ _('Yes') }}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="over_18" value="false" /> {{ _('No') }}<br />
+                            <label for="over_18" class="error" style="display: none;">{{ _('Please select whether you are at least 18 years of age.') }}</label>
+                        </div>
+                    </fieldset>
+                    <fieldset id="submit_interest_2">
+                        <div class="form-group">
+                            <label for="first_name" name="first_name_label">{{ _('First Name') }}*</label>
+                            <input id="first_name" name="first_name" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name" name="last_name_label">{{ _('Last Name') }}*</label>
+                            <input id="last_name" name="last_name" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email" name="email_label">{{ _('Email Address') }}*</label>
+                            <input id="email" name="email" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
+                            <input id="phone" name="phone" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="country" name="country_label">{{ _('Country') }}*</label>
+                            <select id="country" name="country" class="form-control">
+                                <option value="">-- {{ _('SELECT') }} --</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <fieldset id="submit_interest_3">
+                        <div class="form-group">
+                            <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
+                            <input id="address_1" name="address_1" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
+                            <input id="address_2" name="address_2" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="city" name="city_label">{{ _('City') }}*</label>
+                            <input id="city" name="city" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label for="state" name="state_label">{{ _('State') }}*</label>
+                            <select id="state" name="state" class="form-control">
+                                <option value="">-- {{ _('SELECT') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
+                            <input id="postal" name="postal" class="form-control" type="text">
+                        </div>
+                    </fieldset>
+                    <fieldset id="submit_interest_4">
+                        <div class="form-group">
+                            <label for="confirm_consent" name="confirm_consent_label">{{ _('By subscribing to the this program, I agree to receive communications via the newsletter regarding the status of the program, the steps I must complete, tips and tricks for completing my participation and surveys. I agree and understand that I can unsubscribe at any time using a link in the newsletter and this will not change my consent to receive sample status updates directly from the TMI database. ') }}*</label><br />
+                            <input type="checkbox" name="confirm_consent" value="true"> {{ _('Yes') }}
+                            <label for="confirm_consent" class="error" style="display: none;">{{ _('Please agree to receiving communications from us.') }}</label>
+                        </div>
+                    </fieldset>
+                    <center>
+                        <button type="button" class="btn btn-primary" id="button_previous" style="display: none;">&lt;&lt; {{ _('Previous') }}</button>
+                        <button type="button" class="btn btn-primary button_continue" id="button_next">{{ _('Next') }} &gt;&gt;</button>
+                        <button type="button" class="btn btn-primary button_continue" id="button_submit" style="display: none;">{{ _('Submit') }} >></button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</center>
+
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Admin Campaign Edit") %}
+{% set show_breadcrumbs = False %}
+{% block head %}
+    <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+                var selected_countries = '{{ campaign_info.permitted_countries }}';
+                var selected_countries_arr = selected_countries.split(",");
+
+                for (var country of COUNTRIES_LIST)
+                {
+                    var option = $('<option></option>')
+                        .attr("value", country.country)
+                        .text(country.country);
+                    if (selected_countries_arr.indexOf(country.country) !== -1)
+                        option.attr('selected','selected');
+
+                    $("#permitted_countries").append(option);
+                }
+
+            });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+<center>
+    <form method="post"  enctype="multipart/form-data" action="/admin/campaigns/edit">
+        <table>
+            {% if campaign_id is not none %}
+            <input type="hidden" name="campaign_id" value="{{ campaign_id |e }}" />
+            <tr>
+                <td colspan="2" align="center"><strong>{{ _('Edit Campaign') }}</strong></td>
+            </tr>
+            <tr>
+                <td><label for="campaign_id">{{ _('Campaign ID') }}:</label></td>
+                <td><label>{{ campaign_id |e }}</label></td>
+            </tr>
+            <tr>
+                <td><label for="signup_link">{{ _('Campaign Link') }}:</label></td>
+                <td><label>{{ endpoint }}/signup_form?campaign_id={{ campaign_id |e }}&source=</label></td>
+            </tr>
+            <tr>
+                <td><label for="associated_projects">{{ _('Associated Projects') }}:</label></td>
+                <td><label>{{ campaign_info.associated_projects |e }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" align="center"><strong>{{ _('Add Campaign') }}</strong></td>
+            </tr>
+            <tr>
+                <td><label for="associated_projects">{{ _('Associated Projects') }}:</label></td>
+                <td>
+                    <select name="associated_projects" multiple size="10">
+                        {% for project in projects %}
+                        <option value="{{ project['project_id'] }}">{{ project['project_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td><label for="language_key">{{ _('Campaign Language') }}:</label></td>
+                <td>
+                    <select name="language_key">
+                        {% for lang in languages %}
+                        <option value="{{ languages[lang]['value'] }}" {% if campaign_info.language_key == languages[lang]['value'] %}selected{% endif %}>{{ languages[lang]['display_text'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="title">{{ _('Title') }}:</label></td>
+                <td><input type="text" name="title" value="{{ campaign_info.title |e if campaign_info.title is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="instructions">{{ _('Instructions') }}:</label></td>
+                <td><textarea name="instructions" rows="5" cols="40">{{ campaign_info.instructions |e if campaign_info.instructions is not none }}</textarea></td>
+            </tr>
+            <tr>
+                <td><label for="language_key_alt">{{ _('Alt Campaign Language') }}:</label></td>
+                <td>
+                    <select name="language_key_alt">
+                        <option value="">-- NONE --</option>
+                        {% for lang in languages %}
+                        <option value="{{ languages[lang]['value'] }}" {% if campaign_info.language_key_alt == languages[lang]['value'] %}selected{% endif %}>{{ languages[lang]['display_text'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="title_alt">{{ _('Title in Alt Language') }}:</label></td>
+                <td><input type="text" name="title_alt" value="{{ campaign_info.title_alt |e if campaign_info.title_alt is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="instructions_alt">{{ _('Instructions in Alt Language') }}:</label></td>
+                <td><textarea name="instructions_alt" rows="5" cols="40">{{ campaign_info.instructions_alt |e if campaign_info.instructions_alt is not none}}</textarea></td>
+            </tr>
+            {% if header_image is not none %}
+            <tr>
+                <td><label for="current_header">{{ _('Current Header Image') }}:</label></td>
+                <td><img src="/static/img/campaigns/{{ campaign_info.header_image |e }}" style="max-height: 100px"></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td><label for="header_image">{{ _('Upload New Header Image') }}:</label></td>
+                <td><input type="file" name="header_image" accept=".png, .jpg, .jpeg"></td>
+            </tr>
+            <tr>
+                <td><label for="permitted_countries">{{ _('Permitted Countries') }}:</label></td>
+                <td>
+                    <select name="permitted_countries" id="permitted_countries" multiple size="10">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="accepting_participants">{{ _('Accepting Participants') }}:</label></td>
+                <td>
+                    <select name="accepting_participants">
+                        <option value="True" {% if campaign_info.accepting_participants is true %}selected{% endif %}>Yes</option>
+                        <option value="False"{% if campaign_info.accepting_participants is false %}selected{% endif %}>No</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="{{ _('Submit') }}"></td>
+            </tr>
+        </table>
+    </form>
+</center>
+
+{% endblock %}

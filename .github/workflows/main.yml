@@ -88,6 +88,7 @@ jobs:
         conda activate microsetta-interface
         conda install --yes --file ci/conda_requirements.txt
         pip install -r ci/pip_requirements.txt
+        python setup.py compile_catalog
         pip install -e . --no-deps
         
         git clone https://github.com/biocore/microsetta-private-api.git

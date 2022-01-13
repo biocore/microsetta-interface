@@ -29,13 +29,14 @@ else:
 
 
 def _fake_jwt(email, verified):
-    # lie and say we're from authrocket
-    payload = {'email': email,
-               'email_verified': verified,
-               'iss': 'https://authrocket.com',
-               'sub': hashlib.md5(email.encode('ascii')).hexdigest()}
-    encoded = jwt.encode(payload, PRIV_KEY, algorithm='RS256')
-    return encoded
+    if PRIVATE_API_AVAILABLE:
+        # lie and say we're from authrocket
+        payload = {'email': email,
+                   'email_verified': verified,
+                   'iss': 'https://authrocket.com',
+                   'sub': hashlib.md5(email.encode('ascii')).hexdigest()}
+        encoded = jwt.encode(payload, PRIV_KEY, algorithm='RS256')
+        return encoded
 
 
 # we cannot have fine grain control over the state of the private-api

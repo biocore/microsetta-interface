@@ -114,7 +114,11 @@ jobs:
         pushd microsetta-private-api
         sed -i 's/"debug": true,/"debug": true, "disable_authentication": true,/' microsetta_private_api/server_config.json
         python microsetta_private_api/server.py &
+        sleep 1
         popd
+
+        # make sure we're online
+        curl -v http://localhost:8082/api/ui
 
         conda activate microsetta-interface
         source keys_for_testing.sh
@@ -123,4 +127,4 @@ jobs:
         # make sure we did not skip tests, which would indicate a failure in
         # the harness. this test will produce an exit status of 1 if the
         # test suite reports skipped tests
-        [[ $(tail -n 1 foo | grep skipped) == "" ]];
+        [[ $(tail -n 1 stderr.log | grep skipped) == "" ]];

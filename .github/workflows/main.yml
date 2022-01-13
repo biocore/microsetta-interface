@@ -46,3 +46,80 @@ jobs:
       run: |
         conda activate test-microsetta-interface
         pytest
+  integration:
+    runs-on: ubuntu-latest
+      
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:13.4
+        env:
+          POSTGRES_DB: ag_test  
+          POSTGRES_USER: postgres  
+          POSTGRES_PASSWORD: postgres
+          
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # based on https://github.com/actions/example-services/blob/master/.github/workflows/postgres-service.yml#L44-L72
+          - 5432/tcp
+
+    steps:
+    # Downloads a copy of the code in your repository before running CI tests
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Setup for conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:        
+        auto-update-conda: true
+        python-version: 3.7 
+    
+    - name: Install
+      shell: bash -l {0}
+      run: |
+        conda create --yes -n microsetta-interface python=3.7
+        conda activate microsetta-interface
+        conda install --yes --file ci/conda_requirements.txt
+        pip install -r ci/pip_requirements.txt
+        pip install -e . --no-deps
+        
+        git clone git@github.com/biocore/microsetta-private-api.git
+        pushd microsetta-private-api
+        pgport=${{ job.services.postgres.ports[5432] }}
+        sed -i "s/self.port = 5432/self.port = $pgport/" microsetta_private_api/config_manager.py
+        
+        # PGPASSWORD is read by pg_restore, which is called by the build_db process. 
+        export PGPASSWORD=postgres
+        
+        conda create --yes -n microsetta-private-api python=3.7
+        conda activate microsetta-private-api
+        conda install --yes --file ci/conda_requirements.txt
+        pip install -r ci/pip_requirements.txt
+        pip install -e . --no-deps 
+        
+        # establish database state
+        python microsetta_private_api/LEGACY/build_db.py
+        popd
+    - name: Run integration tests
+      shell: bash -l {0}
+      run: |
+        conda activate microsetta-private-api
+        pushd microsetta-private-api
+        sed -i 's/"debug": true,/"debug": true, "disable_authentication": true,/' microsetta_private_api/server_config.json
+        python microsetta_private_api/server.py &
+        popd
+
+        conda activate microsetta-interface
+        python microsetta_interface/tests/test_integration.py 2> >(tee -a stderr.log >&2)
+        
+        # make sure we did not skip tests, which would indicate a failure in
+        # the harness. this test will produce an exit status of 1 if the
+        # test suite reports skipped tests
+        [[ $(tail -n 1 foo | grep skipped) == "" ]];

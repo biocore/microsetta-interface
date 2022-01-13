@@ -114,7 +114,7 @@ jobs:
         pushd microsetta-private-api
         sed -i 's/"debug": true,/"debug": true, "disable_authentication": true,/' microsetta_private_api/server_config.json
         python microsetta_private_api/server.py &
-        sleep 1
+        sleep 10 # give time to start up
         popd
 
         # make sure we're online

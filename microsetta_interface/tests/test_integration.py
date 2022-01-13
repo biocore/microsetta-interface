@@ -19,6 +19,8 @@ except:  # noqa
 else:
     PRIVATE_API_AVAILABLE = (req.status_code == 200)
 
+
+# obtain the JWT key if it exists
 PRIVKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PRIV'
 if os.environ.get(PRIVKEY_ENVVAR, False):
     PRIV_KEY = open(os.environ[PRIVKEY_ENVVAR]).read()

@@ -117,10 +117,8 @@ jobs:
         sleep 10 # give time to start up
         popd
 
-        # make sure we're online
-        curl -v http://localhost:8082/api/ui
-
         conda activate microsetta-interface
+        redis-server --daemonize yes
         source keys_for_testing.sh
         python microsetta_interface/tests/test_integration.py 2> >(tee -a stderr.log >&2)
         

@@ -1,5 +1,6 @@
 import json
 
+import os
 import flask
 import flask_babel
 from flask_babel import gettext
@@ -39,9 +40,14 @@ class Source:
     SOURCE_TYPE_ENVIRONMENT = "environmental"
 
 
-PUB_KEY = pkg_resources.read_text(
-    'microsetta_interface',
-    "authrocket.pubkey")
+PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
+if os.environ.get(PUBKEY_ENVVAR, False):
+    PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
+else:
+    PUB_KEY = pkg_resources.read_text(
+        'microsetta_interface',
+        "authrocket.pubkey")
+
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'

@@ -9,6 +9,8 @@ from microsetta_interface.server import app
 from microsetta_interface.implementation import TOKEN_KEY_NAME
 from microsetta_interface.config_manager import SERVER_CONFIG
 import requests
+import datetime
+import time
 
 
 # check if microsetta-private-api appears to be running
@@ -29,7 +31,13 @@ else:
     PRIVATE_API_AVAILABLE = False
 
 
-def _fake_jwt(email, verified):
+def _uniqify(email):
+    now = datetime.datetime.now()
+    ts = str(time.mktime(now.timetuple()))
+    return ts + email
+
+
+def _fake_jwt(email, verified, uniqify=False):
     if PRIVATE_API_AVAILABLE:
         # lie and say we're from authrocket
         payload = {'email': email,
@@ -50,6 +58,9 @@ USER_NEW = _fake_jwt(USER_NEW_EMAIL, True)
 USER_NEW_UNVERIFIED_EMAIL = 'user_unverified@foo.bar'
 USER_NEW_UNVERIFIED = _fake_jwt(USER_NEW_UNVERIFIED_EMAIL, False)
 
+USER_NEW_CREATE_ACCOUNT_EMAIL = _uniqify('user_create@foo.bar')
+USER_NEW_CREATE_ACCOUNT = _fake_jwt(USER_NEW_CREATE_ACCOUNT_EMAIL, True, True)
+
 USER_WITH_VALID_SAMPLE_EMAIL = "th-dq)wort@3'rey.i3l"
 USER_WITH_VALID_SAMPLE = _fake_jwt(USER_WITH_VALID_SAMPLE_EMAIL, True)
 
@@ -57,6 +68,18 @@ USER_WITH_VALID_SAMPLE = _fake_jwt(USER_WITH_VALID_SAMPLE_EMAIL, True)
 TEST_KIT_1 = 'PGP_AmsFQ'
 TEST_KIT_1_SAMPLE_1_BARCODE = '000005097'
 TEST_KIT_1_SAMPLE_1_SAMPLE_ID = 'ddbb117b-c8fa-9a94-e040-8a80115d1380'
+
+ADULT_CONSENT = {"participant_email": 'foo@bar.com',
+                 "participant_name": "foo bar",
+                 "age_range": "18-plus",
+                 "parent_1_name": None,
+                 "parent_2_name": None,
+                 "deceased_parent": 'false',
+                 "obtainer_name": None}
+
+# set the persons age on the survey
+PRIMARY_SURVEY_SIMPLE = {"112": "1970"}
+COVID_SURVEY_SIMPLE = {"209": "An integration test"}
 
 
 @unittest.skipIf(not PRIVATE_API_AVAILABLE,
@@ -101,7 +124,7 @@ class IntegrationTests(unittest.TestCase):
         except KeyError:
             pass
 
-    def idsFromURL(self, url):
+    def _ids_from_url(self, url):
         uuidre = '([a-f0-9-]+)'
 
         pats = [
@@ -123,6 +146,10 @@ class IntegrationTests(unittest.TestCase):
                 return ids
             else:
                 raise AssertionError(f"Unexpected URL: {url}")
+
+    def _first_ids_from_html(self, page):
+        # turns out the pattern matching for URLs just works
+        return self._ids_from_url(page)
 
     def assertPageTitle(self, resp, title, exp_code=200):
         self.assertEqual(resp.status_code, exp_code)
@@ -187,6 +214,31 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get('/home')
         self.assertPageTitle(resp, 'Home')
 
+    def test_new_user_create_account(self):
+        resp, _ = self._new_to_create()
+        self.assertPageTitle(resp, 'Account')
+
+    def _new_to_create(self):
+        self._login(USER_NEW_CREATE_ACCOUNT)
+        resp = self.app.get('/home', follow_redirects=True)
+        self.assertPageTitle(resp, 'Account Details')
+        url = '/create_account'
+        body = {"first_name": "a",
+                "last_name": "b",
+                "street": "c",
+                "email": USER_NEW_CREATE_ACCOUNT_EMAIL,
+                "city": "d",
+                "state": "e",
+                "post_code": "f",
+                "language": "en_US",
+                "country_code": "US",
+                "code": "",
+                "kit_name": TEST_KIT_1}
+
+        resp = self.app.post(url, data=body)
+        url = resp.headers['Location']
+        return self.app.get(url), url
+
     def test_new_user_unverified(self):
         self._login(USER_NEW_UNVERIFIED)
 
@@ -215,6 +267,10 @@ class IntegrationTests(unittest.TestCase):
         # opt out of secondary surveys
         # claim a sample
         # collect sample information
+
+        # NOTE: this test is more specific on checking redirects to increase
+        # granularity, rather than using helper methods, to make sure the flow
+        # is as expected
         self._login(USER_WITH_VALID_SAMPLE)
 
         resp = self.app.get('/home')
@@ -224,27 +280,19 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Account')
 
-        account_id, _, _ = self.idsFromURL(url)
+        # sign the consent
+        account_id, _, _ = self._ids_from_url(url)
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
-
-        # for consent, we POST to the same place we GET
-        consent_body = {"participant_email": 'foo@bar.com',
-                        "participant_name": "foo bar",
-                        "age_range": "18-plus",
-                        "parent_1_name": None,
-                        "parent_2_name": None,
-                        "deceased_parent": 'false',
-                        "obtainer_name": None}
-        resp = self.app.post(url, data=consent_body)
+        resp = self.app.post(url, data=ADULT_CONSENT)
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
         url = self.redirectURL(resp)
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Participant Survey')
 
         # let's complete the primary survey, and advance to the covid survey
-        survey_body = {"112": "1970"}
+        survey_body = PRIMARY_SURVEY_SIMPLE
         resp = self.app.post(url, json=survey_body, follow_redirects=True)
 
         # we should still be on the survey page, but now for COVID
@@ -253,8 +301,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn('COVID19', data)
 
         # complete the COVID survey
-        survey_body = {"209": "An integration test"}
-        account_id, source_id, _ = self.idsFromURL(url)
+        survey_body = COVID_SURVEY_SIMPLE
+        account_id, source_id, _ = self._ids_from_url(url)
         url = url[:-1] + '6'
         resp = self.app.post(url, json=survey_body, follow_redirects=True)
         self.assertPageTitle(resp, 'Account Samples')
@@ -306,6 +354,56 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Sample Information')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
+
+    def _sign_consent(self, account_id, consent=ADULT_CONSENT):
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+        resp = self.app.post(url, data=consent)
+        url = resp.headers['Location']
+        return self.app.get(url), url
+
+    def _complete_primary_survey(self, account_id, source_id,
+                                 survey=PRIMARY_SURVEY_SIMPLE):
+        return self._complete_local_survey(account_id, source_id, survey, '1')
+
+    def _complete_covid_survey(self, account_id, source_id,
+                               survey=COVID_SURVEY_SIMPLE):
+        return self._complete_local_survey(account_id, source_id, survey, '6')
+
+    def _complete_local_survey(self, account_id, source_id, body, template_id):
+        url = (f'/accounts/{account_id}/sources/{source_id}/'
+               f'take_survey?survey_template_id={template_id}')
+        resp = self.app.post(url, json=body)
+        url = resp.headers['Location']
+        return self.app.get(url), url
+
+    def test_new_user_to_secondary_survey(self):
+        resp, url = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
+        resp, url = self._sign_consent(account_id)
+        account_id, source_id, _ = self._ids_from_url(url)
+        self._complete_primary_survey(account_id, source_id)
+        resp, url = self._complete_covid_survey(account_id, source_id)
+        self.assertPageTitle(resp, 'Secondary Surveys')
+
+    def test_existing_user_to_secondary_survey(self):
+        self._login(USER_WITH_VALID_SAMPLE)
+        resp = self.app.get('/home', follow_redirects=True)
+        page = self._html_page(resp)
+        account_id, source_id, _ = self._first_ids_from_html(page)
+        url = f'/accounts/{account_id}/sources/{source_id}'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Secondary Surveys')
+
+    #def test_takes_fermented_food_survey(self):
+    #    self.fail()
+
+    #def test_secondary_surveys_no_myfoodrepo_slots(self):
+    #    self.fail()
+
+    #def test_secondary_surveys_myfoodrepo_slots(self):
+    #    self.fail()
 
 
 if __name__ == '__main__':

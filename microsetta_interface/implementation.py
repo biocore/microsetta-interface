@@ -50,6 +50,7 @@ else:
 
 
 TOKEN_KEY_NAME = 'token'
+SKIP_SECONDARY_SURVEYS = 'skip_secondary_surveys'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
 LANG_KEY = "language"
@@ -79,7 +80,8 @@ NEEDS_REROUTE = "NeedsReroute"
 NEEDS_LOGIN = "NeedsLogin"
 NEEDS_ACCOUNT = "NeedsAccount"
 NEEDS_EMAIL_CHECK = "NeedsEmailCheck"
-NEEDS_SURVEY = "NeedsSurvey"
+NEEDS_PRIMARY_SURVEYS = "NeedsPrimarySurveys"
+NEEDS_SECONDARY_SURVEYS = "NeedsSecondarySurveys"
 HOME_PREREQS_MET = "TokenPrereqsMet"
 ACCT_PREREQS_MET = "AcctPrereqsMet"
 SOURCE_PREREQS_MET = "SourcePrereqsMet"
@@ -88,7 +90,6 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  special handling is required.  API must specify per-sample survey templates
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
-
 
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
@@ -141,6 +142,17 @@ def _render_with_defaults(template_name, **context):
 def _get_req_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
         return [1, 6]
+    elif source_type == Source.SOURCE_TYPE_ANIMAL:
+        return []
+    elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
+        return []
+    else:
+        raise ValueError("Unknown source type: '%s'" % source_type)
+
+
+def _get_opt_survey_templates_by_source_type(source_type):
+    if source_type == Source.SOURCE_TYPE_HUMAN:
+        return [3, 4, 5]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -244,25 +256,69 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
         req_survey_template_ids = _get_req_survey_templates_by_source_type(
             source_output["source_type"])
 
+        # Get all optional survey template ids for this source type
+        opt_survey_template_ids = _get_opt_survey_templates_by_source_type(
+            source_output["source_type"])
+
         # Get all the current answered surveys for this source
         needs_reroute, surveys_output, _ = ApiRequest.get(
             '/accounts/{0}/sources/{1}/surveys'.format(acct_id, source_id))
+
         if needs_reroute:
             current_state[REROUTE_KEY] = surveys_output
             return NEEDS_REROUTE, current_state
         template_ids_of_answered_surveys = [x[SURVEY_TEMPLATE_ID_KEY] for x
                                             in surveys_output]
+        # Get next required survey
+        # NOTE: current_state is updated *inplace*
+        needs_reroute = _update_needed_survey(req_survey_template_ids,
+                                              template_ids_of_answered_surveys,
+                                              current_state)
+        if needs_reroute is not None:
+            return needs_reroute, current_state
 
-        # For each required survey template id for this source type
-        for curr_req_survey_template_id in req_survey_template_ids:
-            # Does this source LACK an answered survey with this template id?
-            if curr_req_survey_template_id not in \
-                    template_ids_of_answered_surveys:
-                current_state["needed_survey_template_id"] = \
-                    curr_req_survey_template_id
-                return NEEDS_SURVEY, current_state
+        # Get optional surveys
+        # NOTE: current_state is updated *inplace*
+        if not session.get(SKIP_SECONDARY_SURVEYS, False):
+            needs_reroute = _update_secondary_survey(opt_survey_template_ids,
+                                                     template_ids_of_answered_surveys,  # noqa
+                                                     current_state)
+        if needs_reroute is not None:
+            return needs_reroute, current_state
 
     return SOURCE_PREREQS_MET, current_state
+
+
+def _update_needed_survey(survey_template_ids, ids_of_answered, current_state):
+    # For each required survey template id for this source type
+    for curr_survey_template_id in survey_template_ids:
+        # Does this source LACK an answered survey with this template id?
+        if curr_survey_template_id not in ids_of_answered:
+            current_state["needed_survey_template_id"] = \
+                curr_survey_template_id
+            return NEEDS_PRIMARY_SURVEYS
+    return None
+
+
+def _update_secondary_survey(survey_template_ids, ids_of_answered,
+                             current_state):
+    unanswered = []
+    answered = []
+    # For each required survey template id for this source type
+    for curr_survey_template_id in survey_template_ids:
+        # Does this source LACK an answered survey with this template id?
+        if curr_survey_template_id not in ids_of_answered:
+            unanswered.append(curr_survey_template_id)
+        else:
+            answered.append(curr_survey_template_id)
+
+    current_state["available_survey_template_ids"] = unanswered
+    current_state["completed_survey_template_ids"] = answered
+
+    if len(unanswered) > 0:
+        return NEEDS_SECONDARY_SURVEYS
+    else:
+        return None
 
 
 def _check_relevant_prereqs(acct_id=None, source_id=None):
@@ -303,8 +359,8 @@ def prerequisite(allowed_states: list, **parameter_overrides):
     @prerequisite([State1, State2], survey_template_id=VIOSCREEN_ID)
     def vioscreen_callback(account_id, source_id, key):
         # If client is not in one of State1, State2, they will be redirected
-        # Further, if they are determined to be in NEEDS_SURVEY, but their
-        # required survey template id is not VIOSCREEN_ID, they will be
+        # Further, if they are determined to be in NEEDS_PRIMARY_SURVEYS, but
+        # their required survey template id is not VIOSCREEN_ID, they will be
         # redirected.  Note that this makes use of the parameter_overrides to
         # set a specific parameter (survey_template_id) when the wrapped
         # function knows what would be sent, but does not expose it within its
@@ -349,10 +405,15 @@ def prerequisite(allowed_states: list, **parameter_overrides):
             # For any states that require checking additional parameters, we do
             # so here.  (Remember to lookup from kwargs_copy)
             # TODO: Ensure state specific checks don't grow unwieldy
-            if prereqs_step == NEEDS_SURVEY:
+            if prereqs_step == NEEDS_PRIMARY_SURVEYS:
                 passed_id = kwargs_copy.get('survey_template_id')
                 needed_id = curr_state.get("needed_survey_template_id")
                 if passed_id != needed_id:
+                    return _route_to_closest_sink(prereqs_step, curr_state)
+
+            if prereqs_step == NEEDS_SECONDARY_SURVEYS:
+                avail_ids = curr_state.get("available_survey_template_ids", [])
+                if len(avail_ids) == 0:
                     return _route_to_closest_sink(prereqs_step, curr_state)
 
             # Add new state specific checks here
@@ -375,7 +436,7 @@ def _parse_jwt(token):
 
 
 def _route_to_closest_sink(prereqs_step, current_state):
-    print("Current Prereq Step:", prereqs_step)
+    # print("Current Prereq Step:", prereqs_step)
     acct_id = current_state.get("account_id", None)
     source_id = current_state.get("source_id", None)
 
@@ -390,11 +451,23 @@ def _route_to_closest_sink(prereqs_step, current_state):
         return redirect("/create_account")
     elif prereqs_step == NEEDS_EMAIL_CHECK:
         return redirect(_make_acct_path(acct_id, suffix="update_email"))
-    elif prereqs_step == NEEDS_SURVEY:
+    elif prereqs_step == NEEDS_PRIMARY_SURVEYS:
         needed_survey_template_id = current_state["needed_survey_template_id"]
         return redirect(_make_source_path(
             acct_id, source_id, suffix="take_survey?survey_template_id=%s"
                                        % needed_survey_template_id))
+    elif prereqs_step == NEEDS_SECONDARY_SURVEYS:
+        avail_survey_template_ids = \
+            current_state["available_survey_template_ids"]
+        compl_survey_template_ids = \
+            current_state["completed_survey_template_ids"]
+        avail = ','.join([str(i) for i in avail_survey_template_ids])
+        compl = ','.join([str(i) for i in compl_survey_template_ids])
+        suffix = (f"take_secondary_survey?"
+                  f"available_survey_template_ids={avail}&"
+                  f"completed_survey_template_ids={compl}")
+        return redirect(_make_source_path(
+            acct_id, source_id, suffix=suffix))
     elif prereqs_step == ACCT_PREREQS_MET:
         # redirect to the account details page (showing all the sources)
         return redirect(_make_acct_path(acct_id))
@@ -775,7 +848,7 @@ def post_create_nonhuman_source(*, account_id=None, body=None):
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([NEEDS_SURVEY])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, NEEDS_SECONDARY_SURVEYS])
 def get_fill_local_source_survey(*,
                                  account_id=None,
                                  source_id=None,
@@ -794,7 +867,7 @@ def get_fill_local_source_survey(*,
                                      'survey_template_text'])
 
 
-@prerequisite([NEEDS_SURVEY])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, NEEDS_SECONDARY_SURVEYS])
 def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None):
     has_error, surveys_output, _ = ApiRequest.post(
@@ -809,7 +882,73 @@ def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
     return _refresh_state_and_route_to_sink(account_id, source_id)
 
 
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_SURVEY])
+def _get_survey_detail(id_):
+    # HACK TODO issue call to -private-api to obtain translated detail
+    if id_ == 1:
+        return {'title': 'Primary Questionnaire',
+                'description': 'The general questionnaire for Microsetta'}
+    if id_ == 3:
+        return {'title': 'Fermented Foods Survey',
+                'description': 'A fermented foods specific questionnaire'}
+    elif id_ == 4:
+        return {'title': 'Surfer Questionnaire',
+                'description': 'Questions on surfing behavior'}
+    elif id_ == 5:
+        return {'title': 'Personal Microbiome Questionnaire',
+                'description': 'Questions about your interest in the microbiome'}  # noqa
+    elif id_ == 6:
+        return {'title': 'COVID19 Questionnaire',
+                'description': 'Questions specific to COVID19'}
+    elif id_ == VIOSCREEN_ID:
+        return {'title': 'Vioscreen FFQ',
+                'description': 'Our standard food frequency questionnaire'}
+    else:
+        raise BadRequest("Unrecognized survey ID: %s" % id_)
+
+
+@prerequisite([NEEDS_SECONDARY_SURVEYS])
+def get_fill_local_secondary_source_surveys(*,
+                                            account_id=None,
+                                            source_id=None,
+                                            available_survey_template_ids=None,
+                                            completed_survey_template_ids=None):  # noqa
+
+    survey_details = []
+    for id_ in available_survey_template_ids.split(','):
+        detail = _get_survey_detail(int(id_))
+        detail['survey_template_id'] = id_
+        survey_details.append(detail)
+
+    return _render_with_defaults("secondary_surveys.jinja2",
+                                 account_id=account_id,
+                                 source_id=source_id,
+                                 survey_details=survey_details)
+
+
+@prerequisite([NEEDS_SECONDARY_SURVEYS])
+def post_fill_local_secondary_source_surveys(*,
+                                             account_id=None,
+                                             source_id=None,
+                                             survey_template_id=None,
+                                             session_opt_out=False,
+                                             body=None):
+    if session_opt_out:
+        # TODO: make this source specific. At the moment, this is account wide
+        session[SKIP_SECONDARY_SURVEYS] = True
+    else:
+        has_error, surveys_output, _ = ApiRequest.post(
+            "/accounts/%s/sources/%s/surveys" % (account_id, source_id),
+            json={
+                "survey_template_id": survey_template_id,
+                "survey_text": body
+            })
+        if has_error:
+            return surveys_output
+
+    return _refresh_state_and_route_to_sink(account_id, source_id)
+
+
+@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS])
 def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
@@ -840,7 +979,7 @@ def get_fill_vioscreen_remote_sample_survey(*,
 # per-sample survey we have is the remote food frequency questionnaire
 # administered through vioscreen, and saving that requires its own special
 # handling (this function).
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_SURVEY],
+@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS],
               survey_template_id=VIOSCREEN_ID)
 def get_to_save_vioscreen_remote_sample_survey(*,
                                                account_id=None,
@@ -1051,6 +1190,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, sample_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/samples/%s' %
         (account_id, source_id, sample_id))
+
     if has_error:
         return sample_output
 
@@ -1751,7 +1891,6 @@ class ApiRequest:
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
             verify=ApiRequest.CAfile,
             params=cls.build_params(params))
-
         return cls._check_response(response, parse_json=parse_json)
 
     @classmethod

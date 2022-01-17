@@ -505,6 +505,47 @@ paths:
                 type: string
         '302':
           description: Redirecting to necessary action
+  
+  '/accounts/{account_id}/sources/{source_id}/take_secondary_survey':
+    get:
+      operationId: microsetta_interface.implementation.get_fill_local_secondary_source_surveys
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/available_survey_template_ids'
+        - $ref: '#/components/parameters/completed_survey_template_ids'
+      responses:
+        '200':
+          description: Secondary Surveys
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_fill_local_secondary_source_surveys
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/survey_template_id'
+        - $ref: '#/components/parameters/session_opt_out'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Error report
+          content:
+            text/html:
+              schema:
+                type: string
+        '302':
+          description: Redirecting to necessary action
 
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/survey_templates/{survey_template_id}':
     get:
@@ -909,6 +950,13 @@ components:
       schema:
         $ref: '#/components/schemas/sample_id'
       required: true
+    session_opt_out:
+      name: session_opt_out
+      in: query
+      description: Indication the user has opted out within a session
+      schema:
+        $ref: '#/components/schemas/session_opt_out'
+      required: true
     survey_id:
       name: survey_id
       in: path
@@ -922,6 +970,20 @@ components:
       description: Unique internal id specifying a particular survey template
       schema:
         $ref: '#/components/schemas/survey_template_id'
+      required: true
+    available_survey_template_ids:
+      name: available_survey_template_ids
+      in: query
+      description: List of internal IDs for unanswered surveys
+      schema:
+        $ref: '#/components/schemas/available_survey_template_ids'
+      required: true
+    completed_survey_template_ids:
+      name: completed_survey_template_ids
+      in: query
+      description: List of internal IDs for answered surveys
+      schema:
+        $ref: '#/components/schemas/completed_survey_template_ids'
       required: true
     survey_template_id_in_path:
       name: survey_template_id
@@ -969,6 +1031,15 @@ components:
     survey_template_id:
       type: integer
       example: 3
+    available_survey_template_ids:
+      type: string
+      example: "2,3,4"
+    completed_survey_template_ids:
+      type: string
+      example: "2,3,4"
+    session_opt_out:
+      type: boolean
+      example: false
     error_msg:
       type: string
       example: "%7B%0A%20%20%22detail%22%3A%20%22The%20browser%20(or%20proxy)%20sent%20a%20request%20that%20this%20server%20could%20not%20understand.%22%2C%0A%20%20%22status%22%3A%20400%2C%0A%20%20%22title%22%3A%20%22Bad%20Request%22%2C%0A%20%20%22type%22%3A%20%22about%3Ablank%22%0A%7D%0A"

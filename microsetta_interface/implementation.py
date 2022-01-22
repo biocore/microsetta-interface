@@ -90,6 +90,7 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  special handling is required.  API must specify per-sample survey templates
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
+MYFOODREPO_ID = 10002
 
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
@@ -152,7 +153,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5]
+        return [3, 4, 5, MYFOODREPO_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -902,6 +903,10 @@ def _get_survey_detail(id_):
     elif id_ == VIOSCREEN_ID:
         return {'title': 'Vioscreen FFQ',
                 'description': 'Our standard food frequency questionnaire'}
+    elif id_ == MYFOODREPO_ID:
+        return {'title': 'MyFoodRepo diet assessment',
+                'description': 'The MyFoodRepo picture-based, artificial '
+                               'intelligence backed, diet assessment platform'}
     else:
         raise BadRequest("Unrecognized survey ID: %s" % id_)
 

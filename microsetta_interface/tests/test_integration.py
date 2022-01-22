@@ -403,6 +403,11 @@ class IntegrationTests(unittest.TestCase):
         url = resp.headers['Location']
         return self.app.get(url), url
 
+    def _complete_myfoodrepo_survey(self, account_id, source_id):
+        url = (f'/accounts/{account_id}/sources/{source_id}/'
+               f'take_survey?survey_template_id=10002')
+        return self.app.get(url), url
+
     def test_new_user_to_secondary_survey(self):
         resp, url, user_jwt = self._new_to_create()
         account_id, _, _ = self._ids_from_url(url)
@@ -461,6 +466,7 @@ class IntegrationTests(unittest.TestCase):
         self._complete_fermented_survey(account_id, source_id)
         self._complete_personal_survey(account_id, source_id)
         self._complete_surfer_survey(account_id, source_id)
+        self._complete_myfoodrepo_survey(account_id, source_id)
 
         # we SHOUD NOT be presented with secondary surveys as all have been
         # taken
@@ -486,7 +492,7 @@ class IntegrationTests(unittest.TestCase):
         # we've taken the fermented food survey, so we should not
         # observe its URL in the rendered page
         # TODO: this check will likely break if/when survey editing is allowed
-        # TODO: add MyFoodRepo survey
+        self.assertIn('survey_template_id=10002', data)
         self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)

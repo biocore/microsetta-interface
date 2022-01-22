@@ -434,10 +434,17 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Secondary Surveys')
 
     def test_existing_user_to_secondary_survey(self):
+        # test db doesn't have a completed covid survey, so let's do that
+        # logout then back in
         self._login(USER_WITH_VALID_SAMPLE)
         resp = self.app.get('/home', follow_redirects=True)
         page = self._html_page(resp)
         account_id, source_id, _ = self._first_ids_from_html(page)
+        self._complete_covid_survey(account_id, source_id)
+
+        self._logout()
+
+        self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
         self.assertPageTitle(resp, 'Secondary Surveys')

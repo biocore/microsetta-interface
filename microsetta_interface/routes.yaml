@@ -1141,4 +1141,3 @@ components:
     activation_code:
       type: string
       example: TMI-XXXXX-XXXXX-XXXXX
-

@@ -1898,6 +1898,44 @@ def post_submit_interest(body):
         raise Exception(e_msg)
 
 
+def get_update_address(uid=None, email=None):
+    if uid is not None and email is not None:
+        do_return, user_info, _ = ApiRequest.get_no_auth(
+            "/update_address",
+            params={"interested_user_id": uid, "email": email}
+        )
+
+        if do_return:
+            return user_info
+        else:
+            return _render_with_defaults('update_address.jinja2',
+                                         user_info=user_info)
+
+
+def post_update_address(body):
+    do_return, interested_user, _ = ApiRequest.put_no_auth(
+        "/update_address",
+        json={
+            "interested_user_id": body['interested_user_id'],
+            "email": body['email'],
+            "address_1": body['address_1'],
+            "address_2": body['address_2'],
+            "city": body['city'],
+            "state": body['state'],
+            "postal": body['postal']
+        }
+    )
+
+    if do_return:
+        return interested_user
+
+    if "user_id" in interested_user:
+        return _render_with_defaults('update_address_confirm.jinja2')
+    else:
+        e_msg = gettext("Sorry, there was a problem saving your information.")
+        raise Exception(e_msg)
+
+
 def get_system_message():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
@@ -2012,6 +2050,16 @@ class ApiRequest:
         response = requests.put(
             ApiRequest.API_URL + input_path,
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
+            verify=ApiRequest.CAfile,
+            params=cls.build_params(params),
+            json=json)
+
+        return cls._check_response(response)
+
+    @classmethod
+    def put_no_auth(cls, input_path, params=None, json=None):
+        response = requests.put(
+            ApiRequest.API_URL + input_path,
             verify=ApiRequest.CAfile,
             params=cls.build_params(params),
             json=json)

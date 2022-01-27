@@ -303,20 +303,37 @@ def _update_needed_survey(survey_template_ids, ids_of_answered, current_state):
 
 def _update_secondary_survey(survey_template_ids, ids_of_answered,
                              current_state):
-    unanswered = []
-    answered = []
+    available = []
+    unavailable = []
+    if MYFOODREPO_ID not in ids_of_answered:
+        # myfoodrepo is a special case as there are a finite number of
+        # people who can be using it. it is available only if:
+        # - it has not already been taken
+        # - there is a slot
+        has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
+        if has_error:
+            return NEEDS_REROUTE
+
+        if slots['number_of_available_slots'] > 0:
+            available.append(MYFOODREPO_ID)
+        else:
+            # remove myfoodrepo from consideration
+            survey_template_ids = [i for i in survey_template_ids
+                                   if i != MYFOODREPO_ID]
+            unavailable.append(MYFOODREPO_ID)
+
     # For each required survey template id for this source type
     for curr_survey_template_id in survey_template_ids:
         # Does this source LACK an answered survey with this template id?
         if curr_survey_template_id not in ids_of_answered:
-            unanswered.append(curr_survey_template_id)
+            available.append(curr_survey_template_id)
         else:
-            answered.append(curr_survey_template_id)
+            unavailable.append(curr_survey_template_id)
 
-    current_state["available_survey_template_ids"] = unanswered
-    current_state["completed_survey_template_ids"] = answered
+    current_state["available_survey_template_ids"] = available
+    current_state["unavailable_survey_template_ids"] = unavailable
 
-    if len(unanswered) > 0:
+    if len(available) > 0:
         return NEEDS_SECONDARY_SURVEYS
     else:
         return None
@@ -461,12 +478,12 @@ def _route_to_closest_sink(prereqs_step, current_state):
         avail_survey_template_ids = \
             current_state["available_survey_template_ids"]
         compl_survey_template_ids = \
-            current_state["completed_survey_template_ids"]
+            current_state["unavailable_survey_template_ids"]
         avail = ','.join([str(i) for i in avail_survey_template_ids])
         compl = ','.join([str(i) for i in compl_survey_template_ids])
         suffix = (f"take_secondary_survey?"
                   f"available_survey_template_ids={avail}&"
-                  f"completed_survey_template_ids={compl}")
+                  f"unavailable_survey_template_ids={compl}")
         return redirect(_make_source_path(
             acct_id, source_id, suffix=suffix))
     elif prereqs_step == ACCT_PREREQS_MET:
@@ -916,7 +933,7 @@ def get_fill_local_secondary_source_surveys(*,
                                             account_id=None,
                                             source_id=None,
                                             available_survey_template_ids=None,
-                                            completed_survey_template_ids=None):  # noqa
+                                            unavailable_survey_template_ids=None):  # noqa
 
     survey_details = []
     for id_ in available_survey_template_ids.split(','):

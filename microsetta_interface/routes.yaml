@@ -515,7 +515,7 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/available_survey_template_ids'
-        - $ref: '#/components/parameters/completed_survey_template_ids'
+        - $ref: '#/components/parameters/unavailable_survey_template_ids'
       responses:
         '200':
           description: Secondary Surveys
@@ -978,12 +978,12 @@ components:
       schema:
         $ref: '#/components/schemas/available_survey_template_ids'
       required: true
-    completed_survey_template_ids:
-      name: completed_survey_template_ids
+    unavailable_survey_template_ids:
+      name: unavailable_survey_template_ids
       in: query
-      description: List of internal IDs for answered surveys
+      description: List of internal IDs for unavailable (possibly answered) surveys
       schema:
-        $ref: '#/components/schemas/completed_survey_template_ids'
+        $ref: '#/components/schemas/unavailable_survey_template_ids'
       required: true
     survey_template_id_in_path:
       name: survey_template_id
@@ -1034,7 +1034,7 @@ components:
     available_survey_template_ids:
       type: string
       example: "2,3,4"
-    completed_survey_template_ids:
+    unavailable_survey_template_ids:
       type: string
       example: "2,3,4"
     session_opt_out:

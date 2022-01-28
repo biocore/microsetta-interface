@@ -469,7 +469,7 @@ paths:
 
   '/accounts/{account_id}/sources/{source_id}/take_survey':
     get:
-      operationId: microsetta_interface.implementation.get_fill_local_source_survey
+      operationId: microsetta_interface.implementation.get_fill_source_survey
       tags:
         - Survey
       parameters:
@@ -508,7 +508,7 @@ paths:
   
   '/accounts/{account_id}/sources/{source_id}/take_secondary_survey':
     get:
-      operationId: microsetta_interface.implementation.get_fill_local_secondary_source_surveys
+      operationId: microsetta_interface.implementation.get_fill_secondary_source_surveys
       tags:
         - Survey
       parameters:

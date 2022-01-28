@@ -466,7 +466,10 @@ class IntegrationTests(unittest.TestCase):
         self._complete_fermented_survey(account_id, source_id)
         self._complete_personal_survey(account_id, source_id)
         self._complete_surfer_survey(account_id, source_id)
-        self._complete_myfoodrepo_survey(account_id, source_id)
+        resp, _ = self._complete_myfoodrepo_survey(account_id, source_id)
+
+        # myfoodrepo completion should be a redirect
+        self.assertEqual(resp.status_code, 302)
 
         # we SHOUD NOT be presented with secondary surveys as all have been
         # taken
@@ -482,7 +485,6 @@ class IntegrationTests(unittest.TestCase):
         self._complete_primary_survey(account_id, source_id)
         self._complete_covid_survey(account_id, source_id)
         self._complete_fermented_survey(account_id, source_id)
-        # TODO: take/complete MyFoodRepo survey
 
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)

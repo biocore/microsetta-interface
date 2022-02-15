@@ -63,62 +63,70 @@
 $(document).ready(function(){
     preventImplicitSubmission("address_form");
 
+    var failure_count = 0;
+
 	$('.button_continue').click(function() {
-	    document.getElementById("validation_modal").style.display = 'block';
+	    if (failure_count < 5) {
+            document.getElementById("validation_modal").style.display = 'block';
 
-	    var form = $("#address_form");
+            var form = $("#address_form");
 
-        $("#postal").removeData("previousValue");
+            $("#postal").removeData("previousValue");
 
-	    form.validate({
-	        onkeyup: false,
-	        onfocusout: false,
-            rules: {
-                address_1: "required",
-                city: "required",
-                state: "required",
-                postal: {
-                    required: true,
-                    remote: {
-                        url: "/user_address_verification",
-                        type: "get",
-                        async: false,
-                        data: {
-                            address_1: function() {
-                                return $("#address_1").val();
-                            },
-                            address_2: function () {
-                                return $("#address_2").val();
-                            },
-                            city: function() {
-                                return $("#city").val();
-                            },
-                            state: function() {
-                                return $("#state").val();
-                            },
-                            country: function() {
-                                return $("#country").val();
+            form.validate({
+                onkeyup: false,
+                onfocusout: false,
+                rules: {
+                    address_1: "required",
+                    city: "required",
+                    state: "required",
+                    postal: {
+                        required: true,
+                        remote: {
+                            url: "/user_address_verification",
+                            type: "get",
+                            async: false,
+                            data: {
+                                address_1: function() {
+                                    return $("#address_1").val();
+                                },
+                                address_2: function () {
+                                    return $("#address_2").val();
+                                },
+                                city: function() {
+                                    return $("#city").val();
+                                },
+                                state: function() {
+                                    return $("#state").val();
+                                },
+                                country: function() {
+                                    return $("#country").val();
+                                }
                             }
                         }
-                    }
+                    },
                 },
-            },
-            messages: {
-                address_1: "{{ _('Please enter your street address.') }}",
-                city: "{{ _('Please enter your city.') }}",
-                state: "{{ _('Please select your state.') }}",
-                postal: {
-                    required: "{{ _('Please enter your postal code.') }}",
-                    remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                messages: {
+                    address_1: "{{ _('Please enter your street address.') }}",
+                    city: "{{ _('Please enter your city.') }}",
+                    state: "{{ _('Please select your state.') }}",
+                    postal: {
+                        required: "{{ _('Please enter your postal code.') }}",
+                        remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                    }
                 }
-            }
-	    });
+            });
 
-	    if(form.valid() === true) {
-            document.getElementById("button_submit").disabled = true;
-            form.submit();
-	    }
-	    document.getElementById("validation_modal").style.display = 'none';
+            if(form.valid() === true) {
+                document.getElementById("button_submit").disabled = true;
+                form.submit();
+            } else {
+                failure_count += 1;
+            }
+            document.getElementById("validation_modal").style.display = 'none';
+        } else {
+            document.getElementById("sorry_modal").style.display = 'block';
+        }
 	});
 });
 
@@ -158,6 +166,11 @@ $(document).ready(function(){
     <div id="validation_modal" class="val_modal">
         <div class="val_modal_content">
         <div id="validation_modal_content">{{ _('Verifying your information, please wait just a moment.') }}</div>
+        </div>
+    </div>
+    <div id="sorry_modal" class="val_modal">
+        <div class="val_modal_content">
+            <div id="sorry_modal_content">{{ _('Sorry, it appears you are having trouble verifying your address. Please contact our support team at microsetta@ucsd.edu and they can assist with confirming your address.') }}</div>
         </div>
     </div>
     <div class="card"  style="max-width: 800px; text-align: left;">

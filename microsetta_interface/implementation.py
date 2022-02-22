@@ -1439,6 +1439,59 @@ def get_interactive_account_search(email_query):
                                  accounts=accounts)
 
 
+def get_interested_users(email=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    interested_users = None
+
+    if email is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            '/admin/search/interested_users/%s' % (email,))
+        if do_return:
+            return diagnostics
+
+        interested_users = [iu for iu in diagnostics['users']]
+
+    return _render_with_defaults('admin_interested_users.jinja2',
+                                 interested_users=interested_users)
+
+
+def get_interested_user_edit(iuid):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, interested_user, _ = ApiRequest.get(
+        '/admin/interested_user/%s' % (iuid,))
+    if do_return:
+        return interested_user
+
+    return _render_with_defaults('admin_interested_user_edit.jinja2',
+                                 interested_user=interested_user)
+
+
+def post_interested_user_edit(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, interested_user, _ = ApiRequest.put(
+        "/admin/interested_user/%s" % (body['interested_user_id'],),
+        json={
+            "address_1": body['address_1'],
+            "address_2": body['address_2'],
+            "city": body['city'],
+            "state": body['state'],
+            "postal": body['postal']
+        }
+    )
+    if do_return:
+        return interested_user
+
+    return _render_with_defaults('admin_interested_user_edit.jinja2',
+                                 interested_user=interested_user,
+                                 updated=True)
+
+
 def get_address_verification(address_1=None, address_2=None, city=None,
                              state=None, postal=None, country=None):
     if not session.get(ADMIN_MODE_KEY, False):

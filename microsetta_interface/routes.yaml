@@ -758,6 +758,61 @@ paths:
               schema:
                 type: string
 
+  '/admin/interested_users':
+    get:
+      operationId: microsetta_interface.implementation.get_interested_users
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: email
+          description: Email to search for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of interested users
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/interested_user_edit':
+    get:
+      operationId: microsetta_interface.implementation.get_interested_user_edit
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: iuid
+          description: Interested user ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Interested user
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.post_interested_user_edit
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated interested user
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/account_search':
     get:
       operationId: microsetta_interface.implementation.get_interactive_account_search

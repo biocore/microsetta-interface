@@ -1,0 +1,57 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("ADMINISTRATOR MODE") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+<h4>{{ _('Interested Users') }}</h4>
+<div class="container">
+    <form method="get">
+        New Search: <input type="text" name="email" id="email" /> <input type="submit" value="Search Interested Users" />
+    </form>
+    <hr />
+    {% if interested_users is not none and interested_users|length > 0 %}
+    <div class="list-group">
+        <div class="row">
+            <div class="col-sm">
+                <i>{{ _('First Name') }}</i>
+            </div>
+            <div class="col-sm">
+                <i>{{ _('Last Name') }}</i>
+            </div>
+            <div class="col-sm">
+                <i>{{ _('Email') }}</i>
+            </div>
+            <div class="col-sm">
+                &nbsp;
+            </div>
+        </div>
+        {% for user in interested_users %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+          <div class="row">
+            <div class="col-sm">
+                {{ user.first_name |e}}
+            </div>
+            <div class="col-sm">
+                {{ user.last_name |e}}
+            </div>
+            <div class="col-sm">
+                {{ user.email |e}}
+            </div>
+            <div class="col-sm">
+                {% if user.converted_to_account is false %}
+                <a href="/admin/interested_user_edit?iuid={{ user.interested_user_id |e}}">
+                    Edit Address
+                </a>
+                {% else %}
+                {{ _('Converted to Account') }}
+                {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br/><br/>
+    {% else %}
+    {{ _('No interested users found') }}
+    {% endif %}
+</div>
+{% endblock %}

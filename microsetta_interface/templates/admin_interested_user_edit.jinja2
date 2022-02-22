@@ -1,0 +1,66 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Admin Address Verification") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+
+    <form method="post">
+        <input type="hidden" name="interested_user_id" value="{{ interested_user.interested_user_id |e}}" />
+        <table>
+            {% if updated is true %}
+            <tr>
+                <td colspan="2" align="center"><span style="color: green">Interested User Successfully Updated</span><br /><br /></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2" align="center"><strong>{{ _('Edit Interested User') }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><span style="color: red">{{ _('CAUTION: Edits made will NOT go through address verification - proceed carefully') }}</span></td>
+            </tr>
+            <tr>
+                <td><label for="first_name">{{ _('First Name') }}:</label></td>
+                <td>{{ interested_user.first_name |e}}</td>
+            </tr>
+            <tr>
+                <td><label for="last_name">{{ _('Last Name') }}:</label></td>
+                <td>{{ interested_user.last_name |e}}</td>
+            </tr>
+            <tr>
+                <td><label for="email">{{ _('Email') }}:</label></td>
+                <td>{{ interested_user.email |e}}</td>
+            </tr>
+            <tr>
+                <td><label for="phone">{{ _('Phone') }}:</label></td>
+                <td>{{ interested_user.phone |e}}</td>
+            </tr>
+            <tr>
+                <td><label for="address_1">{{ _('Address 1') }}:</label></td>
+                <td><input type="text" name="address_1" value="{{ interested_user.address_1 |e}}" style="width: 400px"></td>
+            </tr>
+            <tr>
+                <td><label for="address_2">{{ _('Address 2') }}:</label></td>
+                <td><input type="text" name="address_2" value="{{ interested_user.address_2 |e}}" style="width: 400px"></td>
+            </tr>
+            <tr>
+                <td><label for="City">{{ _('City') }}:</label></td>
+                <td><input type="text" name="city" value="{{ interested_user.city |e}}" style="width: 400px"></td>
+            </tr>
+            <tr>
+                <td><label for="state">{{ _('State') }}:</label></td>
+                <td><input type="text" name="state" value="{{ interested_user.state |e}}" style="width: 400px"></td>
+            </tr>
+            <tr>
+                <td><label for="postal">{{ _('Postal Code') }}:</label></td>
+                <td><input type="text" name="postal" value="{{ interested_user.postal_code |e}}" style="width: 400px"></td>
+            </tr>
+            <tr>
+                <td><label for="country">{{ _('Country') }}:</label></td>
+                <td>{{ interested_user.country |e}}</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="{{ _('Submit') }}"></td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

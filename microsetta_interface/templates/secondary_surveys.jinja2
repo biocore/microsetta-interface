@@ -19,8 +19,12 @@
                 <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
                     <div class="row">
                         <div class="col-sm">
+                            {% if detail.new_tab %}
+                            <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                            {% else %}
                             <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
-                                {{ detail.title|e }}
+                            {% endif %}
+                            {{ detail.title|e }}
                             </a>
                         </div>
                         <div class="col-sm">

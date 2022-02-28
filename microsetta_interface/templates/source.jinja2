@@ -269,8 +269,43 @@
         {% endfor %}
     </div>
     {% endif %}
+    
+    {% if available_surveys|length > 0 %}
     <hr style="border-top: dotted 1px"/>
-
+    <p>{{ _('Available optional surveys') }}:</p>
+    <div class="list-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <i>{{ _('Survey Title') }}</i>
+                </div>
+                <div class="col-sm">
+                    <i>{{ _('Survey Description') }}</i>
+                </div>
+            </div>
+        </div>
+        {% for detail in available_surveys %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+            <div class="row">
+                <div class="col-sm">
+                    {% if detail.new_tab %}
+                    <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                    {% else %}
+                    <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
+                    {% endif %}
+                    {{ detail.survey_template_title|e }}
+                    </a>
+                </div>
+                <div class="col-sm">
+                    {{ "placeholder" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <hr style="border-top: dotted 1px"/>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.') }}">

@@ -434,6 +434,19 @@ paths:
               schema:
                 type: string
 
+  '/example-endpoint':
+    get:
+      operationId: microsetta_interface.implementation.example_endpoint
+      tags:
+        - Sample
+      responses:
+        '200':
+          description: Display of stuff
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/results-example':
     get:
       operationId: microsetta_interface.implementation.get_sample_results_experimental
@@ -506,47 +519,6 @@ paths:
         '302':
           description: Redirecting to necessary action
   
-  '/accounts/{account_id}/sources/{source_id}/take_secondary_survey':
-    get:
-      operationId: microsetta_interface.implementation.get_fill_secondary_source_surveys
-      tags:
-        - Survey
-      parameters:
-        - $ref: '#/components/parameters/account_id'
-        - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/available_survey_template_ids'
-        - $ref: '#/components/parameters/unavailable_survey_template_ids'
-      responses:
-        '200':
-          description: Secondary Surveys
-          content:
-            text/html:
-              schema:
-                type: string
-    post:
-      operationId: microsetta_interface.implementation.post_fill_local_secondary_source_surveys
-      tags:
-        - Survey
-      parameters:
-        - $ref: '#/components/parameters/account_id'
-        - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/survey_template_id'
-        - $ref: '#/components/parameters/session_opt_out'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Error report
-          content:
-            text/html:
-              schema:
-                type: string
-        '302':
-          description: Redirecting to necessary action
-
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/survey_templates/{survey_template_id}':
     get:
       operationId: microsetta_interface.implementation.get_fill_vioscreen_remote_sample_survey

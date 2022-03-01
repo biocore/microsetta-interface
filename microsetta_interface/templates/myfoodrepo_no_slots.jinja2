@@ -1,0 +1,29 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("MyFoodRepo unavailable") %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <script type="text/javascript">
+        function disable_link(link_obj) {
+            link_obj.style.opacity = .65;
+            link_obj.style.pointerEvents = "none";
+            return true;
+        }
+    </script>
+
+    <div class="container">
+        <div class="row">
+            <h4>{{ _('MyFoodRepo is currently unavailabile') }}.</h4>
+        </div>
+        <div class="row">
+            <p>{{ _('We apologize, but unfortunately MyFoodRepo is not available at this time. Please check back in a few days and try again.') }}</p> 
+        </div>
+        <div class="row">
+            <p>{{ _('MyFoodRepo is human curated to ensure the highest accuracy in reported dietary detail. Because the process is not fully automated, we need to limit the number of concurrent users who take part. We apologize for the inconvenience.') }}</p>
+        </div>
+        <div class="row">
+            <a class="btn btn-primary" href="/accounts/{{account_id}}/sources/{{source_id}}" role="button">{{ _('Back to Samples') }}</a>
+        </div>
+    </div>
+{% endblock %}
+

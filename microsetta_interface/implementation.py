@@ -255,10 +255,6 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
         req_survey_template_ids = _get_req_survey_templates_by_source_type(
             source_output["source_type"])
 
-        # Get all optional survey template ids for this source type
-        opt_survey_template_ids = _get_opt_survey_templates_by_source_type(
-            source_output["source_type"])
-
         # Get all the current answered surveys for this source
         needs_reroute, surveys_output, _ = ApiRequest.get(
             '/accounts/{0}/sources/{1}/surveys'.format(acct_id, source_id))
@@ -291,45 +287,6 @@ def _update_needed_survey(survey_template_ids, ids_of_answered, current_state):
                 curr_survey_template_id
             return NEEDS_PRIMARY_SURVEYS
     return None
-
-
-#def _update_secondary_survey(survey_template_ids, ids_of_answered,
-#                             current_state):
-#    available = []
-#    unavailable = []
-#    if MYFOODREPO_ID not in ids_of_answered:
-#        # myfoodrepo is a special case as there are a finite number of
-#        # people who can be using it. it is available only if:
-#        # - it has not already been taken
-#        # - there is a slot
-#        has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
-#        if has_error:
-#            return NEEDS_REROUTE
-#
-#        if slots['number_of_available_slots'] > 0:
-#            available.append(MYFOODREPO_ID)
-#        else:
-#            unavailable.append(MYFOODREPO_ID)
-#
-#        # remove myfoodrepo from consideration
-#        survey_template_ids = [i for i in survey_template_ids
-#                               if i != MYFOODREPO_ID]
-#
-#    # For each required survey template id for this source type
-#    for curr_survey_template_id in survey_template_ids:
-#        # Does this source LACK an answered survey with this template id?
-#        if curr_survey_template_id not in ids_of_answered:
-#            available.append(curr_survey_template_id)
-#        else:
-#            unavailable.append(curr_survey_template_id)
-#
-#    current_state["available_survey_template_ids"] = available
-#    current_state["unavailable_survey_template_ids"] = unavailable
-#
-#    if len(available) > 0:
-#        return NEEDS_SECONDARY_SURVEYS
-#    else:
-#        return None
 
 
 def _check_relevant_prereqs(acct_id=None, source_id=None):
@@ -876,10 +833,19 @@ def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
             "survey_template_id": survey_template_id,
             "survey_text": body
         })
-    if has_error:
+    if has_error == 404 and int(survey_template_id) == MYFOODREPO_ID:
+        url = '/accounts/%s/sources/%s/myfoodrepo_no_slots'
+        return redirect(url % (account_id, source_id))
+    elif has_error:
         return surveys_output
 
     return _refresh_state_and_route_to_sink(account_id, source_id)
+
+
+def get_myfoodrepo_no_slots(*, account_id=None, source_id=None):
+    return _render_with_defaults("myfoodrepo_no_slots.jinja2",
+                                 account_id=account_id,
+                                 source_id=source_id)
 
 
 @prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS])
@@ -1057,10 +1023,19 @@ def get_source(*, account_id=None, source_id=None):
         else:
             per_source_not_taken.append(template)
 
-    # do we open a new tab or not for the optional survey
-    for template in per_source_not_taken:
+    # any survey specific stuff like opening a tab
+    # or slot checking
+    for idx, template in enumerate(per_source_not_taken[:]):
         if template['survey_template_id'] == MYFOODREPO_ID:
-            template['new_tab'] = True
+            has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
+            if has_error:
+                return NEEDS_REROUTE
+
+            if slots['number_of_available_slots'] > 0:
+                template['new_tab'] = True
+            else:
+                # we do not have slots, so remove from availability
+                per_source_not_taken.pop(idx)
         else:
             template['new_tab'] = False
 

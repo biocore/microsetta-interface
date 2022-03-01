@@ -480,6 +480,22 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/myfoodrepo_no_slots':
+    get:
+      operationId: microsetta_interface.implementation.get_myfoodrepo_no_slots
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: No available slots for participants
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/take_survey':
     get:
       operationId: microsetta_interface.implementation.get_fill_source_survey

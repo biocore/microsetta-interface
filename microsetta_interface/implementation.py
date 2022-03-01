@@ -99,6 +99,17 @@ SYSTEM_MSG_DICTIONARY = {
 
 client_state = RedisCache()
 
+SURVEY_DESCRIPTION = {
+    1: 'The general questionnaire for Microsetta',
+    3: 'A fermented foods specific questionnaire',
+    4: 'Questions on surfing behavior',
+    5: 'Questions about your interest in the microbiome',
+    6: 'Questions specific to COVID19',
+    VIOSCREEN_ID: 'Our standard food frequency questionnaire',
+    MYFOODREPO_ID: 'The MyFoodRepo picture-based, artificial '
+                   'intelligence backed, diet assessment platform'
+}
+
 
 def _render_with_defaults(template_name, **context):
     defaults = {}
@@ -1018,6 +1029,9 @@ def get_source(*, account_id=None, source_id=None):
                 template['answered'] = True
 
     for template in per_source_req + per_source_opt:
+        template_id = template['survey_template_id']
+        template['description'] = SURVEY_DESCRIPTION.get(template_id)
+
         if template['answered']:
             per_source_taken.append(template)
         else:

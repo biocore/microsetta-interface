@@ -34,6 +34,8 @@ def translate_survey_template(survey_template):
     i18n_survey_template = copy.deepcopy(survey_template)
     i18n_survey_template["survey_template_title"] = \
         gettext(survey_template["survey_template_title"])
+    i18n_survey_template["description"] = \
+        gettext(survey_template["description"])
     return i18n_survey_template
 
 

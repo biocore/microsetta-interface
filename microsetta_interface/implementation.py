@@ -842,7 +842,7 @@ def post_create_nonhuman_source(*, account_id=None, body=None):
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([NEEDS_PRIMARY_SURVEYS])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
 def get_fill_source_survey(*,
                            account_id=None,
                            source_id=None,
@@ -861,12 +861,13 @@ def get_fill_source_survey(*,
         return _render_with_defaults("survey.jinja2",
                                      account_id=account_id,
                                      source_id=source_id,
+                                     is_required=True,
                                      survey_template_id=survey_template_id,
                                      survey_schema=survey_output[
                                          'survey_template_text'])
 
 
-@prerequisite([NEEDS_PRIMARY_SURVEYS])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
 def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None):
     has_error, surveys_output, _ = ApiRequest.post(
@@ -879,34 +880,6 @@ def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
         return surveys_output
 
     return _refresh_state_and_route_to_sink(account_id, source_id)
-
-
-def _get_survey_detail(id_):
-    # HACK TODO issue call to -private-api to obtain translated detail
-    if id_ == 1:
-        return {'title': 'Primary Questionnaire',
-                'description': 'The general questionnaire for Microsetta'}
-    if id_ == 3:
-        return {'title': 'Fermented Foods Survey',
-                'description': 'A fermented foods specific questionnaire'}
-    elif id_ == 4:
-        return {'title': 'Surfer Questionnaire',
-                'description': 'Questions on surfing behavior'}
-    elif id_ == 5:
-        return {'title': 'Personal Microbiome Questionnaire',
-                'description': 'Questions about your interest in the microbiome'}  # noqa
-    elif id_ == 6:
-        return {'title': 'COVID19 Questionnaire',
-                'description': 'Questions specific to COVID19'}
-    elif id_ == VIOSCREEN_ID:
-        return {'title': 'Vioscreen FFQ',
-                'description': 'Our standard food frequency questionnaire'}
-    elif id_ == MYFOODREPO_ID:
-        return {'title': 'MyFoodRepo diet assessment',
-                'description': 'The MyFoodRepo picture-based, artificial '
-                               'intelligence backed, diet assessment platform'}
-    else:
-        raise BadRequest("Unrecognized survey ID: %s" % id_)
 
 
 @prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS])

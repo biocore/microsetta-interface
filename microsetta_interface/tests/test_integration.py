@@ -158,6 +158,10 @@ class IntegrationTests(unittest.TestCase):
         data = self._html_page(resp)
         self.assertIn(f'<title>Microsetta {title}</title>', data)
 
+    def assertPageContains(self, resp, string):
+        data = self._html_page(resp)
+        self.assertIn(string, data)
+
     def assertRedirect(self, resp, suffix=None, suffix_is_uuid=False):
         self.assertEqual(resp.status_code, 302)
         self.assertIn('Location', resp.headers)
@@ -253,7 +257,7 @@ class IntegrationTests(unittest.TestCase):
     def test_user_with_valid_sample(self):
         self._login(USER_WITH_VALID_SAMPLE)
 
-        resp = self.app.get('/home')
+        resp = self.app.get('/home', follow_redirects=False)
         self.assertRedirect(resp, suffix_is_uuid=True)
 
         url = self.redirectURL(resp)
@@ -268,8 +272,6 @@ class IntegrationTests(unittest.TestCase):
         # take the primary survey
         # logout / login
         # take the covid survey
-        # land on the secondary survey page
-        # opt out of secondary surveys
         # claim a sample
         # collect sample information
 
@@ -310,14 +312,6 @@ class IntegrationTests(unittest.TestCase):
         account_id, source_id, _ = self._ids_from_url(url)
         url = url[:-1] + '6'
         resp = self.app.post(url, json=survey_body, follow_redirects=True)
-        self.assertPageTitle(resp, 'Secondary Surveys')
-
-        # opt-out of secondary surveys
-        # survey_template_id is required, so fill with nonesense
-        url = (f'/accounts/{account_id}/sources/{source_id}'
-               f'/take_secondary_survey?survey_template_id=-1'
-               f'&session_opt_out=true')
-        resp = self.app.post(url, json={}, follow_redirects=True)
         self.assertPageTitle(resp, 'Account Samples')
 
         # query for samples
@@ -408,35 +402,14 @@ class IntegrationTests(unittest.TestCase):
                f'take_survey?survey_template_id=10002')
         return self.app.get(url), url
 
-    def test_new_user_to_secondary_survey(self):
+    def test_new_user_to_source_listing(self):
         resp, url, user_jwt = self._new_to_create()
         account_id, _, _ = self._ids_from_url(url)
         resp, url = self._sign_consent(account_id)
         account_id, source_id, _ = self._ids_from_url(url)
         self._complete_primary_survey(account_id, source_id)
         resp, url = self._complete_covid_survey(account_id, source_id)
-        self.assertPageTitle(resp, 'Secondary Surveys')
-
-        # opt-out of secondary surveys
-        # survey_template_id is required, so fill with nonesense
-        url = (f'/accounts/{account_id}/sources/{source_id}'
-               f'/take_secondary_survey?survey_template_id=-1'
-               f'&session_opt_out=true')
-        resp = self.app.post(url, json={}, follow_redirects=True)
         self.assertPageTitle(resp, 'Account Samples')
-
-        # verify we remain opted out while in session
-        url = f'/accounts/{account_id}/sources/{source_id}'
-        resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
-
-        # verify that we are re-presented with secondary survey option if we
-        # log back in
-        self._logout()
-        self._login(user_jwt)
-        url = f'/accounts/{account_id}/sources/{source_id}'
-        resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Secondary Surveys')
 
     def test_existing_user_to_secondary_survey(self):
         # test db doesn't have a completed covid survey, so let's do that
@@ -452,30 +425,8 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Secondary Surveys')
-
-    def test_verify_secondary_survey_page_only_if_available(self):
-        # the secondary surveys page should only be presented if not all
-        # secondary surveys have been taken
-        resp, url, user_jwt = self._new_to_create()
-        account_id, _, _ = self._ids_from_url(url)
-        resp, url = self._sign_consent(account_id)
-        account_id, source_id, _ = self._ids_from_url(url)
-        self._complete_primary_survey(account_id, source_id)
-        self._complete_covid_survey(account_id, source_id)
-        self._complete_fermented_survey(account_id, source_id)
-        self._complete_personal_survey(account_id, source_id)
-        self._complete_surfer_survey(account_id, source_id)
-        resp, _ = self._complete_myfoodrepo_survey(account_id, source_id)
-
-        # myfoodrepo completion should be a redirect
-        self.assertEqual(resp.status_code, 302)
-
-        # we SHOUD NOT be presented with secondary surveys as all have been
-        # taken
-        url = f'/accounts/{account_id}/sources/{source_id}'
-        resp = self.app.get(url, follow_redirects=True)
         self.assertPageTitle(resp, 'Account Samples')
+        self.assertPageContains(resp, 'Fermented Foods Questionnaire')
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()
@@ -488,7 +439,7 @@ class IntegrationTests(unittest.TestCase):
 
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Secondary Surveys')
+        self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
 
         # we've taken the fermented food survey, so we should not

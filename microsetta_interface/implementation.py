@@ -1445,6 +1445,59 @@ def get_interactive_account_search(email_query):
                                  accounts=accounts)
 
 
+def get_interested_users(email=None):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    interested_users = None
+
+    if email is not None:
+        do_return, diagnostics, _ = ApiRequest.get(
+            '/admin/search/interested_users/%s' % (email,))
+        if do_return:
+            return diagnostics
+
+        interested_users = [iu for iu in diagnostics['users']]
+
+    return _render_with_defaults('admin_interested_users.jinja2',
+                                 interested_users=interested_users)
+
+
+def get_interested_user_edit(iuid):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, interested_user, _ = ApiRequest.get(
+        '/admin/interested_user/%s' % (iuid,))
+    if do_return:
+        return interested_user
+
+    return _render_with_defaults('admin_interested_user_edit.jinja2',
+                                 interested_user=interested_user)
+
+
+def post_interested_user_edit(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, interested_user, _ = ApiRequest.put(
+        "/admin/interested_user/%s" % (body['interested_user_id'],),
+        json={
+            "address_1": body['address_1'],
+            "address_2": body['address_2'],
+            "city": body['city'],
+            "state": body['state'],
+            "postal": body['postal']
+        }
+    )
+    if do_return:
+        return interested_user
+
+    return _render_with_defaults('admin_interested_user_edit.jinja2',
+                                 interested_user=interested_user,
+                                 updated=True)
+
+
 def get_address_verification(address_1=None, address_2=None, city=None,
                              state=None, postal=None, country=None):
     if not session.get(ADMIN_MODE_KEY, False):
@@ -1904,6 +1957,44 @@ def post_submit_interest(body):
         raise Exception(e_msg)
 
 
+def get_update_address(uid=None, email=None):
+    if uid is not None and email is not None:
+        do_return, user_info, _ = ApiRequest.get_no_auth(
+            "/update_address",
+            params={"interested_user_id": uid, "email": email}
+        )
+
+        if do_return:
+            return user_info
+        else:
+            return _render_with_defaults('update_address.jinja2',
+                                         user_info=user_info)
+
+
+def post_update_address(body):
+    do_return, interested_user, _ = ApiRequest.put_no_auth(
+        "/update_address",
+        json={
+            "interested_user_id": body['interested_user_id'],
+            "email": body['email'],
+            "address_1": body['address_1'],
+            "address_2": body['address_2'],
+            "city": body['city'],
+            "state": body['state'],
+            "postal": body['postal']
+        }
+    )
+
+    if do_return:
+        return interested_user
+
+    if "user_id" in interested_user:
+        return _render_with_defaults('update_address_confirm.jinja2')
+    else:
+        e_msg = gettext("Sorry, there was a problem saving your information.")
+        raise Exception(e_msg)
+
+
 def get_system_message():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
@@ -2018,6 +2109,16 @@ class ApiRequest:
         response = requests.put(
             ApiRequest.API_URL + input_path,
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
+            verify=ApiRequest.CAfile,
+            params=cls.build_params(params),
+            json=json)
+
+        return cls._check_response(response)
+
+    @classmethod
+    def put_no_auth(cls, input_path, params=None, json=None):
+        response = requests.put(
+            ApiRequest.API_URL + input_path,
             verify=ApiRequest.CAfile,
             params=cls.build_params(params),
             json=json)

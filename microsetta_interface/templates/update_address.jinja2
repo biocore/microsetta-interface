@@ -1,0 +1,225 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Home") %}
+{% set show_breadcrumbs = False %}
+{% set hide_header = True %}
+
+{% block head %}
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<!-- Defines COUNTRIES_LIST, based on ebaranov's country/state json with corrections -->
+<!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
+<script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
+<script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+<script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
+
+<script type="text/javascript">
+    function populateStates(user_state,user_country) {
+        $("#state").empty();
+        var option = $('<option></option>')
+            .attr("value", "")
+            .text("-- SELECT --");
+        $("#state").append(option);
+
+        if (user_country == "United States") {
+            for (var state of US_STATES)
+            {
+                if(user_state == state[0]) {
+                    var option = $('<option></option>')
+                        .attr("value", state[0])
+                        .attr("selected", true)
+                        .text(state[1]);
+                    $("#state").append(option);
+                } else {
+                    var option = $('<option></option>')
+                        .attr("value", state[0])
+                        .text(state[1]);
+                    $("#state").append(option);
+                }
+            }
+        } else {
+            for (var country of COUNTRIES_LIST)
+            {
+                if (country.country != user_country)
+                    continue;
+
+                for (var state of country.states)
+                {
+                    if(user_state == state) {
+                        var option = $('<option></option>')
+                            .attr("value", state)
+                            .attr("selected", true)
+                            .text(state);
+                        $("#state").append(option);
+                    } else {
+                        var option = $('<option></option>')
+                            .attr("value", state)
+                            .text(state);
+                        $("#state").append(option);
+                    }
+                }
+            }
+        }
+    }
+
+$(document).ready(function(){
+    preventImplicitSubmission("address_form");
+
+    var failure_count = 0;
+
+	$('.button_continue').click(function() {
+	    if (failure_count < 5) {
+            document.getElementById("validation_modal").style.display = 'block';
+
+            var form = $("#address_form");
+
+            $("#postal").removeData("previousValue");
+
+            form.validate({
+                onkeyup: false,
+                onfocusout: false,
+                rules: {
+                    address_1: "required",
+                    city: "required",
+                    state: "required",
+                    postal: {
+                        required: true,
+                        remote: {
+                            url: "/user_address_verification",
+                            type: "get",
+                            async: false,
+                            data: {
+                                address_1: function() {
+                                    return $("#address_1").val();
+                                },
+                                address_2: function () {
+                                    return $("#address_2").val();
+                                },
+                                city: function() {
+                                    return $("#city").val();
+                                },
+                                state: function() {
+                                    return $("#state").val();
+                                },
+                                country: function() {
+                                    return $("#country").val();
+                                }
+                            }
+                        }
+                    },
+                },
+                messages: {
+                    address_1: "{{ _('Please enter your street address.') }}",
+                    city: "{{ _('Please enter your city.') }}",
+                    state: "{{ _('Please select your state.') }}",
+                    postal: {
+                        required: "{{ _('Please enter your postal code.') }}",
+                        remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                    }
+                }
+            });
+
+            if(form.valid() === true) {
+                document.getElementById("button_submit").disabled = true;
+                form.submit();
+            } else {
+                failure_count += 1;
+            }
+            document.getElementById("validation_modal").style.display = 'none';
+        } else {
+            document.getElementById("sorry_modal").style.display = 'block';
+        }
+	});
+});
+
+</script>
+
+<style type="text/css">
+    body {
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .val_modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .val_modal_content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<center>
+    <div id="validation_modal" class="val_modal">
+        <div class="val_modal_content">
+        <div id="validation_modal_content">{{ _('Verifying your information, please wait just a moment.') }}</div>
+        </div>
+    </div>
+    <div id="sorry_modal" class="val_modal">
+        <div class="val_modal_content">
+            <div id="sorry_modal_content">{{ _('Sorry, it appears you are having trouble verifying your address. Please contact our support team at microsetta@ucsd.edu and they can assist with confirming your address.') }}</div>
+        </div>
+    </div>
+    <div class="card"  style="max-width: 800px; text-align: left;">
+        <h5 class="card-header" style="text-align: center">{{ _('Update Your Address') }}</h5>
+        <div class="card-body">
+            <form id="address_form" name="address_form" method="post">
+                <input type="hidden" name="interested_user_id" value="{{ user_info['interested_user_id'] |e }}" />
+                <input type="hidden" name="email" value="{{ user_info['email'] |e }}" />
+                <fieldset id="address">
+                    <div class="form-group">
+                        <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
+                        <input id="address_1" name="address_1" class="form-control" type="text" value="{{ user_info['address_1'] |e }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
+                        <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] |e }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="city" name="city_label">{{ _('City') }}*</label>
+                        <input id="city" name="city" class="form-control" type="text" value="{{ user_info['city'] |e }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="state" name="state_label">{{ _('State') }}*</label>
+                        <select id="state" name="state" class="form-control">
+                            <option value="">-- {{ _('SELECT') }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
+                        <input id="postal" name="postal" class="form-control" type="text" value="{{ user_info['postal_code'] |e }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="country" name="country_label">{{ _('Country')}}</label>
+                        <input id="country" name="country" class="form-control" type="text" disabled value="{{ user_info['country'] |e }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="postal" class="error" style="display: none;">{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}</label>
+                    </div>
+                </fieldset>
+                <center>
+                    <button type="button" class="btn btn-primary button_continue" id="button_submit">{{ _('Submit') }}</button>
+                </center>
+            </form>
+        </div>
+    </div>
+</center>
+
+<script type="text/javascript">
+    populateStates('{{ user_info['state'] |e }}','{{ user_info['country'] |e }}');
+</script>
+
+{% endblock %}

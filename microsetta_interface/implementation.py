@@ -79,7 +79,7 @@ NEEDS_REROUTE = "NeedsReroute"
 NEEDS_LOGIN = "NeedsLogin"
 NEEDS_ACCOUNT = "NeedsAccount"
 NEEDS_EMAIL_CHECK = "NeedsEmailCheck"
-NEEDS_SURVEY = "NeedsSurvey"
+NEEDS_PRIMARY_SURVEYS = "NeedsPrimarySurveys"
 HOME_PREREQS_MET = "TokenPrereqsMet"
 ACCT_PREREQS_MET = "AcctPrereqsMet"
 SOURCE_PREREQS_MET = "SourcePrereqsMet"
@@ -88,7 +88,7 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  special handling is required.  API must specify per-sample survey templates
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
-
+MYFOODREPO_ID = 10002
 
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
@@ -98,6 +98,17 @@ SYSTEM_MSG_DICTIONARY = {
     }
 
 client_state = RedisCache()
+
+SURVEY_DESCRIPTION = {
+    1: 'The general questionnaire for Microsetta',
+    3: 'A fermented foods specific questionnaire',
+    4: 'Questions on surfing behavior',
+    5: 'Questions about your interest in the microbiome',
+    6: 'Questions specific to COVID19',
+    VIOSCREEN_ID: 'Our standard food frequency questionnaire',
+    MYFOODREPO_ID: 'The MyFoodRepo picture-based, artificial '
+                   'intelligence backed, diet assessment platform'
+}
 
 
 def _render_with_defaults(template_name, **context):
@@ -141,6 +152,17 @@ def _render_with_defaults(template_name, **context):
 def _get_req_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
         return [1, 6]
+    elif source_type == Source.SOURCE_TYPE_ANIMAL:
+        return []
+    elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
+        return []
+    else:
+        raise ValueError("Unknown source type: '%s'" % source_type)
+
+
+def _get_opt_survey_templates_by_source_type(source_type):
+    if source_type == Source.SOURCE_TYPE_HUMAN:
+        return [3, 4, 5, MYFOODREPO_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -247,22 +269,32 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
         # Get all the current answered surveys for this source
         needs_reroute, surveys_output, _ = ApiRequest.get(
             '/accounts/{0}/sources/{1}/surveys'.format(acct_id, source_id))
+
         if needs_reroute:
             current_state[REROUTE_KEY] = surveys_output
             return NEEDS_REROUTE, current_state
         template_ids_of_answered_surveys = [x[SURVEY_TEMPLATE_ID_KEY] for x
                                             in surveys_output]
-
-        # For each required survey template id for this source type
-        for curr_req_survey_template_id in req_survey_template_ids:
-            # Does this source LACK an answered survey with this template id?
-            if curr_req_survey_template_id not in \
-                    template_ids_of_answered_surveys:
-                current_state["needed_survey_template_id"] = \
-                    curr_req_survey_template_id
-                return NEEDS_SURVEY, current_state
+        # Get next required survey
+        # NOTE: current_state is updated *inplace*
+        needs_reroute = _update_needed_survey(req_survey_template_ids,
+                                              template_ids_of_answered_surveys,
+                                              current_state)
+        if needs_reroute is not None:
+            return needs_reroute, current_state
 
     return SOURCE_PREREQS_MET, current_state
+
+
+def _update_needed_survey(survey_template_ids, ids_of_answered, current_state):
+    # For each required survey template id for this source type
+    for curr_survey_template_id in survey_template_ids:
+        # Does this source LACK an answered survey with this template id?
+        if curr_survey_template_id not in ids_of_answered:
+            current_state["needed_survey_template_id"] = \
+                curr_survey_template_id
+            return NEEDS_PRIMARY_SURVEYS
+    return None
 
 
 def _check_relevant_prereqs(acct_id=None, source_id=None):
@@ -303,8 +335,8 @@ def prerequisite(allowed_states: list, **parameter_overrides):
     @prerequisite([State1, State2], survey_template_id=VIOSCREEN_ID)
     def vioscreen_callback(account_id, source_id, key):
         # If client is not in one of State1, State2, they will be redirected
-        # Further, if they are determined to be in NEEDS_SURVEY, but their
-        # required survey template id is not VIOSCREEN_ID, they will be
+        # Further, if they are determined to be in NEEDS_PRIMARY_SURVEYS, but
+        # their required survey template id is not VIOSCREEN_ID, they will be
         # redirected.  Note that this makes use of the parameter_overrides to
         # set a specific parameter (survey_template_id) when the wrapped
         # function knows what would be sent, but does not expose it within its
@@ -349,7 +381,7 @@ def prerequisite(allowed_states: list, **parameter_overrides):
             # For any states that require checking additional parameters, we do
             # so here.  (Remember to lookup from kwargs_copy)
             # TODO: Ensure state specific checks don't grow unwieldy
-            if prereqs_step == NEEDS_SURVEY:
+            if prereqs_step == NEEDS_PRIMARY_SURVEYS:
                 passed_id = kwargs_copy.get('survey_template_id')
                 needed_id = curr_state.get("needed_survey_template_id")
                 if passed_id != needed_id:
@@ -375,7 +407,7 @@ def _parse_jwt(token):
 
 
 def _route_to_closest_sink(prereqs_step, current_state):
-    print("Current Prereq Step:", prereqs_step)
+    # print("Current Prereq Step:", prereqs_step)
     acct_id = current_state.get("account_id", None)
     source_id = current_state.get("source_id", None)
 
@@ -390,7 +422,7 @@ def _route_to_closest_sink(prereqs_step, current_state):
         return redirect("/create_account")
     elif prereqs_step == NEEDS_EMAIL_CHECK:
         return redirect(_make_acct_path(acct_id, suffix="update_email"))
-    elif prereqs_step == NEEDS_SURVEY:
+    elif prereqs_step == NEEDS_PRIMARY_SURVEYS:
         needed_survey_template_id = current_state["needed_survey_template_id"]
         return redirect(_make_source_path(
             acct_id, source_id, suffix="take_survey?survey_template_id=%s"
@@ -775,26 +807,32 @@ def post_create_nonhuman_source(*, account_id=None, body=None):
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([NEEDS_SURVEY])
-def get_fill_local_source_survey(*,
-                                 account_id=None,
-                                 source_id=None,
-                                 survey_template_id=None):
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
+def get_fill_source_survey(*,
+                           account_id=None,
+                           source_id=None,
+                           survey_template_id=None):
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
         (account_id, source_id, survey_template_id))
+
     if has_error:
         return survey_output
 
-    return _render_with_defaults("survey.jinja2",
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 survey_template_id=survey_template_id,
-                                 survey_schema=survey_output[
-                                     'survey_template_text'])
+    if survey_template_id == MYFOODREPO_ID:
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
+    else:
+        return _render_with_defaults("survey.jinja2",
+                                     account_id=account_id,
+                                     source_id=source_id,
+                                     is_required=True,
+                                     survey_template_id=survey_template_id,
+                                     survey_schema=survey_output[
+                                         'survey_template_text'])
 
 
-@prerequisite([NEEDS_SURVEY])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
 def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None):
     has_error, surveys_output, _ = ApiRequest.post(
@@ -803,13 +841,22 @@ def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
             "survey_template_id": survey_template_id,
             "survey_text": body
         })
-    if has_error:
+    if has_error == 404 and int(survey_template_id) == MYFOODREPO_ID:
+        url = '/accounts/%s/sources/%s/myfoodrepo_no_slots'
+        return redirect(url % (account_id, source_id))
+    elif has_error:
         return surveys_output
 
     return _refresh_state_and_route_to_sink(account_id, source_id)
 
 
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_SURVEY])
+def get_myfoodrepo_no_slots(*, account_id=None, source_id=None):
+    return _render_with_defaults("myfoodrepo_no_slots.jinja2",
+                                 account_id=account_id,
+                                 source_id=source_id)
+
+
+@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS])
 def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
@@ -840,7 +887,7 @@ def get_fill_vioscreen_remote_sample_survey(*,
 # per-sample survey we have is the remote food frequency questionnaire
 # administered through vioscreen, and saving that requires its own special
 # handling (this function).
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_SURVEY],
+@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS],
               survey_template_id=VIOSCREEN_ID)
 def get_to_save_vioscreen_remote_sample_survey(*,
                                                account_id=None,
@@ -943,13 +990,20 @@ def get_source(*, account_id=None, source_id=None):
         return surveys_output
 
     per_sample = []
-    per_source = []
-    restrict_to = _get_req_survey_templates_by_source_type(
+    per_source_req = []
+    per_source_opt = []
+
+    primary = _get_req_survey_templates_by_source_type(
         source_output["source_type"])
+    secondary = _get_opt_survey_templates_by_source_type(
+        source_output["source_type"])
+
     for survey in surveys_output:
-        if survey['survey_template_id'] in restrict_to:
-            per_source.append(survey)
-        if survey['survey_template_id'] == VIOSCREEN_ID:
+        if survey['survey_template_id'] in primary:
+            per_source_req.append(survey)
+        elif survey['survey_template_id'] in secondary:
+            per_source_opt.append(survey)
+        elif survey['survey_template_id'] == VIOSCREEN_ID:
             per_sample.append(survey)
 
     # Identify answered surveys for the source
@@ -960,11 +1014,41 @@ def get_source(*, account_id=None, source_id=None):
 
     # TODO: Would be nice to know when the user took the survey instead of a
     #  boolean
+    per_source_taken = []
+    per_source_not_taken = []
+    for template in per_source_req + per_source_opt:
+        template['answered'] = False
+
     for answer in survey_answers:
         template_id = answer['survey_template_id']
-        for template in per_source:
+        for template in per_source_req + per_source_opt:
             if template['survey_template_id'] == template_id:
                 template['answered'] = True
+
+    for template in per_source_req + per_source_opt:
+        template_id = template['survey_template_id']
+        template['description'] = SURVEY_DESCRIPTION.get(template_id)
+
+        if template['answered']:
+            per_source_taken.append(template)
+        else:
+            per_source_not_taken.append(template)
+
+    # any survey specific stuff like opening a tab
+    # or slot checking
+    for idx, template in enumerate(per_source_not_taken[:]):
+        if template['survey_template_id'] == MYFOODREPO_ID:
+            has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
+            if has_error:
+                return NEEDS_REROUTE
+
+            if slots['number_of_available_slots'] > 0:
+                template['new_tab'] = True
+            else:
+                # we do not have slots, so remove from availability
+                per_source_not_taken.pop(idx)
+        else:
+            template['new_tab'] = False
 
     # Identify answered surveys for the samples
     for sample in samples_output:
@@ -1002,7 +1086,9 @@ def get_source(*, account_id=None, source_id=None):
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
     samples_output = [translate_sample(s) for s in samples_output]
-    per_source = [translate_survey_template(s) for s in per_source]
+    per_source_taken = [translate_survey_template(s) for s in per_source_taken]
+    per_source_not_taken = [translate_survey_template(s)
+                            for s in per_source_not_taken]
 
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
@@ -1010,7 +1096,8 @@ def get_source(*, account_id=None, source_id=None):
                                  is_human=is_human,
                                  needs_assignment=needs_assignment,
                                  samples=samples_output,
-                                 surveys=per_source,
+                                 surveys=per_source_taken,
+                                 available_surveys=per_source_not_taken,
                                  source_name=source_output['source_name'],
                                  vioscreen_id=VIOSCREEN_ID,
                                  claim_kit_name_hint=claim_kit_name_hint,
@@ -1051,6 +1138,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, sample_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/samples/%s' %
         (account_id, source_id, sample_id))
+
     if has_error:
         return sample_output
 
@@ -1203,6 +1291,13 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  barcode_prefix=SERVER_CONFIG["barcode_prefix"],  # noqa
                                  show_breadcrumbs=True
                                  )
+
+
+# WARNING: this endpoint is NOT authenticated
+def example_endpoint():
+    return _render_with_defaults('example.jinja2',
+                                 thing='just a thing',
+                                 stuff=['some', 'more', 'things', 123])
 
 
 # WARNING: this endpoint is NOT authenticated
@@ -2092,7 +2187,6 @@ class ApiRequest:
             auth=BearerAuth(session[TOKEN_KEY_NAME]),
             verify=ApiRequest.CAfile,
             params=cls.build_params(params))
-
         return cls._check_response(response, parse_json=parse_json)
 
     @classmethod

@@ -1,0 +1,40 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Secondary Surveys") %}
+{% set show_breadcrumbs = True %}
+
+{% block content %}
+    {% if survey_details|length > 0 %}
+        <div class="container">
+            <div class="list-group">
+                <br>
+                <div class="row">
+                    <div class="col-sm">
+                        <i>{{ _('Survey Title') }}</i>
+                    </div>
+                    <div class="col-sm">
+                        <i>{{ _('Survey Description') }}</i>
+                    </div>
+                </div>
+                {% for detail in survey_details %}
+                <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+                    <div class="row">
+                        <div class="col-sm">
+                            {% if detail.new_tab %}
+                            <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                            {% else %}
+                            <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
+                            {% endif %}
+                            {{ detail.title|e }}
+                            </a>
+                        </div>
+                        <div class="col-sm">
+                            {{ detail.description|e }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+<!--- TODO: ADD BUTTON for session opt out --->

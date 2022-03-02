@@ -506,6 +506,19 @@ paths:
               schema:
                 type: string
 
+  '/example-endpoint':
+    get:
+      operationId: microsetta_interface.implementation.example_endpoint
+      tags:
+        - Sample
+      responses:
+        '200':
+          description: Display of stuff
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/results-example':
     get:
       operationId: microsetta_interface.implementation.get_sample_results_experimental
@@ -539,9 +552,25 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/myfoodrepo_no_slots':
+    get:
+      operationId: microsetta_interface.implementation.get_myfoodrepo_no_slots
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: No available slots for participants
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/take_survey':
     get:
-      operationId: microsetta_interface.implementation.get_fill_local_source_survey
+      operationId: microsetta_interface.implementation.get_fill_source_survey
       tags:
         - Survey
       parameters:
@@ -577,7 +606,7 @@ paths:
                 type: string
         '302':
           description: Redirecting to necessary action
-
+  
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/survey_templates/{survey_template_id}':
     get:
       operationId: microsetta_interface.implementation.get_fill_vioscreen_remote_sample_survey
@@ -1127,6 +1156,13 @@ components:
       schema:
         $ref: '#/components/schemas/sample_id'
       required: true
+    session_opt_out:
+      name: session_opt_out
+      in: query
+      description: Indication the user has opted out within a session
+      schema:
+        $ref: '#/components/schemas/session_opt_out'
+      required: true
     survey_id:
       name: survey_id
       in: path
@@ -1140,6 +1176,20 @@ components:
       description: Unique internal id specifying a particular survey template
       schema:
         $ref: '#/components/schemas/survey_template_id'
+      required: true
+    available_survey_template_ids:
+      name: available_survey_template_ids
+      in: query
+      description: List of internal IDs for unanswered surveys
+      schema:
+        $ref: '#/components/schemas/available_survey_template_ids'
+      required: true
+    unavailable_survey_template_ids:
+      name: unavailable_survey_template_ids
+      in: query
+      description: List of internal IDs for unavailable (possibly answered) surveys
+      schema:
+        $ref: '#/components/schemas/unavailable_survey_template_ids'
       required: true
     survey_template_id_in_path:
       name: survey_template_id
@@ -1187,6 +1237,15 @@ components:
     survey_template_id:
       type: integer
       example: 3
+    available_survey_template_ids:
+      type: string
+      example: "2,3,4"
+    unavailable_survey_template_ids:
+      type: string
+      example: "2,3,4"
+    session_opt_out:
+      type: boolean
+      example: false
     error_msg:
       type: string
       example: "%7B%0A%20%20%22detail%22%3A%20%22The%20browser%20(or%20proxy)%20sent%20a%20request%20that%20this%20server%20could%20not%20understand.%22%2C%0A%20%20%22status%22%3A%20400%2C%0A%20%20%22title%22%3A%20%22Bad%20Request%22%2C%0A%20%20%22type%22%3A%20%22about%3Ablank%22%0A%7D%0A"

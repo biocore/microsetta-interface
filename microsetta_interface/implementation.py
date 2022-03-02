@@ -283,9 +283,6 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
         if needs_reroute is not None:
             return needs_reroute, current_state
 
-        if needs_reroute is not None:
-            return needs_reroute, current_state
-
     return SOURCE_PREREQS_MET, current_state
 
 

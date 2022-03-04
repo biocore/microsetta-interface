@@ -293,22 +293,20 @@
     <p>{{ _('Completed surveys') }}:</p>
     <div class="list-group">
         {% for survey in surveys %}
-        <a>
-            <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
-              <div class="row">
-                <div class="col-sm">
-                  {{survey.survey_template_title |e}}
-                </div>
-                <div class="col-sm">
-                    {% if survey.answered %}
-                    <span class="fa fa-check"/>
-                    {% else %}
-                    <span class="fa fa-unchecked"/>
-                    {% endif %}
-                </div>
-              </div>
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+          <div class="row">
+            <div class="col-sm">
+              {{survey.survey_template_title |e}}
             </div>
-        </a>
+            <div class="col-sm">
+                {% if survey.answered %}
+                <span class="fa fa-check"/>
+                {% else %}
+                <span class="fa fa-unchecked"/>
+                {% endif %}
+            </div>
+          </div>
+        </div>
         {% endfor %}
     </div>
     <br>

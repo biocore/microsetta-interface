@@ -1099,9 +1099,7 @@ def get_source(*, account_id=None, source_id=None):
                             for s in per_source_not_taken]
 
     # quick hack to move MyFoodRepo to top of list, if available
-    per_source_not_taken = sorted(per_source_not_taken,
-                                  key=lambda s: s['survey_template_id'],
-                                  reverse=True)
+    per_source_not_taken = per_source_not_taken[::-1]
 
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,

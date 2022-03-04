@@ -106,8 +106,16 @@ SURVEY_DESCRIPTION = {
     5: 'Questions about your interest in the microbiome',
     6: 'Questions specific to COVID19',
     VIOSCREEN_ID: 'Our standard food frequency questionnaire',
-    MYFOODREPO_ID: 'The MyFoodRepo picture-based, artificial '
-                   'intelligence backed, diet assessment platform'
+    MYFOODREPO_ID: 'US Participants only: By sharing photos of the food you '
+                   'eat for <strong>seven days</strong>, you will help us '
+                   'learn more about the microbes in the gut. <br /><br />'
+                   '<strong>Availability is limited</strong>. If space for '
+                   'participation is available, a button will be visible '
+                   'alongside a unique code on the app website. The app will '
+                   'be available for <strong>eight days</strong> once you '
+                   'enroll.<br />'
+                   '<a href="https://microsetta.ucsd.edu/myfoodrepo/">'
+                   'Learn more</a>.'
 }
 
 
@@ -1089,6 +1097,11 @@ def get_source(*, account_id=None, source_id=None):
     per_source_taken = [translate_survey_template(s) for s in per_source_taken]
     per_source_not_taken = [translate_survey_template(s)
                             for s in per_source_not_taken]
+
+    # quick hack to move MyFoodRepo to top of list, if available
+    per_source_not_taken = sorted(per_source_not_taken,
+                                  key=lambda s: s['survey_template_id'],
+                                  reverse=True)
 
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,

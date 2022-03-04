@@ -245,9 +245,52 @@
             </form>
         </div>
     </div>
+
+    {% if available_surveys|length > 0 %}
+    <hr style="border-top: dotted 1px"/>
+    <p>{{ _('Available optional surveys') }}:</p>
+    <div class="list-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <i>{{ _('Survey Title') }}</i>
+                </div>
+                <div class="col-8">
+                    <i>{{ _('Survey Description') }}</i>
+                </div>
+                <div class="col">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        {% for detail in available_surveys %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+            <div class="row">
+                <div class="col-3">
+                    {{ detail.survey_template_title|e }}
+                </div>
+                <div class="col-8">
+                    {{ detail.description }}
+                </div>
+                <div class="col">
+                    {% if detail.new_tab %}
+                    <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                    {% else %}
+                    <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
+                    {% endif %}
+                        Start
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br />
+    {% endif %}
+
     {% if surveys|length > 0 %}
     <hr style="border-top: dotted 1px"/>
-    <p>{{ _('Surveys taken') }}:</p>
+    <p>{{ _('Completed surveys') }}:</p>
     <div class="list-group">
         {% for survey in surveys %}
         <a>
@@ -268,41 +311,7 @@
         </a>
         {% endfor %}
     </div>
-    {% endif %}
-    
-    {% if available_surveys|length > 0 %}
-    <hr style="border-top: dotted 1px"/>
-    <p>{{ _('Available optional surveys') }}:</p>
-    <div class="list-group">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <i>{{ _('Survey Title') }}</i>
-                </div>
-                <div class="col-sm">
-                    <i>{{ _('Survey Description') }}</i>
-                </div>
-            </div>
-        </div>
-        {% for detail in available_surveys %}
-        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
-            <div class="row">
-                <div class="col-sm">
-                    {% if detail.new_tab %}
-                    <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                    {% else %}
-                    <a class="btn btn-outline-info" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
-                    {% endif %}
-                    {{ detail.survey_template_title|e }}
-                    </a>
-                </div>
-                <div class="col-sm">
-                    {{ detail.description|e }}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    <br>
     {% endif %}
     <hr style="border-top: dotted 1px"/>
     <br>
@@ -310,7 +319,7 @@
         <div class="row">
             <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.') }}">
                 <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_name}}');">
-                    <button type="submit" class="btn btn-danger btn-block" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>{{ _('Delete Source') }}: {{source_name}}</button>
+                    {{ _('If you need to delete this source, click the following button. Please note, this action can NOT be reversed.') }} <button type="submit" class="btn btn-outline-danger" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>{{ _('Delete Source') }}: {{source_name}}</button>
                 </form>
             </div>
         </div>

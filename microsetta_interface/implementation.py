@@ -106,7 +106,7 @@ SURVEY_DESCRIPTION = {
     5: 'Questions about your interest in the microbiome',
     6: 'Questions specific to COVID19',
     VIOSCREEN_ID: 'Our standard food frequency questionnaire',
-    MYFOODREPO_ID: 'US Participants only: By sharing photos of the food you '
+    MYFOODREPO_ID: 'US Participants: By sharing photos of the food you '
                    'eat for <strong>seven days</strong>, you will help us '
                    'learn more about the microbes in the gut. <br /><br />'
                    '<strong>Availability is limited</strong>. If space for '

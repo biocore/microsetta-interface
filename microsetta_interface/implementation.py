@@ -114,7 +114,7 @@ SURVEY_DESCRIPTION = {
                    'alongside a unique code on the app website. The app will '
                    'be available for <strong>eight days</strong> once you '
                    'enroll.<br />'
-                   '<a href="https://microsetta.ucsd.edu/myfoodrepo/">'
+                   '<a href="https://microsetta.ucsd.edu/myfoodrepo/" target="_blank">'  # noqa
                    'Learn more</a>.'
 }
 

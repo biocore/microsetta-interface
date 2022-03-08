@@ -107,10 +107,10 @@ SURVEY_DESCRIPTION = {
     6: 'Questions specific to COVID19',
     VIOSCREEN_ID: 'Our standard food frequency questionnaire',
     MYFOODREPO_ID: 'US Participants: By sharing photos of the food you '
-                   'eat for <strong>seven days</strong>, you will help us '
-                   'learn more about the microbes in the gut. <br /><br />'
-                   '<strong>Availability is limited</strong>. If space for '
-                   'participation is available, a button will be visible '
+                   'eat for <strong>seven consecutive days</strong>, you will '
+                   'help us learn more about the microbes in the gut. <br />'
+                   '<br /><strong>Availability is limited</strong>. If space '
+                   'for participation is available, a button will be visible '
                    'alongside a unique code on the app website. The app will '
                    'be available for <strong>eight days</strong> once you '
                    'enroll.<br />'

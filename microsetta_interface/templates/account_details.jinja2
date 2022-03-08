@@ -404,6 +404,32 @@
             <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
             {% endif %}
         </form>
+        {% if admin_mode %}
+        <br/>
+        <form action="/admin/account_delete" method="post">
+            <div class="card mb-3">
+                <div class="card-header">
+                    *** {{ _('Danger zone') }} ***
+                </div>
+                <div class="card-body">
+                    <p>
+                        {{ _('Delete or scrub the account.') }} 
+                    </p>
+                    <p>
+                        {{ _('If the account has any samples associated, the account and sources will be scrubbed, meaning all free text and identifiable information is removed.') }}
+                    </p>
+                    <p>
+                        {{ _('Otherwise, the account and any sources will be deleted') }}
+                    </p>
+                    <h3>
+                        {{ _('THIS CANNOT BE UNDONE') }}
+                    </h3>
+                    <input type="hidden" id="account_id" name="account_id" value="{{ account.account_id }}"/>
+                    <button type=submit" class="btn btn-danger">{{ _('Delete Account') }}</button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -1551,6 +1551,38 @@ def get_interactive_account_search(email_query):
                                  accounts=accounts)
 
 
+def post_account_delete(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    account_details = session.get(LOGIN_INFO_KEY)
+    if account_details is None:
+        raise Unauthorized()
+
+    account_to_delete = body.get('account_id')
+    if account_to_delete is None:
+        raise Unauthorized()
+
+    # only allow deletion of "standard" accounts. this is for two reasons,
+    # first we do not want to double-delete "deleted" accounts inadvertantly
+    # and second, it is a risk to allow deletion of admin accounts.
+    do_return, accts_output, _ = ApiRequest.get(
+        '/accounts/%s' % (account_to_delete, ))
+    if do_return:
+        return accts_output
+
+    if accts_output['account_type'] != 'standard':
+        return get_rootpath()
+
+    has_error, delete_output, _ = ApiRequest.delete(
+        '/accounts/%s' % (account_to_delete,))
+
+    if has_error:
+        return delete_output
+
+    return get_rootpath()
+
+
 def get_interested_users(email=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

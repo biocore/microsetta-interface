@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-22 17:14-0700\n"
+"POT-Creation-Date: 2022-03-22 17:45-0700\n"
 "PO-Revision-Date: 2021-06-03 14:30-0700\n"
 "Last-Translator: Edgar Diaz <ediaz@ucsd.edu>\n"
 "Language-Team: es_MX <LL@li.org>\n"
@@ -17,6 +17,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: implementation.py:103
+#, fuzzy
+msgid "The general questionnaire for Microsetta"
+msgstr "El cuestionario general para Microsetta"
+
+#: implementation.py:104
+#, fuzzy
+msgid "A fermented foods specific questionnaire"
+msgstr "Cuestionario sobre alimentos fermentados"
+
+#: implementation.py:105
+#, fuzzy
+msgid "Questions on surfing behavior"
+msgstr "Preguntas sobre el comportamiento de navegación"
+
+#: implementation.py:106
+#, fuzzy
+msgid "Questions about your interest in the microbiome"
+msgstr "Preguntas sobre su interés en el microbioma"
+
+#: implementation.py:107
+#, fuzzy
+msgid "Questions specific to COVID19"
+msgstr "Preguntas específicas sobre COVID 19"
+
+#: implementation.py:108
+#, fuzzy
+msgid "Our standard food frequency questionnaire"
+msgstr "Cuestionario de frecuencia alimentaria de Vioscreen"
+
+#: implementation.py:109
+#, fuzzy
+msgid ""
+"US Participants: By sharing photos of the food you eat for <strong>seven "
+"consecutive days</strong>, you will help us learn more about the microbes in"
+" the gut. <br /><br /><strong>Availability is limited</strong>. If space for"
+" participation is available, a button will be visible alongside a unique "
+"code on the app website. The app will be available for <strong>eight days "
+"</strong> once you enroll.<br /><a "
+"href=\"https://microsetta.ucsd.edu/myfoodrepo/\" target=\"_blank\">Learn "
+"more</a>."
+msgstr ""
+"Participantes de EE. UU.: al compartir fotos de los alimentos que come "
+"durante <strong>siete días consecutivos</strong>, nos ayudará a aprender más"
+" sobre los microbios en el intestino. <br /><br /><strong>La disponibilidad "
+"es limitada</strong>. Si hay espacio para participar, se verá un botón junto"
+" con un código único en el sitio web de la aplicación. La aplicación estará "
+"disponible durante <strong>ocho días</strong> una vez que se inscriba.<br "
+"/><a href=\"https://microsetta.ucsd.edu/myfoodrepo/\" target=\"_blank\">Más "
+"información< /a>."
 
 #: implementation.py:455
 msgid "Unable to validate the kit name; please reload the page."

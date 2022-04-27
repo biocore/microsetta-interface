@@ -2,6 +2,18 @@
 The Microsetta participant facing user interface
 
 ## Installation
+
+Make sure Redis is installed. 
+On a Mac run:
+
+```
+brew install redis
+To restart redis after an upgrade:
+  brew services restart redis
+Or, if you don't want/need a background service you can just run:
+  /usr/local/opt/redis/bin/redis-server /usr/local/etc/redis.conf
+```
+
 Create a new `conda` environment containing `flask` and other necessary packages:
 
 ```

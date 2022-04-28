@@ -106,16 +106,22 @@ SURVEY_DESCRIPTION = {
     5: 'Questions about your interest in the microbiome',
     6: 'Questions specific to COVID19',
     VIOSCREEN_ID: 'Our standard food frequency questionnaire',
-    MYFOODREPO_ID: 'US Participants: By sharing photos of the food you '
-                   'eat for <strong>seven consecutive days</strong>, you will '
-                   'help us learn more about the microbes in the gut. <br />'
-                   '<br /><strong>Availability is limited</strong>. If space '
-                   'for participation is available, a button will be visible '
-                   'alongside a unique code on the app website. The app will '
-                   'be available for <strong>eight days</strong> once you '
-                   'enroll.<br />'
-                   '<a href="https://microsetta.ucsd.edu/myfoodrepo/" target="_blank">'  # noqa
-                   'Learn more</a>.'
+    MYFOODREPO_ID: '<strong>Only for US Participants:</strong><br />'
+                   'By sharing photos of all the food you eat via a mobile '
+                   'app for <strong>seven days</strong>, you will help us '
+                   'learn more about the microbes in the gut.<br /><br />'
+                   '<font color="red"><strong>Important!</strong></font> '
+                   'Before taking part, please read more from the following '
+                   'link: <a href="https://microsetta.ucsd.edu/myfoodrepo/" '
+                   'target="_blank">How to complete participation</a>.'
+                   '<br /><br /><strong>Availability is limited</strong>: '
+                   'Once you click on the "Start" button, you will be '
+                   'directed to a site containing a unique code for you to '
+                   'use to activate the app on your phone. <strong>Please '
+                   'note</strong> - The code will only be available to view '
+                   'once, so please keep a record of it if you are not able '
+                   'to use it immediately. You will have <strong>two weeks'
+                   '</strong> to use the app before your access expires.'
 }
 
 

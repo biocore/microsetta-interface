@@ -401,6 +401,11 @@ class IntegrationTests(unittest.TestCase):
         url = (f'/accounts/{account_id}/sources/{source_id}/'
                f'take_survey?survey_template_id=10002')
         return self.app.get(url), url
+    
+    def _complete_pffq_survey(self, account_id, source_id):
+        url = (f'/accounts/{account_id}/sources/{source_id}/'
+               f'take_survey?survey_template_id=10003')
+        return self.app.get(url), url
 
     def test_new_user_to_source_listing(self):
         resp, url, user_jwt = self._new_to_create()

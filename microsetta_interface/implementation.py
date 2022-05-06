@@ -89,6 +89,7 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 #  in some way, as well as any special handling for external surveys.
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
+PFFQSURVEY_ID = 10003
 
 SYSTEM_MSG_DICTIONARY = {
         "going_down": {
@@ -121,7 +122,8 @@ SURVEY_DESCRIPTION = {
                    'note</strong> - The code will only be available to view '
                    'once, so please keep a record of it if you are not able '
                    'to use it immediately. You will have <strong>two weeks'
-                   '</strong> to use the app before your access expires.'
+                   '</strong> to use the app before your access expires.',
+    PFFQSURVEY_ID: 'The Polyphenol food frequency questionnaire'
 }
 
 
@@ -176,7 +178,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, MYFOODREPO_ID]
+        return [3, 4, 5, MYFOODREPO_ID, PFFQSURVEY_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -835,6 +837,10 @@ def get_fill_source_survey(*,
 
     if survey_template_id == MYFOODREPO_ID:
         # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == PFFQSURVEY_ID:
+        # this is remote, so go to an external url, not our jinja2 template
+        # TODO DOJO need to verify the url
         return redirect(survey_output['survey_template_text']['url'])
     else:
         return _render_with_defaults("survey.jinja2",

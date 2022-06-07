@@ -121,7 +121,8 @@ SURVEY_DESCRIPTION = {
                    'note</strong> - The code will only be available to view '
                    'once, so please keep a record of it if you are not able '
                    'to use it immediately. You will have <strong>two weeks'
-                   '</strong> to use the app before your access expires.'
+                   '</strong> to use the app before your access expires.',
+    7: 'Questions related to cooking oils and oxalate-rich foods'
 }
 
 
@@ -176,7 +177,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, MYFOODREPO_ID]
+        return [3, 4, 5, MYFOODREPO_ID, 7]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:

@@ -127,9 +127,9 @@ SURVEY_DESCRIPTION = {
                        'plants that have been shown to provide many beneficial'
                        ' properties. They are antioxidants, fighting aging and'
                        ' protecting your heart, but they may also provide'
-                       ' benefits by interacting with the microbes in your gut.'
-                       ' This survey will allow us to better quantify your '
-                       'consumption of polyphenols through your diet.'
+                       ' benefits by interacting with the microbes in your '
+                       'gut. This survey will allow us to better quantify '
+                       'your consumption of polyphenols through your diet.'
 }
 
 

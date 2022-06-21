@@ -402,7 +402,7 @@ class IntegrationTests(unittest.TestCase):
                f'take_survey?survey_template_id=10002')
         return self.app.get(url), url
 
-    def _complete_polyphenol_ffq(self, account_id, source_id):
+    def _complete_polyphenol_ffq_survey(self, account_id, source_id):
         url = (f'/accounts/{account_id}/sources/{source_id}/'
                f'take_survey?survey_template_id=10003')
         return self.app.get(url), url

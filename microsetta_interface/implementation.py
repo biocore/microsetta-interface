@@ -126,8 +126,8 @@ SURVEY_DESCRIPTION = {
     POLYPHENOL_FFQ_ID: 'Polyphenols are chemical compounds naturally found in '
                        'plants that have been shown to provide many beneficial'
                        ' properties. They are antioxidants, fighting aging and'
-                       ' protecting your heart, but they may also provide '
-                       'benefits by interacting with the microbes in your gut.'
+                       ' protecting your heart, but they may also provide'
+                       ' benefits by interacting with the microbes in your gut.'
                        ' This survey will allow us to better quantify your '
                        'consumption of polyphenols through your diet.'
 }

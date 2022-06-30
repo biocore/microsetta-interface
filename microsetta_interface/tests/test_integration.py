@@ -376,7 +376,7 @@ class IntegrationTests(unittest.TestCase):
         return self._complete_local_survey(account_id, source_id, survey, '1')
 
     def _complete_oils_survey(self, account_id, source_id,
-                               survey=OILS_SURVEY_SIMPLE):
+                              survey=OILS_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '7')
 
     def _complete_covid_survey(self, account_id, source_id,

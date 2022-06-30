@@ -452,8 +452,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
 
-        # we've taken the fermented food and oils & oxalates surveys, so we
-        # should not observe their URLs in the rendered page
+        # we've taken the fermented food survey, so we should not
+        # observe its URL in the rendered page
         # TODO: this check will likely break if/when survey editing is allowed
         self.assertIn('survey_template_id=10002', data)
         self.assertIn('survey_template_id=5', data)

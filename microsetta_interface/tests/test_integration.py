@@ -375,7 +375,7 @@ class IntegrationTests(unittest.TestCase):
                                  survey=PRIMARY_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '1')
 
-    def _complete_oils_survey (self, account_id, source_id,
+    def _complete_oils_survey(self, account_id, source_id,
                                survey=OILS_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '7')
 
@@ -446,7 +446,6 @@ class IntegrationTests(unittest.TestCase):
         self._complete_primary_survey(account_id, source_id)
         self._complete_covid_survey(account_id, source_id)
         self._complete_fermented_survey(account_id, source_id)
-        self._complete_oils_survey(account_id, source_id)
 
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
@@ -460,7 +459,6 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
-        self.assertNotIn('survey_template_id=7', data)
 
 
 if __name__ == '__main__':

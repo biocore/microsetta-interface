@@ -85,6 +85,7 @@ COVID_SURVEY_SIMPLE = {"209": "An integration test"}
 FERMENTED_SURVEY_SIMPLE = {"173": "im a test"}
 SURFER_SURVEY_SIMPLE = {"174": "Other"}
 PERSONAL_SURVEY_SIMPLE = {"208": "im definitely a test"}
+OILS_SURVEY_SIMPLE = {"240": "Never"}
 
 
 @unittest.skipIf(not PRIVATE_API_AVAILABLE,
@@ -374,6 +375,10 @@ class IntegrationTests(unittest.TestCase):
                                  survey=PRIMARY_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '1')
 
+    def _complete_oils_survey (self, account_id, source_id,
+                               survey=OILS_SURVEY_SIMPLE):
+        return self._complete_local_survey(account_id, source_id, survey, '7')
+
     def _complete_covid_survey(self, account_id, source_id,
                                survey=COVID_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '6')
@@ -441,19 +446,21 @@ class IntegrationTests(unittest.TestCase):
         self._complete_primary_survey(account_id, source_id)
         self._complete_covid_survey(account_id, source_id)
         self._complete_fermented_survey(account_id, source_id)
+        self._complete_oils_survey(account_id, source_id)
 
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
 
-        # we've taken the fermented food survey, so we should not
-        # observe its URL in the rendered page
+        # we've taken the fermented food and oils & oxalates surveys, so we
+        # should not observe their URLs in the rendered page
         # TODO: this check will likely break if/when survey editing is allowed
         self.assertIn('survey_template_id=10002', data)
         self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
+        self.assertNotIn('survey_template_id=7', data)
 
 
 if __name__ == '__main__':

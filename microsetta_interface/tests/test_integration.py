@@ -85,6 +85,7 @@ COVID_SURVEY_SIMPLE = {"209": "An integration test"}
 FERMENTED_SURVEY_SIMPLE = {"173": "im a test"}
 SURFER_SURVEY_SIMPLE = {"174": "Other"}
 PERSONAL_SURVEY_SIMPLE = {"208": "im definitely a test"}
+OILS_SURVEY_SIMPLE = {"240": "Never"}
 
 
 @unittest.skipIf(not PRIVATE_API_AVAILABLE,
@@ -373,6 +374,10 @@ class IntegrationTests(unittest.TestCase):
     def _complete_primary_survey(self, account_id, source_id,
                                  survey=PRIMARY_SURVEY_SIMPLE):
         return self._complete_local_survey(account_id, source_id, survey, '1')
+
+    def _complete_oils_survey(self, account_id, source_id,
+                              survey=OILS_SURVEY_SIMPLE):
+        return self._complete_local_survey(account_id, source_id, survey, '7')
 
     def _complete_covid_survey(self, account_id, source_id,
                                survey=COVID_SURVEY_SIMPLE):

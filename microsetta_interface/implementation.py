@@ -106,6 +106,7 @@ SURVEY_DESCRIPTION = {
     4: 'Questions on surfing behavior',
     5: 'Questions about your interest in the microbiome',
     6: 'Questions specific to COVID19',
+    7: 'Questions related to cooking oils and oxalate-rich foods',
     VIOSCREEN_ID: 'Our standard food frequency questionnaire',
     MYFOODREPO_ID: '<strong>Only for US Participants:</strong><br />'
                    'By sharing photos of all the food you eat via a mobile '
@@ -184,7 +185,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, MYFOODREPO_ID, POLYPHENOL_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:

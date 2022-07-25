@@ -269,10 +269,10 @@
                 <div class="col-3">
                     {{ detail.survey_template_title|e }}
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     {{ detail.description }}
                 </div>
-                <div class="col">
+                <div class="col-2">
                     {% if detail.new_tab %}
                     <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
                     {% else %}

@@ -272,7 +272,7 @@
                 <div class="col-7">
                     {{ detail.description }}
                 </div>
-                <div class="col-2">
+                <div class="col-2" style="text-align: right">
                     {% if detail.new_tab %}
                     <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
                     {% else %}

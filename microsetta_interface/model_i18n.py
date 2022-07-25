@@ -95,11 +95,11 @@ def declare_enum_values():
     gettext("Questions on surfing behavior")
     gettext("Questions about your interest in the microbiome")
     gettext("Questions related to cooking oils and oxalate-rich foods")
-    gettext("Polyphenols are chemical compounds naturally found in plants "\
-            "that have been shown to provide many beneficial properties. "\
-            "They are antioxidants, fighting aging and protecting your heart"\
-            ", but they may also provide benefits by interacting with the "\
-            "microbes in your gut. This survey will allow us to better "\
+    gettext("Polyphenols are chemical compounds naturally found in plants "
+            "that have been shown to provide many beneficial properties. "
+            "They are antioxidants, fighting aging and protecting your heart"
+            ", but they may also provide benefits by interacting with the "
+            "microbes in your gut. This survey will allow us to better "
             "quantify your consumption of polyphenols through your diet.")
 
     # Ensure that EN_US_KEY is added to the POT file

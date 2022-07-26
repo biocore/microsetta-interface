@@ -1155,6 +1155,19 @@ def post_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
+# same as above.
+# TODO Do we need @prerequisite([ACCT_PREREQS_MET])?
+def post_request_account_removal(*, account_id=None):
+    has_error, delete_output, _ = ApiRequest.delete(
+        '/accounts/%s/request/remove' %
+        (account_id))
+
+    if has_error:
+        return delete_output
+
+    return _render_with_defaults('request_account_deletion_confirm.jinja2')
+
+
 @prerequisite([SOURCE_PREREQS_MET])
 def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(

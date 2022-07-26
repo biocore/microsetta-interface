@@ -385,6 +385,23 @@ paths:
               schema:
                 type: string
 
+  # same as above
+  # TODO: Do we need more response codes appended?
+  '/accounts/{account_id}/request/remove':
+    post:
+      operationId: microsetta_interface.implementation.post_request_account_removal
+      tags:
+        - Account
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+      responses:
+        '200':
+          description: Display of revised info or error info
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/claim_samples':
     post:
       operationId: microsetta_interface.implementation.post_claim_samples

@@ -2,10 +2,7 @@
 {% set page_title = _("Admin Address Verification") %}
 {% set show_breadcrumbs = False %}
 {% block content %}
-<h4>{{ _('Account Removal') }}</h4>
-<center>
-    <a href="/admin/campaigns/edit">Add New Campaign</a>
-</center><br />
+<h4>{{ _('Requests for Account Removal') }}</h4>
 <div class="container">
     {% if diagnostics is not none and diagnostics|length > 0 %}
     <div class="list-group">
@@ -14,7 +11,7 @@
                 <i>{{ _('Account ID') }}</i>
             </div>
             <div class="col-sm" style="text-align: center">
-                <i>{{ _('Timestamp') }}</i>
+                <i>{{ _('Requested On') }}</i>
             </div>
             <div class="col-sm" style="text-align: center">
                 &nbsp;
@@ -23,14 +20,21 @@
         {% for row in diagnostics %}
         <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
           <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" style="text-align: center">
                 {{ row.account_id |e }}
             </div>
             <div class="col-sm" style="text-align: center">
-                {{ row.timestamp |e }}
+                {{ row.requested_on |e }}
             </div>
             <div class="col-sm" style="text-align: center">
-                <a href="/admin/campaigns/edit?campaign_id={{ row.campaign_id |e }}">View/Edit</a>
+                <form action="/admin/account_delete" method="post">
+                  <input type="hidden" id="account_id" name="account_id" value="{{ row.account_id }}"/>
+                  <button type=submit" class="btn btn-danger">{{ _('Delete Account') }}</button>
+                </form>
+                <form action="/admin/account_ignore_delete" method="post">
+                  <input type="hidden" id="account_id" name="account_id" value="{{ row.account_id }}"/>
+                  <button type=submit" class="btn btn-danger">{{ _('Ignore Request') }}</button>
+                </form>
             </div>
           </div>
         </div>
@@ -38,7 +42,7 @@
     </div>
     <br/><br/>
     {% else %}
-    {{ _('No requests found.') }}
+    {{ _('No requests found') }}
     {% endif %}
 </div>
 {% endblock %}

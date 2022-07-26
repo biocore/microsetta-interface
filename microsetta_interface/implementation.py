@@ -1158,12 +1158,15 @@ def post_remove_source(*,
 # same as above.
 # TODO Do we need @prerequisite([ACCT_PREREQS_MET])?
 def post_request_account_removal(*, account_id=None):
-    has_error, delete_output, _ = ApiRequest.delete(
+    # PUT is used to add the account_id to the queue
+    # DELETE is used to remove the account_id from the queue, if it's
+    # still there.
+    has_error, put_output, _ = ApiRequest.put(
         '/accounts/%s/request/remove' %
         (account_id))
 
     if has_error:
-        return delete_output
+        return put_output
 
     return _render_with_defaults('request_account_deletion_confirm.jinja2')
 
@@ -1614,6 +1617,38 @@ def post_account_delete(body):
     return get_rootpath()
 
 
+def post_account_ignore_delete(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    account_details = session.get(LOGIN_INFO_KEY)
+    if account_details is None:
+        raise Unauthorized()
+
+    account_to_ignore = body.get('account_id')
+    if account_to_ignore is None:
+        raise Unauthorized()
+
+    # preserve 'standard-accounts-only' logic for now.
+    # admin accounts shouldn't be requesting their own deletion.
+    #do_return, accts_output, _ = ApiRequest.get(
+    #    '/accounts/%s' % (account_to_ignore, ))
+    #if do_return:
+    #    return accts_output
+
+    #if accts_output['account_type'] != 'standard':
+    #    return get_rootpath()
+
+    # /accounts/{account_id}/request/remove
+    has_error, ignore_output, _ = ApiRequest.delete(
+        '/accounts/%s/request/remove' % (account_to_ignore,))
+
+    if has_error:
+        return ignore_output
+
+    return get_rootpath()
+
+
 def get_interested_users(email=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
@@ -2043,6 +2078,22 @@ def post_campaign_edit(body):
         request.files['header_image'].save(fn)
 
     return get_campaign_edit(campaign_info['campaign_id'])
+
+
+def get_account_removal_requests():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        "/admin/requests/account_removal/list",
+        params={}
+    )
+
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults('admin_requests_account_removal_list.jinja2',
+                                 diagnostics=diagnostics)
 
 
 def get_submit_interest(campaign_id=None, source=None):

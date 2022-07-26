@@ -16,26 +16,6 @@
     <script>
 
         $(document).ready(function(){
-            $("form").submit(function(e) {
-                var date = $("#sample_date").val()
-                date = new Date(date);
-                var lower_limit = new Date();
-                lower_limit .setFullYear( lower_limit.getFullYear() - 10 );
-                lower_limit .setDate(lower_limit.getDate());
-                lower_limit .setMonth(lower_limit.getMonth());
-                var upper_limit  = new Date();
-                upper_limit .setFullYear( upper_limit.getFullYear() );
-                upper_limit .setDate(upper_limit.getDate());
-                upper_limit .setMonth(upper_limit.getMonth() + 1);
-                if(date.getTime() < lower_limit.getTime()) {
-                    alert('Please select a date within the last 10 years.')
-                    e.preventDefault(e);
-                } else if (date.getTime() > upper_limit.getTime()) {
-                    alert('Please select a date within the next 30 days.')
-                    e.preventDefault(e);
-                }
-            });
-            
             let form_name = 'sample_form';
             preventImplicitSubmission(form_name);
 

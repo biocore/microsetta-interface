@@ -1631,15 +1631,14 @@ def post_account_ignore_delete(body):
 
     # preserve 'standard-accounts-only' logic for now.
     # admin accounts shouldn't be requesting their own deletion.
-    #do_return, accts_output, _ = ApiRequest.get(
-    #    '/accounts/%s' % (account_to_ignore, ))
-    #if do_return:
-    #    return accts_output
+    do_return, accts_output, _ = ApiRequest.get(
+        '/accounts/%s' % (account_to_ignore, ))
+    if do_return:
+        return accts_output
 
-    #if accts_output['account_type'] != 'standard':
-    #    return get_rootpath()
+    if accts_output['account_type'] != 'standard':
+        return get_rootpath()
 
-    # /accounts/{account_id}/request/remove
     has_error, ignore_output, _ = ApiRequest.delete(
         '/accounts/%s/request/remove' % (account_to_ignore,))
 

@@ -8,10 +8,19 @@
     <div class="list-group">
         <div class="row">
             <div class="col-sm" style="text-align: center">
-                <i>{{ _('Account ID') }}</i>
+                <i>{{ _('Email') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('First Name') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Last Name') }}</i>
             </div>
             <div class="col-sm" style="text-align: center">
                 <i>{{ _('Requested On') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                &nbsp;
             </div>
             <div class="col-sm" style="text-align: center">
                 &nbsp;
@@ -21,21 +30,30 @@
         <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
           <div class="row">
             <div class="col-sm" style="text-align: center">
-                {{ row.account_id |e }}
+                {{ row.email |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.first_name |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.last_name |e }}
             </div>
             <div class="col-sm" style="text-align: center">
                 {{ row.requested_on |e }}
             </div>
-            <div class="col-sm" style="text-align: center">
+            <div class="col-sm" style="text-align: right">
                 <form action="/admin/account_delete" method="post">
-                  <input type="hidden" id="account_id" name="account_id" value="{{ row.account_id }}"/>
-                  <button type=submit" class="btn btn-danger">{{ _('Delete Account') }}</button>
-                </form>
-                <form action="/admin/account_ignore_delete" method="post">
-                  <input type="hidden" id="account_id" name="account_id" value="{{ row.account_id }}"/>
-                  <button type=submit" class="btn btn-danger">{{ _('Ignore Request') }}</button>
+                  <input type="hidden" id="btnDelete" name="account_id" value="{{ row.account_id }}"/>
+                  <button type=submit" class="btn btn-danger">{{ _('Delete') }}</button>
                 </form>
             </div>
+            <div class="col-sm" style="text-align: left">
+                <form action="/admin/account_ignore_delete" method="post">
+                  <input type="hidden" id="btnIgnore" name="account_id" value="{{ row.account_id }}"/>
+                  <button type=submit" class="btn btn-danger">{{ _('Ignore') }}</button>
+                </form>
+            </div>
+
           </div>
         </div>
         {% endfor %}

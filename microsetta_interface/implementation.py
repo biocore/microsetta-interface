@@ -1156,7 +1156,7 @@ def post_remove_source(*,
 
 
 # same as above.
-def post_request_account_removal(*, account_id=None):
+def post_request_account_removal(*, account_id):
     # PUT is used to add the account_id to the queue
     # DELETE is used to remove the account_id from the queue, if it's
     # still there.

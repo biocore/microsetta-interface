@@ -1156,7 +1156,6 @@ def post_remove_source(*,
 
 
 # same as above.
-# TODO Do we need @prerequisite([ACCT_PREREQS_MET])?
 def post_request_account_removal(*, account_id=None):
     # PUT is used to add the account_id to the queue
     # DELETE is used to remove the account_id from the queue, if it's

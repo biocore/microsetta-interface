@@ -386,7 +386,6 @@ paths:
                 type: string
 
   # same as above
-  # TODO: Do we need more response codes appended?
   '/accounts/{account_id}/request/remove':
     post:
       operationId: microsetta_interface.implementation.post_request_account_removal

@@ -750,7 +750,8 @@ def get_account_details(*, account_id=None):
     if has_error:
         return account
 
-    has_error, stats, _ = ApiRequest.get('/accounts/%s/request/remove' % account_id)
+    has_error, stats, _ = ApiRequest.get(f'/accounts/{account_id}/request/'
+                                         'remove')
 
     if has_error:
         return stats
@@ -759,8 +760,6 @@ def get_account_details(*, account_id=None):
                                  CREATE_ACCT=False,
                                  account=account,
                                  requested_deletion=stats['status'])
-
-
 
 
 @prerequisite([ACCT_PREREQS_MET])

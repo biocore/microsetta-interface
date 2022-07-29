@@ -23,6 +23,7 @@ except:  # noqa
 else:
     PRIVATE_API_AVAILABLE = (req.status_code == 200)
 
+print("Private API Available: %s" % PRIVATE_API_AVAILABLE)
 
 # obtain the JWT key if it exists
 PRIVKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PRIV'
@@ -459,6 +460,58 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
+
+    def test_request_delete(self):
+        self._login(USER_WITH_VALID_SAMPLE)
+
+        resp = self.app.get('/home')
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Account')
+
+        # sign the consent
+        account_id, _, _ = self._ids_from_url(url)
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+        resp = self.app.post(url, data=ADULT_CONSENT)
+        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Participant Survey')
+
+        # once a basic account has been set up, confirm Account->Details page
+        # shows the following text. This user should not already be in the
+        # delete queue.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+        s = ('If you wish to delete this account, please click the following '
+             'button to submit your request to an administrator.')
+        self.assertIn(s, data)
+
+        # post to the request endpoint to add this user to the removal queue.
+        # confirm that the text contains verbiage from the confirmation page.
+        url = f'/accounts/{account_id}/request/remove'
+        body = {'key': 'value'}
+        resp = self.app.post(url, data=body)
+        data = self._html_page(resp)
+        s = ('We are sorry to see you go! Your request has been logged and '
+             'you will receive an email notification once your account has '
+             'been deleted.')
+        self.assertIn(s, data)
+
+        # return to the Account->Details page and confirm that it shows the
+        # following text. The user should not be able to push the 'delete'
+        # button a second time.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+        s = ('Your account removal request is being reviewed. You will be '
+             'notified via email once your account has been deleted.')
+        self.assertIn(s, data)
 
 
 if __name__ == '__main__':

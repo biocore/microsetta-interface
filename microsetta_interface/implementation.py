@@ -746,12 +746,21 @@ def get_account(*, account_id=None):
 @prerequisite([ACCT_PREREQS_MET])
 def get_account_details(*, account_id=None):
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+
     if has_error:
         return account
 
+    has_error, stats, _ = ApiRequest.get('/accounts/%s/request/remove' % account_id)
+
+    if has_error:
+        return stats
+
     return _render_with_defaults('account_details.jinja2',
                                  CREATE_ACCT=False,
-                                 account=account)
+                                 account=account,
+                                 requested_deletion=stats['status'])
+
+
 
 
 @prerequisite([ACCT_PREREQS_MET])

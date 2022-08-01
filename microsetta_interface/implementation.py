@@ -91,11 +91,11 @@ MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
 
 SYSTEM_MSG_DICTIONARY = {
-        "going_down": {
-            EN_US_KEY: "The system is going down at ",
-            ES_MX_KEY: "El sistema se apaga a las "
-        }
+    "going_down": {
+        EN_US_KEY: "The system is going down at ",
+        ES_MX_KEY: "El sistema se apaga a las "
     }
+}
 
 client_state = RedisCache()
 
@@ -797,7 +797,7 @@ def get_create_human_source(*, account_id=None):
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
     duplicate_email_check_url = endpoint + "/accounts/{0}/" \
-                                           "source_duplicate_email_check"\
+                                           "source_duplicate_email_check" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
@@ -807,12 +807,12 @@ def get_create_human_source(*, account_id=None):
     if has_error:
         return consent_output
 
-    return _render_with_defaults('new_participant.jinja2',
-                                 tl=consent_output,
-                                 post_url=post_url,
-                                 duplicate_email_check_url=
-                                 duplicate_email_check_url,
-                                 home_url=home_url)
+    return _render_with_defaults(
+        'new_participant.jinja2',
+        tl=consent_output,
+        post_url=post_url,
+        duplicate_email_check_url=duplicate_email_check_url,
+        home_url=home_url)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -907,7 +907,7 @@ def get_fill_vioscreen_remote_sample_survey(*,
 
     suffix = "samples/%s/vspassthru" % sample_id
     redirect_url = SERVER_CONFIG["endpoint"] + \
-        _make_source_path(account_id, source_id, suffix=suffix)
+                   _make_source_path(account_id, source_id, suffix=suffix)
     params = {
         'survey_redirect_url': redirect_url,
         'vioscreen_ext_sample_id': sample_id
@@ -1423,11 +1423,11 @@ def admin_emperor_playground():
         "emperor.jinja2",
         user_sample_id="10317.000069368",  # Some arbitrary sample
         pcoa_url=SERVER_CONFIG["public_api_endpoint"] +
-        "/plotting/diversity/beta/unweighted-unifrac"
-        "/pcoa/oral/emperor"
-        "?metadata_categories=age_cat"
-        "&metadata_categories=bmi_cat"
-        "&metadata_categories=latitude"
+                 "/plotting/diversity/beta/unweighted-unifrac"
+                 "/pcoa/oral/emperor"
+                 "?metadata_categories=age_cat"
+                 "&metadata_categories=bmi_cat"
+                 "&metadata_categories=latitude"
     )
 
 
@@ -1597,7 +1597,7 @@ def post_account_delete(body):
     # first we do not want to double-delete "deleted" accounts inadvertantly
     # and second, it is a risk to allow deletion of admin accounts.
     do_return, accts_output, _ = ApiRequest.get(
-        '/accounts/%s' % (account_to_delete, ))
+        '/accounts/%s' % (account_to_delete,))
     if do_return:
         return accts_output
 
@@ -1983,7 +1983,7 @@ def post_campaign_edit(body):
     extension = ''
     if request.files['header_image'].filename != '':
         filename = request.files['header_image'].filename
-        extension = filename.split(".")[len(filename.split("."))-1].lower()
+        extension = filename.split(".")[len(filename.split(".")) - 1].lower()
         if extension not in {"png", "jpg", "jpeg"}:
             raise Exception("Invalid file type selected for header image")
 

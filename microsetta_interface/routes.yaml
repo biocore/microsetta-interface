@@ -350,6 +350,27 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/source_duplicate_email_check':
+    post:
+      operationId: microsetta_interface.implementation.source_duplicate_email_check
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: List of sources page
+          content:
+            application/json:
+              schema:
+                type: object
+
   '/accounts/{account_id}/sources/{source_id}':
     get:
       operationId: microsetta_interface.implementation.get_source

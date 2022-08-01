@@ -5,6 +5,7 @@
 <script type="text/javascript" src="/static/vendor/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/static/vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 <script src="/static/vendor/js/jquery.validate.min.js"></script>
+<script src="/static/vendor/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
     function min_validation(form) {
       // needed because Safari does not honor required flag in inputs, or jquery validate
@@ -20,7 +21,6 @@
       }
       return valid;
     }
-
     function validate06() {
       // needed because Safari does not honor required flag in inputs, or jquery validate
       var valid = min_validation("0-6-form");
@@ -35,7 +35,6 @@
       }
       return valid;
     }
-
     function validate712() {
       // needed because Safari does not honor required flag in inputs, or jquery validate
       var valid = min_validation("7-12-form");
@@ -62,7 +61,6 @@
       }
       return valid;
     }
-
     function validate1317() {
       // needed because Safari does not honor required flag in inputs, or jquery validate
       var valid = min_validation("13-17-form");
@@ -81,7 +79,6 @@
       }
       return valid;
     }
-
     function change_consent_div(radio) {
         $("#0-6-div").hide();
         $("#7-12-div").hide();
@@ -89,7 +86,6 @@
         $("#18-plus-div").hide();
         $("#"+ radio.value +"-div").show();
     }
-
     function relax_parents(box) {
         var sec_parent = $("#" + box.form.id + "_parent_2_name");
         if(box.checked) {
@@ -98,8 +94,7 @@
             sec_parent.required = true;
         }
     }
-
-    $(document).ready(function() {
+    $(document).ready(function(e) {
         $("#0-6-div").hide();
         $("#7-12-div").hide();
         $("#13-17-div").hide();
@@ -108,6 +103,57 @@
         disableInputOnSubmit("#7-12-form", "#7-12-submit_button", "{{ _('Saving...') }}");
         disableInputOnSubmit("#13-17-form", "#13-17-submit_button", "{{ _('Saving...') }}");
         disableInputOnSubmit("#18-form", "#18-submit_button", "{{ _('Saving...') }}");
+        $("#home_page").click(function(){
+            window.open('{{home_url}}', '_self')
+        })
+        $("#create_source").click(function(){
+            //window.open('{{post_url}}', '_self')
+            //$("#source_modal").modal('hide');
+            $("#18-form")[0].submit();
+        })
+        $("#18-form").submit(function(e){
+            e.preventDefault();
+             form = document.getElementById("18-form");
+             var valid = true;
+             if(form.participant_name.value.trim().length == 0) {
+               form.participant_name.className += " highlight";
+                 valid = false;
+             }
+             if(form.participant_email.value.trim().length == 0) {
+               form.participant_email.className += " highlight";
+               valid = false;
+             }
+             if(!$("#age18_consent").is(":checked")) {
+               form.age18_consent.className += "highlight";
+               valid = false;
+             }
+             if(valid){
+             var name = $('#participant_name_id').val();
+             var email = $('#participant_email_id').val();
+                    $.ajax({
+                        url: '{{ duplicate_email_check_url }}',
+                        data:JSON.stringify({participant_name:name, participant_email:email}),
+                        contentType:"application/json",
+                        type: 'POST',
+                        success: function(response){
+                            if(response.source_duplicate){
+                                  $("#source_msg").empty();
+                                  $("#source_msg").text(response.message);
+                                  $("#source_modal").modal('show');
+                                  $("#18-submit_button").attr("value", "I Accept")
+                                  $("#18-submit_button").prop("disabled", false)
+                            } else {
+                                $("#18-form")[0].submit();
+                            }
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
+             } else {
+              alert("fill all fields")
+             }
+         });
     });
 </script>
 <style>
@@ -118,7 +164,6 @@
   width: 80%;
   margin: 0 auto;
 }
-
 .required-field {
     color: red;
     display: inline-block;
@@ -249,15 +294,38 @@
 <div class="" id="consent">
     <hr>
         <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
-        <form id="18-form" name="consent_info" onsubmit="return min_validation('18-form');" action="{{ post_url }}" method="post">
+        <form id="18-form" name="consent_info" action="{{post_url}}" method="post">
         <input type="hidden" name="age_range" value="18-plus">
-           <p><input value="Yes" type="checkbox" name="consent" id="consent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
+           <p><input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name_id" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email_id" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td><input type="submit" id="18-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table></p>
     </form>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="source_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="source_msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="home_page">Return to Home Page</button>
+        <button type="button" class="btn btn-primary" id="create_source">Proceed with Creating New Source</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}

@@ -48,7 +48,6 @@ else:
         'microsetta_interface',
         "authrocket.pubkey")
 
-
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
@@ -785,11 +784,22 @@ def post_account_details(*, account_id=None, body=None):
 
 
 @prerequisite([ACCT_PREREQS_MET])
+def source_duplicate_email_check(*, account_id=None, body=None):
+    has_error, email_check_output, _ = ApiRequest.post(
+        "/accounts/{0}/source_email_match".format(account_id), json=body)
+    return email_check_output
+
+
+@prerequisite([ACCT_PREREQS_MET])
 def get_create_human_source(*, account_id=None):
     endpoint = SERVER_CONFIG["endpoint"]
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
+    duplicate_email_check_url = endpoint + "/accounts/{0}/" \
+                                           "source_duplicate_email_check"\
+        .format(account_id)
+    home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
         "/accounts/{0}/consent".format(account_id),
         params={"consent_post_url": post_url})
@@ -799,7 +809,10 @@ def get_create_human_source(*, account_id=None):
 
     return _render_with_defaults('new_participant.jinja2',
                                  tl=consent_output,
-                                 post_url=post_url)
+                                 post_url=post_url,
+                                 duplicate_email_check_url=
+                                 duplicate_email_check_url,
+                                 home_url=home_url)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1144,7 +1157,6 @@ def get_source(*, account_id=None, source_id=None):
 def post_remove_source(*,
                        account_id=None,
                        source_id=None):
-
     has_error, delete_output, _ = ApiRequest.delete(
         '/accounts/%s/sources/%s' %
         (account_id, source_id))

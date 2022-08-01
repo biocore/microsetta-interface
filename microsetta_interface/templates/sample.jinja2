@@ -28,10 +28,10 @@
                 upper_limit .setDate(upper_limit.getDate());
                 upper_limit .setMonth(upper_limit.getMonth() + 1);
                 if(date.getTime() < lower_limit.getTime()) {
-                    alert('Please select a date within the last 10 years.')
+                    alert("{{ _('Please select a date within the last 10 years.') }}")
                     e.preventDefault(e);
                 } else if (date.getTime() > upper_limit.getTime()) {
-                    alert('Please select a date within the next 30 days.')
+                    alert("{{ _('Please select a date within the next 30 days.') }}")
                     e.preventDefault(e);
                 }
             });

@@ -750,8 +750,8 @@ def get_account_details(*, account_id=None):
     if has_error:
         return account
 
-    has_error, stats, _ = ApiRequest.get(f'/accounts/{account_id}/request/'
-                                         'remove')
+    has_error, stats, _ = ApiRequest.get(f'/accounts/{account_id}/'
+                                         'removal_queue')
 
     if has_error:
         return stats
@@ -1169,7 +1169,7 @@ def post_request_account_removal(*, account_id):
     # DELETE is used to remove the account_id from the queue, if it's
     # still there.
     has_error, put_output, _ = ApiRequest.put(
-        '/accounts/%s/request/remove' %
+        '/accounts/%s/removal_queue' %
         (account_id))
 
     if has_error:
@@ -1615,8 +1615,8 @@ def post_account_delete(body):
     if accts_output['account_type'] != 'standard':
         return get_rootpath()
 
-    has_error, delete_output, _ = ApiRequest.delete(
-        '/accounts/%s' % (account_to_delete,))
+    url = '/admin/account_removal/%s' % account_to_delete
+    has_error, delete_output, _ = ApiRequest.delete(url)
 
     if has_error:
         return delete_output
@@ -1646,8 +1646,8 @@ def post_account_ignore_delete(body):
     if accts_output['account_type'] != 'standard':
         return get_rootpath()
 
-    has_error, ignore_output, _ = ApiRequest.delete(
-        '/accounts/%s/request/remove' % (account_to_ignore,))
+    url = '/admin/account_removal/%s' % account_to_ignore
+    has_error, ignore_output, _ = ApiRequest.put(url)
 
     if has_error:
         return ignore_output

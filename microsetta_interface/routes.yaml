@@ -350,9 +350,9 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/source_duplicate_email_check':
+  '/accounts/{account_id}/check_duplicate_source_name_email':
     post:
-      operationId: microsetta_interface.implementation.source_duplicate_email_check
+      operationId: microsetta_interface.implementation.check_duplicate_source_name_email
       tags:
         - Source
       parameters:

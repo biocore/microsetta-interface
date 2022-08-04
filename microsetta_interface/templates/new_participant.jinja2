@@ -9,11 +9,11 @@
 <script type="text/javascript">
     function min_validation(form) {
       // needed because Safari does not honor required flag in inputs, or jquery validate
-      var valid = true;
       form = document.getElementById(form);
+      var valid = true;
       if(form.participant_name.value.trim().length == 0) {
         form.participant_name.className += " highlight";
-        valid = false;
+          valid = false;
       }
       if(form.participant_email.value.trim().length == 0) {
         form.participant_email.className += " highlight";
@@ -21,10 +21,22 @@
       }
       return valid;
     }
-    function validate06() {
+
+    function validate18(form) {
+      var valid = min_validation(form);
+      form = document.getElementById(form);
+
+      if(!$("#age18_consent").is(":checked")) {
+        form.age18_consent.className += "highlight";
+        valid = false;
+      }
+      return valid;
+    }
+
+    function validate06(form) {
       // needed because Safari does not honor required flag in inputs, or jquery validate
-      var valid = min_validation("0-6-form");
-      form = document.getElementById("0-6-form");
+      var valid = min_validation(form);
+      form = document.getElementById(form);
       if(form.consent_parent.checked == false) {
         form.consent_parent.className += " highlight";
         valid = false;
@@ -35,10 +47,11 @@
       }
       return valid;
     }
-    function validate712() {
+
+    function validate712(form) {
       // needed because Safari does not honor required flag in inputs, or jquery validate
-      var valid = min_validation("7-12-form");
-      form = document.getElementById("7-12-form");
+      var valid = min_validation(form);
+      form = document.getElementById(form);
       if(form.consent_parent.checked == false) {
         form.consent_parent.className += " highlight";
         valid = false;
@@ -61,10 +74,11 @@
       }
       return valid;
     }
-    function validate1317() {
+
+    function validate1317(form) {
       // needed because Safari does not honor required flag in inputs, or jquery validate
-      var valid = min_validation("13-17-form");
-      form = document.getElementById("13-17-form");
+      var valid = min_validation(form);
+      form = document.getElementById(form);
       if(form.consent_parent.checked == false) {
         form.consent_parent.className += " highlight";
         valid = false;
@@ -79,6 +93,7 @@
       }
       return valid;
     }
+
     function change_consent_div(radio) {
         $("#0-6-div").hide();
         $("#7-12-div").hide();
@@ -86,6 +101,7 @@
         $("#18-plus-div").hide();
         $("#"+ radio.value +"-div").show();
     }
+
     function relax_parents(box) {
         var sec_parent = $("#" + box.form.id + "_parent_2_name");
         if(box.checked) {
@@ -94,6 +110,7 @@
             sec_parent.required = true;
         }
     }
+
     $(document).ready(function(e) {
         $("#0-6-div").hide();
         $("#7-12-div").hide();
@@ -109,27 +126,30 @@
         $("#create_source").click(function(){
             //window.open('{{post_url}}', '_self')
             //$("#source_modal").modal('hide');
-            $("#18-form")[0].submit();
+            $("#"+$(this).attr('form_id'))[0].submit();
         })
-        $("#18-form").submit(function(e){
+        $("#18-form, #0-6-form, #7-12-form, #13-17-form").submit(function(e){
             e.preventDefault();
-             form = document.getElementById("18-form");
-             var valid = true;
-             if(form.participant_name.value.trim().length == 0) {
-               form.participant_name.className += " highlight";
-                 valid = false;
-             }
-             if(form.participant_email.value.trim().length == 0) {
-               form.participant_email.className += " highlight";
-               valid = false;
-             }
-             if(!$("#age18_consent").is(":checked")) {
-               form.age18_consent.className += "highlight";
-               valid = false;
-             }
-             if(valid){
-             var name = $('#participant_name_id').val();
-             var email = $('#participant_email_id').val();
+            $form_id = $(this).attr('id');
+            if($form_id == "0-6-form"){
+                valid = validate06("0-6-form");
+            } else if ($form_id == "7-12-form") {
+                valid = validate712("7-12-form");
+            } else if ($form_id == "13-17-form") {
+                valid = validate1317("13-17-form")
+            } else if ($form_id == "18-form") {
+                valid = validate18("18-form")
+            }
+
+            var duplicate_source_check_msg = `It looks like you're creating a new source that may
+                  be similar or the same as an existing source.
+                  If this is the same person as an existing source,
+                  please consider providing new samples or survey
+                  responses under that source`;
+
+            if(valid){
+             var name = $('#'+$form_id+'_participant_name').val();
+             var email = $('#'+$form_id+'_participant_email').val();
                     $.ajax({
                         url: '{{ duplicate_email_check_url }}',
                         data:JSON.stringify({participant_name:name, participant_email:email}),
@@ -138,12 +158,13 @@
                         success: function(response){
                             if(response.source_duplicate){
                                   $("#source_msg").empty();
-                                  $("#source_msg").text(response.message);
+                                  $("#source_msg").text(duplicate_source_check_msg);
                                   $("#source_modal").modal('show');
+                                  $("#create_source").attr("form_id", $form_id);
                                   $("#18-submit_button").attr("value", "I Accept")
                                   $("#18-submit_button").prop("disabled", false)
                             } else {
-                                $("#18-form")[0].submit();
+                                $("#"+$form_id)[0].submit();
                             }
                         },
                         error: function(error){
@@ -196,13 +217,13 @@
     <div class="" id="consent">
         <hr>
         <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
-        <form id="0-6-form" name="consent_info" onsubmit="return validate06();" action="{{ post_url }}" method="post">
+        <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
            <input type="hidden" name="age_range" value="0-6">
            <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
     </div>
     <table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}</td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}</td><td><input tabindex="3" type="email"  name="participant_email" id="0-6-form_participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}</td><td><input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}</td><td><input tabindex="8" type="text" name="parent_2_name" id="0-6-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}</td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
@@ -216,13 +237,13 @@
 </div>
     <div class="" id="consent">
         <hr>
-        <form id="7-12-form" name="consent_info" onsubmit="return validate712();" action="{{ post_url }}" method="post">
+        <form id="7-12-form" name="consent_info" action="{{ post_url }}" method="post">
         <input type="hidden" name="age_range" value="7-12">
            <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_SIMPLIFIED'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}</td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}</td><td><input tabindex="3" type="email"  name="participant_email" id="7-12-form_participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
     </table></p>
     <div>
     <h4>{{ tl['PERSON_ATTAINING_ASSENT'] |e}}</h4>
@@ -257,13 +278,13 @@
 </div>
     <div class="" id="consent">
         <hr>
-        <form id="13-17-form" name="consent_info" onsubmit="return validate1317();" action="{{ post_url }}" method="post">
+        <form id="13-17-form" name="consent_info" action="{{ post_url }}" method="post">
            <input type="hidden" name="age_range" value="13-17">
            <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="13-17-form_participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
     </table></p>
     <hr>
     <div class='scrolltext'>
@@ -299,8 +320,8 @@
            <p><input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="participant_name_id" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="participant_email_id" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_EMAIL'] |e}}: </td><td><input tabindex="3" type="email"  name="participant_email" id="18-form_participant_email" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td><input type="submit" id="18-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table></p>
     </form>

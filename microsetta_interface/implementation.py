@@ -2091,7 +2091,7 @@ def get_account_removal_requests():
         raise Unauthorized()
 
     do_return, diagnostics, _ = ApiRequest.get(
-        "/admin/requests/account_removal/list",
+        "/admin/account_removal/list",
         params={}
     )
 

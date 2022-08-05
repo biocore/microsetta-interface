@@ -141,11 +141,7 @@
                 valid = validate18("18-form")
             }
 
-            var duplicate_source_check_msg = `It looks like you're creating a new source that may
-                  be similar or the same as an existing source.
-                  If this is the same person as an existing source,
-                  please consider providing new samples or survey
-                  responses under that source`;
+            var duplicate_source_check_msg = "{{ _('It looks like you are creating a new source that may be similar or the same as an existing source. If this is the same person as an existing source, please consider providing new samples or survey responses under that source') }}"
 
             if(valid){
              var name = $('#'+$form_id+'_participant_name').val();
@@ -156,6 +152,9 @@
                         contentType:"application/json",
                         type: 'POST',
                         success: function(response){
+                            if(response.error !== undefined){
+                                alert(response.error)
+                            }
                             if(response.source_duplicate){
                                   $("#source_msg").empty();
                                   $("#source_msg").text(duplicate_source_check_msg);
@@ -163,7 +162,7 @@
                                   $("#create_source").attr("form_id", $form_id);
                                   $("#18-submit_button").attr("value", "I Accept")
                                   $("#18-submit_button").prop("disabled", false)
-                            } else {
+                            } else if (response.error === undefined && !response.source_duplicate) {
                                 $("#"+$form_id)[0].submit();
                             }
                         },

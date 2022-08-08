@@ -800,7 +800,7 @@ def get_create_human_source(*, account_id=None):
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
     duplicate_email_check_url = endpoint + "/accounts/{0}/" \
-                                           "check_duplicate_source_name_email" \
+        "check_duplicate_source_name_email" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
@@ -910,7 +910,7 @@ def get_fill_vioscreen_remote_sample_survey(*,
 
     suffix = "samples/%s/vspassthru" % sample_id
     redirect_url = SERVER_CONFIG["endpoint"] + \
-                   _make_source_path(account_id, source_id, suffix=suffix)
+        _make_source_path(account_id, source_id, suffix=suffix)
     params = {
         'survey_redirect_url': redirect_url,
         'vioscreen_ext_sample_id': sample_id
@@ -1426,11 +1426,11 @@ def admin_emperor_playground():
         "emperor.jinja2",
         user_sample_id="10317.000069368",  # Some arbitrary sample
         pcoa_url=SERVER_CONFIG["public_api_endpoint"] +
-                 "/plotting/diversity/beta/unweighted-unifrac"
-                 "/pcoa/oral/emperor"
-                 "?metadata_categories=age_cat"
-                 "&metadata_categories=bmi_cat"
-                 "&metadata_categories=latitude"
+        "/plotting/diversity/beta/unweighted-unifrac"
+        "/pcoa/oral/emperor"
+        "?metadata_categories=age_cat"
+        "&metadata_categories=bmi_cat"
+        "&metadata_categories=latitude"
     )
 
 

@@ -788,7 +788,7 @@ def check_duplicate_source_name_email(*, account_id=None, body=None):
     has_error, email_check_output, _ = ApiRequest.post(
         "/accounts/{0}/check_duplicate_source".format(account_id), json=body)
     if has_error:
-        email_check_output["error"] = has_error
+        return email_check_output
 
     return email_check_output
 

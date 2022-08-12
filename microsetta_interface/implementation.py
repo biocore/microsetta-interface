@@ -2080,12 +2080,14 @@ def post_submit_interest(body):
             "country": body['country'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body['address_3'],
             "city": body['city'],
             "state": body['state'],
             "postal": body['postal'],
             "confirm_consent": body['confirm_consent'],
             "over_18": body['over_18'],
-            "ip_address": ip_address
+            "ip_address": ip_address,
+            "address_type": body['address_type']
         }
     )
 

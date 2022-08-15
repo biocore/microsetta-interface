@@ -1778,3 +1778,15 @@ msgstr ""
 #~ msgid "The Microsetta Initiatiave"
 #~ msgstr ""
 
+#: templates/survey.jinja2:170
+msgid "It looks like you're trying to submit this survey without answering any questions. If you'd prefer not to complete this survey, please return to the homepage."
+msgstr ""
+
+#: templates/sample.jinja2:31
+msgid "Please select a date within the last 10 years."
+msgstr ""
+
+#: templates/sample.jinja2:34
+msgid "Please select a date within the next 30 days."
+msgstr ""
+

@@ -160,9 +160,15 @@
             validateBeforeSubmit: true,
             onSubmit: function(){
                 let confirm_submit = false;
+                let num_string_fields = document.getElementsByClassName("field-textArea").length + document.getElementsByClassName("field-input").length ;
                 if(form_submitted === 0) {
-                    confirm_submit = confirm("{{ _('Please note: Once you\'ve submitted this survey, you\'ll be unable to edit your answers.') }}\r\n\r\n{{ _('If you\'d like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.') }}\r\n\r\n{{ _('This warning will only appear once.') }}");
-                    form_submitted = 1;
+                    if(num_string_fields > 0 || Object.keys(survey_model).length>0) {
+                        confirm_submit = confirm("{{ _('Please note: Once you\'ve submitted this survey, you\'ll be unable to edit your answers.') }}\r\n\r\n{{ _('If you\'d like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.') }}\r\n\r\n{{ _('This warning will only appear once.') }}");
+                        form_submitted = 1;
+                    }
+                    else {
+                        alert("{{ _('It looks like you are trying to submit this survey without answering any questions. If you would prefer not to complete this survey, please return to the homepage.') }}")
+                    }
                 } else {
                     confirm_submit = true;
                 }

@@ -158,7 +158,7 @@ $(document).ready(function(){
                 postal: {
                     required: true,
                     remote: {
-                        url: "/user_address_verification",
+                        url: "/user_address_verification123",
                         type: "get",
                         async: false,
                         data: {
@@ -326,7 +326,7 @@ $(document).ready(function(){
                             <input id="address_2" name="address_2" class="form-control" type="text" />
                         </div>
                         <div class="form-group" id="form_group_address_3">
-                            <label for="address_3" name="address_3_label">Address 3</label>
+                            <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
                             <input id="address_3" name="address_3" class="form-control" type="text">
                         </div>
                         <div class="form-group">
@@ -346,8 +346,8 @@ $(document).ready(function(){
                         <div class="form-group" id="form_group_address_type">
                             <label for="address_type" name="address_type_label">{{ _('Address Type') }}</label>
                             <select id=address_type name=address_type class="form-control">
-                                <option value=Residential>Residential</option>
-                                <option value=Commercial>Commercial</option>
+                                <option value=1>Residential</option>
+                                <option value=0>Commercial</option>
                             </select>
                         </div>
                     </fieldset>

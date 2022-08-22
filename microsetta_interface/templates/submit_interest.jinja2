@@ -158,7 +158,7 @@ $(document).ready(function(){
                 postal: {
                     required: true,
                     remote: {
-                        url: "/user_address_verification123",
+                        url: "/user_address_verification",
                         type: "get",
                         async: false,
                         data: {
@@ -167,6 +167,9 @@ $(document).ready(function(){
                             },
                             address_2: function () {
                                 return $("#address_2").val();
+                            },
+                            address_3: function () {
+                                return $("#address_3").val();
                             },
                             city: function() {
                                 return $("#city").val();
@@ -344,12 +347,12 @@ $(document).ready(function(){
                             <input id="postal" name="postal" class="form-control" type="text">
                         </div>
                         <div class="form-group" id="form_group_address_type">
-                            <label for="address_type" name="address_type_label">{{ _('Address Type') }}</label>
-                            <select id=address_type name=address_type class="form-control">
-                                <option value=1>Residential</option>
-                                <option value=0>Commercial</option>
-                            </select>
-                        </div>
+                           <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
+                           <select id="residential_address" name="residential_address" class="form-control">
+                               <option value="true">Residential</option>
+                               <option value="false">Commercial</option>
+                           </select>
+                       </div>
                     </fieldset>
                     <fieldset id="submit_interest_4">
                         <div class="form-group">

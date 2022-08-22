@@ -18,5 +18,4 @@ SPAIN_STATES = [
     ["MU", "Murcia"],
     ["NA", "Navarra"],
     ["PA", "Pais Vasco"]
-
 ]

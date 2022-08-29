@@ -1672,8 +1672,8 @@ def post_interested_user_edit(body):
                                  updated=True)
 
 
-def get_address_verification(address_1=None, address_2=None, city=None,
-                             state=None, postal=None, country=None):
+def get_address_verification(address_1=None, address_2=None, address_3=None,
+                             city=None, state=None, postal=None, country=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
@@ -1692,6 +1692,7 @@ def get_address_verification(address_1=None, address_2=None, city=None,
             "/admin/verify_address",
             params={"address_1": address_1,
                     "address_2": address_2,
+                    "address_3": address_3,
                     "city": city,
                     "state": state,
                     "postal": postal,
@@ -1706,6 +1707,7 @@ def get_address_verification(address_1=None, address_2=None, city=None,
     return _render_with_defaults('admin_address_verification.jinja2',
                                  address_1=address_1,
                                  address_2=address_2,
+                                 address_3=address_3,
                                  city=city,
                                  state=state,
                                  postal=postal,
@@ -1718,7 +1720,7 @@ def post_address_verification(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    req_csv_columns = ["Address 1", "Address 2", "City", "State",
+    req_csv_columns = ["Address 1", "Address 2", "Address 3", "City", "State",
                        "Postal Code", "Country"]
 
     csv_contents, upload_err = parse_request_csv(request, 'address_csv',
@@ -1737,6 +1739,7 @@ def post_address_verification(body):
                     "/admin/verify_address",
                     params={"address_1": address_row['Address 1'],
                             "address_2": address_row['Address 2'],
+                            "address_3": address_row['Address 3'],
                             "city": address_row['City'],
                             "state": address_row['State'],
                             "postal": address_row['Postal Code'],
@@ -1749,6 +1752,7 @@ def post_address_verification(body):
                 address_row['Output - Valid Address'] = diagnostics['valid']
                 address_row['Output - Address 1'] = diagnostics['address_1']
                 address_row['Output - Address 2'] = diagnostics['address_2']
+                address_row['Output - Address 3'] = diagnostics['address_3']
                 address_row['Output - City'] = diagnostics['city']
                 address_row['Output - State'] = diagnostics['state']
                 address_row['Output - Postal Code'] = diagnostics['postal']
@@ -1760,6 +1764,7 @@ def post_address_verification(body):
                 address_row['Output - Valid Address'] = ''
                 address_row['Output - Address 1'] = ''
                 address_row['Output - Address 2'] = ''
+                address_row['Output - Address 3'] = ''
                 address_row['Output - City'] = ''
                 address_row['Output - State'] = ''
                 address_row['Output - Postal Code'] = ''
@@ -1777,8 +1782,9 @@ def post_address_verification(body):
         return response
 
 
-def get_ajax_address_verification(address_1=None, address_2=None, city=None,
-                                  state=None, postal=None, country=None):
+def get_ajax_address_verification(address_1=None, address_2=None,
+                                  address_3=None, city=None, state=None,
+                                  postal=None, country=None):
     diagnostics = None
     error = None
 
@@ -1789,6 +1795,7 @@ def get_ajax_address_verification(address_1=None, address_2=None, city=None,
             "/admin/verify_address",
             params={"address_1": address_1,
                     "address_2": address_2,
+                    "address_3": address_3,
                     "city": city,
                     "state": state,
                     "postal": postal,
@@ -2159,6 +2166,7 @@ def post_update_address(body):
             "city": body['city'],
             "state": body['state'],
             "postal": body['postal'],
+            "phone": body['phone'],
             "residential_address": body['residential_address']
         }
     )

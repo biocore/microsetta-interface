@@ -9,8 +9,9 @@
 <!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
 <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
 <script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+<script type="text/javascript" language="javascript" src="/static/js/spain_states.js"></script>
 <script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
-
+<script src="/static/vendor/jquery-validation/additional-methods.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     preventImplicitSubmission("interest_form");
@@ -41,6 +42,28 @@ $(document).ready(function(){
                         .text(state[1]);
                     $("#state").append(option);
                 }
+                $("#phone").rules( "remove" );
+                $("#phone").rules( "add", {
+                    required: true,
+                    phoneUS: true
+                });
+            }
+
+            else if (selected_country == "Spain") {
+                for (var state of SPAIN_STATES)
+                {
+                    var option = $('<option></option>')
+                        .attr("value", state[0])
+                        .text(state[1]);
+                    $("#state").append(option);
+                }
+                $("#form_group_address_3, #form_group_address_type").show();
+                $("#phone").rules( "remove" );
+                $("#phone").rules( "add", {
+                    required: true,
+                    phoneSPAIN: true
+                });
+
             } else {
                 for (var country of COUNTRIES_LIST)
                 {
@@ -121,7 +144,10 @@ $(document).ready(function(){
                     required: true,
                     email: true
                 },
-                phone: "required",
+                phone: {
+                    required: true,
+                    phoneUS: true
+                },
                 country: {
                     required: true,
                     countryValidation: true
@@ -142,6 +168,9 @@ $(document).ready(function(){
                             address_2: function () {
                                 return $("#address_2").val();
                             },
+                            address_3: function () {
+                                return $("#address_3").val();
+                            },
                             city: function() {
                                 return $("#city").val();
                             },
@@ -161,7 +190,7 @@ $(document).ready(function(){
                 first_name: "{{ _('Please enter your first name.') }}",
                 last_name: "{{ _('Please enter your last name.') }}",
                 email: "{{ _('Please enter a valid email address.') }}",
-                phone: "{{ _('Please enter your phone number.') }}",
+                phone: "{{ _('Please enter a valid phone number.') }}",
                 country: {
                     required: "{{ _('Please select your country.') }}"
                 },
@@ -181,7 +210,7 @@ $(document).ready(function(){
                changePage("next");
             } else {
                 document.getElementById("button_submit").disabled = true;
-                form.submit();
+                form[0].submit();
             }
 	    }
 	    document.getElementById("validation_modal").style.display = 'none';
@@ -194,6 +223,10 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css">
+
+    #form_group_address_3, #form_group_address_type {
+        display:none;
+    }
     body {
         padding-left: 0;
         margin: 0;
@@ -295,6 +328,10 @@ $(document).ready(function(){
                             <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
                             <input id="address_2" name="address_2" class="form-control" type="text" />
                         </div>
+                        <div class="form-group" id="form_group_address_3">
+                            <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
+                            <input id="address_3" name="address_3" class="form-control" type="text">
+                        </div>
                         <div class="form-group">
                             <label for="city" name="city_label">{{ _('City') }}*</label>
                             <input id="city" name="city" class="form-control" type="text" />
@@ -309,6 +346,13 @@ $(document).ready(function(){
                             <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
                             <input id="postal" name="postal" class="form-control" type="text">
                         </div>
+                        <div class="form-group" id="form_group_address_type">
+                           <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
+                           <select id="residential_address" name="residential_address" class="form-control">
+                               <option value="true">Residential</option>
+                               <option value="false">Commercial</option>
+                           </select>
+                       </div>
                     </fieldset>
                     <fieldset id="submit_interest_4">
                         <div class="form-group">

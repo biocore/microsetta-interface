@@ -1656,9 +1656,12 @@ def post_interested_user_edit(body):
         json={
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body.get('address_3', None),
+            "phone": body['phone'],
             "city": body['city'],
             "state": body['state'],
-            "postal": body['postal']
+            "postal": body['postal'],
+            "residential_address": body.get('residential_address', True)
         }
     )
     if do_return:
@@ -2095,12 +2098,14 @@ def post_submit_interest(body):
             "country": body['country'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body['address_3'],
             "city": body['city'],
             "state": body['state'],
             "postal": body['postal'],
             "confirm_consent": body['confirm_consent'],
             "over_18": body['over_18'],
-            "ip_address": ip_address
+            "ip_address": ip_address,
+            "residential_address": body['residential_address']
         }
     )
 
@@ -2150,9 +2155,11 @@ def post_update_address(body):
             "email": body['email'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body['address_3'],
             "city": body['city'],
             "state": body['state'],
-            "postal": body['postal']
+            "postal": body['postal'],
+            "residential_address": body['residential_address']
         }
     )
 

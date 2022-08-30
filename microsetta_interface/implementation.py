@@ -816,7 +816,8 @@ def get_create_human_source(*, account_id=None):
         tl=consent_output,
         post_url=post_url,
         duplicate_email_check_url=duplicate_email_check_url,
-        home_url=home_url)
+        home_url=home_url,
+        language_tag=session_locale())
 
 
 @prerequisite([ACCT_PREREQS_MET])

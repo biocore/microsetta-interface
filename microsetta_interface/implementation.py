@@ -16,7 +16,7 @@ import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY
+    ES_MX_KEY, ES_ES_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -93,7 +93,8 @@ POLYPHENOL_FFQ_ID = 10003
 SYSTEM_MSG_DICTIONARY = {
     "going_down": {
         EN_US_KEY: "The system is going down at ",
-        ES_MX_KEY: "El sistema se apaga a las "
+        ES_MX_KEY: "El sistema se apaga a las ",
+        ES_ES_KEY: "El sistema se apaga a las "
     }
 }
 

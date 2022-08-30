@@ -6,11 +6,13 @@ import copy
 
 EN_US_KEY = "en_us"
 ES_MX_KEY = "es_mx"
+ES_ES_KEY = "es_es"
 
 Lang = namedtuple('Lang', ['value', 'display_text'])
 LANGUAGES = {
     EN_US_KEY: Lang("en_US", "English"),
-    ES_MX_KEY: Lang("es_MX", "Español")
+    ES_MX_KEY: Lang("es_MX", "Español (México)"),
+    ES_ES_KEY: Lang("es_ES", "Español (España)")
 }
 
 

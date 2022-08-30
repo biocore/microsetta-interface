@@ -648,8 +648,8 @@ def get_create_account():
 
 @prerequisite([NEEDS_ACCOUNT])
 def post_create_account(*, body=None):
-    kit_name = body[KIT_NAME_KEY]
-    session[KIT_NAME_KEY] = kit_name
+    # kit_name = body[KIT_NAME_KEY]
+    # session[KIT_NAME_KEY] = kit_name
 
     api_json = {
         ACCT_FNAME_KEY: body['first_name'],
@@ -662,9 +662,9 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        ACCT_LANG_KEY: body[LANG_KEY],
-        KIT_NAME_KEY: kit_name,
-        ACTIVATION_CODE_KEY: body["code"]
+        ACCT_LANG_KEY: body[LANG_KEY]
+        # KIT_NAME_KEY: kit_name,
+        # ACTIVATION_CODE_KEY: body["code"]
     }
 
     has_error, accts_output, _ = \

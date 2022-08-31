@@ -461,7 +461,8 @@ class IntegrationTests(unittest.TestCase):
         # observe its URL in the rendered page
         # TODO: this check will likely break if/when survey editing is allowed
         self.assertIn('survey_template_id=10002', data)
-        self.assertIn('survey_template_id=5', data)
+        # removing Personal Microbiome from possible surveys
+        # self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
 

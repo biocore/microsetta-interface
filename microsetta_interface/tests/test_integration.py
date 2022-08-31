@@ -23,7 +23,6 @@ except:  # noqa
 else:
     PRIVATE_API_AVAILABLE = (req.status_code == 200)
 
-print("Private API Available: %s" % PRIVATE_API_AVAILABLE)
 
 # obtain the JWT key if it exists
 PRIVKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PRIV'

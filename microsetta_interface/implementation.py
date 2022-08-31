@@ -1163,7 +1163,9 @@ def post_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
-# same as above.
+# Note: ideally this would be represented as a DELETE, not as a POST
+# However, it is used as a form submission action, and HTML forms do not
+# support delete as an action
 def post_request_account_removal(*, account_id):
     # PUT is used to add the account_id to the queue
     # DELETE is used to remove the account_id from the queue, if it's

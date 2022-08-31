@@ -1171,7 +1171,7 @@ paths:
               schema:
                 type: string
 
-  '/admin/requests/account_removal/list':
+  '/admin/account_removal/list':
     get:
       operationId: microsetta_interface.implementation.get_account_removal_requests
       tags:

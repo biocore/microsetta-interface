@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("Admin Address Verification") %}
+{% set page_title = _("Requests for Account Removal") %}
 {% set show_breadcrumbs = False %}
 {% block content %}
 <h4>{{ _('Requests for Account Removal') }}</h4>
@@ -44,7 +44,7 @@
             <div class="col-sm" style="text-align: right">
                 <form action="/admin/account_delete" method="post">
                   <input type="hidden" id="btnDelete" name="account_id" value="{{ row.account_id }}"/>
-                  <button type=submit" class="btn btn-danger">{{ _('Delete') }}</button>
+                  <button type="submit" class="btn btn-danger">{{ _('Delete') }}</button>
                 </form>
             </div>
             <div class="col-sm" style="text-align: left">

@@ -1146,6 +1146,18 @@ def get_source(*, account_id=None, source_id=None):
     # quick hack to move MyFoodRepo to top of list, if available
     per_source_not_taken = per_source_not_taken[::-1]
 
+    # Hack to determine if user's country is Spain OR locale is es_ES
+    # If either condition is true, hide the Vioscreen FFQ button
+    spain_user = False
+
+    has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+    if has_error:
+        return account
+
+    country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+    if country == "ES" or session_locale() == "es_ES":
+        spain_user = True
+
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
@@ -1161,6 +1173,7 @@ def get_source(*, account_id=None, source_id=None):
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  barcode_prefix=SERVER_CONFIG[
                                      "barcode_prefix"],
+                                 spain_user=spain_user
                                  )
 
 

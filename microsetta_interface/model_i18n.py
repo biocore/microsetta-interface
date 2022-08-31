@@ -103,6 +103,11 @@ def declare_enum_values():
             ", but they may also provide benefits by interacting with the "
             "microbes in your gut. This survey will allow us to better "
             "quantify your consumption of polyphenols through your diet.")
+    gettext("<strong>Only for participants in Spain:</strong><br />"
+            "The Food Frequency Questionnaire (FFQ) will ask you about your "
+            "usual frequency of consumption of a list of foods and beverages."
+            " The questionnaire consists of 28 questions, and will allow us "
+            "to find out what your usual diet is like.")
 
     # Ensure that EN_US_KEY is added to the POT file
     gettext("en_us")

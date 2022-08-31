@@ -89,6 +89,7 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
+SPAIN_FFQ_ID = 10004
 
 SYSTEM_MSG_DICTIONARY = {
     "going_down": {
@@ -130,7 +131,12 @@ SURVEY_DESCRIPTION = {
                        ' protecting your heart, but they may also provide'
                        ' benefits by interacting with the microbes in your '
                        'gut. This survey will allow us to better quantify '
-                       'your consumption of polyphenols through your diet.'
+                       'your consumption of polyphenols through your diet.',
+    SPAIN_FFQ_ID: '<strong>Only for participants in Spain:</strong><br />'
+                  'The Food Frequency Questionnaire (FFQ) will ask you about '
+                  'your usual frequency of consumption of a list of foods and '
+                  'beverages. The questionnaire consists of 28 questions, and '
+                  'will allow us to find out what your usual diet is like.'
 }
 
 
@@ -185,7 +191,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID, SPAIN_FFQ_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -864,6 +870,9 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == POLYPHENOL_FFQ_ID:
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == SPAIN_FFQ_ID:
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:

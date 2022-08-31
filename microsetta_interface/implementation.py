@@ -1085,7 +1085,10 @@ def get_source(*, account_id=None, source_id=None):
         if template['answered']:
             per_source_taken.append(template)
         else:
-            per_source_not_taken.append(template)
+            # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
+            # as it was never translated into Spanish.
+            if template['survey_template_id'] != 5:
+                per_source_not_taken.append(template)
 
     # any survey specific stuff like opening a tab
     # or slot checking

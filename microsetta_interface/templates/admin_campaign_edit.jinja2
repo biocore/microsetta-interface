@@ -8,8 +8,6 @@
 {% block content %}
 
 <center>
-    {{ permitted_countries |e }}
-
     <form method="post"  enctype="multipart/form-data" action="/admin/campaigns/edit">
         <table>
             {% if campaign_id is not none %}

@@ -2002,6 +2002,10 @@ def get_campaign_edit(campaign_id=None):
         campaign_info['title_alt'] = None
         campaign_info['instructions_alt'] = None
 
+    permitted_countries = []
+    if campaign_info['permitted_countries'] is not None:
+        permitted_countries = campaign_info['permitted_countries'].split(",")
+
     projects = []
     for project in project_list:
         project_dict = {"project_id": project['project_id'],
@@ -2013,7 +2017,8 @@ def get_campaign_edit(campaign_id=None):
                                  campaign_info=campaign_info,
                                  endpoint=SERVER_CONFIG['endpoint'],
                                  languages=LANGUAGES,
-                                 projects=projects)
+                                 projects=projects,
+                                 permitted_countries=permitted_countries)
 
 
 def post_campaign_edit(body):

@@ -157,7 +157,7 @@ $(document).ready(function(){
                 state: "required",
                 postal: {
                     required: true,
-                    remote: {
+                    /* remote: {
                         url: "/user_address_verification",
                         type: "get",
                         async: false,
@@ -181,7 +181,7 @@ $(document).ready(function(){
                                 return $("#country").val();
                             }
                         }
-                    }
+                    } */
                 },
                 confirm_consent: "required",
             },
@@ -199,7 +199,7 @@ $(document).ready(function(){
                 state: "{{ _('Please select your state.') }}",
                 postal: {
                     required: "{{ _('Please enter your postal code.') }}",
-                    remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                    //remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
                 },
                 confirm_consent: "{{ _('Please agree to receiving communications from us.') }}"
             }

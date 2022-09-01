@@ -67,7 +67,7 @@ class TestImplementation(TestBase):
 
     def test_authrocket_callback_noargs_error(self):
         # We are observing exceptions on /authrocket_callback which occur with
-        # malformed requests. Currently, we are throwing a 500, but instead
+        # malformed requests. Currently,we are throwing a 500, but instead
         # we should redirect
         exp_status = 302
         exp_location = '/home'

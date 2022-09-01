@@ -241,7 +241,9 @@ class IntegrationTests(unittest.TestCase):
                 "state": "e",
                 "post_code": "f",
                 "language": "en_US",
-                "country_code": "US"
+                "country_code": "US",
+                "code":"",
+                "kit_name":""
                 }
 
         resp = self.app.post(url, data=body)

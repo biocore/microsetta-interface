@@ -241,12 +241,11 @@ class IntegrationTests(unittest.TestCase):
                 "state": "e",
                 "post_code": "f",
                 "language": "en_US",
-                "country_code": "US",
-                "kit_name": ""
+                "country_code": "US"
                 }
 
         resp = self.app.post(url, data=body)
-        print("#############Resp##################",resp)
+        print("#############Resp##################", resp)
         url = resp.headers['Location']
         return self.app.get(url), url, user_jwt
 

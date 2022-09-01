@@ -663,8 +663,6 @@ def post_create_account(*, body=None):
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
         ACCT_LANG_KEY: body[LANG_KEY]
-        # KIT_NAME_KEY: kit_name,
-        # ACTIVATION_CODE_KEY: body["code"]
     }
 
     has_error, accts_output, _ = \

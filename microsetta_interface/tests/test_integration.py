@@ -245,8 +245,7 @@ class IntegrationTests(unittest.TestCase):
                 }
 
         resp = self.app.post(url, data=body)
-        print("#############Resp##################", resp)
-        url = resp.headers['Content-type']
+        url = resp.headers['Location']
         return self.app.get(url), url, user_jwt
 
     def test_new_user_unverified(self):

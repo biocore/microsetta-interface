@@ -245,6 +245,7 @@ class IntegrationTests(unittest.TestCase):
                 }
 
         resp = self.app.post(url, data=body)
+        print(resp.headers)
         url = resp.headers['Location']
         return self.app.get(url), url, user_jwt
 

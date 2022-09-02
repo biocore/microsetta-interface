@@ -1087,6 +1087,8 @@ def get_source(*, account_id=None, source_id=None):
         else:
             # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
             # as it was never translated into Spanish.
+            # It will continue to display for users who already took it, but
+            # is unavailable to all users who have not.
             if template['survey_template_id'] != 5:
                 per_source_not_taken.append(template)
 

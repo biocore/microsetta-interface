@@ -234,8 +234,8 @@ $(document).ready(function(){
                     <div class="form-group" id="form_group_address_type">
                         <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
                         <select id="residential_address" name="residential_address" class="form-control">
-                            <option value="true" {% if user_info[‘residential_address’]=="true" %} selected="selected"{% endif %}>Residential</option>
-                            <option value="false" {% if user_info[‘residential_address’]=="false" %} selected="selected"{% endif %}>Commercial</option>
+                            <option value="true" {% if user_info['residential_address']=="true" %} selected="selected"{% endif %}>{{ _('Residential') }}</option>
+                            <option value="false" {% if user_info['residential_address']=="false" %} selected="selected"{% endif %}>{{ _('Commercial') }}</option>
                         </select>
                     </div>
                     <div class="form-group">

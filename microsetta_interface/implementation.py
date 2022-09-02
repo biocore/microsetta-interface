@@ -668,8 +668,6 @@ def post_create_account(*, body=None):
     has_error, accts_output, _ = \
         ApiRequest.post("/accounts", json=api_json)
     if has_error:
-        print("============Error found=================")
-        print(str(accts_output))
         return accts_output
 
     new_acct_id = accts_output["account_id"]

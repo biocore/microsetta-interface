@@ -461,17 +461,12 @@ class IntegrationTests(unittest.TestCase):
         self.assertNotIn('survey_template_id=3', data)
 
     def test_request_delete(self):
-        self._login(USER_WITH_VALID_SAMPLE)
-
-        resp = self.app.get('/home')
-        self.assertRedirect(resp, suffix_is_uuid=True)
-
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Account')
+        my_resp, my_url, my_jwt = self._new_to_create()
+        self.assertPageTitle(my_resp, 'Account')
 
         # sign the consent
-        account_id, _, _ = self._ids_from_url(url)
+        # in this case, the last two values will be None anyway.
+        account_id, _, _ = self._ids_from_url(my_url)
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
@@ -487,6 +482,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/details'
         resp = self.app.get(url)
         data = self._html_page(resp)
+
         s = ('If you wish to delete this account, please click the following '
              'button to submit your request to an administrator.')
         self.assertIn(s, data)

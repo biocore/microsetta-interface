@@ -781,6 +781,11 @@ paths:
           schema:
             type: string
         - in: query
+          name: address_3
+          description: Third line of address to verify
+          schema:
+            type: string
+        - in: query
           name: city
           description: City of address to verify
           schema:
@@ -960,6 +965,11 @@ paths:
         - in: query
           name: address_2
           description: Second line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: address_3
+          description: Third line of address to verify
           schema:
             type: string
         - in: query

@@ -6,11 +6,13 @@ import copy
 
 EN_US_KEY = "en_us"
 ES_MX_KEY = "es_mx"
+ES_ES_KEY = "es_es"
 
 Lang = namedtuple('Lang', ['value', 'display_text'])
 LANGUAGES = {
     EN_US_KEY: Lang("en_US", "English"),
-    ES_MX_KEY: Lang("es_MX", "Español")
+    ES_MX_KEY: Lang("es_MX", "Español (México)"),
+    ES_ES_KEY: Lang("es_ES", "Español (España)")
 }
 
 
@@ -101,6 +103,11 @@ def declare_enum_values():
             ", but they may also provide benefits by interacting with the "
             "microbes in your gut. This survey will allow us to better "
             "quantify your consumption of polyphenols through your diet.")
+    gettext("<strong>Only for participants in Spain:</strong><br />"
+            "The Food Frequency Questionnaire (FFQ) will ask you about your "
+            "usual frequency of consumption of a list of foods and beverages."
+            " The questionnaire consists of 28 questions, and will allow us "
+            "to find out what your usual diet is like.")
 
     # Ensure that EN_US_KEY is added to the POT file
     gettext("en_us")

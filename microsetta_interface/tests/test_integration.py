@@ -71,7 +71,7 @@ TEST_KIT_1 = 'PGP_AmsFQ'
 TEST_KIT_1_SAMPLE_1_BARCODE = '000005097'
 TEST_KIT_1_SAMPLE_1_SAMPLE_ID = 'ddbb117b-c8fa-9a94-e040-8a80115d1380'
 
-ADULT_CONSENT = {"participant_email": 'foo@bar.com',
+ADULT_CONSENT = {
                  "participant_name": "foo bar",
                  "age_range": "18-plus",
                  "parent_1_name": None,

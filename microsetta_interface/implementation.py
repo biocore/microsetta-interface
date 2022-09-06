@@ -648,8 +648,6 @@ def get_create_account():
 
 @prerequisite([NEEDS_ACCOUNT])
 def post_create_account(*, body=None):
-    # kit_name = body[KIT_NAME_KEY]
-    # session[KIT_NAME_KEY] = kit_name
 
     api_json = {
         ACCT_FNAME_KEY: body['first_name'],

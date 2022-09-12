@@ -2105,7 +2105,8 @@ def get_submit_interest(campaign_id=None, source=None):
         if do_return:
             return campaign_info
 
-        if campaign_info['campaign_id'] != "BADID":
+        if campaign_info['campaign_id'] != "BADID" and \
+                campaign_info['accepting_participants'] is True:
             valid_campaign = True
 
             # need user language to decide which title/instructions to show

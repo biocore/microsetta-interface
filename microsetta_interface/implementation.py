@@ -979,8 +979,6 @@ def top_food_report_pdf(*,
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
-    claim_kit_name_hint = None
-    
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1003,7 +1001,7 @@ def get_source(*, account_id=None, source_id=None):
     per_sample = []
     per_source_req = []
     per_source_opt = []
-
+    claim_kit_name_hint = None
     primary = _get_req_survey_templates_by_source_type(
         source_output["source_type"])
     secondary = _get_opt_survey_templates_by_source_type(

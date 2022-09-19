@@ -53,7 +53,6 @@ TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
 LANG_KEY = "language"
-claim_kit_name_hint = None
 
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
@@ -980,6 +979,8 @@ def top_food_report_pdf(*,
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
+    claim_kit_name_hint = None
+    
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %

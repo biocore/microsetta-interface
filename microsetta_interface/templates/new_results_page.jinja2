@@ -387,28 +387,28 @@
               'tmi-' + state.dataset_type.value + '-allsamples' +
               '/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
+              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id + '&language_tag=' + state.language_tag;
         placeURLSourcedImage(state, url, "#pcoa-tmi-all-samples-img");
         
         //Plot 2, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
               'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map_region&sample_id=' + state.barcode_prefix + state.sample_id;
+              '/png?category=microbial_map_region&sample_id=' + state.barcode_prefix + state.sample_id + '&language_tag=' + state.language_tag;
         placeURLSourcedImage(state, url, "#pcoa-multipopulation-region-img");
 
         //Plot 3, plot country from multipop-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
               'lifestage-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map_lifestage&sample_id=' + state.barcode_prefix + state.sample_id;
+              '/png?category=microbial_map_lifestage&sample_id=' + state.barcode_prefix + state.sample_id + '&language_tag=' + state.language_tag;
         placeURLSourcedImage(state, url, "#pcoa-multipopulation-lifestage-img");
 
         //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
         url = state.public_endpoint + '/dataset/' +
               'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
               state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
+              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id + '&language_tag=' + state.language_tag;
         placeURLSourcedImage(state, url, "#pcoa-builtenv-img");
     };
 
@@ -1347,6 +1347,8 @@
         state.taxonomy = "{{taxonomy}}";
         state.alpha_metric = "{{alpha_metric}}";
         state.beta_metric = "{{beta_metric}}";
+        state.language_tag = "{{language_tag}}";
+
         //Just using test barcode because I can never remember a valid one.
         // DONT MERGE WITH FAKE BARCODE HERE.
         state.sample_id = "{{sample.sample_barcode}}";

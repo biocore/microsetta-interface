@@ -1318,7 +1318,8 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],
                                  barcode_prefix=SERVER_CONFIG["barcode_prefix"],  # noqa
-                                 show_breadcrumbs=True
+                                 show_breadcrumbs=True,
+                                 language_tag=session_locale()
                                  )
 
 
@@ -1342,6 +1343,7 @@ def get_sample_results_experimental():
                      'sample_remove_locked': False,
                      'sample_site': 'Stool',
                      'source_id': 'NA'}
+
     return _render_with_defaults(
         'new_results_page.jinja2',
         account_id='NA',
@@ -1352,7 +1354,8 @@ def get_sample_results_experimental():
         alpha_metric=SERVER_CONFIG["alpha_metric"],
         beta_metric=SERVER_CONFIG["beta_metric"],
         barcode_prefix=SERVER_CONFIG["barcode_prefix"],
-        show_breadcrumbs=False
+        show_breadcrumbs=False,
+        language_tag=session_locale()
     )
 
 
@@ -1381,7 +1384,8 @@ def get_sample_results_experimental_authenticated(*, account_id=None,
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 language_tag=session_locale()
                                  )
 
 

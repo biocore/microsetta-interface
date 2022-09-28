@@ -41,3 +41,5 @@ To execute the integration suite:
 * run the integration suite with `python microsetta_interface/tests/test_integration.py`.
 
 If communication with the private API is working, and if public/private keys are accessible, the tests will run. Otherwise, the test suite will skip all tests.
+
+Editing just to test workflows

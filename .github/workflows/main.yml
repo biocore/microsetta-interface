@@ -86,6 +86,7 @@ jobs:
         BRANCH: ${{ github.ref == 'refs/heads/master-overhaul' && 'master-overhaul' || 'master' }}
       shell: bash -l {0}
       run: |
+        echo Base ref: $GITHUB_BASE_REF
         conda create --yes -n microsetta-interface python=3.7
         conda activate microsetta-interface
         conda install --yes --file ci/conda_requirements.txt

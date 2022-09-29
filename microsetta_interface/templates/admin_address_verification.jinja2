@@ -11,7 +11,7 @@
             <tr>
                 <td><label for="address_csv">{{ _('CSV File') }}:</label></td>
                 <td><input type="file" name="address_csv"></td>
-                <td>NOTE: Header must be Address 1,Address 2,City,State,Postal Code,Country</td>
+                <td>NOTE: Header must be Address 1,Address 2,Address 3,City,State,Postal Code,Country</td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" name="verify_csv" value="{{ _('Verify') }}"></td>
@@ -32,6 +32,10 @@
             <tr>
                 <td><label for="address_2">{{ _('Address 2') }}:</label></td>
                 <td><input type="text" name="address_2" value="{{ address_2 |e if address_2 is not none}}"></td>
+            </tr>
+            <tr>
+                <td><label for="address_3">{{ _('Address 3') }}:</label></td>
+                <td><input type="text" name="address_3" value="{{ address_3 |e if address_3 is not none}}"></td>
             </tr>
             <tr>
                 <td><label for="City">{{ _('City') }}:</label></td>
@@ -80,6 +84,10 @@
         <tr>
             <td>{{ _('Address 2') }}:</td>
             <td>{{ diagnostics['address_2'] }}</td>
+        </tr>
+        <tr>
+            <td>{{ _('Address 3') }}:</td>
+            <td>{{ diagnostics['address_3'] }}</td>
         </tr>
         <tr>
             <td>{{ _('City') }}:</td>

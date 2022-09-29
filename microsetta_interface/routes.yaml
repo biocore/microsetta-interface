@@ -350,6 +350,27 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/check_duplicate_source_name_email':
+    post:
+      operationId: microsetta_interface.implementation.check_duplicate_source_name_email
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: List of sources page
+          content:
+            application/json:
+              schema:
+                type: object
+
   '/accounts/{account_id}/sources/{source_id}':
     get:
       operationId: microsetta_interface.implementation.get_source
@@ -760,6 +781,11 @@ paths:
           schema:
             type: string
         - in: query
+          name: address_3
+          description: Third line of address to verify
+          schema:
+            type: string
+        - in: query
           name: city
           description: City of address to verify
           schema:
@@ -939,6 +965,11 @@ paths:
         - in: query
           name: address_2
           description: Second line of address to verify
+          schema:
+            type: string
+        - in: query
+          name: address_3
+          description: Third line of address to verify
           schema:
             type: string
         - in: query

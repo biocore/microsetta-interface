@@ -16,7 +16,7 @@ import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY
+    ES_MX_KEY, ES_ES_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -47,7 +47,6 @@ else:
     PUB_KEY = pkg_resources.read_text(
         'microsetta_interface',
         "authrocket.pubkey")
-
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
@@ -90,13 +89,15 @@ SOURCE_PREREQS_MET = "SourcePrereqsMet"
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
+SPAIN_FFQ_ID = 10004
 
 SYSTEM_MSG_DICTIONARY = {
-        "going_down": {
-            EN_US_KEY: "The system is going down at ",
-            ES_MX_KEY: "El sistema se apaga a las "
-        }
+    "going_down": {
+        EN_US_KEY: "The system is going down at ",
+        ES_MX_KEY: "El sistema se apaga a las ",
+        ES_ES_KEY: "El sistema se apaga a las "
     }
+}
 
 client_state = RedisCache()
 
@@ -130,7 +131,12 @@ SURVEY_DESCRIPTION = {
                        ' protecting your heart, but they may also provide'
                        ' benefits by interacting with the microbes in your '
                        'gut. This survey will allow us to better quantify '
-                       'your consumption of polyphenols through your diet.'
+                       'your consumption of polyphenols through your diet.',
+    SPAIN_FFQ_ID: '<strong>Only for participants in Spain:</strong><br />'
+                  'The Food Frequency Questionnaire (FFQ) will ask you about '
+                  'your usual frequency of consumption of a list of foods and '
+                  'beverages. The questionnaire consists of 28 questions, and '
+                  'will allow us to find out what your usual diet is like.'
 }
 
 
@@ -185,7 +191,7 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID, SPAIN_FFQ_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -781,11 +787,25 @@ def post_account_details(*, account_id=None, body=None):
 
 
 @prerequisite([ACCT_PREREQS_MET])
+def check_duplicate_source_name_email(*, account_id=None, body=None):
+    has_error, email_check_output, _ = ApiRequest.post(
+        "/accounts/{0}/check_duplicate_source".format(account_id), json=body)
+    if has_error:
+        return email_check_output
+
+    return email_check_output
+
+
+@prerequisite([ACCT_PREREQS_MET])
 def get_create_human_source(*, account_id=None):
     endpoint = SERVER_CONFIG["endpoint"]
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
+    duplicate_email_check_url = endpoint + "/accounts/{0}/" \
+        "check_duplicate_source_name_email" \
+        .format(account_id)
+    home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
         "/accounts/{0}/consent".format(account_id),
         params={"consent_post_url": post_url})
@@ -793,9 +813,13 @@ def get_create_human_source(*, account_id=None):
     if has_error:
         return consent_output
 
-    return _render_with_defaults('new_participant.jinja2',
-                                 tl=consent_output,
-                                 post_url=post_url)
+    return _render_with_defaults(
+        'new_participant.jinja2',
+        tl=consent_output,
+        post_url=post_url,
+        duplicate_email_check_url=duplicate_email_check_url,
+        home_url=home_url,
+        language_tag=session_locale())
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -842,6 +866,9 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == POLYPHENOL_FFQ_ID:
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == SPAIN_FFQ_ID:
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:
@@ -1041,7 +1068,12 @@ def get_source(*, account_id=None, source_id=None):
         if template['answered']:
             per_source_taken.append(template)
         else:
-            per_source_not_taken.append(template)
+            # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
+            # as it was never translated into Spanish.
+            # It will continue to display for users who already took it, but
+            # is unavailable to all users who have not.
+            if template['survey_template_id'] != 5:
+                per_source_not_taken.append(template)
 
     # any survey specific stuff like opening a tab
     # or slot checking
@@ -1102,6 +1134,18 @@ def get_source(*, account_id=None, source_id=None):
     # quick hack to move MyFoodRepo to top of list, if available
     per_source_not_taken = per_source_not_taken[::-1]
 
+    # Hack to determine if user's country is Spain OR locale is es_ES
+    # If either condition is true, hide the Vioscreen FFQ button
+    spain_user = False
+
+    has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+    if has_error:
+        return account
+
+    country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+    if country == "ES" or session_locale() == "es_ES":
+        spain_user = True
+
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
@@ -1117,6 +1161,7 @@ def get_source(*, account_id=None, source_id=None):
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  barcode_prefix=SERVER_CONFIG[
                                      "barcode_prefix"],
+                                 spain_user=spain_user
                                  )
 
 
@@ -1127,7 +1172,6 @@ def get_source(*, account_id=None, source_id=None):
 def post_remove_source(*,
                        account_id=None,
                        source_id=None):
-
     has_error, delete_output, _ = ApiRequest.delete(
         '/accounts/%s/sources/%s' %
         (account_id, source_id))
@@ -1568,7 +1612,7 @@ def post_account_delete(body):
     # first we do not want to double-delete "deleted" accounts inadvertantly
     # and second, it is a risk to allow deletion of admin accounts.
     do_return, accts_output, _ = ApiRequest.get(
-        '/accounts/%s' % (account_to_delete, ))
+        '/accounts/%s' % (account_to_delete,))
     if do_return:
         return accts_output
 
@@ -1624,9 +1668,12 @@ def post_interested_user_edit(body):
         json={
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body.get('address_3', None),
+            "phone": body['phone'],
             "city": body['city'],
             "state": body['state'],
-            "postal": body['postal']
+            "postal": body['postal'],
+            "residential_address": body.get('residential_address', True)
         }
     )
     if do_return:
@@ -1637,8 +1684,8 @@ def post_interested_user_edit(body):
                                  updated=True)
 
 
-def get_address_verification(address_1=None, address_2=None, city=None,
-                             state=None, postal=None, country=None):
+def get_address_verification(address_1=None, address_2=None, address_3=None,
+                             city=None, state=None, postal=None, country=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
@@ -1657,6 +1704,7 @@ def get_address_verification(address_1=None, address_2=None, city=None,
             "/admin/verify_address",
             params={"address_1": address_1,
                     "address_2": address_2,
+                    "address_3": address_3,
                     "city": city,
                     "state": state,
                     "postal": postal,
@@ -1671,6 +1719,7 @@ def get_address_verification(address_1=None, address_2=None, city=None,
     return _render_with_defaults('admin_address_verification.jinja2',
                                  address_1=address_1,
                                  address_2=address_2,
+                                 address_3=address_3,
                                  city=city,
                                  state=state,
                                  postal=postal,
@@ -1683,7 +1732,7 @@ def post_address_verification(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
 
-    req_csv_columns = ["Address 1", "Address 2", "City", "State",
+    req_csv_columns = ["Address 1", "Address 2", "Address 3", "City", "State",
                        "Postal Code", "Country"]
 
     csv_contents, upload_err = parse_request_csv(request, 'address_csv',
@@ -1702,6 +1751,7 @@ def post_address_verification(body):
                     "/admin/verify_address",
                     params={"address_1": address_row['Address 1'],
                             "address_2": address_row['Address 2'],
+                            "address_3": address_row['Address 3'],
                             "city": address_row['City'],
                             "state": address_row['State'],
                             "postal": address_row['Postal Code'],
@@ -1714,6 +1764,7 @@ def post_address_verification(body):
                 address_row['Output - Valid Address'] = diagnostics['valid']
                 address_row['Output - Address 1'] = diagnostics['address_1']
                 address_row['Output - Address 2'] = diagnostics['address_2']
+                address_row['Output - Address 3'] = diagnostics['address_3']
                 address_row['Output - City'] = diagnostics['city']
                 address_row['Output - State'] = diagnostics['state']
                 address_row['Output - Postal Code'] = diagnostics['postal']
@@ -1725,6 +1776,7 @@ def post_address_verification(body):
                 address_row['Output - Valid Address'] = ''
                 address_row['Output - Address 1'] = ''
                 address_row['Output - Address 2'] = ''
+                address_row['Output - Address 3'] = ''
                 address_row['Output - City'] = ''
                 address_row['Output - State'] = ''
                 address_row['Output - Postal Code'] = ''
@@ -1742,8 +1794,9 @@ def post_address_verification(body):
         return response
 
 
-def get_ajax_address_verification(address_1=None, address_2=None, city=None,
-                                  state=None, postal=None, country=None):
+def get_ajax_address_verification(address_1=None, address_2=None,
+                                  address_3=None, city=None, state=None,
+                                  postal=None, country=None):
     diagnostics = None
     error = None
 
@@ -1754,6 +1807,7 @@ def get_ajax_address_verification(address_1=None, address_2=None, city=None,
             "/admin/verify_address",
             params={"address_1": address_1,
                     "address_2": address_2,
+                    "address_3": address_3,
                     "city": city,
                     "state": state,
                     "postal": postal,
@@ -1933,6 +1987,10 @@ def get_campaign_edit(campaign_id=None):
         campaign_info['title_alt'] = None
         campaign_info['instructions_alt'] = None
 
+    permitted_countries = []
+    if campaign_info['permitted_countries'] is not None:
+        permitted_countries = campaign_info['permitted_countries'].split(",")
+
     projects = []
     for project in project_list:
         project_dict = {"project_id": project['project_id'],
@@ -1944,7 +2002,8 @@ def get_campaign_edit(campaign_id=None):
                                  campaign_info=campaign_info,
                                  endpoint=SERVER_CONFIG['endpoint'],
                                  languages=LANGUAGES,
-                                 projects=projects)
+                                 projects=projects,
+                                 permitted_countries=permitted_countries)
 
 
 def post_campaign_edit(body):
@@ -1954,7 +2013,7 @@ def post_campaign_edit(body):
     extension = ''
     if request.files['header_image'].filename != '':
         filename = request.files['header_image'].filename
-        extension = filename.split(".")[len(filename.split("."))-1].lower()
+        extension = filename.split(".")[len(filename.split(".")) - 1].lower()
         if extension not in {"png", "jpg", "jpeg"}:
             raise Exception("Invalid file type selected for header image")
 
@@ -2029,7 +2088,8 @@ def get_submit_interest(campaign_id=None, source=None):
         if do_return:
             return campaign_info
 
-        if campaign_info['campaign_id'] != "BADID":
+        if campaign_info['campaign_id'] != "BADID" and \
+                campaign_info['accepting_participants'] is True:
             valid_campaign = True
 
             # need user language to decide which title/instructions to show
@@ -2063,12 +2123,14 @@ def post_submit_interest(body):
             "country": body['country'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body['address_3'],
             "city": body['city'],
             "state": body['state'],
             "postal": body['postal'],
             "confirm_consent": body['confirm_consent'],
             "over_18": body['over_18'],
-            "ip_address": ip_address
+            "ip_address": ip_address,
+            "residential_address": body['residential_address']
         }
     )
 
@@ -2118,9 +2180,12 @@ def post_update_address(body):
             "email": body['email'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
+            "address_3": body['address_3'],
             "city": body['city'],
             "state": body['state'],
-            "postal": body['postal']
+            "postal": body['postal'],
+            "phone": body['phone'],
+            "residential_address": body['residential_address']
         }
     )
 

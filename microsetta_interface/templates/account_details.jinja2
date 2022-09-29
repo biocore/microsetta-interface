@@ -30,23 +30,7 @@
                     post_code: "required",
                     language: "required",
                     {% if CREATE_ACCT %}
-                    kit_name: {
-                        required: "#code:blank",
-                        remote: {
-                            url: "/check_kit_valid"
-                        }
-                    },
-                    code: {
-                        required: "#kit_name:blank",
-                        remote: {
-                            url: "/check_activation_code",
-                            data: {
-                                email: function() {
-                                    return $("#email").val();
-                                }
-                            }
-                        }
-                    },
+
                     {% endif %}
                     // Make sure the form is submitted to the destination defined
                     // in the "action" attribute of the form when valid

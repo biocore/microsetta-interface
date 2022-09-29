@@ -242,7 +242,7 @@ class IntegrationTests(unittest.TestCase):
                 "post_code": "f",
                 "language": "en_US",
                 "country_code": "US"
-               }
+                }
 
         resp = self.app.post(url, data=body)
         url = resp.headers['Location']

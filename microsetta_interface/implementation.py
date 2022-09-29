@@ -1017,7 +1017,7 @@ def get_source(*, account_id=None, source_id=None):
     per_sample = []
     per_source_req = []
     per_source_opt = []
-
+    claim_kit_name_hint = None
     primary = _get_req_survey_templates_by_source_type(
         source_output["source_type"])
     secondary = _get_opt_survey_templates_by_source_type(

@@ -16,12 +16,12 @@
 $(document).ready(function(){
     preventImplicitSubmission("interest_form");
 
-    for (var country of COUNTRIES_LIST) {
+    /*for (var country of COUNTRIES_LIST) {
         var option = $('<option></option>')
             .attr("value", country.country)
             .text(country.country);
         $("#country").append(option);
-    }
+    }*/
 
     var active_section = 0;
 
@@ -34,7 +34,7 @@ $(document).ready(function(){
 
         if(document.interest_form.country.selectedIndex > 0) {
             var selected_country = document.interest_form.country.options[document.interest_form.country.selectedIndex].value;
-            if (selected_country == "United States") {
+            if (selected_country == "US") {
                 for (var state of US_STATES)
                 {
                     var option = $('<option></option>')
@@ -49,7 +49,7 @@ $(document).ready(function(){
                 });
             }
 
-            else if (selected_country == "Spain") {
+            else if (selected_country == "ES") {
                 for (var state of SPAIN_STATES)
                 {
                     var option = $('<option></option>')
@@ -157,7 +157,7 @@ $(document).ready(function(){
                 state: "required",
                 postal: {
                     required: true,
-                    remote: {
+                    /* remote: {
                         url: "/user_address_verification",
                         type: "get",
                         async: false,
@@ -181,7 +181,7 @@ $(document).ready(function(){
                                 return $("#country").val();
                             }
                         }
-                    }
+                    } */
                 },
                 confirm_consent: "required",
             },
@@ -199,7 +199,7 @@ $(document).ready(function(){
                 state: "{{ _('Please select your state.') }}",
                 postal: {
                     required: "{{ _('Please enter your postal code.') }}",
-                    remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
+                    //remote: "{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}"
                 },
                 confirm_consent: "{{ _('Please agree to receiving communications from us.') }}"
             }
@@ -262,8 +262,8 @@ $(document).ready(function(){
 {% block content %}
 <center>
     {% if not valid_campaign %}
-        {{ _('Sorry, it appears the project you were interested in joining has ended.') }}<br /><br />
-        {{ _('If you are interested in other opportunities to participate in The Microsetta Initiative, please visit our <a href="https://microsetta.ucsd.edu/">website.') }}</a>
+        {{ _('Sorry, due to widespread interest, the sign-up list for this project is full.') }}<br /><br />
+        {{ _('Please visit our <a href="https://microsetta.ucsd.edu/">website</a> to learn about other opportunities to participate in The Microsetta Initiative.') }}
     {% else %}
     <div id="validation_modal" class="val_modal">
         <div class="val_modal_content">
@@ -296,6 +296,11 @@ $(document).ready(function(){
                         </div>
                     </fieldset>
                     <fieldset id="submit_interest_2">
+                        {{ _('Please note: Specimen collection kits are associated with the email used when registering. We recommend the following:') }}<br /><br />
+                        {{ _('1. One email must be used per kit.') }}<br /><br />
+                        {{ _('2. If you plan to complete the form on behalf of another adult, use that person\'s name and email address.') }}<br /><br />
+                        {{ _('3. If possible, continue to use the same email throughout the study.') }}<br /><br />
+                        {{ _('Once you have received the kit, please continue to use the same email address used when creating your online account.') }}<br /><br />
                         <div class="form-group">
                             <label for="first_name" name="first_name_label">{{ _('First Name') }}*</label>
                             <input id="first_name" name="first_name" class="form-control" type="text" />
@@ -316,10 +321,204 @@ $(document).ready(function(){
                             <label for="country" name="country_label">{{ _('Country') }}*</label>
                             <select id="country" name="country" class="form-control">
                                 <option value="">-- {{ _('SELECT') }} --</option>
+                                <option value="US">{{ _('United States') }}</option>
+                                <option value="GB">{{ _('United Kingdom') }}</option>
+                                <option value="MX">{{ _('Mexico') }}</option>
+                                <option value="ES">{{ _('Spain') }}</option>
+                                <option value="AF">{{ _('Afghanistan') }}</option>
+                                <option value="AL">{{ _('Albania') }}</option>
+                                <option value="DZ">{{ _('Algeria') }}</option>
+                                <option value="AD">{{ _('Andorra') }}</option>
+                                <option value="AO">{{ _('Angola') }}</option>
+                                <option value="AQ">{{ _('Antarctica') }}</option>
+                                <option value="AG">{{ _('Antigua and Barbuda') }}</option>
+                                <option value="AR">{{ _('Argentina') }}</option>
+                                <option value="AM">{{ _('Armenia') }}</option>
+                                <option value="AU">{{ _('Australia') }}</option>
+                                <option value="AT">{{ _('Austria') }}</option>
+                                <option value="AZ">{{ _('Azerbaijan') }}</option>
+                                <option value="BS">{{ _('Bahamas') }}</option>
+                                <option value="BH">{{ _('Bahrain') }}</option>
+                                <option value="BD">{{ _('Bangladesh') }}</option>
+                                <option value="BB">{{ _('Barbados') }}</option>
+                                <option value="BY">{{ _('Belarus') }}</option>
+                                <option value="BE">{{ _('Belgium') }}</option>
+                                <option value="BZ">{{ _('Belize') }}</option>
+                                <option value="BJ">{{ _('Benin') }}</option>
+                                <option value="BM">{{ _('Bermuda') }}</option>
+                                <option value="BT">{{ _('Bhutan') }}</option>
+                                <option value="BO">{{ _('Bolivia') }}</option>
+                                <option value="BA">{{ _('Bosnia and Herzegovina') }}</option>
+                                <option value="BW">{{ _('Botswana') }}</option>
+                                <option value="BR">{{ _('Brazil') }}</option>
+                                <option value="BN">{{ _('Brunei') }}</option>
+                                <option value="BG">{{ _('Bulgaria') }}</option>
+                                <option value="BF">{{ _('Burkina Faso') }}</option>
+                                <option value="MM">{{ _('Burma') }}</option>
+                                <option value="BI">{{ _('Burundi') }}</option>
+                                <option value="KH">{{ _('Cambodia') }}</option>
+                                <option value="CM">{{ _('Cameroon') }}</option>
+                                <option value="CA">{{ _('Canada') }}</option>
+                                <option value="CV">{{ _('Cape Verde') }}</option>
+                                <option value="CF">{{ _('Central African Republic') }}</option>
+                                <option value="TD">{{ _('Chad') }}</option>
+                                <option value="CL">{{ _('Chile') }}</option>
+                                <option value="CN">{{ _('China') }}</option>
+                                <option value="CO">{{ _('Colombia') }}</option>
+                                <option value="KM">{{ _('Comoros') }}</option>
+                                <option value="CD">{{ _('Congo, Democratic Republic') }}</option>
+                                <option value="CG">{{ _('Congo, Republic of the') }}</option>
+                                <option value="CR">{{ _('Costa Rica') }}</option>
+                                <option value="CI">{{ _("Cote d'Ivoire") }}</option>
+                                <option value="HR">{{ _('Croatia') }}</option>
+                                <option value="CU">{{ _('Cuba') }}</option>
+                                <option value="CY">{{ _('Cyprus') }}</option>
+                                <option value="CZ">{{ _('Czech Republic') }}</option>
+                                <option value="DK">{{ _('Denmark') }}</option>
+                                <option value="DJ">{{ _('Djibouti') }}</option>
+                                <option value="DM">{{ _('Dominica') }}</option>
+                                <option value="DO">{{ _('Dominican Republic') }}</option>
+                                <option value="TL">{{ _('East Timor') }}</option>
+                                <option value="EC">{{ _('Ecuador') }}</option>
+                                <option value="EG">{{ _('Egypt') }}</option>
+                                <option value="SV">{{ _('El Salvador') }}</option>
+                                <option value="GQ">{{ _('Equatorial Guinea') }}</option>
+                                <option value="ER">{{ _('Eritrea') }}</option>
+                                <option value="EE">{{ _('Estonia') }}</option>
+                                <option value="ET">{{ _('Ethiopia') }}</option>
+                                <option value="FJ">{{ _('Fiji') }}</option>
+                                <option value="FI">{{ _('Finland') }}</option>
+                                <option value="FR">{{ _('France') }}</option>
+                                <option value="GA">{{ _('Gabon') }}</option>
+                                <option value="GM">{{ _('Gambia') }}</option>
+                                <option value="GE">{{ _('Georgia') }}</option>
+                                <option value="DE">{{ _('Germany') }}</option>
+                                <option value="GH">{{ _('Ghana') }}</option>
+                                <option value="GR">{{ _('Greece') }}</option>
+                                <option value="GL">{{ _('Greenland') }}</option>
+                                <option value="GD">{{ _('Grenada') }}</option>
+                                <option value="GT">{{ _('Guatemala') }}</option>
+                                <option value="GN">{{ _('Guinea') }}</option>
+                                <option value="GW">{{ _('Guinea-Bissau') }}</option>
+                                <option value="GY">{{ _('Guyana') }}</option>
+                                <option value="HT">{{ _('Haiti') }}</option>
+                                <option value="HN">{{ _('Honduras') }}</option>
+                                <option value="HK">{{ _('Hong Kong') }}</option>
+                                <option value="HU">{{ _('Hungary') }}</option>
+                                <option value="IS">{{ _('Iceland') }}</option>
+                                <option value="IN">{{ _('India') }}</option>
+                                <option value="ID">{{ _('Indonesia') }}</option>
+                                <option value="IR">{{ _('Iran') }}</option>
+                                <option value="IQ">{{ _('Iraq') }}</option>
+                                <option value="IE">{{ _('Ireland') }}</option>
+                                <option value="IL">{{ _('Israel') }}</option>
+                                <option value="IT">{{ _('Italy') }}</option>
+                                <option value="JM">{{ _('Jamaica') }}</option>
+                                <option value="JP">{{ _('Japan') }}</option>
+                                <option value="JO">{{ _('Jordan') }}</option>
+                                <option value="KZ">{{ _('Kazakhstan') }}</option>
+                                <option value="KE">{{ _('Kenya') }}</option>
+                                <option value="KI">{{ _('Kiribati') }}</option>
+                                <option value="KP">{{ _('Korea North') }}</option>
+                                <option value="KR">{{ _('Korea South') }}</option>
+                                <option value="KW">{{ _('Kuwait') }}</option>
+                                <option value="KG">{{ _('Kyrgyzstan') }}</option>
+                                <option value="LA">{{ _('Laos') }}</option>
+                                <option value="LV">{{ _('Latvia') }}</option>
+                                <option value="LB">{{ _('Lebanon') }}</option>
+                                <option value="LS">{{ _('Lesotho') }}</option>
+                                <option value="LR">{{ _('Liberia') }}</option>
+                                <option value="LY">{{ _('Libya') }}</option>
+                                <option value="LI">{{ _('Liechtenstein') }}</option>
+                                <option value="LT">{{ _('Lithuania') }}</option>
+                                <option value="LU">{{ _('Luxembourg') }}</option>
+                                <option value="MK">{{ _('Macedonia') }}</option>
+                                <option value="MG">{{ _('Madagascar') }}</option>
+                                <option value="MW">{{ _('Malawi') }}</option>
+                                <option value="MY">{{ _('Malaysia') }}</option>
+                                <option value="MV">{{ _('Maldives') }}</option>
+                                <option value="ML">{{ _('Mali') }}</option>
+                                <option value="MT">{{ _('Malta') }}</option>
+                                <option value="MH">{{ _('Marshall Islands') }}</option>
+                                <option value="MR">{{ _('Mauritania') }}</option>
+                                <option value="MU">{{ _('Mauritius') }}</option>
+                                <option value="FM">{{ _('Micronesia') }}</option>
+                                <option value="MD">{{ _('Moldova') }}</option>
+                                <option value="MN">{{ _('Mongolia') }}</option>
+                                <option value="ME">{{ _('Montenegro') }}</option>
+                                <option value="MA">{{ _('Morocco') }}</option>
+                                <option value="MC">{{ _('Monaco') }}</option>
+                                <option value="MZ">{{ _('Mozambique') }}</option>
+                                <option value="NA">{{ _('Namibia') }}</option>
+                                <option value="NR">{{ _('Nauru') }}</option>
+                                <option value="NP">{{ _('Nepal') }}</option>
+                                <option value="NL">{{ _('Netherlands') }}</option>
+                                <option value="NZ">{{ _('New Zealand') }}</option>
+                                <option value="NI">{{ _('Nicaragua') }}</option>
+                                <option value="NE">{{ _('Niger') }}</option>
+                                <option value="NG">{{ _('Nigeria') }}</option>
+                                <option value="NO">{{ _('Norway') }}</option>
+                                <option value="OM">{{ _('Oman') }}</option>
+                                <option value="PK">{{ _('Pakistan') }}</option>
+                                <option value="PA">{{ _('Panama') }}</option>
+                                <option value="PG">{{ _('Papua New Guinea') }}</option>
+                                <option value="PY">{{ _('Paraguay') }}</option>
+                                <option value="PE">{{ _('Peru') }}</option>
+                                <option value="PH">{{ _('Philippines') }}</option>
+                                <option value="PL">{{ _('Poland') }}</option>
+                                <option value="PT">{{ _('Portugal') }}</option>
+                                <option value="QA">{{ _('Qatar') }}</option>
+                                <option value="RO">{{ _('Romania') }}</option>
+                                <option value="RU">{{ _('Russia') }}</option>
+                                <option value="RW">{{ _('Rwanda') }}</option>
+                                <option value="WS">{{ _('Samoa') }}</option>
+                                <option value="SM">{{ _('San Marino') }}</option>
+                                <option value="ST">{{ _('Sao Tome') }}</option>
+                                <option value="SA">{{ _('Saudi Arabia') }}</option>
+                                <option value="SN">{{ _('Senegal') }}</option>
+                                <option value="RS">{{ _('Serbia') }}</option>
+                                <option value="SC">{{ _('Seychelles') }}</option>
+                                <option value="SL">{{ _('Sierra Leone') }}</option>
+                                <option value="SG">{{ _('Singapore') }}</option>
+                                <option value="SK">{{ _('Slovakia') }}</option>
+                                <option value="SI">{{ _('Slovenia') }}</option>
+                                <option value="SB">{{ _('Solomon Islands') }}</option>
+                                <option value="SO">{{ _('Somalia') }}</option>
+                                <option value="ZA">{{ _('South Africa') }}</option>
+                                <option value="LK">{{ _('Sri Lanka') }}</option>
+                                <option value="SD">{{ _('Sudan') }}</option>
+                                <option value="SR">{{ _('Suriname') }}</option>
+                                <option value="SZ">{{ _('Swaziland') }}</option>
+                                <option value="SE">{{ _('Sweden') }}</option>
+                                <option value="CH">{{ _('Switzerland') }}</option>
+                                <option value="SY">{{ _('Syria') }}</option>
+                                <option value="TW">{{ _('Taiwan') }}</option>
+                                <option value="TJ">{{ _('Tajikistan') }}</option>
+                                <option value="TZ">{{ _('Tanzania') }}</option>
+                                <option value="TH">{{ _('Thailand') }}</option>
+                                <option value="TG">{{ _('Togo') }}</option>
+                                <option value="TO">{{ _('Tonga') }}</option>
+                                <option value="TT">{{ _('Trinidad and Tobago') }}</option>
+                                <option value="TN">{{ _('Tunisia') }}</option>
+                                <option value="TR">{{ _('Turkey') }}</option>
+                                <option value="TM">{{ _('Turkmenistan') }}</option>
+                                <option value="UG">{{ _('Uganda') }}</option>
+                                <option value="UA">{{ _('Ukraine') }}</option>
+                                <option value="AE">{{ _('United Arab Emirates') }}</option>
+                                <option value="UY">{{ _('Uruguay') }}</option>
+                                <option value="UZ">{{ _('Uzbekistan') }}</option>
+                                <option value="VU">{{ _('Vanuatu') }}</option>
+                                <option value="VE">{{ _('Venezuela') }}</option>
+                                <option value="VN">{{ _('Viet nam') }}</option>
+                                <option value="YE">{{ _('Yemen') }}</option>
+                                <option value="ZM">{{ _('Zambia') }}</option>
+                                <option value="ZW">{{ _('Zimbabwe') }}</option>
                             </select>
                         </div>
                     </fieldset>
                     <fieldset id="submit_interest_3">
+                        {{ _('Please fill in the address you would like your kit delivered to. Example:') }}<br /><br />
+                        {{ _('9500 Gilman Dr.<br />San Diego, CA 920932') }}<br /><br />
                         <div class="form-group">
                             <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
                             <input id="address_1" name="address_1" class="form-control" type="text" />
@@ -349,14 +548,14 @@ $(document).ready(function(){
                         <div class="form-group" id="form_group_address_type">
                            <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
                            <select id="residential_address" name="residential_address" class="form-control">
-                               <option value="true">Residential</option>
-                               <option value="false">Commercial</option>
+                               <option value="true">{{ _('Residential') }}</option>
+                               <option value="false">{{ _('Commercial') }}</option>
                            </select>
                        </div>
                     </fieldset>
                     <fieldset id="submit_interest_4">
                         <div class="form-group">
-                            <label for="confirm_consent" name="confirm_consent_label">{{ _('By subscribing to the this program, I agree to receive communications via the newsletter regarding the status of the program, the steps I must complete, tips and tricks for completing my participation and surveys. I agree and understand that I can unsubscribe at any time using a link in the newsletter and this will not change my consent to receive sample status updates directly from the TMI database. ') }}*</label><br />
+                            <label for="confirm_consent" name="confirm_consent_label">{{ _('By subscribing to this program, I agree to receive communications via the newsletter regarding the status of the program, the steps I must complete, tips and tricks for completing my participation and surveys. I agree and understand that I can unsubscribe at any time using a link in the newsletter and this will not change my consent to receive sample status updates directly from the TMI database. ') }}*</label><br />
                             <input type="checkbox" name="confirm_consent" value="true"> {{ _('Yes') }}
                             <label for="confirm_consent" class="error" style="display: none;">{{ _('Please agree to receiving communications from us.') }}</label>
                         </div>

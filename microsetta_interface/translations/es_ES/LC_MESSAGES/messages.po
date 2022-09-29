@@ -1,4 +1,4 @@
-# Spanish (Mexico) translations for PROJECT.
+# Spanish (Spain) translations for PROJECT.
 # Copyright (C) 2021 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-09-01 20:54-0700\n"
-"PO-Revision-Date: 2022-09-01 21:13-0700\n"
+"PO-Revision-Date: 2022-09-01 21:06-0700\n"
 "Last-Translator: Edgar Diaz <ediaz@ucsd.edu>\n"
-"Language-Team: es_MX <LL@li.org>\n"
-"Language: es_MX\n"
+"Language-Team: es_ES <LL@li.org>\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -216,7 +216,7 @@ msgid ""
 "list of foods and beverages. The questionnaire consists of 28 questions, and "
 "will allow us to find out what your usual diet is like."
 msgstr ""
-"<strong>Solo para participantes en España</strong><br />El cuestionario de "
+"<strong>Solo para participantes en España:</strong><br />El cuestionario de "
 "frecuencia de alimentos (FFQ por sus siglas en Inglés) le preguntará sobre su "
 "frecuencia habitual de consumo de una lista de alimentos y bebidas. El "
 "cuestionario consta de 28 preguntas, y nos permitirá conocer cómo es su dieta "
@@ -224,7 +224,7 @@ msgstr ""
 
 #: model_i18n.py:113
 msgid "en_us"
-msgstr "es_mx"
+msgstr "es_es"
 
 #: templates/account_details.jinja2:2 templates/account_details.jinja2:127
 #: templates/account_details.jinja2:131 templates/account_overview.jinja2:47
@@ -3100,7 +3100,7 @@ msgstr ""
 
 #: templates/submit_interest.jinja2:521
 msgid "9500 Gilman Dr.<br />San Diego, CA 920932"
-msgstr "9500 Gilman Dr.<br />San Diego, CA 920932"
+msgstr "Plaza de España,1<br />28934 Mostoles<br />03201 ELCHE (Alicante)"
 
 #: templates/submit_interest.jinja2:551 templates/update_address.jinja2:237
 msgid "Residential"

@@ -995,19 +995,6 @@ def top_food_report_pdf(*,
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
-    # Retrieve the account to determine which kit it was created with
-    has_error, account_output, _ = ApiRequest.get(
-        '/accounts/%s' % account_id)
-    if has_error:
-        return account_output
-
-    # Check if there are any unclaimed samples in the kit
-    original_kit, _, kit_status = _get_kit(account_output['kit_name'])
-    if kit_status == 404:
-        claim_kit_name_hint = None
-    else:
-        claim_kit_name_hint = account_output['kit_name']
-
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %

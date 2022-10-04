@@ -654,8 +654,6 @@ def get_create_account():
 
 @prerequisite([NEEDS_ACCOUNT])
 def post_create_account(*, body=None):
-    kit_name = body[KIT_NAME_KEY]
-    session[KIT_NAME_KEY] = kit_name
 
     api_json = {
         ACCT_FNAME_KEY: body['first_name'],
@@ -668,9 +666,7 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        ACCT_LANG_KEY: body[LANG_KEY],
-        KIT_NAME_KEY: kit_name,
-        ACTIVATION_CODE_KEY: body["code"]
+        ACCT_LANG_KEY: body[LANG_KEY]
     }
 
     has_error, accts_output, _ = \
@@ -1010,19 +1006,6 @@ def top_food_report_pdf(*,
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
-    # Retrieve the account to determine which kit it was created with
-    has_error, account_output, _ = ApiRequest.get(
-        '/accounts/%s' % account_id)
-    if has_error:
-        return account_output
-
-    # Check if there are any unclaimed samples in the kit
-    original_kit, _, kit_status = _get_kit(account_output['kit_name'])
-    if kit_status == 404:
-        claim_kit_name_hint = None
-    else:
-        claim_kit_name_hint = account_output['kit_name']
-
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1045,7 +1028,7 @@ def get_source(*, account_id=None, source_id=None):
     per_sample = []
     per_source_req = []
     per_source_opt = []
-
+    claim_kit_name_hint = None
     primary = _get_req_survey_templates_by_source_type(
         source_output["source_type"])
     secondary = _get_opt_survey_templates_by_source_type(

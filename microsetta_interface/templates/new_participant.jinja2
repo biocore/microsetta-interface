@@ -193,15 +193,26 @@
 {% if message %}
 <h3 style="color: red">{{message |e}}</h3>
 {% endif %}
+
+{#
+    NOTE on 2022-08-30
+    We're intentionally hiding the under-18 consent options from all non-English users for the time being.
+    The only Spanish-speaking users who should be using this system are THDMI Spain participants, which is only open to adults.
+    As such, a conscious decision was made to not use the resources to translate and implement the under-18 consent/assent documents.
+#}
+
 <div id="age-ranges-div" style='text-align: left;padding: 10px'>
     <h3>{{ tl['SEL_AGE_RANGE'] |e}}</h3>
+    {% if language_tag == "en_US" %}
     <input type='radio' id='age-range-1' name='age-range' value='0-6' onchange="change_consent_div(this)"> <label for='age-range-1'>{{ tl['AGE_0_6'] |e}}</label><br />
     <input type='radio' id='age-range-2' name='age-range' value='7-12' onchange="change_consent_div(this)"> <label for='age-range-2'>{{ tl['AGE_7_12'] |e}}</label><br />
     <input type='radio' id='age-range-3' name='age-range' value='13-17' onchange="change_consent_div(this)"> <label for='age-range-3'>{{ tl['AGE_13_17'] |e}}</label><br />
+    {% endif %}
     <input type='radio' id='age-range-4' name='age-range' value='18-plus' onchange="change_consent_div(this)"> <label for='age-range-4'>{{ tl['AGE_18'] |e}}</label>
     <hr>
 </div>
 
+{% if language_tag == "en_US" %}
 <div id="0-6-div" style='text-align: left;padding: 10px'>
 <div class='scrolltext'>
 {{ tl['CONSENT_YOUR_CHILD'] }}
@@ -296,6 +307,7 @@
     </table>
     </form>
 </div>
+{% endif %}
 
 <div id="18-plus-div" style='text-align: left;padding: 10px'>
 <div class='scrolltext'>

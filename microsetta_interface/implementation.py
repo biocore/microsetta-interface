@@ -859,9 +859,31 @@ def get_fill_source_survey(*,
                            account_id=None,
                            source_id=None,
                            survey_template_id=None):
+
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
         (account_id, source_id, survey_template_id))
+
+    survey_schema = survey_output['survey_template_text']
+
+    previous_responses = survey_output['previous_responses']
+
+    if previous_responses:
+        # if the survey has been taken at least once before,
+        # use only the latest set of responses.
+        previous_responses = previous_responses[0]['responses']
+
+    # TODO: this impl is not optimized by any means. rework.
+    def get_me(inputName):
+        for response in previous_responses:
+            if response['survey_question_id'] == int(inputName):
+                return response['response']
+
+    for group in survey_schema['groups']:
+        for field in group['fields']:
+            previous_response = get_me(field['inputName'])
+            if previous_response:
+                field['default'] = previous_response
 
     if has_error:
         return survey_output
@@ -876,13 +898,13 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:
+
         return _render_with_defaults("survey.jinja2",
                                      account_id=account_id,
                                      source_id=source_id,
                                      is_required=True,
                                      survey_template_id=survey_template_id,
-                                     survey_schema=survey_output[
-                                         'survey_template_text'])
+                                     survey_schema=survey_schema)
 
 
 @prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
@@ -915,6 +937,7 @@ def get_fill_vioscreen_remote_sample_survey(*,
                                             source_id=None,
                                             sample_id=None,
                                             survey_template_id=None):
+
     if survey_template_id != VIOSCREEN_ID:
         return get_show_error_page("Non-vioscreen remote surveys are "
                                    "not yet supported")
@@ -1084,13 +1107,18 @@ def get_source(*, account_id=None, source_id=None):
 
         if template['answered']:
             per_source_taken.append(template)
-        else:
-            # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
-            # as it was never translated into Spanish.
-            # It will continue to display for users who already took it, but
-            # is unavailable to all users who have not.
-            if template['survey_template_id'] != 5:
-                per_source_not_taken.append(template)
+
+        # since we want to allow people to update surveys over time, let's
+        # show which ones have been answered, but let's also show them in
+        # the unanswered box. this allows us to test the new functionality and
+        # offer a path for users to retake the survey.
+
+        # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
+        # as it was never translated into Spanish.
+        # It will continue to display for users who already took it, but
+        # is unavailable to all users who have not.
+        if template['survey_template_id'] != 5:
+            per_source_not_taken.append(template)
 
     # any survey specific stuff like opening a tab
     # or slot checking

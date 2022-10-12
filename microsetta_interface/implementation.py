@@ -1318,7 +1318,19 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
             if answer['survey_template_id'] == VIOSCREEN_ID:
                 has_ffq = True
 
-        if not has_ffq:
+        # Hack to determine if user's country is Spain OR locale is es_ES
+        # If either condition is true, bypass the Vioscreen option
+        spain_user = False
+
+        has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+        if has_error:
+            return account
+
+        country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+        if country == "ES" or session_locale() == "es_ES":
+            spain_user = True
+
+        if not has_ffq and spain_user is False:
             url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
             return redirect(url % (account_id, source_id, sample_id))
     return _refresh_state_and_route_to_sink(account_id, source_id)

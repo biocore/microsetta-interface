@@ -864,27 +864,6 @@ def get_fill_source_survey(*,
         '/accounts/%s/sources/%s/survey_templates/%s' %
         (account_id, source_id, survey_template_id))
 
-    survey_schema = survey_output['survey_template_text']
-
-    previous_responses = survey_output['previous_responses']
-
-    if previous_responses:
-        # if the survey has been taken at least once before,
-        # use only the latest set of responses.
-        previous_responses = previous_responses[0]['responses']
-
-    # TODO: this impl is not optimized by any means. rework.
-    def get_me(inputName):
-        for response in previous_responses:
-            if response['survey_question_id'] == int(inputName):
-                return response['response']
-
-    for group in survey_schema['groups']:
-        for field in group['fields']:
-            previous_response = get_me(field['inputName'])
-            if previous_response:
-                field['default'] = previous_response
-
     if has_error:
         return survey_output
 
@@ -898,6 +877,8 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:
+
+        survey_schema = survey_output['survey_template_text']
 
         return _render_with_defaults("survey.jinja2",
                                      account_id=account_id,

@@ -457,14 +457,13 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
 
-        # we've taken the fermented food survey, so we should not
-        # observe its URL in the rendered page
-        # TODO: this check will likely break if/when survey editing is allowed
+        # Now that surveys can be re-taken, we should observe the URL for
+        # the fermented food surveym even though we've already taken it.
         self.assertIn('survey_template_id=10002', data)
         # removing Personal Microbiome from possible surveys
         # self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
-        self.assertNotIn('survey_template_id=3', data)
+        self.assertIn('survey_template_id=3', data)
 
 
 if __name__ == '__main__':

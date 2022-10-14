@@ -3176,14 +3176,6 @@ msgstr "Enviar Cuestionario"
 
 #: templates/survey.jinja2:166
 msgid ""
-"Please note: Once you've submitted this survey, you'll be unable to edit your "
-"answers."
-msgstr ""
-"Tenga en cuenta: una vez que haya enviado este cuestionario, no podrá editar "
-"sus respuestas."
-
-#: templates/survey.jinja2:166
-msgid ""
 "If you'd like to review or change any of your responses, please press the "
 "Cancel button. Otherwise, press OK to submit your responses."
 msgstr ""

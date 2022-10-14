@@ -37,14 +37,6 @@ var vm = new Vue({
                     return '<span class="' + cls + '">' + match + '</span>';
                 });
             }
-        },
-        newModel: function() {
-            let defaultModel = VueFormGenerator.schema.createDefaultObject(this.schema);
-            this.model = {...this.model, ...defaultModel};
-            this.schema.groups.forEach((group) => {
-              defaultModel = VueFormGenerator.schema.createDefaultObject(group);
-              this.model = {...this.model, ...defaultModel};
-            });
         }
     },
 });
@@ -52,4 +44,3 @@ var vm = new Vue({
 // This CANNOT be done in $(document).ready() on the page containing the vue form because
 // the vue form is not created until after point :(
 preventImplicitSubmission("survey_form");
-vm.newModel();

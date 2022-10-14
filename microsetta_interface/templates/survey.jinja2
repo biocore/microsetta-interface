@@ -144,11 +144,17 @@
 
         if (survey_schema.fields !== null) {
             for (let field of survey_schema.fields) {
+                if('default' in field && field.default !== null && field.default.length > 0) {
+                    survey_model[field.inputName] = field.default;
+                }
                 set_triggers(survey_model, field);
             }
         }
         for (let group of survey_schema.groups) {
             for (let field of group.fields) {
+                if('default' in field && field.default !== null && field.default.length > 0) {
+                    survey_model[field.inputName] = field.default;
+                }
                 set_triggers(survey_model, field);
             }
         }

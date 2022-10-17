@@ -71,7 +71,7 @@ TEST_KIT_1 = 'PGP_AmsFQ'
 TEST_KIT_1_SAMPLE_1_BARCODE = '000005097'
 TEST_KIT_1_SAMPLE_1_SAMPLE_ID = 'ddbb117b-c8fa-9a94-e040-8a80115d1380'
 
-ADULT_CONSENT = {"participant_email": 'foo@bar.com',
+ADULT_CONSENT = {
                  "participant_name": "foo bar",
                  "age_range": "18-plus",
                  "parent_1_name": None,
@@ -411,6 +411,11 @@ class IntegrationTests(unittest.TestCase):
                f'take_survey?survey_template_id=10003')
         return self.app.get(url), url
 
+    def _complete_spain_ffq_survey(self, account_id, source_id):
+        url = (f'/accounts/{account_id}/sources/{source_id}/'
+               f'take_survey?survey_template_id=10004')
+        return self.app.get(url), url
+
     def test_new_user_to_source_listing(self):
         resp, url, user_jwt = self._new_to_create()
         account_id, _, _ = self._ids_from_url(url)
@@ -455,7 +460,8 @@ class IntegrationTests(unittest.TestCase):
         # observe its URL in the rendered page
         # TODO: this check will likely break if/when survey editing is allowed
         self.assertIn('survey_template_id=10002', data)
-        self.assertIn('survey_template_id=5', data)
+        # removing Personal Microbiome from possible surveys
+        # self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
 

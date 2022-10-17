@@ -213,16 +213,10 @@ $(document).ready(function(){
                         <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
                         <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] |e }}" />
                     </div>
-                    {% if user_info['address_3'] %}
-                   <div class="form-group" id="form_group_address_3">
-                           <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
-                           <input id="address_3" name="address_3" class="form-control" value="{{ user_info['address_2'] |e }}" type="text" />
-                   </div>
-                   {% endif %}
-                   <div class="form-group">
-                           <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
-                           <input id="phone" name="phone" class="form-control" type="text" value="value="{{ user_info['phone'] |e }}"" />
-                   </div>
+                    <div class="form-group" id="form_group_address_3">
+                        <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
+                        <input id="address_3" name="address_3" class="form-control" value="{{ user_info['address_3'] |e }}" type="text" />
+                    </div>
                     <div class="form-group">
                         <label for="city" name="city_label">{{ _('City') }}*</label>
                         <input id="city" name="city" class="form-control" type="text" value="{{ user_info['city'] |e }}" />
@@ -237,15 +231,17 @@ $(document).ready(function(){
                         <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
                         <input id="postal" name="postal" class="form-control" type="text" value="{{ user_info['postal_code'] |e }}" />
                     </div>
-                    {% if user_info['residential_address'] %}
-                     <div class="form-group" id="form_group_address_type">
-                            <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
-                            <select id="residential_address" name="residential_address" class="form-control">
-                                <option value="true" {% if user_info[‘residential_address’]=="true" %} selected="selected"{% endif %}>Residential</option>
-                                <option value="false" {% if user_info[‘residential_address’]=="false" %} selected="selected"{% endif %}>Commercial</option
-                            </select>
+                    <div class="form-group" id="form_group_address_type">
+                        <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
+                        <select id="residential_address" name="residential_address" class="form-control">
+                            <option value="true" {% if user_info['residential_address']=="true" %} selected="selected"{% endif %}>{{ _('Residential') }}</option>
+                            <option value="false" {% if user_info['residential_address']=="false" %} selected="selected"{% endif %}>{{ _('Commercial') }}</option>
+                        </select>
                     </div>
-                    {% endif % }
+                    <div class="form-group">
+                        <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
+                        <input id="phone" name="phone" class="form-control" type="text" value="{{ user_info['phone'] |e }}" />
+                    </div>
                     <div class="form-group">
                         <label for="country" name="country_label">{{ _('Country')}}</label>
                         <input id="country" name="country" class="form-control" type="text" disabled value="{{ user_info['country'] |e }}">

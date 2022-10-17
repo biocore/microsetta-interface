@@ -2,25 +2,6 @@
 {% set page_title = _("Admin Campaign Edit") %}
 {% set show_breadcrumbs = False %}
 {% block head %}
-    <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-                var selected_countries = '{{ campaign_info.permitted_countries }}';
-                var selected_countries_arr = selected_countries.split(",");
-
-                for (var country of COUNTRIES_LIST)
-                {
-                    var option = $('<option></option>')
-                        .attr("value", country.country)
-                        .text(country.country);
-                    if (selected_countries_arr.indexOf(country.country) !== -1)
-                        option.attr('selected','selected');
-
-                    $("#permitted_countries").append(option);
-                }
-
-            });
-    </script>
 
 {% endblock %}
 
@@ -111,7 +92,11 @@
             <tr>
                 <td><label for="permitted_countries">{{ _('Permitted Countries') }}:</label></td>
                 <td>
-                    <select name="permitted_countries" id="permitted_countries" multiple size="10">
+                    <select name="permitted_countries" id="permitted_countries" multiple size="4">
+                                <option value="US" {% if "US" in permitted_countries %}SELECTED{% endif %}>{{ _('United States') }}</option>
+                                <option value="GB" {% if "GB" in permitted_countries %}SELECTED{% endif %}>{{ _('United Kingdom') }}</option>
+                                <option value="MX" {% if "MX" in permitted_countries %}SELECTED{% endif %}>{{ _('Mexico') }}</option>
+                                <option value="ES" {% if "ES" in permitted_countries %}SELECTED{% endif %}>{{ _('Spain') }}</option>
                     </select>
                 </td>
             </tr>

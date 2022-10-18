@@ -189,7 +189,7 @@
     <li class="breadcrumb-item active" aria-current="page">{{ _('Consent') }}</li>
 {% endblock %}
 {% block content%}
-<h2>{{ tl['ADD_HUMAN_TITLE'] |e}}</h2>
+<h2>{{ tl['PARTICIPANT_FORM']['ADD_HUMAN_TITLE'] |e}}</h2>
 {% if message %}
 <h3 style="color: red">{{message |e}}</h3>
 {% endif %}
@@ -202,128 +202,266 @@
 #}
 
 <div id="age-ranges-div" style='text-align: left;padding: 10px'>
-    <h3>{{ tl['SEL_AGE_RANGE'] |e}}</h3>
+    <h3>{{ tl['PARTICIPANT_FORM']['SEL_AGE_RANGE'] |e}}</h3>
     {% if language_tag == "en_US" %}
-    <input type='radio' id='age-range-1' name='age-range' value='0-6' onchange="change_consent_div(this)"> <label for='age-range-1'>{{ tl['AGE_0_6'] |e}}</label><br />
-    <input type='radio' id='age-range-2' name='age-range' value='7-12' onchange="change_consent_div(this)"> <label for='age-range-2'>{{ tl['AGE_7_12'] |e}}</label><br />
-    <input type='radio' id='age-range-3' name='age-range' value='13-17' onchange="change_consent_div(this)"> <label for='age-range-3'>{{ tl['AGE_13_17'] |e}}</label><br />
+    <input type='radio' id='age-range-1' name='age-range' value='0-6' onchange="change_consent_div(this)"> <label for='age-range-1'>{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label><br />
+    <input type='radio' id='age-range-2' name='age-range' value='7-12' onchange="change_consent_div(this)"> <label for='age-range-2'>{{ tl['PARTICIPANT_FORM']['AGE_7_12'] |e}}</label><br />
+    <input type='radio' id='age-range-3' name='age-range' value='13-17' onchange="change_consent_div(this)"> <label for='age-range-3'>{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label><br />
     {% endif %}
-    <input type='radio' id='age-range-4' name='age-range' value='18-plus' onchange="change_consent_div(this)"> <label for='age-range-4'>{{ tl['AGE_18'] |e}}</label>
+    <input type='radio' id='age-range-4' name='age-range' value='18-plus' onchange="change_consent_div(this)"> <label for='age-range-4'>{{ tl['PARTICIPANT_FORM']['AGE_18'] |e}}</label>
     <hr>
 </div>
 
 {% if language_tag == "en_US" %}
 <div id="0-6-div" style='text-align: left;padding: 10px'>
-<div class='scrolltext'>
-{{ tl['CONSENT_YOUR_CHILD'] }}
-{{ tl['PARTICIPATION_AGREEMENT'] }}
-{{ tl['EXHIBIT_A'] }}
+  <div class='scrolltext'>
+    {% if form_type == 'source' %}
+      {% for doc in tl['CONSENT_DOCS'] %}
+        {% if doc['consent_type'] == 'Parental Consent - Data' %}
+          {{ doc['document'] }}
+          <div class="" id="consent">
+            <hr>
+              <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+              <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
+                <input type="hidden" name="age_range" value="0-6">
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
+          </div>
+                <table>
+                  <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                  <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}}</td><td><input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                  <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_2'] |e}}</td><td><input tabindex="8" type="text" name="parent_2_name" id="0-6-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                  <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_DECEASED_PARENTS'] |e}}</td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
+                  <tr><td><input type="submit" id="0-6-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
+                </table>
+              </form>
+      {% endif %}
+  {% endfor %}
+{% else %}
+  {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+          {{ doc['document'] }}
+              <div class="" id="consent">
+                    <hr>
+                    <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+                    <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
+                      <input type="hidden" name="age_range" value="0-6">
+                      <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                      <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                      <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
+                </div>
+                <table>
+                    <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                    <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}}</td><td><input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                    <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_2'] |e}}</td><td><input tabindex="8" type="text" name="parent_2_name" id="0-6-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+                    <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_DECEASED_PARENTS'] |e}}</td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
+                    <tr><td><input type="submit" id="0-6-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
+                </table>
+                </form>
+      {% endif %}
+  {% endfor %}
+{% endif %}
 </div>
-    <div class="" id="consent">
-        <hr>
-        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
-        <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
-           <input type="hidden" name="age_range" value="0-6">
-           <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
-    </div>
-    <table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}</td><td><input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}</td><td><input tabindex="8" type="text" name="parent_2_name" id="0-6-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}</td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
-        <tr><td><input type="submit" id="0-6-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
-    </table>
-    </form>
 </div>
+
+<!------------------------------- CONSENT/ASSENT FOR AGE 7-12 STARTS HERE --------------------------------------------->
+
 <div id="7-12-div" style='text-align: left;padding: 10px'>
+
 <div class='scrolltext'>
-{{ tl['ASSENT_7_12'] }}
+{% if form_type== 'source' %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Child Assent - Data' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% else %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Child Assent - Biospecimen' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% endif %}
 </div>
+
     <div class="" id="consent">
         <hr>
         <form id="7-12-form" name="consent_info" action="{{ post_url }}" method="post">
         <input type="hidden" name="age_range" value="7-12">
-           <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_SIMPLIFIED'] |e}} <span class="required-field">*</span></p>
+        {% if form_type== 'source' %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Child Assent - Data' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Child Assent - Biospecimen' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+           <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_SIMPLIFIED'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
     </table></p>
     <div>
-    <h4>{{ tl['PERSON_ATTAINING_ASSENT'] |e}}</h4>
-    <p><input value="Yes" type="checkbox" name="consent_witness" id="consent_witness" required data-rule-required="true"> {{ tl['TEXT_ASSENT_WITNESS'] |e}} <span class="required-field">*</span></p>
+    <h4>{{ tl['PARTICIPANT_FORM']['PERSON_ATTAINING_ASSENT'] |e}}</h4>
+    <p><input value="Yes" type="checkbox" name="consent_witness" id="consent_witness" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_ASSENT_WITNESS'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='obtainer_name'>{{ tl['OBTAINER_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="obtainer_name" id="obtainer_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='obtainer_name'>{{ tl['PARTICIPANT_FORM']['OBTAINER_NAME'] |e}}</label></td><td><input tabindex="2" type="text" name="obtainer_name" id="obtainer_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
     </table></p>
     <hr>
 <div class='scrolltext'>
-{{ tl['CONSENT_YOUR_CHILD'] }}
-{{ tl['PARTICIPATION_AGREEMENT'] }}
-{{ tl['EXHIBIT_A'] }}
+{% if form_type== 'source' %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Parental Consent - Data' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% else %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% endif %}
 </div>
+
 <div class="" id="consent">
         <hr>
-           <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
-           <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
+           <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+           <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
     </div>
     <table>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="7-12-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="8" type="text" name="parent_2_name" id="7-12-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="7-12-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="8" type="text" name="parent_2_name" id="7-12-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
         <tr><td><input type="submit" id="7-12-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table>
     </form>
 </div>
 
+<!------------------------------- CONSENT/ASSENT FOR AGE 13-17 STARTS HERE --------------------------------------------->
+
 <div id="13-17-div" style='text-align: left;padding: 10px'>
 <div class='scrolltext'>
-    {{ tl['ASSENT_13_17'] }}
+{% if form_type== 'source' %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Teenage Assent - Data' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% else %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Teenage Assent - Biospecimen' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% endif %}
 </div>
+
     <div class="" id="consent">
         <hr>
         <form id="13-17-form" name="consent_info" action="{{ post_url }}" method="post">
            <input type="hidden" name="age_range" value="13-17">
-           <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
+           {% if form_type== 'source' %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Teenage Assent - Data' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Teenage Assent - Biospecimen' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+           <p><input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
     </table></p>
     <hr>
-    <div class='scrolltext'>
-    {{ tl['CONSENT_YOUR_CHILD'] }}
-    {{ tl['PARTICIPATION_AGREEMENT'] }}
-    {{ tl['EXHIBIT_A'] }}
-    </div>
+<div class='scrolltext'>
+{% if form_type== 'source' %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Parental Consent - Data' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% else %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% endif %}
+</div>
     <div class="" id="consent">
         <hr>
-           <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
-           <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
+           <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+           <p><input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}} <span class="required-field">*</span></p>
     </div>
     <table>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="13-17-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="7" type="text" name="parent_2_name" id="13-17-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
-        <tr><td>{{ tl['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}}: </td><td><input tabindex="7" type="text" name="parent_1_name" id="13-17-form_parent_1_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_2'] |e}}: </td><td><input tabindex="7" type="text" name="parent_2_name" id="13-17-form_parent_2_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_DECEASED_PARENTS'] |e}}: </td><td><input  tabindex="9" type="checkbox" name="deceased_parent" id="deceased_parent" value="true" onclick="relax_parents(this)"></td></tr>
         <tr><td><input type="submit" id="13-17-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table>
     </form>
 </div>
 {% endif %}
 
+<!------------------------------- CONSENT/ASSENT FOR AGE 18 AND ABOVE STARTS HERE --------------------------------------------->
+
 <div id="18-plus-div" style='text-align: left;padding: 10px'>
 <div class='scrolltext'>
-{{ tl['CONSENT_18'] }}
-{{ tl['PARTICIPATION_AGREEMENT'] }}
-{{ tl['EXHIBIT_A'] }}
-</div>
+{% if form_type== 'source' %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Adult Consent - Data' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% else %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+      {% if doc['consent_type'] == 'Adult Consent - Biospecimen' %}
+          {{ doc['document'] }}
+      {% endif %}
+    {% endfor %}
+{% endif %}
 <div class="" id="consent">
     <hr>
-        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
         <form id="18-form" name="consent_info" action="{{post_url}}" method="post">
         <input type="hidden" name="age_range" value="18-plus">
-           <p><input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
+        {% if form_type== 'source' %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Adult Consent - Data' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'Adult Consent - Biospecimen' %}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+           <p><input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true"> {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>
     </div>
     <p><table>
-        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
+        <tr><td><label for='participant_name'>{{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}}: </label></td><td><input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true"> <span class="required-field">*</span></td></tr>
         <tr><td><input type="submit" id="18-submit_button" value="{{ _('I Accept') }}"></td><td></td></tr>
     </table></p>
     </form>

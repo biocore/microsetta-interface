@@ -1,3 +1,4 @@
+from dbm import dumb
 import json
 
 import os
@@ -813,26 +814,87 @@ def get_create_human_source(*, account_id=None):
     if has_error:
         return consent_output
 
+    form_type = "source"
+    
+
     return _render_with_defaults(
         'new_participant.jinja2',
         tl=consent_output,
         post_url=post_url,
         duplicate_email_check_url=duplicate_email_check_url,
         home_url=home_url,
-        form_type='source',
+        form_type=form_type,
         language_tag=session_locale())
 
 
 @prerequisite([ACCT_PREREQS_MET])
 def post_create_human_source(*, account_id=None, body=None):
-    has_error, consent_output, _ = ApiRequest.post(
-        "/accounts/{0}/consent".format(account_id), json=body)
-    if has_error:
-        return consent_output
 
-    new_source_id = consent_output["source_id"]
+    create_new_source = False
+    consent_type = body.get("consent_type")
 
-    return _refresh_state_and_route_to_sink(account_id, new_source_id)
+    if "Data" in consent_type:
+        consent_type = "Data"
+
+        if "source_id" in session:
+            source_id = session['source_id']
+
+            dup_check_body = {}
+            dup_check_body["participant_name"] = body.get("participant_name")
+
+            has_error, email_check_output, _ = ApiRequest.post(
+                "/accounts/{0}/check_duplicate_source".format(account_id), json=dup_check_body)
+            
+            if has_error:
+                return email_check_output
+
+            if email_check_output['source_duplicate']:
+                has_error, consent_required, _ = ApiRequest.get(
+                    '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Data'))
+            
+                if consent_required["result"]:
+                    has_error, consent_output, _ = ApiRequest.post(
+                    "/accounts/{0}/source/{1}/consent/{2}".format(account_id, source_id, consent_type), json=body)
+
+                    return _refresh_state_and_route_to_sink(account_id, source_id)
+            
+            else:
+                create_new_source = True
+
+        else:
+            create_new_source = True
+
+        if create_new_source:
+            has_error, consent_output, _ = ApiRequest.post(
+            "/accounts/{0}/consent".format(account_id), json=body)
+        
+            if has_error:
+                return consent_output
+
+            new_source_id = consent_output["source_id"]
+
+            has_error, consent_output, _ = ApiRequest.post(
+                "/accounts/{0}/source/{1}/consent/{2}".format(account_id, new_source_id, "Data"), json=body)
+
+            if has_error:
+                return consent_output
+            else:
+                session["source_id"] = new_source_id
+            return _refresh_state_and_route_to_sink(account_id, new_source_id)
+    
+    else:
+
+        source_id = session["source_id"]
+        consent_type = "Biospecimen"
+
+        has_error, consent_output, _ = ApiRequest.post(
+            "/accounts/{0}/source/{1}/consent/{2}".format(account_id, source_id, consent_type), json=body)
+
+        if has_error:
+            return consent_output
+
+        return _refresh_state_and_route_to_sink(account_id, source_id)
+
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1004,9 +1066,60 @@ def top_food_report_pdf(*,
 
     return response
 
+def render_consent_page(account_id=None, form_type=None):
+    endpoint = SERVER_CONFIG["endpoint"]
+    relative_post_url = _make_acct_path(account_id,
+                                        suffix="create_human_source")
+    post_url = endpoint + relative_post_url
+    duplicate_email_check_url = endpoint + "/accounts/{0}/" \
+        "check_duplicate_source_name_email" \
+        .format(account_id)
+    home_url = endpoint + "/accounts/{}".format(account_id)
+    has_error, consent_output, _ = ApiRequest.get(
+        "/accounts/{0}/consent".format(account_id),
+        params={"consent_post_url": post_url})
+
+    if has_error:
+        return consent_output
+    
+    return _render_with_defaults(
+        'new_participant.jinja2',
+        tl=consent_output,
+        post_url=post_url,
+        duplicate_email_check_url=duplicate_email_check_url,
+        home_url=home_url,
+        form_type=form_type,
+        language_tag=session_locale())
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
+
+    session["source_id"] = source_id
+
+    # Retrieve the account to determine which kit it was created with
+    has_error, account_output, _ = ApiRequest.get(
+        '/accounts/%s' % account_id)
+    if has_error:
+        return account_output
+
+
+    has_error, consent_required, _ = ApiRequest.get(
+        '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Data'))
+
+    if has_error:
+        return consent_required
+    
+    if consent_required["result"]:
+        return render_consent_page(account_id, "source")
+
+        
+    # Check if there are any unclaimed samples in the kit
+    original_kit, _, kit_status = _get_kit(account_output['kit_name'])
+    if kit_status == 404:
+        claim_kit_name_hint = None
+    else:
+        claim_kit_name_hint = account_output['kit_name']
+
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1029,7 +1142,7 @@ def get_source(*, account_id=None, source_id=None):
     per_sample = []
     per_source_req = []
     per_source_opt = []
-    claim_kit_name_hint = None
+
     primary = _get_req_survey_templates_by_source_type(
         source_output["source_type"])
     secondary = _get_opt_survey_templates_by_source_type(
@@ -1164,7 +1277,6 @@ def get_source(*, account_id=None, source_id=None):
                                      "barcode_prefix"],
                                  spain_user=spain_user
                                  )
-
 
 # Note: ideally this would be represented as a DELETE, not as a POST
 # However, it is used as a form submission action, and HTML forms do not
@@ -1539,6 +1651,7 @@ def get_ajax_check_activation_code(code, email):
 # associated with these samples.  This behavior is by design.
 @prerequisite([SOURCE_PREREQS_MET])
 def post_claim_samples(*, account_id=None, source_id=None, body=None):
+    
     sample_ids_to_claim = body.get('sample_id')
     if sample_ids_to_claim is None:
         # User claimed no samples ... shrug
@@ -1577,6 +1690,16 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
                 account_id, source_id, curr_sample_id, survey_id)
             if sample_survey_output is not None:
                 return sample_survey_output
+
+    #Test if biospecimen consent is required! If Required, route user to biospecimen consent
+    has_error, consent_required, _ = ApiRequest.get(
+        '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Biospecimen'))
+
+    if has_error:
+        return consent_required
+    
+    if consent_required["result"]:
+        return render_consent_page(account_id, "Biospecimen")
 
     return _refresh_state_and_route_to_sink(account_id, source_id)
 

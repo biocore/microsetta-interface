@@ -235,233 +235,180 @@
         "not provided": "{{ _('Not provided') }}"
     };
 
-    function buildPlotlyEmperor(state, url, divSelector, plotTitle) {
-        let renderPlot = function(data){
-            // Data is an object with three fields,
-            //    * decomposition - Two fields:
-            //        *coordinates - Array of arrays:
-            //            coordinates[0][2] is the first sample's value along
-            //                the third principal component.
-            //        *percents_explained - Array:
-            //            percents_explained[1] is the second principal components % explained.
-            //    * metadata - Docs claim array of array of arrays, but unclear
-            //                 what would be kept in metadata[0]
-            //      metadata[0][1][2] is the value of the second sample for
-            //      the third metadata column.
-            //    * metadata_headers - Array of names of metadata columns
-            //        metadata_headers[0] = name of first metadata column
+    function placeURLSourcedImageFromDetail(state, url, detail) {
+        /* this creates the following html structure off of #pcoa-div
+       	
+		<div id="accordion-div-id">
+			<button class="accordion-microbiome-map">
+				<h4 class="diversity-header">button_text</h4>
+			</button>
+			<div class="accordion-panel-microbiome-map" style="">
+				<div class="row">
+					<div class="col-5">
+						<div id="img_div_id">
+							<img id="imgid" src="#" alt="img" class="img-fluid"/>
+						</div>
+					</div>
+					<div class="col microinfo">
+						description
+					</div>
+				</div>
+			</div>
+		</div> 
+		*/
+        var pcoa_div = document.getElementById('pcoa-div');
+        
+        var img = document.createElement('img');
+        img.id = detail['img_id'];
+        img.classList.add('img-fluid');
+        img.setAttribute('alt', 'img');
 
-            let cat_index = 0;
-            let category_name = data.metadata_headers[cat_index];
-            let category_values = {};
-            for (var i = 0; i < data.metadata.length; i++){
-                var sample = data.metadata[i];
-                var val = data.metadata[i][cat_index];
-                if (val === 'NA')
-                    continue;
-                category_values[val] = 1;
-            }
+        var img_div = document.createElement('div');
+        img_div.id = detail['img_div_id'];
+        img_div.appendChild(img);
 
-            let traces = [];
-            let user_sample_id = state.barcode_prefix + state.sample_id;
-            
-            let markersize = 5;
-            if (data.decomposition.coordinates.length > 10000) {
-                markersize = 2;
-            } else if (data.decomposition.coordinates.length > 2000) {
-                markersize = 3;
-            }
+        var content_div = document.createElement('div');
+        content_div.classList.add('accordion-panel-microbiome-map');
+        content_div.style = '';
+        
+        var content_div_row = document.createElement('div');
+        content_div_row.classList.add('row');
 
-            for (let key in category_values)
-            {
-                // have to de-interleave the data.
-                let xs = [];
-                let ys = [];
-                for (let i = 0; i < data.decomposition.coordinates.length; i++){
-                    if (data.decomposition.sample_ids[i] == user_sample_id)
-                        continue;
-                    if (data.metadata[i][cat_index] == key){
-                        xs.push(data.decomposition.coordinates[i][0]);
-                        ys.push(data.decomposition.coordinates[i][1]);
-                    }
-                }
+        var content_div_img = document.createElement('div');
+        content_div_img.classList.add('col-5');
 
-                let trace =
-                {
-                    name: key,
-                    x: xs,
-                    y: ys,
-                    mode: 'markers',
-                    type: 'scatter',
-                    marker: { size: markersize }
-                };
-                traces.push(trace);
-            }
-            
-            for (let i = 0; i < data.decomposition.coordinates.length; i++){
-                if (data.decomposition.sample_ids[i] === user_sample_id){
-                    let trace = {
-                        name: "Your sample",
-                        x: [data.decomposition.coordinates[i][0]],
-                        y: [data.decomposition.coordinates[i][1]],
-                        mode: "markers",
-                        type: "scatter",
-                        marker: {
-                            size: 18
-                        }
-                    };
-                    traces.push(trace);
-                    break;
-                }
-            }
+        var content_div_desc = document.createElement('div');
+        content_div_desc.classList.add('col');
+        content_div_desc.classList.add('microinfo');
+        content_div_desc.innerHTML = detail['description'];
 
-            let layout = {
-                xaxis: {
-                    showticklabels: false,
-                    zeroline: false,
-                    showgrid: false,
-                    fixedrange: true,
-                    showline: true
+        content_div_img.appendChild(img_div);
+        content_div_row.appendChild(content_div_img);
+        content_div_row.appendChild(content_div_desc);
+        content_div.appendChild(content_div_row);
 
-                },
-                yaxis: {
-                    showticklabels: false,
-                    showgrid: false,
-                    zeroline: false,
-                    fixedrange: true,
-                    showline: true
-                },
-                "hovermode": false,
-                height: 450,
-                width: 600,
-                margin: {
-                    l: 0,
-                    r: 0,
-                    b: 0,
-                    t:0,
-                    pad:0
-                },
-                legend: {
-                    'itemsizing': 'constant'
-                }
-            };
+        var button_text = document.createElement('h4');
+        button_text.classList.add('diversity-header');
+        button_text.innerText = detail['button_text'];
 
-            Plotly.newPlot(divSelector, traces, layout, {displayModeBar: false});
-            //Plotly.Plots.resize(divSelector);
-            //let options = {title: 'hate',
-            //               legend: 'none',
-            //               height: 300,
-            //               width: 300,
-            //               lineWidth: 0,
-            //               chartArea: {'width': '100%',
-            //                           'height': '90%',
-            //                           left: 0,
-            //                           legend: 'right',
-            //                           top: 0},
-            //               enableInteractivity: false,
-            //               hAxis: { textPosition: 'none',
-            //                        gridlines: { count: 1, color: 'black' } },
-            //               vAxis: { textPosition: 'none',
-            //                       gridlines: { count: 1, color: 'black' } },
-                           //gridlines: { color: 'none' },
-            //               trendlines: {  0: { opacity: 0 }}
-            //              };
-            //let chart = new google.visualization.ScatterChart(document.getElementById(divSelector));
-            //chart.draw(gtable, options);
-        }
+        var button = document.createElement('button');
+        button.classList.add('accordion-microbiome-map');
+        button.style = '';
+        button.type = 'button';
+        button.appendChild(button_text);
 
-        $.ajax({
-            url: url,
-            type: "GET",
-            success: renderPlot
-        });
-    }
+        var accordion = document.createElement('div')
+        accordion.classList.add('microbiome-map-multipop-lifestage-accordian');
+        accordion.appendChild(button);
+        accordion.appendChild(content_div);
+        pcoa_div.appendChild(accordion);
+
+        placeURLSourcedImage(state, url, detail['img_id']);
+    };
 
     function placeURLSourcedImage(state, url, divSelector) {
-        $(divSelector).attr('src', url);
+        $('#' + divSelector).attr('src', url);
+    };
+
+
+    var pcoa_structure = {
+        'tmi_16S_gut_all_samples': {
+            'dataset': 'tmi-16S-allsamples',
+            'category': 'microbial_map',
+            'accordion_div_id': 'microbiome-map-all-tmi-accordion',
+            'button_text': "{{ _('Microbiomes Across the Body') }}",
+            'img_div_id': 'pcoa-tmi-all-samples',
+            'img_id': 'pcoa-tmi-all-samples-img',
+            'description': "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be REALLY different.') }}</p>"},
+        'tmi_16S_gut_multipop': {
+            'dataset': 'multipop-16S-gut',
+            'category': 'microbial_map_region',
+            'accordion_div_id': 'microbiome-map-multipop-region-accordion',
+            'button_text': "{{ _('Microbiomes Across the World') }}",
+            'img_div_id': 'pcoa-multipopulation-region',
+            'img_id': 'pcoa-multipopulation-region-img',
+            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}</p><p>{{ _('Researchers do not know how much these differences matter! They certainly may.') }}</p>"},
+        'tmi_16S_gut_lifestage': {
+            'dataset': 'lifestage-16S-gut',
+            'category': 'microbial_map_lifestage',
+            'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
+            'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
+            'img_div_id': 'pcoa-multipopulation-lifestage',
+            'img_id': 'pcoa-multipopulation-lifestage-img',
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}</p><p>{{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}</p>"},
+        'tmi_16S_gut_builtenv': {
+            'dataset': 'builtenv-16S-allsamples',
+            'category': 'microbial_map',
+            'accordion_div_id': 'microbiome-map-builtenv-accordian',
+            'button_text': "{{ _('Microbiomes in the Environment') }}",
+            'img_div_id': 'pcoa-builtenv',
+            'img_id': 'pcoa-builtenv-img',
+            'description': "<p>{{ _('Microbes are EVERYWHERE though! Using these same techniques described above, we compared your microbiome to samples collected from all over the surfaces from a brand new hospital.') }}</p><p>{{ _('As you can see, skin samples tend to more closely resemble those from the built environment, which makes sense as skin cells are constantly shedding from you.') }}</p>"},
+        'tmi_WGS_gut_multipop': {
+            'dataset': 'multipop-WGS-gut',
+            'category': 'microbial_map_region',
+            'accordion_div_id': 'microbiome-map-multipop-accordian',
+            'button_text': "{{ _('Microbiomes Across the World') }}",
+            'img_div_id': 'pcoa-multipopulation-region',
+            'img_id': 'pcoa-multipopulation-region-img',
+            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}</p><p>{{ _('Researchers do not know how much these differences matter! They certainly may.') }}</p>"},
+        'tmi_WGS_gut_lifestage': {
+            'dataset': 'lifestage-WGS-gut',
+            'category': 'microbial_map_lifestage',
+            'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
+            'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
+            'img_div_id': 'pcoa-multipopulation-lifestage',
+            'img_id': 'pcoa-multipopulation-lifestage-img',
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}</p><p>{{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}</p>"}
     };
 
     function getMicrobiomeMapsRasterizedPlots(state) {
-        //Plot 1, plot sample type from tmi-datatype-allsamples
-        let url = state.public_endpoint + '/dataset/' +
-              'tmi-' + state.dataset_type.value + '-allsamples' +
-              '/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
-        placeURLSourcedImage(state, url, "#pcoa-tmi-all-samples-img");
+        if(state.dataset_type.value === 'WGS') {
+            var pcoa_plots = ['tmi_WGS_gut_multipop', 'tmi_WGS_gut_lifestage'];
+        } else {
+            var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
+        }
         
-        //Plot 2, plot country from multipop-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map_region&sample_id=' + state.barcode_prefix + state.sample_id;
-        placeURLSourcedImage(state, url, "#pcoa-multipopulation-region-img");
-
-        //Plot 3, plot country from multipop-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'lifestage-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map_lifestage&sample_id=' + state.barcode_prefix + state.sample_id;
-        placeURLSourcedImage(state, url, "#pcoa-multipopulation-lifestage-img");
-
-        //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/png?category=microbial_map&sample_id=' + state.barcode_prefix + state.sample_id;
-        placeURLSourcedImage(state, url, "#pcoa-builtenv-img");
+        for (var key of pcoa_plots) {
+            let detail = pcoa_structure[key];
+            let url = state.public_endpoint + 
+                '/dataset/' + 
+                detail['dataset'] + 
+                '/plotting/diversity/beta/' + 
+                state.beta_metric + 
+                '/pcoa/full-dataset/' +
+                'png?category=' + 
+                detail['category'] + 
+                '&sample_id=' + 
+                state.barcode_prefix + 
+                state.sample_id;
+            placeURLSourcedImageFromDetail(state, url, detail);
+        }
+        setupAccordions();
     };
 
-    function buildMicrobialMapsPlots(state)
-    {
-        //Plot 1, plot sample type from tmi-datatype-allsamples
-        let url = state.public_endpoint + '/dataset/' +
-              'tmi-' + state.dataset_type.value + '-allsamples' +
-              '/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=microbial_map'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-tmi-all-samples", //contents inserted into div name
-                           "{{ _('All of the Microsetta Initiative') }}")
 
-        //Plot 2, plot country from multipop-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=microbial_map_region'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-multipopulation-region", //contents inserted into div name
-                           "{{ _('Multipopulation') }}")
+    function datasets_span(label_text, span_id) {
+        var div = document.getElementById('datasets-used');
+        var label = document.createElement('h5');
+        label.innerText = label_text;
+        var list = document.createElement('ul');
+        var span = document.createElement('span');
+        span.id = span_id.substring(1);
+        span.classList.add('info-loader');  
+        span.classList.add('text-success'); 
 
-
-        //Plot 3, plot country from multipop-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'multipop-' + state.dataset_type.value + '-' + state.dataset_site.value +'/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=microbial_map_lifestage'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-multipopulation-lifestage", //contents inserted into div name
-                           "{{ _('Multipopulation') }}")
-
-
-        //Plot 4, plot sample type from empbuiltenv-datatype-sampletype
-        url = state.public_endpoint + '/dataset/' +
-              'builtenv-' + state.dataset_type.value + '-allsamples/plotting/diversity/beta/' +
-              state.beta_metric + '/pcoa/full-dataset' +
-              '/emperor?metadata_categories=microbial_map'
-        buildPlotlyEmperor(state,
-                           url,
-                           "pcoa-builtenv", //contents inserted into div name
-                           "{{ _('You and the Microbes Around You') }}")
+        div.appendChild(label);
+        div.appendChild(list);
+        list.appendChild(span);
+        div.appendChild(document.createElement('br'));
     }
 
     function addDatasetDetail(detail) {
         let name = Object.keys(detail)[0];
         let info = detail[name];
         let span_id = "";
+        let label = "";
 
         // Qiita doesn't provide an easy way to obtain this detail 
         // soo... not ideal but let's provide a way to get study 
@@ -490,24 +437,36 @@
                              "1481": ["Whole-grain wheat consumption reduces inflammation in a randomized controlled trial on overweight and obese subjects with unhealthy dietary and lifestyle behaviors: role of polyphenols bound to cereal dietary fiber", "https://academic.oup.com/ajcn/article/101/2/251/4494380"],
                             "10052": ["The microbiome of uncontacted Amerindians", "https://advances.sciencemag.org/content/1/3/e1500183"],
                              "1448": ["Subsistence strategies in traditional societies distinguish gut microbiomes", "https://www.nature.com/articles/ncomms7505"],
-                             "1718": ["Infant time series", ""]
+                             "1718": ["Infant time series", ""],
+                             "11666": ["Gut microbiome composition in the Hispanic Community Health Study/Study of Latinos is shaped by geographic relocation, environmental factors, and obesity", "https://pubmed.ncbi.nlm.nih.gov/31672155/"],
+                             "12142": ["The National FINRISK Study ", "https://www.nature.com/articles/s41467-021-22962-y"],
+                             "1926": ["Structure, function and diversity of the healthy human microbiome", "https://www.nature.com/articles/nature11234"],
+                             "11484": ["Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases", "https://pubmed.ncbi.nlm.nih.gov/31142855/"],
+                             "11405": ["The effect of legume supplementation on the gut microbiota in rural Malawian infants aged 6 to 12 months ", "https://pubmed.ncbi.nlm.nih.gov/32047925/"]
         }
         switch (name) {
             case "builtenv-16S-allsamples":
+                label = '{{ _('Microbiomes in the Environment') }}';
                 span_id = "#dataset_links_builtenv";
                 break;
             case "tmi-16S-gut":
+                label = '{{ _('The Microsetta Initiative') }}';
                 span_id = "#dataset_links_tmi";
                 break;
             case "multipop-16S-gut":
+            case "multipop-WGS-gut":
+                label = '{{ _('Microbiomes Across the World') }}';
                 span_id = "#dataset_links_multipopgut";
                 break;
             case "lifestage-16S-gut":
+            case "lifestage-WGS-gut":
+                label = '{{ _('Microbiomes Across the Lifespan') }}';
                 span_id = "#dataset_links_lifestagegut";
                 break;
             default:
                 return;
         };
+        datasets_span(label, span_id);
 
         let study_title = "";
         let study_url = "";
@@ -552,76 +511,32 @@
                         }
                     });
                 }
-                //Not sure that this will matter much longer, but for now
-                //we still need to pick a single dataset for many of the queries
-                //Need to pick a proper business rule to do that.
-                //    For now, we'll prefer things named tmi-
-                //    and we'll use 16S over WGS
-                //if (data.length === 0)
-                //{
-                //    //Ack, this sample isn't in any datasets, pick one arbitrarily.
-                //    state.dataset_input.value = "tmi-WGS-gut"
-                //    return
-                //}
 
-                //var best_score = -1
-                //var best_index = -1
-                //for (var i = 0; i < data.length; i++)
-                //{
-                //    var score = 0
-                //    if (data[i].includes("tmi-"))
-                //        score += 1
-                //    if (data[i].includes("WGS"))
-                //        score += 1
-                //    if (data[i].includes("gut") ||
-                //        data[i].includes("oral") ||
-                //        data[i].includes("skin"))
-                //        score += 1
+                var have_wgs = false;
+                var have_16S = false;
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i] === 'tmi-WGS-gut') {
+                        have_wgs = true;
+                    } else if(data[i] === 'tmi-16S-gut') {
+                        have_16S = true;
+                    }
+                }
 
-                //    if (score > best_score){
-                //        best_score = score
-                //        best_index = i
-                //    }
-                //}
-
-                //if (data[best_index].includes("16S"))
-                //{
-                //    state.dataset_type.value = "16S"
-                //}
-                //else if (data[best_index].includes("WGS"))
-                //{
-                //    state.dataset_type.value = "WGS"
-                //}
-                //else
-                //{
-                //    console.log("Unknown dataset type")
-                //    state.dataset_type.value = null
-                //}
-
-                //if (data[best_index].includes("oral"))
-                //{
-                //    state.dataset_site.value = "oral"
-                //}
-                //else if (data[best_index].includes("skin"))
-                //{
-                //    state.dataset_site.value = "skin"
-                //}
-                //else if (data[best_index].includes("gut"))
-                //{
-                //    state.dataset_site.value = "gut"
-                //}
-                //else
-                //{
-                //    console.log("Unknown dataset site")
-                //    state.dataset_site.value = null
-                //}
-
-                // WARNING: FORCING 16S FOR RIGHT NOW FOR SCALE TESTING
-                state.dataset_type.value = '16S';
-                state.dataset_site.value = "gut";
-                state.dataset_input.value = 'tmi-16S-gut';
-
-                //state.dataset_input.value = data[best_index]
+                if(!have_wgs && !have_16S) {
+                    console.log(data);
+                    state.dataset_type.value = null
+                    // error gracefully somehow?
+                } else if(have_wgs) {
+                    console.log("Using WGS");
+                    state.dataset_type.value = 'WGS';
+                    state.dataset_site.value = 'gut';
+                    state.dataset_input.value = 'tmi-WGS-gut';
+                } else {
+                    console.log("Using 16S");
+                    state.dataset_type.value = '16S';
+                    state.dataset_site.value = 'gut';
+                    state.dataset_input.value = 'tmi-16S-gut';
+                }
             }
         });
     }
@@ -1254,6 +1169,18 @@
         });
     }
 
+    function updateObservedOTUs(state) {
+        var us_text = document.getElementById('average-american-observed-otus');
+        var hadza_text = document.getElementById('average-hadza-observed-otus');
+        if (state.dataset_type.value === 'WGS') {
+            us_text.innerText = '107';
+            hadza_text.innerText = '129';
+        } else if (state.dataset_type.value === '16S') {
+            us_text.innerText = '93';
+            hadza_text.innerText = '132';
+        }
+    }
+
     function updateDatasetDetails(state){
         $.ajax(
             {
@@ -1323,7 +1250,6 @@
 
     function init(){
         enableTooltips();
-        setupAccordions();
 
         // Hook up fake tab links
         $('.fake-tab').click(function() {
@@ -1380,8 +1306,8 @@
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
 
-            //buildMicrobialMapsPlots(state);
             getMicrobiomeMapsRasterizedPlots(state);
+            updateObservedOTUs(state);
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -1465,7 +1391,7 @@
                   <h3>{{ _('Diversity') }}</h3>
                   <br>
                   <p>
-                   {{ _('There are anywhere from hundreds of millions to hundreds of billions of different types of bacteria living on planet earth. This dwarfs the meager 2 million different kinds of animals and plants that you can see with your eyes. The <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong>93</strong> different types of microbes in a stool sample, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong>132</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.') }}
+                   {{ _('There are anywhere from hundreds of millions to hundreds of billions of different types of bacteria living on planet earth. This dwarfs the meager 2 million different kinds of animals and plants that you can see with your eyes. The <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong id="average-american-observed-otus">FILLIN</strong> different types of microbes in a stool sample, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id="average-hadza-observed-otus">FILLIN</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.') }}
                   </p>
 
                   <div class="card your_sample_diversity_inset">
@@ -1691,6 +1617,9 @@
                     </div>
                   </div>
               </div>
+              <p style='font-style: italic;'>
+                  * No evidence presented here indicates what we’ve observed is clinically dangerous
+              </p>
               <hr/>
               <div class="row">
                   <div class="column results_text">
@@ -1733,27 +1662,8 @@
                   <p>
                   {{ _('The results shown in the Microbiome Maps portion of the report relied on data from many different publically accessible microbiome datasets. These different datasets, and links to them, are listed below.') }}
                   </p>
-
-                  <h5>{{ _('The Microsetta Initiative') }}</h5>
-                  <ul>
-                        <span id="dataset_links_tmi" class="info-loader text-success" >DATASET_LINKS</span>
-                  </ul>
-                  </br>
-                  <h5>{{ _('Microbiomes Across the World') }}</h5>
-                  <ul>
-                        <span id="dataset_links_multipopgut" class="info-loader text-success" >DATASET_LINKS</span>
-                  </ul>
-                  </br>
-                  <h5>{{ _('Microbiomes Across the Lifespan') }}</h5>
-                  <ul>
-                        <span id="dataset_links_lifestagegut" class="info-loader text-success" >DATASET_LINKS</span>
-                  </ul>
-                  </br>
-                  <h5>{{ _('Microbiomes in the Environment') }}</h5>
-                  <ul>
-                        <span id="dataset_links_builtenv" class="info-loader text-success" >DATASET_LINKS</span>
-                  </ul>
-                  </br>
+                  <div id='datasets-used'>
+                  </div>
               </div>
             </div>
           </div>
@@ -1769,97 +1679,8 @@
                 <p>
                     {{ _('<span id="microbiome-maps-tooltip" class="tooltipper" data-title="Visualizing complex data is difficult. One way microbiome researchers do it though is through a technique called principal coordinates analysis (PCoA). We provide PCoA with the millions of microbiome similarities we compute (we use tens of thousands of samples, and compare each sample to each other), and in turn, PCoA provides perspectives into massive data matrix that place very similar samples near each other and less similar samples far apart.">How are these maps produced?</span>') }}
                 </p>
-    
-                <div id="microbiome-map-all-tmi-accordian">
-                    <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">{{ _('Microbiomes Across the Body') }}</h4>
-                    </button>
-                    <div class="accordion-panel-microbiome-map" style="">
-                        <div class="row">
-                            <div class="col-5">
-                                <div id="pcoa-tmi-all-samples" >
-                                    <img id="pcoa-tmi-all-samples-img" src="#" alt="img" class="img-fluid"/>
-                                </div>
-                            </div>
-                            <div class="col microinfo">
-                                <p>
-                                    {{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be REALLY different.') }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="microbiome-map-multipop-region-accordian">
-                    <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">{{ _('Microbiomes Across the World') }}</h4>
-                    </button>
-                    <div class="accordion-panel-microbiome-map" style="">
-                        <div class="row">
-                            <div class="col-5">
-                                <div id="pcoa-multipopulation-region">
-                                    <img id="pcoa-multipopulation-region-img" src="#" alt="img" class="img-fluid"/>
-                                </div>
-                            </div>
-                            <div class="col microinfo">
-                                <p>
-                                {{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}
-                                </p>
-
-                                <p>
-                                {{ _('Researchers do not know how much these differences matter! They certainly may.') }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="microbiome-map-multipop-lifestage-accordian">
-                    <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">{{ _('Microbiomes Across the Lifespan') }}</h4>
-                    </button>
-                    <div class="accordion-panel-microbiome-map" style="">
-                        <div class="row">
-                            <div class="col-5">
-                                <div id="pcoa-multipopulation-lifestage">
-                                    <img id="pcoa-multipopulation-lifestage-img" src="#" alt="img" class="img-fluid"/>
-                                </div>
-                            </div>
-                            <div class="col microinfo">
-                                <p>
-                                {{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}
-                                </p>
-
-                                <p>
-                                {{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="microbiome-map-builtenv-accordian">
-                    <button class="accordion-microbiome-map">
-                        <h4 class="diversity-header">{{ _('Microbiomes in the Environment') }}</h4>
-                    </button>
-                    <div class="accordion-panel-microbiome-map" style="">
-                        <div class="row">
-                            <div class="col-5">
-                                <div id="pcoa-builtenv">
-                                    <img id="pcoa-builtenv-img" src="#" alt="img" class="img-fluid"/>
-                                </div>
-                            </div>
-                            <div class="col microinfo">
-                                <p>
-                                {{ _('Microbes are EVERYWHERE though! Using these same techniques described above, we compared your microbiome to samples collected from all over the surfaces from a brand new hospital.') }}
-                                </p>
-
-                                <p>
-                                {{ _('As you can see, skin samples tend to more closely resemble those from "the built environment", which makes sense as skin cells are constantly shedding from you.') }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
+                <div id="pcoa-div"></div>
               </div>
             </div>
           </div>

@@ -864,6 +864,10 @@ def get_fill_source_survey(*,
         '/accounts/%s/sources/%s/survey_templates/%s' %
         (account_id, source_id, survey_template_id))
 
+    with open('/tmp/barbaz.json', 'w') as f:
+        import json
+        f.write(json.dumps(survey_output, indent=2))
+
     if has_error:
         return survey_output
 
@@ -1088,11 +1092,6 @@ def get_source(*, account_id=None, source_id=None):
 
         if template['answered']:
             per_source_taken.append(template)
-
-        # since we want to allow people to update surveys over time, let's
-        # show which ones have been answered, but let's also show them in
-        # the unanswered box. this allows us to test the new functionality and
-        # offer a path for users to retake the survey.
 
         # NOTE 2022-08-31: Hiding the Personal Microbiome optional survey
         # as it was never translated into Spanish.

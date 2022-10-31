@@ -471,30 +471,34 @@ class IntegrationTests(unittest.TestCase):
         consent_id = "b8245ca9-e5ba-4f8f-a84a-887c0d6a2233"
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
+        print(str(resp))
         self.assertPageTitle(resp, 'Consent')
         consent_data = ADULT_CONSENT
         consent_data.update("consent_type", "Adult Consent - " + consent_type)
         consent_data.update("consent_id", consent_id)
         resp = self.app.post(url, data=consent_data)
 
-        consent_status = self._is_consent_required(account_id, resp["source_id"], "Adult Consent - Data")
+        consent_status = self._is_consent_required(
+            account_id, resp["source_id"], "Adult Consent - Data")
 
         self.assertTrue(consent_status)
 
         source_id = resp["source_id"]
-        resp = self._sign_consent_document(account_id, source_id, "Data", consent_data)
+        resp = self._sign_consent_document(
+            account_id, source_id, "Data", consent_data)
         return resp
-    
-    def _sign_consent_document(self, account_id, source_id, consent_type, consent_data):
-        url = f'/accounts/{account_id}/source/{source_id}/consent/{consent_type}'
+
+    def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):
+        url = f'/accounts/{acc_id}/source/{src_id}/consent/{con_type}'
         resp = self.app.post(url, data=consent_data)
         url = resp.headers['Location']
         return self.app.get(url), url
 
-    def _is_consent_required(self, account_id, source_id, consent_type):
-        url = f'/accounts/{account_id}/source/{source_id}/consent/{consent_type}'
+    def _is_consent_required(self, acc_id, source_id, consent_type):
+        url = f'/accounts/{acc_id}/source/{source_id}/consent/{consent_type}'
         resp = self.app.get(url)
         return resp["result"]
+
 
 if __name__ == '__main__':
     unittest.main()

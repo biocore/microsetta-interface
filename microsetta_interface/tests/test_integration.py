@@ -471,7 +471,6 @@ class IntegrationTests(unittest.TestCase):
         consent_id = "b8245ca9-e5ba-4f8f-a84a-887c0d6a2233"
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
-        print(str(resp))
         self.assertPageTitle(resp, 'Consent')
         consent_data = ADULT_CONSENT
         consent_data.update("consent_type", "Adult Consent - " + consent_type)
@@ -486,6 +485,15 @@ class IntegrationTests(unittest.TestCase):
         source_id = resp["source_id"]
         resp = self._sign_consent_document(
             account_id, source_id, "Data", consent_data)
+        return resp
+
+    def test_duplicate_source_name(self):
+        account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
+        body = {}
+        body.update({"participant_name" , ADULT_CONSENT["participant_name"]})
+        url = f'/accounts/{account_id}/check_duplicate_source_name_email'
+        resp = self.app.post(url, data=body)
+        self.assertTrue(resp["source_duplicate"])
         return resp
 
     def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):

@@ -836,29 +836,18 @@ def post_create_human_source(*, account_id=None, body=None):
         if "source_id" in session:
             source_id = session['source_id']
 
-            dup_check_body = {}
-            dup_check_body["participant_name"] = body.get("participant_name")
-
-            has_error, email_check_output, _ = ApiRequest.post(
-                "/accounts/{0}/check_duplicate_source".format(
-                    account_id), json=dup_check_body)
-
-            if has_error:
-                return email_check_output
-
-            if email_check_output['source_duplicate']:
-                has_error, consent_required, _ = ApiRequest.get(
+            has_error, consent_required, _ = ApiRequest.get(
                     '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Data'))
 
-                if consent_required["result"]:
-                    has_error, consent_output, _ = ApiRequest.post(
-                    "/accounts/{0}/source/{1}/consent/{2}".format(
-                        account_id, source_id, consent_type), json=body)
+            if has_error:
+                return consent_required
 
-                    return _refresh_state_and_route_to_sink(account_id, source_id)
+            if consent_required["result"]:
+                has_error, consent_output, _ = ApiRequest.post(
+                "/accounts/{0}/source/{1}/consent/{2}".format(
+                    account_id, source_id, consent_type), json=body)
 
-            else:
-                create_new_source = True
+                return _refresh_state_and_route_to_sink(account_id, source_id)
 
         else:
             create_new_source = True
@@ -1067,7 +1056,7 @@ def top_food_report_pdf(*,
     return response
 
 
-def render_consent_page(account_id=None, form_type=None):
+def render_consent_page(account_id, form_type):
     endpoint = SERVER_CONFIG["endpoint"]
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
@@ -1286,7 +1275,7 @@ def get_source(*, account_id=None, source_id=None):
 def post_remove_source(*,
                        account_id=None,
                        source_id=None):
-    has_error, delete_output, _ = ApiRequest.delete(
+    has_error, delete_output, _ = ApiRequest.post(
         '/accounts/%s/sources/%s' %
         (account_id, source_id))
 

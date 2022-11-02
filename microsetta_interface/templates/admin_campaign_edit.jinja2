@@ -92,11 +92,12 @@
             <tr>
                 <td><label for="permitted_countries">{{ _('Permitted Countries') }}:</label></td>
                 <td>
-                    <select name="permitted_countries" id="permitted_countries" multiple size="4">
+                    <select name="permitted_countries" id="permitted_countries" multiple size="5">
                                 <option value="US" {% if "US" in permitted_countries %}SELECTED{% endif %}>{{ _('United States') }}</option>
                                 <option value="GB" {% if "GB" in permitted_countries %}SELECTED{% endif %}>{{ _('United Kingdom') }}</option>
                                 <option value="MX" {% if "MX" in permitted_countries %}SELECTED{% endif %}>{{ _('Mexico') }}</option>
                                 <option value="ES" {% if "ES" in permitted_countries %}SELECTED{% endif %}>{{ _('Spain') }}</option>
+                                <option value="JP" {% if "JP" in permitted_countries %}SELECTED{% endif %}>{{ _('Japan') }}</option>
                     </select>
                 </td>
             </tr>
@@ -106,6 +107,15 @@
                     <select name="accepting_participants">
                         <option value="True" {% if campaign_info.accepting_participants is true %}selected{% endif %}>Yes</option>
                         <option value="False"{% if campaign_info.accepting_participants is false %}selected{% endif %}>No</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="send_thdmi_confirmation">{{ _('Send THDMI Confirmation Email') }}:</label></td>
+                <td>
+                    <select name="send_thdmi_confirmation" id="send_thdmi_confirmation">
+                        <option value="False"{% if campaign_info.send_thdmi_confirmation is false %}selected{% endif %}>No</option>
+                        <option value="True" {% if campaign_info.send_thdmi_confirmation is true %}selected{% endif %}>Yes</option>
                     </select>
                 </td>
             </tr>

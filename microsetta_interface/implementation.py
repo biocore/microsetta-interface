@@ -16,7 +16,7 @@ import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY, ES_ES_KEY
+    ES_MX_KEY, ES_ES_KEY, JA_JP_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -95,7 +95,8 @@ SYSTEM_MSG_DICTIONARY = {
     "going_down": {
         EN_US_KEY: "The system is going down at ",
         ES_MX_KEY: "El sistema se apaga a las ",
-        ES_ES_KEY: "El sistema se apaga a las "
+        ES_ES_KEY: "El sistema se apaga a las ",
+        JA_JP_KEY: "システムは にダウンしています "
     }
 }
 
@@ -2015,6 +2016,7 @@ def get_campaign_edit(campaign_id=None):
         campaign_info['language_key_alt'] = None
         campaign_info['title_alt'] = None
         campaign_info['instructions_alt'] = None
+        campaign_info['send_thdmi_confirmaion'] = None
 
     permitted_countries = []
     if campaign_info['permitted_countries'] is not None:
@@ -2054,6 +2056,7 @@ def post_campaign_edit(body):
     language_key_alt = request.form['language_key_alt']
     title_alt = request.form['title_alt']
     instructions_alt = request.form['instructions_alt']
+    send_thdmi_confirmation = request.form['send_thdmi_confirmation']
 
     if 'campaign_id' in request.form:
         do_return, campaign_info, _ = ApiRequest.put(
@@ -2068,7 +2071,8 @@ def post_campaign_edit(body):
                 "language_key_alt": language_key_alt,
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
-                "extension": extension
+                "extension": extension,
+                "send_thdmi_confirmation": send_thdmi_confirmation
             }
         )
     else:
@@ -2087,7 +2091,8 @@ def post_campaign_edit(body):
                 "language_key_alt": language_key_alt,
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
-                "extension": extension
+                "extension": extension,
+                "send_thdmi_confirmation": send_thdmi_confirmation
             }
         )
 

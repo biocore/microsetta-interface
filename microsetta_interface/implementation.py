@@ -1268,7 +1268,6 @@ def get_source(*, account_id=None, source_id=None):
 def post_remove_source(*,
                        account_id=None,
                        source_id=None):
-    print("====reached on remove====")
     has_error, delete_output, _ = ApiRequest.delete(
         '/accounts/%s/sources/%s/scrub' %
         (account_id, source_id))

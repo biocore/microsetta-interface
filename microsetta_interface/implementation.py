@@ -786,7 +786,7 @@ def post_account_details(*, account_id=None, body=None):
 
 
 @prerequisite([ACCT_PREREQS_MET])
-def check_duplicate_source_name_email(*, account_id=None, body=None):
+def check_duplicate_source(*, account_id=None, body=None):
     has_error, email_check_output, _ = ApiRequest.post(
         "/accounts/{0}/check_duplicate_source".format(account_id), json=body)
     if has_error:
@@ -796,13 +796,13 @@ def check_duplicate_source_name_email(*, account_id=None, body=None):
 
 
 @prerequisite([ACCT_PREREQS_MET])
-def get_create_human_source(*, account_id=None):
+def get_consent_page(*, account_id=None):
     endpoint = SERVER_CONFIG["endpoint"]
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
     duplicate_email_check_url = endpoint + "/accounts/{0}/" \
-        "check_duplicate_source_name_email" \
+        "check_duplicate_source" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
@@ -836,25 +836,18 @@ def post_create_human_source(*, account_id=None, body=None):
         if "source_id" in session:
             source_id = session['source_id']
 
-            has_error, consent_required, _ = ApiRequest.get(
-                    '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Data'))
-
-            if has_error:
-                return consent_required
-
-            if consent_required["result"]:
-                has_error, consent_output, _ = ApiRequest.post(
+            has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/source/{1}/consent/{2}".format(
                     account_id, source_id, consent_type), json=body)
 
-                return _refresh_state_and_route_to_sink(account_id, source_id)
+            return _refresh_state_and_route_to_sink(account_id, source_id)
 
         else:
             create_new_source = True
 
         if create_new_source:
             has_error, consent_output, _ = ApiRequest.post(
-            "/accounts/{0}/consent".format(account_id), json=body)
+                "/accounts/{0}/consent".format(account_id), json=body)
 
             if has_error:
                 return consent_output
@@ -1062,7 +1055,7 @@ def render_consent_page(account_id, form_type):
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
     duplicate_email_check_url = endpoint + "/accounts/{0}/" \
-        "check_duplicate_source_name_email" \
+        "check_duplicate_source" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
     has_error, consent_output, _ = ApiRequest.get(
@@ -1087,7 +1080,7 @@ def get_source(*, account_id=None, source_id=None):
 
     session["source_id"] = source_id
 
-    # Retrieve the account to determine which kit it was created with
+    # Retrieve the account to determine re-consent status
     has_error, account_output, _ = ApiRequest.get(
         '/accounts/%s' % account_id)
     if has_error:
@@ -1275,8 +1268,9 @@ def get_source(*, account_id=None, source_id=None):
 def post_remove_source(*,
                        account_id=None,
                        source_id=None):
-    has_error, delete_output, _ = ApiRequest.post(
-        '/accounts/%s/sources/%s' %
+    print("====reached on remove====")
+    has_error, delete_output, _ = ApiRequest.delete(
+        '/accounts/%s/sources/%s/scrub' %
         (account_id, source_id))
 
     if has_error:
@@ -1681,9 +1675,10 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
             if sample_survey_output is not None:
                 return sample_survey_output
 
-    #Test if biospecimen consent is required! If Required, route user to biospecimen consent
+    # Test if biospecimen consent is required! If Required, 
+    # route user to biospecimen consent
     has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' % 
+        '/accounts/%s/source/%s/consent/%s' %
         (account_id, source_id, 'Biospecimen'))
 
     if has_error:

@@ -1675,7 +1675,7 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
             if sample_survey_output is not None:
                 return sample_survey_output
 
-    # Test if biospecimen consent is required! If Required, 
+    # Test if biospecimen consent is required! If Required,
     # route user to biospecimen consent
     has_error, consent_required, _ = ApiRequest.get(
         '/accounts/%s/source/%s/consent/%s' %

@@ -94,7 +94,7 @@ jobs:
         python setup.py compile_catalog
         pip install -e . --no-deps
         
-        git clone -b $BRANCH --single-branch https://github.com/biocore/microsetta-private-api.git
+        git clone -b $BRANCH --single-branch https://github.com/raginirai553/microsetta-private-api.git
         pushd microsetta-private-api
         pgport=${{ job.services.postgres.ports[5432] }}
         sed -i "s/self.port = 5432/self.port = $pgport/" microsetta_private_api/config_manager.py

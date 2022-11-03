@@ -47,9 +47,13 @@ $(document).ready(function(){
                     required: true,
                     phoneUS: true
                 });
-            }
-
-            else if (selected_country == "ES") {
+                $("#city").rules( "add", {
+                    required: true
+                });
+                $("#state").rules( "add", {
+                    required: true
+                });
+            } else if (selected_country == "ES") {
                 for (var state of SPAIN_STATES)
                 {
                     var option = $('<option></option>')
@@ -63,7 +67,17 @@ $(document).ready(function(){
                     required: true,
                     phoneSPAIN: true
                 });
-
+                $("#city").rules( "add", {
+                    required: true
+                });
+                $("#state").rules( "add", {
+                    required: true
+                });
+            } else if (selected_country == "JP") {
+                $("#form_group_address_3").show();
+                $("#form_group_city, #form_group_state").hide();
+                $("#city").rules("remove");
+                $("#state").rules("remove");
             } else {
                 for (var country of COUNTRIES_LIST)
                 {
@@ -78,6 +92,12 @@ $(document).ready(function(){
                         $("#state").append(option);
                     }
                 }
+                $("#city").rules( "add", {
+                    required: true
+                });
+                $("#state").rules( "add", {
+                    required: true
+                });
             }
         }
     });
@@ -113,7 +133,15 @@ $(document).ready(function(){
         active_section = new_active_section;
     }
 
-    $.validator.addMethod("countryValidation", function(value, element) {
+    jQuery.validator.addMethod("over18", function(value, element) {
+        if(value == "true") {
+            return true;
+        } else {
+            return false;
+        }
+    }, "{{ _('Sorry, you must be 18 or older to participate in this study.') }}");
+
+    jQuery.validator.addMethod("countryValidation", function(value, element) {
         var permitted_countries = '{{ campaign_info['permitted_countries'] |e }}';
         permitted_countries = permitted_countries.split(',');
         var country_found = false;
@@ -137,7 +165,10 @@ $(document).ready(function(){
 	        onkeyup: false,
 	        onfocusout: false,
             rules: {
-                over_18: "required",
+                over_18: {
+                    required: true,
+                    over18: true
+                },
                 first_name: "required",
                 last_name: "required",
                 email: {
@@ -153,8 +184,6 @@ $(document).ready(function(){
                     countryValidation: true
                 },
                 address_1: "required",
-                city: "required",
-                state: "required",
                 postal: {
                     required: true,
                     /* remote: {
@@ -186,7 +215,10 @@ $(document).ready(function(){
                 confirm_consent: "required",
             },
             messages: {
-                over_18: "{{ _('Please select whether you are at least 18 years of age.') }}",
+                over_18: {
+                    required: "{{ _('Please select whether you are at least 18 years of age.') }}",
+                    over18: "{{ _('Sorry, you must be 18 or older to participate in this study.') }}"
+                },
                 first_name: "{{ _('Please enter your first name.') }}",
                 last_name: "{{ _('Please enter your last name.') }}",
                 email: "{{ _('Please enter a valid email address.') }}",
@@ -518,7 +550,7 @@ $(document).ready(function(){
                     </fieldset>
                     <fieldset id="submit_interest_3">
                         {{ _('Please fill in the address you would like your kit delivered to. Example:') }}<br /><br />
-                        {{ _('9500 Gilman Dr.<br />San Diego, CA 920932') }}<br /><br />
+                        {{ _('9500 Gilman Dr.<br />San Diego, CA 92093') }}<br /><br />
                         <div class="form-group">
                             <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
                             <input id="address_1" name="address_1" class="form-control" type="text" />
@@ -531,11 +563,11 @@ $(document).ready(function(){
                             <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
                             <input id="address_3" name="address_3" class="form-control" type="text">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="form_group_city">
                             <label for="city" name="city_label">{{ _('City') }}*</label>
                             <input id="city" name="city" class="form-control" type="text" />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="form_group_state">
                             <label for="state" name="state_label">{{ _('State') }}*</label>
                             <select id="state" name="state" class="form-control">
                                 <option value="">-- {{ _('SELECT') }}</option>

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-11-01 16:45-0700\n"
-"PO-Revision-Date: 2022-11-03 22:57-0700\n"
+"PO-Revision-Date: 2022-11-04 09:49-0700\n"
 "Last-Translator: \n"
 "Language-Team: ja_JP <LL@li.org>\n"
 "Language: ja_JP\n"
@@ -287,14 +287,14 @@ msgstr "ここで"
 #: templates/admin_interested_users.jinja2:15
 #: templates/submit_interest.jinja2:337
 msgid "First Name"
-msgstr "名"
+msgstr "氏名（名）"
 
 #: templates/account_details.jinja2:151
 #: templates/admin_interested_user_edit.jinja2:110
 #: templates/admin_interested_users.jinja2:18
 #: templates/submit_interest.jinja2:341
 msgid "Last Name"
-msgstr "姓"
+msgstr "氏名（姓）"
 
 #: templates/account_details.jinja2:155
 #: templates/admin_address_verification.jinja2:53

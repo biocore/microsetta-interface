@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-11-01 16:45-0700\n"
-"PO-Revision-Date: 2022-11-04 09:49-0700\n"
+"PO-Revision-Date: 2022-11-04 11:34-0700\n"
 "Last-Translator: \n"
 "Language-Team: ja_JP <LL@li.org>\n"
 "Language: ja_JP\n"
@@ -1332,21 +1332,21 @@ msgstr "一つの住所を確認する"
 #: templates/admin_interested_user_edit.jinja2:122
 #: templates/submit_interest.jinja2:555 templates/update_address.jinja2:209
 msgid "Address 1"
-msgstr "住所１"
+msgstr "住所（都道府県、市区町村①）"
 
 #: templates/admin_address_verification.jinja2:33
 #: templates/admin_address_verification.jinja2:85
 #: templates/admin_interested_user_edit.jinja2:126
 #: templates/submit_interest.jinja2:559 templates/update_address.jinja2:213
 msgid "Address 2"
-msgstr "住所２"
+msgstr "住所（市区町村②、番地）"
 
 #: templates/admin_address_verification.jinja2:37
 #: templates/admin_address_verification.jinja2:89
 #: templates/admin_interested_user_edit.jinja2:132
 #: templates/submit_interest.jinja2:563 templates/update_address.jinja2:217
 msgid "Address 3"
-msgstr "住所３"
+msgstr "住所（建物名、部屋番号）"
 
 #: templates/admin_address_verification.jinja2:49
 #: templates/admin_address_verification.jinja2:101
@@ -2969,11 +2969,12 @@ msgid ""
 "Please note: Specimen collection kits are associated with the email used when "
 "registering. We recommend the following:"
 msgstr ""
-"注意：採便キットは、登録時に使用したメールで登録されます。下記をお勧めします："
+"注意：ご登録頂いたメールアドレスにてご連絡、キットの発送を致します。下記を参考"
+"に登録をお願いします。"
 
 #: templates/submit_interest.jinja2:332
 msgid "1. One email must be used per kit."
-msgstr "1. 採便キットごとに 1 つのメールを使う。"
+msgstr "1. 1名につき1つのメールアドレスでご登録下さい。"
 
 #: templates/submit_interest.jinja2:333
 msgid ""
@@ -3010,11 +3011,11 @@ msgstr "選択"
 
 #: templates/submit_interest.jinja2:552
 msgid "Please fill in the address you would like your kit delivered to. Example:"
-msgstr "採便キットのお届け先のご住所をご記入ください。"
+msgstr "採便キットのお届け先のご住所をご記入ください。記入例："
 
 #: templates/submit_interest.jinja2:553
 msgid "9500 Gilman Dr.<br />San Diego, CA 92093"
-msgstr ""
+msgstr "〒152-8550<br />東京都目黒区大岡山２-１２−1"
 
 #: templates/submit_interest.jinja2:583 templates/update_address.jinja2:237
 msgid "Residential"
@@ -3034,8 +3035,8 @@ msgid ""
 "from the TMI database. "
 msgstr ""
 "登録後、研究状況、参加申し込みに必要な手順、アンケート調査に関する手続きの連絡"
-"をメールマガジンで受け取ることに同意します。私は、メールマガジン内に記載されたリンクからいつでも会"
-"報の購読を中止できることに同意します。"
+"をメールマガジンで受け取ることに同意します。私は、メールマガジン内に記載された"
+"リンクからいつでもメールマガジンの購読を中止できることに同意します。 "
 
 #: templates/submit_interest.jinja2:596
 msgid "Previous"

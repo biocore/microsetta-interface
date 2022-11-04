@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-11-01 16:45-0700\n"
-"PO-Revision-Date: 2022-11-04 00:11+0900\n"
+"PO-Revision-Date: 2022-11-03 22:57-0700\n"
 "Last-Translator: \n"
 "Language-Team: ja_JP <LL@li.org>\n"
 "Language: ja_JP\n"
@@ -2900,8 +2900,7 @@ msgstr ""
 
 #: templates/submit_interest.jinja2:155
 msgid "Sorry, this study is not open to residents of your country."
-msgstr ""
-"大変申し訳ありませんが、あなたの選んだ国の居住者はこの調査に参加できません。"
+msgstr "大変申し訳ありませんが、あなたの国の居住者はこの調査に参加できません。"
 
 #: templates/submit_interest.jinja2:219 templates/submit_interest.jinja2:327
 msgid "Please select whether you are at least 18 years of age."
@@ -2981,20 +2980,20 @@ msgid ""
 "2. If you plan to complete the form on behalf of another adult, use that "
 "person's name and email address."
 msgstr ""
-"2.本人に代わって記入する場合は、本人の名前と電子メールアドレスを使用してくださ"
-"い。"
+"2.参加者に代わってご登録される場合、必ず参加者本人の名前と電子メールアドレスを"
+"使用してください。"
 
 #: templates/submit_interest.jinja2:334
 msgid "3. If possible, continue to use the same email throughout the study."
-msgstr "3.可能であれば、研究期間中は登録したメールを使い続けてください。"
+msgstr "3.このプロジェクトにご参加中は登録のメールアドレスをご利用ください。"
 
 #: templates/submit_interest.jinja2:335
 msgid ""
 "Once you have received the kit, please continue to use the same email address "
 "used when creating your online account."
 msgstr ""
-"採便キットをお受け取りになった後、登録時に使用したメールアドレスを引き続きご使"
-"用ください。"
+"採便キットをお受け取りになった後は、登録時に使用したメールアドレスのみご使用く"
+"ださい。"
 
 #: templates/submit_interest.jinja2:345
 msgid "Email Address"
@@ -3011,11 +3010,11 @@ msgstr "選択"
 
 #: templates/submit_interest.jinja2:552
 msgid "Please fill in the address you would like your kit delivered to. Example:"
-msgstr "採便キットのお届け先のご住所をご記入ください。記入例："
+msgstr "採便キットのお届け先のご住所をご記入ください。"
 
 #: templates/submit_interest.jinja2:553
 msgid "9500 Gilman Dr.<br />San Diego, CA 92093"
-msgstr "9500 Gilman Dr.<br />San Diego, CA 92093"
+msgstr ""
 
 #: templates/submit_interest.jinja2:583 templates/update_address.jinja2:237
 msgid "Residential"
@@ -3037,7 +3036,7 @@ msgstr ""
 "登録後、研究状況、参加申し込みに必要な手順、アンケート調査に関する手続きの連絡"
 "を会報で受け取ることに同意します。私は、会報内に記載されたリンクからいつでも会"
 "報の購読を中止できることに同意します。また、TMIのデータベースから便サンプルの状"
-"況の更新報告を受け取ることに同意します。　"
+"況の更新報告を受け取ることに同意します。 "
 
 #: templates/submit_interest.jinja2:596
 msgid "Previous"

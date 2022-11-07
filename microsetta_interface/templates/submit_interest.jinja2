@@ -76,6 +76,10 @@ $(document).ready(function(){
             } else if (selected_country == "JP") {
                 $("#form_group_address_3").show();
                 $("#form_group_city, #form_group_state").hide();
+                $("#phone").rules( "remove" );
+                $("#phone").rules( "add", {
+                    required: true
+                });
                 $("#city").rules("remove");
                 $("#state").rules("remove");
             } else {
@@ -176,8 +180,7 @@ $(document).ready(function(){
                     email: true
                 },
                 phone: {
-                    required: true,
-                    phoneUS: true
+                    required: true
                 },
                 country: {
                     required: true,

@@ -2016,7 +2016,8 @@ def get_campaign_edit(campaign_id=None):
         campaign_info['language_key_alt'] = None
         campaign_info['title_alt'] = None
         campaign_info['instructions_alt'] = None
-        campaign_info['send_thdmi_confirmaion'] = None
+        campaign_info['send_thdmi_confirmation'] = None
+        campaign_info['force_primary_language'] = None
 
     permitted_countries = []
     if campaign_info['permitted_countries'] is not None:
@@ -2057,6 +2058,7 @@ def post_campaign_edit(body):
     title_alt = request.form['title_alt']
     instructions_alt = request.form['instructions_alt']
     send_thdmi_confirmation = request.form['send_thdmi_confirmation']
+    force_primary_language = request.form['force_primary_language']
 
     if 'campaign_id' in request.form:
         do_return, campaign_info, _ = ApiRequest.put(
@@ -2072,7 +2074,8 @@ def post_campaign_edit(body):
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
                 "extension": extension,
-                "send_thdmi_confirmation": send_thdmi_confirmation
+                "send_thdmi_confirmation": send_thdmi_confirmation,
+                "force_primary_language": force_primary_language
             }
         )
     else:
@@ -2092,7 +2095,8 @@ def post_campaign_edit(body):
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
                 "extension": extension,
-                "send_thdmi_confirmation": send_thdmi_confirmation
+                "send_thdmi_confirmation": send_thdmi_confirmation,
+                "force_primary_language": force_primary_language
             }
         )
 
@@ -2131,12 +2135,21 @@ def get_submit_interest(campaign_id=None, source=None):
             if user_lang == campaign_info['language_key_alt']:
                 show_alt_info = True
 
-    return _render_with_defaults('submit_interest.jinja2',
-                                 valid_campaign=valid_campaign,
-                                 campaign_id=campaign_id,
-                                 source=source,
-                                 campaign_info=campaign_info,
-                                 show_alt_info=show_alt_info)
+    if campaign_info['force_primary_language']:
+        with flask_babel.force_locale(campaign_info['language_key']):
+            return _render_with_defaults('submit_interest.jinja2',
+                                         valid_campaign=valid_campaign,
+                                         campaign_id=campaign_id,
+                                         source=source,
+                                         campaign_info=campaign_info,
+                                         show_alt_info=show_alt_info)
+    else:
+        return _render_with_defaults('submit_interest.jinja2',
+                                     valid_campaign=valid_campaign,
+                                     campaign_id=campaign_id,
+                                     source=source,
+                                     campaign_info=campaign_info,
+                                     show_alt_info=show_alt_info)
 
 
 def post_submit_interest(body):
@@ -2184,9 +2197,16 @@ def post_submit_interest(body):
         if user_lang == campaign_info['language_key_alt']:
             show_alt_info = True
 
-        return _render_with_defaults('submit_interest_confirm.jinja2',
-                                     campaign_info=campaign_info,
-                                     show_alt_info=show_alt_info)
+        if campaign_info['force_primary_language']:
+            with flask_babel.force_locale(campaign_info['language_key']):
+                return _render_with_defaults('submit_interest_confirm.jinja2',
+                                             campaign_info=campaign_info,
+                                             show_alt_info=show_alt_info)
+        else:
+            return _render_with_defaults('submit_interest_confirm.jinja2',
+                                         campaign_info=campaign_info,
+                                         show_alt_info=show_alt_info)
+
     else:
         e_msg = gettext("Sorry, there was a problem saving your information.")
         raise Exception(e_msg)

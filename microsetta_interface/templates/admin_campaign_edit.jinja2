@@ -120,6 +120,15 @@
                 </td>
             </tr>
             <tr>
+                <td><label for="force_primary_language">{{ _('Force Primary Language on Form') }}:</label></td>
+                <td>
+                    <select name="force_primary_language" id="force_primary_language">
+                        <option value="False"{% if campaign_info.force_primary_language is false %}selected{% endif %}>No</option>
+                        <option value="True" {% if campaign_info.force_primary_language is true %}selected{% endif %}>Yes</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center"><input type="submit" value="{{ _('Submit') }}"></td>
             </tr>
         </table>

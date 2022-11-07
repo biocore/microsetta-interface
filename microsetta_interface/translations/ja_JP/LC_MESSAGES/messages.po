@@ -2916,7 +2916,7 @@ msgstr "あなたの姓を入力してください。"
 
 #: templates/submit_interest.jinja2:224
 msgid "Please enter a valid email address."
-msgstr "有効なメールアドレスを入力してください。"
+msgstr "メールアドレスを入力してください。"
 
 #: templates/submit_interest.jinja2:227
 msgid "Please select your country."
@@ -2933,7 +2933,7 @@ msgstr ""
 
 #: templates/submit_interest.jinja2:236 templates/submit_interest.jinja2:592
 msgid "Please agree to receiving communications from us."
-msgstr "マイクロゼッタからの連絡を受信することに同意してください。"
+msgstr "THDMIジャパンプロジェクトからのメールが受信出来る環境に設定をお願いします。"
 
 #: templates/submit_interest.jinja2:297
 msgid ""
@@ -3011,7 +3011,7 @@ msgstr "選択"
 
 #: templates/submit_interest.jinja2:552
 msgid "Please fill in the address you would like your kit delivered to. Example:"
-msgstr "採便キットのお届け先のご住所をご記入ください。記入例："
+msgstr "採便キットのお届け先のご住所をご記入ください。"
 
 #: templates/submit_interest.jinja2:553
 msgid "9500 Gilman Dr.<br />San Diego, CA 92093"
@@ -3034,9 +3034,7 @@ msgid ""
 "and this will not change my consent to receive sample status updates directly "
 "from the TMI database. "
 msgstr ""
-"登録後、研究状況、参加申し込みに必要な手順、アンケート調査に関する手続きの連絡"
-"をメールマガジンで受け取ることに同意します。私は、メールマガジン内に記載された"
-"リンクからいつでもメールマガジンの購読を中止できることに同意します。 "
+"登録後、研究状況、参加申し込みに必要な手順、アンケート調査に関する手続きの連絡を会報で受け取ることに同意します。私は、会報内に記載されたリンクからいつでも会報の購読を中止できることに同意します。また、TMIのデータベースから便サンプルの状況の更新報告を受け取ることに同意します。"
 
 #: templates/submit_interest.jinja2:596
 msgid "Previous"

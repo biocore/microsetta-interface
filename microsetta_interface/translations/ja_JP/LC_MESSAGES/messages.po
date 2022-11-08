@@ -287,14 +287,14 @@ msgstr "ここで"
 #: templates/admin_interested_users.jinja2:15
 #: templates/submit_interest.jinja2:337
 msgid "First Name"
-msgstr "氏名（名）"
+msgstr "名前を入力して下さい。"
 
 #: templates/account_details.jinja2:151
 #: templates/admin_interested_user_edit.jinja2:110
 #: templates/admin_interested_users.jinja2:18
 #: templates/submit_interest.jinja2:341
 msgid "Last Name"
-msgstr "氏名（姓）"
+msgstr "姓を入力して下さい。"
 
 #: templates/account_details.jinja2:155
 #: templates/admin_address_verification.jinja2:53
@@ -1455,7 +1455,7 @@ msgstr "参加者募集中"
 #: templates/admin_interested_user_edit.jinja2:170
 #: templates/submit_interest.jinja2:598 templates/update_address.jinja2:254
 msgid "Submit"
-msgstr "提出する"
+msgstr "登録する"
 
 #: templates/admin_campaign_list.jinja2:5 templates/sitebase.jinja2:50
 msgid "Campaigns"
@@ -2908,11 +2908,11 @@ msgstr "18歳以上であるか選んでください。"
 
 #: templates/submit_interest.jinja2:222
 msgid "Please enter your first name."
-msgstr "あなたの名前を入力してください。"
+msgstr "名前を入力して下さい。"
 
 #: templates/submit_interest.jinja2:223
 msgid "Please enter your last name."
-msgstr "あなたの姓を入力してください。"
+msgstr "姓を入力して下さい。"
 
 #: templates/submit_interest.jinja2:224
 msgid "Please enter a valid email address."
@@ -3034,7 +3034,7 @@ msgid ""
 "and this will not change my consent to receive sample status updates directly "
 "from the TMI database. "
 msgstr ""
-"登録後、研究状況、参加申し込みに必要な手順、アンケート調査に関する手続きの連絡を会報で受け取ることに同意します。私は、会報内に記載されたリンクからいつでも会報の購読を中止できることに同意します。また、TMIのデータベースから便サンプルの状況の更新報告を受け取ることに同意します。"
+"参加登録後、参加申し込みに必要な手順、アンケート調査に関する情報等をEメールで受け取ることに同意します。"
 
 #: templates/submit_interest.jinja2:596
 msgid "Previous"
@@ -3049,8 +3049,7 @@ msgid ""
 "Thank you for your interest! Your information has been saved, and we will "
 "contact you via email soon."
 msgstr ""
-"私たちの研究に関心をお持ちいただき、ありがとうございます。あなたの情報が保存さ"
-"れました。まもなくメールが届きます。"
+"私たちの研究に関心をお持ちいただき、ありがとうございます。申し込みを承りました。まもなくメールが届きます。"
 
 #: templates/survey.jinja2:2 templates/survey.jinja2:128
 msgid "Participant Survey"

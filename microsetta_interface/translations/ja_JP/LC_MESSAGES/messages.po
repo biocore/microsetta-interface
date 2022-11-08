@@ -287,14 +287,14 @@ msgstr "ここで"
 #: templates/admin_interested_users.jinja2:15
 #: templates/submit_interest.jinja2:337
 msgid "First Name"
-msgstr "名前を入力して下さい。"
+msgstr "氏名（名）"
 
 #: templates/account_details.jinja2:151
 #: templates/admin_interested_user_edit.jinja2:110
 #: templates/admin_interested_users.jinja2:18
 #: templates/submit_interest.jinja2:341
 msgid "Last Name"
-msgstr "姓を入力して下さい。"
+msgstr "氏名（姓）"
 
 #: templates/account_details.jinja2:155
 #: templates/admin_address_verification.jinja2:53

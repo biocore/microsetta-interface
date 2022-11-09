@@ -16,7 +16,7 @@ import base64
 import functools
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY, ES_ES_KEY
+    ES_MX_KEY, ES_ES_KEY, JA_JP_KEY
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -95,7 +95,8 @@ SYSTEM_MSG_DICTIONARY = {
     "going_down": {
         EN_US_KEY: "The system is going down at ",
         ES_MX_KEY: "El sistema se apaga a las ",
-        ES_ES_KEY: "El sistema se apaga a las "
+        ES_ES_KEY: "El sistema se apaga a las ",
+        JA_JP_KEY: "システムは にダウンしています "
     }
 }
 
@@ -1301,7 +1302,19 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
             if answer['survey_template_id'] == VIOSCREEN_ID:
                 has_ffq = True
 
-        if not has_ffq:
+        # Hack to determine if user's country is Spain OR locale is es_ES
+        # If either condition is true, bypass the Vioscreen option
+        spain_user = False
+
+        has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+        if has_error:
+            return account
+
+        country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+        if country == "ES" or session_locale() == "es_ES":
+            spain_user = True
+
+        if not has_ffq and spain_user is False:
             url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
             return redirect(url % (account_id, source_id, sample_id))
     return _refresh_state_and_route_to_sink(account_id, source_id)
@@ -1986,6 +1999,8 @@ def get_campaign_edit(campaign_id=None):
         campaign_info['language_key_alt'] = None
         campaign_info['title_alt'] = None
         campaign_info['instructions_alt'] = None
+        campaign_info['send_thdmi_confirmation'] = None
+        campaign_info['force_primary_language'] = None
 
     permitted_countries = []
     if campaign_info['permitted_countries'] is not None:
@@ -2025,6 +2040,8 @@ def post_campaign_edit(body):
     language_key_alt = request.form['language_key_alt']
     title_alt = request.form['title_alt']
     instructions_alt = request.form['instructions_alt']
+    send_thdmi_confirmation = request.form['send_thdmi_confirmation']
+    force_primary_language = request.form['force_primary_language']
 
     if 'campaign_id' in request.form:
         do_return, campaign_info, _ = ApiRequest.put(
@@ -2039,7 +2056,9 @@ def post_campaign_edit(body):
                 "language_key_alt": language_key_alt,
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
-                "extension": extension
+                "extension": extension,
+                "send_thdmi_confirmation": send_thdmi_confirmation,
+                "force_primary_language": force_primary_language
             }
         )
     else:
@@ -2058,7 +2077,9 @@ def post_campaign_edit(body):
                 "language_key_alt": language_key_alt,
                 "title_alt": title_alt,
                 "instructions_alt": instructions_alt,
-                "extension": extension
+                "extension": extension,
+                "send_thdmi_confirmation": send_thdmi_confirmation,
+                "force_primary_language": force_primary_language
             }
         )
 
@@ -2097,12 +2118,21 @@ def get_submit_interest(campaign_id=None, source=None):
             if user_lang == campaign_info['language_key_alt']:
                 show_alt_info = True
 
-    return _render_with_defaults('submit_interest.jinja2',
-                                 valid_campaign=valid_campaign,
-                                 campaign_id=campaign_id,
-                                 source=source,
-                                 campaign_info=campaign_info,
-                                 show_alt_info=show_alt_info)
+    if campaign_info['force_primary_language']:
+        with flask_babel.force_locale(campaign_info['language_key']):
+            return _render_with_defaults('submit_interest.jinja2',
+                                         valid_campaign=valid_campaign,
+                                         campaign_id=campaign_id,
+                                         source=source,
+                                         campaign_info=campaign_info,
+                                         show_alt_info=show_alt_info)
+    else:
+        return _render_with_defaults('submit_interest.jinja2',
+                                     valid_campaign=valid_campaign,
+                                     campaign_id=campaign_id,
+                                     source=source,
+                                     campaign_info=campaign_info,
+                                     show_alt_info=show_alt_info)
 
 
 def post_submit_interest(body):
@@ -2150,9 +2180,16 @@ def post_submit_interest(body):
         if user_lang == campaign_info['language_key_alt']:
             show_alt_info = True
 
-        return _render_with_defaults('submit_interest_confirm.jinja2',
-                                     campaign_info=campaign_info,
-                                     show_alt_info=show_alt_info)
+        if campaign_info['force_primary_language']:
+            with flask_babel.force_locale(campaign_info['language_key']):
+                return _render_with_defaults('submit_interest_confirm.jinja2',
+                                             campaign_info=campaign_info,
+                                             show_alt_info=show_alt_info)
+        else:
+            return _render_with_defaults('submit_interest_confirm.jinja2',
+                                         campaign_info=campaign_info,
+                                         show_alt_info=show_alt_info)
+
     else:
         e_msg = gettext("Sorry, there was a problem saving your information.")
         raise Exception(e_msg)

@@ -830,8 +830,7 @@ def post_create_human_source(*, account_id=None, body=None):
     create_new_source = False
     consent_type = body.get("consent_type")
 
-    # If the submitted consent form contains data 
-    # consent
+    # If the submitted consent form contains data consent
     if "data" in consent_type:
         consent_type = "data"
 

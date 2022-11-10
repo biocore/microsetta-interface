@@ -217,7 +217,7 @@
   <div class='scrolltext'>
     {% if form_type == 'source' %}
       {% for doc in tl['CONSENT_DOCS'] %}
-        {% if doc['consent_type'] == 'Parental Consent - Data' %}
+        {% if doc['consent_type'] == 'parent_data' %}
           {{ doc['document'] }}
           <div class="" id="consent">
             <hr>
@@ -240,7 +240,7 @@
   {% endfor %}
 {% else %}
   {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+      {% if doc['consent_type'] == 'parent_biospecimen' %}
           {{ doc['document'] }}
               <div class="" id="consent">
                     <hr>
@@ -272,13 +272,13 @@
 <div class='scrolltext'>
 {% if form_type== 'source' %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Child Assent - Data' %}
+      {% if doc['consent_type'] == 'child_data' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
 {% else %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Child Assent - Biospecimen' %}
+      {% if doc['consent_type'] == 'child_biospecimen' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
@@ -291,14 +291,14 @@
         <input type="hidden" name="age_range" value="7-12">
         {% if form_type== 'source' %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Child Assent - Data' %}
+            {% if doc['consent_type'] == 'child_data' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
           {% endfor %}
         {% else %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Child Assent - Biospecimen' %}
+            {% if doc['consent_type'] == 'child_biospecimen' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
@@ -320,13 +320,13 @@
 <div class='scrolltext'>
 {% if form_type== 'source' %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Parental Consent - Data' %}
+      {% if doc['consent_type'] == 'parent_data' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
 {% else %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+      {% if doc['consent_type'] == 'parent_biospecimen' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
@@ -353,13 +353,13 @@
 <div class='scrolltext'>
 {% if form_type== 'source' %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Teenage Assent - Data' %}
+      {% if doc['consent_type'] == 'adolescent_data' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
 {% else %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Teenage Assent - Biospecimen' %}
+      {% if doc['consent_type'] == 'adolescent_biospecimen' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
@@ -372,14 +372,14 @@
            <input type="hidden" name="age_range" value="13-17">
            {% if form_type== 'source' %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Teenage Assent - Data' %}
+            {% if doc['consent_type'] == 'adolescent_data' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
           {% endfor %}
         {% else %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Teenage Assent - Biospecimen' %}
+            {% if doc['consent_type'] == 'adolescent_biospecimen' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
@@ -394,13 +394,13 @@
 <div class='scrolltext'>
 {% if form_type== 'source' %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Parental Consent - Data' %}
+      {% if doc['consent_type'] == 'parent_data' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
 {% else %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Parental Consent - Biospecimen' %}
+      {% if doc['consent_type'] == 'parent_biospecimen' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
@@ -427,13 +427,13 @@
 <div class='scrolltext'>
 {% if form_type== 'source' %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Adult Consent - Data' %}
+      {% if doc['consent_type'] == 'adult_data' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
 {% else %}
     {% for doc in tl['CONSENT_DOCS'] %}
-      {% if doc['consent_type'] == 'Adult Consent - Biospecimen' %}
+      {% if doc['consent_type'] == 'adult_biospecimen' %}
           {{ doc['document'] }}
       {% endif %}
     {% endfor %}
@@ -445,14 +445,14 @@
         <input type="hidden" name="age_range" value="18-plus">
         {% if form_type== 'source' %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Adult Consent - Data' %}
+            {% if doc['consent_type'] == 'adult_data' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
           {% endfor %}
         {% else %}
           {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'Adult Consent - Biospecimen' %}
+            {% if doc['consent_type'] == 'adult_biospecimen' %}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}

@@ -801,7 +801,7 @@ def get_consent_page(*, account_id=None):
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
-    duplicate_email_check_url = endpoint + "/accounts/{0}/" \
+    duplicate_source_check = endpoint + "/accounts/{0}/" \
         "check_duplicate_source" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
@@ -813,12 +813,13 @@ def get_consent_page(*, account_id=None):
         return consent_output
 
     form_type = "source"
+    print(str(consent_output))
 
     return _render_with_defaults(
         'new_participant.jinja2',
         tl=consent_output,
         post_url=post_url,
-        duplicate_email_check_url=duplicate_email_check_url,
+        duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
         language_tag=session_locale())
@@ -827,11 +828,10 @@ def get_consent_page(*, account_id=None):
 @prerequisite([ACCT_PREREQS_MET])
 def post_create_human_source(*, account_id=None, body=None):
 
-    create_new_source = False
     consent_type = body.get("consent_type")
 
-    if "Data" in consent_type:
-        consent_type = "Data"
+    if "data" in consent_type:
+        consent_type = "data"
 
         if "source_id" in session:
             source_id = session['source_id']
@@ -840,12 +840,12 @@ def post_create_human_source(*, account_id=None, body=None):
                 "/accounts/{0}/source/{1}/consent/{2}".format(
                     account_id, source_id, consent_type), json=body)
 
+            if has_error:
+                return consent_output
+
             return _refresh_state_and_route_to_sink(account_id, source_id)
 
         else:
-            create_new_source = True
-
-        if create_new_source:
             has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/consent".format(account_id), json=body)
 
@@ -856,7 +856,7 @@ def post_create_human_source(*, account_id=None, body=None):
 
             has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/source/{1}/consent/{2}".format(
-                    account_id, new_source_id, "Data"), json=body)
+                    account_id, new_source_id, "data"), json=body)
 
             if has_error:
                 return consent_output
@@ -867,7 +867,7 @@ def post_create_human_source(*, account_id=None, body=None):
     else:
 
         source_id = session["source_id"]
-        consent_type = "Biospecimen"
+        consent_type = "biospecimen"
 
         has_error, consent_output, _ = ApiRequest.post(
             "/accounts/{0}/source/{1}/consent/{2}".format(
@@ -1054,7 +1054,7 @@ def render_consent_page(account_id, form_type):
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
     post_url = endpoint + relative_post_url
-    duplicate_email_check_url = endpoint + "/accounts/{0}/" \
+    duplicate_source_check = endpoint + "/accounts/{0}/" \
         "check_duplicate_source" \
         .format(account_id)
     home_url = endpoint + "/accounts/{}".format(account_id)
@@ -1069,7 +1069,7 @@ def render_consent_page(account_id, form_type):
         'new_participant.jinja2',
         tl=consent_output,
         post_url=post_url,
-        duplicate_email_check_url=duplicate_email_check_url,
+        duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
         language_tag=session_locale())
@@ -1087,7 +1087,7 @@ def get_source(*, account_id=None, source_id=None):
         return account_output
 
     has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'Data'))
+        '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'data'))
 
     if has_error:
         return consent_required

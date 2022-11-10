@@ -813,7 +813,6 @@ def get_consent_page(*, account_id=None):
         return consent_output
 
     form_type = "source"
-    print(str(consent_output))
 
     return _render_with_defaults(
         'new_participant.jinja2',

@@ -142,7 +142,7 @@
             if(valid){
              var name = $('#'+$form_id+'_participant_name').val();
                     $.ajax({
-                        url: '{{ duplicate_email_check_url }}',
+                        url: '{{ duplicate_source_check }}',
                         data:JSON.stringify({participant_name:name}),
                         contentType:"application/json",
                         type: 'POST',

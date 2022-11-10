@@ -830,26 +830,26 @@ def post_create_human_source(*, account_id=None, body=None):
     create_new_source = False
     consent_type = body.get("consent_type")
 
-    #If the submitted consent form contains data 
-    #consent
+    # If the submitted consent form contains data 
+    # consent
     if "data" in consent_type:
         consent_type = "data"
 
-        #check if source id is present in session
-        #this is done to check if the source is providing
-        #a re-consent document.
+        # check if source id is present in session
+        # this is done to check if the source is providing
+        # a re-consent document.
         if "source_id" in session:
             source_id = session['source_id']
 
-            #Etract source name from form to check if source actually exists
-            #this is done because soure_id may belong to another source which
-            #was accessed earier by the user
+            # Etract source name from form to check if source actually exists
+            # this is done because soure_id may belong to another source which
+            # was accessed earier by the user
             dup_check_body = {}
             dup_check_body["participant_name"] = body.get("participant_name")
 
-            #check if source exits or not! If source exist,
+            # check if source exits or not! If source exist,
             # this is surely a reconsent
-            #else, new source is being created
+            # else, new source is being created
             has_error, source_check_output, _ = ApiRequest.post(
                 "/accounts/{0}/check_duplicate_source".format(
                     account_id), json=dup_check_body)
@@ -857,8 +857,8 @@ def post_create_human_source(*, account_id=None, body=None):
             if has_error:
                 return source_check_output
 
-            #If source already exist, only latest consent
-            #needs to be signed. Sign the consent doc
+            # If source already exist, only latest consent
+            # needs to be signed. Sign the consent doc
             if source_check_output['source_duplicate']:
                 has_error, consent_output, _ = ApiRequest.post(
                     "/accounts/{0}/source/{1}/consent/{2}".format(
@@ -869,25 +869,25 @@ def post_create_human_source(*, account_id=None, body=None):
 
                 return _refresh_state_and_route_to_sink(account_id, source_id)
 
-            #If source not exist, create one
+            # If source not exist, create one
             else:
                 create_new_source = True
 
-        #if source id does not exist in session
+        # if source id does not exist in session
         else:
             create_new_source = True
 
-        #If new source needs ot be created, create one
+        # If new source needs ot be created, create one
         if create_new_source:
             has_error, consent_output, _ = ApiRequest.post(
-            "/accounts/{0}/consent".format(account_id), json=body)
+                "/accounts/{0}/consent".format(account_id), json=body)
 
             if has_error:
                 return consent_output
 
             new_source_id = consent_output["source_id"]
 
-            #Sign consent
+            # Sign consent
             has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/source/{1}/consent/{2}".format(
                     account_id, new_source_id, "data"), json=body)

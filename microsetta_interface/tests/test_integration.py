@@ -468,8 +468,8 @@ class IntegrationTests(unittest.TestCase):
 
     def test_new_source_data_consent(self):
         account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
-        consent_type = "Data"
-        consent_id = "b8245ca9-e5ba-4f8f-a84a-887c0d6a2233"
+        consent_type = "data"
+        consent_id = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
@@ -495,7 +495,7 @@ class IntegrationTests(unittest.TestCase):
         print("======body")
         print(type(consent_body))
         url = f'/accounts/{account_id}/check_duplicate_source'
-        has_error, resp, _ = self.app.post(url, data=consent_body)
+        has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
         print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])

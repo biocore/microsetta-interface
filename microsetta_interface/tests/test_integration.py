@@ -293,6 +293,7 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
         ADULT_CONSENT["consent_type"] = "adult_data"
+        ADULT_CONSENT["consent_id"] = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         resp = self.app.post(url, data=ADULT_CONSENT)
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
         url = self.redirectURL(resp)
@@ -498,6 +499,7 @@ class IntegrationTests(unittest.TestCase):
         has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
         print(str(resp))
+        print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])
         return resp
 

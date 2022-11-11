@@ -489,12 +489,12 @@ class IntegrationTests(unittest.TestCase):
 
     def test_duplicate_source_name(self):
         account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
-        body = {}
-        body["participant_name"] = ADULT_CONSENT["participant_name"]
+        consent_body = {}
+        consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
         print("======body")
-        print(str(body))
+        print(type(consent_body))
         url = f'/accounts/{account_id}/check_duplicate_source'
-        has_error, resp, _ = self.app.post(url, data=body)
+        has_error, resp, _ = self.app.post(url, data=consent_body)
         print("====response")
         print(str(resp))
         self.assertTrue(resp["source_duplicate"])

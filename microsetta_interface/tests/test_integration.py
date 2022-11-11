@@ -473,25 +473,25 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
         consent_data = ADULT_CONSENT
-        consent_data.update("consent_type", "Adult Consent - " + consent_type)
+        consent_data.update("consent_type", "adult_" + consent_type)
         consent_data.update("consent_id", consent_id)
         resp = self.app.post(url, data=consent_data)
 
         consent_status = self._is_consent_required(
-            account_id, resp["source_id"], "Adult Consent - Data")
+            account_id, resp["source_id"], "adult_data")
 
         self.assertTrue(consent_status)
 
         source_id = resp["source_id"]
         resp = self._sign_consent_document(
-            account_id, source_id, "Data", consent_data)
+            account_id, source_id, "data", consent_data)
         return resp
 
     def test_duplicate_source_name(self):
         account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
         body = {}
         body.update({"participant_name", ADULT_CONSENT["participant_name"]})
-        url = f'/accounts/{account_id}/check_duplicate_source_name_email'
+        url = f'/accounts/{account_id}/check_duplicate_source'
         resp = self.app.post(url, data=body)
         self.assertTrue(resp["source_duplicate"])
         return resp

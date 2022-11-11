@@ -1,3 +1,4 @@
+import json
 import unittest
 import hashlib
 import os
@@ -368,6 +369,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+        print(str(ADULT_CONSENT))
         resp = self.app.post(url, data=consent)
         url = resp.headers['Location']
         return self.app.get(url), url
@@ -499,7 +501,7 @@ class IntegrationTests(unittest.TestCase):
         has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
         print(str(resp))
-        print(str(resp.data))
+        print(str(json.loads(resp)))
         self.assertTrue(resp["source_duplicate"])
         return resp
 

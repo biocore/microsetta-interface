@@ -492,7 +492,7 @@ class IntegrationTests(unittest.TestCase):
         body = {}
         body.update({"participant_name": ADULT_CONSENT["participant_name"]})
         url = f'/accounts/{account_id}/check_duplicate_source'
-        resp = self.app.post(url, data=body)
+        has_error, resp = self.app.post(url, data=body)
         self.assertTrue(resp["source_duplicate"])
         return resp
 

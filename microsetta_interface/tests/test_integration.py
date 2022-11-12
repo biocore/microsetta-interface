@@ -42,13 +42,13 @@ def _uniqify(email):
 def _get_consent_id_from_webpage(webpage, consent_type):
     start_pos = webpage.rfind("consent_id")
     end_pos = webpage.find(consent_type)
-    
     consent_data = webpage[start_pos:end_pos]
-    
-    obj_match = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", consent_data)
+
+    pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    obj_match = re.search(pattern, consent_data)
     if obj_match:
         return obj_match.group()
-    
+
     return None
 
 

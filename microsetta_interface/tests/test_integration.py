@@ -444,14 +444,8 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        if resp.status_code == 302:
-            self.asssertPageTitle(resp, 'Consent')
-            self.assertPageContains(resp, 'New Participant')
-        else:
-            print("status code: " + str(resp.status_code))
-            print(str(resp))
-            self.assertPageTitle(resp, 'Account Samples')
-            self.assertPageContains(resp, 'Fermented Foods Questionnaire')
+        self.asssertPageTitle(resp, 'Consent')
+        self.assertPageContains(resp, 'New Participant')
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()
@@ -484,7 +478,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Consent')
         consent_data = ADULT_CONSENT
         resp = self.app.post(url, data=consent_data)
-
+        print(resp)
+        print(resp.data)
         consent_status = self._is_consent_required(
             account_id, resp["source_id"], "data")
         print("484 line no=====")

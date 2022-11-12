@@ -1,3 +1,4 @@
+import json
 import unittest
 import hashlib
 import os
@@ -513,11 +514,13 @@ class IntegrationTests(unittest.TestCase):
         consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
 
         url = f'/accounts/{account_id}/check_duplicate_source'
-        has_error, resp, _ = self.app.post(url, data=consent_body)
+        resp = self.app.post(url, json=consent_body)
         print("====response")
         print(resp)
         print("======")
-        self.assertTrue(resp.data.source_duplicate)
+        tmp = json.reads(resp)
+        print(tmp)
+        self.assertTrue(resp)
         return resp
 
     def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):

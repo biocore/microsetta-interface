@@ -297,10 +297,11 @@ class IntegrationTests(unittest.TestCase):
         ADULT_CONSENT["consent_type"] = "adult_data"
         ADULT_CONSENT["consent_id"] = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         resp = self.app.post(url, data=ADULT_CONSENT)
-        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+
         url = self.redirectURL(resp)
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Participant Survey')
+        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
 
         # let's complete the primary survey, and advance to the covid survey
         survey_body = PRIMARY_SURVEY_SIMPLE

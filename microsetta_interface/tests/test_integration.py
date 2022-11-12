@@ -1,4 +1,3 @@
-import json
 import unittest
 import hashlib
 import os
@@ -349,13 +348,16 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
 
         page_data = self._html_page(resp)
-        consent_id = _get_consent_id_from_webpage(page_data, "adult_biospecimen")
+        con = "adult_biospecimen"
+        consent_id = _get_consent_id_from_webpage(page_data, con)
         ADULT_CONSENT["consent_id"] = consent_id
         ADULT_CONSENT["consent_type"] = "adult_biospecimen"
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.post(url, data=ADULT_CONSENT)
 
-        self.assertPageTitle(resp, 'Account Samples', 302)
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
         self.assertIn('click on a barcode to provide collection information',
                       data)

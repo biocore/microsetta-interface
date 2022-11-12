@@ -448,6 +448,8 @@ class IntegrationTests(unittest.TestCase):
             self.asssertPageTitle(resp, 'Consent')
             self.assertPageContains(resp, 'New Participant')
         else:
+            print("status code: " + str(resp.status_code))
+            print(str(resp))
             self.assertPageTitle(resp, 'Account Samples')
             self.assertPageContains(resp, 'Fermented Foods Questionnaire')
 

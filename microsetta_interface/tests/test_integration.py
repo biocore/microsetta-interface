@@ -366,6 +366,9 @@ class IntegrationTests(unittest.TestCase):
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
+        print("===from liine 369===")
+        print(resp)
+        print("=====")
         self.assertPageTitle(resp, 'Consent')
         print(str(ADULT_CONSENT))
         resp = self.app.post(url, data=consent)

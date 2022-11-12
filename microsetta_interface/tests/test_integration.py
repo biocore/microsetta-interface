@@ -47,8 +47,9 @@ def _get_consent_id_from_webpage(webpage, consent_type):
     pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     obj_match = re.search(pattern, consent_data)
     if obj_match:
+        print("consent id extracted: " + obj_match.group())
         return obj_match.group()
-
+    print("consent id not found!")
     return None
 
 

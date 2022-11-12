@@ -316,6 +316,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
 
+        url = self.redirectURL(resp)
         # let's complete the primary survey, and advance to the covid survey
         survey_body = PRIMARY_SURVEY_SIMPLE
         resp = self.app.post(url, json=survey_body, follow_redirects=True)
@@ -383,9 +384,6 @@ class IntegrationTests(unittest.TestCase):
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
-        print("===from liine 369===")
-        print(resp)
-        print("=====")
         self.assertPageTitle(resp, 'Consent')
 
         page_data = self._html_page(resp)
@@ -518,7 +516,7 @@ class IntegrationTests(unittest.TestCase):
         print("====response")
         print(resp)
         print("======")
-        tmp = json.reads(resp)
+        tmp = json.loads(resp)
         print(tmp)
         self.assertTrue(resp)
         return resp

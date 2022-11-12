@@ -894,6 +894,8 @@ def post_create_human_source(*, account_id=None, body=None):
                     account_id, new_source_id, "data"), json=body)
             print("signing consent")
             if has_error:
+                print("error in consent signing")
+                print(consent_output)
                 return consent_output
             else:
                 session["source_id"] = new_source_id

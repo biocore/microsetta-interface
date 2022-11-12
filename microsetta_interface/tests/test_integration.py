@@ -525,7 +525,7 @@ class IntegrationTests(unittest.TestCase):
         print("======body")
         print(type(consent_body))
         url = f'/accounts/{account_id}/check_duplicate_source'
-        has_error, resp, _ = self.app.post(url, json=consent_body)
+        has_error, resp, _ = self.app.post(url, data=consent_body)
         print("====response")
         print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])

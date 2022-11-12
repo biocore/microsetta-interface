@@ -522,7 +522,7 @@ class IntegrationTests(unittest.TestCase):
         consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
 
         url = f'/accounts/{account_id}/check_duplicate_source'
-        has_error, resp, _ = self.app.post(url, data=consent_body)
+        has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
         print(resp)
         print("======")

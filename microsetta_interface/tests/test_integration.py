@@ -355,6 +355,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.post(url, data=ADULT_CONSENT)
 
+        print(resp)
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
         self.assertIn('click on a barcode to provide collection information',
@@ -397,6 +398,7 @@ class IntegrationTests(unittest.TestCase):
         page_data = self._html_page(resp)
         consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
         consent["consent_id"] = consent_id
+        consent["consent_type"] = "adult_data"
         resp = self.app.post(url, data=consent)
         url = resp.headers['Location']
         return self.app.get(url), url
@@ -506,6 +508,7 @@ class IntegrationTests(unittest.TestCase):
         page_data = self._html_page(resp)
         consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
         ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_data"
 
         consent_data = ADULT_CONSENT
         resp = self.app.post(url, data=consent_data)

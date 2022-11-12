@@ -347,6 +347,14 @@ class IntegrationTests(unittest.TestCase):
         self.claimed_samples.append((account_id, source_id, sample_id))
         resp = self.app.post(url, data=body, follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
+
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_biospecimen")
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_biospecimen"
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.post(url, data=ADULT_CONSENT)
+
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
         self.assertIn('click on a barcode to provide collection information',
@@ -513,12 +521,8 @@ class IntegrationTests(unittest.TestCase):
 
         url = f'/accounts/{account_id}/check_duplicate_source'
         resp = self.app.post(url, json=consent_body)
-        print("====response")
-        print(resp)
-        print("======")
-        tmp = json.loads(resp)
-        print(tmp)
-        self.assertTrue(resp)
+
+        self.assertEqual(resp.status_code, 200)
         return resp
 
     def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):

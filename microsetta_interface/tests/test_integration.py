@@ -470,7 +470,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertNotIn('survey_template_id=3', data)
 
     def test_new_source_data_consent(self):
-        account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
         consent_type = "data"
         consent_id = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         url = f'/accounts/{account_id}/create_human_source'

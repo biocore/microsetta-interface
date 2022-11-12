@@ -1,4 +1,3 @@
-import json
 import unittest
 import hashlib
 import os
@@ -79,7 +78,7 @@ ADULT_CONSENT = {
                  "parent_2_name": None,
                  "deceased_parent": 'false',
                  "obtainer_name": None,
-                 "consent_type": "data",
+                 "consent_type": "adult_data",
                  "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 
 # answer a quesion on each survey
@@ -445,8 +444,12 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
-        self.assertPageContains(resp, 'Fermented Foods Questionnaire')
+        if resp.status_code == 302:
+            self.asssertPageTitle(resp, 'Consent')
+            self.assertPageContains(resp, 'New Participant')
+        else:
+            self.assertPageTitle(resp, 'Account Samples')
+            self.assertPageContains(resp, 'Fermented Foods Questionnaire')
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()
@@ -482,7 +485,8 @@ class IntegrationTests(unittest.TestCase):
 
         consent_status = self._is_consent_required(
             account_id, resp["source_id"], "data")
-
+        print("484 line no=====")
+        print(consent_status)
         self.assertTrue(consent_status)
 
         source_id = resp["source_id"]
@@ -500,7 +504,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/check_duplicate_source'
         has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
-        print(str(resp))
+        print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])
         return resp
 

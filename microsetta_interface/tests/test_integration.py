@@ -294,12 +294,8 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
-        ADULT_CONSENT["consent_type"] = "adult_data"
-        ADULT_CONSENT["consent_id"] = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         resp = self.app.post(url, data=ADULT_CONSENT)
 
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
         self.assertPageTitle(resp, 'Participant Survey')
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
 

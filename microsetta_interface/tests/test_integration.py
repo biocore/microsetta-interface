@@ -47,9 +47,8 @@ def _get_consent_id_from_webpage(webpage, consent_type):
     pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     obj_match = re.search(pattern, consent_data)
     if obj_match:
-        print("consent id extracted: " + obj_match.group())
         return obj_match.group()
-    print("consent id not found!")
+
     return None
 
 
@@ -387,9 +386,7 @@ class IntegrationTests(unittest.TestCase):
         print(resp)
         print("=====")
         self.assertPageTitle(resp, 'Consent')
-        print(str(ADULT_CONSENT))
 
-        self.assertPageTitle(resp, 'Consent')
         page_data = self._html_page(resp)
         consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
         consent["consent_id"] = consent_id
@@ -529,7 +526,6 @@ class IntegrationTests(unittest.TestCase):
         print("====response")
         print(resp)
         print("======")
-        print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])
         return resp
 

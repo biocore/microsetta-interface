@@ -90,7 +90,7 @@ ADULT_CONSENT = {
                  "age_range": "18-plus",
                  "parent_1_name": None,
                  "parent_2_name": None,
-                 "deceased_parent": 'false',
+                 "deceased_parent": None,
                  "obtainer_name": None,
                  "consent_type": "adult_data",
                  "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}

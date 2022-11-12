@@ -313,7 +313,7 @@ class IntegrationTests(unittest.TestCase):
         ADULT_CONSENT["consent_id"] = consent_id
         resp = self.app.post(url, data=ADULT_CONSENT)
 
-        self.assertPageTitle(resp, 'Participant Survey')
+        self.assertPageTitle(resp, 'Redirecting...', 302)
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
 
         # let's complete the primary survey, and advance to the covid survey
@@ -466,7 +466,7 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.asssertPageTitle(resp, 'Consent')
+        self.assertPageTitle(resp, 'Consent')
         self.assertPageContains(resp, 'New Participant')
 
     def test_only_untaken_secondarys_available(self):
@@ -523,11 +523,12 @@ class IntegrationTests(unittest.TestCase):
         account_id, _, _ = self._ids_from_url(url)
         consent_body = {}
         consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
-        print("======body")
-        print(type(consent_body))
+
         url = f'/accounts/{account_id}/check_duplicate_source'
         has_error, resp, _ = self.app.post(url, data=consent_body)
         print("====response")
+        print(resp)
+        print("======")
         print(str(resp.data))
         self.assertTrue(resp["source_duplicate"])
         return resp

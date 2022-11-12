@@ -39,6 +39,19 @@ def _uniqify(email):
     return "%f.%0.5f.%s" % (ts, r, email)
 
 
+def _get_consent_id_from_webpage(webpage, consent_type):
+    start_pos = webpage.rfind("consent_id")
+    end_pos = webpage.find(consent_type)
+    
+    consent_data = webpage[start_pos:end_pos]
+    
+    obj_match = re.search("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", consent_data)
+    if obj_match:
+        return obj_match.group()
+    
+    return None
+
+
 def _fake_jwt(email, verified, uniqify=False):
     if PRIVATE_API_AVAILABLE:
         # lie and say we're from authrocket
@@ -294,6 +307,9 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
         resp = self.app.post(url, data=ADULT_CONSENT)
 
         self.assertPageTitle(resp, 'Participant Survey')
@@ -371,6 +387,11 @@ class IntegrationTests(unittest.TestCase):
         print("=====")
         self.assertPageTitle(resp, 'Consent')
         print(str(ADULT_CONSENT))
+
+        self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        consent["consent_id"] = consent_id
         resp = self.app.post(url, data=consent)
         url = resp.headers['Location']
         return self.app.get(url), url
@@ -476,6 +497,11 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
+
         consent_data = ADULT_CONSENT
         resp = self.app.post(url, data=consent_data)
         print(resp)

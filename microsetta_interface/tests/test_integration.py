@@ -78,7 +78,9 @@ ADULT_CONSENT = {
                  "parent_1_name": None,
                  "parent_2_name": None,
                  "deceased_parent": 'false',
-                 "obtainer_name": None}
+                 "obtainer_name": None,
+                 "consent_type": "data",
+                 "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 
 # answer a quesion on each survey
 PRIMARY_SURVEY_SIMPLE = {"112": "1970"}
@@ -472,18 +474,14 @@ class IntegrationTests(unittest.TestCase):
     def test_new_source_data_consent(self):
         resp, url, user_jwt = self._new_to_create()
         account_id, _, _ = self._ids_from_url(url)
-        consent_type = "data"
-        consent_id = "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
         consent_data = ADULT_CONSENT
-        consent_data.update("consent_type", "adult_" + consent_type)
-        consent_data.update("consent_id", consent_id)
         resp = self.app.post(url, data=consent_data)
 
         consent_status = self._is_consent_required(
-            account_id, resp["source_id"], "adult_data")
+            account_id, resp["source_id"], "data")
 
         self.assertTrue(consent_status)
 
@@ -493,7 +491,8 @@ class IntegrationTests(unittest.TestCase):
         return resp
 
     def test_duplicate_source_name(self):
-        account_id = "ecabc635-3df8-49ee-ae19-db3db03c4500"
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
         consent_body = {}
         consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
         print("======body")
@@ -502,7 +501,6 @@ class IntegrationTests(unittest.TestCase):
         has_error, resp, _ = self.app.post(url, json=consent_body)
         print("====response")
         print(str(resp))
-        print(str(json.loads(resp)))
         self.assertTrue(resp["source_duplicate"])
         return resp
 

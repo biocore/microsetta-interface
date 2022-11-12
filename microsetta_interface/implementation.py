@@ -833,13 +833,13 @@ def post_create_human_source(*, account_id=None, body=None):
     # If the submitted consent form contains data consent
     if "data" in consent_type:
         consent_type = "data"
-        print("reached post consent! data found!")
+
         # check if source id is present in session
         # this is done to check if the source is providing
         # a re-consent document.
         if "source_id" in session:
             source_id = session['source_id']
-            print("source_id: " + source_id + " exists in session")
+
             # Etract source name from form to check if source actually exists
             # this is done because soure_id may belong to another source which
             # was accessed earier by the user
@@ -855,15 +855,14 @@ def post_create_human_source(*, account_id=None, body=None):
 
             if has_error:
                 return source_check_output
-            print("checked duplicate source")
+
             # If source already exist, only latest consent
             # needs to be signed. Sign the consent doc
             if source_check_output['source_duplicate']:
-                print("source already exists! signing data consent")
                 has_error, consent_output, _ = ApiRequest.post(
                     "/accounts/{0}/source/{1}/consent/{2}".format(
                         account_id, source_id, consent_type), json=body)
-                print("data consent result: " + str(consent_output))
+
                 if has_error:
                     return consent_output
 
@@ -872,11 +871,11 @@ def post_create_human_source(*, account_id=None, body=None):
             # If source not exist, create one
             else:
                 create_new_source = True
-                print("duplicate source does not exist!")
+
         # if source id does not exist in session
         else:
             create_new_source = True
-            print("source id does not exist in session")
+
         # If new source needs ot be created, create one
         if create_new_source:
             has_error, consent_output, _ = ApiRequest.post(
@@ -885,21 +884,18 @@ def post_create_human_source(*, account_id=None, body=None):
             if has_error:
                 return consent_output
 
-            print("created new source")
             new_source_id = consent_output["source_id"]
 
             # Sign consent
             has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/source/{1}/consent/{2}".format(
                     account_id, new_source_id, "data"), json=body)
-            print("signing consent")
+
             if has_error:
-                print("error in consent signing")
-                print(consent_output)
                 return consent_output
             else:
                 session["source_id"] = new_source_id
-                print("new source id: " + new_source_id)
+
             return _refresh_state_and_route_to_sink(account_id, new_source_id)
 
     else:

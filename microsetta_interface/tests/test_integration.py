@@ -313,7 +313,7 @@ class IntegrationTests(unittest.TestCase):
         ADULT_CONSENT["consent_id"] = consent_id
         resp = self.app.post(url, data=ADULT_CONSENT)
 
-        self.assertPageTitle(resp, 'Redirecting...', 302)
+        self.assertEqual(resp.status_code, 302)
         self.assertRedirect(resp, 'take_survey?survey_template_id=1')
 
         # let's complete the primary survey, and advance to the covid survey
@@ -467,7 +467,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
         self.assertPageTitle(resp, 'Consent')
-        self.assertPageContains(resp, 'New Participant')
+        self.assertPageContains(resp, 'Microsetta Consent')
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()

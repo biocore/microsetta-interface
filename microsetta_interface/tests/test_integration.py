@@ -355,8 +355,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.post(url, data=ADULT_CONSENT)
 
-        print(resp)
-        self.assertPageTitle(resp, 'Account Samples')
+        self.assertPageTitle(resp, 'Account Samples', 302)
         data = self._html_page(resp)
         self.assertIn('click on a barcode to provide collection information',
                       data)

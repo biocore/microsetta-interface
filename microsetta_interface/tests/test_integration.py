@@ -502,17 +502,8 @@ class IntegrationTests(unittest.TestCase):
 
         consent_data = ADULT_CONSENT
         resp = self.app.post(url, data=consent_data)
-        print(resp)
-        print(resp.data)
-        consent_status = self._is_consent_required(
-            account_id, resp["source_id"], "data")
-        print("484 line no=====")
-        print(consent_status)
-        self.assertTrue(consent_status)
+        self.assertEqual(302, resp.status_code)
 
-        source_id = resp["source_id"]
-        resp = self._sign_consent_document(
-            account_id, source_id, "data", consent_data)
         return resp
 
     def test_duplicate_source_name(self):

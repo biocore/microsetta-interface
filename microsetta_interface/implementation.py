@@ -738,7 +738,7 @@ def get_account(*, account_id=None):
     # going home will reset language
     session[LANG_KEY] = account["language"]
 
-    # if the user chooses to go back from source detail to 
+    # if the user chooses to go back from source detail to
     # account overview, source id must be cleared from the
     # session
     if "source_id" in session:
@@ -1085,7 +1085,7 @@ def render_consent_page(account_id, form_type):
     if has_error:
         return consent_output
 
-    # Setting the flag variable to ensure that 
+    # Setting the flag variable to ensure that
     # that duplicate source is not checked by jquery
     # as this form is used either for recosent or
     # biospecimen consent

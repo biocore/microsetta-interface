@@ -738,6 +738,9 @@ def get_account(*, account_id=None):
     # going home will reset language
     session[LANG_KEY] = account["language"]
 
+    # if the user chooses to go back from source detail to 
+    # account overview, source id must be cleared from the
+    # session
     if "source_id" in session:
         session.pop("source_id")
 
@@ -825,7 +828,7 @@ def get_consent_page(*, account_id=None):
         duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
-        reconsent = reconsent,
+        reconsent=reconsent,
         language_tag=session_locale())
 
 
@@ -853,6 +856,8 @@ def post_create_human_source(*, account_id=None, body=None):
             if has_error:
                 return consent_output
 
+            # remove source id fro m session once the consent is
+            # signed to avoid conflicts
             session.pop("source_id")
             return _refresh_state_and_route_to_sink(account_id, source_id)
 
@@ -1080,7 +1085,12 @@ def render_consent_page(account_id, form_type):
     if has_error:
         return consent_output
 
+    # Setting the flag variable to ensure that 
+    # that duplicate source is not checked by jquery
+    # as this form is used either for recosent or
+    # biospecimen consent
     reconsent = True
+
     return _render_with_defaults(
         'new_participant.jinja2',
         tl=consent_output,
@@ -1088,7 +1098,7 @@ def render_consent_page(account_id, form_type):
         duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
-        reconsent = reconsent,
+        reconsent=reconsent,
         language_tag=session_locale())
 
 

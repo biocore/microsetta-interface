@@ -138,8 +138,9 @@
             }
 
             var duplicate_source_check_msg = "{{ _('It looks like you are creating a new source that may be similar or the same as an existing source. If this is the same person as an existing source, please consider providing new samples or survey responses under that source') }}"
+            var reconsent = document.getElementById("reconsent").innerHTML;
 
-            if(valid){
+            if(valid && reconsent == "False"){
              var name = $('#'+$form_id+'_participant_name').val();
                     $.ajax({
                         url: '{{ duplicate_source_check }}',
@@ -165,7 +166,10 @@
                             console.log(error);
                         }
                     });
-             } else {
+             } else if(valid && reconsent == "True"){
+                $("#"+$form_id)[0].submit();
+             } 
+             else {
               alert("fill all fields")
              }
          });
@@ -200,7 +204,7 @@
     The only Spanish-speaking users who should be using this system are THDMI Spain participants, which is only open to adults.
     As such, a conscious decision was made to not use the resources to translate and implement the under-18 consent/assent documents.
 #}
-
+<p id="reconsent" hidden>{{ reconsent }}</p>
 <div id="age-ranges-div" style='text-align: left;padding: 10px'>
     <h3>{{ tl['PARTICIPANT_FORM']['SEL_AGE_RANGE'] |e}}</h3>
     {% if language_tag == "en_US" %}

@@ -738,6 +738,9 @@ def get_account(*, account_id=None):
     # going home will reset language
     session[LANG_KEY] = account["language"]
 
+    if "source_id" in session:
+        session.pop("source_id")
+
     sources = [translate_source(s) for s in sources]
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
@@ -813,6 +816,7 @@ def get_consent_page(*, account_id=None):
         return consent_output
 
     form_type = "source"
+    reconsent = False
 
     return _render_with_defaults(
         'new_participant.jinja2',
@@ -821,13 +825,13 @@ def get_consent_page(*, account_id=None):
         duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
+        reconsent = reconsent,
         language_tag=session_locale())
 
 
 @prerequisite([ACCT_PREREQS_MET])
 def post_create_human_source(*, account_id=None, body=None):
 
-    create_new_source = False
     consent_type = body.get("consent_type")
 
     # If the submitted consent form contains data consent
@@ -840,44 +844,22 @@ def post_create_human_source(*, account_id=None, body=None):
         if "source_id" in session:
             source_id = session['source_id']
 
-            # Etract source name from form to check if source actually exists
-            # this is done because soure_id may belong to another source which
-            # was accessed earier by the user
-            dup_check_body = {}
-            dup_check_body["participant_name"] = body.get("participant_name")
-
-            # check if source exits or not! If source exist,
-            # this is surely a reconsent
-            # else, new source is being created
-            has_error, source_check_output, _ = ApiRequest.post(
-                "/accounts/{0}/check_duplicate_source".format(
-                    account_id), json=dup_check_body)
-
-            if has_error:
-                return source_check_output
-
             # If source already exist, only latest consent
             # needs to be signed. Sign the consent doc
-            if source_check_output['source_duplicate']:
-                has_error, consent_output, _ = ApiRequest.post(
-                    "/accounts/{0}/source/{1}/consent/{2}".format(
-                        account_id, source_id, consent_type), json=body)
+            has_error, consent_output, _ = ApiRequest.post(
+                "/accounts/{0}/source/{1}/consent/{2}".format(
+                    account_id, source_id, consent_type), json=body)
 
-                if has_error:
-                    return consent_output
+            if has_error:
+                return consent_output
 
-                return _refresh_state_and_route_to_sink(account_id, source_id)
+            session.pop("source_id")
+            return _refresh_state_and_route_to_sink(account_id, source_id)
 
-            # If source not exist, create one
-            else:
-                create_new_source = True
-
-        # if source id does not exist in session
+        # If source not exist, create one
         else:
-            create_new_source = True
 
-        # If new source needs ot be created, create one
-        if create_new_source:
+            # If new source needs to be created, create one
             has_error, consent_output, _ = ApiRequest.post(
                 "/accounts/{0}/consent".format(account_id), json=body)
 
@@ -893,8 +875,6 @@ def post_create_human_source(*, account_id=None, body=None):
 
             if has_error:
                 return consent_output
-            else:
-                session["source_id"] = new_source_id
 
             return _refresh_state_and_route_to_sink(account_id, new_source_id)
 
@@ -910,6 +890,7 @@ def post_create_human_source(*, account_id=None, body=None):
         if has_error:
             return consent_output
 
+        session.pop("source_id")
         return _refresh_state_and_route_to_sink(account_id, source_id)
 
 
@@ -1099,6 +1080,7 @@ def render_consent_page(account_id, form_type):
     if has_error:
         return consent_output
 
+    reconsent = True
     return _render_with_defaults(
         'new_participant.jinja2',
         tl=consent_output,
@@ -1106,6 +1088,7 @@ def render_consent_page(account_id, form_type):
         duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
+        reconsent = reconsent,
         language_tag=session_locale())
 
 
@@ -1712,12 +1695,13 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
     # route user to biospecimen consent
     has_error, consent_required, _ = ApiRequest.get(
         '/accounts/%s/source/%s/consent/%s' %
-        (account_id, source_id, 'Biospecimen'))
+        (account_id, source_id, 'biospecimen'))
 
     if has_error:
         return consent_required
 
     if consent_required["result"]:
+        session["source_id"] = source_id
         return render_consent_page(account_id, "Biospecimen")
 
     return _refresh_state_and_route_to_sink(account_id, source_id)

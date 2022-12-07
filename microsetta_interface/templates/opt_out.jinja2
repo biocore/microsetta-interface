@@ -29,15 +29,15 @@
                 </center>
             </div>
         {% else %}
-        <form id="opt_out_form" name="opt_out_form" method="post">
-            <input type="hidden" name="uid" value="{{ uid |e }}" />
-            <div class="card-body">
-                <center>
-                    {{ _('We\'re sorry you are no longer interested in participating in The Human Diets & Microbiome Initiative (THDMI). Please click the "opt out" button below to confirm that you do not wish to take part.') }}<br /><br />
-                    <input type="submit" class="btn btn-primary button_continue" id="button_submit" value="{{ _('Opt Out') }}">
-                </center>
-            </div>
-        </form>
+            <form id="opt_out_form" name="opt_out_form" method="post">
+                <input type="hidden" name="uid" value="{{ uid |e }}" />
+                <div class="card-body">
+                    <center>
+                        {{ _('We\'re sorry you are no longer interested in participating in The Human Diets & Microbiome Initiative (THDMI). Please click the "opt out" button below to confirm that you do not wish to take part.') }}<br /><br />
+                        <input type="submit" class="btn btn-primary button_continue" id="button_submit" value="{{ _('Opt Out') }}">
+                    </center>
+                </div>
+            </form>
         {% endif %}
     </div>
 </center>

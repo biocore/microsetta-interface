@@ -2240,15 +2240,14 @@ msgstr "登録解除"
 msgid ""
 "Sorry, we could not complete the request. Please email <a href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a> with the email address you signed up with so we "
 "can remove you from our list."
-msgstr "エラーメッセージ：申し訳ありませんが、登録を解除することが出来ませんでした。登録を解除するため、登録したEメールアドレスからmicrosetta@ucsd.eduまでご連絡下さい。"
+msgstr "エラーメッセージ：申し訳ありませんが、登録解除が出来ませんでした。恐れ入りますが件名に「登録解除」と記載の上、登録したEメールアドレスから<a href=\"mailto:microsetta@ucsd.edu?subject=opt-out request\">microsetta@ucsd.edu</a>までご連絡下さい。こちらにて解除いたします。"
 
 #: templates/opt_out.jinja2:36
 msgid ""
 "We're sorry you are no longer interested in participating in The Human Diets & Microbiome Initiative (THDMI). Please click the \"opt out\" button below to confirm that "
 "you do not wish to take part."
 msgstr ""
-"今回はマイクロゼッタイニシアティブ　ジャパンプロジェクトに(THDMI)にご参加頂けず、大変残念です。THDMI-ジャパン プロジェクへの研究参加を取りやめたい場合は、以下の“登録解"
-"除”をクリックしてください。"
+"今回はTHDMI-ジャパン プロジェクトにご参加頂けず、大変残念です。研究参加を取りやめたい場合は、以下の“登録解除”をクリックしてください。"
 
 #: templates/opt_out_confirm.jinja2:27
 msgid "Thank you for letting us know. You will no longer be part of this research study."

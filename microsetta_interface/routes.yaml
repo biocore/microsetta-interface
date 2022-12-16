@@ -124,37 +124,6 @@ paths:
               schema:
                 type: string
 
-  '/opt_out':
-    get:
-      operationId: microsetta_interface.implementation.get_opt_out
-      parameters:
-        - in: query
-          name: uid
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Page allowing user to opt out
-          content:
-            text/html:
-              schema:
-                type: string
-    post:
-      operationId: microsetta_interface.implementation.post_opt_out
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200':
-          description: Page confirming user has opted out
-          content:
-            text/html:
-              schema:
-                type: string
-
   '/update_address':
     get:
       operationId: microsetta_interface.implementation.get_update_address
@@ -380,27 +349,6 @@ paths:
             text/html:
               schema:
                 type: string
-
-  '/accounts/{account_id}/check_duplicate_source_name_email':
-    post:
-      operationId: microsetta_interface.implementation.check_duplicate_source_name_email
-      tags:
-        - Source
-      parameters:
-        - $ref: '#/components/parameters/account_id'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200':
-          description: List of sources page
-          content:
-            application/json:
-              schema:
-                type: object
 
   '/accounts/{account_id}/sources/{source_id}':
     get:
@@ -828,11 +776,6 @@ paths:
           schema:
             type: string
         - in: query
-          name: address_3
-          description: Third line of address to verify
-          schema:
-            type: string
-        - in: query
           name: city
           description: City of address to verify
           schema:
@@ -1034,11 +977,6 @@ paths:
         - in: query
           name: address_2
           description: Second line of address to verify
-          schema:
-            type: string
-        - in: query
-          name: address_3
-          description: Third line of address to verify
           schema:
             type: string
         - in: query

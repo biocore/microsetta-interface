@@ -7,222 +7,232 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-01 20:54-0700\n"
-"PO-Revision-Date: 2022-09-01 21:13-0700\n"
+"POT-Creation-Date: 2022-03-22 17:45-0700\n"
+"PO-Revision-Date: 2021-06-03 14:30-0700\n"
 "Last-Translator: Edgar Diaz <ediaz@ucsd.edu>\n"
 "Language-Team: es_MX <LL@li.org>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "Generated-By: Babel 2.9.1\n"
-"X-Generator: Poedit 3.1.1\n"
 
-#: implementation.py:476
-msgid "Unable to validate the kit name; please reload the page."
-msgstr ""
-"No se ha podido validar el nombre del kit; por favor recargue la página web."
+#: implementation.py:103
+#, fuzzy
+msgid "The general questionnaire for Microsetta"
+msgstr "El cuestionario general para Microsetta"
 
-#: implementation.py:495
-msgid ""
-"The provided kit id is not valid or has already been used; please re-check your "
-"entry."
-msgstr ""
-"El ID del kit proporcionado no es válido o ya ha sido utilizado; por favor "
-"vuelva a comprobar su información."
-
-#: implementation.py:1232 model_i18n.py:56
-msgid "Blood (skin prick)"
-msgstr "Sangre (pinchazo en la piel)"
-
-#: implementation.py:1233 model_i18n.py:57
-msgid "Saliva"
-msgstr "Saliva"
-
-#: implementation.py:1234 model_i18n.py:69
-msgid "Stool"
-msgstr "Heces"
-
-#: implementation.py:1235 model_i18n.py:64
-msgid "Mouth"
-msgstr "Boca"
-
-#: implementation.py:1236 model_i18n.py:65
-msgid "Nares"
-msgstr "Fosas nasales"
-
-#: implementation.py:1237 model_i18n.py:66
-msgid "Nasal mucus"
-msgstr "Moco nasal"
-
-#: implementation.py:1238 model_i18n.py:67
-msgid "Right hand"
-msgstr "Mano derecha"
-
-#: implementation.py:1239 model_i18n.py:62
-msgid "Left hand"
-msgstr "Mano izquierda"
-
-#: implementation.py:1240 model_i18n.py:59
-msgid "Forehead"
-msgstr "Frente"
-
-#: implementation.py:1241 model_i18n.py:71
-msgid "Torso"
-msgstr "Torso"
-
-#: implementation.py:1242 model_i18n.py:68
-msgid "Right leg"
-msgstr "Pierna derecha"
-
-#: implementation.py:1243 model_i18n.py:63
-msgid "Left leg"
-msgstr "Pierna izquierda"
-
-#: implementation.py:1244 model_i18n.py:72
-msgid "Vaginal mucus"
-msgstr "Moco vaginal"
-
-#: implementation.py:1245 model_i18n.py:70
-msgid "Tears"
-msgstr "Lágrimas"
-
-#: implementation.py:1246 model_i18n.py:58
-msgid "Ear wax"
-msgstr "Cera de oído"
-
-#: implementation.py:1247 model_i18n.py:61
-msgid "Hair"
-msgstr "Cabello"
-
-#: implementation.py:1248 model_i18n.py:60
-msgid "Fur"
-msgstr "Piel"
-
-#: implementation.py:1547
-msgid "Unable to validate Activation Code at this time"
-msgstr "No se ha podido validar el código de activación en este momento"
-
-#: implementation.py:1837
-msgid "Address 1, Postal Code, and Country are required"
-msgstr "Dirección 1, Código Postal y País son requeridos"
-
-#: implementation.py:2173 implementation.py:2214
-msgid "Sorry, there was a problem saving your information."
-msgstr "Lo sentimos, hubo un problema al guardar su información."
-
-#: model_i18n.py:21
-msgid "sample_site"
-msgstr "sitio_muestra"
-
-#: model_i18n.py:31
-msgid "source_type"
-msgstr "tipo_muestra"
-
-#: model_i18n.py:38
-msgid "survey_template_title"
-msgstr "cuestionario_plantilla_título"
-
-#: model_i18n.py:40
-msgid "description"
-msgstr "descripción"
-
-#: model_i18n.py:77
-msgid "human"
-msgstr "humana"
-
-#: model_i18n.py:78 templates/account_overview.jinja2:139
-msgid "animal"
-msgstr "animal"
-
-#: model_i18n.py:79
-msgid "environmental"
-msgstr "ambiental"
-
-#: model_i18n.py:84
-msgid "Primary Questionnaire"
-msgstr "Cuestionario Principal"
-
-#: model_i18n.py:85
-msgid "Pet Information"
-msgstr "Información de la mascota"
-
-#: model_i18n.py:86
-msgid "Fermented Foods Questionnaire"
-msgstr "Cuestionario de Alimentos Fermentados"
-
-#: model_i18n.py:87
-msgid "Surfer Questionnaire"
-msgstr "Cuestionario del Surfista"
-
-#: model_i18n.py:88
-msgid "Personal Microbiome Information"
-msgstr "Información Personal del Microbioma"
-
-#: model_i18n.py:89
-msgid "COVID-19 Questionnaire"
-msgstr "Cuestionario COVID-19"
-
-#: model_i18n.py:90
-msgid "Vioscreen Food Frequency Questionnaire"
-msgstr "Cuestionario de Frecuencia de Consumo de Alimentos Vioscreen"
-
-#: model_i18n.py:91
-msgid "Polyphenol Food Frequency Questionnaire"
-msgstr "Cuestionario de Polifenoles Dietéticos"
-
-#: model_i18n.py:92
-msgid "Cooking Oils and Oxalate-rich Foods"
-msgstr "Aceites de Cocina y Alimentos ricos en Oxalatos"
-
-#: model_i18n.py:96
+#: implementation.py:104
+#, fuzzy
 msgid "A fermented foods specific questionnaire"
-msgstr "Cuestionario especifico sobre alimentos fermentados"
+msgstr "Cuestionario sobre alimentos fermentados"
 
-#: model_i18n.py:97
+#: implementation.py:105
+#, fuzzy
 msgid "Questions on surfing behavior"
-msgstr "Preguntas sobre comportamiento del surfista"
+msgstr "Preguntas sobre el comportamiento de navegación"
 
-#: model_i18n.py:98
+#: implementation.py:106
+#, fuzzy
 msgid "Questions about your interest in the microbiome"
 msgstr "Preguntas sobre su interés en el microbioma"
 
-#: model_i18n.py:99
-msgid "Questions related to cooking oils and oxalate-rich foods"
-msgstr ""
-"Preguntas relacionadas con los aceites de cocina y los alimentos ricos en "
-"oxalatos"
+#: implementation.py:107
+#, fuzzy
+msgid "Questions specific to COVID19"
+msgstr "Preguntas específicas sobre COVID 19"
 
-#: model_i18n.py:100
+#: implementation.py:108
+#, fuzzy
+msgid "Our standard food frequency questionnaire"
+msgstr "Cuestionario de frecuencia alimentaria de Vioscreen"
+
+#: implementation.py:109
+#, fuzzy
 msgid ""
-"Polyphenols are chemical compounds naturally found in plants that have been "
-"shown to provide many beneficial properties. They are antioxidants, fighting "
-"aging and protecting your heart, but they may also provide benefits by "
-"interacting with the microbes in your gut. This survey will allow us to better "
-"quantify your consumption of polyphenols through your diet."
+"US Participants: By sharing photos of the food you eat for <strong>seven "
+"consecutive days</strong>, you will help us learn more about the microbes in"
+" the gut. <br /><br /><strong>Availability is limited</strong>. If space for"
+" participation is available, a button will be visible alongside a unique "
+"code on the app website. The app will be available for <strong>eight days "
+"</strong> once you enroll.<br /><a "
+"href=\"https://microsetta.ucsd.edu/myfoodrepo/\" target=\"_blank\">Learn "
+"more</a>."
 msgstr ""
-"Los polifenoles son compuestos químicos que se encuentran naturalmente en las "
-"plantas y se ha demostrado que brindan muchas propiedades beneficiosas. Son "
-"antioxidantes, combaten el envejecimiento y protegen su corazón, pero también "
-"pueden brindar beneficios al interactuar con los microbios en su intestino. "
-"Esta encuesta nos permitirá cuantificar mejor su consumo de polifenoles a "
-"través de su dieta."
+"Participantes de EE. UU.: al compartir fotos de los alimentos que come "
+"durante <strong>siete días consecutivos</strong>, nos ayudará a aprender más"
+" sobre los microbios en el intestino. <br /><br /><strong>La disponibilidad "
+"es limitada</strong>. Si hay espacio para participar, se verá un botón junto"
+" con un código único en el sitio web de la aplicación. La aplicación estará "
+"disponible durante <strong>ocho días</strong> una vez que se inscriba.<br "
+"/><a href=\"https://microsetta.ucsd.edu/myfoodrepo/\" target=\"_blank\">Más "
+"información< /a>."
 
-#: model_i18n.py:106
+#: implementation.py:455
+msgid "Unable to validate the kit name; please reload the page."
+msgstr ""
+"No se pude validar el nombre del kit; por favor, vuelva a cargar la página."
+
+#: implementation.py:474
 msgid ""
-"<strong>Only for participants in Spain:</strong><br />The Food Frequency "
-"Questionnaire (FFQ) will ask you about your usual frequency of consumption of a "
-"list of foods and beverages. The questionnaire consists of 28 questions, and "
-"will allow us to find out what your usual diet is like."
+"The provided kit id is not valid or has already been used; please re-check "
+"your entry."
 msgstr ""
-"<strong>Solo para participantes en España</strong><br />El cuestionario de "
-"frecuencia de alimentos (FFQ por sus siglas en Inglés) le preguntará sobre su "
-"frecuencia habitual de consumo de una lista de alimentos y bebidas. El "
-"cuestionario consta de 28 preguntas, y nos permitirá conocer cómo es su dieta "
-"habitual."
+"El id del kit proporcionado no es válido o ya se ha utilizado; por favor "
+"comprobar su entrada."
 
-#: model_i18n.py:113
+#: implementation.py:1170 model_i18n.py:54
+msgid "Blood (skin prick)"
+msgstr "Sangre (pinchazo cutáneo)"
+
+#: implementation.py:1171 model_i18n.py:55
+msgid "Saliva"
+msgstr "Saliva"
+
+#: implementation.py:1172 model_i18n.py:67
+msgid "Stool"
+msgstr "Heces"
+
+#: implementation.py:1173 model_i18n.py:62
+msgid "Mouth"
+msgstr "Boca"
+
+#: implementation.py:1174 model_i18n.py:63
+msgid "Nares"
+msgstr "Fosas nasales"
+
+#: implementation.py:1175 model_i18n.py:64
+msgid "Nasal mucus"
+msgstr "Moco nasal"
+
+#: implementation.py:1176 model_i18n.py:65
+msgid "Right hand"
+msgstr "Mano derecha"
+
+#: implementation.py:1177 model_i18n.py:60
+msgid "Left hand"
+msgstr "Mano izquierda"
+
+#: implementation.py:1178 model_i18n.py:57
+msgid "Forehead"
+msgstr "Frente"
+
+#: implementation.py:1179 model_i18n.py:69
+msgid "Torso"
+msgstr "Torso"
+
+#: implementation.py:1180 model_i18n.py:66
+msgid "Right leg"
+msgstr "Pierna derecha"
+
+#: implementation.py:1181 model_i18n.py:61
+msgid "Left leg"
+msgstr "Pierna izquierda"
+
+#: implementation.py:1182 model_i18n.py:70
+msgid "Vaginal mucus"
+msgstr "Moco vaginal"
+
+#: implementation.py:1183 model_i18n.py:68
+msgid "Tears"
+msgstr "Lágrimas"
+
+#: implementation.py:1184 model_i18n.py:56
+msgid "Ear wax"
+msgstr "Cera del oído"
+
+#: implementation.py:1185 model_i18n.py:59
+msgid "Hair"
+msgstr "Cabello"
+
+#: implementation.py:1186 model_i18n.py:58
+msgid "Fur"
+msgstr "Pelo (animal)"
+
+#: implementation.py:1485
+msgid "Unable to validate Activation Code at this time"
+msgstr "No se puede validar el código de activación en este momento"
+
+#: implementation.py:1765
+msgid "Address 1, Postal Code, and Country are required"
+msgstr "Se requiere dirección 1, código postal y país"
+
+#: implementation.py:2094 implementation.py:2132
+#, fuzzy
+msgid "Sorry, there was a problem saving your information."
+msgstr "Lo sentimos, hubo un problema al guardar su información."
+
+#: model_i18n.py:19
+#, fuzzy
+msgid "sample_site"
+msgstr "Tipo de ejemplo"
+
+#: model_i18n.py:29
+#, fuzzy
+msgid "source_type"
+msgstr "Tipo de fuente"
+
+#: model_i18n.py:36
+#, fuzzy
+msgid "survey_template_title"
+msgstr "survey_template_title"
+
+#: model_i18n.py:38
+#, fuzzy
+msgid "description"
+msgstr "descripción"
+
+#: model_i18n.py:75
+#, fuzzy
+msgid "human"
+msgstr "humano"
+
+#: model_i18n.py:76 templates/account_overview.jinja2:139
+msgid "animal"
+msgstr "animal"
+
+#: model_i18n.py:77
+#, fuzzy
+msgid "environmental"
+msgstr "Fuente ambiental"
+
+#: model_i18n.py:82
+#, fuzzy
+msgid "Primary Questionnaire"
+msgstr "Cuestionario Principal"
+
+#: model_i18n.py:83
+#, fuzzy
+msgid "Pet Information"
+msgstr "Información de muestra"
+
+#: model_i18n.py:84
+#, fuzzy
+msgid "Fermented Foods Questionnaire"
+msgstr "Cuestionario sobre alimentos fermentados"
+
+#: model_i18n.py:85
+#, fuzzy
+msgid "Surfer Questionnaire"
+msgstr "Cuestionario de surf"
+
+#: model_i18n.py:86
+#, fuzzy
+msgid "Personal Microbiome Information"
+msgstr "Información personal del microbioma"
+
+#: model_i18n.py:87
+#, fuzzy
+msgid "COVID-19 Questionnaire"
+msgstr "Cuestionario COVID-19"
+
+#: model_i18n.py:88
+#, fuzzy
+msgid "Vioscreen Food Frequency Questionnaire"
+msgstr "Cuestionario de frecuencia alimentaria de Vioscreen"
+
+#: model_i18n.py:91
 msgid "en_us"
 msgstr "es_mx"
 
@@ -230,854 +240,1046 @@ msgstr "es_mx"
 #: templates/account_details.jinja2:131 templates/account_overview.jinja2:47
 #: templates/sitebase.jinja2:80 templates/sitebase.jinja2:82
 msgid "Account Details"
-msgstr "Información de la cuenta"
+msgstr "Detalles de la cuenta"
 
 #: templates/account_details.jinja2:74
-#: templates/admin_address_verification.jinja2:41
-#: templates/admin_address_verification.jinja2:93
-#: templates/admin_interested_user_edit.jinja2:138
-#: templates/submit_interest.jinja2:535 templates/update_address.jinja2:221
+#: templates/admin_address_verification.jinja2:37
+#: templates/admin_address_verification.jinja2:85
+#: templates/admin_interested_user_edit.jinja2:45
+#: templates/submit_interest.jinja2:299 templates/update_address.jinja2:192
 msgid "City"
 msgstr "Ciudad"
 
 #: templates/account_details.jinja2:75
-#: templates/admin_address_verification.jinja2:45
-#: templates/admin_address_verification.jinja2:97
-#: templates/admin_interested_user_edit.jinja2:142
-#: templates/submit_interest.jinja2:539 templates/update_address.jinja2:225
+#: templates/admin_address_verification.jinja2:41
+#: templates/admin_address_verification.jinja2:89
+#: templates/admin_interested_user_edit.jinja2:49
+#: templates/submit_interest.jinja2:303 templates/update_address.jinja2:196
 msgid "State"
-msgstr "Estado"
+msgstr "Estado/Departamento"
 
 #: templates/account_details.jinja2:76
 msgid "Zip Code"
-msgstr "Código Postal"
+msgstr "Código postal"
 
 #: templates/account_details.jinja2:79
+#, fuzzy
 msgid "City/Town"
 msgstr "Ciudad/Pueblo"
 
 #: templates/account_details.jinja2:80
+#, fuzzy
 msgid "County/State"
 msgstr "Condado/Estado"
 
 #: templates/account_details.jinja2:81
+#, fuzzy
 msgid "Postcode"
-msgstr "Código Postal"
+msgstr "Código postal"
 
 #: templates/account_details.jinja2:125 templates/account_overview.jinja2:2
 #: templates/account_overview.jinja2:44 templates/new_results_page.jinja2:1395
-#: templates/sample.jinja2:148 templates/sample_results.jinja2:127
+#: templates/sample.jinja2:132 templates/sample_results.jinja2:127
 #: templates/source.jinja2:146
 msgid "Account"
 msgstr "Cuenta"
 
-#: templates/account_details.jinja2:135 templates/admin_activation_codes.jinja2:7
+#: templates/account_details.jinja2:135
+#: templates/admin_activation_codes.jinja2:7
 #: templates/admin_activation_codes.jinja2:21
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
-#: templates/admin_interested_user_edit.jinja2:114
+#: templates/admin_interested_user_edit.jinja2:29
 #: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:128
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr "Email"
 
 #: templates/account_details.jinja2:139
 msgid "Prefer to use a different email account?  You can change it "
 msgstr ""
-"¿Prefiere usar una cuenta de correo electrónico diferente? Usted puede "
-"cambiarla "
+"¿Prefieres usar una cuenta de correo electrónico diferente? Tú puedes "
+"cambiarlo "
 
 #: templates/account_details.jinja2:141
+#, fuzzy
 msgid "here"
 msgstr "aquí"
 
 #: templates/account_details.jinja2:147
-#: templates/admin_interested_user_edit.jinja2:106
-#: templates/admin_interested_users.jinja2:15 templates/submit_interest.jinja2:305
+#: templates/admin_interested_user_edit.jinja2:21
+#: templates/admin_interested_users.jinja2:15
+#: templates/submit_interest.jinja2:267
 msgid "First Name"
 msgstr "Primer nombre"
 
 #: templates/account_details.jinja2:151
-#: templates/admin_interested_user_edit.jinja2:110
-#: templates/admin_interested_users.jinja2:18 templates/submit_interest.jinja2:309
+#: templates/admin_interested_user_edit.jinja2:25
+#: templates/admin_interested_users.jinja2:18
+#: templates/submit_interest.jinja2:271
 msgid "Last Name"
 msgstr "Apellido"
 
 #: templates/account_details.jinja2:155
-#: templates/admin_address_verification.jinja2:53
-#: templates/admin_address_verification.jinja2:105
-#: templates/admin_interested_user_edit.jinja2:164
-#: templates/submit_interest.jinja2:321 templates/update_address.jinja2:246
+#: templates/admin_address_verification.jinja2:49
+#: templates/admin_address_verification.jinja2:97
+#: templates/admin_interested_user_edit.jinja2:57
+#: templates/submit_interest.jinja2:283 templates/update_address.jinja2:206
 msgid "Country"
 msgstr "País"
 
-#: templates/account_details.jinja2:158 templates/admin_campaign_edit.jinja2:96
-#: templates/submit_interest.jinja2:324
+#: templates/account_details.jinja2:158
 msgid "United States"
 msgstr "Estados Unidos"
 
-#: templates/account_details.jinja2:159 templates/admin_campaign_edit.jinja2:97
-#: templates/submit_interest.jinja2:325
+#: templates/account_details.jinja2:159
 msgid "United Kingdom"
 msgstr "Reino Unido"
 
-#: templates/account_details.jinja2:160 templates/admin_campaign_edit.jinja2:98
-#: templates/submit_interest.jinja2:326
+#: templates/account_details.jinja2:160
 msgid "Mexico"
 msgstr "México"
 
-#: templates/account_details.jinja2:161 templates/admin_campaign_edit.jinja2:99
-#: templates/submit_interest.jinja2:327
-msgid "Spain"
-msgstr "España"
-
-#: templates/account_details.jinja2:162 templates/submit_interest.jinja2:328
+#: templates/account_details.jinja2:161
+#, fuzzy
 msgid "Afghanistan"
 msgstr "Afganistán"
 
-#: templates/account_details.jinja2:163 templates/submit_interest.jinja2:329
+#: templates/account_details.jinja2:162
+#, fuzzy
 msgid "Albania"
-msgstr "Albania"
+msgstr ""
 
-#: templates/account_details.jinja2:164 templates/submit_interest.jinja2:330
+#: templates/account_details.jinja2:163
+#, fuzzy
 msgid "Algeria"
-msgstr "Argelia"
+msgstr ""
 
-#: templates/account_details.jinja2:165 templates/submit_interest.jinja2:331
+#: templates/account_details.jinja2:164
+#, fuzzy
 msgid "Andorra"
 msgstr "Andorra"
 
-#: templates/account_details.jinja2:166 templates/submit_interest.jinja2:332
+#: templates/account_details.jinja2:165
+#, fuzzy
 msgid "Angola"
-msgstr "Angola"
+msgstr ""
 
-#: templates/account_details.jinja2:167 templates/submit_interest.jinja2:333
+#: templates/account_details.jinja2:166
+#, fuzzy
 msgid "Antarctica"
-msgstr "Antártica"
+msgstr "Antártida"
 
-#: templates/account_details.jinja2:168 templates/submit_interest.jinja2:334
+#: templates/account_details.jinja2:167
+#, fuzzy
 msgid "Antigua and Barbuda"
 msgstr "Antigua y Barbuda"
 
-#: templates/account_details.jinja2:169 templates/submit_interest.jinja2:335
+#: templates/account_details.jinja2:168
+#, fuzzy
 msgid "Argentina"
-msgstr "Argentina"
+msgstr ""
 
-#: templates/account_details.jinja2:170 templates/submit_interest.jinja2:336
+#: templates/account_details.jinja2:169
+#, fuzzy
 msgid "Armenia"
-msgstr "Armenia"
+msgstr ""
 
-#: templates/account_details.jinja2:171 templates/submit_interest.jinja2:337
+#: templates/account_details.jinja2:170
+#, fuzzy
 msgid "Australia"
 msgstr "Australia"
 
-#: templates/account_details.jinja2:172 templates/submit_interest.jinja2:338
+#: templates/account_details.jinja2:171
+#, fuzzy
 msgid "Austria"
 msgstr "Austria"
 
-#: templates/account_details.jinja2:173 templates/submit_interest.jinja2:339
+#: templates/account_details.jinja2:172
+#, fuzzy
 msgid "Azerbaijan"
 msgstr "Azerbaiyán"
 
-#: templates/account_details.jinja2:174 templates/submit_interest.jinja2:340
+#: templates/account_details.jinja2:173
+#, fuzzy
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: templates/account_details.jinja2:175 templates/submit_interest.jinja2:341
+#: templates/account_details.jinja2:174
+#, fuzzy
 msgid "Bahrain"
-msgstr "Baréin"
+msgstr ""
 
-#: templates/account_details.jinja2:176 templates/submit_interest.jinja2:342
+#: templates/account_details.jinja2:175
+#, fuzzy
 msgid "Bangladesh"
-msgstr "Bangladesh"
+msgstr ""
 
-#: templates/account_details.jinja2:177 templates/submit_interest.jinja2:343
+#: templates/account_details.jinja2:176
+#, fuzzy
 msgid "Barbados"
-msgstr "Barbados"
+msgstr ""
 
-#: templates/account_details.jinja2:178 templates/submit_interest.jinja2:344
+#: templates/account_details.jinja2:177
+#, fuzzy
 msgid "Belarus"
-msgstr "Bielorrusia"
+msgstr ""
 
-#: templates/account_details.jinja2:179 templates/submit_interest.jinja2:345
+#: templates/account_details.jinja2:178
+#, fuzzy
 msgid "Belgium"
-msgstr "Bélgica"
+msgstr ""
 
-#: templates/account_details.jinja2:180 templates/submit_interest.jinja2:346
+#: templates/account_details.jinja2:179
+#, fuzzy
 msgid "Belize"
-msgstr "Belice"
+msgstr ""
 
-#: templates/account_details.jinja2:181 templates/submit_interest.jinja2:347
+#: templates/account_details.jinja2:180
+#, fuzzy
 msgid "Benin"
-msgstr "Benín"
+msgstr ""
 
-#: templates/account_details.jinja2:182 templates/submit_interest.jinja2:348
+#: templates/account_details.jinja2:181
+#, fuzzy
 msgid "Bermuda"
-msgstr "Bermuda"
+msgstr ""
 
-#: templates/account_details.jinja2:183 templates/submit_interest.jinja2:349
+#: templates/account_details.jinja2:182
+#, fuzzy
 msgid "Bhutan"
-msgstr "Bután"
+msgstr ""
 
-#: templates/account_details.jinja2:184 templates/submit_interest.jinja2:350
+#: templates/account_details.jinja2:183
+#, fuzzy
 msgid "Bolivia"
-msgstr "Bolivia"
+msgstr ""
 
-#: templates/account_details.jinja2:185 templates/submit_interest.jinja2:351
+#: templates/account_details.jinja2:184
+#, fuzzy
 msgid "Bosnia and Herzegovina"
 msgstr "Bosnia y Herzegovina"
 
-#: templates/account_details.jinja2:186 templates/submit_interest.jinja2:352
+#: templates/account_details.jinja2:185
+#, fuzzy
 msgid "Botswana"
-msgstr "Botsuana"
+msgstr ""
 
-#: templates/account_details.jinja2:187 templates/submit_interest.jinja2:353
+#: templates/account_details.jinja2:186
+#, fuzzy
 msgid "Brazil"
-msgstr "Brasil"
+msgstr ""
 
-#: templates/account_details.jinja2:188 templates/submit_interest.jinja2:354
+#: templates/account_details.jinja2:187
+#, fuzzy
 msgid "Brunei"
-msgstr "Brunéi"
+msgstr ""
 
-#: templates/account_details.jinja2:189 templates/submit_interest.jinja2:355
+#: templates/account_details.jinja2:188
+#, fuzzy
 msgid "Bulgaria"
 msgstr "Bulgaria"
 
-#: templates/account_details.jinja2:190 templates/submit_interest.jinja2:356
+#: templates/account_details.jinja2:189
+#, fuzzy
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: templates/account_details.jinja2:191 templates/submit_interest.jinja2:357
+#: templates/account_details.jinja2:190
+#, fuzzy
 msgid "Burma"
-msgstr "Birmania"
+msgstr ""
 
-#: templates/account_details.jinja2:192 templates/submit_interest.jinja2:358
+#: templates/account_details.jinja2:191
+#, fuzzy
 msgid "Burundi"
 msgstr "Burundi"
 
-#: templates/account_details.jinja2:193 templates/submit_interest.jinja2:359
+#: templates/account_details.jinja2:192
+#, fuzzy
 msgid "Cambodia"
-msgstr "Camboya"
+msgstr ""
 
-#: templates/account_details.jinja2:194 templates/submit_interest.jinja2:360
+#: templates/account_details.jinja2:193
+#, fuzzy
 msgid "Cameroon"
-msgstr "Camerún"
+msgstr ""
 
-#: templates/account_details.jinja2:195 templates/submit_interest.jinja2:361
+#: templates/account_details.jinja2:194
+#, fuzzy
 msgid "Canada"
-msgstr "Canada"
+msgstr "Canadá"
 
-#: templates/account_details.jinja2:196 templates/submit_interest.jinja2:362
+#: templates/account_details.jinja2:195
+#, fuzzy
 msgid "Cape Verde"
 msgstr "Cabo Verde"
 
-#: templates/account_details.jinja2:197 templates/submit_interest.jinja2:363
+#: templates/account_details.jinja2:196
+#, fuzzy
 msgid "Central African Republic"
 msgstr "República Centroafricana"
 
-#: templates/account_details.jinja2:198 templates/submit_interest.jinja2:364
+#: templates/account_details.jinja2:197
+#, fuzzy
 msgid "Chad"
 msgstr "Chad"
 
-#: templates/account_details.jinja2:199 templates/submit_interest.jinja2:365
+#: templates/account_details.jinja2:198
+#, fuzzy
 msgid "Chile"
 msgstr "Chile"
 
-#: templates/account_details.jinja2:200 templates/submit_interest.jinja2:366
+#: templates/account_details.jinja2:199
+#, fuzzy
 msgid "China"
 msgstr "China"
 
-#: templates/account_details.jinja2:201 templates/submit_interest.jinja2:367
+#: templates/account_details.jinja2:200
+#, fuzzy
 msgid "Colombia"
 msgstr "Colombia"
 
-#: templates/account_details.jinja2:202 templates/submit_interest.jinja2:368
+#: templates/account_details.jinja2:201
+#, fuzzy
 msgid "Comoros"
 msgstr "Comoras"
 
-#: templates/account_details.jinja2:203 templates/submit_interest.jinja2:369
+#: templates/account_details.jinja2:202
+#, fuzzy
 msgid "Congo, Democratic Republic"
 msgstr "Congo, República Democrática"
 
-#: templates/account_details.jinja2:204 templates/submit_interest.jinja2:370
+#: templates/account_details.jinja2:203
+#, fuzzy
 msgid "Congo, Republic of the"
 msgstr "Congo, República del"
 
-#: templates/account_details.jinja2:205 templates/submit_interest.jinja2:371
+#: templates/account_details.jinja2:204
+#, fuzzy
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: templates/account_details.jinja2:206 templates/submit_interest.jinja2:372
+#: templates/account_details.jinja2:205
+#, fuzzy
 msgid "Cote d'Ivoire"
-msgstr "Costa de Marfil"
+msgstr ""
 
-#: templates/account_details.jinja2:207 templates/submit_interest.jinja2:373
+#: templates/account_details.jinja2:206
+#, fuzzy
 msgid "Croatia"
-msgstr "Croacia"
+msgstr ""
 
-#: templates/account_details.jinja2:208 templates/submit_interest.jinja2:374
+#: templates/account_details.jinja2:207
+#, fuzzy
 msgid "Cuba"
 msgstr "Cuba"
 
-#: templates/account_details.jinja2:209 templates/submit_interest.jinja2:375
+#: templates/account_details.jinja2:208
+#, fuzzy
 msgid "Cyprus"
-msgstr "Chipre"
+msgstr ""
 
-#: templates/account_details.jinja2:210 templates/submit_interest.jinja2:376
+#: templates/account_details.jinja2:209
+#, fuzzy
 msgid "Czech Republic"
-msgstr "República Checa"
+msgstr ""
 
-#: templates/account_details.jinja2:211 templates/submit_interest.jinja2:377
+#: templates/account_details.jinja2:210
+#, fuzzy
 msgid "Denmark"
-msgstr "Dinamarca"
+msgstr ""
 
-#: templates/account_details.jinja2:212 templates/submit_interest.jinja2:378
+#: templates/account_details.jinja2:211
+#, fuzzy
 msgid "Djibouti"
-msgstr "Yibuti"
+msgstr ""
 
-#: templates/account_details.jinja2:213 templates/submit_interest.jinja2:379
+#: templates/account_details.jinja2:212
+#, fuzzy
 msgid "Dominica"
-msgstr "Dominicana"
+msgstr "Dominica"
 
-#: templates/account_details.jinja2:214 templates/submit_interest.jinja2:380
+#: templates/account_details.jinja2:213
+#, fuzzy
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-#: templates/account_details.jinja2:215 templates/submit_interest.jinja2:381
+#: templates/account_details.jinja2:214
+#, fuzzy
 msgid "East Timor"
-msgstr "Timor Oriental"
+msgstr ""
 
-#: templates/account_details.jinja2:216 templates/submit_interest.jinja2:382
+#: templates/account_details.jinja2:215
+#, fuzzy
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: templates/account_details.jinja2:217 templates/submit_interest.jinja2:383
+#: templates/account_details.jinja2:216
+#, fuzzy
 msgid "Egypt"
-msgstr "Egipto"
+msgstr ""
 
-#: templates/account_details.jinja2:218 templates/submit_interest.jinja2:384
+#: templates/account_details.jinja2:217
+#, fuzzy
 msgid "El Salvador"
 msgstr "El Salvador"
 
-#: templates/account_details.jinja2:219 templates/submit_interest.jinja2:385
+#: templates/account_details.jinja2:218
+#, fuzzy
 msgid "Equatorial Guinea"
 msgstr "Guinea Ecuatorial"
 
-#: templates/account_details.jinja2:220 templates/submit_interest.jinja2:386
+#: templates/account_details.jinja2:219
+#, fuzzy
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: templates/account_details.jinja2:221 templates/submit_interest.jinja2:387
+#: templates/account_details.jinja2:220
+#, fuzzy
 msgid "Estonia"
 msgstr "Estonia"
 
-#: templates/account_details.jinja2:222 templates/submit_interest.jinja2:388
+#: templates/account_details.jinja2:221
+#, fuzzy
 msgid "Ethiopia"
-msgstr "Etiopía"
+msgstr ""
 
-#: templates/account_details.jinja2:223 templates/submit_interest.jinja2:389
+#: templates/account_details.jinja2:222
+#, fuzzy
 msgid "Fiji"
-msgstr "Fiyi"
+msgstr ""
 
-#: templates/account_details.jinja2:224 templates/submit_interest.jinja2:390
+#: templates/account_details.jinja2:223
+#, fuzzy
 msgid "Finland"
-msgstr "Finlandia"
+msgstr ""
 
-#: templates/account_details.jinja2:225 templates/submit_interest.jinja2:391
+#: templates/account_details.jinja2:224
+#, fuzzy
 msgid "France"
-msgstr "Francia"
+msgstr ""
 
-#: templates/account_details.jinja2:226 templates/submit_interest.jinja2:392
+#: templates/account_details.jinja2:225
+#, fuzzy
 msgid "Gabon"
 msgstr "Gabón"
 
-#: templates/account_details.jinja2:227 templates/submit_interest.jinja2:393
+#: templates/account_details.jinja2:226
+#, fuzzy
 msgid "Gambia"
 msgstr "Gambia"
 
-#: templates/account_details.jinja2:228 templates/submit_interest.jinja2:394
+#: templates/account_details.jinja2:227
+#, fuzzy
 msgid "Georgia"
 msgstr "Georgia"
 
-#: templates/account_details.jinja2:229 templates/submit_interest.jinja2:395
+#: templates/account_details.jinja2:228
+#, fuzzy
 msgid "Germany"
 msgstr "Alemania"
 
-#: templates/account_details.jinja2:230 templates/submit_interest.jinja2:396
+#: templates/account_details.jinja2:229
+#, fuzzy
 msgid "Ghana"
-msgstr "Ghana"
+msgstr ""
 
-#: templates/account_details.jinja2:231 templates/submit_interest.jinja2:397
+#: templates/account_details.jinja2:230
+#, fuzzy
 msgid "Greece"
 msgstr "Grecia"
 
-#: templates/account_details.jinja2:232 templates/submit_interest.jinja2:398
+#: templates/account_details.jinja2:231
+#, fuzzy
 msgid "Greenland"
 msgstr "Groenlandia"
 
-#: templates/account_details.jinja2:233 templates/submit_interest.jinja2:399
+#: templates/account_details.jinja2:232
+#, fuzzy
 msgid "Grenada"
 msgstr "Granada"
 
-#: templates/account_details.jinja2:234 templates/submit_interest.jinja2:400
+#: templates/account_details.jinja2:233
+#, fuzzy
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: templates/account_details.jinja2:235 templates/submit_interest.jinja2:401
+#: templates/account_details.jinja2:234
+#, fuzzy
 msgid "Guinea"
 msgstr "Guinea"
 
-#: templates/account_details.jinja2:236 templates/submit_interest.jinja2:402
+#: templates/account_details.jinja2:235
+#, fuzzy
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bisáu"
 
-#: templates/account_details.jinja2:237 templates/submit_interest.jinja2:403
+#: templates/account_details.jinja2:236
+#, fuzzy
 msgid "Guyana"
 msgstr "Guayana"
 
-#: templates/account_details.jinja2:238 templates/submit_interest.jinja2:404
+#: templates/account_details.jinja2:237
+#, fuzzy
 msgid "Haiti"
 msgstr "Haití"
 
-#: templates/account_details.jinja2:239 templates/submit_interest.jinja2:405
+#: templates/account_details.jinja2:238
+#, fuzzy
 msgid "Honduras"
 msgstr "Honduras"
 
-#: templates/account_details.jinja2:240 templates/submit_interest.jinja2:406
+#: templates/account_details.jinja2:239
+#, fuzzy
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: templates/account_details.jinja2:241 templates/submit_interest.jinja2:407
+#: templates/account_details.jinja2:240
+#, fuzzy
 msgid "Hungary"
 msgstr "Hungría"
 
-#: templates/account_details.jinja2:242 templates/submit_interest.jinja2:408
+#: templates/account_details.jinja2:241
+#, fuzzy
 msgid "Iceland"
 msgstr "Islandia"
 
-#: templates/account_details.jinja2:243 templates/submit_interest.jinja2:409
+#: templates/account_details.jinja2:242
+#, fuzzy
 msgid "India"
 msgstr "India"
 
-#: templates/account_details.jinja2:244 templates/submit_interest.jinja2:410
+#: templates/account_details.jinja2:243
+#, fuzzy
 msgid "Indonesia"
 msgstr "Indonesia"
 
-#: templates/account_details.jinja2:245 templates/submit_interest.jinja2:411
+#: templates/account_details.jinja2:244
+#, fuzzy
 msgid "Iran"
-msgstr "Irán"
+msgstr ""
 
-#: templates/account_details.jinja2:246 templates/submit_interest.jinja2:412
+#: templates/account_details.jinja2:245
+#, fuzzy
 msgid "Iraq"
-msgstr "Iraq"
+msgstr "Irak"
 
-#: templates/account_details.jinja2:247 templates/submit_interest.jinja2:413
+#: templates/account_details.jinja2:246
+#, fuzzy
 msgid "Ireland"
 msgstr "Irlanda"
 
-#: templates/account_details.jinja2:248 templates/submit_interest.jinja2:414
+#: templates/account_details.jinja2:247
+#, fuzzy
 msgid "Israel"
-msgstr "Israel"
+msgstr ""
 
-#: templates/account_details.jinja2:249 templates/submit_interest.jinja2:415
+#: templates/account_details.jinja2:248
+#, fuzzy
 msgid "Italy"
-msgstr "Italia"
+msgstr ""
 
-#: templates/account_details.jinja2:250 templates/submit_interest.jinja2:416
+#: templates/account_details.jinja2:249
+#, fuzzy
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: templates/account_details.jinja2:251 templates/submit_interest.jinja2:417
+#: templates/account_details.jinja2:250
+#, fuzzy
 msgid "Japan"
 msgstr "Japón"
 
-#: templates/account_details.jinja2:252 templates/submit_interest.jinja2:418
+#: templates/account_details.jinja2:251
+#, fuzzy
 msgid "Jordan"
-msgstr "Jordán"
+msgstr ""
 
-#: templates/account_details.jinja2:253 templates/submit_interest.jinja2:419
+#: templates/account_details.jinja2:252
+#, fuzzy
 msgid "Kazakhstan"
 msgstr "Kazajistán"
 
-#: templates/account_details.jinja2:254 templates/submit_interest.jinja2:420
+#: templates/account_details.jinja2:253
+#, fuzzy
 msgid "Kenya"
 msgstr "Kenia"
 
-#: templates/account_details.jinja2:255 templates/submit_interest.jinja2:421
+#: templates/account_details.jinja2:254
+#, fuzzy
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: templates/account_details.jinja2:256 templates/submit_interest.jinja2:422
+#: templates/account_details.jinja2:255
+#, fuzzy
 msgid "Korea North"
 msgstr "Corea del Norte"
 
-#: templates/account_details.jinja2:257 templates/submit_interest.jinja2:423
+#: templates/account_details.jinja2:256
+#, fuzzy
 msgid "Korea South"
 msgstr "Corea del Sur"
 
-#: templates/account_details.jinja2:258 templates/submit_interest.jinja2:424
+#: templates/account_details.jinja2:257
+#, fuzzy
 msgid "Kuwait"
 msgstr "Kuwait"
 
-#: templates/account_details.jinja2:259 templates/submit_interest.jinja2:425
+#: templates/account_details.jinja2:258
+#, fuzzy
 msgid "Kyrgyzstan"
 msgstr "Kirguistán"
 
-#: templates/account_details.jinja2:260 templates/submit_interest.jinja2:426
+#: templates/account_details.jinja2:259
+#, fuzzy
 msgid "Laos"
-msgstr "Laos"
+msgstr ""
 
-#: templates/account_details.jinja2:261 templates/submit_interest.jinja2:427
+#: templates/account_details.jinja2:260
+#, fuzzy
 msgid "Latvia"
-msgstr "Letonia"
+msgstr ""
 
-#: templates/account_details.jinja2:262 templates/submit_interest.jinja2:428
+#: templates/account_details.jinja2:261
+#, fuzzy
 msgid "Lebanon"
 msgstr "Líbano"
 
-#: templates/account_details.jinja2:263 templates/submit_interest.jinja2:429
+#: templates/account_details.jinja2:262
+#, fuzzy
 msgid "Lesotho"
 msgstr "Lesoto"
 
-#: templates/account_details.jinja2:264 templates/submit_interest.jinja2:430
+#: templates/account_details.jinja2:263
+#, fuzzy
 msgid "Liberia"
 msgstr "Liberia"
 
-#: templates/account_details.jinja2:265 templates/submit_interest.jinja2:431
+#: templates/account_details.jinja2:264
+#, fuzzy
 msgid "Libya"
 msgstr "Libia"
 
-#: templates/account_details.jinja2:266 templates/submit_interest.jinja2:432
+#: templates/account_details.jinja2:265
+#, fuzzy
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: templates/account_details.jinja2:267 templates/submit_interest.jinja2:433
+#: templates/account_details.jinja2:266
+#, fuzzy
 msgid "Lithuania"
 msgstr "Lituania"
 
-#: templates/account_details.jinja2:268 templates/submit_interest.jinja2:434
+#: templates/account_details.jinja2:267
+#, fuzzy
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#: templates/account_details.jinja2:269 templates/submit_interest.jinja2:435
+#: templates/account_details.jinja2:268
+#, fuzzy
 msgid "Macedonia"
 msgstr "Macedonia"
 
-#: templates/account_details.jinja2:270 templates/submit_interest.jinja2:436
+#: templates/account_details.jinja2:269
+#, fuzzy
 msgid "Madagascar"
 msgstr "Madagascar"
 
-#: templates/account_details.jinja2:271 templates/submit_interest.jinja2:437
+#: templates/account_details.jinja2:270
+#, fuzzy
 msgid "Malawi"
 msgstr "Malaui"
 
-#: templates/account_details.jinja2:272 templates/submit_interest.jinja2:438
+#: templates/account_details.jinja2:271
+#, fuzzy
 msgid "Malaysia"
 msgstr "Malasia"
 
-#: templates/account_details.jinja2:273 templates/submit_interest.jinja2:439
+#: templates/account_details.jinja2:272
+#, fuzzy
 msgid "Maldives"
 msgstr "Maldivas"
 
-#: templates/account_details.jinja2:274 templates/submit_interest.jinja2:440
+#: templates/account_details.jinja2:273
+#, fuzzy
 msgid "Mali"
-msgstr "Malí"
+msgstr ""
 
-#: templates/account_details.jinja2:275 templates/submit_interest.jinja2:441
+#: templates/account_details.jinja2:274
+#, fuzzy
 msgid "Malta"
-msgstr "Malta"
+msgstr ""
 
-#: templates/account_details.jinja2:276 templates/submit_interest.jinja2:442
+#: templates/account_details.jinja2:275
+#, fuzzy
 msgid "Marshall Islands"
 msgstr "Islas Marshall"
 
-#: templates/account_details.jinja2:277 templates/submit_interest.jinja2:443
+#: templates/account_details.jinja2:276
+#, fuzzy
 msgid "Mauritania"
 msgstr "Mauritania"
 
-#: templates/account_details.jinja2:278 templates/submit_interest.jinja2:444
+#: templates/account_details.jinja2:277
+#, fuzzy
 msgid "Mauritius"
-msgstr "Mauritius"
+msgstr "Mauricio"
 
-#: templates/account_details.jinja2:279 templates/submit_interest.jinja2:445
+#: templates/account_details.jinja2:278
+#, fuzzy
 msgid "Micronesia"
-msgstr "Micronesia"
+msgstr "Microsetta"
 
-#: templates/account_details.jinja2:280 templates/submit_interest.jinja2:446
+#: templates/account_details.jinja2:279
+#, fuzzy
 msgid "Moldova"
 msgstr "Moldavia"
 
-#: templates/account_details.jinja2:281 templates/submit_interest.jinja2:447
+#: templates/account_details.jinja2:280
+#, fuzzy
 msgid "Mongolia"
 msgstr "Mongolia"
 
-#: templates/account_details.jinja2:282 templates/submit_interest.jinja2:448
+#: templates/account_details.jinja2:281
+#, fuzzy
 msgid "Montenegro"
 msgstr "Montenegro"
 
-#: templates/account_details.jinja2:283 templates/submit_interest.jinja2:449
+#: templates/account_details.jinja2:282
+#, fuzzy
 msgid "Morocco"
 msgstr "Marruecos"
 
-#: templates/account_details.jinja2:284 templates/submit_interest.jinja2:450
+#: templates/account_details.jinja2:283
+#, fuzzy
 msgid "Monaco"
 msgstr "Mónaco"
 
-#: templates/account_details.jinja2:285 templates/submit_interest.jinja2:451
+#: templates/account_details.jinja2:284
+#, fuzzy
 msgid "Mozambique"
 msgstr "Mozambique"
 
-#: templates/account_details.jinja2:286 templates/submit_interest.jinja2:452
+#: templates/account_details.jinja2:285
+#, fuzzy
 msgid "Namibia"
 msgstr "Namibia"
 
-#: templates/account_details.jinja2:287 templates/submit_interest.jinja2:453
+#: templates/account_details.jinja2:286
+#, fuzzy
 msgid "Nauru"
 msgstr "Nauru"
 
-#: templates/account_details.jinja2:288 templates/submit_interest.jinja2:454
+#: templates/account_details.jinja2:287
+#, fuzzy
 msgid "Nepal"
 msgstr "Nepal"
 
-#: templates/account_details.jinja2:289 templates/submit_interest.jinja2:455
+#: templates/account_details.jinja2:288
+#, fuzzy
 msgid "Netherlands"
-msgstr "Países Bajos"
+msgstr "Mano izquierda"
 
-#: templates/account_details.jinja2:290 templates/submit_interest.jinja2:456
+#: templates/account_details.jinja2:289
+#, fuzzy
 msgid "New Zealand"
 msgstr "Nueva Zelanda"
 
-#: templates/account_details.jinja2:291 templates/submit_interest.jinja2:457
+#: templates/account_details.jinja2:290
+#, fuzzy
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: templates/account_details.jinja2:292 templates/submit_interest.jinja2:458
+#: templates/account_details.jinja2:291
+#, fuzzy
 msgid "Niger"
-msgstr "Níger"
+msgstr ""
 
-#: templates/account_details.jinja2:293 templates/submit_interest.jinja2:459
+#: templates/account_details.jinja2:292
+#, fuzzy
 msgid "Nigeria"
-msgstr "Nigeria"
+msgstr ""
 
-#: templates/account_details.jinja2:294 templates/submit_interest.jinja2:460
+#: templates/account_details.jinja2:293
+#, fuzzy
 msgid "Norway"
 msgstr "Noruega"
 
-#: templates/account_details.jinja2:295 templates/submit_interest.jinja2:461
+#: templates/account_details.jinja2:294
+#, fuzzy
 msgid "Oman"
-msgstr "Omán"
+msgstr ""
 
-#: templates/account_details.jinja2:296 templates/submit_interest.jinja2:462
+#: templates/account_details.jinja2:295
+#, fuzzy
 msgid "Pakistan"
 msgstr "Pakistán"
 
-#: templates/account_details.jinja2:297 templates/submit_interest.jinja2:463
+#: templates/account_details.jinja2:296
+#, fuzzy
 msgid "Panama"
-msgstr "Panama"
+msgstr ""
 
-#: templates/account_details.jinja2:298 templates/submit_interest.jinja2:464
+#: templates/account_details.jinja2:297
+#, fuzzy
 msgid "Papua New Guinea"
 msgstr "Papúa Nueva Guinea"
 
-#: templates/account_details.jinja2:299 templates/submit_interest.jinja2:465
+#: templates/account_details.jinja2:298
+#, fuzzy
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: templates/account_details.jinja2:300 templates/submit_interest.jinja2:466
+#: templates/account_details.jinja2:299
+#, fuzzy
 msgid "Peru"
 msgstr "Peru"
 
-#: templates/account_details.jinja2:301 templates/submit_interest.jinja2:467
+#: templates/account_details.jinja2:300
+#, fuzzy
 msgid "Philippines"
 msgstr "Filipinas"
 
-#: templates/account_details.jinja2:302 templates/submit_interest.jinja2:468
+#: templates/account_details.jinja2:301
+#, fuzzy
 msgid "Poland"
 msgstr "Polonia"
 
-#: templates/account_details.jinja2:303 templates/submit_interest.jinja2:469
+#: templates/account_details.jinja2:302
+#, fuzzy
 msgid "Portugal"
 msgstr "Portugal"
 
-#: templates/account_details.jinja2:304 templates/submit_interest.jinja2:470
+#: templates/account_details.jinja2:303
+#, fuzzy
 msgid "Qatar"
-msgstr "Qatar"
+msgstr "Katar"
 
-#: templates/account_details.jinja2:305 templates/submit_interest.jinja2:471
+#: templates/account_details.jinja2:304
+#, fuzzy
 msgid "Romania"
-msgstr "Rumania"
+msgstr ""
 
-#: templates/account_details.jinja2:306 templates/submit_interest.jinja2:472
+#: templates/account_details.jinja2:305
+#, fuzzy
 msgid "Russia"
 msgstr "Rusia"
 
-#: templates/account_details.jinja2:307 templates/submit_interest.jinja2:473
+#: templates/account_details.jinja2:306
+#, fuzzy
 msgid "Rwanda"
 msgstr "Ruanda"
 
-#: templates/account_details.jinja2:308 templates/submit_interest.jinja2:474
+#: templates/account_details.jinja2:307
+#, fuzzy
 msgid "Samoa"
 msgstr "Samoa"
 
-#: templates/account_details.jinja2:309 templates/submit_interest.jinja2:475
+#: templates/account_details.jinja2:308
+#, fuzzy
 msgid "San Marino"
 msgstr "San Marino"
 
-#: templates/account_details.jinja2:310 templates/submit_interest.jinja2:476
+#: templates/account_details.jinja2:309
+#, fuzzy
 msgid "Sao Tome"
-msgstr "Santo Tomé y Príncipe"
+msgstr "Santo Tomé"
 
-#: templates/account_details.jinja2:311 templates/submit_interest.jinja2:477
+#: templates/account_details.jinja2:310
+#, fuzzy
 msgid "Saudi Arabia"
 msgstr "Arabia Saudita"
 
-#: templates/account_details.jinja2:312 templates/submit_interest.jinja2:478
+#: templates/account_details.jinja2:311
+#, fuzzy
 msgid "Senegal"
 msgstr "Senegal"
 
-#: templates/account_details.jinja2:313 templates/submit_interest.jinja2:479
+#: templates/account_details.jinja2:312
+#, fuzzy
 msgid "Serbia"
 msgstr "Serbia"
 
-#: templates/account_details.jinja2:314 templates/submit_interest.jinja2:480
+#: templates/account_details.jinja2:313
+#, fuzzy
 msgid "Seychelles"
 msgstr "Seychelles"
 
-#: templates/account_details.jinja2:315 templates/submit_interest.jinja2:481
+#: templates/account_details.jinja2:314
+#, fuzzy
 msgid "Sierra Leone"
-msgstr "Sierra Leona"
+msgstr "Sierra Leone"
 
-#: templates/account_details.jinja2:316 templates/submit_interest.jinja2:482
+#: templates/account_details.jinja2:315
+#, fuzzy
 msgid "Singapore"
 msgstr "Singapur"
 
-#: templates/account_details.jinja2:317 templates/submit_interest.jinja2:483
+#: templates/account_details.jinja2:316
+#, fuzzy
 msgid "Slovakia"
 msgstr "Eslovaquia"
 
-#: templates/account_details.jinja2:318 templates/submit_interest.jinja2:484
+#: templates/account_details.jinja2:317
+#, fuzzy
 msgid "Slovenia"
 msgstr "Eslovenia"
 
-#: templates/account_details.jinja2:319 templates/submit_interest.jinja2:485
+#: templates/account_details.jinja2:318
+#, fuzzy
 msgid "Solomon Islands"
 msgstr "Islas Salomón"
 
-#: templates/account_details.jinja2:320 templates/submit_interest.jinja2:486
+#: templates/account_details.jinja2:319
+#, fuzzy
 msgid "Somalia"
-msgstr "Somalia"
+msgstr "Saliva"
 
-#: templates/account_details.jinja2:321 templates/submit_interest.jinja2:487
+#: templates/account_details.jinja2:320
+#, fuzzy
 msgid "South Africa"
 msgstr "Sudáfrica"
 
-#: templates/account_details.jinja2:322 templates/submit_interest.jinja2:488
+#: templates/account_details.jinja2:321
+#, fuzzy
+msgid "Spain"
+msgstr "España"
+
+#: templates/account_details.jinja2:322
+#, fuzzy
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: templates/account_details.jinja2:323 templates/submit_interest.jinja2:489
+#: templates/account_details.jinja2:323
+#, fuzzy
 msgid "Sudan"
-msgstr "Sudán"
+msgstr ""
 
-#: templates/account_details.jinja2:324 templates/submit_interest.jinja2:490
+#: templates/account_details.jinja2:324
+#, fuzzy
 msgid "Suriname"
-msgstr "Surinam"
+msgstr ""
 
-#: templates/account_details.jinja2:325 templates/submit_interest.jinja2:491
+#: templates/account_details.jinja2:325
+#, fuzzy
 msgid "Swaziland"
 msgstr "Suazilandia"
 
-#: templates/account_details.jinja2:326 templates/submit_interest.jinja2:492
+#: templates/account_details.jinja2:326
+#, fuzzy
 msgid "Sweden"
 msgstr "Suecia"
 
-#: templates/account_details.jinja2:327 templates/submit_interest.jinja2:493
+#: templates/account_details.jinja2:327
+#, fuzzy
 msgid "Switzerland"
 msgstr "Suiza"
 
-#: templates/account_details.jinja2:328 templates/submit_interest.jinja2:494
+#: templates/account_details.jinja2:328
+#, fuzzy
 msgid "Syria"
 msgstr "Siria"
 
-#: templates/account_details.jinja2:329 templates/submit_interest.jinja2:495
+#: templates/account_details.jinja2:329
+#, fuzzy
 msgid "Taiwan"
 msgstr "Taiwán"
 
-#: templates/account_details.jinja2:330 templates/submit_interest.jinja2:496
+#: templates/account_details.jinja2:330
+#, fuzzy
 msgid "Tajikistan"
 msgstr "Tayikistán"
 
-#: templates/account_details.jinja2:331 templates/submit_interest.jinja2:497
+#: templates/account_details.jinja2:331
+#, fuzzy
 msgid "Tanzania"
 msgstr "Tanzania"
 
-#: templates/account_details.jinja2:332 templates/submit_interest.jinja2:498
+#: templates/account_details.jinja2:332
+#, fuzzy
 msgid "Thailand"
 msgstr "Tailandia"
 
-#: templates/account_details.jinja2:333 templates/submit_interest.jinja2:499
+#: templates/account_details.jinja2:333
+#, fuzzy
 msgid "Togo"
-msgstr "Togo"
+msgstr ""
 
-#: templates/account_details.jinja2:334 templates/submit_interest.jinja2:500
+#: templates/account_details.jinja2:334
+#, fuzzy
 msgid "Tonga"
 msgstr "Tonga"
 
-#: templates/account_details.jinja2:335 templates/submit_interest.jinja2:501
+#: templates/account_details.jinja2:335
+#, fuzzy
 msgid "Trinidad and Tobago"
 msgstr "Trinidad y Tobago"
 
-#: templates/account_details.jinja2:336 templates/submit_interest.jinja2:502
+#: templates/account_details.jinja2:336
+#, fuzzy
 msgid "Tunisia"
 msgstr "Túnez"
 
-#: templates/account_details.jinja2:337 templates/submit_interest.jinja2:503
+#: templates/account_details.jinja2:337
+#, fuzzy
 msgid "Turkey"
-msgstr "Turquia"
+msgstr ""
 
-#: templates/account_details.jinja2:338 templates/submit_interest.jinja2:504
+#: templates/account_details.jinja2:338
+#, fuzzy
 msgid "Turkmenistan"
 msgstr "Turkmenistán"
 
-#: templates/account_details.jinja2:339 templates/submit_interest.jinja2:505
+#: templates/account_details.jinja2:339
+#, fuzzy
 msgid "Uganda"
 msgstr "Uganda"
 
-#: templates/account_details.jinja2:340 templates/submit_interest.jinja2:506
+#: templates/account_details.jinja2:340
+#, fuzzy
 msgid "Ukraine"
 msgstr "Ucrania"
 
-#: templates/account_details.jinja2:341 templates/submit_interest.jinja2:507
+#: templates/account_details.jinja2:341
+#, fuzzy
 msgid "United Arab Emirates"
-msgstr "Emiratos Árabes Unidos"
+msgstr ""
 
-#: templates/account_details.jinja2:342 templates/submit_interest.jinja2:508
+#: templates/account_details.jinja2:342
+#, fuzzy
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: templates/account_details.jinja2:343 templates/submit_interest.jinja2:509
+#: templates/account_details.jinja2:343
+#, fuzzy
 msgid "Uzbekistan"
 msgstr "Uzbekistán"
 
-#: templates/account_details.jinja2:344 templates/submit_interest.jinja2:510
+#: templates/account_details.jinja2:344
+#, fuzzy
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: templates/account_details.jinja2:345 templates/submit_interest.jinja2:511
+#: templates/account_details.jinja2:345
+#, fuzzy
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: templates/account_details.jinja2:346 templates/submit_interest.jinja2:512
+#: templates/account_details.jinja2:346
+#, fuzzy
 msgid "Viet nam"
 msgstr "Vietnam"
 
-#: templates/account_details.jinja2:347 templates/submit_interest.jinja2:513
+#: templates/account_details.jinja2:347
+#, fuzzy
 msgid "Yemen"
 msgstr "Yemen"
 
-#: templates/account_details.jinja2:348 templates/submit_interest.jinja2:514
+#: templates/account_details.jinja2:348
+#, fuzzy
 msgid "Zambia"
 msgstr "Zambia"
 
-#: templates/account_details.jinja2:349 templates/submit_interest.jinja2:515
+#: templates/account_details.jinja2:349
+#, fuzzy
 msgid "Zimbabwe"
 msgstr "Zimbabue"
 
@@ -1086,51 +1288,58 @@ msgid "Street Address"
 msgstr "Dirección"
 
 #: templates/account_details.jinja2:373
+#, fuzzy
 msgid "Preferred language for future communications"
 msgstr "Idioma preferido para futuras comunicaciones"
 
 #: templates/account_details.jinja2:386
 msgid "Activation Info"
-msgstr "Información de Activación"
+msgstr "Información de activación"
 
 #: templates/account_details.jinja2:390
 msgid "Kit ID"
-msgstr "Kit ID"
+msgstr "ID del kit"
 
 #: templates/account_details.jinja2:393
 msgid "OR"
 msgstr "O"
 
-#: templates/account_details.jinja2:395 templates/admin_activation_codes.jinja2:14
+#: templates/account_details.jinja2:395
+#: templates/admin_activation_codes.jinja2:14
 msgid "Activation Code"
-msgstr "Código de Activación"
+msgstr "Código de activación"
 
 #: templates/account_details.jinja2:402 templates/account_details.jinja2:404
 msgid "Save"
 msgstr "Guardar"
 
 #: templates/account_details.jinja2:412
+#, fuzzy
 msgid "Danger zone"
-msgstr "Zona de riesgo"
+msgstr "peligro"
 
 #: templates/account_details.jinja2:416
+#, fuzzy
 msgid "Delete or scrub the account."
 msgstr "Eliminar o borrar la cuenta."
 
 #: templates/account_details.jinja2:419
+#, fuzzy
 msgid ""
 "If the account has any samples associated, the account and sources will be "
 "scrubbed, meaning all free text and identifiable information is removed."
 msgstr ""
-"Si la cuenta tiene muestras asociadas, la cuenta y la fuente serán borradas, lo "
-"que significa que se eliminará todo el texto libre y la información "
+"Si la cuenta tiene muestras asociadas, la cuenta y las fuentes se borrarán, "
+"lo que significa que se eliminará todo el texto libre y la información "
 "identificable."
 
 #: templates/account_details.jinja2:422
+#, fuzzy
 msgid "Otherwise, the account and any sources will be deleted"
-msgstr "De lo contrario, la cuenta y cualquier fuente serán eliminadas"
+msgstr "De lo contrario, la cuenta y cualquier fuente serán eliminadas."
 
 #: templates/account_details.jinja2:425
+#, fuzzy
 msgid ""
 "IMPORTANT: you must manually delete the email from Authrocket and other "
 "external services like MyEmma to complete the process"
@@ -1139,33 +1348,36 @@ msgstr ""
 "otros servicios externos como MyEmma para completar el proceso"
 
 #: templates/account_details.jinja2:428
+#, fuzzy
 msgid "ACCOUNT DELETION CANNOT BE UNDONE"
-msgstr "LA ELIMINACIÓN DE LA CUENTA NO SE PUEDE REVERTIR"
+msgstr "LA ELIMINACIÓN DE LA CUENTA NO SE PUEDE DESHACER"
 
 #: templates/account_details.jinja2:431
+#, fuzzy
 msgid "Delete Account"
-msgstr "Eliminar cuenta"
+msgstr "Buscar cuenta"
 
 #: templates/account_overview.jinja2:53
 msgid "View Account Details"
-msgstr "Ver Información de la Cuenta"
+msgstr "Ver detalles de la cuenta"
 
 #: templates/account_overview.jinja2:58
 msgid "Sources"
 msgstr "Fuentes"
 
 #: templates/account_overview.jinja2:62
-msgid "You have now set up your account! Please proceed to identify your source."
+msgid ""
+"You have now set up your account! Please proceed to identify your source."
 msgstr ""
-"¡Usted ha establecido su cuenta! Por favor proceda a identificar su fuente."
+"Ya ha configurado su perfil para su cuenta! Proceda a identificar su fuente."
 
 #: templates/account_overview.jinja2:66
 msgid ""
 "Choose a source to assign samples to by clicking on a name, listed in blue "
 "below:"
 msgstr ""
-"Elija una fuente para asignar muestras haciendo clic en uno de los nombres, que "
-"se muestra en azul a continuación:"
+"Elija una fuente para asignar las muestras haciendo clic en un nombre, "
+"listado a continuación en azul:"
 
 #: templates/account_overview.jinja2:71
 msgid "Name"
@@ -1173,42 +1385,42 @@ msgstr "Nombre"
 
 #: templates/account_overview.jinja2:74
 msgid "Source type"
-msgstr "Tipo de Fuente"
+msgstr "Tipo de fuente"
 
 #: templates/account_overview.jinja2:95
 msgid "What is the Source of Your Sample?"
-msgstr "¿Cuál es la fuente de su muestra?"
+msgstr "Cuál es la fuente de su muestra?"
 
 #: templates/account_overview.jinja2:103
 msgid ""
 "Our lab needs to know what type of sample(s) you are submitting (a.k.a. the "
-"\"source\"). Add a new source and assign samples to it so we can perform the "
-"correct analysis in our laboratory."
+"\"source\"). Add a new source and assign samples to it so we can perform the"
+" correct analysis in our laboratory."
 msgstr ""
-"Nuestro laboratorio necesita saber qué tipo de muestra(s) está enviando "
-"(también conocida como “la fuente”). Añada una nueva fuente y asígnele muestras "
-"para que podamos realizar el análisis correcto."
+"Nuestro laboratorio necesita saber qué tipo de muestra (s) está enviando (la"
+" \"fuente\"). Agregue una nueva fuente y asígnele muestras para que podamos "
+"realizar el análisis correcto en nuestro laboratorio."
 
 #: templates/account_overview.jinja2:108
 msgid ""
-"If you have multiple sources, you may add one source at a time. You can return "
-"to this page after you finish registering the first one."
+"If you have multiple sources, you may add one source at a time. You can "
+"return to this page after you finish registering the first one."
 msgstr ""
-"Si usted tiene varias fuentes, puede agregar una fuente a la vez. Usted puede "
-"regresar a esta página después de terminar de registrar la primera."
+"Si tiene varias fuentes, puede agregar una a la vez. Puede volver a esta "
+"página después de terminar de registrar la primera."
 
 #: templates/account_overview.jinja2:114
 msgid "Human Source"
-msgstr "Fuente Humana"
+msgstr "Fuente humana"
 
 #: templates/account_overview.jinja2:116 templates/account_overview.jinja2:118
 #: templates/account_overview.jinja2:139
 msgid "Collect sample(s) from"
-msgstr "Recoger muestra(s) de"
+msgstr "Recoger muestra (s) de"
 
 #: templates/account_overview.jinja2:116
 msgid "yourself"
-msgstr "usted mismo"
+msgstr "tu mismo"
 
 #: templates/account_overview.jinja2:116 templates/account_overview.jinja2:118
 #: templates/account_overview.jinja2:139
@@ -1222,15 +1434,15 @@ msgstr "alguien más"
 #: templates/account_overview.jinja2:121 templates/account_overview.jinja2:131
 #: templates/account_overview.jinja2:144
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "Seleccione"
 
 #: templates/account_overview.jinja2:126
 msgid "Environmental Source"
-msgstr "Fuente Ambiental"
+msgstr "Fuente ambiental"
 
 #: templates/account_overview.jinja2:128
 msgid "Collect sample(s) from a"
-msgstr "Recoger muestra(s) de una"
+msgstr "Recoger muestra (s) de un"
 
 #: templates/account_overview.jinja2:128
 msgid "surface"
@@ -1238,11 +1450,11 @@ msgstr "superficie"
 
 #: templates/account_overview.jinja2:128
 msgid "(e.g. kitchen counter, backyard soil, food, etc.)"
-msgstr "(por ejemplo, la barra de la cocina, tierra del jardín, comida, etc.)"
+msgstr "(por ejemplo, mesa de cocina, tierra del jardín, comida, etc.)"
 
 #: templates/account_overview.jinja2:136
 msgid "Animal Source"
-msgstr "Fuente Animal"
+msgstr "Fuente animal"
 
 #: templates/account_overview.jinja2:139
 msgid "your pet"
@@ -1254,15 +1466,16 @@ msgstr "o un"
 
 #: templates/account_overview.jinja2:141
 msgid "Animal sources are currently unavailable."
-msgstr "Las fuentes animales no están disponibles."
+msgstr "Las fuentes animales no están disponibles en este momento."
 
 #: templates/admin_activation_codes.jinja2:2
 msgid "Admin Activation Codes"
-msgstr "Códigos de Activación del Administrador"
+msgstr "Códigos de activación de administrador"
 
 #: templates/admin_activation_codes.jinja2:6
+#, fuzzy
 msgid "Search by Email"
-msgstr "Buscar por Correo Electrónico"
+msgstr "Buscar por correo electrónico"
 
 #: templates/admin_activation_codes.jinja2:9
 #: templates/admin_activation_codes.jinja2:16
@@ -1271,12 +1484,14 @@ msgid "Search"
 msgstr "Buscar"
 
 #: templates/admin_activation_codes.jinja2:13
+#, fuzzy
 msgid "Search by Activation Code"
-msgstr "Buscar por Código de Activación"
+msgstr "Código de activación"
 
 #: templates/admin_activation_codes.jinja2:20
+#, fuzzy
 msgid "Generate Activation Code"
-msgstr "Generar Código de Activación"
+msgstr "Código de activación"
 
 #: templates/admin_activation_codes.jinja2:23
 #: templates/admin_activation_codes.jinja2:31
@@ -1285,19 +1500,21 @@ msgstr "Generar"
 
 #: templates/admin_activation_codes.jinja2:24
 msgid "Generate + Send Email"
-msgstr "Generar + Enviar Correo Electrónico"
+msgstr "Generar + Enviar correo electrónico"
 
 #: templates/admin_activation_codes.jinja2:28
+#, fuzzy
 msgid "Generate Activation Codes from CSV File"
-msgstr "Generar Códigos de Activación desde un Archivo CSV"
+msgstr "Generar códigos de activación desde un archivo CSV"
 
 #: templates/admin_activation_codes.jinja2:29
+#, fuzzy
 msgid "CSV File of Emails"
 msgstr "Archivo CSV de correos electrónicos"
 
 #: templates/admin_activation_codes.jinja2:34 templates/admin_home.jinja2:5
 msgid "Search Results"
-msgstr "Buscar Resultados"
+msgstr "Resultados de la búsqueda"
 
 #: templates/admin_activation_codes.jinja2:43
 msgid "Code"
@@ -1314,243 +1531,245 @@ msgstr "No se encontraron cuentas"
 #: templates/admin_address_verification.jinja2:2
 #: templates/admin_campaign_list.jinja2:2
 #: templates/admin_interested_user_edit.jinja2:2
+#, fuzzy
 msgid "Admin Address Verification"
 msgstr "Verificación de la dirección del administrador"
 
 #: templates/admin_address_verification.jinja2:8
+#, fuzzy
 msgid "Verify CSV File of Addresses"
 msgstr "Verificar archivo CSV de direcciones"
 
 #: templates/admin_address_verification.jinja2:12
+#, fuzzy
 msgid "CSV File"
 msgstr "Archivo CSV"
 
 #: templates/admin_address_verification.jinja2:17
-#: templates/admin_address_verification.jinja2:57
+#: templates/admin_address_verification.jinja2:53
+#, fuzzy
 msgid "Verify"
-msgstr "Verificar"
+msgstr "Diversidad"
 
 #: templates/admin_address_verification.jinja2:26
+#, fuzzy
 msgid "Verify Single Address"
-msgstr "Verificar Dirección Única"
+msgstr "Verificar dirección única"
 
 #: templates/admin_address_verification.jinja2:29
-#: templates/admin_address_verification.jinja2:81
-#: templates/admin_interested_user_edit.jinja2:122
-#: templates/submit_interest.jinja2:523 templates/update_address.jinja2:209
+#: templates/admin_address_verification.jinja2:77
+#: templates/admin_interested_user_edit.jinja2:37
+#: templates/submit_interest.jinja2:291 templates/update_address.jinja2:184
+#, fuzzy
 msgid "Address 1"
 msgstr "Dirección 1"
 
 #: templates/admin_address_verification.jinja2:33
-#: templates/admin_address_verification.jinja2:85
-#: templates/admin_interested_user_edit.jinja2:126
-#: templates/submit_interest.jinja2:527 templates/update_address.jinja2:213
+#: templates/admin_address_verification.jinja2:81
+#: templates/admin_interested_user_edit.jinja2:41
+#: templates/submit_interest.jinja2:295 templates/update_address.jinja2:188
+#, fuzzy
 msgid "Address 2"
 msgstr "Dirección 2"
 
-#: templates/admin_address_verification.jinja2:37
-#: templates/admin_address_verification.jinja2:89
-#: templates/admin_interested_user_edit.jinja2:132
-#: templates/submit_interest.jinja2:531 templates/update_address.jinja2:217
-msgid "Address 3"
-msgstr "Dirección 3"
-
-#: templates/admin_address_verification.jinja2:49
-#: templates/admin_address_verification.jinja2:101
-#: templates/admin_interested_user_edit.jinja2:146
-#: templates/submit_interest.jinja2:545 templates/update_address.jinja2:231
+#: templates/admin_address_verification.jinja2:45
+#: templates/admin_address_verification.jinja2:93
+#: templates/admin_interested_user_edit.jinja2:53
+#: templates/submit_interest.jinja2:309 templates/update_address.jinja2:202
+#, fuzzy
 msgid "Postal Code"
-msgstr "Código Postal"
+msgstr "Código postal"
 
-#: templates/admin_address_verification.jinja2:109
+#: templates/admin_address_verification.jinja2:101
+#, fuzzy
 msgid "Latitude"
 msgstr "Latitud"
 
-#: templates/admin_address_verification.jinja2:113
+#: templates/admin_address_verification.jinja2:105
+#, fuzzy
 msgid "Longitude"
 msgstr "Longitud"
 
 #: templates/admin_barcode_search.jinja2:2
+#, fuzzy
 msgid "ADMINISTRATOR BARCODE SEARCH"
-msgstr "Búsqueda de Código de Barras del Administrador"
+msgstr "Barra de Herramientas del Administrador"
 
 #: templates/admin_barcode_search.jinja2:31
+#, fuzzy
 msgid "Download CSV"
 msgstr "Descargar CSV"
 
 #: templates/admin_barcode_search.jinja2:32
+#, fuzzy
 msgid "Download Excel"
-msgstr "Descargar Excel"
+msgstr "Descargar excel"
 
 #: templates/admin_barcode_search.jinja2:90
+#, fuzzy
 msgid "Search Qiita"
 msgstr "Buscar Qiita"
 
-#: templates/admin_barcode_search.jinja2:97 templates/sample.jinja2:162
+#: templates/admin_barcode_search.jinja2:97 templates/sample.jinja2:146
 #: templates/source.jinja2:161
 msgid "Barcode"
 msgstr "Código de barras"
 
 #: templates/admin_campaign_edit.jinja2:2
+#, fuzzy
 msgid "Admin Campaign Edit"
-msgstr "Editar Campaña del Administrador"
+msgstr "Editar campaña de administración"
 
-#: templates/admin_campaign_edit.jinja2:16
+#: templates/admin_campaign_edit.jinja2:35
+#, fuzzy
 msgid "Edit Campaign"
-msgstr "Editar Campaña"
+msgstr "Editar campaña"
 
-#: templates/admin_campaign_edit.jinja2:19
+#: templates/admin_campaign_edit.jinja2:38
+#, fuzzy
 msgid "Campaign ID"
-msgstr "ID de campaña"
+msgstr "Identificación de la campaña"
 
-#: templates/admin_campaign_edit.jinja2:23
+#: templates/admin_campaign_edit.jinja2:42
+#, fuzzy
 msgid "Campaign Link"
-msgstr "Enlace de campaña"
+msgstr "Enlace a publicación"
 
-#: templates/admin_campaign_edit.jinja2:27 templates/admin_campaign_edit.jinja2:35
+#: templates/admin_campaign_edit.jinja2:46
+#: templates/admin_campaign_edit.jinja2:54
+#, fuzzy
 msgid "Associated Projects"
 msgstr "Proyectos Asociados"
 
-#: templates/admin_campaign_edit.jinja2:32
+#: templates/admin_campaign_edit.jinja2:51
+#, fuzzy
 msgid "Add Campaign"
-msgstr "Añadir Campaña"
+msgstr "Agregar campaña"
 
-#: templates/admin_campaign_edit.jinja2:46
+#: templates/admin_campaign_edit.jinja2:65
+#, fuzzy
 msgid "Campaign Language"
-msgstr "Idioma de Campaña"
-
-#: templates/admin_campaign_edit.jinja2:56
-msgid "Title"
-msgstr "Título"
-
-#: templates/admin_campaign_edit.jinja2:60
-msgid "Instructions"
-msgstr "Instrucciones"
-
-#: templates/admin_campaign_edit.jinja2:64
-msgid "Alt Campaign Language"
-msgstr "Idioma Alternativo de la Campaña"
+msgstr "Idioma de la campaña"
 
 #: templates/admin_campaign_edit.jinja2:75
-msgid "Title in Alt Language"
-msgstr "Título en Idioma Alternativo"
+#, fuzzy
+msgid "Title"
+msgstr "Estado/Departamento"
 
 #: templates/admin_campaign_edit.jinja2:79
+#, fuzzy
+msgid "Instructions"
+msgstr "Distribuciones de rango"
+
+#: templates/admin_campaign_edit.jinja2:83
+#, fuzzy
+msgid "Alt Campaign Language"
+msgstr "Idioma alternativo de la campaña"
+
+#: templates/admin_campaign_edit.jinja2:94
+#, fuzzy
+msgid "Title in Alt Language"
+msgstr "Título en idioma alternativo"
+
+#: templates/admin_campaign_edit.jinja2:98
+#, fuzzy
 msgid "Instructions in Alt Language"
-msgstr "Instrucciones en Idioma Alternativo"
+msgstr "Instrucciones en idioma alternativo"
 
-#: templates/admin_campaign_edit.jinja2:84
+#: templates/admin_campaign_edit.jinja2:103
+#, fuzzy
 msgid "Current Header Image"
-msgstr "Imagen de Encabezado Actual"
+msgstr "Imagen de encabezado actual"
 
-#: templates/admin_campaign_edit.jinja2:89
+#: templates/admin_campaign_edit.jinja2:108
+#, fuzzy
 msgid "Upload New Header Image"
-msgstr "Cargar Nueva Imagen de Encabezado"
+msgstr "Cargar nueva imagen de encabezado"
 
-#: templates/admin_campaign_edit.jinja2:93 templates/admin_campaign_list.jinja2:17
+#: templates/admin_campaign_edit.jinja2:112
+#: templates/admin_campaign_list.jinja2:17
+#, fuzzy
 msgid "Permitted Countries"
 msgstr "Países Permitidos"
 
-#: templates/admin_campaign_edit.jinja2:104
+#: templates/admin_campaign_edit.jinja2:119
 #: templates/admin_campaign_list.jinja2:20
+#, fuzzy
 msgid "Accepting Participants"
-msgstr "Aceptando Participantes"
+msgstr "Aceptación de participantes"
 
-#: templates/admin_campaign_edit.jinja2:113
-#: templates/admin_interested_user_edit.jinja2:170
-#: templates/submit_interest.jinja2:566 templates/update_address.jinja2:254
+#: templates/admin_campaign_edit.jinja2:128
+#: templates/admin_interested_user_edit.jinja2:61
+#: templates/submit_interest.jinja2:323 templates/update_address.jinja2:214
+#, fuzzy
 msgid "Submit"
 msgstr "Enviar"
 
 #: templates/admin_campaign_list.jinja2:5 templates/sitebase.jinja2:50
+#, fuzzy
 msgid "Campaigns"
 msgstr "Campañas"
 
 #: templates/admin_campaign_list.jinja2:14
+#, fuzzy
 msgid "Campaign Name"
-msgstr "Nombre de Campaña"
+msgstr "Nombre de campaña"
 
 #: templates/admin_campaign_list.jinja2:47
+#, fuzzy
 msgid "No campaigns found"
-msgstr "No campañas encontradas"
+msgstr "No se encontraron cuentas"
 
 #: templates/admin_home.jinja2:2 templates/admin_interested_users.jinja2:2
 msgid "ADMINISTRATOR MODE"
-msgstr "Modo Administrador"
+msgstr "MODO DE ADMINISTRADOR"
 
 #: templates/admin_home.jinja2:14
 msgid "Account ID"
-msgstr "ID de la Cuenta"
+msgstr "ID de la cuenta"
 
-#: templates/admin_interested_user_edit.jinja2:30
-#: templates/admin_interested_user_edit.jinja2:64
-#: templates/submit_interest.jinja2:193
-msgid "Please enter a valid phone number."
-msgstr "Por favor ingrese su número de teléfono."
+#: templates/admin_interested_user_edit.jinja2:15
+#, fuzzy
+msgid "Edit Interested User"
+msgstr "Editar usuario interesado"
 
-#: templates/admin_interested_user_edit.jinja2:31
-#: templates/admin_interested_user_edit.jinja2:65
-#: templates/submit_interest.jinja2:197 templates/update_address.jinja2:130
-msgid "Please enter your street address."
-msgstr "Por favor ingrese su dirección postal."
-
-#: templates/admin_interested_user_edit.jinja2:32
-#: templates/admin_interested_user_edit.jinja2:66
-#: templates/submit_interest.jinja2:198 templates/update_address.jinja2:131
-msgid "Please enter your city."
-msgstr "Por favor ingrese su ciudad."
+#: templates/admin_interested_user_edit.jinja2:18
+#, fuzzy
+msgid ""
+"CAUTION: Edits made will NOT go through address verification - proceed "
+"carefully"
+msgstr ""
+"PRECAUCIÓN: las ediciones realizadas NO pasarán por la verificación de la "
+"dirección; proceda con cuidado"
 
 #: templates/admin_interested_user_edit.jinja2:33
-#: templates/admin_interested_user_edit.jinja2:67
-#: templates/submit_interest.jinja2:199 templates/update_address.jinja2:132
-msgid "Please select your state."
-msgstr "Por favor ingrese su estado."
-
-#: templates/admin_interested_user_edit.jinja2:35
-#: templates/admin_interested_user_edit.jinja2:69
-#: templates/submit_interest.jinja2:201 templates/update_address.jinja2:134
-msgid "Please enter your postal code."
-msgstr "Por favor ingrese su código postal."
-
-#: templates/admin_interested_user_edit.jinja2:100
-msgid "Edit Interested User"
-msgstr "Editar Usuario Interesado"
-
-#: templates/admin_interested_user_edit.jinja2:103
-msgid ""
-"CAUTION: Edits made will NOT go through address verification - proceed carefully"
-msgstr ""
-"PRECAUCIÓN: Los cambios realizados NO pasarán por la verificación de la "
-"dirección; avanzar con cuidado"
-
-#: templates/admin_interested_user_edit.jinja2:118
+#, fuzzy
 msgid "Phone"
 msgstr "Teléfono"
 
-#: templates/admin_interested_user_edit.jinja2:152
-#: templates/submit_interest.jinja2:549 templates/update_address.jinja2:235
-msgid "Address Type"
-msgstr "Dirección de Envio"
-
 #: templates/admin_interested_users.jinja2:5 templates/sitebase.jinja2:48
+#, fuzzy
 msgid "Interested Users"
-msgstr "Usuarios Interesados"
+msgstr "Usuarios interesados"
 
 #: templates/admin_interested_users.jinja2:45
+#, fuzzy
 msgid "Converted to Account"
-msgstr "Convertido a Cuenta"
+msgstr "Convertido a cuenta"
 
 #: templates/admin_interested_users.jinja2:54
+#, fuzzy
 msgid "No interested users found"
 msgstr "No se encontraron usuarios interesados"
 
 #: templates/admin_system_panel.jinja2:2
 msgid "ADMINISTRATOR SYSTEM PANEL"
-msgstr "PANEL DEL SISTEMA DEL ADMINISTRADOR"
+msgstr "PANEL DEL ADMINISTRADOR DEL SISTEMA"
 
-#: templates/admin_system_panel.jinja2:26 templates/admin_system_panel.jinja2:67
+#: templates/admin_system_panel.jinja2:26
+#: templates/admin_system_panel.jinja2:67
 msgid "Set System Message"
-msgstr "Establecer mensaje del sistema"
+msgstr "Establecer Mensaje del Sistema"
 
 #: templates/admin_system_panel.jinja2:35
 msgid "System Message"
@@ -1566,7 +1785,7 @@ msgstr "secundario"
 
 #: templates/admin_system_panel.jinja2:41
 msgid "success"
-msgstr "éxitoso"
+msgstr "exito"
 
 #: templates/admin_system_panel.jinja2:42
 msgid "danger"
@@ -1578,7 +1797,7 @@ msgstr "advertencia"
 
 #: templates/admin_system_panel.jinja2:44
 msgid "info"
-msgstr "información"
+msgstr "informacion"
 
 #: templates/admin_system_panel.jinja2:45
 msgid "light"
@@ -1590,27 +1809,28 @@ msgstr "oscuro"
 
 #: templates/create_nonhuman_source.jinja2:2
 msgid "Create Non-human Source"
-msgstr "Crear Fuente No-Humana"
+msgstr "Crear fuente no humana"
 
 #: templates/create_nonhuman_source.jinja2:8
 msgid "Creating Source..."
-msgstr "Creando fuente..."
+msgstr "Creando fuente …"
 
 #: templates/create_nonhuman_source.jinja2:16
+#, fuzzy
 msgid "Environment name (e.g., microwave)"
 msgstr "Nombre del entorno (por ejemplo, microondas)"
 
 #: templates/create_nonhuman_source.jinja2:20
 msgid "Environment description (optional)"
-msgstr "Descripción del entorno (opcional)"
+msgstr "Descripción del ambiente (opcional)"
 
 #: templates/create_nonhuman_source.jinja2:23
 msgid "Create Source"
-msgstr "Crear una Fuente"
+msgstr "Crear fuente"
 
 #: templates/email_confirmation.jinja2:2
 msgid "Awaiting Email Confirmation"
-msgstr "Esperando Confirmación por Correo Electrónico"
+msgstr "Esperando confirmación por correo electrónico"
 
 #: templates/email_confirmation.jinja2:20
 msgid "Check your email inbox"
@@ -1618,19 +1838,19 @@ msgstr "Revise la bandeja de entrada de su correo electrónico"
 
 #: templates/email_confirmation.jinja2:21
 msgid ""
-"To complete your verification, click on the link in the email AuthRocket has "
-"sent to"
+"To complete your verification, click on the link in the email AuthRocket has"
+" sent to"
 msgstr ""
-"Para completar su verificación, haga clic en el enlace del correo electrónico "
-"que AuthRocket ha enviado a"
+"Para completar su verificación, haga clic en el enlace en el correo "
+"electrónico que AuthRocket ha enviado a"
 
 #: templates/email_confirmation.jinja2:25
 msgid "Waiting for you to confirm"
-msgstr "Esperando su confirmación"
+msgstr "Esperando que confirme"
 
 #: templates/email_confirmation.jinja2:28
 msgid "Please check both your spam and inbox"
-msgstr "Por favor revise sus correos no deseados y su bandeja de entrada"
+msgstr "Comprueba tanto el correo no deseado como la bandeja de entrada"
 
 #: templates/email_confirmation.jinja2:29
 msgid "AuthRocket is our authentication service"
@@ -1652,27 +1872,28 @@ msgstr ""
 
 #: templates/email_confirmation.jinja2:33
 msgid "You can close this browser tab!"
-msgstr "¡Puede cerrar esta pestaña del navegador!"
+msgstr "Puede cerrar esta pestaña del navegador!"
 
 #: templates/email_confirmation.jinja2:33
+#, fuzzy
 msgid ""
 "After email verification, a new tab will automatically open, and you will "
 "proceed with filling out your account details"
 msgstr ""
-"Después de la verificación del correo electrónico, se abrirá automáticamente "
-"una nueva pestaña, y usted podrá seguir ingresando la información de su cuenta"
+"Después de la verificación por correo electrónico, se abrirá automáticamente"
+" una nueva pestaña y procederá a completar los detalles de su cuenta"
 
 #: templates/embedded_pdf.jinja2:2
 msgid "Embedded PDF"
-msgstr "PDF incorporado"
+msgstr "PDF incrustado"
 
 #: templates/embedded_pdf.jinja2:25
 msgid ""
-"This report is generated by a third party without information regarding age, "
-"height or weight."
+"This report is generated by a third party without information regarding age,"
+" height or weight."
 msgstr ""
-"Este reporte es generado por una tercera entidad sin información sobre edad, "
-"altura o peso."
+"Este informe es generado por un tercero sin información sobre edad, altura o"
+" peso."
 
 #: templates/emperor.jinja2:2 templates/emperor.jinja2:65
 #: templates/sitebase.jinja2:45
@@ -1689,117 +1910,247 @@ msgstr "Ir!"
 
 #: templates/error.jinja2:2
 msgid "Error Page"
-msgstr "Error en la Página"
+msgstr "Página de error"
 
 #: templates/error.jinja2:10
 msgid ""
-"An error seemed to have occurred (see below). It is most likely our fault. We "
-"are actively modifying our infrastructure to support COVID-19 research, and "
-"we're still in the process of handling the different type of scenarios that can "
-"happen on a website. We apologize for any inconvenience."
+"An error seemed to have occurred (see below). It is most likely our fault. "
+"We are actively modifying our infrastructure to support COVID-19 research, "
+"and we're still in the process of handling the different type of scenarios "
+"that can happen on a website. We apologize for any inconvenience."
 msgstr ""
-"Parece que se ha producido un error (véase a continuación). Lo más probable es "
-"que sea un error nuestro. Estamos modificando nuestra infraestructura para "
-"respaldar la investigación de COVID-19 y todavía estamos en el proceso de "
-"manejar los diferentes tipos de escenarios que pueden ocurrir en un sitio web. "
-"Nos disculpamos por cualquier inconveniente."
+"Parece que se ha producido un error (ver más abajo). Lo más probable es que "
+"sea culpa nuestra. Estamos modificando activamente nuestra infraestructura "
+"para respaldar la investigación de COVID-19 y todavía estamos en el proceso "
+"de manejar los diferentes tipos de escenarios que pueden ocurrir en un sitio"
+" web. Nos disculpamos por cualquier inconveniente."
 
 #: templates/error.jinja2:13
 msgid "If you have any concerns, please email us at"
-msgstr "Si tiene alguna duda, por favor envíenos un correo electrónico a"
+msgstr "Si tiene alguna inquietud, envíenos un correo electrónico a"
 
 #: templates/error.jinja2:13
 msgid "and please note the error below"
-msgstr "y por favor muéstrenos el error que le apareció"
+msgstr "e incluya el error a continuación"
 
 #: templates/error.jinja2:15
 msgid "Error"
 msgstr "Error"
 
+#: templates/example.jinja2:2 templates/example.jinja2:9
+#, fuzzy
+msgid "Example"
+msgstr "Sitio muestreado"
+
 #: templates/home.jinja2:2 templates/sitebase.jinja2:105
-#: templates/submit_interest.jinja2:2 templates/submit_interest_confirm.jinja2:2
+#: templates/submit_interest.jinja2:2
+#: templates/submit_interest_confirm.jinja2:2
 #: templates/update_address.jinja2:2 templates/update_address_confirm.jinja2:2
 msgid "Home"
-msgstr "Inicio"
+msgstr "Página principal"
 
 #: templates/home.jinja2:34
 msgid "Welcome!"
-msgstr "¡Bienvenido!"
+msgstr "Bienvenidos!"
 
 #: templates/home.jinja2:38
 msgid "SIGN UP"
-msgstr "Registrarse"
+msgstr "INSCRIBIRSE"
 
 #: templates/home.jinja2:42
 msgid "Already have an account?"
-msgstr "¿Ya tiene una cuenta?"
+msgstr "Ya tienes una cuenta?"
 
 #: templates/home.jinja2:43
 msgid "Welcome back!"
-msgstr "¡Bienvenido de nuevo!"
+msgstr "Bienvenido de nuevo!"
 
 #: templates/home.jinja2:43
 msgid "LOG IN"
-msgstr "Iniciar sesión"
+msgstr "INICIAR SESIÓN"
 
 #: templates/myfoodrepo_no_slots.jinja2:2
+#, fuzzy
 msgid "MyFoodRepo unavailable"
 msgstr "MyFoodRepo no disponible"
 
 #: templates/myfoodrepo_no_slots.jinja2:16
+#, fuzzy
 msgid "MyFoodRepo is currently unavailabile"
-msgstr "MyFoodRepo no está disponible en este momento"
+msgstr "Las fuentes animales no están disponibles en este momento."
 
 #: templates/myfoodrepo_no_slots.jinja2:19
+#, fuzzy
 msgid ""
 "We apologize, but unfortunately MyFoodRepo is not available at this time. "
 "Please check back in a few days and try again."
 msgstr ""
 "Lo sentimos, pero desafortunadamente MyFoodRepo no está disponible en este "
-"momento. Vuelva a revisar en unos días e inténtelo de nuevo."
+"momento. Vuelve a comprobarlo en unos días e inténtalo de nuevo."
 
 #: templates/myfoodrepo_no_slots.jinja2:22
+#, fuzzy
 msgid ""
-"MyFoodRepo is human curated to ensure the highest accuracy in reported dietary "
-"detail. Because the process is not fully automated, we need to limit the number "
-"of concurrent users who take part. We apologize for the inconvenience."
+"MyFoodRepo is human curated to ensure the highest accuracy in reported "
+"dietary detail. Because the process is not fully automated, we need to limit"
+" the number of concurrent users who take part. We apologize for the "
+"inconvenience."
 msgstr ""
-"MyFoodRepo es dirigido por humanos para garantizar una mayor precisión en la "
-"información dietética reportada. Debido a que el proceso no está completamente "
-"automatizado, debemos limitar la cantidad de usuarios que participan. Pedimos "
-"disculpas por las molestias."
+"MyFoodRepo está curado por humanos para garantizar la mayor precisión en los"
+" detalles dietéticos informados. Debido a que el proceso no está "
+"completamente automatizado, debemos limitar la cantidad de usuarios "
+"simultáneos que participan. Pedimos disculpas por las molestias."
 
 #: templates/myfoodrepo_no_slots.jinja2:25
 #: templates/post_sample_questionnaire.jinja2:30
 msgid "Back to Samples"
 msgstr "Volver a las Muestras"
 
-#: templates/new_participant.jinja2:2 templates/new_participant.jinja2:194
-msgid "Consent"
-msgstr "Consentimiento Informado"
+#: templates/myfoodrepo_query.jinja2:2 templates/myfoodrepo_return.jinja2:2
+#, fuzzy
+msgid "Prospective Diet Assessment"
+msgstr "Evaluación prospectiva de la dieta"
 
-#: templates/new_participant.jinja2:119 templates/new_participant.jinja2:120
-#: templates/new_participant.jinja2:121 templates/new_participant.jinja2:122
-msgid "Saving..."
-msgstr "Guardando..."
-
-#: templates/new_participant.jinja2:144
-msgid ""
-"It looks like you are creating a new source that may be similar or the same as "
-"an existing source. If this is the same person as an existing source, please "
-"consider providing new samples or survey responses under that source"
+#: templates/myfoodrepo_query.jinja2:17
+#, fuzzy
+msgid "New Citizen Scientist opportunity! Help our team understand your diet!"
 msgstr ""
-"Parece que está creando una nueva fuente que puede ser similar o igual a una "
-"fuente existente. Si esta es la misma persona que una fuente existente, "
-"considere proporcionar nuevas muestras o respuestas de encuestas bajo esa fuente"
+"¡Nueva oportunidad de ciudadano científico! ¡Ayuda a nuestro equipo a "
+"entender tu dieta!"
 
-#: templates/new_participant.jinja2:229 templates/new_participant.jinja2:273
-#: templates/new_participant.jinja2:307 templates/new_participant.jinja2:328
-msgid "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
-msgstr "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
+#: templates/myfoodrepo_query.jinja2:22
+#, fuzzy
+msgid ""
+"Our Microsetta participants - yes, that's you! Have the opportunity to help "
+"launch this new platform by photographing what you eat for three days, one "
+"day being a weekend. A cutting-edge artificial intelligence model then "
+"processes these images to assess the foods and their nutritional "
+"information. Our team may reach out to ask clarifying questions."
+msgstr ""
+"Nuestros participantes de Microsetta: ¡sí, eres tú! Tenga la oportunidad de "
+"ayudar a lanzar esta nueva plataforma fotografiando lo que come durante tres"
+" días, un día siendo fin de semana. Luego, un modelo de inteligencia "
+"artificial de última generación procesa estas imágenes para evaluar los "
+"alimentos y su información nutricional. Nuestro equipo puede comunicarse "
+"para hacer preguntas aclaratorias."
 
-#: templates/new_participant.jinja2:240 templates/new_participant.jinja2:280
-#: templates/new_participant.jinja2:314 templates/new_participant.jinja2:336
+#: templates/myfoodrepo_query.jinja2:23
+#, fuzzy
+msgid ""
+"This new opportunity should be completed three days before taking your "
+"sample. Taking part is completely anonymous. Identifying information is not "
+"shared with the MyFoodRepo application."
+msgstr ""
+"Esta nueva oportunidad debe completarse tres días antes de tomar su muestra."
+" La participación es completamente anónima. La información de identificación"
+" no se comparte con la aplicación MyFoodRepo."
+
+#: templates/myfoodrepo_query.jinja2:24
+#, fuzzy
+msgid ""
+"If you would like to participate in the prospective diet assessment, please "
+"click the participation button below. You will be anonymously taken to "
+"another website with further details. After completing three days of diet "
+"assessment, please return to the Microsetta website, select your source, and"
+" collect your sample."
+msgstr ""
+"Si desea participar en la evaluación de la dieta prospectiva, haga clic en "
+"el botón de participación a continuación. Se le llevará de forma anónima a "
+"otro sitio web con más detalles. Después de completar tres días de "
+"evaluación de la dieta, regrese al sitio web de Microsetta, seleccione su "
+"fuente y recolecte su muestra."
+
+#: templates/myfoodrepo_query.jinja2:29
+#, fuzzy
+msgid "I wish to participate"
+msgstr "deseo participar"
+
+#: templates/myfoodrepo_query.jinja2:32
+#, fuzzy
+msgid "I do not wish to participate"
+msgstr "no deseo participar"
+
+#: templates/myfoodrepo_query.jinja2:38
+#, fuzzy
+msgid ""
+"NOTE: We also offer a retrospective diet survey through Viocare called a "
+"Food Frequency Questionnaire, which can be taken after collecting your "
+"sample."
+msgstr ""
+"NOTA: También ofrecemos una encuesta dietética retrospectiva a través de "
+"Viocare llamada Cuestionario de frecuencia de alimentos, que se puede "
+"realizar después de recolectar su muestra."
+
+#: templates/myfoodrepo_query.jinja2:39
+#, fuzzy
+msgid ""
+"These diet instruments are voluntary. They capture different perspectives on"
+" your diet. Simply put, researchers do not know whether one is better for "
+"microbiome research than the other. But, it is well known that diet is very "
+"complex."
+msgstr ""
+"Estos instrumentos dietéticos son voluntarios. Capturan diferentes "
+"perspectivas sobre su dieta. En pocas palabras, los investigadores no saben "
+"si uno es mejor que el otro para la investigación del microbioma. Pero, es "
+"bien sabido que la dieta es muy compleja."
+
+#: templates/myfoodrepo_query.jinja2:40
+#, fuzzy
+msgid ""
+"Taking one or both of these instruments is very helpful for microbiome "
+"research. In exchange for your time, we will be able to provide nutritional "
+"summaries from these data, including how you compare to others."
+msgstr ""
+"Tomar uno o ambos de estos instrumentos es muy útil para la investigación "
+"del microbioma. A cambio de su tiempo, podremos proporcionar resúmenes "
+"nutricionales a partir de estos datos, incluida su comparación con otros."
+
+#: templates/myfoodrepo_return.jinja2:16
+#: templates/post_sample_questionnaire.jinja2:16
+msgid "Your diet can provide researchers valuable information"
+msgstr "Su dieta puede proporcionar a los investigadores información valiosa"
+
+#: templates/myfoodrepo_return.jinja2:19
+#, fuzzy
+msgid ""
+"Research shows that at least three days should be recorded prospectively. If"
+" you wish to stop, and move on to collecting your sample, then please click "
+"the button to proceed below. If you wish to continue, you'll be taken back "
+"to the Microsetta sources page"
+msgstr ""
+"La investigación muestra que se deben registrar prospectivamente al menos "
+"tres días. Si desea detenerse y continuar con la recolección de su muestra, "
+"haga clic en el botón para continuar a continuación. Si desea continuar, "
+"volverá a la página de fuentes de Microsetta"
+
+#: templates/myfoodrepo_return.jinja2:23
+#, fuzzy
+msgid "I wish complete MyFoodRepo"
+msgstr "Deseo completar MyFoodRepo"
+
+#: templates/myfoodrepo_return.jinja2:26
+#, fuzzy
+msgid "I do not wish to complete MyFoodRepo"
+msgstr "No deseo completar MyFoodRepo"
+
+#: templates/new_participant.jinja2:2 templates/new_participant.jinja2:129
+msgid "Consent"
+msgstr "Consentimiento"
+
+#: templates/new_participant.jinja2:107 templates/new_participant.jinja2:108
+#: templates/new_participant.jinja2:109 templates/new_participant.jinja2:110
+msgid "Saving..."
+msgstr "Grabando..."
+
+#: templates/new_participant.jinja2:153 templates/new_participant.jinja2:197
+#: templates/new_participant.jinja2:231 templates/new_participant.jinja2:251
+msgid ""
+"https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
+msgstr ""
+"https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights_sp.pdf"
+
+#: templates/new_participant.jinja2:164 templates/new_participant.jinja2:204
+#: templates/new_participant.jinja2:238 templates/new_participant.jinja2:259
 msgid "I Accept"
 msgstr "Acepto"
 
@@ -1808,20 +2159,24 @@ msgid "Sample Results"
 msgstr "Resultados de la muestra"
 
 #: templates/new_results_page.jinja2:216
+#, fuzzy
 msgid "11 to 20"
-msgstr "11 a 20"
+msgstr "11 hasta 20"
 
 #: templates/new_results_page.jinja2:217
+#, fuzzy
 msgid "21 to 30"
-msgstr "21 a 30"
+msgstr "21 hasta 30"
 
 #: templates/new_results_page.jinja2:218
+#, fuzzy
 msgid "5-6 hours"
-msgstr "5-6 horas"
+msgstr "7-8 horas"
 
 #: templates/new_results_page.jinja2:219
+#, fuzzy
 msgid "6 to 10"
-msgstr "6 a 10"
+msgstr "6 hasta 10"
 
 #: templates/new_results_page.jinja2:220
 msgid "6-7 hours"
@@ -1840,16 +2195,18 @@ msgid "Daily"
 msgstr "Diario"
 
 #: templates/new_results_page.jinja2:224
+#, fuzzy
 msgid "Less than 5"
-msgstr "Menos de 5"
+msgstr "Mas de 30"
 
 #: templates/new_results_page.jinja2:225
+#, fuzzy
 msgid "Less than 5 hours"
 msgstr "Menos de 5 horas"
 
 #: templates/new_results_page.jinja2:226
 msgid "More than 30"
-msgstr "Más de 30 horas"
+msgstr "Mas de 30"
 
 #: templates/new_results_page.jinja2:227 templates/new_results_page.jinja2:954
 msgid "Never"
@@ -1863,19 +2220,20 @@ msgstr "No provisto"
 
 #: templates/new_results_page.jinja2:229 templates/new_results_page.jinja2:956
 msgid "Occasionally (1-2 times/week)"
-msgstr "Ocasionalmente (1-2 veces/semana)"
+msgstr "Ocasionalmente (1-2 veces / semana)"
 
 #: templates/new_results_page.jinja2:230
+#, fuzzy
 msgid "Rarely (a few times/month)"
-msgstr "Raramente (algunas veces/mes)"
+msgstr "Rara vez (algunas veces al mes)"
 
 #: templates/new_results_page.jinja2:231 templates/new_results_page.jinja2:955
 msgid "Rarely (less than once/week)"
-msgstr "Rara vez (menos de una vez/semana)"
+msgstr "Rara vez (menos de una vez a la semana)"
 
 #: templates/new_results_page.jinja2:232 templates/new_results_page.jinja2:957
 msgid "Regularly (3-5 times/week)"
-msgstr "Regularmente (3-5 veces/semana)"
+msgstr "Regularmente (3-5 veces / semana)"
 
 #: templates/new_results_page.jinja2:426
 msgid "All of the Microsetta Initiative"
@@ -1883,70 +2241,74 @@ msgstr "Toda la Iniciativa Microsetta"
 
 #: templates/new_results_page.jinja2:436 templates/new_results_page.jinja2:447
 msgid "Multipopulation"
-msgstr "Multipoblación"
+msgstr "Poblacion múltiple"
 
 #: templates/new_results_page.jinja2:458
 msgid "You and the Microbes Around You"
-msgstr "Usted y los microbios que lo rodean"
+msgstr "Ud y los microbios que lo rodean"
 
 #: templates/new_results_page.jinja2:521
 msgid "Publication link"
-msgstr "Enlace de la Publicación"
+msgstr "Enlace a publicación"
 
 #: templates/new_results_page.jinja2:523
 msgid "Data access (Qiita study"
-msgstr "Acceso de datos (estudio Qiita"
+msgstr "Acceso a datos (estudio de Qiita"
 
 #: templates/new_results_page.jinja2:713
 msgid "Download the spreadsheet"
-msgstr "Descargar la hoja de cálculo"
+msgstr "Descarga la hoja de cálculo"
 
 #: templates/new_results_page.jinja2:720
 msgid ""
-"The broadest classification like Bacteria, Archaea and Eukaryokes (what humans "
-"are!)"
+"The broadest classification like Bacteria, Archaea and Eukaryokes (what "
+"humans are!)"
 msgstr ""
-"La clasificación más amplia como las Bacterias, Archaea y Eucariotas (¡lo que "
-"son los humanos!)"
+"La clasificación más amplia como Bacteria, Archaea y Eukaryotes (qué son los"
+" humanos!)"
 
 #: templates/new_results_page.jinja2:723
 msgid ""
 "Within the kingdom Eukarya, this is like the difference between humans and "
 "plants"
 msgstr ""
-"Dentro del reino Eukarya, esto es como la diferencia entre los humanos y las "
+"Dentro del reino Eukariote, esto es como la diferencia entre humanos y "
 "plantas"
 
 #: templates/new_results_page.jinja2:726
 msgid "Within the phylum Chordata, this is along the lines of humans and fish"
-msgstr "Dentro del filo Chordata, esto es similar a los humanos y los peces"
+msgstr ""
+"Dentro del filo Chordata, esto está en la línea de los humanos y los peces"
 
 #: templates/new_results_page.jinja2:729
 msgid ""
-"Within the class Mammalia, this is like the difference between whales and a dogs"
+"Within the class Mammalia, this is like the difference between whales and a "
+"dogs"
 msgstr ""
-"Dentro de la clase Mammalia, esto es como la diferencia entre las ballenas y "
-"los perros"
+"Dentro de la clase Mammalia, esto es como la diferencia entre ballenas y "
+"perros"
 
 #: templates/new_results_page.jinja2:732
 msgid "With the order Carnivora are the families for dogs and cats"
-msgstr "Con la orden Carnivora están las familias de perros y gatos"
+msgstr "Con el orden Carnivora están las familias para perros y gatos"
 
 #: templates/new_results_page.jinja2:735
 msgid ""
-"Within the family Canidae, you would find a genus for foxes and one for wolves"
+"Within the family Canidae, you would find a genus for foxes and one for "
+"wolves"
 msgstr ""
-"Dentro de la familia Canidae, encontrará un género para zorros y otro para lobos"
+"Dentro de la familia Canidae, encontrarás un género para zorros y otro para "
+"lobos"
 
 #: templates/new_results_page.jinja2:922 templates/new_results_page.jinja2:925
 #: templates/new_results_page.jinja2:931 templates/new_results_page.jinja2:939
 #: templates/new_results_page.jinja2:942 templates/new_results_page.jinja2:952
 msgid "Unspecified"
-msgstr "Indeterminado"
+msgstr "Sin especificar"
 
 #: templates/new_results_page.jinja2:932
 msgid "chose not to provide their age"
-msgstr "optó por no proporcionar su edad"
+msgstr "elegir no proporcionar su edad"
 
 #: templates/new_results_page.jinja2:934
 msgid "is"
@@ -1958,7 +2320,7 @@ msgstr "años"
 
 #: templates/new_results_page.jinja2:967 templates/new_results_page.jinja2:979
 msgid "chose not to say how many sweets they eat"
-msgstr "optó por no decir cuántos dulces comen"
+msgstr "eligió no decir cuántos dulces/postres come"
 
 #: templates/new_results_page.jinja2:969
 msgid "eats sweets"
@@ -1966,28 +2328,28 @@ msgstr "come dulces"
 
 #: templates/new_results_page.jinja2:973
 msgid "eats more sugary sweets than you"
-msgstr "come más dulces que usted"
+msgstr "come más azucares que tú"
 
 #: templates/new_results_page.jinja2:975
 msgid "eats fewer sugary sweets than you"
-msgstr "come menos dulces que usted"
+msgstr "come menos azucares que tú"
 
 #: templates/new_results_page.jinja2:977
 msgid "eats about the same number of sugary sweets as you"
-msgstr "come el mismo número de dulces que usted"
+msgstr "come aproximadamente la misma cantidad de azucares que usted"
 
 #: templates/new_results_page.jinja2:1217
 msgid "Rank Distributions"
-msgstr "Distribucion por Rango"
+msgstr "Distribuciones de rango"
 
 #: templates/new_results_page.jinja2:1235
 msgid "My Sample"
-msgstr "Mi Muestra"
+msgstr "Mi muestra"
 
 #: templates/new_results_page.jinja2:1241
 msgid "How abundant are my microbes compared everyone in Microsetta?"
 msgstr ""
-"¿Qué tan abundantes son mis microbios en comparación con los demás en "
+"Qué tan abundantes son mis microbios en comparación con los demás en "
 "Microsetta?"
 
 #: templates/new_results_page.jinja2:1244
@@ -1996,39 +2358,40 @@ msgstr "Tipos comunes de microbios"
 
 #: templates/new_results_page.jinja2:1250
 msgid "Least Abundant"
-msgstr "Menos Abundante"
+msgstr "Menos abundante"
 
 #: templates/new_results_page.jinja2:1250
 msgid "Most Abundant"
-msgstr "Más abundante"
+msgstr "Mas abundante"
 
 #: templates/new_results_page.jinja2:1268
 msgid ""
-"whole genome sequencing, a technique that produces a large number of small DNA "
-"sequences from all of the microbial genomes in your sample. With enough "
-"sequences you can even see the variation that exists between microbes of the "
-"same species."
+"whole genome sequencing, a technique that produces a large number of small "
+"DNA sequences from all of the microbial genomes in your sample. With enough "
+"sequences you can even see the variation that exists between microbes of the"
+" same species."
 msgstr ""
-"secuenciación del genoma completo, una técnica que produce una gran cantidad de "
-"pequeñas secuencias de ADN a partir de todos los genomas microbianos de su "
-"muestra. Con suficientes secuencias usted puede ver la variación que existe "
-"entre microbios de una misma especie."
+"secuenciación del genoma completo, una técnica que produce una gran cantidad"
+" de pequeñas secuencias de ADN de todos los genomas microbianos en su "
+"muestra. Con suficientes secuencias se puede incluso ver la variación que "
+"existe entre microbios de la misma especie."
 
 #: templates/new_results_page.jinja2:1271
 msgid ""
 "16S.  This technique produces DNA sequences from a specific variable region "
 "(V4) within a microbial gene (the 16S small subunit ribosomal gene). DNA "
-"sequences from this region of this gene can be used like a microbial barcode, "
-"providing researchers evidence of the types of microbes that may be present in "
-"your sample."
+"sequences from this region of this gene can be used like a microbial "
+"barcode, providing researchers evidence of the types of microbes that may be"
+" present in your sample."
 msgstr ""
-"16S. Esta técnica produce secuencias de ADN a partir de una región variable "
-"específica (V4) dentro de un gen microbiano (el gen ribosomal de la subunidad "
-"menor 16S). Las secuencias de ADN de la región de este gen se pueden usar como "
-"un código de barras microbiano, proporcionando a los científicos evidencia de "
-"los tipos de microbios que pueden estar presentes en su muestra."
+"16S. Esta técnica produce secuencias de ADN de una región variable "
+"específica (V4) dentro de un gen microbiano (la subunidad menor 16S del gen "
+"ribosómico). Las secuencias de ADN de esta región de este gen se pueden usar"
+" como un código de barras microbiano, proporcionando a los investigadores "
+"evidencia de los tipos de microbios que pueden estar presentes en su "
+"muestra."
 
-#: templates/new_results_page.jinja2:1396 templates/sample.jinja2:149
+#: templates/new_results_page.jinja2:1396 templates/sample.jinja2:133
 #: templates/sample_results.jinja2:128
 msgid "Source"
 msgstr "Fuente"
@@ -2038,48 +2401,57 @@ msgstr "Fuente"
 msgid "Results"
 msgstr "Resultados"
 
-#: templates/new_results_page.jinja2:1406 templates/new_results_page.jinja2:1420
+#: templates/new_results_page.jinja2:1406
+#: templates/new_results_page.jinja2:1420
 msgid "How do you compare?"
-msgstr "¿Cómo se compara?"
+msgstr "Cómo te comparas?"
 
-#: templates/new_results_page.jinja2:1407 templates/new_results_page.jinja2:1432
-#: templates/new_results_page.jinja2:1434 templates/new_results_page.jinja2:1465
+#: templates/new_results_page.jinja2:1407
+#: templates/new_results_page.jinja2:1432
+#: templates/new_results_page.jinja2:1434
+#: templates/new_results_page.jinja2:1465
 msgid "Diversity"
 msgstr "Diversidad"
 
-#: templates/new_results_page.jinja2:1408 templates/new_results_page.jinja2:1440
-#: templates/new_results_page.jinja2:1442 templates/new_results_page.jinja2:1534
+#: templates/new_results_page.jinja2:1408
+#: templates/new_results_page.jinja2:1440
+#: templates/new_results_page.jinja2:1442
+#: templates/new_results_page.jinja2:1534
 msgid "Similarity"
 msgstr "Semejanza"
 
-#: templates/new_results_page.jinja2:1409 templates/new_results_page.jinja2:1448
+#: templates/new_results_page.jinja2:1409
+#: templates/new_results_page.jinja2:1448
 #: templates/new_results_page.jinja2:1450
 msgid "Your Inner Zoo"
-msgstr "Su Zoológico Interior"
+msgstr "Tu zoológico interior"
 
-#: templates/new_results_page.jinja2:1410 templates/new_results_page.jinja2:1456
-#: templates/new_results_page.jinja2:1458 templates/new_results_page.jinja2:1763
+#: templates/new_results_page.jinja2:1410
+#: templates/new_results_page.jinja2:1456
+#: templates/new_results_page.jinja2:1458
+#: templates/new_results_page.jinja2:1763
 msgid "Microbiome Map"
-msgstr "Mapa del Microbioma"
+msgstr "Mapa del microbioma"
 
-#: templates/new_results_page.jinja2:1411 templates/new_results_page.jinja2:1714
+#: templates/new_results_page.jinja2:1411
+#: templates/new_results_page.jinja2:1714
 msgid "How can I learn more?"
-msgstr "¿Cómo puedo aprender más?"
+msgstr "Cómo puedo obtener más información?"
 
 #: templates/new_results_page.jinja2:1424
 msgid ""
 "Your microbiome is a rainforest of diverse microbes dominated by microbes - "
 "some 40 trillion bacteria, weighing around 1 lb, live all over and in your "
-"body. The diversity of your microbiome, how similar it is to other peoples', "
-"and the types of bacteria living inside you have all been linked to health, "
-"disease and lifestyle traits in numerous studies."
+"body. The diversity of your microbiome, how similar it is to other peoples',"
+" and the types of bacteria living inside you have all been linked to health,"
+" disease and lifestyle traits in numerous studies."
 msgstr ""
 "Su microbioma es una selva tropical de diversos microbios dominados por "
-"microbios - aproximadamente 40 trillones de bacterias, que pesan alrededor de 1 "
-"libra, viven sobre y en todo su cuerpo. La diversidad de su microbioma, qué tan "
-"similar es al de otras personas y los tipos de bacterias que viven dentro de "
-"usted se han relacionado con la salud, la enfermedad y el estilo de vida en "
-"numerosos estudios."
+"microbios: unos 40 billones de bacterias, que pesan alrededor de 1 libra, "
+"viven por todas partes de su cuerpo. La diversidad de su microbioma, lo "
+"similar que es al de otras personas y los tipos de bacterias que viven en su"
+" interior se han relacionado con la salud, las enfermedades y rasgos de "
+"estilo de vida en numerosos estudios."
 
 #: templates/new_results_page.jinja2:1428
 msgid ""
@@ -2088,56 +2460,57 @@ msgid ""
 "research tools, and the results are broken down below in a few different "
 "categories"
 msgstr ""
-"Los científicos regularmente usan diferentes criterios para ver cómo difiere su "
-"microbioma. Nosotros hemos analizado su muestra de microbioma utilizando "
-"herramientas estándar para la investigación del microbioma, y los resultados se "
-"desglosan a continuación en diferentes categorías"
+"Los científicos a menudo usan muchos enfoques diferentes para ver en qué se "
+"diferencia su microbioma. Hemos analizado su muestra de microbioma "
+"utilizando herramientas estándar de investigación de microbiomas, y los "
+"resultados se desglosan a continuación en algunas categorías diferentes"
 
 #: templates/new_results_page.jinja2:1434
 msgid "How many kinds of microbes were in your sample? Check out your"
-msgstr "¿Cuántos tipos de microbios había en su muestra? Revise su"
+msgstr "Cuántos tipos de microbios había en su muestra? Revisa tu"
 
 #: templates/new_results_page.jinja2:1442
 msgid ""
 "What kinds of people have microbiomes like yours? Check out your microbiome"
 msgstr ""
-"¿Qué tipo de personas tienen microbiomas como el suyo? Revise su microbioma"
+"Qué tipo de personas tienen microbiomas como el tuyo? Revisa tu microbioma"
 
 #: templates/new_results_page.jinja2:1450
 msgid "What particular kinds of microbes are in your sample? Wander through"
-msgstr "¿Qué tipo de microbios particulares hay en su muestra? Explore"
+msgstr "Qué tipos particulares de microbios hay en su muestra? Revisar"
 
 #: templates/new_results_page.jinja2:1458
 msgid "Where are you on the"
-msgstr "¿Dónde está usted en el"
+msgstr "Dónde estás en el"
 
 #: templates/new_results_page.jinja2:1468
 msgid ""
 "There are anywhere from hundreds of millions to hundreds of billions of "
-"different types of bacteria living on planet earth. This dwarfs the meager 2 "
-"million different kinds of animals and plants that you can see with your eyes. "
-"The <span id=\"average-us-tooltip\" class=\"tooltipper\" data-title=\"Based on "
-"fecal samples from Microsetta participants in the United States\">average</"
-"span> American has <strong>93</strong> different types of microbes in a stool "
-"sample, which is lower than we find in people living a more hunter-gatherer "
-"lifestyle, like the <strong>132</strong> we find in samples from the <span id="
-"\"taxa-tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous "
-"hunter-gather group in Tanzania. The summary of the Hadza microbiome is based "
-"on <a href='foobar.com'>Smits et al. Science 2017</a>\" data-html=\"true"
-"\">Hadza</span>."
+"different types of bacteria living on planet earth. This dwarfs the meager 2"
+" million different kinds of animals and plants that you can see with your "
+"eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" data-"
+"title=\"Based on fecal samples from Microsetta participants in the United "
+"States\">average</span> American has <strong>93</strong> different types of "
+"microbes in a stool sample, which is lower than we find in people living a "
+"more hunter-gatherer lifestyle, like the <strong>132</strong> we find in "
+"samples from the <span id=\"taxa-tooltip\" class=\"tooltipper\" data-"
+"title=\"The Hadza are an indigenous hunter-gather group in Tanzania. The "
+"summary of the Hadza microbiome is based on <a href='foobar.com'>Smits et "
+"al. Science 2017</a>\" data-html=\"true\">Hadza</span>."
 msgstr ""
-"Hay entre cientos de millones y cientos de miles de millones de distintos tipos "
-"de bacterias que viven en el planeta tierra. Esto empequeñece a los escasos 2 "
-"millones de distintos tipos de animales y plantas que puede ver con sus ojos. "
-"El <span id=“average-us-tooltip” class=“tooltipper” data-title=“Based on fecal "
-"samples from Microsetta participants in the United States”>promedio</span> de "
-"Estadounidenses tienen  <strong>93</strong> diferentes tipos de microbios en "
-"una muestra de heces, el cual es inferior al que encontramos en personas que "
-"viven un estilo de vida más cazador-recolector, como los <strong>132</"
-"strong> que encontramos en muestras de <span id=“taxa-tooltip” "
-"class=“tooltipper” data-title=“The Hadza are an indigenous hunter-gather group "
-"in Tanzania. The summary of the Hadza microbiome is based on <a href=‘foobar."
-"com’>Smits et al. Science 2017</a>” data-html=“true”>Hadza</span>."
+"Hay desde cientos de millones hasta cientos de miles de millones de "
+"diferentes tipos de bacterias que viven en el planeta tierra. Esto eclipsa "
+"los escasos 2 millones de diferentes tipos de animales y plantas que puedes "
+"ver con tus ojos. El <span id=\"average-us-tooltip\" class=\"tooltipper\" "
+"data-title=\"Basado en muestras fecales de los participantes de Microsetta "
+"en los Estados Unidos\"> promedio </span> estadounidense tiene <strong> 93 "
+"</strong> diferentes tipos de microbios en una muestra de heces, que es más "
+"baja que la que encontramos en personas que llevan un estilo de vida más "
+"cazador-recolector, como el <strong> 132 </strong> que encontramos en "
+"muestras de <span id=\"taxa-tooltip\" class = \"tooltipper\" data-"
+"title=\"Los Hadza son un grupo de cazadores-recolectores indígenas en "
+"Tanzania. El resumen del microbioma Hadza se basa en <a href='foobar.com'> "
+"Smits et al. Science 2017 </a> \"data-html =\"true\"> Hadza </span>."
 
 #: templates/new_results_page.jinja2:1472
 msgid "Number of different microbes found in your sample"
@@ -2146,78 +2519,81 @@ msgstr "Número de microbios diferentes encontrados en su muestra"
 #: templates/new_results_page.jinja2:1479
 msgid ""
 "When we calculated the diversity of groups for samples in our database, we "
-"found diversity is associated with how you live your life. Here, we summarized "
-"the average microbiome diversity for a few of the questionnaire responses, "
-"specifically people who eat more than 30 plants a week, exercise regularly, "
-"drink water regularly, or sleep more than 6 hours a night."
+"found diversity is associated with how you live your life. Here, we "
+"summarized the average microbiome diversity for a few of the questionnaire "
+"responses, specifically people who eat more than 30 plants a week, exercise "
+"regularly, drink water regularly, or sleep more than 6 hours a night."
 msgstr ""
-"Cuando nosotros calculamos la diversidad de grupos para muestras en nuestra "
-"base de datos, encontramos que la diversidad está asociada con la forma en que "
-"vive su vida. Aquí, nosotros resumimos la diversidad de microbiomas promedio "
-"para algunas de las respuestas del cuestionario, específicamente las personas "
-"que consumen más de 30 plantas a la semana, hacen ejercicio con regularidad, "
-"beben agua con regularidad o duermen más de 6 horas por noche."
+"Cuando calculamos la diversidad de grupos para las muestras en nuestra base "
+"de datos, encontramos que la diversidad está asociada con la forma en que "
+"vive su vida. Aquí, resumimos la diversidad de microbiomas promedio para "
+"algunas de las respuestas al cuestionario, específicamente las personas que "
+"comen más de 30 plantas a la semana, hacen ejercicio regularmente, beben "
+"agua con regularidad o duermen más de 6 horas por noche."
 
 #: templates/new_results_page.jinja2:1487
 msgid "Eat more than 30 plants a week"
-msgstr "Comen más de 30 plantas a la semana"
+msgstr "Come más de 30 plantas a la semana"
 
-#: templates/new_results_page.jinja2:1490 templates/new_results_page.jinja2:1501
-#: templates/new_results_page.jinja2:1514 templates/new_results_page.jinja2:1525
+#: templates/new_results_page.jinja2:1490
+#: templates/new_results_page.jinja2:1501
+#: templates/new_results_page.jinja2:1514
+#: templates/new_results_page.jinja2:1525
 msgid "unique microbial features"
 msgstr "características microbianas únicas"
 
 #: templates/new_results_page.jinja2:1498
 msgid "Exercise regularly"
-msgstr "Hacen ejercicio regularmente"
+msgstr "Hace ejercicio regularmente"
 
 #: templates/new_results_page.jinja2:1511
 msgid "Drink 1L or water regularly"
-msgstr "Beben 1L de agua o agua regularmente"
+msgstr "Bebe 1 litro de agua con regularidad"
 
 #: templates/new_results_page.jinja2:1522
 msgid "Sleep more than 6 hours per night"
-msgstr "Duermen más de 6 horas por noche"
+msgstr "Duerme más de 6 horas por noche"
 
 #: templates/new_results_page.jinja2:1537
 msgid ""
-"One of the powerful ways microbiome scientists analyze data is by looking at "
-"similarities among samples. To do this, we compute a <span id=\"similarity-"
-"tooltip\" class=\"tooltipper\" data-html=\"true\" data-title=\"There are <i>a "
-"lot</i> of ways to form a distance. One way is to base the distance off of the "
-"fraction of microbes in common in your sample with each other sample. We "
-"typically share few of the exact same microbes in common with other people "
-"though which is problematic when comparing exact microbes. To account for this, "
-"researchers often take the evolutionary relationships among microbes into "
-"account when forming these distances.\">distance</span> from your sample to all "
-"other samples based on the microbes observed."
+"One of the powerful ways microbiome scientists analyze data is by looking at"
+" similarities among samples. To do this, we compute a <span id=\"similarity-"
+"tooltip\" class=\"tooltipper\" data-html=\"true\" data-title=\"There are "
+"<i>a lot</i> of ways to form a distance. One way is to base the distance off"
+" of the fraction of microbes in common in your sample with each other "
+"sample. We typically share few of the exact same microbes in common with "
+"other people though which is problematic when comparing exact microbes. To "
+"account for this, researchers often take the evolutionary relationships "
+"among microbes into account when forming these distances.\">distance</span> "
+"from your sample to all other samples based on the microbes observed."
 msgstr ""
-"Una forma eficaz en que los científicos analizan los datos del microbioma es "
-"observando las similitudes entre las muestras. Para hacer esto, nosotros "
-"calculamos una <span id=“similarity-tooltip” class=“tooltipper” data-"
-"html=“true” data-title=“There are <i>a lot</i> of ways to form a distance. One "
-"way is to base the distance off of the fraction of microbes in common in your "
-"sample with each other sample. We typically share few of the exact same "
-"microbes in common with other people though which is problematic when comparing "
-"exact microbes. To account for this, researchers often take the evolutionary "
-"relationships among microbes into account when forming these "
-"distances.”>distancia</span> de su muestra a todas las demás muestras basada en "
-"los microbios observados."
+"Una de las formas poderosas en que los científicos del microbioma analizan "
+"los datos, es observando las similitudes entre las muestras. Para hacer "
+"esto, calculamos una <span id=\"similarity-tooltip\" class=\"tooltipper\" "
+"data-html=\"true\" data-title=\"Hay <i> muchas </i> formas de formar una "
+"distancia . Una forma es basar la distancia de la fracción de microbios en "
+"común en su muestra con cada otra muestra. Por lo general, tenemos pocos de "
+"los mismos exactos microbios en común con otras personas, lo que es "
+"problemático cuando se comparan microbios exactos. Por esto, los "
+"investigadores a menudo toman en cuenta las relaciones evolutivas entre los "
+"microbios cuando forman estas distancias. \"> distancia </span> de su "
+"muestra a todas las demás muestras basadas en los microbios observados."
 
 #: templates/new_results_page.jinja2:1541
 msgid ""
-"Here, we your sample to all the others in our database, and examined the 100 "
-"most similar samples to yours. These people answered their questionnaires in "
-"the following way; the response is colored in <span class=\"similarity-"
-"fontstyle-same\">light green</span> if it matches your response and <span class="
-"\"similarity-fontstyle-different\">brown</span> if your response differed."
+"Here, we your sample to all the others in our database, and examined the 100"
+" most similar samples to yours. These people answered their questionnaires "
+"in the following way; the response is colored in <span class=\"similarity-"
+"fontstyle-same\">light green</span> if it matches your response and <span "
+"class=\"similarity-fontstyle-different\">brown</span> if your response "
+"differed."
 msgstr ""
-"Aquí, nosotros comparamos su muestra con las demás muestras en nuestra base de "
-"datos, y examinamos las 100 muestras más similares a la suya. Estas personas "
-"respondieron sus cuestionarios de la siguiente manera; la respuesta esta en "
-"color <span class=“similarity-fontstyle-same”>verde</span>  si coincide con su "
-"respuesta y en <span class=“similarity-fontstyle-different”>café</span> si su "
-"respuesta es diferente."
+"Aquí, comparamos su muestra a todas las demás en nuestra base de datos y "
+"examinamos las 100 muestras más similares a la suya. Estas personas "
+"respondieron sus cuestionarios de la siguiente manera; la respuesta está "
+"coloreada en <span class=\"similarity-fontstyle-same\"> verde claro </span> "
+"si coincide con tu respuesta y en <span class=\"similarity-fontstyle-"
+"different\"> marrón </span> si tu respuesta es diferente ."
 
 #: templates/new_results_page.jinja2:1550
 msgid "Diet"
@@ -2225,7 +2601,7 @@ msgstr "Dieta"
 
 #: templates/new_results_page.jinja2:1560
 msgid "of people with a microbiome like yours eat"
-msgstr "de las personas con un microbioma como el suyo comen"
+msgstr "de las personas con un microbioma como el tuyo comen"
 
 #: templates/new_results_page.jinja2:1562
 msgid "plants per week"
@@ -2233,7 +2609,8 @@ msgstr "plantas por semana"
 
 #: templates/new_results_page.jinja2:1571
 msgid "of people with a microbiome like yours had a similar diet"
-msgstr "de las personas con un microbioma como el suyo tenían una dieta similar"
+msgstr ""
+"de las personas con un microbioma como el tuyo tienen una dieta similar"
 
 #: templates/new_results_page.jinja2:1578
 msgid "Supplements"
@@ -2241,7 +2618,7 @@ msgstr "Suplementos"
 
 #: templates/new_results_page.jinja2:1588
 msgid "of people with a microbiome like yours"
-msgstr "de las personas con un microbioma como el suyo"
+msgstr "de personas con un microbioma como el tuyo"
 
 #: templates/new_results_page.jinja2:1590
 msgid "take probiotics"
@@ -2249,7 +2626,7 @@ msgstr "toman probióticos"
 
 #: templates/new_results_page.jinja2:1599
 msgid "of people with a microbiome like yours take vitamins"
-msgstr "de las personas con un microbioma como el suyo toman vitaminas"
+msgstr "de las personas con un microbioma como el tuyo toman vitaminas"
 
 #: templates/new_results_page.jinja2:1606
 msgid "Activity"
@@ -2257,15 +2634,15 @@ msgstr "Actividad"
 
 #: templates/new_results_page.jinja2:1616
 msgid "of people with a microbiome like yours exercise"
-msgstr "de las personas con un microbioma como el suyo hacen ejercicio"
+msgstr "de las personas con un microbioma como el tuyo hacen ejercicio"
 
 #: templates/new_results_page.jinja2:1626
 msgid "of people with a microbiome like yours get"
-msgstr "de las personas con un microbioma como el suyo toman"
+msgstr "de las personas con un microbioma como el tuyo tienen"
 
 #: templates/new_results_page.jinja2:1628
 msgid "of sleep at night"
-msgstr "de sueño por la noche"
+msgstr "de sueño en la noche"
 
 #: templates/new_results_page.jinja2:1635
 msgid "Demographic"
@@ -2274,49 +2651,50 @@ msgstr "Demográfico"
 #: templates/new_results_page.jinja2:1645
 msgid "of people with a microbiome like yours were the same age as you"
 msgstr ""
-"de las personas con un microbioma como el suyo tenían la misma edad que usted"
+"de las personas con un microbioma como el tuyo tenían la misma edad que tú"
 
 #: templates/new_results_page.jinja2:1654
 msgid "of people with a microbiome like yours were the same gender"
-msgstr "de las personas con un microbioma como el suyo eran del mismo sexo"
+msgstr "de las personas con un microbioma como el tuyo son del mismo sexo"
 
 #: templates/new_results_page.jinja2:1663
 msgid "Your Inner Zoo (aka What's in your sample?)"
-msgstr "Su Zoológico Interno (¿Qué hay en su muestra?)"
+msgstr "Tu Zoologico interno (también conocido como ¿Qué hay en su muestra?)"
 
 #: templates/new_results_page.jinja2:1666
 msgid ""
-"Below you will find a table of all of the different microbes we found in your "
-"sample, and their proportions."
+"Below you will find a table of all of the different microbes we found in "
+"your sample, and their proportions."
 msgstr ""
-"A continuación encontrará una tabla de todos los distintos microbios que "
+"A continuación, encontrará una tabla de todos los diferentes microbios que "
 "encontramos en su muestra y sus proporciones."
 
 #: templates/new_results_page.jinja2:1670
 msgid ""
 "Microbes sometimes have difficult names to pronounce. Some of the names are "
 "Latin, Greek, Norse, Chinese and more. If you'd like to know more, a "
-"pronounciation guide can be found <a href=\"https://www.atsu.edu/faculty/"
-"chamberlain/Website/studio.htm\">here</a>."
+"pronounciation guide can be found <a "
+"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
 msgstr ""
-"Los microbios a veces tienen nombres difíciles de pronunciar. Algunos de los "
-"nombres están en latín, griego, nórdico, chino entre otros. Si desea conocer "
-"más, puede encontrar una guía de pronunciación <a href=“https://www.atsu.edu/"
-"faculty/chamberlain/Website/studio.htm”>aquí</a>."
+"Los microbios a veces tienen nombres difíciles de pronunciar. Algunos de los"
+" nombres son latinos, griegos, nórdicos, chinos y más. Si desea obtener más "
+"información, puede encontrar una guía de pronunciación <a "
+"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\"> aquí "
+"</a>."
 
 #: templates/new_results_page.jinja2:1674
 msgid ""
 "Please mouse over the header to learn more about how to interpret these "
 "taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms."
 msgstr ""
-"Pase el cursor del mouse sobre el encabezado para obtener más información sobre "
-"cómo interpretar estos rangos taxonómicos (por ejemplo, Reino) usando ejemplos "
-"de organismos no microbianos."
+"Pase el mouse sobre el encabezado para obtener más información sobre cómo "
+"interpretar estos rangos taxonómicos (por ejemplo, Reino) utilizando "
+"ejemplos de organismos no microbianos."
 
 #: templates/new_results_page.jinja2:1681
 #, python-format
 msgid "%% of Sample"
-msgstr "%% de la muestra"
+msgstr "%% de muestra"
 
 #: templates/new_results_page.jinja2:1682 templates/sample_results.jinja2:148
 msgid "Kingdom"
@@ -2344,220 +2722,230 @@ msgstr "Género"
 
 #: templates/new_results_page.jinja2:1698
 msgid ""
-"In the plot below, you can see the most commonly observed microbial genera in "
-"the dataset, and distribution of ranks of those genera.  For example,"
+"In the plot below, you can see the most commonly observed microbial genera "
+"in the dataset, and distribution of ranks of those genera.  For example,"
 msgstr ""
-"En la siguiente gráfica, usted podrá ver los géneros microbianos observados con "
-"mayor frecuencia en el conjunto de datos y el rango de distribución de esos "
+"En la siguiente gráfica, puede ver los géneros microbianos más comúnmente "
+"observados en el conjunto de datos y la distribución de los rangos de esos "
 "géneros. Por ejemplo,"
 
 #: templates/new_results_page.jinja2:1700
-msgid "typically has the highest relative abundance of samples in the dataset."
+msgid ""
+"typically has the highest relative abundance of samples in the dataset."
 msgstr ""
-"normalmente tiene la mayor abundancia relativa de muestras en el conjunto de "
-"datos."
+"normalmente tiene la mayor abundancia relativa de muestras en el conjunto de"
+" datos."
 
 #: templates/new_results_page.jinja2:1717
 msgid ""
-"Microbiome analysis is a burgeoning new field, and the information displayed "
-"here is only an example of what is becoming possible thanks to the data that "
-"you helped collect."
+"Microbiome analysis is a burgeoning new field, and the information displayed"
+" here is only an example of what is becoming possible thanks to the data "
+"that you helped collect."
 msgstr ""
-"El análisis del microbioma es un campo nuevo, y la información que se muestra "
-"aquí es solo un ejemplo de lo que se está logrando gracias a los datos que "
-"usted ayudó a recopilar."
+"El análisis del microbioma es un campo nuevo y floreciente, y la información"
+" que se muestra aquí es solo un ejemplo de lo que se está volviendo posible "
+"gracias a los datos que ayudó a recopilar."
 
 #: templates/new_results_page.jinja2:1721
 msgid ""
 "So if you want to learn more, you can even take a look at the dataset for "
 "yourself!"
-msgstr "Si desea aprender más, ¡usted puede revisar el conjunto de datos!"
+msgstr ""
+"Entonces, si desea obtener más información, incluso puede revisar el "
+"conjunto de datos usted mismo!"
 
 #: templates/new_results_page.jinja2:1725
 msgid ""
-"For your sample, we performed a technique called amplicon sequencing where we "
-"examine pieces of DNA corresponding to a particular gene. Specifically, we "
-"sequenced the fourth variable region (V4) of the 16S rRNA small subunit "
-"ribosomal gene. DNA sequences from this region of this gene can be used like a "
-"microbial barcode, providing researchers evidence of the types of microbes that "
-"may be present in your sample."
+"For your sample, we performed a technique called amplicon sequencing where "
+"we examine pieces of DNA corresponding to a particular gene. Specifically, "
+"we sequenced the fourth variable region (V4) of the 16S rRNA small subunit "
+"ribosomal gene. DNA sequences from this region of this gene can be used like"
+" a microbial barcode, providing researchers evidence of the types of "
+"microbes that may be present in your sample."
 msgstr ""
-"Para su muestra, realizamos una técnica llamada secuenciación de amplicón en la "
-"que examinamos fragmentos de ADN correspondientes a un gen en particular. "
-"Específicamente, secuenciamos la cuarta región variable (V4) del gen ribosomal "
-"de la subunidad menor 16S rRNA. Las secuencias de ADN de la región de este gen "
-"se pueden usar como un código de barras microbiano, proporcionando a los "
-"investigadores evidencia de los tipos de microbios que pueden estar presentes "
-"en su muestra."
+"Para su muestra, realizamos una técnica llamada secuenciación de amplicones "
+"en la que examinamos fragmentos de ADN correspondientes a un gen en "
+"particular. Específicamente, secuenciamos la cuarta región variable (V4) del"
+" gen ribosómico de subunidad menor de ARNr 16S. Las secuencias de ADN de "
+"esta región de este gen se pueden usar como un código de barras microbiano, "
+"proporcionando a los investigadores evidencia de los tipos de microbios que "
+"pueden estar presentes en su muestra."
 
 #: templates/new_results_page.jinja2:1729
 msgid ""
-"There are many resources for microbiome information available online. If you'd "
-"like to learn more, we recommend the <a href=\"https://asm.org/Browse-By-Topic/"
-"Newsroom/Clinical/Microbiome\">American Society for Microbiology</a>, <a href="
-"\"https://microbe.net/\">microBEnet</a>, the <a href=\"http://www."
-"probioticchart.ca/\">Canadian Probiotics Chart</a>, and the <a href=\"https://"
-"gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-"
-"education/\">American Gastroenterological Association</a>."
+"There are many resources for microbiome information available online. If "
+"you'd like to learn more, we recommend the <a href=\"https://asm.org/Browse-"
+"By-Topic/Newsroom/Clinical/Microbiome\">American Society for "
+"Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a "
+"href=\"http://www.probioticchart.ca/\">Canadian Probiotics Chart</a>, and "
+"the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-for-gut-"
+"microbiome-research-education/\">American Gastroenterological "
+"Association</a>."
 msgstr ""
-"Hay muchos recursos de información sobre el microbioma disponibles en línea. Si "
-"desea obtener más información, le recomendamos el <a href=“https://asm.org/"
-"Browse-By-Topic/Newsroom/Clinical/Microbiome”>American Society for "
-"Microbiology</a>, <a href=“https://microbe.net/“>microBEnet</a>, the <a "
-"href=“http://www.probioticchart.ca/“>Canadian Probiotics Chart</a>, and the <a "
-"href=“https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-"
-"research-education/“>American Gastroenterological Association</a>."
+"Hay muchos recursos disponibles en línea para obtener información sobre "
+"microbiomas. Si desea obtener más información, le recomendamos la <a "
+"href=\"https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome\"> "
+"Sociedad Estadounidense de Microbiología </a>, <a "
+"href=\"https://microbe.net/\"> microBEnet </a>, la <a "
+"href=\"http://www.probioticchart.ca/\"> Tabla canadiense de probióticos </a>"
+" y la <a href=\"https://gastro.org/aga-leadership/centers/aga-center-for-"
+"gut-microbiome-research-education/\">Asociación Estadounidense de "
+"Gastroenterología </a>."
 
 #: templates/new_results_page.jinja2:1732
 msgid "Datasets used in your results report"
-msgstr "Conjunto de datos usados en el reporte de sus resultados"
+msgstr "Conjuntos de datos utilizados en su informe de resultados"
 
 #: templates/new_results_page.jinja2:1734
 msgid ""
-"The results shown in the Microbiome Maps portion of the report relied on data "
-"from many different publically accessible microbiome datasets. These different "
-"datasets, and links to them, are listed below."
+"The results shown in the Microbiome Maps portion of the report relied on "
+"data from many different publically accessible microbiome datasets. These "
+"different datasets, and links to them, are listed below."
 msgstr ""
-"Los resultados demostrados en la parte del reporte del mapa del microbioma se "
-"basaron en información de varios conjuntos de datos de microbioma con acceso "
-"público. Estos diferentes conjuntos de datos, y los enlaces a ellos, se "
-"muestran a continuación."
+"Los resultados que se muestran en la parte de Mapas de microbiomas del "
+"informe se basaron en datos de muchos sets de datos de microbiomas de acceso"
+" público. Estos diferentes conjuntos de datos y los enlaces a ellos se "
+"enumeran a continuación."
 
 #: templates/new_results_page.jinja2:1737
 msgid "The Microsetta Initiative"
-msgstr "The Microsetta Initiative"
+msgstr "La iniciativa Microsetta"
 
-#: templates/new_results_page.jinja2:1742 templates/new_results_page.jinja2:1795
+#: templates/new_results_page.jinja2:1742
+#: templates/new_results_page.jinja2:1795
 msgid "Microbiomes Across the World"
 msgstr "Microbiomas en todo el mundo"
 
-#: templates/new_results_page.jinja2:1747 templates/new_results_page.jinja2:1819
+#: templates/new_results_page.jinja2:1747
+#: templates/new_results_page.jinja2:1819
 msgid "Microbiomes Across the Lifespan"
 msgstr "Microbiomas a lo largo de la vida"
 
-#: templates/new_results_page.jinja2:1752 templates/new_results_page.jinja2:1842
+#: templates/new_results_page.jinja2:1752
+#: templates/new_results_page.jinja2:1842
 msgid "Microbiomes in the Environment"
-msgstr "Microbiomas en el Medio Ambiente"
+msgstr "Microbiomas en el medio ambiente"
 
 #: templates/new_results_page.jinja2:1766
 msgid ""
-"Microbiome maps turn the similarities and differences among microbiomes into a "
-"two-dimensional picture. Each dot is a whole microbiome, and dots close to "
-"yours are more similar microbiomes."
+"Microbiome maps turn the similarities and differences among microbiomes into"
+" a two-dimensional picture. Each dot is a whole microbiome, and dots close "
+"to yours are more similar microbiomes."
 msgstr ""
-"Los mapas de microbiomas convierten las similitudes y las diferencias entre los "
-"microbiomas en una imagen bidimensional. Cada punto es un microbioma completo, "
-"y los puntos cercanos al suyo son microbiomas más similares."
+"Los mapas de microbiomas convierten las similitudes y diferencias entre los "
+"microbiomas en una imagen bidimensional. Cada punto es un microbioma "
+"completo y los puntos cercanos al tuyo son microbiomas más similares."
 
 #: templates/new_results_page.jinja2:1770
 msgid ""
-"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-title="
-"\"Visualizing complex data is difficult. One way microbiome researchers do it "
-"though is through a technique called principal coordinates analysis (PCoA). We "
-"provide PCoA with the millions of microbiome similarities we compute (we use "
-"tens of thousands of samples, and compare each sample to each other), and in "
-"turn, PCoA provides perspectives into massive data matrix that place very "
-"similar samples near each other and less similar samples far apart.\">How are "
-"these maps produced?</span>"
+"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
+"title=\"Visualizing complex data is difficult. One way microbiome "
+"researchers do it though is through a technique called principal coordinates"
+" analysis (PCoA). We provide PCoA with the millions of microbiome "
+"similarities we compute (we use tens of thousands of samples, and compare "
+"each sample to each other), and in turn, PCoA provides perspectives into "
+"massive data matrix that place very similar samples near each other and less"
+" similar samples far apart.\">How are these maps produced?</span>"
 msgstr ""
-"<span id=“microbiome-maps-tooltip” class=“tooltipper” data-title=“Visualizing "
-"complex data is difficult. One way microbiome researchers do it though is "
-"through a technique called principal coordinates analysis (PCoA). We provide "
-"PCoA with the millions of microbiome similarities we compute (we use tens of "
-"thousands of samples, and compare each sample to each other), and in turn, PCoA "
-"provides perspectives into massive data matrix that place very similar samples "
-"near each other and less similar samples far apart.”>¿Cómo se producen estos "
-"mapas?</span>"
+"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
+"title=\"Visualizar datos complejos es difícil. Sin embargo, una forma en que"
+" los investigadores de microbiomas lo hacen es a través de una técnica "
+"llamada análisis de coordenadas principales (PCoA). los millones de "
+"similitudes de microbiomas que calculamos (usamos decenas de miles de "
+"muestras y comparamos cada muestra entre sí) y, a su vez, PCoA proporciona "
+"perspectivas en una matriz de datos masiva que colocan muestras muy "
+"similares cerca unas de otras y muestras menos similares alejadas . \"> "
+"¿Cómo se producen estos mapas? </span>"
 
 #: templates/new_results_page.jinja2:1775
 msgid "Microbiomes Across the Body"
-msgstr "Microbiomas por todo el cuerpo"
+msgstr "Microbiomas en todo el cuerpo"
 
 #: templates/new_results_page.jinja2:1786
 msgid ""
-"In this map, we've placed your sample relative to all the other samples we have "
-"in Microsetta. As you can see, there are a few different types of samples "
-"people have contributed, and the microbial configurations present can be REALLY "
-"different."
+"In this map, we've placed your sample relative to all the other samples we "
+"have in Microsetta. As you can see, there are a few different types of "
+"samples people have contributed, and the microbial configurations present "
+"can be REALLY different."
 msgstr ""
 "En este mapa, hemos colocado su muestra en relación con todas las demás "
-"muestras que tenemos en Microsetta. Como puede ver, hay diferentes tipos de "
-"muestras que las personas han contribuido, y las configuraciones microbianas "
-"presentes pueden ser REALMENTE diferentes."
+"muestras que tenemos en Microsetta. Como puede ver, hay algunos tipos "
+"diferentes de muestras que las personas han contribuido, y las "
+"configuraciones microbianas presentes pueden ser REALMENTE diferentes."
 
 #: templates/new_results_page.jinja2:1806
 msgid ""
-"Researchers have noted large differences in our microbiomes depending on where "
-"we live. The reason WHY is not well understood, but we suspect factors such as "
-"diet or environmental exposures (e.g., plants, what's in your house, pollution, "
-"how often you come in contact with soil, etc) may be be major factors."
+"Researchers have noted large differences in our microbiomes depending on "
+"where we live. The reason WHY is not well understood, but we suspect factors"
+" such as diet or environmental exposures (e.g., plants, what's in your "
+"house, pollution, how often you come in contact with soil, etc) may be be "
+"major factors."
 msgstr ""
-"Los investigadores han notado grandes diferencias en nuestros microbiomas según "
-"el lugar donde vivimos. No se conocen bien las razones de ello, pero "
-"sospechamos que los factores como la dieta o la exposición ambiental (por "
-"ejemplo, las plantas, lo que hay en su casa, la contaminación, la frecuencia "
-"con la que entra en contacto con el suelo, etc.) pueden ser factores "
+"Los investigadores han observado grandes diferencias en nuestros microbiomas"
+" según el lugar donde vivimos. El POR QUÉ no se comprende bien, pero "
+"sospechamos que factores como la dieta o la exposición ambiental (por "
+"ejemplo, plantas, lo que hay en su casa, la contaminación, la frecuencia con"
+" la que entra en contacto con el suelo, etc.) pueden ser factores "
 "importantes."
 
 #: templates/new_results_page.jinja2:1810
 msgid ""
-"Researchers do not know how much these differences matter! They certainly may."
-msgstr "¡Los investigadores no saben cuánto importan estas diferencias!"
+"Researchers do not know how much these differences matter! They certainly "
+"may."
+msgstr ""
+"Los investigadores no saben cuánto importan estas diferencias! Ciertamente "
+"pueden hacerlo."
 
 #: templates/new_results_page.jinja2:1830
 msgid ""
-"One major factor associated with gut microbiomes is the age of the individual, "
-"emphasized here by life stages."
+"One major factor associated with gut microbiomes is the age of the "
+"individual, emphasized here by life stages."
 msgstr ""
-"Un factor importante asociado con el microbioma intestinal es la edad del "
-"individuo, enfatizada aquí por las diferentes etapas de la vida."
+"Un factor importante asociado con los microbiomas intestinales es la edad "
+"del individuo, enfatizado aquí por las etapas de la vida."
 
 #: templates/new_results_page.jinja2:1834
 msgid ""
-"Interestingly, infants are relatively similar microbially regardless of where "
-"they were born. But, as individuals age, it seems like their microbiomes "
-"reflect regional or population differences."
+"Interestingly, infants are relatively similar microbially regardless of "
+"where they were born. But, as individuals age, it seems like their "
+"microbiomes reflect regional or population differences."
 msgstr ""
-"Curiosamente, los bebés son relativamente similares desde el punto de vista "
-"microbiano, independientemente de dónde hayan nacido. Pero, a medida que las "
-"personas envejecen, parece que sus microbiomas reflejan diferencias regionales "
-"o de población."
+"Curiosamente, los bebés son relativamente similares microbianamente "
+"independientemente de dónde nacieron. Pero, a medida que los individuos "
+"envejecen, parece que sus microbiomas reflejan diferencias regionales o de "
+"población."
 
 #: templates/new_results_page.jinja2:1853
 msgid ""
-"Microbes are EVERYWHERE though! Using these same techniques described above, we "
-"compared your microbiome to samples collected from all over the surfaces from a "
-"brand new hospital."
+"Microbes are EVERYWHERE though! Using these same techniques described above,"
+" we compared your microbiome to samples collected from all over the surfaces"
+" from a brand new hospital."
 msgstr ""
-"¡Los microbios están EN TODAS PARTES! Usando las técnicas descritas "
-"anteriormente, nosotros comparamos su microbioma con muestras recolectadas de "
-"todas las superficies de un hospital nuevo."
+"Los microbios están EN TODAS PARTES! Usando estas mismas técnicas descritas "
+"anteriormente, comparamos tu microbioma con muestras recolectadas de todas "
+"las superficies de un hospital completamente nuevo."
 
 #: templates/new_results_page.jinja2:1857
 msgid ""
 "As you can see, skin samples tend to more closely resemble those from \"the "
-"built environment\", which makes sense as skin cells are constantly shedding "
-"from you."
+"built environment\", which makes sense as skin cells are constantly shedding"
+" from you."
 msgstr ""
-"Como puede ver, las muestras de la piel tienden a parecerse más a las del "
-"“entorno construido”, lo que tiene sentido ya que las células de la piel se "
-"desprenden constantemente de usted."
+"Como puede ver, las muestras de piel tienden a parecerse más a las del "
+"\"entorno construido\", lo que tiene sentido ya que las células de la piel "
+"se desprenden constantemente de usted."
 
 #: templates/post_sample_questionnaire.jinja2:2
 msgid "Optional Sample Surveys"
-msgstr "Cuestionario de muestra opcional"
-
-#: templates/post_sample_questionnaire.jinja2:16
-msgid "Your diet can provide researchers valuable information"
-msgstr "Su dieta puede proporcionar valiosa información a los investigadores"
+msgstr "Encuestas opcionales"
 
 #: templates/post_sample_questionnaire.jinja2:19
 msgid "Would you like to take our additional survey, the"
-msgstr "Le gustaría contestar un cuestionario adicional, el"
+msgstr "Le gustaría realizar nuestra encuesta adicional, el"
 
-#: templates/post_sample_questionnaire.jinja2:19 templates/source.jinja2:201
+#: templates/post_sample_questionnaire.jinja2:19 templates/source.jinja2:200
 msgid "Food Frequency Questionnaire"
-msgstr "Cuestionario de Frecuencia de Consumo de Alimentos"
+msgstr "Cuestionario de frecuencia alimenticia"
 
 #: templates/post_sample_questionnaire.jinja2:19
 msgid "FFQ"
@@ -2565,23 +2953,23 @@ msgstr "FFQ"
 
 #: templates/post_sample_questionnaire.jinja2:19
 msgid ""
-"By completing the questionnaire, you can enhance information about your sample, "
-"which will power more insightful research!"
+"By completing the questionnaire, you can enhance information about your "
+"sample, which will power more insightful research!"
 msgstr ""
-"Al completar el cuestionario, usted podrá enriquecer la información sobre su "
-"muestra, lo que impulsará una investigación más detallada!"
+"Al completar el cuestionario, puede mejorar la información sobre su muestra,"
+" lo que impulsará una investigación más profunda!"
 
 #: templates/post_sample_questionnaire.jinja2:20
 msgid "Note"
-msgstr "Tenga en cuenta"
+msgstr "Nota"
 
 #: templates/post_sample_questionnaire.jinja2:20
 msgid ""
-"If you took multiple samples within a short time frame, you only need to take "
-"the FFQ for one such sample"
+"If you took multiple samples within a short time frame, you only need to "
+"take the FFQ for one such sample"
 msgstr ""
-"Si tomó varias muestras en un período corto de tiempo, solo necesita tomar el "
-"FFQ para una de esas muestras"
+"Si tomó varias muestras en un período de tiempo corto, solo necesita tomar "
+"el FFQ para una de esas muestras"
 
 #: templates/post_sample_questionnaire.jinja2:23
 msgid "Approx time: 30 minutes"
@@ -2589,153 +2977,150 @@ msgstr "Tiempo aproximado: 30 minutos"
 
 #: templates/post_sample_questionnaire.jinja2:27
 msgid "Take FFQ"
-msgstr "Tomar el FFQ"
+msgstr "Toma el FFQ"
 
-#: templates/sample.jinja2:2 templates/sample.jinja2:150
+#: templates/sample.jinja2:2 templates/sample.jinja2:134
 msgid "Sample Information"
-msgstr "Información de la muestra"
+msgstr "Información de muestra"
 
-#: templates/sample.jinja2:27
-msgid "Please select a date within the last 10 years."
-msgstr "Seleccione una fecha dentro de los últimos 10 años."
-
-#: templates/sample.jinja2:30
-msgid "Please select a date within the next 30 days."
-msgstr "Seleccione una fecha dentro de los próximos 30 días."
-
-#: templates/sample.jinja2:86
+#: templates/sample.jinja2:70
 msgid "Required Format: MM/DD/YYYY"
 msgstr "Formato requerido: MM/DD/AAAA"
 
-#: templates/sample.jinja2:158
+#: templates/sample.jinja2:142
 msgid "Sample Recorded, Editing is Locked"
-msgstr "Muestra registrada, la edición está bloqueada"
+msgstr "Muestra grabada, la edición está bloqueada"
 
-#: templates/sample.jinja2:169
+#: templates/sample.jinja2:153
 msgid "Date"
 msgstr "Fecha"
 
-#: templates/sample.jinja2:178
+#: templates/sample.jinja2:162
 msgid "Time"
 msgstr "Hora"
 
-#: templates/sample.jinja2:192
+#: templates/sample.jinja2:176
 msgid "Guidelines for site identification"
-msgstr "Guía para la identificación del sitio"
+msgstr "Directrices para la identificación del sitio"
 
-#: templates/sample.jinja2:193
+#: templates/sample.jinja2:177
 msgid "If collecting a"
-msgstr "Si recolecta una muestra de"
+msgstr "Si recolecta un"
 
-#: templates/sample.jinja2:193
+#: templates/sample.jinja2:177
 msgid "BLOOD"
 msgstr "SANGRE"
 
-#: templates/sample.jinja2:193
+#: templates/sample.jinja2:177
 msgid "sample, please select Blood (skin prick)"
-msgstr "por favor seleccione Sangre (pinchazo en la piel)"
+msgstr "muestra, seleccione Sangre (pinchazo en la piel)"
 
-#: templates/sample.jinja2:194
+#: templates/sample.jinja2:178
 msgid ""
-"For all swabs, please select the site as precisely as possible from the options "
-"available"
+"For all swabs, please select the site as precisely as possible from the "
+"options available"
 msgstr ""
-"Para todos los hisopos, por favor seleccione el sitio con la mayor precisión "
-"posible entre las opciones disponibles"
+"Para todos los hisopos, seleccione el sitio con la mayor precisión posible "
+"entre las opciones disponibles"
 
-#: templates/sample.jinja2:200
+#: templates/sample.jinja2:184
 msgid "Site sampled"
 msgstr "Sitio muestreado"
 
-#: templates/sample.jinja2:204
+#: templates/sample.jinja2:188
 msgid "Select a sample type"
 msgstr "Seleccione un tipo de muestra"
 
-#: templates/sample.jinja2:220
+#: templates/sample.jinja2:204
 msgid "Notes"
-msgstr "Observaciones"
+msgstr "Notas"
 
-#: templates/sample.jinja2:222
+#: templates/sample.jinja2:206
 msgid "(Optional) Is there else about this sample that you would like to add?"
-msgstr "(Opcional) ¿Hay algo más sobre esta muestra que quisiera añadir?"
+msgstr "(Opcional) ¿Hay algo más sobre esta muestra que le gustaría agregar?"
 
-#: templates/sample.jinja2:225
+#: templates/sample.jinja2:209
 msgid "Update"
 msgstr "Actualizar"
 
 #: templates/sample_results.jinja2:140
 msgid "What is in your sample?"
-msgstr "¿Qué hay en su muestra?"
+msgstr "¿Qué hay en tu muestra?"
 
 #: templates/sample_results.jinja2:142
 msgid ""
 "The table below shows the relative abundances of all of the organisms we "
-"observed in your sample. To produce this, we took the DNA sequences from your "
-"sample, and compared them against publicly available annotated reference "
-"databases. In some cases, a sequence may uniquely match a database record, in "
-"other cases a sequence may match may different records. To handle the "
-"uncertainty that can arise, we rely on a well used and publicly available "
-"microbiome software package called <a href=\"https://qiime2.org\" target="
-"\"_blank\">QIIME 2</a>. The exact approach taken is highlighted in the main "
-"tutorial on <a href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/"
-"#taxonomic-analysis\" target=\"_blank\">feature-classification</a>"
+"observed in your sample. To produce this, we took the DNA sequences from "
+"your sample, and compared them against publicly available annotated "
+"reference databases. In some cases, a sequence may uniquely match a database"
+" record, in other cases a sequence may match may different records. To "
+"handle the uncertainty that can arise, we rely on a well used and publicly "
+"available microbiome software package called <a href=\"https://qiime2.org\" "
+"target=\"_blank\">QIIME 2</a>. The exact approach taken is highlighted in "
+"the main tutorial on <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-"
+"analysis\" target=\"_blank\">feature-classification</a>"
 msgstr ""
-"La siguiente tabla muestra las abundancias relativas de todos los organismos "
-"que observamos en su muestra. Para producir esto, tomamos las secuencias de ADN "
-"de su muestra y las comparamos con bases de datos de referencia disponibles "
-"públicamente. En algunos casos, una secuencia puede coincidir únicamente con un "
-"registro de la base de datos, en otros casos, una secuencia puede coincidir con "
-"varios registros diferentes. Para manejar la incertidumbre que puede surgir, "
-"usamos un software para análisis de microbiomas muy utilizado y disponible al "
-"público llamado <a href=“https://qiime2.org” target=“_blank”>QIIME 2</a>. El "
-"método exacto adoptado se muestra en el tutorial principal sobre <a "
-"href=“https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-"
-"analysis” target=“_blank”>clasificación-especies</a>"
+"La siguiente tabla muestra las abundancias relativas de todos los organismos"
+" que observamos en su muestra. Para producir esto, tomamos las secuencias de"
+" ADN de su muestra y las comparamos con bases de datos de referencia "
+"anotadas disponibles públicamente. En algunos casos, una secuencia puede "
+"coincidir de forma única con un registro de la base de datos, en otros "
+"casos, una secuencia puede coincidir con registros diferentes. Para manejar "
+"la incertidumbre que puede surgir, nos basamos en un paquete de software de "
+"microbioma ampliamente utilizado y disponible públicamente llamado <a "
+"href=\"https://qiime2.org\" target=\"_blank\"> QIIME 2 </a>. El enfoque "
+"exacto adoptado se destaca en el tutorial principal sobre <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#taxonomic-"
+"analysis\" target=\"_blank\"> clasificación de características </ a>"
 
 #: templates/sample_results.jinja2:147
 msgid "Relative Abundance"
-msgstr "Abundancia Relativa"
+msgstr "Abundancia relativa"
 
 #: templates/sample_results.jinja2:161
 msgid "Alpha Diversity"
-msgstr "Diversidad Alfa"
+msgstr "Diversidad alfa"
 
 #: templates/sample_results.jinja2:163
 msgid ""
 "Here, we're providing a measure of the diversity of your sample, and how it "
 "compares to the diversities of all of the same type of samples in The "
 "Microsetta Initiative. There are many ways to calculate diversity. For "
-"instance, you could compute a diversity value by counting the number of unique "
-"organisms observed (i.e., the sample \"richness\"). Or, you might be interested "
-"in weighting the calculation by the relative abundance of the organisms (i.e., "
-"the sample \"evenness\"). The metric we're computing here is called Faith's "
-"Phylogenetic Diversity (originally defined <a href=\"https://www.sciencedirect."
-"com/science/article/pii/0006320792912013\" target=\"_blank\">here</a>). Faith's "
-"Phylogenetic Diversity computes the \"richness\" of your sample as the amount "
-"of evolutionary breadth represented by your sample. The way we compute alpha "
-"diversity is also through <a href=\"https://qiime2.org\" target=\"_blank"
-"\">QIIME 2</a>, and more information on it can be found in the alpha and beta "
-"diversity <a href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/"
-"#alpha-and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the "
-"QIIME 2 tutorial"
+"instance, you could compute a diversity value by counting the number of "
+"unique organisms observed (i.e., the sample \"richness\"). Or, you might be "
+"interested in weighting the calculation by the relative abundance of the "
+"organisms (i.e., the sample \"evenness\"). The metric we're computing here "
+"is called Faith's Phylogenetic Diversity (originally defined <a "
+"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\" "
+"target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the "
+"\"richness\" of your sample as the amount of evolutionary breadth "
+"represented by your sample. The way we compute alpha diversity is also "
+"through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and "
+"more information on it can be found in the alpha and beta diversity <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
+"beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 "
+"tutorial"
 msgstr ""
-"Aquí, nosotros estamos proporcionamos una medida de la diversidad de su "
-"muestra, y cómo se compara con las diversidades de todos los mismos tipos de "
-"muestras en The Microsetta Initiative. Hay muchas formas de calcular la "
-"diversidad. Por ejemplo, usted podría calcular un valor de diversidad contando "
-"el número de organismos únicos observados (es decir, la “riqueza” de la "
-"muestra). O bien, podría estar interesado en ponderar el cálculo por la "
-"abundancia relativa de los organismos (es decir, la “uniformidad” de la "
-"muestra). La métrica que estamos calculando aquí se llama diversidad "
-"filogenética de Faith (definida originalmente <a href=“https://www."
-"sciencedirect.com/science/article/pii/0006320792912013” target=“_blank”>aquí</"
-"a>). La diversidad filogenética de Faith calcula la “riqueza” de su muestra "
-"como la cantidad de amplitud evolutiva representada por su muestra. La forma en "
-"que calculamos la diversidad alfa también es a través de <a href=“https://"
-"qiime2.org” target=“_blank”>QIIME 2</a>, y más información al respecto se puede "
-"encontrar en las <a href=“https://docs.qiime2.org/2020.6/tutorials/moving-"
-"pictures/#alpha-and-beta-diversity-analysis” target=“_blank”>secciones</a> "
-"sobre la diversidad alfa y beta en el tutoríal de QIIME 2"
+"Aquí, proporcionamos una medida de la diversidad de su muestra y cómo se "
+"compara con la diversidad de todas las muestras del mismo tipo en la "
+"Iniciativa Microsetta. Hay muchas formas de calcular la diversidad. Por "
+"ejemplo, podría calcular un valor de diversidad contando el número de "
+"organismos únicos observados (es decir, la \"riqueza\" de la muestra). O "
+"quizás le interese ponderar el cálculo por la abundancia relativa de los "
+"organismos (es decir, la \"uniformidad\" de la muestra). La métrica que "
+"estamos calculando aquí se llama Diversidad filogenética de Faith "
+"(originalmente definida <a "
+"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\" "
+"target=\"_blank\"> aquí </a>) . La diversidad filogenética de Faith calcula "
+"la \"riqueza\" de su muestra como la cantidad de amplitud evolutiva "
+"representada por su muestra. La forma en que calculamos la diversidad alfa "
+"también es a través de <a href=\"https://qiime2.org\" target=\"_blank\"> "
+"QIIME 2 </a>, y se puede encontrar más información al respecto en la "
+"diversidad alfa y beta <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
+"beta-diversity-analysis\" target=\"_ blank\"> secciones </a> del tutorial de"
+" QIIME 2"
 
 #: templates/sample_results.jinja2:168
 msgid "Beta Diversity"
@@ -2745,42 +3130,51 @@ msgstr "Diversidad Beta"
 msgid ""
 "Here we display how your sample fits in among the other samples of The "
 "Microsetta Initiative in terms of shared microbes. There are many ways to "
-"calculate beta diversity, differing in how to weight the distance between any "
-"two microbes. We take evolutionary distance into account with the metric "
-"displayed here, known as Unweighted Unifrac. You can find an overview of this "
-"metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\" target=\"_blank"
-"\">here</a> or better understand its derivation <a href=\"https://www.ncbi.nlm."
-"nih.gov/pmc/articles/PMC1828774/\" target=\"_blank\">here</a>. This computation "
-"is performed with <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, "
-"and more information on it can be found in the alpha and beta diversity <a href="
-"\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-"
-"diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 tutorial"
+"calculate beta diversity, differing in how to weight the distance between "
+"any two microbes. We take evolutionary distance into account with the metric"
+" displayed here, known as Unweighted Unifrac. You can find an overview of "
+"this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\" "
+"target=\"_blank\">here</a> or better understand its derivation <a "
+"href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" "
+"target=\"_blank\">here</a>. This computation is performed with <a "
+"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and more "
+"information on it can be found in the alpha and beta diversity <a "
+"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-"
+"beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 "
+"tutorial"
 msgstr ""
-"Aquí nosotros mostramos cómo se sitúa su muestra entre las otras muestras de la "
-"Iniciativa Microsetta en términos de microbios compartidos. Hay muchas formas "
-"de calcular la diversidad beta, difieriendo en cómo medir la distancia entre "
-"dos microbios. Nosotros, tomamos en cuenta la distancia evolutiva con la "
-"métrica que se muestra aquí, conocida como Unweighted Unifrac. Usted puede "
-"encontrar la descripción de esta métrica <a href=“https://en.wikipedia.org/wiki/"
-"UniFrac” target=“_blank”>aquí</a> o comprender mejor su su origen <a "
-"href=“https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/“ "
-"target=“_blank”>aquí</a>. Este cálculo se realiza con <a href=“https://qiime2."
-"org” target=“_blank”>QIIME 2</a>, y más información al respecto la puede "
-"encontrar en las <a href=“https://docs.qiime2.org/2020.6/tutorials/moving-"
-"pictures/#alpha-and-beta-diversity-analysis” target=“_blank”>secciones</a> "
-"sobre la diversidad alfa y beta en el turorial QIIME 2"
+"Aquí mostramos cómo su muestra encaja entre las otras muestras de la "
+"Iniciativa Microsetta en términos de microbios compartidos. Hay muchas "
+"formas de calcular la diversidad beta, que difieren en cómo ponderar la "
+"distancia entre dos microbios. Tomamos en cuenta la distancia evolutiva con "
+"la métrica que se muestra aquí, conocida como Unifrac no ponderado. Puede "
+"encontrar una descripción general de esta métrica <a "
+"href=\"https://en.wikipedia.org/wiki/UniFrac\" target=\"_blank\"> aquí </a> "
+"o comprender mejor su derivación <a href=\"https: "
+"//www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/ \"target =\" _ blank \"> "
+"aquí </a>. Este cálculo se realiza con <a href=\"https://qiime2.org\" "
+"target=\"_blank\"> QIIME 2 </a>, y se puede encontrar más información al "
+"respecto en la diversidad alfa y beta <a href=\" "
+"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-"
+"diversity-analysis \"target =\" _ blank \"> secciones </a> del tutorial de "
+"QIIME 2"
 
-#: templates/secondary_surveys.jinja2:2
+#: templates/secondary_surveys.html:2 templates/secondary_surveys.jinja2:2
+#, fuzzy
 msgid "Secondary Surveys"
-msgstr "Cuestionarios Secundarios"
+msgstr "secundario"
 
-#: templates/secondary_surveys.jinja2:12 templates/source.jinja2:258
+#: templates/secondary_surveys.html:12 templates/secondary_surveys.jinja2:12
+#: templates/source.jinja2:256
+#, fuzzy
 msgid "Survey Title"
-msgstr "Título del Cuestionario"
+msgstr "survey_template_title"
 
-#: templates/secondary_surveys.jinja2:15 templates/source.jinja2:261
+#: templates/secondary_surveys.html:15 templates/secondary_surveys.jinja2:15
+#: templates/source.jinja2:259
+#, fuzzy
 msgid "Survey Description"
-msgstr "Descripción del Cuestionario"
+msgstr "Descripción de la encuesta"
 
 #: templates/sitebase.jinja2:5
 msgid "Microsetta"
@@ -2788,11 +3182,11 @@ msgstr "Microsetta"
 
 #: templates/sitebase.jinja2:43
 msgid "Administrator Toolbar"
-msgstr "Barra de herramientas del administrador"
+msgstr "Barra de Herramientas del Administrador"
 
 #: templates/sitebase.jinja2:44
 msgid "System Panel"
-msgstr "Panel del Sistema"
+msgstr "Panel del sistema"
 
 #: templates/sitebase.jinja2:46 templates/sitebase.jinja2:84
 msgid "Log Out"
@@ -2800,17 +3194,19 @@ msgstr "Cerrar sesión"
 
 #: templates/sitebase.jinja2:47
 msgid "Activation Codes"
-msgstr "Códigos de Activación"
+msgstr "Códigos de activación"
 
 #: templates/sitebase.jinja2:49
+#, fuzzy
 msgid "Address Verification"
-msgstr "Verificación de la Dirección"
+msgstr "Verificación de dirección"
 
 #: templates/sitebase.jinja2:53
 msgid "Find Account"
-msgstr "Encontrar Cuenta"
+msgstr "Buscar cuenta"
 
 #: templates/sitebase.jinja2:55
+#, fuzzy
 msgid "Barcode Search"
 msgstr "Búsqueda de código de barras"
 
@@ -2824,54 +3220,59 @@ msgstr "Registrarse"
 
 #: templates/sitebase.jinja2:126
 msgid "FAQs"
-msgstr "Preguntas Frecuentes"
+msgstr "Preguntas frecuentes"
 
 #: templates/source.jinja2:2
 msgid "Account Samples"
-msgstr "Muestras de la Cuenta"
+msgstr "Muestras de cuenta"
 
 #: templates/source.jinja2:84
 msgid "Do you really want to remove this sample from this source?"
-msgstr "¿Seguro que desea eliminar esta muestra de esta fuente?"
+msgstr "Realmente desea eliminar esta muestra de esta fuente?"
 
 #: templates/source.jinja2:85
-msgid "Doing so will remove any collection info saved for this sample and will"
+msgid ""
+"Doing so will remove any collection info saved for this sample and will"
 msgstr ""
-"Al hacerlo, se eliminará cualquier información guardada para esta muestra y se"
+"Si lo hace, eliminará cualquier información de colección guardada para esta "
+"muestra y"
 
 #: templates/source.jinja2:86
 msgid "unlink it from all surveys."
-msgstr "desvinculará de todos los cuestionarios."
+msgstr "desvincularlo de todas las encuestas."
 
 #: templates/source.jinja2:91
 msgid "You are deleting source"
-msgstr "Usted está eliminando la fuente"
+msgstr "Estás eliminando la fuente"
 
 #: templates/source.jinja2:91
 msgid "and all surveys associated with it!"
-msgstr "y todos los cuestionarios asociados a ella!"
+msgstr "y todas las encuestas asociadas a élla!"
 
 #: templates/source.jinja2:92
 msgid ""
-"This operation cannot be undone.  Are you sure you want to delete this source?"
+"This operation cannot be undone.  Are you sure you want to delete this "
+"source?"
 msgstr ""
-"Esta operación no se podrá revertir. ¿Está seguro de que desea eliminar esta "
-"fuente?"
+"Esta operación no se puede deshacer. ¿Está seguro de que desea eliminar esta"
+" fuente?"
 
 #: templates/source.jinja2:100
 msgid "View"
 msgstr "Ver"
 
 #: templates/source.jinja2:152
-msgid "It looks like some samples do not have collection information recorded."
+msgid ""
+"It looks like some samples do not have collection information recorded."
 msgstr ""
-"Parece que algunas muestras no tienen registrada la información de la muestra."
+"Parece que algunas muestras no tienen registrada la información de la "
+"recolección."
 
 #: templates/source.jinja2:156
 msgid "Samples (click on a barcode to provide collection information)"
 msgstr ""
-"Muestras (haga clic en el código de barras para proporcionar la información de "
-"la muestra)"
+"Muestras (haga clic en un código de barras para proporcionar información "
+"sobre la recolección)"
 
 #: templates/source.jinja2:164
 msgid "Collection date"
@@ -2879,93 +3280,92 @@ msgstr "Fecha de recolección"
 
 #: templates/source.jinja2:168
 msgid "Sample type"
-msgstr "Tipo de muestra"
+msgstr "Tipo de ejemplo"
 
 #: templates/source.jinja2:174
 msgid "Sample-specific survey"
-msgstr "Cuestionario especifico de la muestra"
+msgstr "Encuesta específica de la muestra"
 
-#: templates/source.jinja2:199
+#: templates/source.jinja2:198
 msgid "View Top Food Report"
-msgstr "Ver Reporte de Alimentos Principales"
+msgstr "Ver informe de alimentos principales"
+
+#: templates/source.jinja2:204
+msgid "This sample has been received and cannot be removed."
+msgstr "Esta muestra se ha recibido y no se puede eliminar."
 
 #: templates/source.jinja2:206
-msgid "This sample has been received and cannot be removed."
-msgstr "Esta muestra ha sido recibida y no puede ser eliminada."
-
-#: templates/source.jinja2:208
 msgid "Remove"
 msgstr "Eliminar"
 
-#: templates/source.jinja2:218
+#: templates/source.jinja2:216
 msgid "Do I need to take more than one Food Frequency Questionnaire (FFQ)"
 msgstr ""
-"¿Necesito tomar más de un Cuestionario de Frecuencia de Consumo de Alimentos "
-"(FFQ)?"
+"Necesito tomar más de un Cuestionario de frecuencia alimenticia (FFQ)?"
 
-#: templates/source.jinja2:219
+#: templates/source.jinja2:217
 msgid ""
-"If you are taking all of your samples at the same time, you will only need to "
-"complete one. If you are collecting samples over time (e.g., once per week), "
-"then please consider taking an FFQ per time point. The FFQs provide valuable "
-"dietary research data for the project, so researchers can better understand the "
-"relationship between the food you eat and your microbes."
+"If you are taking all of your samples at the same time, you will only need "
+"to complete one. If you are collecting samples over time (e.g., once per "
+"week), then please consider taking an FFQ per time point. The FFQs provide "
+"valuable dietary research data for the project, so researchers can better "
+"understand the relationship between the food you eat and your microbes."
 msgstr ""
-"Si está recolectando todas sus muestras al mismo tiempo, solo necesitará "
-"completarlo una sola vez. Si está recolectando sus muestras a lo largo del "
-"tiempo (por ejemplo, una vez por semana), considere tomar el FFQ en un punto "
-"medio. El FFQ proporciona valiosa información dietética al proyecto de "
-"investigación, de modo que los investigadores puedan comprender mejor la "
-"relación entre los alimentos que consume y sus microbios."
+"Si está tomando todas sus muestras al mismo tiempo, solo necesitará "
+"completar una. Si está recolectando muestras a lo largo del tiempo (por "
+"ejemplo, una vez por semana), considere tomar un FFQ por intervalo de "
+"tiempo. Los FFQ proporcionan valiosos datos de sobre la dieta para el "
+"proyecto, de modo que los investigadores puedan comprender mejor la relación"
+" entre los alimentos que consume y sus microbios."
 
-#: templates/source.jinja2:227
+#: templates/source.jinja2:225
 msgid ""
-"The kit ID used to create your account has unclaimed samples. To claim samples "
-"from this kit, please click \"List samples\". To claim samples from another kit "
-"ID, please enter it here and then click \"List Samples\""
+"The kit ID used to create your account has unclaimed samples. To claim "
+"samples from this kit, please click \"List samples\". To claim samples from "
+"another kit ID, please enter it here and then click \"List Samples\""
 msgstr ""
-"El Kit ID utilizado para crear su cuenta tiene muestras no reclamadas. Para "
-"reclamar muestras de este kit, haga clic en \"Mostrar Muestras\". Para reclamar "
-"muestras de otro Kit ID, ingrese el ID aquí y luego haga clic en \"Mostrar "
-"Muestras\":"
+"El ID del kit que se utilizó para crear su cuenta tiene muestras no "
+"reclamadas. Para reclamar muestras de este kit, haga clic en \"Listar "
+"muestras\". Para reclamar muestras de otro ID de kit, ingréselo aquí y luego"
+" haga clic en \"Lista de muestras\""
 
-#: templates/source.jinja2:230
+#: templates/source.jinja2:228
 msgid "To add samples, please enter a kit ID here"
-msgstr "Para añadir muestras, ingrese el ID de su kit aquí"
+msgstr "Para agregar muestras, ingrese un ID de kit aquí"
 
-#: templates/source.jinja2:234
+#: templates/source.jinja2:232
 msgid "List Samples"
-msgstr "Mostrar Muestras"
+msgstr "Listado de Muestras"
 
-#: templates/source.jinja2:239
+#: templates/source.jinja2:237
 msgid "Select all samples that should be associated with this source"
-msgstr "Seleccione todas las muestras que deben asociarse con esta fuente"
+msgstr ""
+"Seleccione todas las muestras que deberían estar asociadas con esta fuente"
 
-#: templates/source.jinja2:245
+#: templates/source.jinja2:243
 msgid "Claim Selected Samples"
-msgstr "Reclame Muestras Seleccionadas"
+msgstr "Reclamar muestras seleccionadas"
 
-#: templates/source.jinja2:253
+#: templates/source.jinja2:251
+#, fuzzy
 msgid "Available optional surveys"
-msgstr "Cuestionarios opcionales disponibles"
+msgstr "Encuestas opcionales disponibles"
 
-#: templates/source.jinja2:283
-msgid "Start"
-msgstr "Iniciar"
-
-#: templates/source.jinja2:295
+#: templates/source.jinja2:293
+#, fuzzy
 msgid "Completed surveys"
-msgstr "Cuestionarios completados"
+msgstr "Encuesta específica de la muestra"
+
+#: templates/source.jinja2:318
+msgid ""
+"Sources with one or more samples assigned cannot be deleted.  All samples "
+"above must be removed prior to deleting this source."
+msgstr ""
+"Las fuentes con una o más muestras asignadas no se pueden eliminar. Todas "
+"las muestras anteriores deben eliminarse antes de eliminar esta fuente."
 
 #: templates/source.jinja2:320
-msgid ""
-"Sources with one or more samples assigned cannot be deleted.  All samples above "
-"must be removed prior to deleting this source."
-msgstr ""
-"Las fuentes con una o más muestras asignadas no se pueden eliminar. Todas las "
-"muestras anteriores deben eliminarse antes de eliminar esta fuente."
-
-#: templates/source.jinja2:322
+#, fuzzy
 msgid ""
 "If you need to delete this source, click the following button. Please note, "
 "this action can NOT be reversed."
@@ -2973,182 +3373,179 @@ msgstr ""
 "Si necesita eliminar esta fuente, haga clic en el siguiente botón. Tenga en "
 "cuenta que esta acción NO se puede revertir."
 
-#: templates/source.jinja2:322
+#: templates/source.jinja2:320
 msgid "Delete Source"
-msgstr "Eliminar Muestra"
+msgstr "Eliminar fuente"
 
-#: templates/submit_interest.jinja2:127
+#: templates/submit_interest.jinja2:104
+#, fuzzy
 msgid "Sorry, this study is not open to residents of your country."
-msgstr "Lo sentimos, este estudio no está abierto para los residentes de su país."
+msgstr ""
+"Lo sentimos, este estudio no está abierto a los residentes de su país."
 
-#: templates/submit_interest.jinja2:189 templates/submit_interest.jinja2:295
+#: templates/submit_interest.jinja2:160 templates/submit_interest.jinja2:262
+#, fuzzy
 msgid "Please select whether you are at least 18 years of age."
-msgstr "Por favor seleccione si usted tiene al menos 18 años de edad."
+msgstr "Seleccione si tiene al menos 18 años de edad."
 
-#: templates/submit_interest.jinja2:190
+#: templates/submit_interest.jinja2:161
+#, fuzzy
 msgid "Please enter your first name."
-msgstr "Por favor ingrese su nombre."
+msgstr "Por favor, introduzca su nombre de pila."
 
-#: templates/submit_interest.jinja2:191
+#: templates/submit_interest.jinja2:162
+#, fuzzy
 msgid "Please enter your last name."
 msgstr "Por favor ingrese su apellido."
 
-#: templates/submit_interest.jinja2:192
+#: templates/submit_interest.jinja2:163
+#, fuzzy
 msgid "Please enter a valid email address."
-msgstr "Por favor ingrese su correo electrónico."
+msgstr "Por favor, introduce una dirección de correo electrónico válida."
 
-#: templates/submit_interest.jinja2:195
+#: templates/submit_interest.jinja2:164
+#, fuzzy
+msgid "Please enter your phone number."
+msgstr "Por favor, introduzca su número de teléfono."
+
+#: templates/submit_interest.jinja2:166
+#, fuzzy
 msgid "Please select your country."
 msgstr "Por favor seleccione su país."
 
-#: templates/submit_interest.jinja2:202 templates/update_address.jinja2:135
-#: templates/update_address.jinja2:250
+#: templates/submit_interest.jinja2:168 templates/update_address.jinja2:110
+#, fuzzy
+msgid "Please enter your street address."
+msgstr "Por favor, introduzca su dirección postal."
+
+#: templates/submit_interest.jinja2:169 templates/update_address.jinja2:111
+#, fuzzy
+msgid "Please enter your city."
+msgstr "Por favor ingrese su ciudad."
+
+#: templates/submit_interest.jinja2:170 templates/update_address.jinja2:112
+#, fuzzy
+msgid "Please select your state."
+msgstr "Seleccione su estado."
+
+#: templates/submit_interest.jinja2:172 templates/update_address.jinja2:114
+#, fuzzy
+msgid "Please enter your postal code."
+msgstr "Por favor ingrese su código postal."
+
+#: templates/submit_interest.jinja2:173 templates/update_address.jinja2:115
+#: templates/update_address.jinja2:210
+#, fuzzy
 msgid ""
-"Sorry, we were unable to verify your address. Please check your information and "
-"try again."
+"Sorry, we were unable to verify your address. Please check your information "
+"and try again."
 msgstr ""
 "Lo sentimos, no pudimos verificar su dirección. Por favor verifique su "
 "información y vuelva a intentarlo."
 
-#: templates/submit_interest.jinja2:204 templates/submit_interest.jinja2:560
+#: templates/submit_interest.jinja2:175 templates/submit_interest.jinja2:317
+#, fuzzy
 msgid "Please agree to receiving communications from us."
 msgstr "Por favor acepte recibir comunicaciones de nosotros."
 
-#: templates/submit_interest.jinja2:265
+#: templates/submit_interest.jinja2:232
+#, fuzzy
 msgid ""
-"Sorry, due to widespread interest, the sign-up list for this project is full."
+"Sorry, it appears the project you were interested in joining has ended."
 msgstr ""
-"Lo sentimos, debido al gran interés generalizado, la lista de inscripciones "
-"para este proyecto está llena."
+"Lo sentimos, parece que el proyecto al que te interesaba unirte ha "
+"finalizado."
 
-#: templates/submit_interest.jinja2:266
+#: templates/submit_interest.jinja2:233
+#, fuzzy
 msgid ""
-"Please visit our <a href=\"https://microsetta.ucsd.edu/\">website</a> to learn "
-"about other opportunities to participate in The Microsetta Initiative."
+"If you are interested in other opportunities to participate in The "
+"Microsetta Initiative, please visit our <a "
+"href=\"https://microsetta.ucsd.edu/\">website."
 msgstr ""
-"Por favor visite nuestro <a href=\"https://microsetta.ucsd.edu/\">sitio web</a> "
-"para conocer otras oportunidades para participar en The Microsetta Initiative."
+"Si está interesado en otras oportunidades para participar en la Iniciativa "
+"Microsetta, visite nuestro <a href=\"https://microsetta.ucsd.edu/\">sitio "
+"web."
 
-#: templates/submit_interest.jinja2:270 templates/update_address.jinja2:193
+#: templates/submit_interest.jinja2:237 templates/update_address.jinja2:168
+#, fuzzy
 msgid "Verifying your information, please wait just a moment."
 msgstr "Verificando su información, por favor espere un momento."
 
-#: templates/submit_interest.jinja2:291
+#: templates/submit_interest.jinja2:258
+#, fuzzy
 msgid "Are you at least 18 years of age?"
 msgstr "¿Tiene al menos 18 años de edad?"
 
-#: templates/submit_interest.jinja2:292 templates/submit_interest.jinja2:559
+#: templates/submit_interest.jinja2:259 templates/submit_interest.jinja2:316
+#, fuzzy
 msgid "Yes"
-msgstr "Si"
+msgstr "sí"
 
-#: templates/submit_interest.jinja2:294
+#: templates/submit_interest.jinja2:261
+#, fuzzy
 msgid "No"
-msgstr "No"
+msgstr "informacion"
 
-#: templates/submit_interest.jinja2:299
-msgid ""
-"Please note: Specimen collection kits are associated with the email used when "
-"registering. We recommend the following:"
-msgstr ""
-"Tenga en cuenta: los kits de recolección de muestras están asociados al correo "
-"electrónico utilizado al registrarse. Recomendamos lo siguiente:"
-
-#: templates/submit_interest.jinja2:300
-msgid "1. One email must be used per kit."
-msgstr "1. Se debe usar un correo electrónico por kit."
-
-#: templates/submit_interest.jinja2:301
-msgid ""
-"2. If you plan to complete the form on behalf of another adult, use that "
-"person's name and email address."
-msgstr ""
-"2. Si planea completar el formulario en nombre de otra persona adulta, utilice "
-"el nombre y la dirección de correo electrónico de esa persona."
-
-#: templates/submit_interest.jinja2:302
-msgid "3. If possible, continue to use the same email throughout the study."
-msgstr ""
-"3. Si es posible, continúe usando el mismo correo electrónico durante todo el "
-"estudio."
-
-#: templates/submit_interest.jinja2:303
-msgid ""
-"Once you have received the kit, please continue to use the same email address "
-"used when creating your online account."
-msgstr ""
-"Una vez que haya recibido el kit, continúe usando la misma dirección de correo "
-"electrónico usada al crear su cuenta en línea."
-
-#: templates/submit_interest.jinja2:313
+#: templates/submit_interest.jinja2:275
+#, fuzzy
 msgid "Email Address"
-msgstr "Correo electrónico"
+msgstr "Dirección de correo electrónico"
 
-#: templates/submit_interest.jinja2:317 templates/update_address.jinja2:242
+#: templates/submit_interest.jinja2:279
+#, fuzzy
 msgid "Phone Number"
-msgstr "Número de teléfono"
+msgstr "Número invalido"
 
-#: templates/submit_interest.jinja2:323 templates/submit_interest.jinja2:541
-#: templates/update_address.jinja2:227
+#: templates/submit_interest.jinja2:285 templates/submit_interest.jinja2:305
+#: templates/update_address.jinja2:198
+#, fuzzy
 msgid "SELECT"
-msgstr "SELECCIONAR"
+msgstr "Seleccione"
 
-#: templates/submit_interest.jinja2:520
-msgid "Please fill in the address you would like your kit delivered to. Example:"
-msgstr ""
-"Por favor, complete la dirección en la que desea que se entregue su kit. "
-"Ejemplo:"
-
-#: templates/submit_interest.jinja2:521
-msgid "9500 Gilman Dr.<br />San Diego, CA 920932"
-msgstr "9500 Gilman Dr.<br />San Diego, CA 920932"
-
-#: templates/submit_interest.jinja2:551 templates/update_address.jinja2:237
-msgid "Residential"
-msgstr "Domicilio de residencia"
-
-#: templates/submit_interest.jinja2:552 templates/update_address.jinja2:238
-msgid "Commercial"
-msgstr "Domicilio comercial"
-
-#: templates/submit_interest.jinja2:558
+#: templates/submit_interest.jinja2:315
+#, fuzzy
 msgid ""
-"By subscribing to this program, I agree to receive communications via the "
-"newsletter regarding the status of the program, the steps I must complete, tips "
-"and tricks for completing my participation and surveys. I agree and understand "
-"that I can unsubscribe at any time using a link in the newsletter and this will "
-"not change my consent to receive sample status updates directly from the TMI "
-"database. "
+"By subscribing to the this program, I agree to receive communications via "
+"the newsletter regarding the status of the program, the steps I must "
+"complete, tips and tricks for completing my participation and surveys. I "
+"agree and understand that I can unsubscribe at any time using a link in the "
+"newsletter and this will not change my consent to receive sample status "
+"updates directly from the TMI database. "
 msgstr ""
-"Al suscribirme al programa THDMI, acepto recibir comunicaciones a través del "
-"boletín informativo sobre el estado del programa, los pasos que debo completar, "
-"consejos y trucos para completar mi participación y encuestas. Acepto y "
-"entiendo que puedo cancelar mi suscripción en cualquier momento usando un "
-"enlace en el boletín y esto no cambiará mi consentimiento para recibir "
-"actualizaciones de estado de muestra directamente desde la base de datos de TMI."
+"Al suscribirme a este programa, acepto recibir comunicaciones a través del "
+"boletín sobre el estado del programa, los pasos que debo completar, consejos"
+" y trucos para completar mi participación y encuestas. Acepto y entiendo que"
+" puedo darme de baja en cualquier momento usando un enlace en el boletín y "
+"esto no cambiará mi consentimiento para recibir actualizaciones de estado de"
+" muestra directamente desde la base de datos de TMI."
 
-#: templates/submit_interest.jinja2:564
+#: templates/submit_interest.jinja2:321
+#, fuzzy
 msgid "Previous"
 msgstr "Anterior"
 
-#: templates/submit_interest.jinja2:565
+#: templates/submit_interest.jinja2:322
+#, fuzzy
 msgid "Next"
-msgstr "Siguiente"
+msgstr "Próximo"
 
 #: templates/submit_interest_confirm.jinja2:36
+#, fuzzy
 msgid ""
 "Thank you for your interest! Your information has been saved, and we will "
 "contact you via email soon."
 msgstr ""
-"¡Gracias por su interés! Su información ha sido guardada, pronto nos pondremos "
-"en contacto con usted por correo electrónico."
+"¡Gracias por su interés! Su información ha sido guardada, pronto nos "
+"pondremos en contacto con usted por correo electrónico."
 
 #: templates/survey.jinja2:2 templates/survey.jinja2:128
 msgid "Participant Survey"
-msgstr "Cuestionario del Participante"
+msgstr "Encuesta del participante"
 
 #: templates/survey.jinja2:8
 msgid " selected"
-msgstr " seleccionado"
+msgstr " seleccione"
 
 #: templates/survey.jinja2:58
 msgid "The value is not an integer"
@@ -3160,122 +3557,122 @@ msgstr "Número invalido"
 
 #: templates/survey.jinja2:131
 msgid "Progress"
-msgstr "Avanzar"
+msgstr "Progreso"
 
 #: templates/survey.jinja2:138
 msgid "Previous Section"
-msgstr "Sección Previa"
+msgstr "Sección previa"
 
 #: templates/survey.jinja2:139
 msgid "Next Section"
-msgstr "Sección Siguiente"
+msgstr "Siguiente sección"
 
 #: templates/survey.jinja2:158
 msgid "Submit Survey"
-msgstr "Enviar Cuestionario"
+msgstr "Enviar Encuesta"
 
-#: templates/survey.jinja2:166
+#: templates/survey.jinja2:164
 msgid ""
-"Please note: Once you've submitted this survey, you'll be unable to edit your "
-"answers."
+"Please note: Once you've submitted this survey, you'll be unable to edit "
+"your answers."
 msgstr ""
-"Tenga en cuenta: una vez que haya enviado este cuestionario, no podrá editar "
-"sus respuestas."
+"Tenga en cuenta: una vez que haya enviado esta encuesta, no podrá editar sus"
+" respuestas."
 
-#: templates/survey.jinja2:166
+#: templates/survey.jinja2:164
 msgid ""
 "If you'd like to review or change any of your responses, please press the "
 "Cancel button. Otherwise, press OK to submit your responses."
 msgstr ""
-"Si desea revisar o cambiar alguna de sus respuestas, presione el botón "
+"Si desea revisar o cambiar alguna de sus respuestas, presione el botón de "
 "Cancelar. De lo contrario, presione OK para enviar sus respuestas."
 
-#: templates/survey.jinja2:166
+#: templates/survey.jinja2:164
 msgid "This warning will only appear once."
 msgstr "Esta advertencia solo aparecerá una vez."
 
-#: templates/survey.jinja2:170
-msgid ""
-"It looks like you are trying to submit this survey without answering any "
-"questions. If you would prefer not to complete this survey, please return to "
-"the homepage."
-msgstr ""
-"Parece que está intentando enviar esta encuesta sin responder ninguna pregunta. "
-"Si prefiere no completar esta encuesta, regrese a la página de inicio."
-
-#: templates/survey.jinja2:193 templates/survey.jinja2:218
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "Step"
 msgstr "Paso"
 
-#: templates/survey.jinja2:193 templates/survey.jinja2:218
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "of"
 msgstr "de"
 
-#: templates/survey.jinja2:193 templates/survey.jinja2:218
+#: templates/survey.jinja2:187 templates/survey.jinja2:212
 msgid "Complete"
-msgstr "Completado"
+msgstr "Completo"
 
-#: templates/survey.jinja2:203
+#: templates/survey.jinja2:197
+#, fuzzy
 msgid "Please correct the fields with errors."
-msgstr "Por favor corrija los campos con errores."
+msgstr "Corrija los campos con errores."
 
-#: templates/update_address.jinja2:198
+#: templates/update_address.jinja2:173
+#, fuzzy
 msgid ""
-"Sorry, it appears you are having trouble verifying your address. Please contact "
-"our support team at microsetta@ucsd.edu and they can assist with confirming "
-"your address."
+"Sorry, it appears you are having trouble verifying your address. Please "
+"contact our support team at microsetta@ucsd.edu and they can assist with "
+"confirming your address."
 msgstr ""
-"Lo sentimos, parece que está teniendo problemas para verificar su dirección. "
-"Comuníquese con nuestro equipo de soporte en microsetta@ucsd.edu ellos lo "
-"ayudarán a confirmar su dirección."
+"Lo sentimos, parece que tienes problemas para verificar tu dirección. "
+"Comuníquese con nuestro equipo de soporte en microsetta@ucsd.edu y ellos "
+"pueden ayudarlo a confirmar su dirección."
 
-#: templates/update_address.jinja2:202
+#: templates/update_address.jinja2:177
+#, fuzzy
 msgid "Update Your Address"
-msgstr "Actualice su Dirección"
+msgstr "Actualice su dirección"
 
 #: templates/update_address_confirm.jinja2:25
+#, fuzzy
 msgid "Address Updated"
-msgstr "Dirección Actualizada"
+msgstr "Dirección actualizada"
 
 #: templates/update_address_confirm.jinja2:28
+#, fuzzy
 msgid ""
-"Thank you for updating your address! Your information has been saved and you "
-"will receive an email notification once your kit ships."
+"Thank you for updating your address! Your information has been saved and you"
+" will receive an email notification once your kit ships."
 msgstr ""
-"¡Gracias por actualizar su dirección! Su información se ha guardado y recibirá "
-"una notificación por correo electrónico una vez que se envíe su kit."
+"¡Gracias por actualizar su dirección! Su información se ha guardado y "
+"recibirá una notificación por correo electrónico una vez que se envíe su "
+"kit."
 
 #: templates/update_email.jinja2:2
 msgid "Email Update"
-msgstr "Notificación por Correo Electrónico"
+msgstr "Actualización de correo electrónico"
 
 #: templates/update_email.jinja2:12
 msgid ""
-"It appears that the email we have for your account is not the same as the email "
-"you logged in with.  Would you like us to update your email in our records?"
+"It appears that the email we have for your account is not the same as the "
+"email you logged in with.  Would you like us to update your email in our "
+"records?"
 msgstr ""
-"Parece que el correo electrónico que tenemos de su cuenta no es el mismo con el "
-"que inició sesión. ¿Quiere que actualicemos su correo electrónico en nuestro "
-"registro?"
+"Parece que el correo electrónico que tenemos para su cuenta no es el mismo "
+"que el correo electrónico con el que inició sesión. ¿Le gustaría que "
+"actualicemos su correo electrónico en nuestros registros?"
 
 #: templates/update_email.jinja2:18
 msgid "No, skip and continue"
-msgstr "No, omitir y continuar"
+msgstr "No, salta y continúa"
 
 #: templates/update_email.jinja2:21
 msgid "Yes, update and continue"
 msgstr "Sí, actualizar y continuar"
 
-#~ msgid "Sorry, it appears the project you were interested in joining has ended."
-#~ msgstr ""
-#~ "Lo sentimos, parece que el proyecto al que le interesaba unirse ha "
-#~ "finalizado."
+#~ msgid "Note to non-US/GB users"
+#~ msgstr "Nota para usuarios que no sean de EE. UU. / GB"
 
 #~ msgid ""
-#~ "If you are interested in other opportunities to participate in The "
-#~ "Microsetta Initiative, please visit our <a href=\"https://microsetta.ucsd."
-#~ "edu/\">website."
+#~ "We are working on support for additional countries and expect to have that "
+#~ "available soon."
 #~ msgstr ""
-#~ "Si está interesado en otras oportunidades para participar en The Microsetta "
-#~ "Initiative, por favor visite nuestro <a href=“https://microsetta.ucsd."
-#~ "edu/“>sitio web."
+#~ "Estamos trabajando en el soporte para países adicionales y esperamos tenerlo"
+#~ " disponible pronto."
+
+#~ msgid "bill_of_rights.pdf"
+#~ msgstr "bill_of_rights_sp.pdf"
+
+#~ msgid "Surveys taken"
+#~ msgstr "Encuestas realizadas"

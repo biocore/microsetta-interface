@@ -6,15 +6,11 @@ import copy
 
 EN_US_KEY = "en_us"
 ES_MX_KEY = "es_mx"
-ES_ES_KEY = "es_es"
-JA_JP_KEY = "ja_jp"
 
 Lang = namedtuple('Lang', ['value', 'display_text'])
 LANGUAGES = {
     EN_US_KEY: Lang("en_US", "English"),
-    ES_MX_KEY: Lang("es_MX", "Español (México)"),
-    ES_ES_KEY: Lang("es_ES", "Español (España)"),
-    JA_JP_KEY: Lang("ja_JP", "日本語")
+    ES_MX_KEY: Lang("es_MX", "Español")
 }
 
 
@@ -90,26 +86,6 @@ def declare_enum_values():
     gettext("Personal Microbiome Information")
     gettext("COVID-19 Questionnaire")
     gettext("Vioscreen Food Frequency Questionnaire")
-    gettext("Polyphenol Food Frequency Questionnaire")
-    gettext("Cooking Oils and Oxalate-rich Foods")
-
-    # Survey descriptions
-    # Intentionally skipping MyFoodRepo since it's only for US residents
-    gettext("A fermented foods specific questionnaire")
-    gettext("Questions on surfing behavior")
-    gettext("Questions about your interest in the microbiome")
-    gettext("Questions related to cooking oils and oxalate-rich foods")
-    gettext("Polyphenols are chemical compounds naturally found in plants "
-            "that have been shown to provide many beneficial properties. "
-            "They are antioxidants, fighting aging and protecting your heart"
-            ", but they may also provide benefits by interacting with the "
-            "microbes in your gut. This survey will allow us to better "
-            "quantify your consumption of polyphenols through your diet.")
-    gettext("<strong>Only for participants in Spain:</strong><br />"
-            "The Food Frequency Questionnaire (FFQ) will ask you about your "
-            "usual frequency of consumption of a list of foods and beverages."
-            " The questionnaire consists of 28 questions, and will allow us "
-            "to find out what your usual diet is like.")
 
     # Ensure that EN_US_KEY is added to the POT file
     gettext("en_us")

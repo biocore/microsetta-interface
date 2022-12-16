@@ -2240,7 +2240,7 @@ msgstr "登録解除"
 msgid ""
 "Sorry, we could not complete the request. Please email <a href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a> with the email address you signed up with so we "
 "can remove you from our list."
-msgstr "エラーメッセージ：申し訳ありませんが、登録解除が出来ませんでした。恐れ入りますが件名に「登録解除」と記載の上、登録したEメールアドレスからmicrosetta@ucsd.eduまでご連絡下さい。こちらにて解除いたします。"
+msgstr "エラーメッセージ：申し訳ありませんが、登録解除が出来ませんでした。恐れ入りますが件名に「登録解除」と記載の上、登録したEメールアドレスから<a href=\"mailto:microsetta@ucsd.edu?subject=opt-out request\">microsetta@ucsd.edu</a>までご連絡下さい。こちらにて解除いたします。"
 
 #: templates/opt_out.jinja2:36
 msgid ""

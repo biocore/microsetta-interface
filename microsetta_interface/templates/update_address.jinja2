@@ -9,7 +9,9 @@
 <!-- See https://gist.github.com/ebaranov/41bf38fdb1a2cb19a781 -->
 <script type="text/javascript" language="javascript" src="/static/js/country_state_list.js"></script>
 <script type="text/javascript" language="javascript" src="/static/js/us_states.js"></script>
+<script type="text/javascript" language="javascript" src="/static/js/spain_states.js"></script>
 <script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
+<script src="/static/vendor/jquery-validation/additional-methods.min.js"></script>
 
 <script type="text/javascript">
     function populateStates(user_state,user_country) {
@@ -35,6 +37,21 @@
                     $("#state").append(option);
                 }
             }
+        } else if (selected_country == "Spain") {
+                for (var state of SPAIN_STATES)
+                {
+                    var option = $('<option></option>')
+                        .attr("value", state[0])
+                        .text(state[1]);
+                    $("#state").append(option);
+                }
+                $("#form_group_address_3, #form_group_address_type").show();
+                $("#phone").rules("remove");
+                $("#phone").rules( "add", {
+                    required: true,
+                    phoneSPAIN: true
+                });
+
         } else {
             for (var country of COUNTRIES_LIST)
             {
@@ -93,6 +110,9 @@ $(document).ready(function(){
                                 address_2: function () {
                                     return $("#address_2").val();
                                 },
+                                address_3: function () {
+                                    return $("#address_3").val();
+                                },
                                 city: function() {
                                     return $("#city").val();
                                 },
@@ -133,6 +153,11 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css">
+
+    #form_group_address_3, #form_group_address_type {
+        display:none;
+    }
+
     body {
         padding-left: 0;
         margin: 0;
@@ -188,6 +213,10 @@ $(document).ready(function(){
                         <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
                         <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] |e }}" />
                     </div>
+                    <div class="form-group" id="form_group_address_3">
+                        <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
+                        <input id="address_3" name="address_3" class="form-control" value="{{ user_info['address_3'] |e }}" type="text" />
+                    </div>
                     <div class="form-group">
                         <label for="city" name="city_label">{{ _('City') }}*</label>
                         <input id="city" name="city" class="form-control" type="text" value="{{ user_info['city'] |e }}" />
@@ -201,6 +230,17 @@ $(document).ready(function(){
                     <div class="form-group">
                         <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
                         <input id="postal" name="postal" class="form-control" type="text" value="{{ user_info['postal_code'] |e }}" />
+                    </div>
+                    <div class="form-group" id="form_group_address_type">
+                        <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
+                        <select id="residential_address" name="residential_address" class="form-control">
+                            <option value="true" {% if user_info['residential_address']=="true" %} selected="selected"{% endif %}>{{ _('Residential') }}</option>
+                            <option value="false" {% if user_info['residential_address']=="false" %} selected="selected"{% endif %}>{{ _('Commercial') }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
+                        <input id="phone" name="phone" class="form-control" type="text" value="{{ user_info['phone'] |e }}" />
                     </div>
                     <div class="form-group">
                         <label for="country" name="country_label">{{ _('Country')}}</label>

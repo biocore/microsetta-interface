@@ -69,6 +69,34 @@
                 //expected localized date format matching the datepicker settings.
             }, "{{ _('Required Format: MM/DD/YYYY') }}");
 
+            $.validator.addMethod("dateInPast", function(value, element)
+            {
+                let check;
+                let date = new Date($("#sample_date_normalized").val());
+                var lower_limit = new Date();
+                lower_limit.setFullYear(lower_limit.getFullYear() - 10);
+                if(date < lower_limit) {
+                    check = false;
+                } else {
+                    check = true;
+                }
+                return this.optional(element) || check;
+            }, "{{ _('Please select a date within the last 10 years.') }}");
+
+            $.validator.addMethod("dateInFuture", function(value, element)
+            {
+                let check;
+                let date = new Date($("#sample_date_normalized").val());
+                var upper_limit  = new Date();
+                upper_limit.setMonth(upper_limit.getMonth() + 1);
+                if(date > upper_limit) {
+                    check = false;
+                } else {
+                    check = true;
+                }
+                return this.optional(element) || check;
+            }, "{{ _('Please select a date within the next 30 days.') }}");
+
             $("#sample_date").datepicker(datepicker_args)
 
             $( "#sample_time" ).timepicker({
@@ -104,7 +132,9 @@
                     // on the right side
                     sample_date: {
                         required: true,
-                        monthDayYear: true
+                        monthDayYear: true,
+                        dateInPast: true,
+                        dateInFuture: true
                     },
                     sample_time: "required",
                     {% if not is_environmental %}

@@ -162,6 +162,7 @@
                     <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >{{ _('United States') }}</option>
                     <option value="GB" {% if account.address.country_code == "GB" %} selected {% endif %} >{{ _('United Kingdom') }}</option>
                     <option value="MX" {% if account.address.country_code == "MX" %} selected {% endif %} >{{ _('Mexico') }}</option>
+                    <option value="ES" {% if account.address.country_code == "ES" %} selected {% endif %} >{{ _('Spain') }}</option>
                     <option value="AF" {% if account.address.country_code == "AF" %} selected {% endif %} >{{ _('Afghanistan') }}</option>
                     <option value="AL" {% if account.address.country_code == "AL" %} selected {% endif %} >{{ _('Albania') }}</option>
                     <option value="DZ" {% if account.address.country_code == "DZ" %} selected {% endif %} >{{ _('Algeria') }}</option>
@@ -322,7 +323,6 @@
                     <option value="SB" {% if account.address.country_code == "SB" %} selected {% endif %} >{{ _('Solomon Islands') }}</option>
                     <option value="SO" {% if account.address.country_code == "SO" %} selected {% endif %} >{{ _('Somalia') }}</option>
                     <option value="ZA" {% if account.address.country_code == "ZA" %} selected {% endif %} >{{ _('South Africa') }}</option>
-                    <option value="ES" {% if account.address.country_code == "ES" %} selected {% endif %} >{{ _('Spain') }}</option>
                     <option value="LK" {% if account.address.country_code == "LK" %} selected {% endif %} >{{ _('Sri Lanka') }}</option>
                     <option value="SD" {% if account.address.country_code == "SD" %} selected {% endif %} >{{ _('Sudan') }}</option>
                     <option value="SR" {% if account.address.country_code == "SR" %} selected {% endif %} >{{ _('Suriname') }}</option>
@@ -378,9 +378,11 @@
                 <br>
                 <select id="language" name="language">
                 {% for lang_key in languages %}
-                    {% set lang_val = languages[lang_key].value %}
-                    {% set lang_display = languages[lang_key].display_text %}
-                    <option value={{ lang_val }} {% if account.language == lang_val %} selected {% endif %} >{{ lang_display }}</option>
+                    {% if languages[lang_key].value != "ja_JP" %}
+                        {% set lang_val = languages[lang_key].value %}
+                        {% set lang_display = languages[lang_key].display_text %}
+                        <option value={{ lang_val }} {% if account.language == lang_val %} selected {% endif %} >{{ lang_display }}</option>
+                    {% endif %}
                 {% endfor %}
                 </select>
             </div>

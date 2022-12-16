@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("Home") %}
+{% set page_title = _("Opt Out") %}
 {% set show_breadcrumbs = False %}
 {% set hide_header = True %}
 
@@ -16,24 +16,16 @@
         padding-left: 0;
         margin: 0;
     }
-
-    #submit_interest_2, #submit_interest_3, #submit_interest_4 {
-        display: none;
-    }
 </style>
 {% endblock %}
 
 {% block content %}
 <center>
-    <img src="/static/img/campaigns/{{ campaign_info['header_image'] |e }}" style="max-height: 100px"><br /><br />
     <div class="card"  style="max-width: 800px; text-align: left;">
-        {% if show_alt_info %}
-        <h5 class="card-header" style="text-align: center">{{ campaign_info['title_alt'] |e }}</h5>
-        {% else %}
-        <h5 class="card-header" style="text-align: center">{{ campaign_info['title'] |e }}</h5>
-        {% endif %}
         <div class="card-body">
-            {{ _('Thank you for your interest in our research. Your application has been received. You will receive an email shortly. Please check your junk or spam folder if the email hasn’t reached your inbox.') }}
+            <center>
+                {{ _('Thank you for letting us know. You will no longer be part of this research study.') }}
+            </center>
         </div>
     </div>
 </center>

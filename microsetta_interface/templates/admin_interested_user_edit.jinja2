@@ -1,66 +1,175 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = _("Admin Address Verification") %}
 {% set show_breadcrumbs = False %}
+
+{% block head %}
+<script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
+<script type="text/javascript" language="javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
+<script src="/static/vendor/jquery-validation/additional-methods.min.js"></script>
+
+<script type="text/javascript">
+
+
+   function validateForm(form){
+
+       form.validate({
+               onkeyup: false,
+               onfocusout: false,
+               rules: {
+                   phone: {
+                       phoneUS: true
+                   },
+                   address_1: "required",
+                   city: "required",
+                   state: "required",
+                   postal: {
+                       required: true
+                   },
+               },
+               messages: {
+                   phone: "{{ _('Please enter a valid phone number.') }}",
+                   address_1: "{{ _('Please enter your street address.') }}",
+                   city: "{{ _('Please enter your city.') }}",
+                   state: "{{ _('Please select your state.') }}",
+                   postal: {
+                       required: "{{ _('Please enter your postal code.') }}"
+                   },
+               }
+       });
+
+       if(form.valid() === true) {
+           //form[0].submit();
+       }
+   }
+
+   $(document).ready(function(){
+       var form = $("#edit_intereted_user_form");
+
+       form.validate({
+               onkeyup: false,
+               onfocusout: false,
+               rules: {
+                   phone: {
+                       required: true,
+                       phoneUS: true
+                   },
+                   address_1: "required",
+                   city: "required",
+                   state: "required",
+                   postal: {
+                       required: true
+                   },
+               },
+               messages: {
+                   phone: "{{ _('Please enter a valid phone number.') }}",
+                   address_1: "{{ _('Please enter your street address.') }}",
+                   city: "{{ _('Please enter your city.') }}",
+                   state: "{{ _('Please select your state.') }}",
+                   postal: {
+                       required: "{{ _('Please enter your postal code.') }}"
+                   },
+               }
+       });
+
+       if($("#country").text() === "Spain") {
+           $("#phone").rules( "remove" );
+           $("#phone").rules( "add", {
+               required: true,
+               phoneSPAIN: true
+           });
+       }
+
+   });
+
+</script>
+
+
+{% endblock %}
+
 {% block content %}
 
-    <form method="post">
-        <input type="hidden" name="interested_user_id" value="{{ interested_user.interested_user_id |e}}" />
-        <table>
-            {% if updated is true %}
-            <tr>
-                <td colspan="2" align="center"><span style="color: green">Interested User Successfully Updated</span><br /><br /></td>
-            </tr>
-            {% endif %}
-            <tr>
-                <td colspan="2" align="center"><strong>{{ _('Edit Interested User') }}</strong></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><span style="color: red">{{ _('CAUTION: Edits made will NOT go through address verification - proceed carefully') }}</span></td>
-            </tr>
-            <tr>
-                <td><label for="first_name">{{ _('First Name') }}:</label></td>
-                <td>{{ interested_user.first_name |e}}</td>
-            </tr>
-            <tr>
-                <td><label for="last_name">{{ _('Last Name') }}:</label></td>
-                <td>{{ interested_user.last_name |e}}</td>
-            </tr>
-            <tr>
-                <td><label for="email">{{ _('Email') }}:</label></td>
-                <td>{{ interested_user.email |e}}</td>
-            </tr>
-            <tr>
-                <td><label for="phone">{{ _('Phone') }}:</label></td>
-                <td>{{ interested_user.phone |e}}</td>
-            </tr>
-            <tr>
-                <td><label for="address_1">{{ _('Address 1') }}:</label></td>
-                <td><input type="text" name="address_1" value="{{ interested_user.address_1 |e}}" style="width: 400px"></td>
-            </tr>
-            <tr>
-                <td><label for="address_2">{{ _('Address 2') }}:</label></td>
-                <td><input type="text" name="address_2" value="{{ interested_user.address_2 |e}}" style="width: 400px"></td>
-            </tr>
-            <tr>
-                <td><label for="City">{{ _('City') }}:</label></td>
-                <td><input type="text" name="city" value="{{ interested_user.city |e}}" style="width: 400px"></td>
-            </tr>
-            <tr>
-                <td><label for="state">{{ _('State') }}:</label></td>
-                <td><input type="text" name="state" value="{{ interested_user.state |e}}" style="width: 400px"></td>
-            </tr>
-            <tr>
-                <td><label for="postal">{{ _('Postal Code') }}:</label></td>
-                <td><input type="text" name="postal" value="{{ interested_user.postal_code |e}}" style="width: 400px"></td>
-            </tr>
-            <tr>
-                <td><label for="country">{{ _('Country') }}:</label></td>
-                <td>{{ interested_user.country |e}}</td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><input type="submit" value="{{ _('Submit') }}"></td>
-            </tr>
-        </table>
-    </form>
+   <form method="post" id="edit_intereted_user_form">
+       <input type="hidden" name="interested_user_id" value="{{ interested_user.interested_user_id |e}}" />
+       <table>
+           {% if updated is true %}
+           <tr>
+               <td colspan="2" align="center"><span style="color: green">Interested User Successfully Updated</span><br /><br /></td>
+           </tr>
+           {% endif %}
+           <tr>
+               <td colspan="2" align="center"><strong>{{ _('Edit Interested User') }}</strong></td>
+           </tr>
+           <tr>
+               <td colspan="2" align="center"><span style="color: red">{{ _('CAUTION: Edits made will NOT go through address verification - proceed carefully') }}</span></td>
+           </tr>
+           <tr>
+               <td><label for="first_name">{{ _('First Name') }}:</label></td>
+               <td>{{ interested_user.first_name |e}}</td>
+           </tr>
+           <tr>
+               <td><label for="last_name">{{ _('Last Name') }}:</label></td>
+               <td>{{ interested_user.last_name |e}}</td>
+           </tr>
+           <tr>
+               <td><label for="email">{{ _('Email') }}:</label></td>
+               <td>{{ interested_user.email |e}}</td>
+           </tr>
+           <tr>
+               <td><label for="phone">{{ _('Phone') }}:</label></td>
+               <td><input id="phone" name="phone"  style="width: 400px" type="text" value="{{ interested_user.phone |e}}" /></td>
+           </tr>
+           <tr>
+               <td><label for="address_1">{{ _('Address 1') }}:</label></td>
+               <td><input type="text" name="address_1" value="{{ interested_user.address_1 |e}}" style="width: 400px"></td>
+           </tr>
+           <tr>
+               <td><label for="address_2">{{ _('Address 2') }}:</label></td>
+               <td><input type="text" name="address_2" value="{{ interested_user.address_2 |e}}" style="width: 400px"></td>
+           </tr>
+
+           {% if interested_user.address_3 %}
+               <tr>
+                   <td><label for="address_2">{{ _('Address 3') }}:</label></td>
+                   <td><input type="text" name="address_3" value="{{ interested_user.address_3 |e}}" style="width: 400px"></td>
+               </tr>
+           {% endif %}
+
+           <tr>
+               <td><label for="City">{{ _('City') }}:</label></td>
+               <td><input type="text" name="city" value="{{ interested_user.city |e}}" style="width: 400px"></td>
+           </tr>
+           <tr>
+               <td><label for="state">{{ _('State') }}:</label></td>
+               <td><input type="text" name="state" value="{{ interested_user.state |e}}" style="width: 400px"></td>
+           </tr>
+           <tr>
+               <td><label for="postal">{{ _('Postal Code') }}:</label></td>
+               <td><input type="text" name="postal" value="{{ interested_user.postal_code |e}}" style="width: 400px"></td>
+           </tr>
+
+           {% if interested_user.residential_address %}
+           <tr>
+               <td><label for="postal">{{ _('Address Type') }}:</label></td>
+               <td>
+                   <select id="residential_address" name="residential_address" style="width: 400px">
+                       <option value="true" {% if interested_user.residential_address=="true" %} selected="selected"{% endif %}>Residential</option>
+                       <option value="false" {% if interested_user.residential_address=="false" %} selected="selected"{% endif %}>Commercial</option>
+                   </select>
+               </td>
+           </tr>
+           {% endif %}
+
+
+           <tr>
+               <td><label for="country">{{ _('Country') }}:</label></td>
+               <td id="country">{{ interested_user.country |e}}</td>
+           </tr>
+
+
+           <tr>
+               <td colspan="2" align="center"><input type="submit" value="{{ _('Submit') }}" id="edit_intereted_user"></td>
+           </tr>
+       </table>
+   </form>
 
 {% endblock %}

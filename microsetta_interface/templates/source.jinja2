@@ -194,11 +194,13 @@
                       <div id="btn-view-{{ sample.sample_id }}" ></div>
                 </div>
                 <div class="col-sm">
-                {% if sample.ffq and sample.ffq_status == 3 %}
-                    <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
-                {% else %}
-                    <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}" onClick="return disable_link(this);">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
-                {% endif %}  <!-- end of if sample.ffq -->
+                {% if not spain_user %}
+                    {% if sample.ffq and sample.ffq_status == 3 %}
+                        <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}" onClick="return disable_link(this);">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
+                    {% endif %}  <!-- end of if sample.ffq -->
+                {% endif %} <!-- end of if not spain_user -->
                 </div>
                 {% endif %}  <!-- end of if is_human -->
                 <div class="col-sm {% if sample.sample_remove_locked and not admin_mode %}tooltipper{% endif %}" data-title="{{ _('This sample has been received and cannot be removed.') }}">
@@ -269,16 +271,16 @@
                 <div class="col-3">
                     {{ detail.survey_template_title|e }}
                 </div>
-                <div class="col-8">
+                <div class="col-7">
                     {{ detail.description }}
                 </div>
-                <div class="col">
+                <div class="col-2" style="text-align: right">
                     {% if detail.new_tab %}
                     <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
                     {% else %}
                     <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
                     {% endif %}
-                        Start
+                        {{ _('Start') }}
                     </a>
                 </div>
             </div>

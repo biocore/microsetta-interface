@@ -39,6 +39,19 @@ def _uniqify(email):
     return "%f.%0.5f.%s" % (ts, r, email)
 
 
+def _get_consent_id_from_webpage(webpage, consent_type):
+    start_pos = webpage.rfind("consent_id")
+    end_pos = webpage.find(consent_type)
+    consent_data = webpage[start_pos:end_pos]
+
+    pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    obj_match = re.search(pattern, consent_data)
+    if obj_match:
+        return obj_match.group()
+
+    return None
+
+
 def _fake_jwt(email, verified, uniqify=False):
     if PRIVATE_API_AVAILABLE:
         # lie and say we're from authrocket
@@ -76,8 +89,10 @@ ADULT_CONSENT = {
                  "age_range": "18-plus",
                  "parent_1_name": None,
                  "parent_2_name": None,
-                 "deceased_parent": 'false',
-                 "obtainer_name": None}
+                 "deceased_parent": None,
+                 "obtainer_name": None,
+                 "consent_type": "adult_data",
+                 "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 
 # answer a quesion on each survey
 PRIMARY_SURVEY_SIMPLE = {"112": "1970"}
@@ -292,12 +307,15 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
         resp = self.app.post(url, data=ADULT_CONSENT)
-        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Participant Survey')
 
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+
+        url = self.redirectURL(resp)
         # let's complete the primary survey, and advance to the covid survey
         survey_body = PRIMARY_SURVEY_SIMPLE
         resp = self.app.post(url, json=survey_body, follow_redirects=True)
@@ -328,6 +346,17 @@ class IntegrationTests(unittest.TestCase):
         self.claimed_samples.append((account_id, source_id, sample_id))
         resp = self.app.post(url, data=body, follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
+
+        page_data = self._html_page(resp)
+        con = "adult_biospecimen"
+        consent_id = _get_consent_id_from_webpage(page_data, con)
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_biospecimen"
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.post(url, data=ADULT_CONSENT)
+
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
         self.assertPageTitle(resp, 'Account Samples')
         data = self._html_page(resp)
         self.assertIn('click on a barcode to provide collection information',
@@ -366,6 +395,11 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        consent["consent_id"] = consent_id
+        consent["consent_type"] = "adult_data"
         resp = self.app.post(url, data=consent)
         url = resp.headers['Location']
         return self.app.get(url), url
@@ -439,8 +473,8 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
-        self.assertPageContains(resp, 'Fermented Foods Questionnaire')
+        self.assertPageTitle(resp, 'Consent')
+        self.assertPageContains(resp, 'Microsetta Consent')
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()
@@ -464,6 +498,47 @@ class IntegrationTests(unittest.TestCase):
         # self.assertIn('survey_template_id=5', data)
         self.assertIn('survey_template_id=4', data)
         self.assertNotIn('survey_template_id=3', data)
+
+    def test_new_source_data_consent(self):
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_data"
+
+        consent_data = ADULT_CONSENT
+        resp = self.app.post(url, data=consent_data)
+        self.assertEqual(302, resp.status_code)
+
+        return resp
+
+    def test_duplicate_source_name(self):
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
+        consent_body = {}
+        consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
+
+        url = f'/accounts/{account_id}/check_duplicate_source'
+        resp = self.app.post(url, json=consent_body)
+
+        self.assertEqual(resp.status_code, 200)
+        return resp
+
+    def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):
+        url = f'/accounts/{acc_id}/source/{src_id}/consent/{con_type}'
+        resp = self.app.post(url, data=consent_data)
+        url = resp.headers['Location']
+        return self.app.get(url), url
+
+    def _is_consent_required(self, acc_id, source_id, consent_type):
+        url = f'/accounts/{acc_id}/source/{source_id}/consent/{consent_type}'
+        resp = self.app.get(url)
+        return resp["result"]
 
 
 if __name__ == '__main__':

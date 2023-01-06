@@ -282,7 +282,7 @@ paths:
 
   '/accounts/{account_id}/create_human_source':
     get:
-      operationId: microsetta_interface.implementation.get_create_human_source
+      operationId: microsetta_interface.implementation.get_consent_page
       tags:
         - Source
       parameters:
@@ -349,6 +349,27 @@ paths:
             text/html:
               schema:
                 type: string
+
+  '/accounts/{account_id}/check_duplicate_source':
+    post:
+      operationId: microsetta_interface.implementation.check_duplicate_source
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: List of sources page
+          content:
+            application/json:
+              schema:
+                type: object
 
   '/accounts/{account_id}/sources/{source_id}':
     get:

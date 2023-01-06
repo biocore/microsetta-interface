@@ -82,8 +82,11 @@ jobs:
         python-version: 3.7 
     
     - name: Install
+      env:
+        BRANCH: ${{ github.base_ref == 'master-overhaul' && 'master-overhaul' || 'master' }}
       shell: bash -l {0}
       run: |
+        echo Branch: $BRANCH
         conda create --yes -n microsetta-interface python=3.7
         conda activate microsetta-interface
         conda install --yes --file ci/conda_requirements.txt

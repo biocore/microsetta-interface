@@ -12,7 +12,7 @@
         $(document).ready(function(){
             let form_name = 'acct_form';
             preventImplicitSubmission(form_name);
-            preclude_whitespace("#kit_name");
+
 
             // Initialize form validation on the registration form.
             // It has the name attribute "registration"
@@ -30,23 +30,7 @@
                     post_code: "required",
                     language: "required",
                     {% if CREATE_ACCT %}
-                    kit_name: {
-                        required: "#code:blank",
-                        remote: {
-                            url: "/check_kit_valid"
-                        }
-                    },
-                    code: {
-                        required: "#kit_name:blank",
-                        remote: {
-                            url: "/check_activation_code",
-                            data: {
-                                email: function() {
-                                    return $("#email").val();
-                                }
-                            }
-                        }
-                    },
+
                     {% endif %}
                     // Make sure the form is submitted to the destination defined
                     // in the "action" attribute of the form when valid
@@ -385,22 +369,7 @@
                 </select>
             </div>
             {% if CREATE_ACCT %}
-            <div class="card mb-3">
-                <div class="card-header">
-                    {{ _('Activation Info') }}
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="kit_name" name="kit_name_label">{{ _('Kit ID') }}</label>
-                        <input id="kit_name" name="kit_name" class="form-control" type="text"/>
-                    </div>
-                    <div class="text-center">-{{ _('OR') }}-</div>
-                    <div class="form-group">
-                        <label for="code" name="code_label">{{ _('Activation Code') }}</label>
-                        <input id="code" name="code" class="form-control" type="text" placeholder="TMI-XXXXX-XXXXX-XXXXX"/>
-                    </div>
-                </div>
-            </div>
+
             {% endif %}
             {% if CREATE_ACCT %}
             <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>

@@ -836,6 +836,28 @@ paths:
               schema:
                 type: string
 
+  '/admin/account_ignore_delete':
+    post:
+      operationId: microsetta_interface.implementation.post_account_ignore_delete
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                account_id:
+                  type: string
+                  nullable: false
+      responses:
+        '200':
+          description: Account successfully removed from delete queue, redirect to home
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/interested_users':
     get:
       operationId: microsetta_interface.implementation.get_interested_users
@@ -1164,7 +1186,18 @@ paths:
               schema:
                 type: string
 
-
+  '/admin/account_removal/list':
+    get:
+      operationId: microsetta_interface.implementation.get_account_removal_requests
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: List of account removal requests for admin users to view/edit
+          content:
+            text/html:
+              schema:
+                type: string
 components:
   parameters:
     account_id: # Can be referenced as '#/components/parameters/account_id'

@@ -101,7 +101,11 @@
             },cc);
         });
 
-
+        function verifyDeleteUserRequest(){
+            let confirmMsg = "{{ _('You are requesting to delete your account.') }} " +
+                "{{ _('This operation cannot be undone.  Are you sure you want to delete this account?') }} ";
+                return window.confirm(confirmMsg);
+            }
     </script>
 {% endblock %}
 {% block breadcrumb %}

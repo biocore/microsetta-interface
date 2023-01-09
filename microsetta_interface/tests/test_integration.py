@@ -473,8 +473,19 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Consent')
-        self.assertPageContains(resp, 'Microsetta Consent')
+
+        # normalize the response by removing newlines.
+        doc = re.sub(r'\n', ' ', resp.text)
+        # normalize the response by converting multiple whitespace characters
+        # into a single space.
+        doc = re.sub(r'\s+', ' ', doc)
+        # expect a section heading in the document for completed surveys.
+        # remove all text preceeding it.
+        doc = re.sub(r'^.*<p>Completed surveys:</p>', '', doc)
+        # Assume 'COVID-19 Questionnaire' will only appear in the remaining
+        # text if the survey was correctly completed.
+        found = re.search(r'COVID-19 Questionnaire', doc)
+        self.assertIsNotNone(found)
 
     def test_only_untaken_secondarys_available(self):
         resp, url, user_jwt = self._new_to_create()

@@ -474,6 +474,8 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/sources/{source_id}'
         resp = self.app.get(url, follow_redirects=True)
 
+        self.maxDiff = None
+        self.assertEqual(resp.text, 'not_this_value')
         # normalize the response by removing newlines.
         doc = re.sub(r'\n', ' ', resp.text)
         # normalize the response by converting multiple whitespace characters

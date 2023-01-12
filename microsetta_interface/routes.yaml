@@ -387,12 +387,60 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/kits':
+    get:
+      operationId: microsetta_interface.implementation.get_kits
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of kits for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/nutrition':
+    get:
+      operationId: microsetta_interface.implementation.get_nutrition
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of FFQs for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/reports':
+    get:
+      operationId: microsetta_interface.implementation.get_reports
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of Reports for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
   # Note: ideally this would be represented as a DELETE, not as a POST
   # However, it is used as a form submission action, and HTML forms do not support
   # delete as an action
   '/accounts/{account_id}/sources/{source_id}/remove':
-    post:
-      operationId: microsetta_interface.implementation.post_remove_source
+    get:
+      operationId: microsetta_interface.implementation.get_remove_source
       tags:
         - Source
       parameters:
@@ -613,6 +661,11 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/survey_template_id'
+        - in: query
+          name: target
+          description: Where to route user after submitting survey
+          schema:
+            type: string
       requestBody:
         content:
           application/json:

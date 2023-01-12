@@ -1,0 +1,37 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("My Reports") %}
+{% set show_breadcrumbs = True %}
+
+{% set profile_header = True %}
+{% set profile_header_active = "reports" %}
+{% set profile_header_name = source_name %}
+{% set profile_account_id = account_id %}
+{% set profile_source_id = source_id %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+        .tooltipper {
+          display: inline-block; /* tooltip misplaced horizontally otherwise */
+        }
+
+    </style>
+    <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
+{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
+{% endblock %}
+{% block content %}
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>My Reports</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

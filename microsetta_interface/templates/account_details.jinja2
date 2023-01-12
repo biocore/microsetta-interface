@@ -30,13 +30,16 @@
                     post_code: "required",
                     language: "required",
                     {% if CREATE_ACCT %}
-
+                        consent_privacy_terms: "required",
                     {% endif %}
                     // Make sure the form is submitted to the destination defined
                     // in the "action" attribute of the form when valid
                     submitHandler: function (form) {
                         form.submit();
                     }
+                },
+                messages: {
+                    consent_privacy_terms: "{{ _('Please agree to the Privacy Statement and Terms and Conditions') }}",
                 }
             });
 
@@ -106,17 +109,17 @@
 {% endblock %}
 {% block breadcrumb %}
     {% if not CREATE_ACCT %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account.account_id}}">{{ _('Account') }}</a></li>
-    {% endif %}
+    <li class="breadcrumb-item" aria-current="page"><a href="/accounts/{{account.account_id}}">{{ _('Dashboard') }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ _('Account Details') }}</li>
+    {% endif %}
 {% endblock %}
 {% block content %}
-<div class="card">
-    <h5 class="card-header">{{ _('Account Details') }}</h5>
+<div class="card card-account">
+    <h2 class="centered">{{ _('Account Details') }}</h2>
     <div class="card-body">
-        <form id="acct_form" name="acct_form" method="post">
-            <div class="form-group">
-                <label for="email" name="email_label">{{ _('Email') }}*</label>
+        <form id="acct_form" name="acct_form" method="post" class="row g-3">
+            <div class="col-12">
+                <label for="email" name="email_label" class="tmi-content">{{ _('Email') }}*</label>
                 <input id="email" name="email" class="form-control" type="hidden" value="{{account.email |e}}"/>
                 <input id="view_email" name="view_email" class="form-control" type="email" value="{{account.email |e}}" disabled="disabled" readonly/>
                 {% if not CREATE_ACCT %}
@@ -127,18 +130,18 @@
                     </small>
                 {% endif %}
             </div>
-            <div class="form-group">
-                <label for="first_name" name="first_name_label">{{ _('First Name') }}*</label>
+            <div class="col-md-6">
+                <label for="first_name" name="first_name_label" class="tmi-content">{{ _('First Name') }}*</label>
                 <input id="first_name" name="first_name" class="form-control" value="{{account.first_name |e}}" type="text" />
             </div>
-            <div class="form-group">
-                <label for="last_name" name="last_name_label">{{ _('Last Name') }}*</label>
+            <div class="col-md-6">
+                <label for="last_name" name="last_name_label" class="tmi-content">{{ _('Last Name') }}*</label>
                 <input id="last_name" name="last_name" class="form-control" value="{{account.last_name |e}}" type="text" />
             </div>
-            <div class="form-group">
-                <label for="country_code" id="country_code_label">{{ _('Country') }}*</label>
+            <div class="col-12">
+                <label for="country_code" id="country_code_label" class="tmi-content">{{ _('Country') }}*</label>
                 <br>
-                <select id="country_code" name="country_code">
+                <select id="country_code" name="country_code" class="form-control">
                     <option value="US" {% if account.address.country_code == "US" %} selected {% endif %} >{{ _('United States') }}</option>
                     <option value="GB" {% if account.address.country_code == "GB" %} selected {% endif %} >{{ _('United Kingdom') }}</option>
                     <option value="MX" {% if account.address.country_code == "MX" %} selected {% endif %} >{{ _('Mexico') }}</option>
@@ -333,30 +336,34 @@
                     <option value="ZW" {% if account.address.country_code == "ZW" %} selected {% endif %} >{{ _('Zimbabwe') }}</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="street" id="street_label" >{{ _('Street Address') }}*</label>
+            <div class="col-12">
+                <label for="street" id="street_label" class="tmi-content">{{ _('Address Line 1') }}*</label>
                 <input id="street" name="street" class="form-control" value="{{account.address.street |e}}" type="text" />
             </div>
-            <div class="form-group">
-                <label for="city" id="city_label"></label>
+            <div class="col-12">
+                <label for="street" id="street2_label" class="tmi-content">{{ _('Address Line 2') }}</label>
+                <input id="street2" name="street2" class="form-control" value="{{account.address.street2 |e}}" type="text" />
+            </div>
+            <div class="col-md-6">
+                <label for="city" id="city_label" class="tmi-content"></label>
                 <input id="city" name="city" class="form-control" value="{{account.address.city |e}}" type="text" />
             </div>
-            <div class="form-group">
-                <label for="state" id="state_label"></label>
+            <div class="col-md-4">
+                <label for="state" id="state_label" class="tmi-content"></label>
                 <select id="state" name="state" class="form-control">
                     {% for code, full_name in US_STATES %}
                     <option value="{{code}}" {% if account.address.state == code %}selected {% endif %}>{{full_name}}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
-                <label for="post_code" id="post_code_label"></label>
+            <div class="col-md-2">
+                <label for="post_code" id="post_code_label" class="tmi-content"></label>
                 <input id="post_code" name="post_code" class="form-control" value="{{account.address.post_code |e}}" type="text" />
             </div>
-            <div class="form-group">
-                <label for="language" name="language_label">{{ _('Preferred language for future communications') }}*</label>
+            <div class="col-12">
+                <label for="language" name="language_label" class="tmi-content">{{ _('Preferred language for future communications') }}*</label>
                 <br>
-                <select id="language" name="language">
+                <select id="language" name="language" class="form-control">
                 {% for lang_key in languages %}
                     {% if languages[lang_key].value != "ja_JP" %}
                         {% set lang_val = languages[lang_key].value %}
@@ -367,13 +374,21 @@
                 </select>
             </div>
             {% if CREATE_ACCT %}
-
+            <div class="col-12">
+                <input id="consent_privacy_terms" name="consent_privacy_terms" type="checkbox" value="true">
+                <label for="consent_privacy_terms" name="consent_privacy_terms_label" class="tmi-content">
+                    {{ _('I agree to the <a href="https://microsetta.ucsd.edu/privacy-statement/" target="_blank">Privacy Statement</a> and accept the <a href="https://microsetta.ucsd.edu/terms-and-conditions/" target="_blank">Terms and Conditions</a>') }}
+                </label><br />
+                <label for="consent_privacy_terms" class="error" style="display: none;">{{ _('Please agree to the Privacy Statement and Terms and Conditions') }}</label>
+            </div>
             {% endif %}
-            {% if CREATE_ACCT %}
-            <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
-            {% else %}
-            <button type="submit" class="btn btn-primary">{{ _('Save') }}</button>
-            {% endif %}
+            <div class="col-12">
+                {% if CREATE_ACCT %}
+                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;">{{ _('Next') }}</button>
+                {% else %}
+                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;">{{ _('Save') }}</button>
+                {% endif %}
+            </div>
         </form>
         {% if admin_mode %}
         <br/>

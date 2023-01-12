@@ -2,31 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>{{ _('Microsetta') }} - {{page_title}}</title>
+    <title>{{ _('Microsetta') }} {{page_title}}</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <link rel='stylesheet' id='dt-web-fonts-css'  href='https://fonts.googleapis.com/css?family=Mulish:300,400,600,700' type='text/css' media='all' />
+    <link rel="stylesheet" href="/static/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/css/minimal_interface.css" />
     <link rel="stylesheet" href="/static/css/ucsd_colors.css" />
+    <link rel="stylesheet" href="/static/css/tmi_colors.css" />
     <style>
         body {
-            padding-top: 81px;
+            padding-top: 50px;
+            margin: 2%;
         }
         .logo-co {
-          width: 300px;
-          height: 65px;
+          width: 200px;
+          height: 36px;
           object-fit: contain;
-          padding-left: 30px;
         }
         .profile-png {
           width: 36px;
           height: 36px;
           object-fit: contain;
-        }
-
-        #header-profile {
-            margin-right: 30px;
         }
     </style>
 
@@ -34,18 +29,10 @@
     <!-- jquery must be enabled before bootstrap for collapsible functionality -->
     <script src="/static/vendor/js/jquery-3.4.1.min.js"></script>
     <script src="/static/vendor/js/jquery.validate.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+    <!-- Argh, bootstrap 4 requires an old version of popper.  Should we update to bootstrap 5? -->
+    <script src="/static/vendor/popper-1.11.0/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"></script>
+    <script src="/static/vendor/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
     <script src="/static/input_util.js"></script>
-
-    <script type="text/javascript">
-        function verifyDeleteSource(sourceName){
-            let confirmMsg = "{{ _('You are deleting the profile for') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
-                "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
-            return window.confirm(confirmMsg);
-        }
-    </script>
 
     {%block head%}
     {%endblock%}
@@ -57,39 +44,49 @@
       <a class="btn btn-outline-success" href="/admin/system_message">{{ _('System Panel') }}</a>
       <a class="btn btn-outline-success" href="/admin/emperor_playground">{{ _('Emperor Playground') }}</a>
       <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
+      <a class="btn btn-outline-success" href="/admin/activation">{{ _('Activation Codes') }}</a>
       <a class="btn btn-outline-success" href="/admin/interested_users">{{ _('Interested Users') }}</a>
       <a class="btn btn-outline-success" href="/admin/address_verification">{{ _('Address Verification') }}</a>
       <a class="btn btn-outline-success" href="/admin/campaigns/list">{{ _('Campaigns') }}</a>
       <form class="form-inline" action="/admin/account_search" method="get">
-        <input id="email_query" name="email_query" class="form-control mr-sm-2" style="display: inline-block; max-width: 200px;" type="search" placeholder="User Email" aria-label="Search"/>
+        <input id="email_query" name="email_query" class="form-control mr-sm-2" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
       </form>
       <a class="btn btn-outline-success" href="/admin/barcode_search">{{ _('Barcode Search') }}</a>
     </nav>
     {% endif %}
     {% if not admin_mode and not hide_header %}
-    <nav class="navbar fixed-top navbar-light bg-white shadow">
+    <nav class="navbar fixed-top navbar-light bg-light shadow">
         <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>
         </a>
-        <div class="dropdown show" id="header-profile">
-          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown show">
+          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {% if login_info %}
+                {% if login_info.email %}
+                  <span class="tmi-normal">{{login_info.email |e}}</span>
+                {% else %}
+<!--                  <i>Awaiting Account Creation</i>-->
+                {% endif %}
+              {% else %}
+<!--                <i>Not Signed In</i>-->
+              {% endif %}
             <img src="/static/img/profile.png" class="profile-png"/>
           </a>
 
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
           {% if login_info %}
               {% if login_info.account_id %}
-                <li><a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a></li>
+                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a>
               {% else %}
-                <li><a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a></li>
+                <a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a>
               {% endif %}
-            <li><a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a></li>
+            <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
           {% else %}
-              <li><a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Log In') }}</a></li>
-              <li><a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Sign Up') }}</a></li>
+              <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Log In') }}</a>
+              <a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Sign Up') }}</a>
           {% endif %}
-          </ul>
+          </div>
         </div>
     </nav>
     {% endif %}
@@ -100,22 +97,12 @@
     </div>
     {% endif %}
 
-    {% if profile_header %}
-        <div class="content pt-2" style="background: linear-gradient(
-        to bottom,
-        #006A96 0px,
-        #006A96 250px,
-        white 250px,
-        white 100%
-    );">
-    {% else %}
-        <div class="content pt-2">
-    {% endif %}
+    <div class="content">
 
     {% if show_breadcrumbs %}
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb tmi-content">
-            <!--<li class="breadcrumb-item"><a href="/home">{{ _('Home') }}</a></li>-->
+            <li class="breadcrumb-item"><a href="/home">{{ _('Home') }}</a></li>
             {%block breadcrumb%}
             {%endblock%}
           </ol>
@@ -124,56 +111,6 @@
         
         <!-- Vue Form Generator references a container named "app" -->
        <div class="container-fluid" id="app">
-           {% if profile_header %}
-               <div class="container profile-container">
-                    <h1 class="profile-h1">
-                        <img src="/static/img/profile_card_icon.png">
-                        {{ profile_header_name }}
-                    </h1>
-                    <ul class="nav profile-nav">
-                        <li class="nav-item">
-                            {% if profile_header_active == "profile" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "kits" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "nutrition" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "reports" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item" style="width: 50px">
-                            <div class="dropdown show" id="profile-kebab-dropdown">
-                                <a class="btn p-0" href="#" role="button" id="profileDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
-                                </a>
-                              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
-                                  <li><a class="dropdown-item" href="#">{{ _('Consent Documents') }}</a></li>
-                                  <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
-                              </ul>
-                            </div>
-                        </li>
-                    </ul>
-               </div>
-           {% endif %}
-
 {%block content%}
 {%endblock%}
         </div>

@@ -18,28 +18,30 @@
 
 {% block content %}
     <div class="row">
-      <div class="col text-center" style="background: white;">
+      <div class="col-12 col-lg-8 text-center how_it_works">
+          <img src="/static/img/{{ _(EN_US_KEY) }}/how-it-works.png" class="img-fluid" height="75%" width="75%" />
+      </div>
+      <div class="col-12 col-lg-4 text-center" style="background: white;">
           <div class="row h-25"></div>
           <div class="row h-50">
               <div class="col d-flex flex-column">
-                  <div class="flex-fill">
-                      <img src="/static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1.png"  srcset="/static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1@2x.png 2x,/static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1@3x.png 3x" />
-                  </div>
-
-                  <div class="flex-fill mt-3">
-                      <h1>{{ _('Welcome!') }}</h1>
-                  </div>
-
-                  <div class="flex-fill mt-3">
-                      <a href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">
-                          <button class="btn btn-blue-gradient" style="width: 290px">{{ _('Sign Up') }}</button>
-                      </a>
-                  </div>
-                  <div class="flex-fill mt-2">
-                     <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">
-                         <button class="btn btn-white-blue-border" style="width: 290px">{{ _('Log In') }}</button>
-                     </a>
-                  </div>
+                      <div class="flex-fill">
+                          <img src="/static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1.png"
+                               srcset="/static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1@2x.png 2x,
+                               /static/img/{{ _(EN_US_KEY) }}/the-microsetta-initiative-logo-rgb-1@3x.png 3x" />
+                      </div>
+                      <div class="flex-fill">
+                          <h1>{{ _('Welcome!') }}</h1>
+                      </div>
+                      <div class="flex-fill">
+                          <a href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">
+                              <button class="btn btn-primary">{{ _('SIGN UP') }}</button>
+                          </a>
+                      </div>
+                      <div class="flex-fill">
+                         {{ _('Already have an account?') }}<br/>
+                         {{ _('Welcome back!') }} <a href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('LOG IN') }}</a>
+                      </div>
               </div>
           </div>
           <div class="row h-25"></div>

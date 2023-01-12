@@ -1,5 +1,5 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = survey_schema['groups'][0]['legend'] %}
+{% set page_title = _("Participant Survey") %}
 {% set show_breadcrumbs = True %}
 {% block head %}
     <script type="text/javascript" src="/static/vendor/js/vue-2.5.17.min.js"></script>
@@ -10,109 +10,47 @@
     <script type="text/javascript" src="/static/vendor/vue-form-generator-2.3.4/vfg.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/vendor/vue-form-generator-2.3.4/vfg.css">
     <style type="text/css">
-        legend {
-            display: none;
-        }
-
         img#bristol-chart {
             min-width: 300px;
             max-width: 25%;
         }
 
         .vue-form-generator .field-radios .radio-list label {
-            //padding-right: 25px;
-            //display: inline-block;
+            padding-right: 25px;
+            display: inline-block;
         }
 
-        .form-group label {
-            width: 100%;
+        .survey-nav-button {
+            padding: 6px 12px;
+            color: #ffffff!important;
+            background-color: #337ab7!important;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            display: none;
+        }
+
+        .form-group label span{
+            font-weight: 700;
         }
 
         .form-group {
-            padding: 5px;
+            padding-bottom: 5px;
         }
 
         .field-wrap {
             font-size: 90%;
         }
 
-        /* BEGIN TURNING RADIO BUTTONS INTO BUTTONS
-
-        .radio_style_test {
-          margin: 10px;
+        #form-progress {
+            width: 100%;
+            text-align: center;
+            display: none;
+            font-weight: bold;
         }
-
-        .radio_style_test > .field-wrap input[type="radio"] {
-          opacity: 0;
-          position: fixed;
-          width: 0;
-        }
-
-        .radio_style_test > .field-wrap label {
-            display: inline-block;
-            background-color: #ddd;
-            padding: 10px 20px;
-            font-family: sans-serif, Arial;
-            font-size: 16px;
-            border: 2px solid #444;
-            border-radius: 4px;
-        }
-
-        .radio_style_test > .field-wrap label:hover {
-          background-color: #dfd;
-        }
-
-        .radio_style_test > .field-wrap input[type="radio"]:focus + label {
-            border: 2px dashed #444;
-        }
-
-        .radio_style_test > .field-wrap  label.is-checked {
-            background-color: #bfb;
-            border-color: #4c4;
-        }
-
-        END TURNING RADIO BUTTONS INTO BUTTONS*/
-
-        .field-wrap.hide {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-            display: inline-block;
-        }
-
-
-
-.tmi-survey-button-blue > .field-wrap > input {
-    background: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%) !important;
-    border-radius: 50px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: #ffffff !important;
-    margin-left: auto !important;
-    margin-right: 0px !important;
-}
-
-.tmi-survey-button-blue > .field-wrap > input:hover {
-    color: #e7e7e7 !important;
-}
-
-.tmi-survey-button-white > .field-wrap > input {
-    background: #ffffff !important;
-    border-radius: 50px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: var(--tmi-blue) !important;
-}
-
-.tmi-survey-button-white > .field-wrap > input:hover {
-    background-color: #e7e7e7 !important;
-}
-
-.tmi-survey-centered > .field-wrap > input {
-    margin: auto !important;
-}
     </style>
     <script>
         // Overwrite and localize the messages used, based on the example from:
@@ -124,10 +62,20 @@
         var error_txt = "";
         var form_submitted = 0;
 
-        function postSurvey(target) {
+        function postSurvey() {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+
+            // workaround to make the earlier sections of the survey visible to the DOM so they submit, but hidden to the user
+            for(let i=1; i<(fieldsetObject.length-1); i++) {
+                fieldsetObject[i].style.position = "absolute";
+                fieldsetObject[i].style.top = "-9999px";
+                fieldsetObject[i].style.left = "-9999px";
+                fieldsetObject[i].style.display = "inline-block";
+            }
+
             $.ajax({
                 type: "POST",
-                url: "{{ endpoint }}/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ survey_template_id }}&target=" + target,
+                url: "{{ endpoint }}/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ survey_template_id }}",
                 data: JSON.stringify(survey_model),
                 success: function (data, textStatus, jqXHR) {
                     result_txt = data;
@@ -140,13 +88,9 @@
                     // Note that the html we successfully received MAY be an html page reporting an error
                     // captured in the back end :)
                     if (result_txt !== ""){
-                        if(result_txt.substring(0,1) == "/") {
-                            window.location.replace(result_txt);
-                        } else {
-                            document.open();
-                            document.write(result_txt);
-                            document.close();
-                        }
+                        document.open();
+                        document.write(result_txt);
+                        document.close();
                     } else {
                         // I can't imagine how we could get here, but just in case, at least the
                         // user sees *something* ...
@@ -178,58 +122,21 @@
                 }
             }
         }
-
-        function modelUpdated(newVal, schema) {
-            console.log("Let's add links!");
-            addSkipLinks();
-        }
-
-        function deleteFunc() {
-            delete survey_model['240'];
-        }
     </script>
 {% endblock %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('My Profile') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ survey_schema['groups'][0]['legend'] }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Participant Survey') }}</li>
 {% endblock %}
 {% block content %}
-    <div class="container default-container">
-        <div class="row align-items-center mb-4">
-            <div class="col-xs-12 col-md-2 survey-header-icon">
-                <img src="/static/img/{{ survey_icon}}" />
-            </div>
-            <div class="col-xs-12 col-md-10">
-                <h1 class="h1-survey">{{ survey_schema['groups'][0]['legend'] }}</h1>
-                <span class="survey-subheader">{{ survey_est_minutes }} minutes - {{ survey_question_count }} questions</span>
-            </div>
+    <div id="form-progress">{{ _('Progress') }}</div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form id="survey_form" name="survey_form">
+                <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated"></vue-form-generator>
+            </form>
         </div>
-    </div>
-    <div class="container default-container">
-        <form id="survey_form" name="survey_form">
-            <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated" @model-updated="modelUpdated"></vue-form-generator>
-        </form>
-    </div>
-    <div class="container default-container">
-        <div class="row">
-            <div class="col-6">
-                {% if previous_survey != None %}
-                <img src="/static/img/{{ previous_survey['icon'] }}" width="40" height="40" style="float: left;">
-                <div class="survey-nav-name">{{ previous_survey['survey_name'] |e }}</div>
-                <div class="small-text survey-info">{{ previous_survey['est_minutes'] |e }} min</div>
-                {% endif %}
-            </div>
-            <div class="col-6 text-end">
-                {% if next_survey == None %}
-                <span class="small-text survey-info">You've finished building your profile!</span>
-                {% else %}
-                <img src="/static/img/{{ next_survey['icon'] }}" width="40" height="40" style="float: right;">
-                <div class="survey-nav-name">{{ next_survey['survey_name'] |e }}</div>
-                <div class="small-text survey-info">{{ next_survey['est_minutes'] |e }} min</div>
-                {% endif %}
-            </div>
-        </div>
+	<input type="button" id="survey-nav-button-previous" class="survey-nav-button" value="&lt;&lt; {{ _('Previous Section') }}" onClick="changePage('previous');">
+	<input type="button" id="survey-nav-button-next" class="survey-nav-button" value="{{ _('Next Section') }} &gt;&gt;" onClick="changePage('next');">
     </div>
     <script type="text/javascript">
         var survey_model = {};
@@ -237,116 +144,94 @@
 
         if (survey_schema.fields !== null) {
             for (let field of survey_schema.fields) {
-                if('default' in field && field.default !== null && field.default.length > 0) {
-                    if(field.inputName == "108" || field.inputName == "113") {
-                        survey_model[field.inputName] = parseInt(field.default);
-                    } else {
-                        survey_model[field.inputName] = field.default;
-                    }
-                }
                 set_triggers(survey_model, field);
             }
         }
         for (let group of survey_schema.groups) {
             for (let field of group.fields) {
-                if('default' in field && field.default !== null && field.default.length > 0) {
-                    if(field.inputName == "108" || field.inputName == "113") {
-                        survey_model[field.inputName] = parseInt(field.default);
-                    } else {
-                        survey_model[field.inputName] = field.default;
-                    }
-                }
                 set_triggers(survey_model, field);
             }
         }
 
         last_group = survey_schema.groups[survey_schema.groups.length-1];
-        {% if previous_survey == None %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white tmi-survey-centered col-10",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
+        last_group.fields.push({
+            buttonText: "{{ _('Submit Survey') }}",
+            type: "submit",
+            validateBeforeSubmit: true,
+            onSubmit: function(){
+                let confirm_submit = false;
+                let num_string_fields = document.getElementsByClassName("field-textArea").length + document.getElementsByClassName("field-input").length ;
+                if(form_submitted === 0) {
+                    if(num_string_fields > 0 || Object.keys(survey_model).length>0) {
+                        confirm_submit = confirm("{{ _('Please note: Once you\'ve submitted this survey, you\'ll be unable to edit your answers.') }}\r\n\r\n{{ _('If you\'d like to review or change any of your responses, please press the Cancel button. Otherwise, press OK to submit your responses.') }}\r\n\r\n{{ _('This warning will only appear once.') }}");
+                        form_submitted = 1;
+                    }
+                    else {
+                        alert("{{ _('It looks like you are trying to submit this survey without answering any questions. If you would prefer not to complete this survey, please return to the homepage.') }}")
+                    }
+                } else {
+                    confirm_submit = true;
                 }
-            },{
-                buttonText: "{{ _('Save & Next') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ next_survey['survey_template_id'] }});
-                }
-            });
-        {% elif next_survey == None %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Save & Previous') }}",
-                styleClasses: "tmi-survey-button-white col-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ previous_survey['survey_template_id'] }});
-                }
-            },
-            {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white tmi-survey-centered col-8",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            },{
-                buttonText: "{{ _('Save & Finish') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            });
-        {% else %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Save & Previous') }}",
-                styleClasses: "tmi-survey-button-white col-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ previous_survey['survey_template_id'] }});
-                }
-            },
-            {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white tmi-survey-centered col-8",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            },{
-                buttonText: "{{ _('Save & Next') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ next_survey['survey_template_id'] }});
-                }
-            });
-        {% endif %}
 
+                if(confirm_submit === true) {
+                    $("input").prop('disabled', true);
+                    return postSurvey();
+                }
+            }
+        });
+
+        var active_section = 0;
         var errors_on_page = 0;
+
+        function paginateForm() {
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+
+            if(fieldsetObject.length <= 1) {
+                document.getElementById("survey-nav-button-next").style.display = "none";
+            } else {
+                document.getElementById("form-progress").style.display = "block";
+                document.getElementById("form-progress").innerHTML = "{{ _('Step') }} 1 {{ _('of') }} " + fieldsetObject.length + " - 0% {{ _('Complete') }}";
+                for(let i=1; i<fieldsetObject.length; i++) {
+                    fieldsetObject[i].style.display = "none";
+                }
+                document.getElementById("survey-nav-button-next").style.display = "inline-block";
+            }
+        }
+
+        function changePage(direction) {
+            if(errors_on_page !== 0) {
+                alert("{{ _('Please correct the fields with errors.') }}");
+                return false;
+            }
+
+            let fieldsetObject = document.getElementsByTagName("fieldset");
+            let new_active_section = 0;
+
+            if(direction === "next") {
+                new_active_section = active_section + 1;
+            } else {
+                new_active_section = active_section - 1;
+            }
+            let display_active_section = new_active_section+1;
+
+            fieldsetObject[active_section].style.display = "none";
+            document.getElementById("form-progress").innerHTML = "{{ _('Step') }} " + display_active_section + " {{ _('of') }} " + fieldsetObject.length + " - " + Math.round((new_active_section/fieldsetObject.length)*100) + "% {{ _('Complete') }}";
+            fieldsetObject[new_active_section].style.display = "block";
+
+            if(new_active_section === 0) {
+                document.getElementById("survey-nav-button-previous").style.display = "none";
+            } else {
+                document.getElementById("survey-nav-button-previous").style.display = "inline-block";
+            }
+            if(new_active_section === (fieldsetObject.length-1)) {
+                document.getElementById("survey-nav-button-next").style.display = "none";
+            } else {
+                document.getElementById("survey-nav-button-next").style.display = "inline-block";
+            }
+
+            window.scrollTo(0,0);
+            active_section = new_active_section;
+        }
 
         function onValidated(isValid,errors) {
             if(isValid === false) {
@@ -356,28 +241,7 @@
             }
         }
 
-        // Select the node that will be observed for mutations
-        const targetNode = document.getElementById('app');
-
-        // Options for the observer (which mutations to observe)
-        const config = { attributes: true, childList: true, subtree: true, characterData: true };
-
-        // Callback function to execute when mutations are observed
-        const callback = (mutationList, observer) => {
-          for (const mutation of mutationList) {
-            if (mutation.type === 'childList') {
-              console.log(JSON.stringify(survey_model));
-              addSkipLinks();
-            }
-          }
-        };
-
-        // Create an observer instance linked to the callback function
-        const observer = new MutationObserver(callback);
-
-        // Start observing the target node for configured mutations
-        observer.observe(document.body, config);
-        console.log(observer);
+        $(paginateForm);
     </script>
     <script type="text/javascript" src="/static/vue_survey_form.js"></script>
 {% endblock %}

@@ -418,7 +418,7 @@
                     <p>
                     </p>
                         <center>
-                            Your account removal request is being reviewed. You will be notified via email once your account has been deleted.
+                        _("Your account removal request is being reviewed. You will be notified via email once your account has been deleted.")
                         </center>
                 </div>
             </div>
@@ -435,7 +435,9 @@
                              onsubmit="return verifyDeleteUserRequest();">
                                   {{ _('If you wish to delete this account, please click the following button to submit your request to an administrator.') }}
                             <button type="submit" class="btn btn-outline-danger">{{ _('Request Account Deletion') }}</button>
-                            <br>IMPORTANT: Once you click this button, the request cannot be undone. Your account cannot be restored after it has been deleted.</br>
+                            <br>
+                            {{ _('IMPORTANT: Once you click this button, the request cannot be undone. Your account cannot be restored after it has been deleted.') }}
+                            </br>
                             </form>
                         </center>
                 </div>

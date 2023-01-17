@@ -176,6 +176,7 @@ function skipQuestion(ele, skipType="user-input") {
                 let inputElement = theNode.children[0];
 
                 if(newState == "display") {
+                    theNode.style.display = "";
                     inputElement.innerText = "";
                     vm.methodToUpdate(inputElement.name, false, false);
                 } else {

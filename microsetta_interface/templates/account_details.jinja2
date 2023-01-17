@@ -13,7 +13,6 @@
             let form_name = 'acct_form';
             preventImplicitSubmission(form_name);
 
-
             // Initialize form validation on the registration form.
             // It has the name attribute "registration"
             $("form[name='" + form_name + "']").validate({
@@ -40,8 +39,27 @@
                 },
                 messages: {
                     consent_privacy_terms: "{{ _('Please agree to the Privacy Statement and Terms and Conditions') }}",
+                },
+            });
+
+            /*
+            UNCOMMENT TO DISABLE SUBMIT BUTTON UNTIL FORM IS VALID
+            var $form = $("#acct_form");
+            var $submit_button = $("#submit_button");
+            $form.on("blur keyup change", "input", () => {
+                if ($form.valid()) {
+                    $submit_button.removeAttr("disabled");
+                } else {
+                    $submit_button.attr("disabled", "disabled");
                 }
             });
+
+            ADD TO above validate() to hide errors when submit button is disabled until valid
+                showErrors: function(errorMap, errorList) {
+                    // do nothing
+                },
+
+            */
 
             // Link Handlers
             // In our test databases, state sometimes has line breaks, so
@@ -103,8 +121,6 @@
                 }
             },cc);
         });
-
-
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -384,9 +400,9 @@
             {% endif %}
             <div class="col-12">
                 {% if CREATE_ACCT %}
-                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;">{{ _('Next') }}</button>
+                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;" id="submit_button">{{ _('Next') }}</button>
                 {% else %}
-                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;">{{ _('Save') }}</button>
+                    <button type="submit" class="btn btn-blue-gradient" style="width: 100%;" id="submit_button">{{ _('Save') }}</button>
                 {% endif %}
             </div>
         </form>

@@ -16,6 +16,24 @@
         }
 
     </style>
+    <script type="text/javascript">
+        function takeExternalSurvey(survey_link, survey_title, survey_description) {
+            $("#modal-title").empty();
+            $("#modal-title").text(survey_title);
+            $("#survey-description").empty();
+            $("#survey-description").text(survey_description);
+            $("#take-survey").click(function(e) {
+                window.location.replace(survey_link);
+            });
+            $("#source_modal").modal('show');
+            return false;
+        }
+
+        function hideModal() {
+            $("#source_modal").modal('hide');
+            return false;
+        }
+    </script>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
 {% endblock %}
 {% block breadcrumb %}
@@ -25,10 +43,10 @@
 {% block content %}
     <div class="container profile-container">
         <br />
-        <p class="tmi-content tmi-tooltip">
+        <p class="tmi-tooltip">
             The Microsetta Initiative aims to generate quality data that can help you better understand your microbiome, help scientists design better studies, and improve the world's understanding of the human microbiome.
         </p>
-        <p class="tmi-content tmi-tooltip">
+        <p class="tmi-tooltip">
             Answering our surveys can help us do just that. To get started, build out your profile by answering the surveys below. We will alert you when new surveys become available.
         </p>
         <div class="row mt-5">
@@ -36,8 +54,12 @@
             <div class="col-4 p-2">
                 <div class="card card-survey">
                     <div class="row m-2">
-                        <div class="col-8 small-text survey-info">Last modified Jun 4, 2022</div>
-                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} min</div>
+                        {% if detail.date_last_taken != None %}
+                            <div class="col-8 small-text survey-info">{{ _('Last modified') }} {{ detail.date_last_taken }}</div>
+                        {% else %}
+                            <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
+                        {% endif %}
+                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('minutes') }}</div>
                     </div>
                     {% if detail.answered < 360 %}
                     <div class="card-survey-bg-progress mx-auto mb-4" style="background: conic-gradient(#006a96 {{ detail.answered }}deg, #c7c7c7 {{ detail.answered }}deg);">
@@ -66,41 +88,66 @@
             </div>
         {% endfor %}
         </div>
-        <div class="row mt-5">
+        <p class="tmi-tooltip mt-4">
+            Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.
+        </p>
+        <div class="row mt-4">
         {% for detail in remote_surveys %}
             <div class="col-4 p-2">
-                <div class="card card-survey">
+                <div class="card card-survey-external">
                     <div class="row m-2">
-                        <div class="col-8 small-text survey-info">Last modified Jun 4, 2022</div>
-                        <div class="col-4 small-text survey-info text-end">2 min</div>
+                        {% if detail.answered %}
+                            <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
+                        {% else %}
+                            <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
+                        {% endif %}
+                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
                     </div>
-                    {% if detail.answered %}
-                    <div class="card-survey-bg-progress mx-auto mb-4" style="background-color: #D9ECDB;">
-                        <img src="/static/img/survey_complete.png" style="position: absolute; bottom: 85px; right: 85px">
-                    {% else %}
-                    <div class="card-survey-bg-progress mx-auto mb-4" style="background: conic-gradient(#006a96 2deg, #c7c7c7 2deg);">
-                    {% endif %}
-                        <div class="card-survey-bg-blank">
-                            {% if detail.answered == False %}
-                                <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                            {% endif %}
-                            <img src="/static/img/survey_external.png" class="card-survey-icon">
-                            {% if detail.answered == False %}
-                                </a>
-                            {% endif %}
-                        </div>
+                    <div class="row m-3 text-center">
+                        {% if detail.answered == False %}
+                            <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                                <img src="/static/img/survey_external.png" class="card-survey-icon-external">
+                            </a>
+                        {% else %}
+                            <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
+                        {% endif %}
+                        {% if detail.answered == False %}
+                            </a>
+                        {% endif %}
                     </div>
+                    <div class="row text-center">
                     {% if detail.answered == False %}
-                        <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                    {% endif %}
-                            <span class="survey-title mx-auto">{{ detail.survey_template_title|e }}</span>
-                    {% if detail.answered == False %}
+                        <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                            {{ detail.survey_template_title|e }}
                         </a>
+                    {% else %}
+                        <span class="survey-title-taken">{{ detail.survey_template_title|e }}</span>
                     {% endif %}
+                    </div>
                 </div>
             </div>
         {% endfor %}
         </div>
     </div>
+
+        <!-- Modal -->
+<div class="modal fade" id="source_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="/static/img/survey_external.png">
+                <span class="survey-title" id="modal-title"></span>
+            </div>
+            <div class="modal-body">
+                <p id="survey-description" class="survey-description"></p>
+                <p id="survey-warning" class="survey-warning">You will only have one opportunity to take this survey. Please make sure you have ample time before you start.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">Maybe Later</button>
+                <button type="button" class="btn btn-blue-gradient" id="take-survey">Take This Survey Now</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

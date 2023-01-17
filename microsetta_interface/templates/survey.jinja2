@@ -110,8 +110,18 @@
     background-color: #e7e7e7 !important;
 }
 
+.tmi-survey-button-white-noborder > .field-wrap > input {
+    background: #ffffff !important;
+    border-radius: 50px !important;
+    border: 0px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    color: var(--tmi-blue) !important;
+}
+
 .tmi-survey-centered > .field-wrap > input {
-    margin: auto !important;
+    margin-left: auto !important;
 }
     </style>
     <script>
@@ -178,15 +188,6 @@
                 }
             }
         }
-
-        function modelUpdated(newVal, schema) {
-            console.log("Let's add links!");
-            addSkipLinks();
-        }
-
-        function deleteFunc() {
-            delete survey_model['240'];
-        }
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -208,7 +209,7 @@
     </div>
     <div class="container default-container">
         <form id="survey_form" name="survey_form">
-            <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated" @model-updated="modelUpdated"></vue-form-generator>
+            <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated"></vue-form-generator>
         </form>
     </div>
     <div class="container default-container">
@@ -234,6 +235,7 @@
     <script type="text/javascript">
         var survey_model = {};
         var survey_schema= {{survey_schema|tojson}};
+        var initial_values = {};
 
         if (survey_schema.fields !== null) {
             for (let field of survey_schema.fields) {
@@ -252,8 +254,10 @@
                 if('default' in field && field.default !== null && field.default.length > 0) {
                     if(field.inputName == "108" || field.inputName == "113") {
                         survey_model[field.inputName] = parseInt(field.default);
+                        initial_values[field.inputName] = parseInt(field.default);
                     } else {
                         survey_model[field.inputName] = field.default;
+                        initial_values[field.inputName] = field.default;
                     }
                 }
                 set_triggers(survey_model, field);
@@ -265,7 +269,7 @@
             last_group.fields.push(
             {
                 buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white tmi-survey-centered col-10",
+                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-10",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -327,7 +331,7 @@
             },
             {
                 buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white tmi-survey-centered col-8",
+                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-8",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -356,6 +360,20 @@
             }
         }
 
+    function hideById(qid) {
+        const elements = document.querySelectorAll('[for="' + qid + '"]');
+        skipQuestion(elements[0], "initial");
+    }
+
+    $(document).ready(function(e) {
+        console.log(initial_values);
+
+        for(const fieldId in initial_values) {
+            if(initial_values[fieldId] == "Unspecified") {
+                hideById(fieldId);
+            }
+        }
+
         // Select the node that will be observed for mutations
         const targetNode = document.getElementById('app');
 
@@ -366,7 +384,6 @@
         const callback = (mutationList, observer) => {
           for (const mutation of mutationList) {
             if (mutation.type === 'childList') {
-              console.log(JSON.stringify(survey_model));
               addSkipLinks();
             }
           }
@@ -377,7 +394,7 @@
 
         // Start observing the target node for configured mutations
         observer.observe(document.body, config);
-        console.log(observer);
+    });
     </script>
     <script type="text/javascript" src="/static/vue_survey_form.js"></script>
 {% endblock %}

@@ -37,6 +37,15 @@ html * {
     padding: 0px;
 }
 
+body {
+    position: relative;
+    min-height: 100vh;
+}
+
+div.content {
+    padding-bottom: 56px;
+}
+
 a {
     color: #00f;
 }
@@ -62,6 +71,9 @@ label.tmi-content {
 .tmi-footer {
     background-color: var(--tmi-dark-blue);
     width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 56px;
 }
 
 .tmi-footer a {
@@ -121,6 +133,15 @@ a.breadcrumb-item-profile {
 
 .btn-blue-gradient {
     background: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    color: #ffffff;
+}
+
+.btn-blue-gradient[disabled] {
+    background: var(--tmi-gray-80);
     border-radius: 50px;
     font-weight: 700;
     font-size: 14px;
@@ -307,6 +328,11 @@ p.tmi-content {
     background-color: white;
 }
 
+.card-survey-external {
+    height: 214px;
+    background-color: white;
+}
+
 .card-profile-icon {
     background-color: #ffffff;
     border-radius: 50%;
@@ -331,6 +357,26 @@ p.tmi-content {
 .card-survey-icon {
     background-color: #ffffff;
     margin: 35px 35px;
+}
+
+.card-survey-icon-external {
+    background-color: #ffffff;
+    width: 90px;
+    margin: auto;
+}
+
+.card-survey-new {
+    color: var(--tmi-orange);
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 900;
+}
+
+.card-survey-completed {
+    color: var(--tmi-blue);
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 900;
 }
 
 .breadcrumb {
@@ -397,8 +443,49 @@ h1.profile-h1 {
     color: var(--tmi-blue);
 }
 
+.survey-title-taken {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    text-decoration: none;
+    color: var(--tmi-gray-80);
+}
+
 .survey-info {
     color: var(--tmi-gray-80);
+}
+
+.modal-header {
+    justify-content: flex-start !important;
+    border-bottom: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+span.survey-title {
+    margin-left: 8px;
+}
+
+.survey-description {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--tmi-gray-90);
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.survey-warning {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--tmi-orange);
+    font-style: italic;
+    font-weight: 700;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.modal-footer {
+    padding-top: 0px !important;
+    border-top: 0px !important;
 }
 
 .plus-button-wrapper {
@@ -445,6 +532,8 @@ h1.profile-h1 {
 }
 
 p.tmi-tooltip {
+    font-size: 16px;
+    line-height: 26px;
     color: var(--tmi-gray-80);
 }
 
@@ -499,9 +588,14 @@ li.active-profile {
     line-height: 20px !important;
 }
 
+.tmi-survey-radio-vertical > .field-wrap > .radio-list > label {
+    padding-top: 8px;
+}
+
 .tmi-survey-radio-horizontal > .field-wrap > .radio-list > label {
     display: inline !important;
-    padding-right: 15px;
+    padding-right: 16px;
+    padding-top: 8px;
 }
 
 .tmi-survey-radio-switch > .field-wrap {
@@ -611,6 +705,10 @@ li.active-profile {
     padding: 0px;
 }
 
+.tmi-survey-checkbox > .field-wrap > .wrapper > .form-control > .list-row {
+    padding-top: 8px;
+}
+
 .tmi-survey-radio-buttons > .field-wrap {
     padding-top: 5px;
 }
@@ -668,4 +766,12 @@ li.active-profile {
 
 .tmi-survey-text-small > .field-wrap > .wrapper > input {
     width: 50px;
+}
+
+select.form-control {
+    appearance: menulist !important;
+}
+
+.form-group > label > span {
+  display: block !important;
 }

@@ -120,102 +120,102 @@ SURVEY_INFO = {
     BASIC_INFO_ID: {
         'description': '',
         'est_minutes': '2',
-        'icon': 'survey_basic_information.png'
+        'icon': 'survey_basic_information.svg'
     },
     AT_HOME_ID: {
         'description': '',
         'est_minutes': '2',
-        'icon': 'survey_at_home.png'
+        'icon': 'survey_at_home.svg'
     },
     LIFESTYLE_ID: {
         'description': '',
         'est_minutes': '8',
-        'icon': 'survey_lifestyle.png'
+        'icon': 'survey_lifestyle.svg'
     },
     GUT_ID: {
         'description': '',
         'est_minutes': '4',
-        'icon': 'survey_gut.png'
+        'icon': 'survey_gut.svg'
     },
     GENERAL_HEALTH_ID: {
         'description': '',
         'est_minutes': '5',
-        'icon': 'survey_general_health.png'
+        'icon': 'survey_general_health.svg'
     },
     HEALTH_DIAG_ID: {
         'description': '',
         'est_minutes': '8',
-        'icon': 'survey_health_diagnosis.png'
+        'icon': 'survey_health_diagnosis.svg'
     },
     ALLERGIES_ID: {
         'description': '',
         'est_minutes': '2',
-        'icon': 'survey_allergies.png'
+        'icon': 'survey_allergies.svg'
     },
     DIET_ID: {
         'description': '',
         'est_minutes': '5',
-        'icon': 'survey_diet.png'
+        'icon': 'survey_diet.svg'
     },
     DETAILED_DIET_ID: {
         'description': '',
         'est_minutes': '18',
-        'icon': 'survey_detailed_diet.png'
+        'icon': 'survey_detailed_diet.svg'
     },
     MIGRAINE_ID: {
         'description': '',
         'est_minutes': '',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     SURFERS_ID: {
         'description': '',
         'est_minutes': '',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     COVID19_ID: {
         'description': '',
         'est_minutes': '8',
-        'icon': 'survey_covid_19.png'
+        'icon': 'survey_covid_19.svg'
     },
     OTHER_ID: {
         'description': '',
         'est_minutes': '2',
-        'icon': 'survey_other.png'
+        'icon': 'survey_other.svg'
     },
     1: {
         'description': 'The general questionnaire for Microsetta',
         'est_minutes': '10',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     3: {
         'description': 'A fermented foods specific questionnaire',
         'est_minutes': '4',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     4: {
         'description': 'Questions on surfing behavior',
         'est_minutes': '5',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     5: {
         'description': 'Questions about your interest in the microbiome',
         'est_minutes': '3',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     6: {
         'description': 'Questions specific to COVID19',
         'est_minutes': '2',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     7: {
         'description': 'Questions related to cooking oils and oxalate-rich foods',
         'est_minutes': '5',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     VIOSCREEN_ID: {
         'description': 'Our standard food frequency questionnaire',
         'est_minutes': '30',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     MYFOODREPO_ID: {
         'description': '<strong>Only for US Participants:</strong><br />'
@@ -235,7 +235,7 @@ SURVEY_INFO = {
                    'to use it immediately. You will have <strong>two weeks'
                    '</strong> to use the app before your access expires.',
         'est_minutes': 'N/A',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
     POLYPHENOL_FFQ_ID: {
         'description': 'Polyphenols are chemical compounds naturally found in '
@@ -245,8 +245,8 @@ SURVEY_INFO = {
                        ' benefits by interacting with the microbes in your '
                        'gut. This survey will allow us to better quantify '
                        'your consumption of polyphenols through your diet.',
-        'est_minutes': '20',
-        'icon': 'survey_external.png'
+        'est_minutes': '30',
+        'icon': 'survey_external.svg'
     },
     SPAIN_FFQ_ID: {
         'description': '<strong>Only for participants in Spain:</strong><br />'
@@ -255,7 +255,7 @@ SURVEY_INFO = {
                   'beverages. The questionnaire consists of 28 questions, and '
                   'will allow us to find out what your usual diet is like.',
         'est_minutes': '30',
-        'icon': 'survey_external.png'
+        'icon': 'survey_external.svg'
     },
 }
 LOCAL_SURVEY_SEQUENCE = [
@@ -1133,6 +1133,13 @@ def get_fill_source_survey(*,
         else:
             next_survey = None
 
+        # Add "skip" link to the field labels
+        for group in survey_output['survey_template_text']['groups']:
+            for field in group['fields']:
+                field['label'] = '<span class="survey-skip small-text" '\
+                        + 'onClick="skipQuestion(this)">' + gettext('SKIP')\
+                        + '</span>' + field['label']
+
         return _render_with_defaults("survey.jinja2",
                                      account_id=account_id,
                                      source_id=source_id,
@@ -1406,6 +1413,7 @@ def get_source(*, account_id=None, source_id=None):
         if has_error:
             return survey_output
 
+        template['date_last_taken'] = survey_output['date_last_taken']
         if survey_output['percentage_completed'] == 0.0:
             template['answered'] = 2
         else:

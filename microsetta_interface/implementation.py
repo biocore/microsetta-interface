@@ -754,12 +754,20 @@ def get_account(*, account_id=None):
 @prerequisite([ACCT_PREREQS_MET])
 def get_account_details(*, account_id=None):
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+
     if has_error:
         return account
 
+    has_error, stats, _ = ApiRequest.get(f'/accounts/{account_id}/'
+                                         'removal_queue')
+
+    if has_error:
+        return stats
+
     return _render_with_defaults('account_details.jinja2',
                                  CREATE_ACCT=False,
-                                 account=account)
+                                 account=account,
+                                 requested_deletion=stats['status'])
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1306,6 +1314,23 @@ def post_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
+# Note: ideally this would be represented as a DELETE, not as a POST
+# However, it is used as a form submission action, and HTML forms do not
+# support delete as an action
+def post_request_account_removal(*, account_id):
+    # PUT is used to add the account_id to the queue
+    # DELETE is used to remove the account_id from the queue, if it's
+    # still there.
+    has_error, put_output, _ = ApiRequest.put(
+        '/accounts/%s/removal_queue' %
+        (account_id))
+
+    if has_error:
+        return put_output
+
+    return _render_with_defaults('request_account_deletion_confirm.jinja2')
+
+
 @prerequisite([SOURCE_PREREQS_MET])
 def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(
@@ -1769,11 +1794,42 @@ def post_account_delete(body):
     if accts_output['account_type'] != 'standard':
         return get_rootpath()
 
-    has_error, delete_output, _ = ApiRequest.delete(
-        '/accounts/%s' % (account_to_delete,))
+    url = '/admin/account_removal/%s' % (account_to_delete,)
+    has_error, delete_output, _ = ApiRequest.delete(url)
 
     if has_error:
         return delete_output
+
+    return get_rootpath()
+
+
+def post_account_ignore_delete(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    account_details = session.get(LOGIN_INFO_KEY)
+    if account_details is None:
+        raise Unauthorized()
+
+    account_to_ignore = body.get('account_id')
+    if account_to_ignore is None:
+        raise Unauthorized()
+
+    # preserve 'standard-accounts-only' logic for now.
+    # admin accounts shouldn't be requesting their own deletion.
+    do_return, accts_output, _ = ApiRequest.get(
+        '/accounts/%s' % (account_to_ignore, ))
+    if do_return:
+        return accts_output
+
+    if accts_output['account_type'] != 'standard':
+        return get_rootpath()
+
+    url = '/admin/account_removal/%s' % account_to_ignore
+    has_error, ignore_output, _ = ApiRequest.put(url)
+
+    if has_error:
+        return ignore_output
 
     return get_rootpath()
 
@@ -2230,6 +2286,22 @@ def post_campaign_edit(body):
         request.files['header_image'].save(fn)
 
     return get_campaign_edit(campaign_info['campaign_id'])
+
+
+def get_account_removal_requests():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        "/admin/account_removal/list",
+        params={}
+    )
+
+    if do_return:
+        return diagnostics
+
+    return _render_with_defaults('admin_requests_account_removal_list.jinja2',
+                                 diagnostics=diagnostics)
 
 
 def get_submit_interest(campaign_id=None, source=None):

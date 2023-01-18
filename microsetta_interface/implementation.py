@@ -13,6 +13,7 @@ from os import path
 from datetime import datetime
 import base64
 import functools
+from string import ascii_lowercase
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
     ES_MX_KEY, ES_ES_KEY, JA_JP_KEY
@@ -1091,8 +1092,6 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:
-        survey_question_count = \
-            len(survey_output['survey_template_text']['groups'][0]['fields'])
         survey_icon = SURVEY_INFO.get(survey_template_id)['icon']
         survey_est_minutes = SURVEY_INFO.get(survey_template_id)['est_minutes']
 
@@ -1133,9 +1132,20 @@ def get_fill_source_survey(*,
         else:
             next_survey = None
 
+        survey_question_count = 0
         # Add "skip" link to the field labels
         for group in survey_output['survey_template_text']['groups']:
+            ctr = 0
             for field in group['fields']:
+                if "triggered_by" in field:
+                    field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
+                                     + ". " + field['label']
+                    trig_ctr += 1
+                else:
+                    trig_ctr = 0
+                    ctr += 1
+                    survey_question_count += 1
+                    field['label'] = str(ctr) + ". " + field['label']
                 field['label'] = '<span class="survey-skip small-text" '\
                         + 'onClick="skipQuestion(this)">' + gettext('SKIP')\
                         + '</span>' + field['label']

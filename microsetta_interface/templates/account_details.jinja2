@@ -42,25 +42,6 @@
                 },
             });
 
-            /*
-            UNCOMMENT TO DISABLE SUBMIT BUTTON UNTIL FORM IS VALID
-            var $form = $("#acct_form");
-            var $submit_button = $("#submit_button");
-            $form.on("blur keyup change", "input", () => {
-                if ($form.valid()) {
-                    $submit_button.removeAttr("disabled");
-                } else {
-                    $submit_button.attr("disabled", "disabled");
-                }
-            });
-
-            ADD TO above validate() to hide errors when submit button is disabled until valid
-                showErrors: function(errorMap, errorList) {
-                    // do nothing
-                },
-
-            */
-
             // Link Handlers
             // In our test databases, state sometimes has line breaks, so
             // more complex parsing becomes necessary

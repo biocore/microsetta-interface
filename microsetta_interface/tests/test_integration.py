@@ -574,9 +574,10 @@ class IntegrationTests(unittest.TestCase):
         body = {'key': 'value'}
         resp = self.app.post(url, data=body)
         data = self._html_page(resp)
-        s = ('We are sorry to see you go! Your request has been logged and '
-             'you will receive an email notification once your account has '
-             'been deleted.')
+        s = ("We are sorry to see you go! Your request has been logged, and"
+             " an administrator will review the request soon. You will receive"
+             " an email notification once your account has been deleted.")
+
         self.assertIn(s, data)
 
         # return to the Account->Details page and confirm that it shows the

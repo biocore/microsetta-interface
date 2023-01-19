@@ -1,7 +1,13 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("Sample Information") %}
+{% set page_title = _("My Kits") %}
 {% set show_breadcrumbs = True %}
-{% set disable_bootstrap = True %}
+
+{% set profile_header = True %}
+{% set profile_header_active = "kits" %}
+{% set profile_header_name = source_name %}
+{% set profile_account_id = account_id %}
+{% set profile_source_id = source_id %}
+
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/jquery-ui-1.12.1/jquery-ui.min.css"/>
     <link rel="stylesheet" href="/static/vendor/css/jquery.timepicker.min.css"/>
@@ -14,6 +20,15 @@
     <script type="text/javascript" src="/static/vendor/jquery-validation/messages_{{ _(EN_US_KEY) }}.js"></script>
 
     <script>
+        function verifyDissociateSample() {
+            let confirmMsg = "{{ _('Do you really want to remove this sample from this source?') }} " +
+                "{{ _('Doing so will remove any collection info saved for this sample and will') }} " +
+                "{{ _('unlink it from all surveys.') }}";
+            if (confirm(confirmMsg)) {
+                window.location.replace('/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove');
+            }
+            return false;
+        }
 
         $(document).ready(function(){
             let form_name = 'sample_form';
@@ -155,88 +170,76 @@
             });
             {% endif %}
     });
+
+    function goToKits() {
+        window.location.replace("/accounts/{{ account_id }}/sources/{{ source_id }}/kits");
+        return false;
+    }
     </script>
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Sample Information') }}</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}" class="breadcrumb-item-profile">{{ source_name }}</a></li>
+    <li class="breadcrumb-item active-profile" aria-current="page">{{ _('My Kits') }}</li>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-      <form method="post" id="sample_form" name="sample_form">
-          {% if sample.sample_edit_locked %}
-          <div class="alert alert-success" role="alert">
-              {{ _('Sample Recorded, Editing is Locked') }}
-          </div>
-          {% endif %}
-          <div class="form-group row">
-            <label for="sample" name="sample_label" class="col-sm-2 col-form-label">{{ _('Barcode') }}</label>
-            <div class="col-sm-4">
-                <input id="view_sample" name="view_sample" class="form-control" type="text" value="{{ sample.sample_barcode |e }}" disabled="disabled" readonly/>
-            </div>
-          </div>
+    <form method="post" id="sample_form" name="sample_form">
+    <input id="sample_date_normalized" name="sample_date_normalized" type="hidden" value="{{ sample.date | e }}" />
 
-          <div class="form-group row">
-            <label for="sample_date" name="sample_date_label" class="col-sm-2 col-form-label">{{ _('Date') }}</label>
-            <div class="col-sm-4">
-                <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" required\>
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row barcode-row">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    <span>{{ sample.sample_barcode }}</span>
+                </div>
             </div>
-            <input id="sample_date_normalized" name="sample_date_normalized" type="hidden" value="{{ sample.date | e }}" />
-            <label for="sample_date" generated="true" class="error"></label>
-          </div>
-
-          <div class="form-group row">
-            <label for="sample_time" name="sample_time_label" class="col-sm-2 col-form-label">{{ _('Time') }}</label>
-            <div class="col-sm-4">
-              <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" required\>
-            </div>
-            <label for="sample_time" generated="true" class="error"></label>
+                <div class="card mt-4 sample-card">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="sample_date" name="sample_date_label" class="sample-label">{{ _('Date of Sample Collection') }}*</label>
+                            <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" required\>
+                        </div>
+                        <div class="col-6">
+                            <label for="sample_time" name="sample_time_label" class="sample-label">{{ _('Time of Sample Collection') }}*</label>
+                            <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" required\>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label for="sample_site" name="sample_site_label" class="sample-label">{{ _('Sample Type') }}*</label>
+                            <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
+                                {% if not sample.sample_site %}
+                                    <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
+                                {% endif %}
+                                {% for i in range(sample_sites| length) %}
+                                    {% set site=sample_sites[i] %}
+                                    {% set site_text=sample_sites_text[i] %}
+                                    <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site_text}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label for="sample_notes" id="sample_notes_label" class="sample-label">{{ _('Notes') }}</label>
+                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mt-4 text-end">
+                            <button class="btn btn-white-red-border me-5" name="remove_button" onClick="return verifyDissociateSample();">{{ _('Remove') }}</button>
+                            <button class="btn btn-white-blue-border" name="cancel_button" onClick="return goToKits();">{{ _('Cancel') }}</button>
+                            <button type="submit" class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button">{{ _('Save') }}</button>
+                        </div>
+                    </div>
+                </div>
         </div>
-
-          {% if not is_environmental %}
-          <div class="form-group row">
-              <div class="col-sm-12">
-                {% if not sample.sample_edit_locked or admin_mode %}
-                <div class="row">
-                    <div class="col-sm-6">
-                    <ul>
-                        <lh><small id="sample_site_help" class="form-text text-muted">{{ _('Guidelines for site identification') }}:</small></lh>
-                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('If collecting a') }} <i>{{ _('BLOOD') }}</i> {{ _('sample, please select Blood (skin prick)') }}</small></li>
-                        <li><small id="sample_site_help" class="form-text text-muted">{{ _('For all swabs, please select the site as precisely as possible from the options available') }}</small></li>
-                    </ul>
-                    </div>
-                </div>
-                {% endif %}
-                <div class="row">
-                    <label for="sample_site" name="sample_site_label" class="col-sm-2 col-form-label">{{ _('Site sampled') }}</label>
-                    <div class="col-sm-4">
-                      <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
-                        {% if not sample.sample_site %}
-                        <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
-                        {% endif %}
-                        {% for i in range(sample_sites| length) %}
-                            {% set site=sample_sites[i] %}
-                            {% set site_text=sample_sites_text[i] %}
-                        <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site_text}}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <label for="sample_site" generated="true" class="error"></label>
-                </div>
-              </div>
-          </div>
-          {% endif %}
-
-          <div class="form-group">
-            <label for="sample_notes" id="sample_notes_label">{{ _('Notes') }}</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
-            </div>
-          </div>
-         <button type="submit" class="btn btn-primary" {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ _('Update') }}</button>
-      </form>
     </div>
+    </form>
+
 {% endblock %}

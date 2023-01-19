@@ -164,6 +164,17 @@ a.breadcrumb-item-profile {
     color: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%);
 }
 
+.btn-white-red-border {
+    background: #ffffff;
+    border-radius: 50px;
+    border-color: var(--tmi-red);
+    border-width: 2px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--tmi-red);
+}
+
 .card-header {
     background-color: #ffffff;
     color: #222222;
@@ -562,6 +573,13 @@ li.active-profile {
     border: 1px dashed var(--tmi-blue);
 }
 
+.sample-card {
+    background: var(--tmi-blue-bg);
+    box-shadow: none;
+    border: 0px;
+    padding: 12px 16px;
+}
+
 .kit-header {
     height: 56px;
     background: var(--tmi-blue-bg);
@@ -774,4 +792,97 @@ select.form-control {
 
 .form-group > label > span {
   display: block !important;
+}
+
+.kit-validation-error {
+    font-size: 12px;
+    line-height: 20px;
+    color: var(--tmi-red) !important;
+}
+
+.new_kit_prompt {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--tmi-gray-90);
+    padding-left: 0;
+}
+
+.barcode-checkbox {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+}
+
+input.barcode-checkbox[type=checkbox]+label {
+    padding: 6px 16px 6px 8px;
+    height: 38px;
+    background: var(--tmi-blue-bg);
+    border: 2px solid var(--tmi-blue-bg);
+    border-radius: 8px;
+    color: var(--tmi-gray-90);
+    font-size: 16px;
+    line-height: 26px;
+    width: fit-content;
+    height: fit-content;
+}
+
+input.barcode-checkbox[type=checkbox]:checked+label {
+    border: 2px solid var(--tmi-blue);
+    color: var(--tmi-blue);
+}
+
+.new_kit_sample_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+}
+
+.barcode-row {
+    display: flex;
+    flex-direction: row;
+    height: 48px;
+    padding: 8px;
+}
+
+.barcode-col {
+    width: fit-content;
+}
+
+.barcode-col-end {
+    margin-left: auto;
+}
+
+.barcode-text {
+    color: var(--tmi-blue);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.add-kit-link {
+    color: var(--tmi-blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.sample-label {
+    color: var(--tmi-gray-80);
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.biospecimen-alert {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--tmi-blue);
+}
+
+.barcode-info {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
 }

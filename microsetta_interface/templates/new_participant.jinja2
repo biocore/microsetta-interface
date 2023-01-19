@@ -25,6 +25,10 @@
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
 
+        {% if age_range != None %}
+        $("#{{ age_range }}-div").show();
+        {% endif %}
+
         disableInputOnSubmit("#0-6-form", "#0-6-submit_button", "{{ _('Saving...') }}");
         disableInputOnSubmit("#7-12-form", "#7-12-submit_button", "{{ _('Saving...') }}");
         disableInputOnSubmit("#13-17-form", "#13-17-submit_button", "{{ _('Saving...') }}");
@@ -166,6 +170,8 @@
                             console.log(error);
                         }
                     });
+                } else {
+                    $("#"+$form_id)[0].submit();
                 }
             } else {
                 $submit_button.attr("value", "I Accept")
@@ -184,12 +190,24 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Add Profile - Survey Consent Form') }}</li>
+    {% if form_type == "Biospecimen" %}
+        <li class="breadcrumb-item active" aria-current="page">{{ _('Biospecimen Consent Form') }}</li>
+    {% else %}
+        <li class="breadcrumb-item active" aria-current="page">{{ _('Data Consent Form') }}</li>
+    {% endif %}
 {% endblock %}
 
 {% block content%}
 
 <div class="container default-container">
+    {% if age_range != None %}
+        <input type="hidden" name="age-range" value="{{ age_range }}" />
+        <div class="row mb-4">
+            <div class="col-12 biospecimen-alert">
+                Signature and agreement of this consent form is required to process your sample(s).
+            </div>
+        </div>
+    {% else %}
     <div class="row">
         <div class="col-12">
             <strong>{{ _('Select age range of participant') }}</strong>
@@ -207,12 +225,14 @@
             <label for="age-range-4" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_18'] |e}}</label>
         </div>
     </div>
+    {% endif %}
 
 
 
 {% if language_tag == "en_US" %}
 <div id="0-6-div">
     <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
+    <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="0-6">
     <div class='consent-scroll-text'>
     {% if form_type == 'source' %}
@@ -275,6 +295,7 @@
 
 <div id="7-12-div">
     <form id="7-12-form" name="consent_info" action="{{ post_url }}" method="post">
+    <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="7-12">
     <div class="consent-scroll-text">
         {% if form_type== 'source' %}
@@ -381,6 +402,7 @@
 
 <div id="13-17-div">
     <form id="13-17-form" name="13-17-form" action="{{ post_url }}" method="post">
+    <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="13-17">
     <div class="consent-scroll-text">
         {% if form_type== 'source' %}
@@ -468,6 +490,7 @@
 
 <div id="18-plus-div">
     <form id="18-form" name="18-form" action="{{post_url}}" method="post">
+    <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <div class='consent-scroll-text'>
     <input type="hidden" name="age_range" value="18-plus">
     {% if form_type== 'source' %}
@@ -502,7 +525,7 @@
             </label>
         </div>
         <div class="col-6">
-            <input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true" class="consent-form-input">
+            <input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
     </div>

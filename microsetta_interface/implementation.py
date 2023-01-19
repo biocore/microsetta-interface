@@ -608,8 +608,9 @@ def _refresh_state_and_route_to_sink(account_id=None, source_id=None):
 
 def _get_kit(kit_name):
     unable_to_validate_msg = gettext(
-        "Unable to validate the kit name; please "
-        "reload the page.")
+        "Your KitID is not in our system or has already been used, please "\
+        "try again!"
+    )
     error_msg = None
     response = None
 
@@ -627,8 +628,8 @@ def _get_kit(kit_name):
         if response.status_code == 404:
             error_msg = \
                 gettext(
-                    "The provided kit id is not valid or has "
-                    "already been used; please re-check your entry."
+                    "Your KitID is not in our system or has already been "\
+                    "used, please try again!"
                 )
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
@@ -984,7 +985,10 @@ def get_consent_page(*, account_id=None):
         form_type=form_type,
         reconsent=reconsent,
         language_tag=session_locale(),
-        account_id=account_id)
+        account_id=account_id,
+        participant_name = None,
+        age_range = None
+    )
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1039,7 +1043,6 @@ def post_create_human_source(*, account_id=None, body=None):
             return _refresh_state_and_route_to_sink(account_id, new_source_id)
 
     else:
-
         source_id = session['source_id']
         consent_type = "biospecimen"
 
@@ -1051,7 +1054,11 @@ def post_create_human_source(*, account_id=None, body=None):
             return consent_output
 
         session.pop("source_id")
-        return _refresh_state_and_route_to_sink(account_id, source_id)
+        return post_claim_samples(
+            account_id=account_id,
+            source_id=source_id,
+            sample_ids=body['sample_ids']
+        )
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1297,21 +1304,32 @@ def top_food_report_pdf(*,
     return response
 
 
-def render_consent_page(account_id, form_type):
+def render_consent_page(account_id, source_id, form_type, sample_ids=None):
     endpoint = SERVER_CONFIG["endpoint"]
+
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
+
     post_url = endpoint + relative_post_url
+
     duplicate_source_check = endpoint + "/accounts/{0}/" \
         "check_duplicate_source" \
         .format(account_id)
+
     home_url = endpoint + "/accounts/{}".format(account_id)
+
     has_error, consent_output, _ = ApiRequest.get(
         "/accounts/{0}/consent".format(account_id),
         params={"consent_post_url": post_url})
 
     if has_error:
         return consent_output
+
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id))
+    if has_error:
+        return source_output
 
     # Setting the flag variable to ensure that
     # that duplicate source is not checked by jquery
@@ -1327,7 +1345,11 @@ def render_consent_page(account_id, form_type):
         home_url=home_url,
         form_type=form_type,
         reconsent=reconsent,
-        language_tag=session_locale())
+        language_tag=session_locale(),
+        sample_ids=sample_ids,
+        participant_name=source_output['source_name'],
+        age_range=source_output['consent']['age_range']
+    )
 
 
 @prerequisite([SOURCE_PREREQS_MET])
@@ -1348,14 +1370,7 @@ def get_source(*, account_id=None, source_id=None):
         return consent_required
 
     if consent_required["result"]:
-        return render_consent_page(account_id, "source")
-
-    # Check if there are any unclaimed samples in the kit
-    original_kit, _, kit_status = _get_kit(account_output['kit_name'])
-    if kit_status == 404:
-        claim_kit_name_hint = None
-    else:
-        claim_kit_name_hint = account_output['kit_name']
+        return render_consent_page(account_id, source_id, "source")
 
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1480,23 +1495,6 @@ def get_kits(*, account_id=None, source_id=None):
 
     claim_kit_name_hint = None
 
-    # Identify answered surveys for the samples
-    for sample in samples_output:
-        sample['ffq'] = None
-        sample['ffq_status'] = None
-        sample_id = sample['sample_id']
-        # TODO:  This is a really awkward and slow way to get this information
-        has_error, per_sample_answers, _ = ApiRequest.get(
-            '/accounts/%s/sources/%s/samples/%s/surveys' %
-            (account_id, source_id, sample_id))
-        if has_error:
-            return per_sample_answers
-
-        for answer in per_sample_answers:
-            if answer['survey_template_id'] == VIOSCREEN_ID:
-                sample['ffq'] = answer['survey_id']
-                sample['ffq_status'] = answer['survey_status']
-
     # prettify datetime
     needs_assignment = False
     for sample in samples_output:
@@ -1516,6 +1514,15 @@ def get_kits(*, account_id=None, source_id=None):
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
     samples_output = [translate_sample(s) for s in samples_output]
+
+    kits = {}
+    for s in samples_output:
+        if s['kit_id'] in kits:
+            kits[s['kit_id']].append(s)
+        else:
+            kits[s['kit_id']] = [s]
+
+    samples_output = kits
 
     return _render_with_defaults('kits.jinja2',
                                  account_id=account_id,
@@ -1823,11 +1830,11 @@ def get_sample_results_experimental_authenticated(*, account_id=None,
                                  )
 
 
-# Note: ideally this would be represented as a DELETE, not as a POST
-# However, it is used as a form submission action, and HTML forms do not
-# support delete as an action
+# Note: ideally this would be represented as a DELETE, not as a GET
+# However, it is used as a redirect from a link, which does not support
+# the DELETE action
 @prerequisite([SOURCE_PREREQS_MET])
-def post_remove_sample_from_source(*,
+def get_remove_sample_from_source(*,
                                    account_id=None,
                                    source_id=None,
                                    sample_id=None):
@@ -1838,7 +1845,10 @@ def post_remove_sample_from_source(*,
     if has_error:
         return delete_output
 
-    return _refresh_state_and_route_to_sink(account_id, source_id)
+    return redirect(
+        "/accounts/%s/sources/%s/kits" %
+        (account_id, source_id)
+    )
 
 
 def admin_emperor_playground():
@@ -1948,12 +1958,30 @@ def get_ajax_check_activation_code(code, email):
 # surveys added to this source AFTER these samples are claimed will NOT be
 # associated with these samples.  This behavior is by design.
 @prerequisite([SOURCE_PREREQS_MET])
-def post_claim_samples(*, account_id=None, source_id=None, body=None):
+def post_claim_samples(*, account_id=None, source_id=None, body=None, sample_ids=None):
 
-    sample_ids_to_claim = body.get('sample_id')
+    if sample_ids is not None:
+        sample_ids_to_claim = sample_ids.split(",")
+    else:
+        sample_ids_to_claim = body.get('sample_id')
+
     if sample_ids_to_claim is None:
         # User claimed no samples ... shrug
         return _refresh_state_and_route_to_sink(account_id, source_id)
+
+    # Test if biospecimen consent is required! If Required,
+    # route user to biospecimen consent
+    has_error, consent_required, _ = ApiRequest.get(
+        '/accounts/%s/source/%s/consent/%s' %
+        (account_id, source_id, 'biospecimen'))
+
+    if has_error:
+        return consent_required
+
+    if consent_required["result"]:
+        session["source_id"] = source_id
+        sample_ids = ",".join(sample_ids_to_claim)
+        return render_consent_page(account_id, source_id, "Biospecimen", sample_ids=sample_ids)
 
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/{0}/sources/{1}/surveys'.format(account_id, source_id))
@@ -1989,20 +2017,10 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None):
             if sample_survey_output is not None:
                 return sample_survey_output
 
-    # Test if biospecimen consent is required! If Required,
-    # route user to biospecimen consent
-    has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' %
-        (account_id, source_id, 'biospecimen'))
-
-    if has_error:
-        return consent_required
-
-    if consent_required["result"]:
-        session["source_id"] = source_id
-        return render_consent_page(account_id, "Biospecimen")
-
-    return _refresh_state_and_route_to_sink(account_id, source_id)
+    return redirect(
+        "/accounts/%s/sources/%s/kits" %
+        (account_id, source_id)
+    )
 
 
 # Administrator Mode Functionality

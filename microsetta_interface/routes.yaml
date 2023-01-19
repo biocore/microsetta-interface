@@ -601,12 +601,11 @@ paths:
               schema:
                 type: string
 
-  # Note: ideally this would be represented as a DELETE, not as a POST
-  # However, it is used as a form submission action, and HTML forms do not support
-  # delete as an action
+  # Note: ideally this would be represented as a DELETE, not as a GET
+  # However, it is used as a redirect from a link, which does not support DELETE actions
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/remove':
-    post:
-      operationId: microsetta_interface.implementation.post_remove_sample_from_source
+    get:
+      operationId: microsetta_interface.implementation.get_remove_sample_from_source
       tags:
         - Sample
       parameters:

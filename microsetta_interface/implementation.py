@@ -1719,11 +1719,10 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         if country == "ES" or session_locale() == "es_ES":
             spain_user = True
 
-        if not has_ffq and spain_user is False:
-            url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
-            return redirect(url % (account_id, source_id, sample_id))
-    return _refresh_state_and_route_to_sink(account_id, source_id)
-
+    return redirect(
+        "/accounts/%s/sources/%s/kits" %
+        (account_id, source_id)
+    )
 
 @prerequisite([SOURCE_PREREQS_MET])
 def check_questionnaire(*, account_id=None, source_id=None, sample_id=None):

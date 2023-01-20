@@ -40,7 +40,11 @@ var vm = new Vue({
         },
         methodToUpdate(key, status, multi) {
             if(status == false) {
-                delete this.model[key];
+                if(key == '108' || key == '113') {
+                    this.model[key] = 0;
+                } else {
+                    delete this.model[key];
+                }
             } else {
                 if(multi) {
                     this.model[key] = ["Unspecified"];

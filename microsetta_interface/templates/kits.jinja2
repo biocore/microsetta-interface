@@ -179,9 +179,9 @@
                     <div class="plus-button-white-bg">
                         <img src="/static/img/plus_button.png" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
-                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">Get a Kit</a>
-                            &nbsp;&nbsp;&nbsp;
                             <a href="javascript: openKitPanel();" class="add-kit-link">Have a KitID</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">Get a Kit</a>
                         </span>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                             <div class="kit-id-title my-auto">KitID: {{ kit_id }}</div>
                         </div>
                         {% for sample in kit_samples %}
-                        <div class="row barcode-row">
+                        <div class="row barcode-row {{ sample.css_class }} mb-2">
                             <div class="barcode-col">
                                 <img src="/static/img/tube_icon.svg" width="24" height="24" />
                             </div>

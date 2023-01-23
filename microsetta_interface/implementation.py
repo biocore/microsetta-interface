@@ -1509,15 +1509,17 @@ def get_kits(*, account_id=None, source_id=None):
                 format=None,  # Use babel default (short/medium/long/full)
                 rebase=False)
 
-    needs_assignment = any([sample['sample_datetime'] is None
-                            for sample in samples_output])
-
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
     samples_output = [translate_sample(s) for s in samples_output]
 
     kits = {}
     for s in samples_output:
+        if s['sample_site'] == '' or s['sample_datetime'] == '':
+            s['css_class'] = "sample-needs-info"
+        else:
+            s['css_class'] = "sample-complete"
+
         if s['kit_id'] in kits:
             kits[s['kit_id']].append(s)
         else:
@@ -1529,7 +1531,6 @@ def get_kits(*, account_id=None, source_id=None):
                                  account_id=account_id,
                                  source_id=source_id,
                                  is_human=is_human,
-                                 needs_assignment=needs_assignment,
                                  samples=samples_output,
                                  source_name=source_output['source_name'],
                                  vioscreen_id=VIOSCREEN_ID,
@@ -1644,6 +1645,9 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     else:
         raise BadRequest("Sources of type %s are not supported at this time"
                          % source_output['source_type'])
+
+    if sample_output['sample_site'] is None:
+        sample_output['sample_site'] = "Stool"
 
     if sample_output['sample_datetime'] is not None:
         dt = datetime.fromisoformat(sample_output['sample_datetime'])

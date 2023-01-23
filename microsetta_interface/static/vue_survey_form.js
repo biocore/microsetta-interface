@@ -49,7 +49,11 @@ var vm = new Vue({
                 if(multi) {
                     this.model[key] = ["Unspecified"];
                 } else {
-                    this.model[key] = "Unspecified";
+                    if(key == '108' || key == '113') {
+                        this.model[key] = 0;
+                    } else {
+                        this.model[key] = "Unspecified";
+                    }
                 }
             }
         }

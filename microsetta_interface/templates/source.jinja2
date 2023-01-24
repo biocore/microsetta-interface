@@ -22,8 +22,13 @@
             $("#modal-title").text(survey_title);
             $("#survey-description").empty();
             $("#survey-description").text(survey_description);
-            $("#take-survey").click(function(e) {
-                window.location.replace(survey_link);
+            $("#take-survey").click(async function(e) {
+                window.open(survey_link, '_blank').focus();
+                $("#source_modal").modal('hide');
+
+                // We need to wait a couple of seconds for the external survey to register in the database, then reload the page. This is not ideal.
+                await new Promise(r => setTimeout(r, 2000));
+                window.location.reload();
             });
             $("#source_modal").modal('show');
             return false;

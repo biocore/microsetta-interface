@@ -41,7 +41,7 @@ var vm = new Vue({
         methodToUpdate(key, status, multi) {
             if(status == false) {
                 if(key == '108' || key == '113') {
-                    this.model[key] = 0;
+                    this.model[key] = "";
                 } else {
                     delete this.model[key];
                 }
@@ -56,6 +56,7 @@ var vm = new Vue({
                     }
                 }
             }
+            console.log(this.model);
         }
     },
     mounted() {

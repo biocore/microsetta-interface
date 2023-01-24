@@ -15,6 +15,18 @@
           display: inline-block; /* tooltip misplaced horizontally otherwise */
         }
 
+        .tooltip-inner {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #0000ff;
+            opacity: 1 !important;
+            max-width: 580px !important;
+            text-align: left;
+        }
+
+        .tooltip.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: #0000ff !important;
+        }
     </style>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
     <script>
@@ -50,8 +62,9 @@
             let successful = false;
             $(form).ajaxSubmit({
                 success: function (samples, textStatus, jqXHR) {
+                    document.getElementById('add_kit_card').style.display = 'none';
                     document.getElementById('new_kit_container').style.display = '';
-                    document.getElementById('new_kit_header').innerText += ' ' + $("#kit_name").prop('value');
+                    document.getElementById('new_kit_header').innerText = '{{ _('KitID') }}: ' + $("#kit_name").prop('value');
                     $(samples_selector).empty();
                     for (let i = 0; i < samples.length; i++) {
                         let bc = samples[i].sample_barcode;
@@ -60,16 +73,6 @@
                                      '<input type="checkbox" name="sample_id" id="' + bc + '" value="' + sample_id + '" class="barcode-checkbox" onClick="formSubmitControl()" />' +
                                      '<label for="' + bc + '"><img src="/static/img/tube_icon.svg"> ' + bc + '</label>' +
                                      '</div>');
-                        console.log(item);
-                        /*let item = $('<div class="container list-group-item">' +
-                                     '<div class="row">' +
-                                     '<div class="col-sm">' +
-                                     '<label for="' + bc + '">' + bc + '</label>' +
-                                     '</div>' +
-                                     '<div class="col-sm">' +
-                                     '<input type="checkbox" name="sample_id" id="' + bc + '" value="' + sample_id + '"/>' +
-                                     '</div>' +
-                                     '</div>');*/
                         $(samples_selector).append(item);
                     }
                     let div = $('#choose_sample_div');
@@ -157,6 +160,7 @@
 
         function openKitPanel() {
             document.getElementById('add_kit_container').style.display = '';
+            document.getElementById('add_kit_card').style.display = '';
             document.getElementById('kit_name').focus();
         }
     </script>
@@ -177,7 +181,7 @@
                 </div>
                 <div class="plus-button-wrapper p-0" onmouseover="document.getElementById('hidden_plus_stuff').style.display = '';" onmouseout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
                     <div class="plus-button-white-bg">
-                        <img src="/static/img/plus_button.png" class="plus-button-img">
+                        <img src="/static/img/plus_button.svg" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
                             <a href="javascript: openKitPanel();" class="add-kit-link">Have a KitID</a>
                             &nbsp;&nbsp;&nbsp;
@@ -189,22 +193,29 @@
             {% if samples|length > 0 %}
                 {% for kit_id, kit_samples in samples.items() %}
                     <div class="container mt-4">
-                        <div class="row kit-header mb-3">
+                        <div class="row kit-header mb-2">
                             <div class="kit-id-title my-auto">KitID: {{ kit_id }}</div>
                         </div>
-                        {% for sample in kit_samples %}
-                        <div class="row barcode-row {{ sample.css_class }} mb-2">
-                            <div class="barcode-col">
-                                <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                        <div class="row kit-sample-container">
+                            {% for sample in kit_samples %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}" class="barcode-link">
+                            <div class="row barcode-row {{ sample.css_class }} mb-2">
+                                <div class="barcode-col">
+                                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                                </div>
+                                <div class="barcode-col barcode-text">
+                                    {{ sample.sample_barcode }}
+                                </div>
+                                <div class="barcode-col">
+                                    <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
+                                </div>
+                                <div class="barcode-col barcode-col-end">
+                                    <img src="/static/img/edit.svg" width="24" height="24" />
+                                </div>
                             </div>
-                            <div class="barcode-col barcode-text">
-                                <span>{{ sample.sample_barcode }}</span>
-                            </div>
-                            <div class="barcode-col barcode-col-end">
-                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}"><img src="/static/img/edit.svg" width="24" height="24" /></a>
-                            </div>
+                            </a>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 {% endfor %}
             {% endif %}
@@ -230,12 +241,12 @@
                         <div class="kit-id-title my-auto" id="new_kit_header">KitID: </div>
                     </div>
                     <div class="row kit-contents-add mt-2 p-4">
-                        <p class="new_kit_prompt">Which barcode(s) are you using from this kit (select all that apply)? <span class="barcode-info"><img src="/static/img/question_mark.svg" /> <a href="#" title="<p style='background: white'>Each collection tube you receive has a unique barcode printed on the side. <br />
-1. Select the barcode(s) you are using.<br />
+                        <p class="new_kit_prompt">Which barcode(s) are you using from this kit (select all that apply)? <span class="barcode-info"><img src="/static/img/question_mark.svg" /> <a href="#" title="<span class='kit-tooltip-text'>Each collection tube you receive has a unique barcode printed on the side. <br />
+<i>1. Select the barcode(s) you are using.<br />
 2. Add the date and time of sample collection and select the sample type taken.<br />
-Important: <br />
+<span class='kit-important'>Important:</span> <br />
 The sample cannot be processed in the lab until this information is complete. <br />
-Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.</p>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Hooray!">What is the barcode and why is it important?</a></span></p><br />
+Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Hooray!">What is the barcode and why is it important?</a></span></p><br />
                         <form method="post" name="pick_samples_form" id="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples" style="padding: 0;">
                         <div class="new_kit_sample_container" id="new_kit_sample_container">
 

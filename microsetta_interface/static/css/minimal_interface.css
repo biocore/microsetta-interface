@@ -582,8 +582,19 @@ li.active-profile {
 
 .kit-header {
     height: 56px;
-    background: var(--tmi-blue-bg);
+    background: var(--tmi-light-blue-bg);
     border-radius: 16px;
+}
+
+.kit-tooltip-text {
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--tmi-gray-90);
+}
+
+.kit-important {
+    font-weight: 700;
+    color: var(--tmi-orange);
 }
 
 .kit-contents-add {
@@ -847,14 +858,25 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     padding: 8px;
 }
 
+.barcode-row:hover {
+    background-color: var(--tmi-light-blue-bg);
+}
+
 .sample-needs-info {
     border: 1px dashed var(--tmi-red);
+    background-color: var(--tmi-red-bg);
     border-radius: 8px;
 }
 
 .sample-complete {
-    border: 1px solid var(--tmi-green);
+    border: 1px solid #ffffff;
     border-radius: 8px;
+}
+
+.kit-sample-container {
+    border: 1px solid var(--tmi-blue-bg);
+    border-radius: 25px;
+    padding: 36px;
 }
 
 .barcode-col {
@@ -870,6 +892,10 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     font-weight: 700;
     font-size: 16px;
     line-height: 26px;
+}
+
+.barcode-link {
+    text-decoration: none;
 }
 
 .add-kit-link {
@@ -915,5 +941,9 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 }
 
 #bristol-chart-2 {
+    height: 100px;
+}
+
+#bristol-chart-3 {
     height: 100px;
 }

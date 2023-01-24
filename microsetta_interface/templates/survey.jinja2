@@ -369,7 +369,7 @@
         console.log(initial_values);
 
         for(const fieldId in initial_values) {
-            if(initial_values[fieldId] == "Unspecified") {
+            if(((fieldId == '108' || fieldId == '113') && initial_values[fieldId] == "0") || initial_values[fieldId] == "Unspecified") {
                 hideById(fieldId);
             }
         }

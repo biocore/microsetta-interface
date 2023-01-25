@@ -141,7 +141,7 @@
             }
 
             if($form_name.valid()) {
-                var duplicate_source_check_msg = "{{ _('It looks like you are creating a new profile that may be similar or the same as an existing profile. If this is the same person as an existing source, please consider providing new samples or survey responses under that source') }}"
+                var duplicate_source_check_msg = "{{ _('It looks like you are creating a new profile that may be similar or the same as an existing profile. If this is the same person as an existing profile, please consider providing new samples or survey responses under that profile.') }}"
                 var reconsent = "{{ reconsent |e }}";
 
                 if(reconsent == "False") {
@@ -160,7 +160,7 @@
                                 $("#source_msg").text(duplicate_source_check_msg);
                                 $("#source_modal").modal('show');
                                 $("#create_source").attr("form_id", $form_id);
-                                $submit_button.attr("value", "I Accept")
+                                $submit_button.attr("value", "{{ _('I Accept') }}")
                                 $submit_button.prop("disabled", false)
                             } else if (response.error === undefined && !response.source_duplicate) {
                                 $("#"+$form_id)[0].submit();
@@ -174,7 +174,7 @@
                     $("#"+$form_id)[0].submit();
                 }
             } else {
-                $submit_button.attr("value", "I Accept")
+                $submit_button.attr("value", "{{ _('I Accept') }}")
                 $submit_button.prop("disabled", false)
             }
          });
@@ -204,7 +204,7 @@
         <input type="hidden" name="age-range" value="{{ age_range }}" />
         <div class="row mb-4">
             <div class="col-12 biospecimen-alert">
-                Signature and agreement of this consent form is required to process your sample(s).
+                {{ _('Signature and agreement of this consent form is required to process your sample(s).') }}
             </div>
         </div>
     {% else %}
@@ -267,7 +267,7 @@
             </label>
         </div>
         <div class="col-6">
-            <input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true" class="consent-form-input">
+            <input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
     </div>
@@ -329,7 +329,7 @@
             </label>
         </div>
         <div class="col-6">
-            <input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true" class="consent-form-input">
+            <input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
     </div>
@@ -437,7 +437,7 @@
             </label>
         </div>
         <div class="col-6">
-            <input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true" class="consent-form-input">
+            <input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
     </div>
@@ -543,14 +543,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ _('Warning') }}</h5>
       </div>
       <div class="modal-body">
         <p id="source_msg"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-white-blue-border" id="home_page">Return to Home Page</button>
-        <button type="button" class="btn btn-blue-gradient" id="create_source">Proceed with Creating New Source</button>
+        <button type="button" class="btn btn-white-blue-border" id="home_page">{{ _('Return to Home Page') }}</button>
+        <button type="button" class="btn btn-blue-gradient" id="create_source">{{ _('Proceed with Creating New Source') }}</button>
       </div>
     </div>
   </div>

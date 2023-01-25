@@ -626,11 +626,7 @@ def _get_kit(kit_name):
             params=ApiRequest.build_params({KIT_NAME_KEY: kit_name}))
 
         if response.status_code == 404:
-            error_msg = \
-                gettext(
-                    "Your KitID is not in our system or has already been "\
-                    "used, please try again!"
-                )
+            error_msg = unable_to_validate_msg
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
     except:  # noqa
@@ -643,6 +639,29 @@ def _get_kit(kit_name):
             return None, error_msg, response.status_code
 
     return response.json(), None, response.status_code
+
+
+def get_ajax_check_ffq_code(ffq_code):
+    failure_msg = gettext(
+        "Your registration code is not in our system or has already been "\
+        "used. Please try again."
+    )
+
+    try:
+        response = requests.get(
+            ApiRequest.API_URL + '/check_ffq_code',
+            auth=BearerAuth(session[TOKEN_KEY_NAME]),
+            verify=ApiRequest.CAfile,
+            params=ApiRequest.build_params({'ffq_code': ffq_code})
+        )
+        if response.status_code == 200:
+            return_val = True
+        else:
+            return_val = False
+    except:  #noqa
+        return_val = False
+
+    return return_val
 
 
 def _associate_sample_to_survey(account_id, source_id, sample_id, survey_id):
@@ -1210,17 +1229,37 @@ def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
                                             sample_id=None,
-                                            survey_template_id=None):
-    if survey_template_id != VIOSCREEN_ID:
-        return get_show_error_page("Non-vioscreen remote surveys are "
-                                   "not yet supported")
-
-    suffix = "samples/%s/vspassthru" % sample_id
+                                            registration_code=None):
+    suffix = "vspassthru"
     redirect_url = SERVER_CONFIG["endpoint"] + \
         _make_source_path(account_id, source_id, suffix=suffix)
     params = {
         'survey_redirect_url': redirect_url,
-        'vioscreen_ext_sample_id': sample_id
+        'vioscreen_ext_sample_id': sample_id,
+        'registration_code': registration_code
+    }
+    has_error, survey_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/survey_templates/%s' %
+        (account_id, source_id, VIOSCREEN_ID), params=params)
+    if has_error:
+        return survey_output
+
+    # remote surveys go to an external url, not our jinja2 template
+    return redirect(survey_output['survey_template_text']['url'])
+
+
+def post_generate_vioscreen_url(*,
+                                account_id=None,
+                                source_id=None,
+                                body=None):
+    ffq_code = body['ffq_code']
+
+    suffix = "vspassthru"
+    redirect_url = SERVER_CONFIG["endpoint"] + \
+        _make_source_path(account_id, source_id, suffix=suffix)
+    params = {
+        'survey_redirect_url': redirect_url,
+        'registration_code': ffq_code
     }
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
@@ -1241,7 +1280,6 @@ def get_fill_vioscreen_remote_sample_survey(*,
 def get_to_save_vioscreen_remote_sample_survey(*,
                                                account_id=None,
                                                source_id=None,
-                                               sample_id=None,
                                                key=None):
     # TODO FIXME HACK:  This is insanity.  I need to see the vioscreen docs
     #  to interface with our API...
@@ -1254,17 +1292,10 @@ def get_to_save_vioscreen_remote_sample_survey(*,
     if has_error:
         return surveys_output
 
-    answered_survey_id = surveys_headers['Location']
-    answered_survey_id = answered_survey_id.split('/')[-1]
-
-    # associate this answered vioscreen survey to this sample
-    sample_survey_output = _associate_sample_to_survey(
-        account_id, source_id, sample_id, answered_survey_id)
-    if sample_survey_output is not None:
-        return sample_survey_output
-
-    return _refresh_state_and_route_to_sink(account_id, source_id)
-
+    return redirect(
+        "/accounts/%s/sources/%s/nutrition" %
+        (account_id, source_id)
+    )
 
 @prerequisite([SOURCE_PREREQS_MET])
 def top_food_report(*,
@@ -1554,9 +1585,17 @@ def get_nutrition(*, account_id=None, source_id=None):
     if has_error:
         return source_output
 
+    # Retrieve all Vioscreen registry entries for the source
+    has_error, vioscreen_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/vioscreen_registry_entries' % (
+            account_id, source_id))
+    if has_error:
+        return vioscreen_output
+
     return _render_with_defaults('nutrition.jinja2',
                                  account_id=account_id,
-                                 source_id=source_id
+                                 source_id=source_id,
+                                 vio_reg_entries=vioscreen_output
                                  )
 
 
@@ -2277,6 +2316,57 @@ def get_ajax_address_verification(address_1=None, address_2=None,
             result = False
 
     return flask.jsonify(result)
+
+
+def get_generate_ffq_codes():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    return _render_with_defaults(
+        'admin_ffq_codes.jinja2',
+        diagnostics=None
+    )
+
+
+def post_generate_ffq_codes(body):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    if 'generate_csv' in body:
+        try:
+            quantity = int(body['code_quantity'])
+        except ValueError:
+            raise Exception("Please enter a number for code quantity")
+
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/generate_ffq_codes",
+            json={"code_quantity": quantity}
+        )
+
+        if do_return:
+            return diagnostics
+
+        csv_output = "FFQ REGISTRATION CODE\n"
+        for code in diagnostics:
+            csv_output += code + "\n"
+        response = make_response(csv_output)
+        response.headers["Content-Disposition"] = \
+            "attachment; filename=ffq_codes.csv"
+        response.headers["Content-Type"] = "text/csv"
+        return response
+    else:
+        do_return, diagnostics, _ = ApiRequest.post(
+            "/admin/generate_ffq_codes",
+            json={"code_quantity": 1}
+        )
+
+        if do_return:
+            return diagnostics
+
+        return _render_with_defaults(
+            'admin_ffq_codes.jinja2',
+            diagnostics=diagnostics
+        )
 
 
 def get_interactive_activation(email_query=None, code_query=None):

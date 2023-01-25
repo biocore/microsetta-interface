@@ -56,15 +56,16 @@
       {{ _('Administrator Toolbar') }}
       <a class="btn btn-outline-success" href="/admin/system_message">{{ _('System Panel') }}</a>
       <a class="btn btn-outline-success" href="/admin/emperor_playground">{{ _('Emperor Playground') }}</a>
-      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
       <a class="btn btn-outline-success" href="/admin/interested_users">{{ _('Interested Users') }}</a>
       <a class="btn btn-outline-success" href="/admin/address_verification">{{ _('Address Verification') }}</a>
       <a class="btn btn-outline-success" href="/admin/campaigns/list">{{ _('Campaigns') }}</a>
+        <a class="btn btn-outline-success" href="/admin/ffq_codes">{{ _('FFQ Codes') }}</a>
       <form class="form-inline" action="/admin/account_search" method="get">
         <input id="email_query" name="email_query" class="form-control mr-sm-2" style="display: inline-block; max-width: 200px;" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
       </form>
       <a class="btn btn-outline-success" href="/admin/barcode_search">{{ _('Barcode Search') }}</a>
+      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
     </nav>
     {% endif %}
     {% if not admin_mode and not hide_header %}
@@ -176,6 +177,27 @@
 
 {%block content%}
 {%endblock%}
+
+<div class="modal fade" id="profile_delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="survey-title" id="modal-title">{{ _('Are you sure you want to withdraw your consent and delete your profile?') }}</span>
+            </div>
+            <div class="modal-body">
+                <p id="delete-warning" class="survey-description">{{ _('I hereby withdraw consent for researchers to use my personal data and/or sample(s) for The Microsetta Initiative (TMI).') }}</p>
+                <p class="survey-description">{{ _('I understand and acknowledge that any personal data and/or sample(s) that have already been provided to TMI in accordance with the consent I provided by signing the consent form(s), will continue to be used for the research. However, no new information will be collected.') }}</p>
+                <p class="survey-description">{{ _('I understand that my data will only be shared after directly identifying information has been removed so that researchers cannot re-identify my personal data and/or sample(s) for future use.') }}</p>
+                <p class="survey-description">{{ _('By clicking withdraw, you will be ending your participation and terminating your profile. If you would like to be removed from being contacted for general program updates or information about future research studies, please refer to account deletion or contact us at microsetta@ucsd.edu.') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
+                <button type="button" class="btn btn-blue-gradient" id="take-survey">{{ _('Take This Survey Now') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 {%block footer%}

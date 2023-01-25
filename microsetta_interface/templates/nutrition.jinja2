@@ -11,13 +11,77 @@
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <style>
-        .tooltipper {
-          display: inline-block; /* tooltip misplaced horizontally otherwise */
-        }
 
     </style>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
+    <script>
+        let barcodePrefix = "{{barcode_prefix}}";
+        function make_ffq_code_validation_setup_func(form_name) {
+            // Initialize form validation
+            let form_selector = "form[name='" + form_name + "']";
+            return function() {
+                let validateOptions = {
+                    // Specify validation rules
+                    rules: {
+                        // The key name on the left side is the name attribute
+                        // of an input field. Validation rules are defined
+                        // on the right side
+                        ffq_code: {
+                            required: true,
+                            remote: {
+                                url: "/check_ffq_code_valid",
+                            }
+                        }
+                    }
+                };
+                $(form_selector).validate(validateOptions);
+            };
+        }
 
+        // Wait for the DOM to be ready
+        $(document).ready(function(){
+            let form_name = 'ffq_code_form';
+            preventImplicitSubmission(form_name);
+            preclude_whitespace('#ffq_code');
+
+            // Initialize form validation on the registration form.
+            // It has the name attribute "registration"
+            $("form[name='" + form_name + "']").validate({
+                // Specify validation rules
+                rules: {
+                    // The key name on the left side is the name attribute
+                    // of an input field. Validation rules are defined
+                    // on the right side
+                    ffq_code: {
+                        required: true,
+                        remote: {
+                            url: "/check_ffq_code_valid",
+                        }
+                    },
+                    submitHandler: function (form) {
+                        form.submit();
+                    }
+                },
+                messages: {
+                    ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",
+                },
+            });
+        });
+
+        function updateButtonState(ffq_code_value) {
+            if(ffq_code_value != "") {
+                document.getElementById("ffq_code_button").disabled = false;
+            } else {
+                document.getElementById("ffq_code_button").disabled = true;
+            }
+        }
+
+        function openCodePanel() {
+            document.getElementById('add_code_container').style.display = '';
+            document.getElementById('add_code_card').style.display = '';
+            document.getElementById('ffq_code').focus();
+        }
+    </script>
 {% endblock %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
@@ -27,9 +91,64 @@
     <div class="container profile-container">
         <div class="card mt-4 p-4">
             <div class="row">
-                <div class="col-12">
-                    <h1>My Nutrition</h1>
+                <div class="col-3">
+                    <h1>{{ _('My Nutrition') }}</h1>
                 </div>
+                <div class="plus-button-wrapper p-0" onmouseover="document.getElementById('hidden_plus_stuff').style.display = '';" onmouseout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
+                    <div class="plus-button-white-bg">
+                        <img src="/static/img/plus_button.svg" class="plus-button-img">
+                        <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
+                            <a href="javascript: openCodePanel();" class="add-kit-link">{{ _('Have an FFQ Code') }}</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">{{ _('Get an FFQ Code') }}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row ffq-info mb-2">
+                <div class="col-1"><img src="/static/img/survey_ffq.svg" width="70" height="70"></div>
+                <div class="col-11 kit-tooltip-text">
+                    {{ _('This Food Frequency Questionnaire (FFQ) will take approximately 30 minutes. By completing it, you\'ll receive the following report') }}:<br />
+                    {{ _('Personal diet and nutrition summary, listing the highest contributing food sources of nutrients you should try to limit and your top food sources with key nutrients that promote good health.') }}
+                </div>
+            </div>
+            {% if vio_reg_entries|length > 0 %}
+                {% for vio in vio_reg_entries %}
+                <div class="row barcode-row mb-2">
+                    <div class="barcode-col ffq-text">
+                        {{ vio.creation_time }}
+                    </div>
+                    <div class="barcode-col barcode-col-end">
+                        {% if vio.vioscreen_status == 3 %}
+
+                        {% else %}
+                            {% if vio.sample_id != None %}
+                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                            {% else %}
+                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            <div id="add_code_container" {% if vio_reg_entries|length > 0 %}style="display: none;"{% endif %}>
+                <form method="post" name="ffq_code_form" action="/accounts/{{ account_id }}/sources/{{ source_id }}/register_ffq">
+                <div class="card mt-4 blue-bg-card" id="add_code_card">
+                    <div class="row my-5">
+                        <div class="col-12 text-center">
+                            <div class="kit_id_container">
+                                <label for="ffq_code" name="ffq_code_name" class="tmi-content">{{ _('Registration Code') }}:</label><br />
+                                <input type="text" name="ffq_code" id="ffq_code" class="form-control" placeholder="XXXXXXXXXX" onKeyUp="updateButtonState(this.value);"/>
+                                <label for="ffq_code" class="error kit-validation-error" style="display: none"></label>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center mt-4">
+                            <button class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button" disabled>{{ _('Register FFQ') }}</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>

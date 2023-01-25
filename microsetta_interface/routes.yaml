@@ -680,7 +680,7 @@ paths:
         '302':
           description: Redirecting to necessary action
   
-  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/survey_templates/{survey_template_id}':
+  '/accounts/{account_id}/sources/{source_id}/vioscreen_ffq':
     get:
       operationId: microsetta_interface.implementation.get_fill_vioscreen_remote_sample_survey
       tags:
@@ -688,8 +688,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/sample_id'
-        - $ref: '#/components/parameters/survey_template_id_in_path'
+        - in: query
+          name: sample_id
+          description: Sample ID attached to a Vioscreen registry entry
+          schema:
+            type: string
+        - in: query
+          name: registration_code
+          description: Registration code attached to a Vioscreen registry entry
+          schema:
+            type: string
       responses:
         '200':
           description: Take the vioscreen remote survey
@@ -698,7 +706,7 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/vspassthru':
+  '/accounts/{account_id}/sources/{source_id}/vspassthru':
     get:
       operationId: microsetta_interface.implementation.get_to_save_vioscreen_remote_sample_survey
       tags:
@@ -706,7 +714,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/sample_id'
         - in: query
           name: key
           schema:
@@ -765,6 +772,53 @@ paths:
         '404':
           description: No such pdf
 
+  '/check_ffq_code_valid':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_check_ffq_code
+      tags:
+        - Survey
+      parameters:
+        - in: query
+          name: ffq_code
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Result of check
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/register_ffq':
+    post:
+      operationId: microsetta_interface.implementation.post_generate_vioscreen_url
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ffq_code:
+                  type: string
+      responses:
+        '200':
+          description: Display of FFQs for a source
+          content:
+            text/html:
+              schema:
+                type: string
 
   '/check_kit_valid':
     get:
@@ -962,22 +1016,11 @@ paths:
               schema:
                 type: string
 
-  '/admin/activation':
+  '/admin/ffq_codes':
     get:
-      operationId: microsetta_interface.implementation.get_interactive_activation
+      operationId: microsetta_interface.implementation.get_generate_ffq_codes
       tags:
         - Admin
-      parameters:
-        - in: query
-          name: email_query
-          description: Email to search for
-          schema:
-            type: string
-        - in: query
-          name: code_query
-          description: Activation code to search for
-          schema:
-            type: string
       responses:
         '200':
           description: Activation code info for query
@@ -986,7 +1029,7 @@ paths:
               schema:
                 type: string
     post:
-      operationId: microsetta_interface.implementation.post_generate_activation
+      operationId: microsetta_interface.implementation.post_generate_ffq_codes
       tags:
         - Admin
       requestBody:

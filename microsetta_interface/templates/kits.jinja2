@@ -11,10 +11,6 @@
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <style>
-        .tooltipper {
-          display: inline-block; /* tooltip misplaced horizontally otherwise */
-        }
-
         .tooltip-inner {
             background-color: #ffffff;
             color: #000000;
@@ -105,19 +101,6 @@
             buttonDiv.appendChild(button);
         }
 
-        function addButtonIfData(sampleId, barcode) {
-            let url = '{{public_endpoint}}' + '/sample/list/dataset/' + barcodePrefix + barcode;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function(data) {
-                    if (data.length > 0) {
-                        renderButton(sampleId);
-                    }
-                }
-            });
-        }
-
         function disable_link(link_obj) {
             link_obj.style.opacity = .65;
             link_obj.style.pointerEvents = "none";
@@ -132,9 +115,6 @@
 
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
-            {% for sample in samples %}
-                addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
-            {% endfor %}
 
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -172,20 +152,20 @@
 {% block content %}
     <div class="container profile-container">
         <div class="alert alert-primary alert-profile mt-4" role="alert">
-            Click on the following link if you would like to contribute to receive a kit - <a href="{{ fundrazr_url }}" target="_blank">Get a Kit</a>
+            {{ _('Click on the following link if you would like to contribute to receive a kit') }} - <a href="{{ fundrazr_url }}" target="_blank">{{ _('Get a Kit') }}</a>
         </div>
         <div class="card mt-4 p-4">
             <div class="row">
                 <div class="col-2">
-                    <h1>My Kits</h1>
+                    <h1>{{ _('My Kits') }}</h1>
                 </div>
                 <div class="plus-button-wrapper p-0" onmouseover="document.getElementById('hidden_plus_stuff').style.display = '';" onmouseout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
                     <div class="plus-button-white-bg">
                         <img src="/static/img/plus_button.svg" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
-                            <a href="javascript: openKitPanel();" class="add-kit-link">Have a KitID</a>
+                            <a href="javascript: openKitPanel();" class="add-kit-link">{{ _('Have a KitID') }}</a>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">Get a Kit</a>
+                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">{{ _('Get a Kit') }}</a>
                         </span>
                     </div>
                 </div>
@@ -194,7 +174,7 @@
                 {% for kit_id, kit_samples in samples.items() %}
                     <div class="container mt-4">
                         <div class="row kit-header mb-2">
-                            <div class="kit-id-title my-auto">KitID: {{ kit_id }}</div>
+                            <div class="kit-id-title my-auto">{{ _('KitID') }}: {{ kit_id }}</div>
                         </div>
                         <div class="row kit-sample-container">
                             {% for sample in kit_samples %}
@@ -225,28 +205,28 @@
                     <div class="row my-5">
                         <div class="col-12 text-center">
                             <div class="kit_id_container">
-                                <label for="kit_name" name="label_kit_name" class="tmi-content">To register your kit, enter your Kit ID below:</label><br />
+                                <label for="kit_name" name="label_kit_name" class="tmi-content">{{ _('To register your kit, enter your Kit ID below') }}:</label><br />
                                 <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" onKeyUp="updateButtonState(this.value);"/>
-                                <label for="kit_name" class="error kit-validation-error" style="display: none">Test</label>
+                                <label for="kit_name" class="error kit-validation-error" style="display: none"></label>
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button" disabled>Register Kit</button>
+                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button" disabled>{{ _('Register Kit') }}</button>
                         </div>
                     </div>
                 </div>
                 </form>
                 <div class="container mt-4" id="new_kit_container" style="display: none">
                     <div class="row kit-header">
-                        <div class="kit-id-title my-auto" id="new_kit_header">KitID: </div>
+                        <div class="kit-id-title my-auto" id="new_kit_header">{{ _('KitID') }}: </div>
                     </div>
                     <div class="row kit-contents-add mt-2 p-4">
-                        <p class="new_kit_prompt">Which barcode(s) are you using from this kit (select all that apply)? <span class="barcode-info"><img src="/static/img/question_mark.svg" /> <a href="#" title="<span class='kit-tooltip-text'>Each collection tube you receive has a unique barcode printed on the side. <br />
-<i>1. Select the barcode(s) you are using.<br />
-2. Add the date and time of sample collection and select the sample type taken.<br />
-<span class='kit-important'>Important:</span> <br />
-The sample cannot be processed in the lab until this information is complete. <br />
-Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Hooray!">What is the barcode and why is it important?</a></span></p><br />
+                        <p class="new_kit_prompt">{{ _('Which barcode(s) are you using from this kit (select all that apply)?') }} <span class="barcode-info"><img src="/static/img/question_mark.svg" /> <a href="#" title="<span class='kit-tooltip-text'>{{ _('Each collection tube you receive has a unique barcode printed on the side.') }} <br />
+<i>{{ _('1. Select the barcode(s) you are using') }}.<br />
+{{ _('2. Add the date and time of sample collection and select the sample type taken.') }}<br />
+<span class='kit-important'>{{ _('Important') }}:</span> <br />
+{{ _('The sample cannot be processed in the lab until this information is complete.') }} <br />
+{{ _('Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.') }}</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">{{ _('What is the barcode and why is it important?') }}</a></span></p><br />
                         <form method="post" name="pick_samples_form" id="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples" style="padding: 0;">
                         <div class="new_kit_sample_container" id="new_kit_sample_container">
 

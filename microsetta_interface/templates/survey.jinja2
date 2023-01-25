@@ -203,7 +203,7 @@
             </div>
             <div class="col-xs-12 col-md-10">
                 <h1 class="h1-survey">{{ survey_schema['groups'][0]['legend'] }}</h1>
-                <span class="survey-subheader">{{ survey_est_minutes }} minutes - {{ survey_question_count }} questions</span>
+                <span class="survey-subheader">{{ survey_est_minutes }} {{ _('minutes') }} - {{ survey_question_count }} {{ _('questions') }}</span>
             </div>
         </div>
     </div>
@@ -223,7 +223,7 @@
             </div>
             <div class="col-6 text-end">
                 {% if next_survey == None %}
-                <span class="small-text survey-info">You've finished building your profile!</span>
+                <span class="small-text survey-info">{{ _('You\'ve finished building your profile!') }}</span>
                 {% else %}
                 <img src="/static/img/{{ next_survey['icon'] }}" width="40" height="40" style="float: right;">
                 <div class="survey-nav-name">{{ next_survey['survey_name'] |e }}</div>

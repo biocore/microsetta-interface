@@ -868,6 +868,10 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     border-radius: 8px;
 }
 
+.sample-needs-info:hover {
+    background-color: var(--tmi-red-bg) !important;
+}
+
 .sample-complete {
     border: 1px solid #ffffff;
     border-radius: 8px;
@@ -926,7 +930,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 .bristol-img-container {
     width: 100%;
     display: block;
-    text-align: center;
+    text-align: left;
     margin-top: 8px
 }
 
@@ -946,4 +950,15 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 #bristol-chart-3 {
     height: 100px;
+}
+
+.ffq-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.ffq-text {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--tmi-orange);
 }

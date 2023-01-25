@@ -49,10 +49,10 @@
     <div class="container profile-container">
         <br />
         <p class="tmi-tooltip">
-            The Microsetta Initiative aims to generate quality data that can help you better understand your microbiome, help scientists design better studies, and improve the world's understanding of the human microbiome.
+            {{ _('The Microsetta Initiative aims to generate quality data that can help you better understand your microbiome, help scientists design better studies, and improve the world\'s understanding of the human microbiome.') }}
         </p>
         <p class="tmi-tooltip">
-            Answering our surveys can help us do just that. To get started, build out your profile by answering the surveys below. We will alert you when new surveys become available.
+            {{ _('Answering our surveys can help us do just that. To get started, build out your profile by answering the surveys below. We will alert you when new surveys become available.') }}
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}
@@ -94,7 +94,7 @@
         {% endfor %}
         </div>
         <p class="tmi-tooltip mt-4">
-            Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.
+            {{ _('Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.') }}
         </p>
         <div class="row mt-4">
         {% for detail in remote_surveys %}
@@ -145,11 +145,11 @@
             </div>
             <div class="modal-body">
                 <p id="survey-description" class="survey-description"></p>
-                <p id="survey-warning" class="survey-warning">You will only have one opportunity to take this survey. Please make sure you have ample time before you start.</p>
+                <p id="survey-warning" class="survey-warning">{{ _('You will only have one opportunity to take this survey. Please make sure you have ample time before you start.') }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">Maybe Later</button>
-                <button type="button" class="btn btn-blue-gradient" id="take-survey">Take This Survey Now</button>
+                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
+                <button type="button" class="btn btn-blue-gradient" id="take-survey">{{ _('Take This Survey Now') }}</button>
             </div>
         </div>
     </div>

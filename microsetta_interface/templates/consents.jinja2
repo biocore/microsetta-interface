@@ -1,9 +1,9 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("My Reports") %}
+{% set page_title = _("Consent Documents") %}
 {% set show_breadcrumbs = True %}
 
 {% set profile_header = True %}
-{% set profile_header_active = "reports" %}
+{% set profile_header_active = "profile" %}
 {% set profile_header_name = source_name %}
 {% set profile_account_id = account_id %}
 {% set profile_source_id = source_id %}
@@ -27,9 +27,9 @@
         <div class="card mt-4 p-4">
             <div class="row">
                 <div class="col-12">
-                    <h1>{{ _('My Reports') }}</h1>
-                    <h1>{{ _('My Kits') }}</h1>
-                    <h1>{{ _('My Nutrition') }}</h1>
+                    <h1>{{ _('Consent Documents') }}</h1>
+                    {{ _('Survey') }}
+                    {{ _('Biospecimen') }}
                 </div>
             </div>
         </div>

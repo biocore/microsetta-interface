@@ -1595,7 +1595,8 @@ def get_nutrition(*, account_id=None, source_id=None):
     return _render_with_defaults('nutrition.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
-                                 vio_reg_entries=vioscreen_output
+                                 vio_reg_entries=vioscreen_output,
+                                 fundrazr_url=SERVER_CONFIG["fundrazr_url"]
                                  )
 
 

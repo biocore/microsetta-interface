@@ -27,11 +27,34 @@
         <div class="card mt-4 p-4">
             <div class="row">
                 <div class="col-12">
-                    <h1>{{ _('My Reports') }}</h1>
                     <h1>{{ _('My Kits') }}</h1>
-                    <h1>{{ _('My Nutrition') }}</h1>
                 </div>
             </div>
+        </div>
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My FFQs') }}</h1>
+                </div>
+            </div>
+            {% for vio in vio_reg_entries %}
+            <div class="row mt-3">
+                <div class="barcode-col ffq-text">
+                    {{ vio.creation_time }}
+                </div>
+                <div class="barcode-col barcode-col-end">
+                    {% if vio.vioscreen_status == 3 %}
+                        <a href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{ vio.survey_id }}/reports/topfoodreport/pdf" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Top Food Report') }}</a>
+                    {% else %}
+                        {% if vio.sample_id != None %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                        {% else %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 

@@ -1609,9 +1609,23 @@ def get_reports(*, account_id=None, source_id=None):
     if has_error:
         return source_output
 
+    # Retrieve all Vioscreen registry entries for the source
+    has_error, vioscreen_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/vioscreen_registry_entries' % (
+            account_id, source_id))
+    if has_error:
+        return vioscreen_output
+
+    completed_vios = []
+    for v in vioscreen_output:
+        if v['vioscreen_status'] == 3:
+            completed_vios.append(v)
+
+
     return _render_with_defaults('reports.jinja2',
                                  account_id=account_id,
-                                 source_id=source_id
+                                 source_id=source_id,
+                                 vio_reg_entries=completed_vios
                                  )
 
 

@@ -302,16 +302,14 @@
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'child_data' %}
                     {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
                 {% endif %}
             {% endfor %}
         {% else %}
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'child_biospecimen' %}
                     {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
                 {% endif %}
             {% endfor %}
         {% endif %}
@@ -359,15 +357,19 @@
     <div class="consent-scroll-text">
         {% if form_type== 'source' %}
             {% for doc in tl['CONSENT_DOCS'] %}
-              {% if doc['consent_type'] == 'parent_data' %}
-                  {{ doc['document'] }}
-              {% endif %}
+                {% if doc['consent_type'] == 'parent_data' %}
+                    {{ doc['document'] }}
+                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
+                {% endif %}
             {% endfor %}
         {% else %}
             {% for doc in tl['CONSENT_DOCS'] %}
-              {% if doc['consent_type'] == 'parent_biospecimen' %}
-                  {{ doc['document'] }}
-              {% endif %}
+                {% if doc['consent_type'] == 'parent_biospecimen' %}
+                    {{ doc['document'] }}
+                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
+                {% endif %}
             {% endfor %}
         {% endif %}
     </div>
@@ -409,16 +411,14 @@
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'adolescent_data' %}
                     {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
                 {% endif %}
             {% endfor %}
         {% else %}
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'adolescent_biospecimen' %}
                     {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
                 {% endif %}
             {% endfor %}
         {% endif %}
@@ -447,12 +447,16 @@
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'parent_data' %}
                     {{ doc['document'] }}
+                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
                 {% endif %}
             {% endfor %}
         {% else %}
             {% for doc in tl['CONSENT_DOCS'] %}
                 {% if doc['consent_type'] == 'parent_biospecimen' %}
                     {{ doc['document'] }}
+                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
                 {% endif %}
             {% endfor %}
         {% endif %}

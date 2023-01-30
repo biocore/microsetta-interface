@@ -1012,7 +1012,6 @@ def get_consent_page(*, account_id=None):
 
 @prerequisite([ACCT_PREREQS_MET])
 def post_create_human_source(*, account_id=None, body=None):
-
     consent_type = body.get("consent_type")
 
     # If the submitted consent form contains data consent
@@ -1328,9 +1327,9 @@ def top_food_report_pdf(*,
     response = make_response(pdf_bytes)
     response.headers.set("Content-Type", "application/pdf")
     # TODO: Do we want it to download a file or be embedded in the html?
-    # response.headers.set('Content-Disposition',
-    #                      'attachment',
-    #                      filename='top-food-report.pdf')
+    response.headers.set('Content-Disposition',
+                         'attachment',
+                         filename='top-food-report.pdf')
 
     return response
 

@@ -229,8 +229,6 @@ document.getElementById('submit').onclick = function() {
 
 function addSkipLinks() {
     const fieldArray = document.getElementsByClassName("form-group");
-//        const fieldArray = document.querySelectorAll('.vue-form-generator .form-group');
-//        fieldArray.forEach(addSkipLink);
     for (i = 0; i < fieldArray.length; i++) {
         addSkipLink(fieldArray[i]);
     }

@@ -184,6 +184,10 @@
                     for (let entry of field.triggered_by) {
                         visible |= (model[entry['q_id']] === entry['response']);
                     }
+                    // If a triggered question is switched from visible to hidden, we're going to remove the answer from the model
+                    if(visible == false) {
+                        delete model[field.inputName];
+                    }
                     return visible;
                 }
             }

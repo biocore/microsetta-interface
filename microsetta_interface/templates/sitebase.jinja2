@@ -166,7 +166,7 @@
                                     <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
                                 </a>
                               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
-                                  <li><a class="dropdown-item" href="#">{{ _('Consent Documents') }}</a></li>
+                                  <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
                                   <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
                               </ul>
                             </div>

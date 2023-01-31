@@ -116,6 +116,12 @@ SYSTEM_MSG_DICTIONARY = {
 
 client_state = RedisCache()
 
+# Countries allowed to view the contents of the My Kits tab
+KITS_TAB_WHITELIST = ['US', 'ES', 'JP']
+
+# Countries allowed to view the contents of the My Nutrition tab
+NUTRITION_TAB_WHITELIST = ['US']
+
 # TODO: Move this sort of survey info ino the database
 SURVEY_INFO = {
     BASIC_INFO_ID: {
@@ -1511,6 +1517,13 @@ def get_source(*, account_id=None, source_id=None):
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_kits(*, account_id=None, source_id=None):
+    # Retrieve the account
+    has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+    if has_error:
+        return account
+
+    account_country = account['address']['country_code']
+
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1524,14 +1537,9 @@ def get_kits(*, account_id=None, source_id=None):
     if has_error:
         return samples_output
 
-    claim_kit_name_hint = None
-
     # prettify datetime
-    needs_assignment = False
     for sample in samples_output:
-        if sample['sample_datetime'] is None:
-            needs_assignment = True
-        else:
+        if sample['sample_datetime'] is not None:
             dt = datetime.fromisoformat(sample['sample_datetime'])
             # rebase=True - show in user's locale, rebase=False, UTC (I think?)
             sample['sample_datetime'] = flask_babel.format_datetime(
@@ -1559,24 +1567,30 @@ def get_kits(*, account_id=None, source_id=None):
 
     samples_output = kits
 
-    return _render_with_defaults('kits.jinja2',
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 is_human=is_human,
-                                 samples=samples_output,
-                                 source_name=source_output['source_name'],
-                                 vioscreen_id=VIOSCREEN_ID,
-                                 claim_kit_name_hint=claim_kit_name_hint,
-                                 taxonomy=SERVER_CONFIG["taxonomy_resource"],
-                                 alpha_metric=SERVER_CONFIG["alpha_metric"],
-                                 barcode_prefix=SERVER_CONFIG[
-                                     "barcode_prefix"],
-                                 fundrazr_url=SERVER_CONFIG["fundrazr_url"]
-                                 )
+    return _render_with_defaults(
+        'kits.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        is_human=is_human,
+        samples=samples_output,
+        source_name=source_output['source_name'],
+        fundrazr_url=SERVER_CONFIG["fundrazr_url"],
+        account_country=account_country,
+        kits_tab_whitelist=KITS_TAB_WHITELIST,
+        barcode_prefix=SERVER_CONFIG['barcode_prefix'],
+        public_endpoint=SERVER_CONFIG['public_api_endpoint']
+    )
 
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_nutrition(*, account_id=None, source_id=None):
+    # Retrieve the account
+    has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
+    if has_error:
+        return account
+
+    account_country = account['address']['country_code']
+
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1591,13 +1605,16 @@ def get_nutrition(*, account_id=None, source_id=None):
     if has_error:
         return vioscreen_output
 
-    return _render_with_defaults('nutrition.jinja2',
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 source_name=source_output['source_name'],
-                                 vio_reg_entries=vioscreen_output,
-                                 fundrazr_url=SERVER_CONFIG["fundrazr_url"]
-                                 )
+    return _render_with_defaults(
+        'nutrition.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        source_name=source_output['source_name'],
+        vio_reg_entries=vioscreen_output,
+        fundrazr_url=SERVER_CONFIG["fundrazr_url"],
+        account_country=account_country,
+        nutrition_tab_whitelist=NUTRITION_TAB_WHITELIST
+    )
 
 
 @prerequisite([SOURCE_PREREQS_MET])
@@ -1617,16 +1634,55 @@ def get_reports(*, account_id=None, source_id=None):
         return vioscreen_output
 
     completed_vios = []
-    for v in vioscreen_output:
-        if v['vioscreen_status'] == 3:
-            completed_vios.append(v)
+    for vio in vioscreen_output:
+        if vio['vioscreen_status'] == 3:
+            completed_vios.append(vio)
+
+    # Retrieve all samples from the source
+    has_error, samples_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples' % (account_id, source_id))
+    if has_error:
+        return samples_output
+
+    valid_samples = []
+    for sample in samples_output:
+        if sample['sample_edit_locked'] is True:
+            valid_samples.append(sample)
+
+    return _render_with_defaults(
+        'reports.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        samples=valid_samples,
+        vio_reg_entries=completed_vios,
+        source_name = source_output['source_name'],
+        barcode_prefix=SERVER_CONFIG['barcode_prefix'],
+        public_endpoint=SERVER_CONFIG['public_api_endpoint']
+    )
 
 
-    return _render_with_defaults('reports.jinja2',
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 vio_reg_entries=completed_vios
-                                 )
+@prerequisite([SOURCE_PREREQS_MET])
+def get_consents(*, account_id=None, source_id=None):
+    # Retrieve the source
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id))
+    if has_error:
+        return source_output
+
+    return _render_with_defaults(
+        'consents.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+    )
+
+
+def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
+    return True
+
+
+def get_consent_download(*, account_id=None, source_id=None, consent_id=None):
+    return True
 
 
 # Note: ideally this would be represented as a DELETE, not as a POST

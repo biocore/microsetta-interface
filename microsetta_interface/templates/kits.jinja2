@@ -26,7 +26,6 @@
     </style>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
     <script>
-        let barcodePrefix = "{{barcode_prefix}}";
         function make_kit_validation_setup_func(form_name, submitHandler) {
             // Initialize form validation
             let form_selector = "form[name='" + form_name + "']";
@@ -93,12 +92,26 @@
 
         function renderButton(sampleId) {
             var buttonDiv = document.getElementById("btn-view-" + sampleId);
+            buttonDiv.innerHTML = '';
             var button = document.createElement("a");
             button.type = "button";
-            button.text = "{{ _('View') }}";
-            button.className = "btn btn-outline-info";
+            button.text = "{{ _('View Results') }}";
+            button.className = "btn btn-white-blue-border";
             button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
             buttonDiv.appendChild(button);
+        }
+
+        function addButtonIfData(sampleId, barcode) {
+            let url = '{{public_endpoint}}' + '/sample/list/dataset/{{ barcode_prefix }}' + barcode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    if (data.length == 0) {
+                        renderButton(sampleId);
+                    }
+                }
+            });
         }
 
         function disable_link(link_obj) {
@@ -115,6 +128,12 @@
 
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
+
+            {% for kit_id, kit_samples in samples.items() %}
+                {% for sample in kit_samples %}
+                    addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
+                {% endfor %}
+            {% endfor %}
 
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -150,6 +169,24 @@
     <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
 {% endblock %}
 {% block content %}
+    {% if account_country not in kits_tab_whitelist %}
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My Kits') }}</h1>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <p class="tmi-content">
+                        {{ _('Currently, "My Kits" is unavailable in your country or region. We apologize for any inconvenience.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
     <div class="container profile-container">
         <div class="alert alert-primary alert-profile mt-4" role="alert">
             {{ _('Click on the following link if you would like to contribute to receive a kit') }} - <a href="{{ fundrazr_url }}" target="_blank">{{ _('Get a Kit') }}</a>
@@ -189,8 +226,12 @@
                                 <div class="barcode-col">
                                     <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
                                 </div>
-                                <div class="barcode-col barcode-col-end">
-                                    <img src="/static/img/edit.svg" width="24" height="24" />
+                                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                                    {% if sample.sample_edit_locked %}
+                                        <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                                    {% else %}
+                                        <img src="/static/img/edit.svg" width="24" height="24" />
+                                    {% endif %}
                                 </div>
                             </div>
                             </a>
@@ -238,5 +279,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
 {% endblock %}

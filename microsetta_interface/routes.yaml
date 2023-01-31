@@ -435,6 +435,56 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/consents':
+    get:
+      operationId: microsetta_interface.implementation.get_consents
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of consent docs for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/consents/{consent_id}/view':
+    get:
+      operationId: microsetta_interface.implementation.get_consent_view
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/consent_id'
+      responses:
+        '200':
+          description: Display a signed consent document
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/consents/{consent_id}/download':
+    get:
+      operationId: microsetta_interface.implementation.get_consent_download
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/consent_id'
+      responses:
+        '200':
+          description: Download a PDF of a signed consent document
+          content:
+            text/html:
+              schema:
+                type: string
+
   # Note: ideally this would be represented as a DELETE, not as a POST
   # However, it is used as a form submission action, and HTML forms do not support
   # delete as an action
@@ -1305,6 +1355,13 @@ components:
       schema:
         $ref: '#/components/schemas/sample_id'
       required: true
+    consent_id:
+      name: consent_id
+      in: path
+      description: Unique id of a signed consent document
+      schema:
+        $ref: '#/components/schemas/consent_id'
+      required: true
     session_opt_out:
       name: session_opt_out
       in: query
@@ -1379,6 +1436,10 @@ components:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
       example: "dae21127-27bb-4f52-9fd3-a2aa5eb5b86f"
+    consent_id:
+      type: string
+      readOnly: true # sent in GET, not in POST/PUT/PATCH
+      example: "b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0"
     survey_id:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH

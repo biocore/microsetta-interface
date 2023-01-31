@@ -962,3 +962,26 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     line-height: 26px;
     color: var(--tmi-orange);
 }
+
+.results-link {
+    cursor: pointer;
+}
+
+.consent-col {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.col-end {
+    margin-left: auto;
+}
+
+.consent-link {
+    color: var(--tmi-blue);
+    font-weight: 700;
+    text-decoration: none;
+}

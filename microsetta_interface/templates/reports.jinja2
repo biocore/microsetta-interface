@@ -14,9 +14,42 @@
         .tooltipper {
           display: inline-block; /* tooltip misplaced horizontally otherwise */
         }
-
     </style>
     <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
+    <script type="text/javascript">
+
+        function renderButton(sampleId) {
+            var buttonDiv = document.getElementById("btn-view-" + sampleId);
+            buttonDiv.innerHTML = '';
+            var button = document.createElement("a");
+            button.type = "button";
+            button.text = "{{ _('View Results') }}";
+            button.className = "btn btn-white-blue-border";
+            button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
+            buttonDiv.appendChild(button);
+        }
+
+        function addButtonIfData(sampleId, barcode) {
+            let url = '{{public_endpoint}}' + '/sample/list/dataset/{{ barcode_prefix }}' + barcode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    if (data.length == 0) {
+                        renderButton(sampleId);
+                    }
+                }
+            });
+        }
+
+        // Wait for the DOM to be ready
+        $(document).ready(function(){
+            {% for sample in samples %}
+                addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
+            {% endfor %}
+        });
+    </script>
+
 {% endblock %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
@@ -30,6 +63,19 @@
                     <h1>{{ _('My Kits') }}</h1>
                 </div>
             </div>
+            {% for sample in samples %}
+            <div class="row mb-2">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    {{ sample.sample_barcode }}
+                </div>
+                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                    <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         <div class="card mt-4 p-4">
             <div class="row">

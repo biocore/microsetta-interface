@@ -88,6 +88,24 @@
     <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
 {% endblock %}
 {% block content %}
+    {% if account_country not in nutrition_tab_whitelist %}
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My FFQs') }}</h1>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <p class="tmi-content">
+                        {{ _('Currently, "My FFQs" is unavailable in your country or region. We apologize for any inconvenience.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
     <div class="container profile-container">
         <div class="card mt-4 p-4">
             <div class="row">
@@ -110,6 +128,11 @@
                 <div class="col-11 kit-tooltip-text">
                     {{ _('This Food Frequency Questionnaire (FFQ) will take approximately 30 minutes. By completing it, you\'ll receive the following report') }}:<br />
                     {{ _('Personal diet and nutrition summary, listing the highest contributing food sources of nutrients you should try to limit and your top food sources with key nutrients that promote good health.') }}
+                </div>
+            </div>
+            <div class="row ffq-info mb-2">
+                <div class="col-12 kit-tooltip-text">
+                    {{ _('You must press the "Finish" button on the final page of the FFQ to register it as completed. You can complete the FFQ in stages by clicking "Continue FFQ" and selecting the "Resume" button to return to where you left off.') }}
                 </div>
             </div>
             {% if vio_reg_entries|length > 0 %}
@@ -152,5 +175,5 @@
             </div>
         </div>
     </div>
-
+    {% endif %}
 {% endblock %}

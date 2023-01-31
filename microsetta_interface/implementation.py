@@ -1674,6 +1674,7 @@ def get_consents(*, account_id=None, source_id=None):
         'consents.jinja2',
         account_id=account_id,
         source_id=source_id,
+        source_name=source_output['source_name'],
     )
 
 

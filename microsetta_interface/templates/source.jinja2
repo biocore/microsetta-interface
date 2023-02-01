@@ -111,7 +111,7 @@
                     <div class="row m-3 text-center">
                         {% if detail.answered == False %}
                             <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                                <img src="/static/img/survey_external.png" class="card-survey-icon-external">
+                                <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
                             </a>
                         {% else %}
                             <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">

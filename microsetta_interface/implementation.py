@@ -1391,7 +1391,6 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None):
 
 @prerequisite([SOURCE_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
-
     session["source_id"] = source_id
 
     # Retrieve the account to determine re-consent status

@@ -1555,7 +1555,7 @@ def get_kits(*, account_id=None, source_id=None):
     for s in samples_output:
         if s['sample_site'] == '' or s['sample_datetime'] == '':
             s['css_class'] = "sample-needs-info"
-            s['alert_icon'] = "red_alert.svg"
+            s['alert_icon'] = "info-orange.svg"
         else:
             s['css_class'] = "sample-complete"
             s['alert_icon'] = "green_checkmark.svg"

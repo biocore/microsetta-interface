@@ -1061,12 +1061,17 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 }
 
 .sample-needs-info {
+    border: 1px dashed var(--tmi-orange);
+    border-radius: 8px;
+}
+
+.sample-issue {
     border: 1px dashed var(--tmi-red);
     background-color: var(--tmi-red-bg);
     border-radius: 8px;
 }
 
-.sample-needs-info:hover {
+.sample-issue:hover {
     background-color: var(--tmi-red-bg) !important;
 }
 

@@ -256,7 +256,8 @@ class IntegrationTests(unittest.TestCase):
                 "state": "e",
                 "post_code": "f",
                 "language": "en_US",
-                "country_code": "US"
+                "country_code": "US",
+                "consent_privacy_terms": "true"
                 }
 
         resp = self.app.post(url, data=body)

@@ -1670,6 +1670,14 @@ def get_consents(*, account_id=None, source_id=None):
     if has_error:
         return source_output
 
+    # Retrieve the latest signed consents
+    has_error, consents_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/signed_consents' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return source_output
+
     return _render_with_defaults(
         'consents.jinja2',
         account_id=account_id,

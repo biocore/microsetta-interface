@@ -193,10 +193,10 @@
         </div>
         <div class="card mt-4 p-4">
             <div class="row">
-                <div class="col-2">
+                <div class="col col-md-2">
                     <h1>{{ _('My Kits') }}</h1>
                 </div>
-                <div class="plus-button-wrapper p-0" onmouseover="document.getElementById('hidden_plus_stuff').style.display = '';" onmouseout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
+                <div class="plus-button-wrapper p-0" onclick="document.getElementById('hidden_plus_stuff').style.display = '';" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
                     <div class="plus-button-white-bg">
                         <img src="/static/img/plus_button.svg" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">

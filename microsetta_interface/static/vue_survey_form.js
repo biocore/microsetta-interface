@@ -56,7 +56,6 @@ var vm = new Vue({
                     }
                 }
             }
-            console.log(this.model);
         }
     },
     mounted() {
@@ -164,8 +163,6 @@ function skipQuestion(ele, skipType="user-input") {
                 let wrapper = theNode.children[0];
                 let inputElement = wrapper.children[0];
 
-                console.log("skipping text field");
-
                 if(newState == "display") {
                     theNode.style.display = "";
                     inputElement.value = "";
@@ -181,7 +178,6 @@ function skipQuestion(ele, skipType="user-input") {
         for (let i = 0; i < group.childNodes.length; i++) {
             let theNode = group.childNodes[i];
             if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                console.log(theNode);
                 let inputElement = theNode.children[0];
 
                 if(newState == "display") {
@@ -199,7 +195,6 @@ function skipQuestion(ele, skipType="user-input") {
         for(let i = 0; i < group.childNodes.length; i++) {
             let theNode = group.childNodes[i];
             if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                console.log(theNode);
                 let inputElement = theNode.children[0];
 
                 if(newState == "display") {
@@ -209,7 +204,6 @@ function skipQuestion(ele, skipType="user-input") {
                 } else {
                     theNode.style.display = "none";
                     inputElement.selectedIndex = 0;
-                    console.log(inputElement.options[inputElement.selectedIndex].value);
                     vm.methodToUpdate(inputElement.name, true, false);
                 }
             }
@@ -218,14 +212,6 @@ function skipQuestion(ele, skipType="user-input") {
         // Why am I here?
     }
 }
-
-/*
-CODE TO UNSELECT RADIO BUTTON
-document.getElementById('submit').onclick = function() {
-    var radio = document.querySelector('input[type=radio][name=language]:checked');
-    radio.checked = false;
-}
-*/
 
 function addSkipLinks() {
     const fieldArray = document.getElementsByClassName("form-group");

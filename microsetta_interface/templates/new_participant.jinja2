@@ -214,13 +214,19 @@
         </div>
     </div>
     <div class="row mb-4">
-        <div class="col-12">
+        <div class="col-md">
             <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)">
             <label for="age-range-1" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label>
+        </div>
+        <div class="col-md">
             <input type="radio" id="age-range-2" name="age-range" value="7-12" onchange="change_consent_div(this)">
             <label for="age-range-2" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_7_12'] |e}}</label>
+        </div>
+        <div class="col-md">
             <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)">
             <label for="age-range-3" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label>
+        </div>
+        <div class="col-md">
             <input type="radio" id="age-range-4" name="age-range" value="18-plus" onchange="change_consent_div(this)">
             <label for="age-range-4" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_18'] |e}}</label>
         </div>
@@ -260,24 +266,24 @@
             <label for="consent_parent" class="error" style="display: none;">{{ _('Please confirm that you have read this form.') }}</label>
         </p>
     </div>
-    <div class="row mb-1">
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label class="consent-form-label" for="participant_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="2" type="text" name="participant_name" id="0-6-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
     </div>
-    <div class="row mb-1">
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label class="consent-form-label" for="parent_1_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="7" type="text" name="parent_1_name" id="0-6-form_parent_1_name" required data-rule-required="true" class="consent-form-input">
             <label for="parent_1_name" class="error" style="display: none;">{{ _('Please enter the parent or guardian name.') }}</label>
         </div>
@@ -321,12 +327,12 @@
         </p>
     </div>
     <div class="row mb-2">
-        <div class="col-6">
+        <div class="col-md-6">
             <label class="consent-form-label" for="participant_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="2" type="text" name="participant_name" id="7-12-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
@@ -343,12 +349,12 @@
         </p>
     </div>
     <div class="row mb-4">
-        <div class="col-6">
+        <div class="col-md-6">
             <label class="consent-form-label" for="obtainer_name">
                 {{ tl['PARTICIPANT_FORM']['OBTAINER_NAME'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="3" type="text" name="obtainer_name" id="obtainer_name" required data-rule-required="true" class="consent-form-input">
             <label for="obtainer_name" class="error" style="display: none;">{{ _('Please enter the name of the person obtaining assent.') }}</label>
         </div>
@@ -380,13 +386,13 @@
             <label for="consent_parent" class="error" style="display: none;">{{ _('Please confirm that you have read this form.') }}</label>
         </p>
     </div>
-    <div class="row mb-1">
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label class="consent-form-label" for="parent_1_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="7" type="text" name="parent_1_name" id="7-12-form_parent_1_name" required data-rule-required="true" class="consent-form-input">
             <label for="parent_1_name" class="error" style="display: none;">{{ _('Please enter the parent or guardian name.') }}</label>
         </div>
@@ -430,13 +436,13 @@
             <label for="consent_child" class="error" style="display: none;">{{ _('Please confirm that you have read this form.') }}</label>
         </p>
     </div>
-    <div class="row mb-2">
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label class="consent-form-label" for="participant_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="2" type="text" name="participant_name" id="13-17-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>
@@ -469,13 +475,13 @@
             <label for="consent_parent" class="error" style="display: none;">{{ _('Please confirm that you have read this form.') }}</label>
         </p>
     </div>
-    <div class="row mb-1">
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label class="consent-form-label" for="parent_1_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="7" type="text" name="parent_1_name" id="13-17-form_parent_1_name" required data-rule-required="true" class="consent-form-input">
             <label for="parent_1_name" class="error" style="display: none;">{{ _('Please enter the parent or guardian name.') }}</label>
         </div>
@@ -523,12 +529,12 @@
         </p>
     </div>
     <div class="row mb-4">
-        <div class="col-6">
+        <div class="col-md-6">
             <label class="consent-form-label" for="participant_name">
                 {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
             </label>
         </div>
-        <div class="col-6">
+        <div class="col-md-6">
             <input tabindex="2" type="text" name="participant_name" id="18-form_participant_name" required data-rule-required="true" class="consent-form-input" {% if participant_name != None %}value="{{ participant_name }}" readonly {% endif %}>
             <label for="participant_name" class="error" style="display: none;">{{ _('Please enter the participant name.') }}</label>
         </div>

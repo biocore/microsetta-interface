@@ -102,13 +102,7 @@
     {% endif %}
 
     {% if profile_header %}
-        <div class="content pt-2" style="background: linear-gradient(
-        to bottom,
-        #006A96 0px,
-        #006A96 250px,
-        white 250px,
-        white 100%
-    );">
+        <div class="content pt-2 profile-bg">
     {% else %}
         <div class="content pt-2">
     {% endif %}
@@ -124,54 +118,74 @@
     {% endif %}
         
         <!-- Vue Form Generator references a container named "app" -->
-       <div class="container-fluid" id="app">
-           {% if profile_header %}
-               <div class="container profile-container">
+        <div class="container-fluid" id="app">
+            {% if profile_header %}
+                <div class="container profile-container">
                     <h1 class="profile-h1">
                         <img src="/static/img/profile_card_icon.png">
                         {{ profile_header_name }}
                     </h1>
-                    <ul class="nav profile-nav">
-                        <li class="nav-item">
-                            {% if profile_header_active == "profile" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "kits" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "nutrition" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item">
-                            {% if profile_header_active == "reports" %}
-                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
-                            {% else %}
-                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
-                            {% endif %}
-                        </li>
-                        <li class="nav-item" style="width: 50px">
-                            <div class="dropdown show" id="profile-kebab-dropdown">
-                                <a class="btn p-0" href="#" role="button" id="profileDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
-                                </a>
-                              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
-                                  <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
-                                  <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
-                              </ul>
+                    <div class="header-nav-container">
+                        <nav class="navbar navbar-expand-md profile-nav-container">
+                            <div class="container-fluid ps-0 pe-0">
+                                <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span>
+                                    {% if profile_header_active == "kits" %}
+                                    {{ _('My Kits') }}
+                                    {% elif profile_header_active == "nutrition" %}
+                                    {{ _('My Nutrition') }}
+                                    {% elif profile_header_active == "reports" %}
+                                    {{ _('My Reports') }}
+                                    {% else %}
+                                    {{ _('My Profile') }}
+                                    {% endif %}
+                                    </span>
+                                    <img src="/static/img/nav_down.svg" height="20" width="20" style="margin-top: 10px"/>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav profile-nav">
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "profile" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "kits" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "nutrition" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "reports" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
+                        </nav>
+                        <div class="dropdown show" id="profile-kebab-dropdown">
+                            <a class="btn p-0" href="#" role="button" id="profileDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
+                            </a>
+                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
+                          </ul>
+                        </div>
+                    </div>
                </div>
            {% endif %}
 

@@ -82,47 +82,53 @@
 
 
 
-.tmi-survey-button-blue > .field-wrap > input {
-    background: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%) !important;
-    border-radius: 50px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: #ffffff !important;
-    margin-left: auto !important;
-    margin-right: 0px !important;
-}
+        .tmi-survey-button-blue > .field-wrap > input {
+            background: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%) !important;
+            border-radius: 50px !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            line-height: 22px !important;
+            color: #ffffff !important;
+            margin-left: auto !important;
+            margin-right: 0px !important;
+        }
 
-.tmi-survey-button-blue > .field-wrap > input:hover {
-    color: #e7e7e7 !important;
-}
+        .tmi-survey-button-blue > .field-wrap > input:hover {
+            color: #e7e7e7 !important;
+        }
 
-.tmi-survey-button-white > .field-wrap > input {
-    background: #ffffff !important;
-    border-radius: 50px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: var(--tmi-blue) !important;
-}
+        .tmi-survey-button-white > .field-wrap > input {
+            background: #ffffff !important;
+            border-radius: 50px !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            line-height: 22px !important;
+            color: var(--tmi-blue) !important;
+        }
 
-.tmi-survey-button-white > .field-wrap > input:hover {
-    background-color: #e7e7e7 !important;
-}
+        .tmi-survey-button-white > .field-wrap > input:hover {
+            background-color: #e7e7e7 !important;
+        }
 
-.tmi-survey-button-white-noborder > .field-wrap > input {
-    background: #ffffff !important;
-    border-radius: 50px !important;
-    border: 0px !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: var(--tmi-blue) !important;
-}
+        .tmi-survey-button-white-noborder > .field-wrap > input {
+            background: #ffffff !important;
+            border-radius: 50px !important;
+            border: 0px !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            line-height: 22px !important;
+            color: var(--tmi-blue) !important;
+        }
 
-.tmi-survey-centered > .field-wrap > input {
-    margin-left: auto !important;
-}
+        .tmi-survey-centered > .field-wrap > input {
+            margin-left: auto !important;
+        }
+
+        @media (max-width: 575.98px) {
+            .tmi-survey-centered {
+                display: none;
+            }
+        }
     </style>
     <script>
         // Overwrite and localize the messages used, based on the example from:
@@ -272,8 +278,8 @@
         {% if previous_survey == None %}
             last_group.fields.push(
             {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-10",
+                buttonText: "{{ _('Save & Go Home') }}",
+                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-6 col-md-10",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -282,7 +288,7 @@
                 }
             },{
                 buttonText: "{{ _('Save & Next') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
+                styleClasses: "tmi-survey-button-blue col-6 col-md-2",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -294,7 +300,7 @@
             last_group.fields.push(
             {
                 buttonText: "{{ _('Save & Previous') }}",
-                styleClasses: "tmi-survey-button-white col-2",
+                styleClasses: "tmi-survey-button-white col-6 col-md-2",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -303,8 +309,8 @@
                 }
             },
             {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-8",
+                buttonText: "{{ _('Save & Go Home') }}",
+                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-md-8",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -313,7 +319,7 @@
                 }
             },{
                 buttonText: "{{ _('Save & Finish') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
+                styleClasses: "tmi-survey-button-blue col-6 col-md-2",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -325,7 +331,7 @@
             last_group.fields.push(
             {
                 buttonText: "{{ _('Save & Previous') }}",
-                styleClasses: "tmi-survey-button-white col-2",
+                styleClasses: "tmi-survey-button-white col-6 col-md-2",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -334,8 +340,8 @@
                 }
             },
             {
-                buttonText: "{{ _('Save & Come Back Later') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-8",
+                buttonText: "{{ _('Save & Go Home') }}",
+                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-md-8",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -344,7 +350,7 @@
                 }
             },{
                 buttonText: "{{ _('Save & Next') }}",
-                styleClasses: "tmi-survey-button-blue col-2",
+                styleClasses: "tmi-survey-button-blue col-6 col-2",
                 type: "submit",
                 validateBeforeSubmit: true,
                 onSubmit: function(){
@@ -370,8 +376,6 @@
     }
 
     $(document).ready(function(e) {
-        console.log(initial_values);
-
         for(const fieldId in initial_values) {
             if(((fieldId == '108' || fieldId == '113') && initial_values[fieldId] == "0") || initial_values[fieldId] == "Unspecified") {
                 hideById(fieldId);

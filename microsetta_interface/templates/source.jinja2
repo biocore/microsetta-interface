@@ -56,9 +56,9 @@
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}
-            <div class="col-4 p-2">
+            <div class="col-6 col-md-4 p-2">
                 <div class="card card-survey">
-                    <div class="row m-2">
+                    <div class="row m-2 survey-info-row">
                         {% if detail.date_last_taken != None %}
                             <div class="col-8 small-text survey-info">{{ _('Last modified') }} {{ detail.date_last_taken }}</div>
                         {% else %}
@@ -70,7 +70,7 @@
                     <div class="card-survey-bg-progress mx-auto mb-4" style="background: conic-gradient(#006a96 {{ detail.answered }}deg, #c7c7c7 {{ detail.answered }}deg);">
                     {% else %}
                     <div class="card-survey-bg-progress mx-auto mb-4" style="background-color: #D9ECDB;">
-                        <img src="/static/img/survey_complete.png" style="position: absolute; bottom: 85px; right: 85px">
+                        <img src="/static/img/survey_complete.png" class="survey-complete-icon" style="">
                     {% endif %}
                         <div class="card-survey-bg-blank">
                         {% if detail.new_tab %}
@@ -98,9 +98,9 @@
         </p>
         <div class="row mt-4">
         {% for detail in remote_surveys %}
-            <div class="col-4 p-2">
+            <div class="col-6 col-md-4 p-2">
                 <div class="card card-survey-external">
-                    <div class="row m-2">
+                    <div class="row m-2 survey-info-row">
                         {% if detail.answered %}
                             <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
                         {% else %}

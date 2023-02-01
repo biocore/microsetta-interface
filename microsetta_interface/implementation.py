@@ -240,11 +240,11 @@ SURVEY_INFO = {
                        'Once you click on the "Start" button, you will be '
                        'directed to a site containing a unique code for you '
                        'to use to activate the app on your phone. <strong>'
-                       'Please note</strong> - The code will only be available '
-                       'to view once, so please keep a record of it if you are '
-                       'not able to use it immediately. You will have <strong>'
-                       'two weeks</strong> to use the app before your access '
-                       'expires.',
+                       'Please note</strong> - The code will only be '
+                       'available to view once, so please keep a record of it '
+                       'if you are not able to use it immediately. You will '
+                       'have <strong>two weeks</strong> to use the app before '
+                       'your access expires.',
         'est_minutes': 'N/A',
         'icon': 'survey_external.svg'
     },
@@ -262,9 +262,9 @@ SURVEY_INFO = {
     SPAIN_FFQ_ID: {
         'description': '<strong>Only for participants in Spain:</strong><br />'
                        'The Food Frequency Questionnaire (FFQ) will ask you '
-                       'about your usual frequency of consumption of a list of '
-                       'foods and beverages. The questionnaire consists of 28 '
-                       'questions, and will allow us to find out what your '
+                       'about your usual frequency of consumption of a list '
+                       'of foods and beverages. The questionnaire consists of '
+                       '28 questions, and will allow us to find out what your '
                        'usual diet is like.',
         'est_minutes': '30',
         'icon': 'survey_external.svg'
@@ -1151,8 +1151,9 @@ def get_fill_source_survey(*,
             previous_survey = {
                 "survey_name": survey_names[previous_template_id],
                 "survey_template_id": previous_template_id,
-                "est_minutes":\
-                    SURVEY_INFO.get(previous_template_id)['est_minutes'],
+                "est_minutes": SURVEY_INFO.get(
+                    previous_template_id
+                )['est_minutes'],
                 "icon": SURVEY_INFO.get(previous_template_id)['icon']
             }
         else:
@@ -1164,8 +1165,9 @@ def get_fill_source_survey(*,
             next_survey = {
                 "survey_name": survey_names[next_template_id],
                 "survey_template_id": next_template_id,
-                "est_minutes":\
-                    SURVEY_INFO.get(next_template_id)['est_minutes'],
+                "est_minutes": SURVEY_INFO.get(
+                    next_template_id
+                )['est_minutes'],
                 "icon": SURVEY_INFO.get(next_template_id)['icon']
             }
         else:
@@ -1175,17 +1177,21 @@ def get_fill_source_survey(*,
         # Add "skip" link to the field labels
         for group in survey_output['survey_template_text']['groups']:
             ctr = 0
+            trig_ctr = 0
             for field in group['fields']:
                 if "triggered_by" in field:
                     field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
                                      + ". " + field['label']
+                    trig_ctr += 1
                 else:
+                    trig_ctr = 0
                     ctr += 1
                     survey_question_count += 1
                     field['label'] = str(ctr) + ". " + field['label']
                 field['label'] = '<span class="survey-skip small-text" '\
-                        + 'onClick="skipQuestion(this)">' + gettext('SKIP')\
-                        + '</span>' + field['label']
+                                 + 'onClick="skipQuestion(this)">'\
+                                 + gettext('SKIP')\
+                                 + '</span>' + field['label']
 
         return _render_with_defaults(
             "survey.jinja2",

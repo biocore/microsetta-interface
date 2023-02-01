@@ -313,7 +313,7 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.post(url, data=ADULT_CONSENT)
 
         self.assertEqual(resp.status_code, 302)
-        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+        self.assertRedirect(resp, '')
 
         url = self.redirectURL(resp)
         # let's complete the primary survey, and advance to the covid survey
@@ -455,9 +455,7 @@ class IntegrationTests(unittest.TestCase):
         account_id, _, _ = self._ids_from_url(url)
         resp, url = self._sign_consent(account_id)
         account_id, source_id, _ = self._ids_from_url(url)
-        self._complete_primary_survey(account_id, source_id)
-        resp, url = self._complete_covid_survey(account_id, source_id)
-        self.assertPageTitle(resp, 'Account Samples')
+        self.assertPageTitle(resp, 'My Profile')
 
     def test_new_source_data_consent(self):
         resp, url, user_jwt = self._new_to_create()

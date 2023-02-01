@@ -172,7 +172,7 @@ class IntegrationTests(unittest.TestCase):
     def assertPageTitle(self, resp, title, exp_code=200):
         self.assertEqual(resp.status_code, exp_code)
         data = self._html_page(resp)
-        self.assertIn(f'<title>Microsetta {title}</title>', data)
+        self.assertIn(f'<title>Microsetta - {title}</title>', data)
 
     def assertPageContains(self, resp, string):
         data = self._html_page(resp)

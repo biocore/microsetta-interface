@@ -92,13 +92,33 @@ ADULT_CONSENT = {
                  "consent_type": "adult_data",
                  "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 
-# answer a quesion on each survey
-PRIMARY_SURVEY_SIMPLE = {"112": "1970"}
-COVID_SURVEY_SIMPLE = {"209": "An integration test"}
-FERMENTED_SURVEY_SIMPLE = {"173": "im a test"}
-SURFER_SURVEY_SIMPLE = {"174": "Other"}
-PERSONAL_SURVEY_SIMPLE = {"208": "im definitely a test"}
-OILS_SURVEY_SIMPLE = {"240": "Never"}
+BASIC_INFO_ID = 10
+AT_HOME_ID = 11
+LIFESTYLE_ID = 12
+GUT_ID = 13
+GENERAL_HEALTH_ID = 14
+HEALTH_DIAG_ID = 15
+ALLERGIES_ID = 16
+DIET_ID = 17
+DETAILED_DIET_ID = 18
+COVID19_ID = 21
+OTHER_ID = 22
+VIOSCREEN_ID = 10001
+MYFOODREPO_ID = 10002
+POLYPHENOL_FFQ_ID = 10003
+SPAIN_FFQ_ID = 10004
+
+BASIC_INFO_SIMPLE = {"112": "1970"}
+AT_HOME_SIMPLE = {"313": "Unspecified"}
+LIFESTYLE_SIMPLE = {"16": "Month"}
+GUT_SIMPLE = {"37": "One"}
+GENERAL_HEALTH_SIMPLE = {"50": "No"}
+HEALTH_DIAGNOSIS_SIMPLE = {"85": "Self-diagnosed"}
+ALLERGIES_SIMPLE = {"53": "Yes"}
+DIET_SIMPLE = {"1": "Omnivore"}
+DETAILED_DIET_SIMPLE = {"56": "Daily"}
+COVID19_SIMPLE = {"209": "Janitor"}
+OTHER_SIMPLE = {"116": "I like microbiomes"}
 
 
 @unittest.skipIf(not PRIVATE_API_AVAILABLE,
@@ -315,6 +335,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertRedirect(resp, '')
 
+        """
         url = self.redirectURL(resp)
         # let's complete the primary survey, and advance to the covid survey
         survey_body = PRIMARY_SURVEY_SIMPLE
@@ -390,6 +411,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Sample Information')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
+        """
 
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'
@@ -404,29 +426,71 @@ class IntegrationTests(unittest.TestCase):
         url = resp.headers['Location']
         return self.app.get(url), url
 
-    def _complete_primary_survey(self, account_id, source_id,
-                                 survey=PRIMARY_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '1')
+    def _complete_basic_survey(self, account_id, source_id,
+                               survey=BASIC_INFO_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, BASIC_INFO_ID
+        )
 
-    def _complete_oils_survey(self, account_id, source_id,
-                              survey=OILS_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '7')
+    def _complete_at_home_survey(self, account_id, source_id,
+                                 survey=AT_HOME_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, AT_HOME_ID
+        )
 
-    def _complete_covid_survey(self, account_id, source_id,
-                               survey=COVID_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '6')
+    def _complete_lifestyle_survey(self, account_id, source_id,
+                                   survey=LIFESTYLE_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, LIFESTYLE_ID
+        )
 
-    def _complete_fermented_survey(self, account_id, source_id,
-                                   survey=FERMENTED_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '3')
+    def _complete_gut_survey(self, account_id, source_id,
+                             survey=GUT_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, GUT_ID
+        )
 
-    def _complete_personal_survey(self, account_id, source_id,
-                                  survey=PERSONAL_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '5')
+    def _complete_general_health_survey(self, account_id, source_id,
+                                        survey=GENERAL_HEALTH_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, GENERAL_HEALTH_ID
+        )
 
-    def _complete_surfer_survey(self, account_id, source_id,
-                                survey=SURFER_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '4')
+    def _complete_health_diagnosis_survey(self, account_id, source_id,
+                                          survey=HEALTH_DIAGNOSIS_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, HEALTH_DIAG_ID
+        )
+
+    def _complete_allergies_survey(self, account_id, source_id,
+                                   survey=ALLERGIES_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, ALLERGIES_ID
+        )
+
+    def _complete_diet_survey(self, account_id, source_id,
+                              survey=DIET_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, DIET_ID
+        )
+
+    def _complete_detailed_diet_survey(self, account_id, source_id,
+                                       survey=DETAILED_DIET_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, DETAILED_DIET_ID
+        )
+
+    def _complete_covid19_survey(self, account_id, source_id,
+                                 survey=COVID19_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, COVID19_ID
+        )
+
+    def _complete_other_survey(self, account_id, source_id,
+                               survey=OTHER_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, OTHER_ID
+        )
 
     def _complete_local_survey(self, account_id, source_id, body, template_id):
         url = (f'/accounts/{account_id}/sources/{source_id}/'

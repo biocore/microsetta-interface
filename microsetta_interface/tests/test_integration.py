@@ -251,6 +251,7 @@ class IntegrationTests(unittest.TestCase):
         body = {"first_name": "a",
                 "last_name": "b",
                 "street": "c",
+                "street2": "",
                 "email": email,
                 "city": "d",
                 "state": "e",

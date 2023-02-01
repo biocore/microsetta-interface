@@ -5,5 +5,5 @@ pycryptodome
 redis-py
 redis
 pytest
-flask-babel
+flask-babel=2.0.0
 pandas

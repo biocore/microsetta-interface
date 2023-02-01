@@ -215,7 +215,8 @@ SURVEY_INFO = {
         'icon': 'survey_external.svg'
     },
     7: {
-        'description': 'Questions related to cooking oils and oxalate-rich foods',
+        'description': 'Questions related to cooking oils and oxalate-rich '
+                       'foods',
         'est_minutes': '5',
         'icon': 'survey_external.svg'
     },
@@ -226,21 +227,24 @@ SURVEY_INFO = {
     },
     MYFOODREPO_ID: {
         'description': '<strong>Only for US Participants:</strong><br />'
-                   'By sharing photos of all the food you eat via a mobile '
-                   'app for <strong>seven days</strong>, you will help us '
-                   'learn more about the microbes in the gut.<br /><br />'
-                   '<font color="red"><strong>Important!</strong></font> '
-                   'Before taking part, please read more from the following '
-                   'link: <a href="https://microsetta.ucsd.edu/myfoodrepo/" '
-                   'target="_blank">How to complete participation</a>.'
-                   '<br /><br /><strong>Availability is limited</strong>: '
-                   'Once you click on the "Start" button, you will be '
-                   'directed to a site containing a unique code for you to '
-                   'use to activate the app on your phone. <strong>Please '
-                   'note</strong> - The code will only be available to view '
-                   'once, so please keep a record of it if you are not able '
-                   'to use it immediately. You will have <strong>two weeks'
-                   '</strong> to use the app before your access expires.',
+                       'By sharing photos of all the food you eat via a '
+                       'mobile app for <strong>seven days</strong>, you '
+                       'will help us learn more about the microbes in the '
+                       'gut.<br /><br />'
+                       '<font color="red"><strong>Important!</strong></font> '
+                       'Before taking part, please read more from the '
+                       'following link: '
+                       '<a href="https://microsetta.ucsd.edu/myfoodrepo/" '
+                       'target="_blank">How to complete participation</a>.'
+                       '<br /><br /><strong>Availability is limited</strong>: '
+                       'Once you click on the "Start" button, you will be '
+                       'directed to a site containing a unique code for you '
+                       'to use to activate the app on your phone. <strong>'
+                       'Please note</strong> - The code will only be available '
+                       'to view once, so please keep a record of it if you are '
+                       'not able to use it immediately. You will have <strong>'
+                       'two weeks</strong> to use the app before your access '
+                       'expires.',
         'est_minutes': 'N/A',
         'icon': 'survey_external.svg'
     },
@@ -257,10 +261,11 @@ SURVEY_INFO = {
     },
     SPAIN_FFQ_ID: {
         'description': '<strong>Only for participants in Spain:</strong><br />'
-                  'The Food Frequency Questionnaire (FFQ) will ask you about '
-                  'your usual frequency of consumption of a list of foods and '
-                  'beverages. The questionnaire consists of 28 questions, and '
-                  'will allow us to find out what your usual diet is like.',
+                       'The Food Frequency Questionnaire (FFQ) will ask you '
+                       'about your usual frequency of consumption of a list of '
+                       'foods and beverages. The questionnaire consists of 28 '
+                       'questions, and will allow us to find out what your '
+                       'usual diet is like.',
         'est_minutes': '30',
         'icon': 'survey_external.svg'
     },
@@ -614,7 +619,7 @@ def _refresh_state_and_route_to_sink(account_id=None, source_id=None):
 
 def _get_kit(kit_name):
     unable_to_validate_msg = gettext(
-        "Your KitID is not in our system or has already been used, please "\
+        "Your KitID is not in our system or has already been used, please "
         "try again!"
     )
     error_msg = None
@@ -648,11 +653,6 @@ def _get_kit(kit_name):
 
 
 def get_ajax_check_ffq_code(ffq_code):
-    failure_msg = gettext(
-        "Your registration code is not in our system or has already been "\
-        "used. Please try again."
-    )
-
     try:
         response = requests.get(
             ApiRequest.API_URL + '/check_ffq_code',
@@ -664,7 +664,7 @@ def get_ajax_check_ffq_code(ffq_code):
             return_val = True
         else:
             return_val = False
-    except:  #noqa
+    except:  # noqa
         return_val = False
 
     return return_val
@@ -735,12 +735,16 @@ def get_home():
 
         # If an account has exactly one source, we're going to redirect to
         # that profile page. Otherwise, we go to the Account Dashboard
-        has_error, sources, _ = ApiRequest.get('/accounts/%s/sources' % account_id)
+        has_error, sources, _ = ApiRequest.get(
+            '/accounts/%s/sources' % account_id
+        )
         if has_error:
             return sources
 
         if len(sources) == 1:
-            return redirect(f'/accounts/{account_id}/sources/{sources[0]["source_id"]}')
+            return redirect(
+                f'/accounts/{account_id}/sources/{sources[0]["source_id"]}'
+            )
         else:
             return redirect(f'/accounts/{account_id}')
     else:
@@ -1011,8 +1015,8 @@ def get_consent_page(*, account_id=None):
         reconsent=reconsent,
         language_tag=session_locale(),
         account_id=account_id,
-        participant_name = None,
-        age_range = None
+        participant_name=None,
+        age_range=None
     )
 
 
@@ -1128,7 +1132,9 @@ def get_fill_source_survey(*,
 
         # Retrieve all surveys available to the source
         has_error, surveys_output, _ = ApiRequest.get(
-            '/accounts/%s/sources/%s/survey_templates' % (account_id, source_id))
+            '/accounts/%s/sources/%s/survey_templates' % (
+                account_id, source_id
+            ))
         if has_error:
             return surveys_output
 
@@ -1145,7 +1151,8 @@ def get_fill_source_survey(*,
             previous_survey = {
                 "survey_name": survey_names[previous_template_id],
                 "survey_template_id": previous_template_id,
-                "est_minutes": SURVEY_INFO.get(previous_template_id)['est_minutes'],
+                "est_minutes":\
+                    SURVEY_INFO.get(previous_template_id)['est_minutes'],
                 "icon": SURVEY_INFO.get(previous_template_id)['icon']
             }
         else:
@@ -1157,7 +1164,8 @@ def get_fill_source_survey(*,
             next_survey = {
                 "survey_name": survey_names[next_template_id],
                 "survey_template_id": next_template_id,
-                "est_minutes": SURVEY_INFO.get(next_template_id)['est_minutes'],
+                "est_minutes":\
+                    SURVEY_INFO.get(next_template_id)['est_minutes'],
                 "icon": SURVEY_INFO.get(next_template_id)['icon']
             }
         else:
@@ -1171,9 +1179,7 @@ def get_fill_source_survey(*,
                 if "triggered_by" in field:
                     field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
                                      + ". " + field['label']
-                    trig_ctr += 1
                 else:
-                    trig_ctr = 0
                     ctr += 1
                     survey_question_count += 1
                     field['label'] = str(ctr) + ". " + field['label']
@@ -1181,18 +1187,18 @@ def get_fill_source_survey(*,
                         + 'onClick="skipQuestion(this)">' + gettext('SKIP')\
                         + '</span>' + field['label']
 
-        return _render_with_defaults("survey.jinja2",
-                                     account_id=account_id,
-                                     source_id=source_id,
-                                     survey_template_id=survey_template_id,
-                                     survey_schema=survey_output[
-                                         'survey_template_text'],
-                                     survey_icon=survey_icon,
-                                     survey_est_minutes=survey_est_minutes,
-                                     survey_question_count=
-                                         survey_question_count,
-                                     previous_survey=previous_survey,
-                                     next_survey=next_survey)
+        return _render_with_defaults(
+            "survey.jinja2",
+            account_id=account_id,
+            source_id=source_id,
+            survey_template_id=survey_template_id,
+            survey_schema=survey_output['survey_template_text'],
+            survey_icon=survey_icon,
+            survey_est_minutes=survey_est_minutes,
+            survey_question_count=survey_question_count,
+            previous_survey=previous_survey,
+            next_survey=next_survey
+        )
 
 
 @prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
@@ -1301,6 +1307,7 @@ def get_to_save_vioscreen_remote_sample_survey(*,
         "/accounts/%s/sources/%s/nutrition" %
         (account_id, source_id)
     )
+
 
 @prerequisite([SOURCE_PREREQS_MET])
 def top_food_report(*,
@@ -1442,7 +1449,7 @@ def get_source(*, account_id=None, source_id=None):
         else:
             if survey['survey_template_id'] != VIOSCREEN_ID:
                 if survey['survey_template_id'] == SPAIN_FFQ_ID and\
-                        spain_user == False:
+                        spain_user is False:
                     continue
                 else:
                     remote_surveys.append(survey)
@@ -1455,8 +1462,6 @@ def get_source(*, account_id=None, source_id=None):
 
     # TODO: Would be nice to know when the user took the survey instead of a
     #  boolean
-    per_source_taken = []
-    per_source_not_taken = []
     for template in local_surveys + remote_surveys:
         template['answered'] = False
 
@@ -1486,6 +1491,8 @@ def get_source(*, account_id=None, source_id=None):
         template['est_minutes'] = SURVEY_INFO.get(template_id)['est_minutes']
         template['icon'] = SURVEY_INFO.get(template_id)['icon']
 
+    # TODO: MyFoodRepo logic needs to be refactored if/when we reactivate it
+    """
     # any survey specific stuff like opening a tab
     # or slot checking
     for idx, template in enumerate(remote_surveys[:]):
@@ -1501,6 +1508,7 @@ def get_source(*, account_id=None, source_id=None):
                 per_source_not_taken.pop(idx)
         else:
             template['new_tab'] = False
+    """
 
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]
@@ -1654,7 +1662,7 @@ def get_reports(*, account_id=None, source_id=None):
         source_id=source_id,
         samples=valid_samples,
         vio_reg_entries=completed_vios,
-        source_name = source_output['source_name'],
+        source_name=source_output['source_name'],
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
         public_endpoint=SERVER_CONFIG['public_api_endpoint']
     )
@@ -1698,8 +1706,8 @@ def get_consent_download(*, account_id=None, source_id=None, consent_id=None):
 # support delete as an action
 @prerequisite([SOURCE_PREREQS_MET])
 def get_remove_source(*,
-                       account_id=None,
-                       source_id=None):
+                      account_id=None,
+                      source_id=None):
     has_error, delete_output, _ = ApiRequest.delete(
         '/accounts/%s/sources/%s/scrub' %
         (account_id, source_id))
@@ -1816,38 +1824,11 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     if has_error:
         return sample_output
 
-    # If the user is human, see if they need ffq
-    if source_output['source_type'] == Source.SOURCE_TYPE_HUMAN:
-        # Check if this sample has an ffq associated with it,
-        # if not, ask the user
-        # if they'd like to fill one out.
-        has_error, per_sample_answers, _ = ApiRequest.get(
-            '/accounts/%s/sources/%s/samples/%s/surveys' %
-            (account_id, source_id, sample_id))
-        if has_error:
-            return per_sample_answers
-
-        has_ffq = False
-        for answer in per_sample_answers:
-            if answer['survey_template_id'] == VIOSCREEN_ID:
-                has_ffq = True
-
-        # Hack to determine if user's country is Spain OR locale is es_ES
-        # If either condition is true, bypass the Vioscreen option
-        spain_user = False
-
-        has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
-        if has_error:
-            return account
-
-        country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
-        if country == "ES" or session_locale() == "es_ES":
-            spain_user = True
-
     return redirect(
         "/accounts/%s/sources/%s/kits" %
         (account_id, source_id)
     )
+
 
 @prerequisite([SOURCE_PREREQS_MET])
 def check_questionnaire(*, account_id=None, source_id=None, sample_id=None):
@@ -1959,9 +1940,9 @@ def get_sample_results_experimental_authenticated(*, account_id=None,
 # the DELETE action
 @prerequisite([SOURCE_PREREQS_MET])
 def get_remove_sample_from_source(*,
-                                   account_id=None,
-                                   source_id=None,
-                                   sample_id=None):
+                                  account_id=None,
+                                  source_id=None,
+                                  sample_id=None):
     has_error, delete_output, _ = ApiRequest.delete(
         '/accounts/%s/sources/%s/samples/%s' %
         (account_id, source_id, sample_id))
@@ -2082,7 +2063,8 @@ def get_ajax_check_activation_code(code, email):
 # surveys added to this source AFTER these samples are claimed will NOT be
 # associated with these samples.  This behavior is by design.
 @prerequisite([SOURCE_PREREQS_MET])
-def post_claim_samples(*, account_id=None, source_id=None, body=None, sample_ids=None):
+def post_claim_samples(*, account_id=None, source_id=None, body=None,
+                       sample_ids=None):
 
     if sample_ids is not None:
         sample_ids_to_claim = sample_ids.split(",")
@@ -2105,7 +2087,12 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None, sample_ids
     if consent_required["result"]:
         session["source_id"] = source_id
         sample_ids = ",".join(sample_ids_to_claim)
-        return render_consent_page(account_id, source_id, "Biospecimen", sample_ids=sample_ids)
+        return render_consent_page(
+            account_id,
+            source_id,
+            "Biospecimen",
+            sample_ids=sample_ids
+        )
 
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/{0}/sources/{1}/surveys'.format(account_id, source_id))

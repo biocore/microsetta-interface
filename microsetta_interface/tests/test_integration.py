@@ -335,23 +335,8 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertRedirect(resp, '')
 
-        """
-        url = self.redirectURL(resp)
-        # let's complete the primary survey, and advance to the covid survey
-        survey_body = PRIMARY_SURVEY_SIMPLE
-        resp = self.app.post(url, json=survey_body, follow_redirects=True)
-
-        # we should still be on the survey page, but now for COVID
-        self.assertPageTitle(resp, 'Participant Survey')
-        data = self._html_page(resp)
-        self.assertIn('COVID19', data)
-
-        # complete the COVID survey
-        survey_body = COVID_SURVEY_SIMPLE
-        account_id, source_id, _ = self._ids_from_url(url)
-        url = url[:-1] + '6'
-        resp = self.app.post(url, json=survey_body, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
+        resp = self.app.get('/kits')
+        self.assertEqual(resp.status_code, 200)
 
         # query for samples
         resp = self.app.get(f'/list_kit_samples?kit_name={TEST_KIT_1}')
@@ -411,7 +396,6 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Sample Information')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
-        """
 
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'

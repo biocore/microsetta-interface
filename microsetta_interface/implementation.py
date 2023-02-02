@@ -2332,6 +2332,77 @@ def post_submit_interest(body):
         raise Exception(e_msg)
 
 
+def get_opt_out(uid=None):
+    not_found = False
+    force_language = False
+    language_key = None
+
+    if uid is None:
+        not_found = True
+    else:
+        do_return, i_u_info, _ = ApiRequest.get_no_auth(
+            "/opt_out",
+            params={"interested_user_id": uid}
+        )
+
+        if do_return:
+            not_found = True
+        else:
+            force_language = i_u_info['force_primary_language']
+            language_key = i_u_info['language_key']
+
+    if force_language:
+        with flask_babel.force_locale(language_key):
+            return _render_with_defaults(
+                'opt_out.jinja2',
+                not_found=not_found,
+                uid=uid
+            )
+    else:
+        return _render_with_defaults(
+            'opt_out.jinja2',
+            not_found=not_found,
+            uid=uid
+        )
+
+
+def post_opt_out(body):
+    uid = body['uid']
+
+    not_found = False
+    force_language = False
+    language_key = None
+
+    if uid is None:
+        not_found = True
+    else:
+        do_return, i_u_info, _ = ApiRequest.put_no_auth(
+            "/opt_out",
+            params={"interested_user_id": uid}
+        )
+
+        if do_return:
+            not_found = True
+        else:
+            force_language = i_u_info['force_primary_language']
+            language_key = i_u_info['language_key']
+
+    if not_found:
+        # Couldn't locate the interested_user to opt out, so we'll
+        # route them back to the error message on the get method
+        return get_opt_out()
+
+    if force_language:
+        with flask_babel.force_locale(language_key):
+            return _render_with_defaults(
+                'opt_out_confirm.jinja2'
+            )
+    else:
+        return _render_with_defaults(
+            'opt_out_confirm.jinja2'
+        )
+
+
 def get_update_address(uid=None, email=None):
     if uid is not None and email is not None:
         do_return, user_info, _ = ApiRequest.get_no_auth(

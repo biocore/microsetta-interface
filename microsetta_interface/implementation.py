@@ -31,7 +31,7 @@ import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
     parse_request_csv_col, parse_request_csv, dict_to_csv
-from weasyprint import HTML, CSS
+# from weasyprint import HTML, CSS
 
 
 # TODO: source from a microsetta_private_api endpoint
@@ -1717,17 +1717,13 @@ def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
     if has_error:
         return consents_output
 
-    html = HTML(string=consents_output['sample']['consent_content'])
-    css = CSS(url=SERVER_CONFIG['endpoint']+'/static/css/minimal_interface.css')
-    pdf_bytes = html.write_pdf(stylesheets=[css])
-
-    response = make_response(pdf_bytes)
-    response.headers.set("Content-Type", "application/pdf")
-    response.headers.set('Content-Disposition',
-                         'attachment',
-                         filename='consent.pdf')
-
-    return response
+    return _render_with_defaults(
+        'consents.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        source_name=source_output['source_name'],
+        consents=consents_output
+    )
 
 
 def get_consent_download(*, account_id=None, source_id=None, consent_id=None):

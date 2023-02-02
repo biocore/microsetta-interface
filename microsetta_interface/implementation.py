@@ -1723,10 +1723,9 @@ def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
 
     response = make_response(pdf_bytes)
     response.headers.set("Content-Type", "application/pdf")
-    # TODO: Do we want it to download a file or be embedded in the html?
     response.headers.set('Content-Disposition',
                          'attachment',
-                         filename='top-food-report.pdf')
+                         filename='consent.pdf')
 
     return response
 

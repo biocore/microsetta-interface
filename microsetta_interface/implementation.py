@@ -1719,7 +1719,7 @@ def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
 
     html = HTML(string=consents_output['sample']['consent_content'])
     css = CSS(url=SERVER_CONFIG['endpoint']+'/static/css/minimal_interface.css')
-    pdf_bytes = html.write_pdf(stylesheets=css)
+    pdf_bytes = html.write_pdf(stylesheets=[css])
 
     response = make_response(pdf_bytes)
     response.headers.set("Content-Type", "application/pdf")

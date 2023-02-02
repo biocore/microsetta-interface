@@ -124,37 +124,6 @@ paths:
               schema:
                 type: string
 
-  '/opt_out':
-    get:
-      operationId: microsetta_interface.implementation.get_opt_out
-      parameters:
-        - in: query
-          name: uid
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Page allowing user to opt out
-          content:
-            text/html:
-              schema:
-                type: string
-    post:
-      operationId: microsetta_interface.implementation.post_opt_out
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200':
-          description: Page confirming user has opted out
-          content:
-            text/html:
-              schema:
-                type: string
-
   '/update_address':
     get:
       operationId: microsetta_interface.implementation.get_update_address

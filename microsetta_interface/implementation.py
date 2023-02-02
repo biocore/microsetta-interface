@@ -1717,7 +1717,7 @@ def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
     if has_error:
         return consents_output
 
-    html = HTML(string=consents_output['sample']['consent_contents'])
+    html = HTML(string=consents_output['sample']['consent_content'])
     css = CSS(url=SERVER_CONFIG['endpoint']+'/static/css/minimal_interface.css')
     pdf_bytes = html.write_pdf(stylesheets=css)
 

@@ -335,8 +335,12 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 302)
         self.assertRedirect(resp, '')
 
-        resp = self.app.get('/kits')
-        self.assertEqual(resp.status_code, 200)
+        url = self.redirectURL('')
+
+        account_id, source_id, _ = self._ids_from_url(url)
+        url = url[:-1] + '6'
+        resp = self.app.post(url, json=survey_body, follow_redirects=True)
+        self.assertPageTitle(resp, 'Account Samples')
 
         # query for samples
         resp = self.app.get(f'/list_kit_samples?kit_name={TEST_KIT_1}')

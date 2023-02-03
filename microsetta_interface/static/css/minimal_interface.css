@@ -383,7 +383,9 @@ p.tmi-content {
 .survey-complete-icon {
     position: absolute;
     bottom: 85px;
-    right: 85px
+    right: 85px;
+    width: 48px;
+    height: 48px;
 }
 
 @media (max-width: 575.98px) {
@@ -426,7 +428,9 @@ p.tmi-content {
     .survey-complete-icon {
         position: absolute;
         bottom: 45px;
-        right: 40px
+        right: 40px;
+        width: 48px;
+        height: 48px;
     }
 }
 

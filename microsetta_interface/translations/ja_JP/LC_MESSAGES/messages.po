@@ -10,20 +10,20 @@ msgstr ""
 "POT-Creation-Date: 2023-01-24 22:16-0800\n"
 "PO-Revision-Date: 2022-11-04 11:34-0700\n"
 "Last-Translator: \n"
-"Language: ja_JP\n"
 "Language-Team: ja_JP <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #: implementation.py:610
 #, fuzzy
 msgid ""
 "Your KitID is not in our system or has already been used, please try "
 "again!"
-msgstr "指定された採便キット ID が無効であるか、既に使用されています。入力内容を再度確認してください。"
 
 #: implementation.py:645 templates/nutrition.jinja2:66
 msgid ""
@@ -197,28 +197,24 @@ msgstr "調理用油とシュウ酸が豊富な食品に関する質問"
 
 #: model_i18n.py:102
 msgid ""
-"Polyphenols are chemical compounds naturally found in plants that have "
-"been shown to provide many beneficial properties. They are antioxidants, "
-"fighting aging and protecting your heart, but they may also provide "
-"benefits by interacting with the microbes in your gut. This survey will "
-"allow us to better quantify your consumption of polyphenols through your "
-"diet."
-msgstr "ポリフェノールは、植物に自然と由来する化学化合物で、私たちの体に多くの有益な効果をもたらすことが分かっています。抗酸化作用があるため老化防止になり、心臓機能を保護する他、腸内の微生物と相互作用することによってあらゆる効果を発揮する可能性があります。この調査により、食事によるポリフェノールの摂取量を把握することができます。"
+"Polyphenols are chemical compounds naturally found in plants that have been shown to provide many beneficial properties. They are antioxidants, fighting aging and "
+"protecting your heart, but they may also provide benefits by interacting with the microbes in your gut. This survey will allow us to better quantify your consumption "
+"of polyphenols through your diet."
+msgstr ""
+"ポリフェノールは、植物に自然と由来する化学化合物で、私たちの体に多くの有益な効果をもたらすことが分かっています。抗酸化作用があるため老化防止になり、心臓機能を保護する"
+"他、腸内の微生物と相互作用することによってあらゆる効果を発揮する可能性があります。この調査により、食事によるポリフェノールの摂取量を把握することができます。"
 
 #: model_i18n.py:108
 msgid ""
-"<strong>Only for participants in Spain:</strong><br />The Food Frequency "
-"Questionnaire (FFQ) will ask you about your usual frequency of "
-"consumption of a list of foods and beverages. The questionnaire consists "
-"of 28 questions, and will allow us to find out what your usual diet is "
-"like."
+"<strong>Only for participants in Spain:</strong><br />The Food Frequency Questionnaire (FFQ) will ask you about your usual frequency of consumption of a list of foods "
+"and beverages. The questionnaire consists of 28 questions, and will allow us to find out what your usual diet is like."
 msgstr ""
-"<strong>スペインの参加者のみ</strong><br "
-"/>食品摂取頻度調査票（FFQ）は、あなたの普段の食品と飲料の摂取頻度についてお聞きするものです。このアンケートは、28項目の質問から構成されており、あなたの普段の食生活がどのようなものかを知ることができます。"
+"<strong>スペインの参加者のみ</strong><br />食品摂取頻度調査票（FFQ）は、あなたの普段の食品と飲料の摂取頻度についてお聞きするものです。このアンケートは、28項目の質問から"
+"構成されており、あなたの普段の食生活がどのようなものかを知ることができます。"
 
 #: model_i18n.py:115
 msgid "en_us"
-msgstr "en_us"
+msgstr "ja_jp"
 
 #: templates/account_details.jinja2:2 templates/account_details.jinja2:110
 #: templates/account_details.jinja2:115 templates/sitebase.jinja2:84
@@ -276,6 +272,7 @@ msgstr ""
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
 #: templates/admin_interested_user_edit.jinja2:114
 #: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:213
+
 msgid "Email"
 msgstr "Eメール"
 
@@ -1109,6 +1106,10 @@ msgstr ""
 msgid "Next"
 msgstr "次"
 
+#: templates/account_details.jinja2:397 templates/admin_activation_codes.jinja2:14
+msgid "Activation Code"
+msgstr "認証コード"
+
 #: templates/account_details.jinja2:386 templates/sample.jinja2:237
 msgid "Save"
 msgstr "保存"
@@ -1213,9 +1214,7 @@ msgstr "管理者認証コード"
 msgid "Search by Email"
 msgstr "メールで検索"
 
-#: templates/admin_activation_codes.jinja2:9
-#: templates/admin_activation_codes.jinja2:16
-#: templates/admin_barcode_search.jinja2:87
+#: templates/admin_activation_codes.jinja2:9 templates/admin_activation_codes.jinja2:16 templates/admin_barcode_search.jinja2:87
 msgid "Search"
 msgstr "検索"
 
@@ -1265,9 +1264,7 @@ msgstr "認証される"
 msgid "No accounts found"
 msgstr "アカウントが見つかりません"
 
-#: templates/admin_address_verification.jinja2:2
-#: templates/admin_campaign_list.jinja2:2
-#: templates/admin_interested_user_edit.jinja2:2
+#: templates/admin_address_verification.jinja2:2 templates/admin_campaign_list.jinja2:2 templates/admin_interested_user_edit.jinja2:2
 msgid "Admin Address Verification"
 msgstr "管理者住所確認"
 
@@ -1279,8 +1276,7 @@ msgstr "住所の CSV ファイルを確認する"
 msgid "CSV File"
 msgstr "CSVファイル"
 
-#: templates/admin_address_verification.jinja2:17
-#: templates/admin_address_verification.jinja2:57
+#: templates/admin_address_verification.jinja2:17 templates/admin_address_verification.jinja2:57
 msgid "Verify"
 msgstr "確認する"
 
@@ -1288,30 +1284,22 @@ msgstr "確認する"
 msgid "Verify Single Address"
 msgstr "一つの住所を確認する"
 
-#: templates/admin_address_verification.jinja2:29
-#: templates/admin_address_verification.jinja2:81
-#: templates/admin_interested_user_edit.jinja2:122
+#: templates/admin_address_verification.jinja2:29 templates/admin_address_verification.jinja2:81 templates/admin_interested_user_edit.jinja2:122
 #: templates/submit_interest.jinja2:558 templates/update_address.jinja2:209
 msgid "Address 1"
 msgstr "住所（都道府県、市区町村①）"
 
-#: templates/admin_address_verification.jinja2:33
-#: templates/admin_address_verification.jinja2:85
-#: templates/admin_interested_user_edit.jinja2:126
+#: templates/admin_address_verification.jinja2:33 templates/admin_address_verification.jinja2:85 templates/admin_interested_user_edit.jinja2:126
 #: templates/submit_interest.jinja2:562 templates/update_address.jinja2:213
 msgid "Address 2"
 msgstr "住所（市区町村②、番地）"
 
-#: templates/admin_address_verification.jinja2:37
-#: templates/admin_address_verification.jinja2:89
-#: templates/admin_interested_user_edit.jinja2:132
+#: templates/admin_address_verification.jinja2:37 templates/admin_address_verification.jinja2:89 templates/admin_interested_user_edit.jinja2:132
 #: templates/submit_interest.jinja2:566 templates/update_address.jinja2:217
 msgid "Address 3"
 msgstr "住所（建物名、部屋番号）"
 
-#: templates/admin_address_verification.jinja2:49
-#: templates/admin_address_verification.jinja2:101
-#: templates/admin_interested_user_edit.jinja2:146
+#: templates/admin_address_verification.jinja2:49 templates/admin_address_verification.jinja2:101 templates/admin_interested_user_edit.jinja2:146
 #: templates/submit_interest.jinja2:580 templates/update_address.jinja2:231
 msgid "Postal Code"
 msgstr "郵便番号"
@@ -1360,8 +1348,7 @@ msgstr "キャンペーンID"
 msgid "Campaign Link"
 msgstr "キャンペーンリンク"
 
-#: templates/admin_campaign_edit.jinja2:27
-#: templates/admin_campaign_edit.jinja2:35
+#: templates/admin_campaign_edit.jinja2:27 templates/admin_campaign_edit.jinja2:35
 msgid "Associated Projects"
 msgstr "関連したプロジェクト"
 
@@ -1401,13 +1388,11 @@ msgstr "現在のヘッダー画像"
 msgid "Upload New Header Image"
 msgstr "新しいヘッダーの画像を更新する"
 
-#: templates/admin_campaign_edit.jinja2:93
-#: templates/admin_campaign_list.jinja2:17
+#: templates/admin_campaign_edit.jinja2:93 templates/admin_campaign_list.jinja2:17
 msgid "Permitted Countries"
 msgstr "許可された国"
 
-#: templates/admin_campaign_edit.jinja2:105
-#: templates/admin_campaign_list.jinja2:20
+#: templates/admin_campaign_edit.jinja2:105 templates/admin_campaign_list.jinja2:20
 msgid "Accepting Participants"
 msgstr "参加者募集中"
 
@@ -1419,9 +1404,7 @@ msgstr ""
 msgid "Force Primary Language on Form"
 msgstr ""
 
-#: templates/admin_campaign_edit.jinja2:132
-#: templates/admin_interested_user_edit.jinja2:170
-#: templates/submit_interest.jinja2:601 templates/update_address.jinja2:254
+#: templates/admin_campaign_edit.jinja2:132 templates/admin_interested_user_edit.jinja2:170 templates/submit_interest.jinja2:601 templates/update_address.jinja2:254
 msgid "Submit"
 msgstr "登録する"
 
@@ -1461,33 +1444,23 @@ msgstr "管理者用"
 msgid "Account ID"
 msgstr "アカウントID"
 
-#: templates/admin_interested_user_edit.jinja2:30
-#: templates/admin_interested_user_edit.jinja2:64
-#: templates/submit_interest.jinja2:228
+#: templates/admin_interested_user_edit.jinja2:30 templates/admin_interested_user_edit.jinja2:64 templates/submit_interest.jinja2:228
 msgid "Please enter a valid phone number."
 msgstr "有効な電話番号を入力して下さい。"
 
-#: templates/admin_interested_user_edit.jinja2:31
-#: templates/admin_interested_user_edit.jinja2:65
-#: templates/submit_interest.jinja2:232 templates/update_address.jinja2:130
+#: templates/admin_interested_user_edit.jinja2:31 templates/admin_interested_user_edit.jinja2:65 templates/submit_interest.jinja2:232 templates/update_address.jinja2:130
 msgid "Please enter your street address."
 msgstr "あなたの住所を入力して下さい。"
 
-#: templates/admin_interested_user_edit.jinja2:32
-#: templates/admin_interested_user_edit.jinja2:66
-#: templates/submit_interest.jinja2:233 templates/update_address.jinja2:131
+#: templates/admin_interested_user_edit.jinja2:32 templates/admin_interested_user_edit.jinja2:66 templates/submit_interest.jinja2:233 templates/update_address.jinja2:131
 msgid "Please enter your city."
 msgstr "あなたの都市を入力して下さい。"
 
-#: templates/admin_interested_user_edit.jinja2:33
-#: templates/admin_interested_user_edit.jinja2:67
-#: templates/submit_interest.jinja2:234 templates/update_address.jinja2:132
+#: templates/admin_interested_user_edit.jinja2:33 templates/admin_interested_user_edit.jinja2:67 templates/submit_interest.jinja2:234 templates/update_address.jinja2:132
 msgid "Please select your state."
 msgstr "あなたの住んでいる都道府県を選んで下さい。"
 
-#: templates/admin_interested_user_edit.jinja2:35
-#: templates/admin_interested_user_edit.jinja2:69
-#: templates/submit_interest.jinja2:236 templates/update_address.jinja2:134
+#: templates/admin_interested_user_edit.jinja2:35 templates/admin_interested_user_edit.jinja2:69 templates/submit_interest.jinja2:236 templates/update_address.jinja2:134
 msgid "Please enter your postal code."
 msgstr "あなたの郵便番号を入力して下さい。"
 
@@ -1496,17 +1469,14 @@ msgid "Edit Interested User"
 msgstr "関心のあるユーザーを編集する"
 
 #: templates/admin_interested_user_edit.jinja2:103
-msgid ""
-"CAUTION: Edits made will NOT go through address verification - proceed "
-"carefully"
+msgid "CAUTION: Edits made will NOT go through address verification - proceed carefully"
 msgstr "警告: 一度編集されたら住所確認はできません - 慎重に作業を進めてください"
 
 #: templates/admin_interested_user_edit.jinja2:118
 msgid "Phone"
 msgstr "電話"
 
-#: templates/admin_interested_user_edit.jinja2:152
-#: templates/submit_interest.jinja2:584 templates/update_address.jinja2:235
+#: templates/admin_interested_user_edit.jinja2:152 templates/submit_interest.jinja2:584 templates/update_address.jinja2:235
 msgid "Address Type"
 msgstr "住所タイプ"
 
@@ -1526,8 +1496,7 @@ msgstr "関心のあるユーザーは見つかりませんでした"
 msgid "ADMINISTRATOR SYSTEM PANEL"
 msgstr "管理者用システムパネル"
 
-#: templates/admin_system_panel.jinja2:26
-#: templates/admin_system_panel.jinja2:67
+#: templates/admin_system_panel.jinja2:26 templates/admin_system_panel.jinja2:67
 msgid "Set System Message"
 msgstr "システム メッセージを設定する"
 
@@ -1610,9 +1579,7 @@ msgid "Check your email inbox"
 msgstr "メールの受信箱を確認する"
 
 #: templates/email_confirmation.jinja2:21
-msgid ""
-"To complete your verification, click on the link in the email AuthRocket "
-"has sent to"
+msgid "To complete your verification, click on the link in the email AuthRocket has sent to"
 msgstr "AuthRocketから送信されたメールに記載されているリンクをクリックすると、認証が完了します"
 
 #: templates/email_confirmation.jinja2:25
@@ -1644,9 +1611,7 @@ msgid "You can close this browser tab!"
 msgstr "このブラウザ タブを閉じて下さい！"
 
 #: templates/email_confirmation.jinja2:33
-msgid ""
-"After email verification, a new tab will automatically open, and you will"
-" proceed with filling out your account details"
+msgid "After email verification, a new tab will automatically open, and you will proceed with filling out your account details"
 msgstr "Eメール認証後、自動的に新しいタブが開き、アカウント情報の入力に進みます"
 
 #: templates/embedded_pdf.jinja2:2
@@ -1654,9 +1619,7 @@ msgid "Embedded PDF"
 msgstr "挿入されたPDF"
 
 #: templates/embedded_pdf.jinja2:25
-msgid ""
-"This report is generated by a third party without information regarding "
-"age, height or weight."
+msgid "This report is generated by a third party without information regarding age, height or weight."
 msgstr "この報告書は、年齢、身長、体重に関連した情報は使用せず第三者によって作成されています。"
 
 #: templates/emperor.jinja2:2 templates/emperor.jinja2:65
@@ -1678,12 +1641,11 @@ msgstr "エラーページ"
 
 #: templates/error.jinja2:10
 msgid ""
-"An error seemed to have occurred (see below). It is most likely our "
-"fault. We are actively modifying our infrastructure to support COVID-19 "
-"research, and we're still in the process of handling the different type "
-"of scenarios that can happen on a website. We apologize for any "
-"inconvenience."
-msgstr "私たちの不具合によりエラーが発生しました（下記参照）。私たちは現在新型コロナウイルス感染症の研究をサポートするため組織内編制をしており、ウェブ上で起こりうる様々な問題に対応してます。ご不便をおかけして申し訳ありません。"
+"An error seemed to have occurred (see below). It is most likely our fault. We are actively modifying our infrastructure to support COVID-19 research, and we're still "
+"in the process of handling the different type of scenarios that can happen on a website. We apologize for any inconvenience."
+msgstr ""
+"私たちの不具合によりエラーが発生しました（下記参照）。私たちは現在新型コロナウイルス感染症の研究をサポートするため組織内編制をしており、ウェブ上で起こりうる様々な問題に"
+"対応してます。ご不便をおかけして申し訳ありません。"
 
 #: templates/error.jinja2:13
 msgid "If you have any concerns, please email us at"
@@ -1805,21 +1767,18 @@ msgid "MyFoodRepo is currently unavailabile"
 msgstr "MyFoodRepoは現在ご利用いただけません"
 
 #: templates/myfoodrepo_no_slots.jinja2:19
-msgid ""
-"We apologize, but unfortunately MyFoodRepo is not available at this time."
-" Please check back in a few days and try again."
+msgid "We apologize, but unfortunately MyFoodRepo is not available at this time. Please check back in a few days and try again."
 msgstr "申し訳ございませんが、現在MyFoodRepoはご利用いただけません。数日後、再度お試しください。"
 
 #: templates/myfoodrepo_no_slots.jinja2:22
 msgid ""
-"MyFoodRepo is human curated to ensure the highest accuracy in reported "
-"dietary detail. Because the process is not fully automated, we need to "
-"limit the number of concurrent users who take part. We apologize for the "
-"inconvenience."
-msgstr "MyFoodRepoは、提出された食事の詳細が正確であることを検証するため、適任者が監修しています。このプロセスは完全に自動化されていないため、同時にアクセスするユーザー数の制限をする必要があります。ご不便をおかけして申し訳ございません。"
+"MyFoodRepo is human curated to ensure the highest accuracy in reported dietary detail. Because the process is not fully automated, we need to limit the number of "
+"concurrent users who take part. We apologize for the inconvenience."
+msgstr ""
+"MyFoodRepoは、提出された食事の詳細が正確であることを検証するため、適任者が監修しています。このプロセスは完全に自動化されていないため、同時にアクセスするユーザー数の制限"
+"をする必要があります。ご不便をおかけして申し訳ございません。"
 
-#: templates/myfoodrepo_no_slots.jinja2:25
-#: templates/post_sample_questionnaire.jinja2:30
+#: templates/myfoodrepo_no_slots.jinja2:25 templates/post_sample_questionnaire.jinja2:30
 msgid "Back to Samples"
 msgstr "便サンプルに戻る"
 
@@ -1978,8 +1937,7 @@ msgstr "30以上"
 msgid "Never"
 msgstr "全くない"
 
-#: templates/new_results_page.jinja2:228 templates/new_results_page.jinja2:233
-#: templates/new_results_page.jinja2:234 templates/new_results_page.jinja2:235
+#: templates/new_results_page.jinja2:228 templates/new_results_page.jinja2:233 templates/new_results_page.jinja2:234 templates/new_results_page.jinja2:235
 #: templates/new_results_page.jinja2:855 templates/new_results_page.jinja2:865
 msgid "Not provided"
 msgstr "情報提供できない"
@@ -2006,49 +1964,42 @@ msgstr "体内の微生物"
 
 #: templates/new_results_page.jinja2:322
 msgid ""
-"In this map, we've placed your sample relative to all the other samples "
-"we have in Microsetta. As you can see, there are a few different types of"
-" samples people have contributed, and the microbial configurations "
-"present can be REALLY different."
-msgstr "このマップ上では、マイクロゼッタが所持しる便サンプルとあなたの便サンプルを相対的に配置しています。ご覧のように、皆様からご提供いただいた便サンプルには幾つかの種類があり、微生物構成も実に様々であることがお分かりいただけると思います。"
+"In this map, we've placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have "
+"contributed, and the microbial configurations present can be REALLY different."
+msgstr ""
+"このマップ上では、マイクロゼッタが所持しる便サンプルとあなたの便サンプルを相対的に配置しています。ご覧のように、皆様からご提供いただいた便サンプルには幾つかの種類があ"
+"り、微生物構成も実に様々であることがお分かりいただけると思います。"
 
-#: templates/new_results_page.jinja2:327 templates/new_results_page.jinja2:351
-#: templates/new_results_page.jinja2:458
+#: templates/new_results_page.jinja2:327 templates/new_results_page.jinja2:351 templates/new_results_page.jinja2:458
 msgid "Microbiomes Across the World"
 msgstr "世界中の微生物"
 
 #: templates/new_results_page.jinja2:330 templates/new_results_page.jinja2:354
 msgid ""
-"Researchers have noted large differences in our microbiomes depending on "
-"where we live. The reason WHY is not well understood, but we suspect "
-"factors such as diet or environmental exposures (e.g., plants, what's in "
-"your house, pollution, how often you come in contact with soil, etc) may "
-"be be major factors."
-msgstr "研究者たちは、住んでいる場所によって、私たちの腸内細菌に大きな違いがあることに注目しています。その理由はまだよく分かっていませんが、食生活や環境因子（例：植物、家の中の微生物、汚染、土壌に触れる頻度等）が大きな要因になっているのではないかと考えられています。"
+"Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or "
+"environmental exposures (e.g., plants, what's in your house, pollution, how often you come in contact with soil, etc) may be be major factors."
+msgstr ""
+"研究者たちは、住んでいる場所によって、私たちの腸内細菌に大きな違いがあることに注目しています。その理由はまだよく分かっていませんが、食生活や環境因子（例：植物、家の中の"
+"微生物、汚染、土壌に触れる頻度等）が大きな要因になっているのではないかと考えられています。"
 
 #: templates/new_results_page.jinja2:330 templates/new_results_page.jinja2:354
-msgid ""
-"Researchers do not know how much these differences matter! They certainly"
-" may."
+msgid "Researchers do not know how much these differences matter! They certainly may."
 msgstr "研究者たちは、これらの違いがどの程度重要なものなのかをまだ把握していません。確かにそうかもしれません。"
 
-#: templates/new_results_page.jinja2:335 templates/new_results_page.jinja2:359
-#: templates/new_results_page.jinja2:463
+#: templates/new_results_page.jinja2:335 templates/new_results_page.jinja2:359 templates/new_results_page.jinja2:463
 msgid "Microbiomes Across the Lifespan"
 msgstr "生涯にわたる微生物"
 
 #: templates/new_results_page.jinja2:338 templates/new_results_page.jinja2:362
-msgid ""
-"One major factor associated with gut microbiomes is the age of the "
-"individual, emphasized here by life stages."
+msgid "One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages."
 msgstr "腸内細菌に関連する大きな要因のひとつに年齢があります。ここでは、生命段階と呼ばれるものです。"
 
 #: templates/new_results_page.jinja2:338 templates/new_results_page.jinja2:362
 msgid ""
-"Interestingly, infants are relatively similar microbially regardless of "
-"where they were born. But, as individuals age, it seems like their "
-"microbiomes reflect regional or population differences."
-msgstr "興味深いことに、どの乳児も生まれた場所に関係なく、微生物学的に比較的類似しています。しかし、年齢が上がるにつれて、微生物は地域性や種族性に反映されるようになります。"
+"Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional "
+"or population differences."
+msgstr ""
+"興味深いことに、どの乳児も生まれた場所に関係なく、微生物学的に比較的類似しています。しかし、年齢が上がるにつれて、微生物は地域性や種族性に反映されるようになります。"
 
 #: templates/new_results_page.jinja2:343 templates/new_results_page.jinja2:449
 msgid "Microbiomes in the Environment"
@@ -2056,16 +2007,12 @@ msgstr "環境内の微生物"
 
 #: templates/new_results_page.jinja2:346
 msgid ""
-"Microbes are EVERYWHERE though! Using these same techniques described "
-"above, we compared your microbiome to samples collected from all over the"
-" surfaces from a brand new hospital."
+"Microbes are EVERYWHERE though! Using these same techniques described above, we compared your microbiome to samples collected from all over the surfaces from a brand "
+"new hospital."
 msgstr "しかし、微生物はどこにでも存在します。上記と同じ手法で、私たちはあなたの腸内細菌を、新しく設立された病院の表面から摂取した微生物と比較しました。"
 
 #: templates/new_results_page.jinja2:346
-msgid ""
-"As you can see, skin samples tend to more closely resemble those from the"
-" built environment, which makes sense as skin cells are constantly "
-"shedding from you."
+msgid "As you can see, skin samples tend to more closely resemble those from the built environment, which makes sense as skin cells are constantly shedding from you."
 msgstr "ご覧のとおり、皮膚から採取したサンプルは、育った環境に生息する微生物により似ている傾向があります。これは、皮膚細胞が規則的に垢となって剥がれ落ちていくためです。"
 
 #: templates/new_results_page.jinja2:453
@@ -2085,15 +2032,11 @@ msgid "Download the spreadsheet"
 msgstr "表計算ソフトをダウンロードして下さい"
 
 #: templates/new_results_page.jinja2:632
-msgid ""
-"The broadest classification like Bacteria, Archaea and Eukaryokes (what "
-"humans are!)"
+msgid "The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)"
 msgstr "細菌、古細菌、真核生物など最も多様な分類 (なんと!)"
 
 #: templates/new_results_page.jinja2:635
-msgid ""
-"Within the kingdom Eukarya, this is like the difference between humans "
-"and plants"
+msgid "Within the kingdom Eukarya, this is like the difference between humans and plants"
 msgstr "真核生物界では、これは人間と植物の違いのようなものです"
 
 #: templates/new_results_page.jinja2:638
@@ -2101,9 +2044,7 @@ msgid "Within the phylum Chordata, this is along the lines of humans and fish"
 msgstr "脊索動物門の中では、これは人間と魚の進化の過程に沿っています"
 
 #: templates/new_results_page.jinja2:641
-msgid ""
-"Within the class Mammalia, this is like the difference between whales and"
-" a dogs"
+msgid "Within the class Mammalia, this is like the difference between whales and a dogs"
 msgstr "哺乳類綱の中では、これはクジラと犬の違いのようなものです"
 
 #: templates/new_results_page.jinja2:644
@@ -2111,13 +2052,10 @@ msgid "With the order Carnivora are the families for dogs and cats"
 msgstr "なので肉食動物はイヌ科とネコ科に属します"
 
 #: templates/new_results_page.jinja2:647
-msgid ""
-"Within the family Canidae, you would find a genus for foxes and one for "
-"wolves"
+msgid "Within the family Canidae, you would find a genus for foxes and one for wolves"
 msgstr "イヌ科には、キツネ属とオオカミ属があります"
 
-#: templates/new_results_page.jinja2:834 templates/new_results_page.jinja2:837
-#: templates/new_results_page.jinja2:843 templates/new_results_page.jinja2:851
+#: templates/new_results_page.jinja2:834 templates/new_results_page.jinja2:837 templates/new_results_page.jinja2:843 templates/new_results_page.jinja2:851
 #: templates/new_results_page.jinja2:854 templates/new_results_page.jinja2:864
 msgid "Unspecified"
 msgstr "不明"
@@ -2180,25 +2118,19 @@ msgstr "最も多い"
 
 #: templates/new_results_page.jinja2:1192
 msgid ""
-"whole genome sequencing, a technique that produces a large number of "
-"small DNA sequences from all of the microbial genomes in your sample. "
-"With enough sequences you can even see the variation that exists between "
-"microbes of the same species."
+"whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you "
+"can even see the variation that exists between microbes of the same species."
 msgstr ""
-"全ゲノム配列決定とは、サンプル内のすべての微生物ゲノムから多数の小さな DNA "
-"配列を生成する技術です。十分な数の配列があれば、同じ微生物間に存在する変異も見ることができます。"
+"全ゲノム配列決定とは、サンプル内のすべての微生物ゲノムから多数の小さな DNA 配列を生成する技術です。十分な数の配列があれば、同じ微生物間に存在する変異も見ることができま"
+"す。"
 
 #: templates/new_results_page.jinja2:1195
 msgid ""
-"16S.  This technique produces DNA sequences from a specific variable "
-"region (V4) within a microbial gene (the 16S small subunit ribosomal "
-"gene). DNA sequences from this region of this gene can be used like a "
-"microbial barcode, providing researchers evidence of the types of "
-"microbes that may be present in your sample."
+"16S.  This technique produces DNA sequences from a specific variable region (V4) within a microbial gene (the 16S small subunit ribosomal gene). DNA sequences from "
+"this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample."
 msgstr ""
-"16S rRNA 菌叢解析。この技術は、微生物遺伝子 (16S 小サブユニット リボソーム遺伝子) 内の可変領域 (V4) から DNA "
-"配列を決定するものです。この遺伝子の領域からなるDNA "
-"配列から、微生物をバーコードのように使用して、サンプル内に生存する微生物の種類を検証することができます。"
+"16S rRNA 菌叢解析。この技術は、微生物遺伝子 (16S 小サブユニット リボソーム遺伝子) 内の可変領域 (V4) から DNA 配列を決定するものです。この遺伝子の領域からなるDNA 配列か"
+"ら、微生物をバーコードのように使用して、サンプル内に生存する微生物の種類を検証することができます。"
 
 #: templates/new_results_page.jinja2:1319 templates/sample_results.jinja2:128
 msgid "Source"
@@ -2208,68 +2140,53 @@ msgstr "由来"
 msgid "Results"
 msgstr "結果"
 
-#: templates/new_results_page.jinja2:1329
-#: templates/new_results_page.jinja2:1343
+#: templates/new_results_page.jinja2:1329 templates/new_results_page.jinja2:1343
 msgid "How do you compare?"
 msgstr "どのように比較しますか？"
 
-#: templates/new_results_page.jinja2:1330
-#: templates/new_results_page.jinja2:1355
-#: templates/new_results_page.jinja2:1357
-#: templates/new_results_page.jinja2:1388
+#: templates/new_results_page.jinja2:1330 templates/new_results_page.jinja2:1355 templates/new_results_page.jinja2:1357 templates/new_results_page.jinja2:1388
 msgid "Diversity"
 msgstr "多様性"
 
-#: templates/new_results_page.jinja2:1331
-#: templates/new_results_page.jinja2:1363
-#: templates/new_results_page.jinja2:1365
-#: templates/new_results_page.jinja2:1457
+#: templates/new_results_page.jinja2:1331 templates/new_results_page.jinja2:1363 templates/new_results_page.jinja2:1365 templates/new_results_page.jinja2:1457
 msgid "Similarity"
 msgstr "類似性"
 
-#: templates/new_results_page.jinja2:1332
-#: templates/new_results_page.jinja2:1371
-#: templates/new_results_page.jinja2:1373
+#: templates/new_results_page.jinja2:1332 templates/new_results_page.jinja2:1371 templates/new_results_page.jinja2:1373
 msgid "Your Inner Zoo"
 msgstr "あなたの体内の動物園"
 
-#: templates/new_results_page.jinja2:1333
-#: templates/new_results_page.jinja2:1379
-#: templates/new_results_page.jinja2:1381
-#: templates/new_results_page.jinja2:1670
+#: templates/new_results_page.jinja2:1333 templates/new_results_page.jinja2:1379 templates/new_results_page.jinja2:1381 templates/new_results_page.jinja2:1670
 msgid "Microbiome Map"
 msgstr "微生物マップ"
 
-#: templates/new_results_page.jinja2:1334
-#: templates/new_results_page.jinja2:1640
+#: templates/new_results_page.jinja2:1334 templates/new_results_page.jinja2:1640
 msgid "How can I learn more?"
 msgstr "どうすればもっと学べますか？"
 
 #: templates/new_results_page.jinja2:1347
 msgid ""
-"Your microbiome is a rainforest of diverse microbes dominated by microbes"
-" - some 40 trillion bacteria, weighing around 1 lb, live all over and in "
-"your body. The diversity of your microbiome, how similar it is to other "
-"peoples', and the types of bacteria living inside you have all been "
-"linked to health, disease and lifestyle traits in numerous studies."
-msgstr "あなたは、多様な微生物の集合体です。あなたの体内には、おおよそ40兆、1ポンドの重さからなる細菌が生息しています。あなたの微生物の多様性、他の人々との類似性、体内に生息する細菌の種類はすべて健康、病気、生活習慣に関連していることが多くの研究から報告されています。"
+"Your microbiome is a rainforest of diverse microbes dominated by microbes - some 40 trillion bacteria, weighing around 1 lb, live all over and in your body. The "
+"diversity of your microbiome, how similar it is to other peoples', and the types of bacteria living inside you have all been linked to health, disease and lifestyle "
+"traits in numerous studies."
+msgstr ""
+"あなたは、多様な微生物の集合体です。あなたの体内には、おおよそ40兆、1ポンドの重さからなる細菌が生息しています。あなたの微生物の多様性、他の人々との類似性、体内に生息す"
+"る細菌の種類はすべて健康、病気、生活習慣に関連していることが多くの研究から報告されています。"
 
 #: templates/new_results_page.jinja2:1351
 msgid ""
-"Scientists often use many different approaches to see how your microbiome"
-" differs. We've analyzed your microbiome sample using standard microbiome"
-" research tools, and the results are broken down below in a few different"
-" categories"
-msgstr "科学者は、様々な方法で腸内細菌がどのように異なるかを調べています。今回は基本的な腸内細菌研究手法を使って、あなたの便サンプルを分析しました。結果は、以下の通り幾つかの異なる項目に分類されています"
+"Scientists often use many different approaches to see how your microbiome differs. We've analyzed your microbiome sample using standard microbiome research tools, and "
+"the results are broken down below in a few different categories"
+msgstr ""
+"科学者は、様々な方法で腸内細菌がどのように異なるかを調べています。今回は基本的な腸内細菌研究手法を使って、あなたの便サンプルを分析しました。結果は、以下の通り幾つかの異"
+"なる項目に分類されています"
 
 #: templates/new_results_page.jinja2:1357
 msgid "How many kinds of microbes were in your sample? Check out your"
 msgstr "あなたの便サンプルには何種類の微生物が含まれていましたか?確認してみて下さい"
 
 #: templates/new_results_page.jinja2:1365
-msgid ""
-"What kinds of people have microbiomes like yours? Check out your "
-"microbiome"
+msgid "What kinds of people have microbiomes like yours? Check out your microbiome"
 msgstr "あなたと類似した微生物を持っているのはどのような人々ですか?あなたの腸内細菌を確認して下さい"
 
 #: templates/new_results_page.jinja2:1373
@@ -2282,23 +2199,15 @@ msgstr "あなたはどこに"
 
 #: templates/new_results_page.jinja2:1391
 msgid ""
-"There are anywhere from hundreds of millions to hundreds of billions of "
-"different types of bacteria living on planet earth. This dwarfs the "
-"meager 2 million different kinds of animals and plants that you can see "
-"with your eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" "
-"data-title=\"Based on fecal samples from Microsetta participants in the "
-"United States\">average</span> American has <strong id=\"average-"
-"american-observed-otus\">FILLIN</strong> different types of microbes in a"
-" stool sample, which is lower than we find in people living a more "
-"hunter-gatherer lifestyle, like the <strong id=\"average-hadza-observed-"
-"otus\">FILLIN</strong> we find in samples from the <span id=\"taxa-"
-"tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous "
-"hunter-gather group in Tanzania. The summary of the Hadza microbiome is "
-"based on <a href='foobar.com'>Smits et al. Science 2017</a>\" data-"
-"html=\"true\">Hadza</span>."
+"There are anywhere from hundreds of millions to hundreds of billions of different types of bacteria living on planet earth. This dwarfs the meager 2 million different "
+"kinds of animals and plants that you can see with your eyes. The <span id=\"average-us-tooltip\" class=\"tooltipper\" data-title=\"Based on fecal samples from "
+"Microsetta participants in the United States\">average</span> American has <strong id=\"average-american-observed-otus\">FILLIN</strong> different types of microbes in "
+"a stool sample, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id=\"average-hadza-observed-otus\">FILLIN</strong> we "
+"find in samples from the <span id=\"taxa-tooltip\" class=\"tooltipper\" data-title=\"The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the "
+"Hadza microbiome is based on <a href='foobar.com'>Smits et al. Science 2017</a>\" data-html=\"true\">Hadza</span>."
 msgstr ""
-"地球上には、数億から数千億の様々な種類の細菌が生息しています。私たちの肉眼で見ることができる動植物はわずか 200 "
-"万種類しかいません。平均的なアメリカ人の便サンプルには様々な種類の微生物が生息していますが、これはタンザニア中北部の先住民族（ハヅァ族）のように狩猟採集生活をしている民族よりも低い数値です。"
+"地球上には、数億から数千億の様々な種類の細菌が生息しています。私たちの肉眼で見ることができる動植物はわずか 200 万種類しかいません。平均的なアメリカ人の便サンプルには"
+"様々な種類の微生物が生息していますが、これはタンザニア中北部の先住民族（ハヅァ族）のように狩猟採集生活をしている民族よりも低い数値です。"
 
 #: templates/new_results_page.jinja2:1395
 msgid "Number of different microbes found in your sample"
@@ -2306,25 +2215,19 @@ msgstr "あなたの便サンプルから見つかった様々な微生物の数
 
 #: templates/new_results_page.jinja2:1402
 msgid ""
-"When we calculated the diversity of groups for samples in our database, "
-"we found diversity is associated with how you live your life. Here, we "
-"summarized the average microbiome diversity for a few of the "
-"questionnaire responses, specifically people who eat more than 30 plants "
-"a week, exercise regularly, drink water regularly, or sleep more than 6 "
-"hours a night."
+"When we calculated the diversity of groups for samples in our database, we found diversity is associated with how you live your life. Here, we summarized the average "
+"microbiome diversity for a few of the questionnaire responses, specifically people who eat more than 30 plants a week, exercise regularly, drink water regularly, or "
+"sleep more than 6 hours a night."
 msgstr ""
-"私たちのデータベースから便サンプルの多様性を調べたところ、微生物の多様性は生活習慣に関連していることが分かりました。幾つかの調査回答を基に、腸内細菌の多様性の平均値を調べました。具体的には"
-" 週に 30 種類以上の植物を摂取している人、定期的に運動している人、定期的に水を飲んでいる人、または 6 "
-"時間以上睡眠を取っている人の腸内細菌を調べました。"
+"私たちのデータベースから便サンプルの多様性を調べたところ、微生物の多様性は生活習慣に関連していることが分かりました。幾つかの調査回答を基に、腸内細菌の多様性の平均値を調"
+"べました。具体的には 週に 30 種類以上の植物を摂取している人、定期的に運動している人、定期的に水を飲んでいる人、または 6 時間以上睡眠を取っている人の腸内細菌を調べまし"
+"た。"
 
 #: templates/new_results_page.jinja2:1410
 msgid "Eat more than 30 plants a week"
 msgstr "30種類以上の植物を食べる"
 
-#: templates/new_results_page.jinja2:1413
-#: templates/new_results_page.jinja2:1424
-#: templates/new_results_page.jinja2:1437
-#: templates/new_results_page.jinja2:1448
+#: templates/new_results_page.jinja2:1413 templates/new_results_page.jinja2:1424 templates/new_results_page.jinja2:1437 templates/new_results_page.jinja2:1448
 msgid "unique microbial features"
 msgstr "独特な微生物の特徴"
 
@@ -2342,30 +2245,22 @@ msgstr "6時間以上眠る"
 
 #: templates/new_results_page.jinja2:1460
 msgid ""
-"One of the powerful ways microbiome scientists analyze data is by looking"
-" at similarities among samples. To do this, we compute a <span id"
-"=\"similarity-tooltip\" class=\"tooltipper\" data-html=\"true\" data-"
-"title=\"There are <i>a lot</i> of ways to form a distance. One way is to "
-"base the distance off of the fraction of microbes in common in your "
-"sample with each other sample. We typically share few of the exact same "
-"microbes in common with other people though which is problematic when "
-"comparing exact microbes. To account for this, researchers often take the"
-" evolutionary relationships among microbes into account when forming "
-"these distances.\">distance</span> from your sample to all other samples "
-"based on the microbes observed."
-msgstr "科学者がデータを分析する際、サンプル間の類似性を調べることがあります。観察された微生物に基づいて、あなたの便サンプルから他のすべてのサンプルまでの距離を計算します。"
+"One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <span id=\"similarity-tooltip\" class="
+"\"tooltipper\" data-html=\"true\" data-title=\"There are <i>a lot</i> of ways to form a distance. One way is to base the distance off of the fraction of microbes in "
+"common in your sample with each other sample. We typically share few of the exact same microbes in common with other people though which is problematic when comparing "
+"exact microbes. To account for this, researchers often take the evolutionary relationships among microbes into account when forming these distances.\">distance</span> "
+"from your sample to all other samples based on the microbes observed."
+msgstr ""
+"科学者がデータを分析する際、サンプル間の類似性を調べることがあります。観察された微生物に基づいて、あなたの便サンプルから他のすべてのサンプルまでの距離を計算します。"
 
 #: templates/new_results_page.jinja2:1464
 msgid ""
-"Here, we your sample to all the others in our database, and examined the "
-"100 most similar samples to yours. These people answered their "
-"questionnaires in the following way; the response is colored in <span "
-"class=\"similarity-fontstyle-same\">light green</span> if it matches your"
-" response and <span class=\"similarity-fontstyle-different\">brown</span>"
-" if your response differed."
+"Here, we your sample to all the others in our database, and examined the 100 most similar samples to yours. These people answered their questionnaires in the following "
+"way; the response is colored in <span class=\"similarity-fontstyle-same\">light green</span> if it matches your response and <span class=\"similarity-fontstyle-"
+"different\">brown</span> if your response differed."
 msgstr ""
-"ここでは、あなたの便サンプルをデータベース内のすべてのサンプルと比較し、あなたの便サンプルに最も類似した 100 "
-"個のサンプルを調べました。これらの人々は、次の方法で調査票の回答をしました。あなたの回答と一致する場合、解答欄は明るい緑色で表示されています。異なる場合は、茶色で表示されています。"
+"ここでは、あなたの便サンプルをデータベース内のすべてのサンプルと比較し、あなたの便サンプルに最も類似した 100 個のサンプルを調べました。これらの人々は、次の方法で調査票"
+"の回答をしました。あなたの回答と一致する場合、解答欄は明るい緑色で表示されています。異なる場合は、茶色で表示されています。"
 
 #: templates/new_results_page.jinja2:1473
 msgid "Diet"
@@ -2432,26 +2327,19 @@ msgid "Your Inner Zoo (aka What's in your sample?)"
 msgstr "あなたの体内の動物園（別称：あなたの便サンプル）"
 
 #: templates/new_results_page.jinja2:1589
-msgid ""
-"Below you will find a table of all of the different microbes we found in "
-"your sample, and their proportions."
+msgid "Below you will find a table of all of the different microbes we found in your sample, and their proportions."
 msgstr "下記の表に、あなたの便サンプルから見つかった様々な微生物とその比率が表示されています。"
 
 #: templates/new_results_page.jinja2:1593
 msgid ""
-"Microbes sometimes have difficult names to pronounce. Some of the names "
-"are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a "
-"pronounciation guide can be found <a "
-"href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
+"Microbes sometimes have difficult names to pronounce. Some of the names are Latin, Greek, Norse, Chinese and more. If you'd like to know more, a pronounciation guide "
+"can be found <a href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
 msgstr ""
-"それぞれの微生物には、発音しづらい名称が付いていることがあります。名称の中には、ラテン語、ギリシャ語、北欧語、中国語などが使われています。詳しく知りたい場合は、こちらから発音ガイドをご覧下さい<a"
-" href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">。"
+"それぞれの微生物には、発音しづらい名称が付いていることがあります。名称の中には、ラテン語、ギリシャ語、北欧語、中国語などが使われています。詳しく知りたい場合は、こちらか"
+"ら発音ガイドをご覧下さい<a href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">。"
 
 #: templates/new_results_page.jinja2:1597
-msgid ""
-"Please mouse over the header to learn more about how to interpret these "
-"taxonomic ranks (e.g., Kingdom) using examples of non-microbial "
-"organisms."
+msgid "Please mouse over the header to learn more about how to interpret these taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms."
 msgstr "非微生物の例を用いて、これらの分類学的階級 (例：界)の詳細 を理解するためには、ヘッダーにマウスを合わせてください。"
 
 #: templates/new_results_page.jinja2:1604
@@ -2484,16 +2372,11 @@ msgid "Genus"
 msgstr "属"
 
 #: templates/new_results_page.jinja2:1618
-msgid ""
-"No evidence presented here indicates what we've observed is clinically "
-"dangerous"
+msgid "No evidence presented here indicates what we've observed is clinically dangerous"
 msgstr "これに基づく証拠がないため、私たちの観測は臨床的に危険でないことが証明されています"
 
 #: templates/new_results_page.jinja2:1624
-msgid ""
-"In the plot below, you can see the most commonly observed microbial "
-"genera in the dataset, and distribution of ranks of those genera.  For "
-"example,"
+msgid "In the plot below, you can see the most commonly observed microbial genera in the dataset, and distribution of ranks of those genera.  For example,"
 msgstr "以下の構成から、最も一般的に観察される微生物の属と、それらの属の階級の分布を確認することができます。例えば、"
 
 #: templates/new_results_page.jinja2:1626
@@ -2502,39 +2385,29 @@ msgstr "通常は、データ内のサンプルの相対量が最も多いです
 
 #: templates/new_results_page.jinja2:1643
 msgid ""
-"Microbiome analysis is a burgeoning new field, and the information "
-"displayed here is only an example of what is becoming possible thanks to "
-"the data that you helped collect."
+"Microbiome analysis is a burgeoning new field, and the information displayed here is only an example of what is becoming possible thanks to the data that you helped "
+"collect."
 msgstr "腸内細菌解析は急成長している新しい分野です。ここに表示されている情報は、あなたの協力を下に収集できたデータの一例です。"
 
 #: templates/new_results_page.jinja2:1647
-msgid ""
-"So if you want to learn more, you can even take a look at the dataset for"
-" yourself!"
+msgid "So if you want to learn more, you can even take a look at the dataset for yourself!"
 msgstr "さらに詳しく知りたい場合は、自分でデータを確認することもできます！"
 
 #: templates/new_results_page.jinja2:1651
 msgid ""
-"For your sample, we performed a technique called amplicon sequencing "
-"where we examine pieces of DNA corresponding to a particular gene. "
-"Specifically, we sequenced the fourth variable region (V4) of the 16S "
-"rRNA small subunit ribosomal gene. DNA sequences from this region of this"
-" gene can be used like a microbial barcode, providing researchers "
-"evidence of the types of microbes that may be present in your sample."
+"For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the "
+"fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing "
+"researchers evidence of the types of microbes that may be present in your sample."
 msgstr ""
-"あなたの便サンプルは、特定の遺伝子に関するDNA の断片を調べるアンプリコン シーケンス解析と呼ばれる手法を使って解析しました。具体的には、16S"
-" rRNA 小サブユニット リボソーム遺伝子の 4 番目の可変領域 (V4) をシーケンスしました。この遺伝子の領域からなるDNA "
-"配列から、微生物をバーコードのように使用して、サンプル内に生存する微生物の種類を検証することができます。"
+"あなたの便サンプルは、特定の遺伝子に関するDNA の断片を調べるアンプリコン シーケンス解析と呼ばれる手法を使って解析しました。具体的には、16S rRNA 小サブユニット リボソー"
+"ム遺伝子の 4 番目の可変領域 (V4) をシーケンスしました。この遺伝子の領域からなるDNA 配列から、微生物をバーコードのように使用して、サンプル内に生存する微生物の種類を検証"
+"することができます。"
 
 #: templates/new_results_page.jinja2:1655
 msgid ""
-"There are many resources for microbiome information available online. If "
-"you'd like to learn more, we recommend the <a href=\"https://asm.org"
-"/Browse-By-Topic/Newsroom/Clinical/Microbiome\">American Society for "
-"Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a"
-" href=\"http://www.probioticchart.ca/\">Canadian Probiotics Chart</a>, "
-"and the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-"
-"for-gut-microbiome-research-education/\">American Gastroenterological "
+"There are many resources for microbiome information available online. If you'd like to learn more, we recommend the <a href=\"https://asm.org/Browse-By-Topic/Newsroom/"
+"Clinical/Microbiome\">American Society for Microbiology</a>, <a href=\"https://microbe.net/\">microBEnet</a>, the <a href=\"http://www.probioticchart.ca/\">Canadian "
+"Probiotics Chart</a>, and the <a href=\"https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/\">American Gastroenterological "
 "Association</a>."
 msgstr ""
 "腸内細菌情報に関する資料はオンライン上にたくさんあります。さらに詳しく知りたい場合、下記サイトをご覧ください。\n"
@@ -2546,41 +2419,48 @@ msgstr "結果報告書で使用されたデータ"
 
 #: templates/new_results_page.jinja2:1660
 msgid ""
-"The results shown in the Microbiome Maps portion of the report relied on "
-"data from many different publically accessible microbiome datasets. These"
-" different datasets, and links to them, are listed below."
+"The results shown in the Microbiome Maps portion of the report relied on data from many different publically accessible microbiome datasets. These different datasets, "
+"and links to them, are listed below."
 msgstr "報告書の腸内細菌マップに示されている結果は、様々な腸内細菌研究データに基づいています。これらの様々なデータとリンクを以下に提示しました。"
 
 #: templates/new_results_page.jinja2:1673
 msgid ""
-"Microbiome maps turn the similarities and differences among microbiomes "
-"into a two-dimensional picture. Each dot is a whole microbiome, and dots "
-"close to yours are more similar microbiomes."
-msgstr ""
-"腸内細菌マップは、微生物間の類似点と相違点を 2 "
-"次元の画像に変換したものです。各点は全体の微生物を表していて、あなたに近い点はより類似した微生物を示しています。"
+"Microbiome maps turn the similarities and differences among microbiomes into a two-dimensional picture. Each dot is a whole microbiome, and dots close to yours are "
+"more similar microbiomes."
+msgstr "腸内細菌マップは、微生物間の類似点と相違点を 2 次元の画像に変換したものです。各点は全体の微生物を表していて、あなたに近い点はより類似した微生物を示しています。"
 
 #: templates/new_results_page.jinja2:1677
 msgid ""
-"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
-"title=\"Visualizing complex data is difficult. One way microbiome "
-"researchers do it though is through a technique called principal "
-"coordinates analysis (PCoA). We provide PCoA with the millions of "
-"microbiome similarities we compute (we use tens of thousands of samples, "
-"and compare each sample to each other), and in turn, PCoA provides "
-"perspectives into massive data matrix that place very similar samples "
-"near each other and less similar samples far apart.\">How are these maps "
-"produced?</span>"
+"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-title=\"Visualizing complex data is difficult. One way microbiome researchers do it though is through a "
+"technique called principal coordinates analysis (PCoA). We provide PCoA with the millions of microbiome similarities we compute (we use tens of thousands of samples, "
+"and compare each sample to each other), and in turn, PCoA provides perspectives into massive data matrix that place very similar samples near each other and less "
+"similar samples far apart.\">How are these maps produced?</span>"
 msgstr ""
-"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-"
-"title=\"Visualizing complex data is difficult. One way microbiome "
-"researchers do it though is through a technique called principal "
-"coordinates analysis (PCoA). We provide PCoA with the millions of "
-"microbiome similarities we compute (we use tens of thousands of samples, "
-"and compare each sample to each other), and in turn, PCoA provides "
-"perspectives into massive data matrix that place very similar samples "
-"near each other and less similar samples far "
-"apart.\">これらのマップはどのように作成されますか？</span>"
+"<span id=\"microbiome-maps-tooltip\" class=\"tooltipper\" data-title=\"Visualizing complex data is difficult. One way microbiome researchers do it though is through a "
+"technique called principal coordinates analysis (PCoA). We provide PCoA with the millions of microbiome similarities we compute (we use tens of thousands of samples, "
+"and compare each sample to each other), and in turn, PCoA provides perspectives into massive data matrix that place very similar samples near each other and less "
+"similar samples far apart.\">これらのマップはどのように作成されますか？</span>"
+
+#: templates/opt_out.jinja2:2 templates/opt_out.jinja2:37 templates/opt_out_confirm.jinja2:2
+msgid "Opt Out"
+msgstr "登録解除"
+
+#: templates/opt_out.jinja2:28
+msgid ""
+"Sorry, we could not complete the request. Please email <a href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a> with the email address you signed up with so we "
+"can remove you from our list."
+msgstr "エラーメッセージ：申し訳ありませんが、登録解除が出来ませんでした。恐れ入りますが件名に「登録解除」と記載の上、登録したEメールアドレスから<a href=\"mailto:microsetta@ucsd.edu?subject=opt-out request\">microsetta@ucsd.edu</a>までご連絡下さい。こちらにて解除いたします。"
+
+#: templates/opt_out.jinja2:36
+msgid ""
+"We're sorry you are no longer interested in participating in The Human Diets & Microbiome Initiative (THDMI). Please click the \"opt out\" button below to confirm that "
+"you do not wish to take part."
+msgstr ""
+"今回はTHDMI-ジャパン プロジェクトにご参加頂けず、大変残念です。研究参加を取りやめたい場合は、以下の“登録解除”をクリックしてください。"
+
+#: templates/opt_out_confirm.jinja2:27
+msgid "Thank you for letting us know. You will no longer be part of this research study."
+msgstr "サクセスメッセージ：ご連絡ありがとうございました。登録解除を承りました。"
 
 #: templates/nutrition.jinja2:2 templates/nutrition.jinja2:95
 #: templates/reports.jinja2:32 templates/sitebase.jinja2:151
@@ -2639,9 +2519,7 @@ msgid "FFQ"
 msgstr "食品摂取頻度調査票"
 
 #: templates/post_sample_questionnaire.jinja2:19
-msgid ""
-"By completing the questionnaire, you can enhance information about your "
-"sample, which will power more insightful research!"
+msgid "By completing the questionnaire, you can enhance information about your sample, which will power more insightful research!"
 msgstr "調査票に回答することで、便サンプルに関するより詳しい情報を得ることができ、より素晴らしい研究成果を生み出すことが出来ます！"
 
 #: templates/post_sample_questionnaire.jinja2:20
@@ -2649,9 +2527,7 @@ msgid "Note"
 msgstr "備考"
 
 #: templates/post_sample_questionnaire.jinja2:20
-msgid ""
-"If you took multiple samples within a short time frame, you only need to "
-"take the FFQ for one such sample"
+msgid "If you took multiple samples within a short time frame, you only need to take the FFQ for one such sample"
 msgstr "便サンプルを複数採取した場合、食品摂取頻度調査票を一度だけ記入して下さい"
 
 #: templates/post_sample_questionnaire.jinja2:23
@@ -2726,20 +2602,15 @@ msgstr "あなたのサンプルには何が含まれていますか?"
 
 #: templates/sample_results.jinja2:142
 msgid ""
-"The table below shows the relative abundances of all of the organisms we "
-"observed in your sample. To produce this, we took the DNA sequences from "
-"your sample, and compared them against publicly available annotated "
-"reference databases. In some cases, a sequence may uniquely match a "
-"database record, in other cases a sequence may match may different "
-"records. To handle the uncertainty that can arise, we rely on a well used"
-" and publicly available microbiome software package called <a "
-"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>. The exact "
-"approach taken is highlighted in the main tutorial on <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
-"/#taxonomic-analysis\" target=\"_blank\">feature-classification</a>"
+"The table below shows the relative abundances of all of the organisms we observed in your sample. To produce this, we took the DNA sequences from your sample, and "
+"compared them against publicly available annotated reference databases. In some cases, a sequence may uniquely match a database record, in other cases a sequence may "
+"match may different records. To handle the uncertainty that can arise, we rely on a well used and publicly available microbiome software package called <a href="
+"\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>. The exact approach taken is highlighted in the main tutorial on <a href=\"https://docs.qiime2.org/2020.6/"
+"tutorials/moving-pictures/#taxonomic-analysis\" target=\"_blank\">feature-classification</a>"
 msgstr ""
-"下記の表は、あなたの便サンプルから観察された全ての生物の相対的存在量を表示しています。これは、あなたの便サンプルから DNA "
-"配列を決め、それを一般公開されている注釈付き参照用データと比較したものです。配列がデータ上の記録と一致する場合もあれば、異なる記録と一致する場合もあります。このような不具合に対応するため、私たちはQIIME2と呼ばれる腸内細菌ソフトウェアを使用しています。詳細はチュートリアルに表示されています"
+"下記の表は、あなたの便サンプルから観察された全ての生物の相対的存在量を表示しています。これは、あなたの便サンプルから DNA 配列を決め、それを一般公開されている注釈付き参"
+"照用データと比較したものです。配列がデータ上の記録と一致する場合もあれば、異なる記録と一致する場合もあります。このような不具合に対応するため、私たちはQIIME2と呼ばれる腸"
+"内細菌ソフトウェアを使用しています。詳細はチュートリアルに表示されています"
 
 #: templates/sample_results.jinja2:147
 msgid "Relative Abundance"
@@ -2751,28 +2622,20 @@ msgstr "アルファ多様性"
 
 #: templates/sample_results.jinja2:163
 msgid ""
-"Here, we're providing a measure of the diversity of your sample, and how "
-"it compares to the diversities of all of the same type of samples in The "
-"Microsetta Initiative. There are many ways to calculate diversity. For "
-"instance, you could compute a diversity value by counting the number of "
-"unique organisms observed (i.e., the sample \"richness\"). Or, you might "
-"be interested in weighting the calculation by the relative abundance of "
-"the organisms (i.e., the sample \"evenness\"). The metric we're computing"
-" here is called Faith's Phylogenetic Diversity (originally defined <a "
-"href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\""
-" target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the"
-" \"richness\" of your sample as the amount of evolutionary breadth "
-"represented by your sample. The way we compute alpha diversity is also "
-"through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and"
-" more information on it can be found in the alpha and beta diversity <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
-"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
-" 2 tutorial"
+"Here, we're providing a measure of the diversity of your sample, and how it compares to the diversities of all of the same type of samples in The Microsetta "
+"Initiative. There are many ways to calculate diversity. For instance, you could compute a diversity value by counting the number of unique organisms observed (i.e., "
+"the sample \"richness\"). Or, you might be interested in weighting the calculation by the relative abundance of the organisms (i.e., the sample \"evenness\"). The "
+"metric we're computing here is called Faith's Phylogenetic Diversity (originally defined <a href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\" "
+"target=\"_blank\">here</a>). Faith's Phylogenetic Diversity computes the \"richness\" of your sample as the amount of evolutionary breadth represented by your sample. "
+"The way we compute alpha diversity is also through <a href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and more information on it can be found in the alpha "
+"and beta diversity <a href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME "
+"2 tutorial"
 msgstr ""
-"ここでは、あなたの便サンプルの多様性を表示しています。また、あなたの便サンプルとマイクロゼッタ "
-"イニシアチブにあるすべての同じ種類のサンプルとの多様性を比較しています。多様性を計算する方法はたくさんあります。例えば、観察された特有な生物の数 "
-"(つまり、微生物の”豊富さ”) を数えることで、多様性の数値を計算することができます。または、生物の相対的存在量 (つまり、微生物の”均一性”) "
-"の計算を重み付けすることもできます。ここで計算している測定は、Faithの指数(元系統的多様性指数（元々ここで定義されている）と呼ばれるものです。Faithの系統的多様性指数は、サンプルの進化の幅の量を、微生物の「豊富さ」として計算したものです。アルファ多様性の計算もQIIME2を使っています。さらに詳しく知りたい場合は、QIIME2のチュートリアル上で、アルファ多様性とベータ多様性の項目をご覧下さい"
+"ここでは、あなたの便サンプルの多様性を表示しています。また、あなたの便サンプルとマイクロゼッタ イニシアチブにあるすべての同じ種類のサンプルとの多様性を比較しています。"
+"多様性を計算する方法はたくさんあります。例えば、観察された特有な生物の数 (つまり、微生物の”豊富さ”) を数えることで、多様性の数値を計算することができます。または、生物の"
+"相対的存在量 (つまり、微生物の”均一性”) の計算を重み付けすることもできます。ここで計算している測定は、Faithの指数(元系統的多様性指数（元々ここで定義されている）と呼ばれ"
+"るものです。Faithの系統的多様性指数は、サンプルの進化の幅の量を、微生物の「豊富さ」として計算したものです。アルファ多様性の計算もQIIME2を使っています。さらに詳しく知り"
+"たい場合は、QIIME2のチュートリアル上で、アルファ多様性とベータ多様性の項目をご覧下さい"
 
 #: templates/sample_results.jinja2:168
 msgid "Beta Diversity"
@@ -2780,25 +2643,16 @@ msgstr "ベータ多様性"
 
 #: templates/sample_results.jinja2:170
 msgid ""
-"Here we display how your sample fits in among the other samples of The "
-"Microsetta Initiative in terms of shared microbes. There are many ways to"
-" calculate beta diversity, differing in how to weight the distance "
-"between any two microbes. We take evolutionary distance into account with"
-" the metric displayed here, known as Unweighted Unifrac. You can find an "
-"overview of this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\""
-" target=\"_blank\">here</a> or better understand its derivation <a "
-"href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" "
-"target=\"_blank\">here</a>. This computation is performed with <a "
-"href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>, and more "
-"information on it can be found in the alpha and beta diversity <a "
-"href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures/#alpha-"
-"and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME"
-" 2 tutorial"
+"Here we display how your sample fits in among the other samples of The Microsetta Initiative in terms of shared microbes. There are many ways to calculate beta "
+"diversity, differing in how to weight the distance between any two microbes. We take evolutionary distance into account with the metric displayed here, known as "
+"Unweighted Unifrac. You can find an overview of this metric <a href=\"https://en.wikipedia.org/wiki/UniFrac\" target=\"_blank\">here</a> or better understand its "
+"derivation <a href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" target=\"_blank\">here</a>. This computation is performed with <a href=\"https://qiime2.org"
+"\" target=\"_blank\">QIIME 2</a>, and more information on it can be found in the alpha and beta diversity <a href=\"https://docs.qiime2.org/2020.6/tutorials/moving-"
+"pictures/#alpha-and-beta-diversity-analysis\" target=\"_blank\">sections</a> of the QIIME 2 tutorial"
 msgstr ""
-"ここでは、微生物間の共通点から、あなたの便サンプルがマイクロゼッタ "
-"イニシアチブの他のサンプルとどのように適合するかを表示しています。ベータ多様性を計算する方法は幾つかあります。一つは二つの微生物間の距離を測る方法です。Unweighted"
-" "
-"Unifracと呼ばれる、距離計算法を使用して、生物進化的距離を測ります。下記のサイトからこの単位の概要、及び偏差を確認できます。この計算はQIIME2と呼ばれるソフトウェアで行われます。QIIME2のチュートリアルで、アルファ多様性とベータ多様性の情報を一覧することができます"
+"ここでは、微生物間の共通点から、あなたの便サンプルがマイクロゼッタ イニシアチブの他のサンプルとどのように適合するかを表示しています。ベータ多様性を計算する方法は幾つか"
+"あります。一つは二つの微生物間の距離を測る方法です。Unweighted Unifracと呼ばれる、距離計算法を使用して、生物進化的距離を測ります。下記のサイトからこの単位の概要、及び偏"
+"差を確認できます。この計算はQIIME2と呼ばれるソフトウェアで行われます。QIIME2のチュートリアルで、アルファ多様性とベータ多様性の情報を一覧することができます"
 
 #: templates/secondary_surveys.jinja2:2
 msgid "Secondary Surveys"
@@ -2991,11 +2845,8 @@ msgstr "メールアドレスを入力してください。"
 msgid "Please select your country."
 msgstr "あなたの国を選択してください。"
 
-#: templates/submit_interest.jinja2:237 templates/update_address.jinja2:135
-#: templates/update_address.jinja2:250
-msgid ""
-"Sorry, we were unable to verify your address. Please check your "
-"information and try again."
+#: templates/submit_interest.jinja2:237 templates/update_address.jinja2:135 templates/update_address.jinja2:250
+msgid "Sorry, we were unable to verify your address. Please check your information and try again."
 msgstr "大変申し訳ありませんが、住所を確認できません。あなたの基本情報を確認してから、もう一度お試しください。"
 
 #: templates/submit_interest.jinja2:239 templates/submit_interest.jinja2:595
@@ -3003,19 +2854,12 @@ msgid "Please agree to receiving communications from us."
 msgstr "THDMIジャパンプロジェクトからのメールが受信出来る環境に設定をお願いします。"
 
 #: templates/submit_interest.jinja2:300
-msgid ""
-"Sorry, due to widespread interest, the sign-up list for this project is "
-"full."
+msgid "Sorry, due to widespread interest, the sign-up list for this project is full."
 msgstr "大変申し訳ありませんが、この研究の登録リストは募集定員に達しました。"
 
 #: templates/submit_interest.jinja2:301
-msgid ""
-"Please visit our <a href=\"https://microsetta.ucsd.edu/\">website</a> to "
-"learn about other opportunities to participate in The Microsetta "
-"Initiative."
-msgstr ""
-"その他の研究参加については下記のマイクロゼッタ　イニシアティブのウェブサイトをご覧ください。<a "
-"href=\"https://microsetta.ucsd.edu/\">."
+msgid "Please visit our <a href=\"https://microsetta.ucsd.edu/\">website</a> to learn about other opportunities to participate in The Microsetta Initiative."
+msgstr "その他の研究参加については下記のマイクロゼッタ　イニシアティブのウェブサイトをご覧ください。<a href=\"https://microsetta.ucsd.edu/\">."
 
 #: templates/submit_interest.jinja2:305 templates/update_address.jinja2:193
 msgid "Verifying your information, please wait just a moment."
@@ -3034,9 +2878,7 @@ msgid "No"
 msgstr "いいえ"
 
 #: templates/submit_interest.jinja2:334
-msgid ""
-"Please note: Specimen collection kits are associated with the email used "
-"when registering. We recommend the following:"
+msgid "Please note: Specimen collection kits are associated with the email used when registering. We recommend the following:"
 msgstr "注意：ご登録頂いたメールアドレスにてご連絡、キットの発送を致します。下記を参考に登録をお願いします。"
 
 #: templates/submit_interest.jinja2:335
@@ -3044,9 +2886,7 @@ msgid "1. One email must be used per kit."
 msgstr "1. 1名につき1つのメールアドレスでご登録下さい。"
 
 #: templates/submit_interest.jinja2:336
-msgid ""
-"2. If you plan to complete the form on behalf of another adult, use that "
-"person's name and email address."
+msgid "2. If you plan to complete the form on behalf of another adult, use that person's name and email address."
 msgstr "2.参加者に代わってご登録される場合、必ず参加者本人の名前と電子メールアドレスを使用してください。"
 
 #: templates/submit_interest.jinja2:337
@@ -3054,9 +2894,7 @@ msgid "3. If possible, continue to use the same email throughout the study."
 msgstr "3.このプロジェクトにご参加中は登録のメールアドレスをご利用ください。"
 
 #: templates/submit_interest.jinja2:338
-msgid ""
-"Once you have received the kit, please continue to use the same email "
-"address used when creating your online account."
+msgid "Once you have received the kit, please continue to use the same email address used when creating your online account."
 msgstr "採便キットをお受け取りになった後は、登録時に使用したメールアドレスのみご使用ください。"
 
 #: templates/submit_interest.jinja2:348
@@ -3067,8 +2905,7 @@ msgstr "メールアドレス"
 msgid "Phone Number"
 msgstr "電話番号"
 
-#: templates/submit_interest.jinja2:358 templates/submit_interest.jinja2:576
-#: templates/update_address.jinja2:227
+#: templates/submit_interest.jinja2:358 templates/submit_interest.jinja2:576 templates/update_address.jinja2:227
 msgid "SELECT"
 msgstr "選択"
 
@@ -3090,12 +2927,9 @@ msgstr "商業"
 
 #: templates/submit_interest.jinja2:593
 msgid ""
-"By subscribing to this program, I agree to receive communications via the"
-" newsletter regarding the status of the program, the steps I must "
-"complete, tips and tricks for completing my participation and surveys. I "
-"agree and understand that I can unsubscribe at any time using a link in "
-"the newsletter and this will not change my consent to receive sample "
-"status updates directly from the TMI database. "
+"By subscribing to this program, I agree to receive communications via the newsletter regarding the status of the program, the steps I must complete, tips and tricks "
+"for completing my participation and surveys. I agree and understand that I can unsubscribe at any time using a link in the newsletter and this will not change my "
+"consent to receive sample status updates directly from the TMI database. "
 msgstr "参加登録後、参加申し込みに必要な手順、アンケート調査に関する情報等をEメールで受け取ることに同意します。"
 
 #: templates/submit_interest.jinja2:599
@@ -3152,9 +2986,8 @@ msgstr ""
 
 #: templates/update_address.jinja2:198
 msgid ""
-"Sorry, it appears you are having trouble verifying your address. Please "
-"contact our support team at microsetta@ucsd.edu and they can assist with "
-"confirming your address."
+"Sorry, it appears you are having trouble verifying your address. Please contact our support team at microsetta@ucsd.edu and they can assist with confirming your "
+"address."
 msgstr "申し訳ありませんが、住所が確認できません。 住所を確認するため、microsetta@ucsd.edu に連絡してください。"
 
 #: templates/update_address.jinja2:202
@@ -3166,9 +2999,7 @@ msgid "Address Updated"
 msgstr "住所更新"
 
 #: templates/update_address_confirm.jinja2:28
-msgid ""
-"Thank you for updating your address! Your information has been saved and "
-"you will receive an email notification once your kit ships."
+msgid "Thank you for updating your address! Your information has been saved and you will receive an email notification once your kit ships."
 msgstr "住所を更新していただきありがとうございます。あなたの情報が保存されました。採便キット発送の通知がメールで届きます。"
 
 #: templates/update_email.jinja2:2
@@ -3176,10 +3007,7 @@ msgid "Email Update"
 msgstr "メールの更新"
 
 #: templates/update_email.jinja2:12
-msgid ""
-"It appears that the email we have for your account is not the same as the"
-" email you logged in with.  Would you like us to update your email in our"
-" records?"
+msgid "It appears that the email we have for your account is not the same as the email you logged in with.  Would you like us to update your email in our records?"
 msgstr "あなたのアカウントに登録されているメールアドレスが、ログインされたメールアドレスと異なっています。Eメールアドレスを更新しますか？"
 
 #: templates/update_email.jinja2:18
@@ -3190,10 +3018,7 @@ msgstr "いいえ、更新せず続行する"
 msgid "Yes, update and continue"
 msgstr "はい、更新して続行する"
 
-#~ msgid ""
-#~ "Thank you for your interest! Your "
-#~ "information has been saved, and we "
-#~ "will contact you via email soon."
+#~ msgid "Thank you for your interest! Your information has been saved, and we will contact you via email soon."
 #~ msgstr "私たちの研究に関心をお持ちいただき、ありがとうございます。申し込みを承りました。まもなくメールが届きます。"
 
 #~ msgid "Unable to validate the kit name; please reload the page."
@@ -3497,4 +3322,3 @@ msgstr "はい、更新して続行する"
 
 #~ msgid "Please correct the fields with errors."
 #~ msgstr "エラー部分を修正して下さい。"
-

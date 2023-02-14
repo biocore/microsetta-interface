@@ -25,7 +25,7 @@
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
 
-        {% if age_range != None %}
+        {% if age_range is not none %}
         $("#{{ age_range }}-div").show();
         {% endif %}
 

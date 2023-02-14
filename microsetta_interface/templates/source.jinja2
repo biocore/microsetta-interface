@@ -109,7 +109,7 @@
                         <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
                     </div>
                     <div class="row m-3 text-center">
-                        {% if detail.answered == False %}
+                        {% if not detail.answered %}
                             <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
                                 <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
                             </a>

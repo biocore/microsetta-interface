@@ -92,7 +92,7 @@
                     {% if vio.vioscreen_status == 3 %}
                         <a href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{ vio.survey_id }}/reports/topfoodreport/pdf" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Top Food Report') }}</a>
                     {% else %}
-                        {% if vio.sample_id != None %}
+                        {% if vio.sample_id is not none %}
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
                         {% else %}
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>

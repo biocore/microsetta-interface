@@ -213,7 +213,7 @@
                         <div class="col-12">
                             <label for="sample_site" name="sample_site_label" class="sample-label">{{ _('Sample Type') }}*</label>
                             <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
-                                {% if not sample.sample_site %}
+                                {% if sample.sample_site is none %}
                                     <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
                                 {% endif %}
                                 {% for i in range(sample_sites| length) %}

@@ -116,7 +116,7 @@
                         {% else %}
                             <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
                         {% endif %}
-                        {% if detail.answered == False %}
+                        {% if not detail.answered %}
                             </a>
                         {% endif %}
                     </div>

@@ -1572,10 +1572,7 @@ def get_kits(*, account_id=None, source_id=None):
             s['css_class'] = "sample-complete"
             s['alert_icon'] = "green_checkmark.svg"
 
-        if s['kit_id'] in kits:
-            kits[s['kit_id']].append(s)
-        else:
-            kits[s['kit_id']] = [s]
+        kits[s['kit_id']].append(s)
 
     samples_output = kits
 

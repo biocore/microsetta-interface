@@ -117,7 +117,7 @@ SYSTEM_MSG_DICTIONARY = {
 client_state = RedisCache()
 
 # Countries allowed to view the contents of the My Kits tab
-KITS_TAB_WHITELIST = ['US', 'ES', 'JP']
+KITS_TAB_WHITELIST = {'US', 'ES', 'JP'}
 
 # Countries allowed to view the contents of the My Nutrition tab
 NUTRITION_TAB_WHITELIST = ['US']

@@ -619,8 +619,7 @@ def _refresh_state_and_route_to_sink(account_id=None, source_id=None):
 
 def _get_kit(kit_name):
     unable_to_validate_msg = gettext(
-        "Your KitID is not in our system or has already been used, please "
-        "try again!"
+        "The provided Kit ID is not in our system or has already been used."
     )
     error_msg = None
     response = None

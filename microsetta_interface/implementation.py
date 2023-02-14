@@ -1496,7 +1496,7 @@ def get_source(*, account_id=None, source_id=None):
         template['est_minutes'] = SURVEY_INFO.get(template_id)['est_minutes']
         template['icon'] = SURVEY_INFO.get(template_id)['icon']
 
-    # TODO: MyFoodRepo logic needs to be refactored if/when we reactivate it
+    # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
     """
     # any survey specific stuff like opening a tab
     # or slot checking

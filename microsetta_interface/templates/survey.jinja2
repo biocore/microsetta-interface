@@ -296,7 +296,7 @@
                     return postSurvey({{ next_survey['survey_template_id'] }});
                 }
             });
-        {% elif next_survey == None %}
+        {% elif next_survey is none %}
             last_group.fields.push(
             {
                 buttonText: "{{ _('Save & Previous') }}",

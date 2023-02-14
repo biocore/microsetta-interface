@@ -1563,7 +1563,7 @@ def get_kits(*, account_id=None, source_id=None):
 
     samples_output = [translate_sample(s) for s in samples_output]
 
-    kits = {}
+    kits = defaultdict(list)
     for s in samples_output:
         if s['sample_site'] == '' or s['sample_datetime'] == '':
             s['css_class'] = "sample-needs-info"

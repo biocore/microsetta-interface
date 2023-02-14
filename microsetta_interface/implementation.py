@@ -31,7 +31,6 @@ import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
     parse_request_csv_col, parse_request_csv, dict_to_csv
-# from weasyprint import HTML, CSS
 
 
 # TODO: source from a microsetta_private_api endpoint

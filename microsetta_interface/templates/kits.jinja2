@@ -129,7 +129,7 @@
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
 
-            {% for kit_id, kit_samples in samples.items() %}
+            {% for kit_samples in sorted(samples.values()) %}
                 {% for sample in kit_samples %}
                     addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
                 {% endfor %}

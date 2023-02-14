@@ -239,7 +239,7 @@
         }
 
         last_group = survey_schema.groups[survey_schema.groups.length-1];
-        {% if previous_survey == None %}
+        {% if previous_survey is none %}
             last_group.fields.push(
             {
                 buttonText: "{{ _('Save & Go Home') }}",

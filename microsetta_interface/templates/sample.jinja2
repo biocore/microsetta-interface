@@ -232,7 +232,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 mt-4 text-end">
-                            {% if not sample.sample_remove_locked and not admin_mod %}
+                            {% if not sample.sample_remove_locked and not admin_mode %}
                                 <button class="btn btn-white-red-border me-5" name="remove_button" onClick="return verifyDissociateSample();">{{ _('Remove') }}</button>
                             {% endif %}
                             {% if sample.sample_edit_locked and not admin_mod %}

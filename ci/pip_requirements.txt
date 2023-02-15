@@ -5,4 +5,3 @@ pytest-cov
 coveralls
 pycountry
 python-dateutil
-weasyprint

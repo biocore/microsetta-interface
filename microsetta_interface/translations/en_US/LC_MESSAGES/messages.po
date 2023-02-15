@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-24 22:16-0800\n"
+"POT-Creation-Date: 2023-02-15 13:39-0800\n"
 "PO-Revision-Date: 2021-05-17 16:56-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -18,99 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:610
-msgid ""
-"Your KitID is not in our system or has already been used, please try "
-"again!"
+#: implementation.py:582
+msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 
-#: implementation.py:645 templates/nutrition.jinja2:66
-msgid ""
-"Your registration code is not in our system or has already been used. "
-"Please try again."
-msgstr ""
-
-#: implementation.py:1172
+#: implementation.py:1160
 msgid "SKIP"
 msgstr ""
 
-#: implementation.py:1647 model_i18n.py:58
+#: implementation.py:1776 model_i18n.py:58
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1648 model_i18n.py:59
+#: implementation.py:1777 model_i18n.py:59
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1649 model_i18n.py:71
+#: implementation.py:1778 model_i18n.py:71
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1650 model_i18n.py:66
+#: implementation.py:1779 model_i18n.py:66
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1651 model_i18n.py:67
+#: implementation.py:1780 model_i18n.py:67
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1652 model_i18n.py:68
+#: implementation.py:1781 model_i18n.py:68
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1653 model_i18n.py:69
+#: implementation.py:1782 model_i18n.py:69
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1654 model_i18n.py:64
+#: implementation.py:1783 model_i18n.py:64
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1655 model_i18n.py:61
+#: implementation.py:1784 model_i18n.py:61
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1656 model_i18n.py:73
+#: implementation.py:1785 model_i18n.py:73
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1657 model_i18n.py:70
+#: implementation.py:1786 model_i18n.py:70
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1658 model_i18n.py:65
+#: implementation.py:1787 model_i18n.py:65
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1659 model_i18n.py:74
+#: implementation.py:1788 model_i18n.py:74
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1660 model_i18n.py:72
+#: implementation.py:1789 model_i18n.py:72
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1661 model_i18n.py:60
+#: implementation.py:1790 model_i18n.py:60
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1662 model_i18n.py:63
+#: implementation.py:1791 model_i18n.py:63
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1663 model_i18n.py:62
+#: implementation.py:1792 model_i18n.py:62
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:1979
+#: implementation.py:2081
 msgid "Unable to validate Activation Code at this time"
 msgstr ""
 
-#: implementation.py:2291
+#: implementation.py:2399
 msgid "Address 1, Postal Code, and Country are required"
 msgstr ""
 
-#: implementation.py:2703 implementation.py:2744
+#: implementation.py:2811 implementation.py:2923
 msgid "Sorry, there was a problem saving your information."
 msgstr ""
 
@@ -179,22 +171,6 @@ msgid "Cooking Oils and Oxalate-rich Foods"
 msgstr ""
 
 #: model_i18n.py:98
-msgid "A fermented foods specific questionnaire"
-msgstr ""
-
-#: model_i18n.py:99
-msgid "Questions on surfing behavior"
-msgstr ""
-
-#: model_i18n.py:100
-msgid "Questions about your interest in the microbiome"
-msgstr ""
-
-#: model_i18n.py:101
-msgid "Questions related to cooking oils and oxalate-rich foods"
-msgstr ""
-
-#: model_i18n.py:102
 msgid ""
 "Polyphenols are chemical compounds naturally found in plants that have "
 "been shown to provide many beneficial properties. They are antioxidants, "
@@ -204,7 +180,7 @@ msgid ""
 "diet."
 msgstr ""
 
-#: model_i18n.py:108
+#: model_i18n.py:104
 msgid ""
 "<strong>Only for participants in Spain:</strong><br />The Food Frequency "
 "Questionnaire (FFQ) will ask you about your usual frequency of "
@@ -213,7 +189,7 @@ msgid ""
 "like."
 msgstr ""
 
-#: model_i18n.py:115
+#: model_i18n.py:111
 msgid "en_us"
 msgstr ""
 
@@ -260,10 +236,10 @@ msgid "Postcode"
 msgstr ""
 
 #: templates/account_details.jinja2:109 templates/account_overview.jinja2:44
-#: templates/consents.jinja2:22 templates/kits.jinja2:149
-#: templates/new_participant.jinja2:192 templates/nutrition.jinja2:87
-#: templates/reports.jinja2:22 templates/sample.jinja2:182
-#: templates/source.jinja2:45 templates/survey.jinja2:194
+#: templates/consents.jinja2:22 templates/kits.jinja2:168
+#: templates/new_participant.jinja2:191 templates/nutrition.jinja2:87
+#: templates/reports.jinja2:55 templates/sample.jinja2:182
+#: templates/source.jinja2:45 templates/survey.jinja2:164
 msgid "Dashboard"
 msgstr ""
 
@@ -272,7 +248,7 @@ msgstr ""
 #: templates/admin_activation_codes.jinja2:21
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
 #: templates/admin_interested_user_edit.jinja2:114
-#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:213
+#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:226
 msgid "Email"
 msgstr ""
 
@@ -1104,7 +1080,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/account_details.jinja2:386 templates/sample.jinja2:237
+#: templates/account_details.jinja2:386 templates/sample.jinja2:242
 msgid "Save"
 msgstr ""
 
@@ -1559,16 +1535,20 @@ msgid "dark"
 msgstr ""
 
 #: templates/consents.jinja2:2 templates/consents.jinja2:30
-#: templates/sitebase.jinja2:169
+#: templates/sitebase.jinja2:183
 msgid "Consent Documents"
 msgstr ""
 
-#: templates/consents.jinja2:31
+#: templates/consents.jinja2:38
 msgid "Survey"
 msgstr ""
 
-#: templates/consents.jinja2:32
+#: templates/consents.jinja2:55
 msgid "Biospecimen"
+msgstr ""
+
+#: templates/consents.jinja2:59
+msgid "View"
 msgstr ""
 
 #: templates/create_nonhuman_source.jinja2:2
@@ -1644,9 +1624,7 @@ msgid "Embedded PDF"
 msgstr ""
 
 #: templates/embedded_pdf.jinja2:25
-msgid ""
-"This report is generated by a third party without information regarding "
-"age, height or weight."
+msgid "This report is generated by a third party."
 msgstr ""
 
 #: templates/emperor.jinja2:2 templates/emperor.jinja2:65
@@ -1687,8 +1665,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: templates/home.jinja2:2 templates/sitebase.jinja2:119
-#: templates/submit_interest.jinja2:2
+#: templates/home.jinja2:2 templates/submit_interest.jinja2:2
 #: templates/submit_interest_confirm.jinja2:2 templates/update_address.jinja2:2
 #: templates/update_address_confirm.jinja2:2
 msgid "Home"
@@ -1706,82 +1683,92 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: templates/kits.jinja2:2 templates/kits.jinja2:160
-#: templates/reports.jinja2:31 templates/sample.jinja2:2
-#: templates/sample.jinja2:184 templates/sitebase.jinja2:144
-#: templates/sitebase.jinja2:146
+#: templates/kits.jinja2:2 templates/kits.jinja2:177 templates/kits.jinja2:197
+#: templates/reports.jinja2:63 templates/sample.jinja2:2
+#: templates/sample.jinja2:184 templates/sitebase.jinja2:133
+#: templates/sitebase.jinja2:155 templates/sitebase.jinja2:157
 msgid "My Kits"
 msgstr ""
 
-#: templates/kits.jinja2:63 templates/kits.jinja2:177 templates/kits.jinja2:221
+#: templates/kits.jinja2:62 templates/kits.jinja2:214 templates/kits.jinja2:262
 msgid "KitID"
 msgstr ""
 
-#: templates/kits.jinja2:98
-msgid "View"
+#: templates/kits.jinja2:98 templates/reports.jinja2:26
+msgid "View Results"
 msgstr ""
 
-#: templates/kits.jinja2:155
+#: templates/kits.jinja2:183
+msgid ""
+"Currently, \"My Kits\" is unavailable in your country or region. We "
+"apologize for any inconvenience."
+msgstr ""
+
+#: templates/kits.jinja2:192
 msgid ""
 "Click on the following link if you would like to contribute to receive a "
 "kit"
 msgstr ""
 
-#: templates/kits.jinja2:155 templates/kits.jinja2:168
+#: templates/kits.jinja2:192 templates/kits.jinja2:205
 msgid "Get a Kit"
 msgstr ""
 
-#: templates/kits.jinja2:166
+#: templates/kits.jinja2:203
 msgid "Have a KitID"
 msgstr ""
 
-#: templates/kits.jinja2:208
+#: templates/kits.jinja2:231 templates/reports.jinja2:75
+msgid "Sample Received - Results Pending"
+msgstr ""
+
+#: templates/kits.jinja2:249
 msgid "To register your kit, enter your Kit ID below"
 msgstr ""
 
-#: templates/kits.jinja2:214
+#: templates/kits.jinja2:255
 msgid "Register Kit"
 msgstr ""
 
-#: templates/kits.jinja2:224
+#: templates/kits.jinja2:265
 msgid "Which barcode(s) are you using from this kit (select all that apply)?"
 msgstr ""
 
-#: templates/kits.jinja2:224
+#: templates/kits.jinja2:265
 msgid "Each collection tube you receive has a unique barcode printed on the side."
 msgstr ""
 
-#: templates/kits.jinja2:225
+#: templates/kits.jinja2:266
 msgid "1. Select the barcode(s) you are using"
 msgstr ""
 
-#: templates/kits.jinja2:226
+#: templates/kits.jinja2:267
 msgid ""
 "2. Add the date and time of sample collection and select the sample type "
 "taken."
 msgstr ""
 
-#: templates/kits.jinja2:227
+#: templates/kits.jinja2:268
 msgid "Important"
 msgstr ""
 
-#: templates/kits.jinja2:228
+#: templates/kits.jinja2:269
 msgid ""
 "The sample cannot be processed in the lab until this information is "
 "complete."
 msgstr ""
 
-#: templates/kits.jinja2:229
+#: templates/kits.jinja2:270
 msgid ""
 "Keep a record of these details. The barcode is needed to resolve any "
 "issues you may have with your sample collection."
 msgstr ""
 
-#: templates/kits.jinja2:229
+#: templates/kits.jinja2:270
 msgid "What is the barcode and why is it important?"
 msgstr ""
 
-#: templates/kits.jinja2:234
+#: templates/kits.jinja2:275
 msgid "Confirm"
 msgstr ""
 
@@ -1812,51 +1799,51 @@ msgstr ""
 msgid "Back to Samples"
 msgstr ""
 
-#: templates/new_participant.jinja2:2
+#: templates/new_participant.jinja2:2 templates/signed_consent.jinja2:2
 msgid "Consent"
 msgstr ""
 
-#: templates/new_participant.jinja2:32 templates/new_participant.jinja2:33
-#: templates/new_participant.jinja2:34 templates/new_participant.jinja2:35
+#: templates/new_participant.jinja2:31 templates/new_participant.jinja2:32
+#: templates/new_participant.jinja2:33 templates/new_participant.jinja2:34
 msgid "Saving..."
 msgstr ""
 
-#: templates/new_participant.jinja2:61 templates/new_participant.jinja2:85
-#: templates/new_participant.jinja2:102 templates/new_participant.jinja2:104
-#: templates/new_participant.jinja2:119 templates/new_participant.jinja2:260
-#: templates/new_participant.jinja2:378 templates/new_participant.jinja2:430
-#: templates/new_participant.jinja2:465 templates/new_participant.jinja2:518
+#: templates/new_participant.jinja2:60 templates/new_participant.jinja2:84
+#: templates/new_participant.jinja2:101 templates/new_participant.jinja2:103
+#: templates/new_participant.jinja2:118 templates/new_participant.jinja2:255
+#: templates/new_participant.jinja2:355 templates/new_participant.jinja2:396
+#: templates/new_participant.jinja2:425 templates/new_participant.jinja2:468
 msgid "Please confirm that you have read this form."
 msgstr ""
 
-#: templates/new_participant.jinja2:62 templates/new_participant.jinja2:82
-#: templates/new_participant.jinja2:103 templates/new_participant.jinja2:120
-#: templates/new_participant.jinja2:271 templates/new_participant.jinja2:333
-#: templates/new_participant.jinja2:441 templates/new_participant.jinja2:529
+#: templates/new_participant.jinja2:61 templates/new_participant.jinja2:81
+#: templates/new_participant.jinja2:102 templates/new_participant.jinja2:119
+#: templates/new_participant.jinja2:266 templates/new_participant.jinja2:316
+#: templates/new_participant.jinja2:407 templates/new_participant.jinja2:479
 msgid "Please enter the participant name."
 msgstr ""
 
-#: templates/new_participant.jinja2:63 templates/new_participant.jinja2:86
-#: templates/new_participant.jinja2:105 templates/new_participant.jinja2:282
-#: templates/new_participant.jinja2:389 templates/new_participant.jinja2:476
+#: templates/new_participant.jinja2:62 templates/new_participant.jinja2:85
+#: templates/new_participant.jinja2:104 templates/new_participant.jinja2:277
+#: templates/new_participant.jinja2:366 templates/new_participant.jinja2:436
 msgid "Please enter the parent or guardian name."
 msgstr ""
 
-#: templates/new_participant.jinja2:81 templates/new_participant.jinja2:322
+#: templates/new_participant.jinja2:80 templates/new_participant.jinja2:305
 msgid "Please confirm that you will be in this study."
 msgstr ""
 
-#: templates/new_participant.jinja2:83 templates/new_participant.jinja2:344
+#: templates/new_participant.jinja2:82 templates/new_participant.jinja2:327
 msgid ""
 "Please confirm that the participant is voluntarily and knowingly giving "
 "consent."
 msgstr ""
 
-#: templates/new_participant.jinja2:84 templates/new_participant.jinja2:355
+#: templates/new_participant.jinja2:83 templates/new_participant.jinja2:338
 msgid "Please enter the name of the person obtaining assent."
 msgstr ""
 
-#: templates/new_participant.jinja2:144
+#: templates/new_participant.jinja2:143
 msgid ""
 "It looks like you are creating a new profile that may be similar or the "
 "same as an existing profile. If this is the same person as an existing "
@@ -1864,50 +1851,52 @@ msgid ""
 "that profile."
 msgstr ""
 
-#: templates/new_participant.jinja2:163 templates/new_participant.jinja2:177
-#: templates/new_participant.jinja2:288 templates/new_participant.jinja2:395
-#: templates/new_participant.jinja2:482 templates/new_participant.jinja2:535
+#: templates/new_participant.jinja2:162 templates/new_participant.jinja2:176
+#: templates/new_participant.jinja2:283 templates/new_participant.jinja2:372
+#: templates/new_participant.jinja2:442 templates/new_participant.jinja2:485
 msgid "I Accept"
 msgstr ""
 
-#: templates/new_participant.jinja2:194
+#: templates/new_participant.jinja2:193
 msgid "Biospecimen Consent Form"
 msgstr ""
 
-#: templates/new_participant.jinja2:196
+#: templates/new_participant.jinja2:195
 msgid "Data Consent Form"
 msgstr ""
 
-#: templates/new_participant.jinja2:207
+#: templates/new_participant.jinja2:206
 msgid ""
 "Signature and agreement of this consent form is required to process your "
 "sample(s)."
 msgstr ""
 
-#: templates/new_participant.jinja2:213
+#: templates/new_participant.jinja2:212
 msgid "Select age range of participant"
 msgstr ""
 
-#: templates/new_participant.jinja2:257 templates/new_participant.jinja2:375
-#: templates/new_participant.jinja2:462 templates/new_participant.jinja2:515
+#: templates/new_participant.jinja2:252 templates/new_participant.jinja2:352
+#: templates/new_participant.jinja2:422 templates/new_participant.jinja2:465
+#: templates/signed_consent.jinja2:23 templates/signed_consent.jinja2:107
+#: templates/signed_consent.jinja2:163 templates/signed_consent.jinja2:200
 msgid "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
 msgstr ""
 
-#: templates/new_participant.jinja2:287 templates/new_participant.jinja2:394
-#: templates/new_participant.jinja2:481 templates/new_participant.jinja2:534
-#: templates/sample.jinja2:236
+#: templates/new_participant.jinja2:282 templates/new_participant.jinja2:371
+#: templates/new_participant.jinja2:441 templates/new_participant.jinja2:484
+#: templates/sample.jinja2:241
 msgid "Cancel"
 msgstr ""
 
-#: templates/new_participant.jinja2:546
+#: templates/new_participant.jinja2:496
 msgid "Warning"
 msgstr ""
 
-#: templates/new_participant.jinja2:552
+#: templates/new_participant.jinja2:502
 msgid "Return to Home Page"
 msgstr ""
 
-#: templates/new_participant.jinja2:553
+#: templates/new_participant.jinja2:503
 msgid "Proceed with Creating New Source"
 msgstr ""
 
@@ -2537,39 +2526,97 @@ msgid ""
 "produced?</span>"
 msgstr ""
 
-#: templates/nutrition.jinja2:2 templates/nutrition.jinja2:95
-#: templates/reports.jinja2:32 templates/sitebase.jinja2:151
-#: templates/sitebase.jinja2:153
+#: templates/nutrition.jinja2:2 templates/sitebase.jinja2:135
+#: templates/sitebase.jinja2:162 templates/sitebase.jinja2:164
 msgid "My Nutrition"
 msgstr ""
 
-#: templates/nutrition.jinja2:101
+#: templates/nutrition.jinja2:66
+msgid ""
+"Your registration code is not in our system or has already been used. "
+"Please try again."
+msgstr ""
+
+#: templates/nutrition.jinja2:96 templates/nutrition.jinja2:113
+#: templates/reports.jinja2:83
+msgid "My FFQs"
+msgstr ""
+
+#: templates/nutrition.jinja2:102
+msgid ""
+"Currently, \"My FFQs\" is unavailable in your country or region. We "
+"apologize for any inconvenience."
+msgstr ""
+
+#: templates/nutrition.jinja2:119
 msgid "Have an FFQ Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:103
+#: templates/nutrition.jinja2:121
 msgid "Get an FFQ Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:111
+#: templates/nutrition.jinja2:129
 msgid ""
 "This Food Frequency Questionnaire (FFQ) will take approximately 30 "
 "minutes. By completing it, you'll receive the following report"
 msgstr ""
 
-#: templates/nutrition.jinja2:112
+#: templates/nutrition.jinja2:130
 msgid ""
 "Personal diet and nutrition summary, listing the highest contributing "
 "food sources of nutrients you should try to limit and your top food "
 "sources with key nutrients that promote good health."
 msgstr ""
 
-#: templates/nutrition.jinja2:121
+#: templates/nutrition.jinja2:135
+msgid ""
+"You must press the \"Finish\" button on the final page of the FFQ to "
+"register it as completed. You can complete the FFQ in stages by clicking "
+"\"Continue FFQ\" and selecting the \"Resume\" button to return to where "
+"you left off."
+msgstr ""
+
+#: templates/nutrition.jinja2:146 templates/reports.jinja2:93
+msgid "Download Top Food Report"
+msgstr ""
+
+#: templates/nutrition.jinja2:149 templates/nutrition.jinja2:151
+#: templates/reports.jinja2:96 templates/reports.jinja2:98
+msgid "Continue FFQ"
+msgstr ""
+
+#: templates/nutrition.jinja2:164
 msgid "Registration Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:127
+#: templates/nutrition.jinja2:170
 msgid "Register FFQ"
+msgstr ""
+
+#: templates/opt_out.jinja2:2 templates/opt_out.jinja2:37
+#: templates/opt_out_confirm.jinja2:2
+msgid "Opt Out"
+msgstr ""
+
+#: templates/opt_out.jinja2:28
+msgid ""
+"Sorry, we could not complete the request. Please email <a "
+"href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a> with the "
+"email address you signed up with so we can remove you from our list."
+msgstr ""
+
+#: templates/opt_out.jinja2:36
+msgid ""
+"We're sorry you are no longer interested in participating in The Human "
+"Diets & Microbiome Initiative (THDMI). Please click the \"opt out\" "
+"button below to confirm that you do not wish to take part."
+msgstr ""
+
+#: templates/opt_out_confirm.jinja2:27
+msgid ""
+"Thank you for letting us know. You will no longer be part of this "
+"research study."
 msgstr ""
 
 #: templates/post_sample_questionnaire.jinja2:2
@@ -2616,8 +2663,8 @@ msgstr ""
 msgid "Take FFQ"
 msgstr ""
 
-#: templates/reports.jinja2:2 templates/reports.jinja2:30
-#: templates/sitebase.jinja2:158 templates/sitebase.jinja2:160
+#: templates/reports.jinja2:2 templates/sitebase.jinja2:137
+#: templates/sitebase.jinja2:169 templates/sitebase.jinja2:171
 msgid "My Reports"
 msgstr ""
 
@@ -2669,8 +2716,15 @@ msgstr ""
 msgid "(Optional) Is there else about this sample that you would like to add?"
 msgstr ""
 
-#: templates/sample.jinja2:235
+#: templates/sample.jinja2:236
 msgid "Remove"
+msgstr ""
+
+#: templates/sample.jinja2:239
+msgid ""
+"Your sample has been received by our lab and can no longer be edited. "
+"Please <a href=\"mailto:microsetta@ucsd.edu\">contact us</a> with any "
+"questions."
 msgstr ""
 
 #: templates/sample_results.jinja2:140
@@ -2755,6 +2809,11 @@ msgstr ""
 msgid "Survey Description"
 msgstr ""
 
+#: templates/signed_consent.jinja2:51 templates/signed_consent.jinja2:125
+#: templates/signed_consent.jinja2:181 templates/signed_consent.jinja2:218
+msgid "Date Signed"
+msgstr ""
+
 #: templates/sitebase.jinja2:5
 msgid "Microsetta"
 msgstr ""
@@ -2801,26 +2860,27 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
-#: templates/sitebase.jinja2:137 templates/sitebase.jinja2:139
-#: templates/source.jinja2:2 templates/survey.jinja2:195
+#: templates/sitebase.jinja2:139 templates/sitebase.jinja2:148
+#: templates/sitebase.jinja2:150 templates/source.jinja2:2
+#: templates/survey.jinja2:165
 msgid "My Profile"
 msgstr ""
 
-#: templates/sitebase.jinja2:170
+#: templates/sitebase.jinja2:184
 msgid "Delete This Profile"
 msgstr ""
 
-#: templates/sitebase.jinja2:185
+#: templates/sitebase.jinja2:198
 msgid "Are you sure you want to withdraw your consent and delete your profile?"
 msgstr ""
 
-#: templates/sitebase.jinja2:188
+#: templates/sitebase.jinja2:201
 msgid ""
 "I hereby withdraw consent for researchers to use my personal data and/or "
 "sample(s) for The Microsetta Initiative (TMI)."
 msgstr ""
 
-#: templates/sitebase.jinja2:189
+#: templates/sitebase.jinja2:202
 msgid ""
 "I understand and acknowledge that any personal data and/or sample(s) that"
 " have already been provided to TMI in accordance with the consent I "
@@ -2828,14 +2888,14 @@ msgid ""
 " research. However, no new information will be collected."
 msgstr ""
 
-#: templates/sitebase.jinja2:190
+#: templates/sitebase.jinja2:203
 msgid ""
 "I understand that my data will only be shared after directly identifying "
 "information has been removed so that researchers cannot re-identify my "
 "personal data and/or sample(s) for future use."
 msgstr ""
 
-#: templates/sitebase.jinja2:191
+#: templates/sitebase.jinja2:204
 msgid ""
 "By clicking withdraw, you will be ending your participation and "
 "terminating your profile. If you would like to be removed from being "
@@ -2844,15 +2904,15 @@ msgid ""
 "microsetta@ucsd.edu."
 msgstr ""
 
-#: templates/sitebase.jinja2:194 templates/source.jinja2:151
+#: templates/sitebase.jinja2:207 templates/source.jinja2:151
 msgid "Maybe Later"
 msgstr ""
 
-#: templates/sitebase.jinja2:195 templates/source.jinja2:152
+#: templates/sitebase.jinja2:208 templates/source.jinja2:152
 msgid "Take This Survey Now"
 msgstr ""
 
-#: templates/sitebase.jinja2:211
+#: templates/sitebase.jinja2:224
 msgid "FAQs"
 msgstr ""
 
@@ -2878,7 +2938,7 @@ msgstr ""
 msgid "NEW"
 msgstr ""
 
-#: templates/source.jinja2:67 templates/survey.jinja2:206
+#: templates/source.jinja2:67 templates/survey.jinja2:176
 msgid "minutes"
 msgstr ""
 
@@ -3052,36 +3112,36 @@ msgstr ""
 msgid " selected"
 msgstr ""
 
-#: templates/survey.jinja2:130
+#: templates/survey.jinja2:96
 msgid "The value is not an integer"
 msgstr ""
 
-#: templates/survey.jinja2:131
+#: templates/survey.jinja2:97
 msgid "Invalid number"
 msgstr ""
 
-#: templates/survey.jinja2:206
+#: templates/survey.jinja2:176
 msgid "questions"
 msgstr ""
 
-#: templates/survey.jinja2:226
+#: templates/survey.jinja2:196
 msgid "You've finished building your profile!"
 msgstr ""
 
-#: templates/survey.jinja2:271 templates/survey.jinja2:302
-#: templates/survey.jinja2:333
-msgid "Save & Come Back Later"
+#: templates/survey.jinja2:245 templates/survey.jinja2:276
+#: templates/survey.jinja2:307
+msgid "Save & Go Home"
 msgstr ""
 
-#: templates/survey.jinja2:280 templates/survey.jinja2:342
+#: templates/survey.jinja2:254 templates/survey.jinja2:316
 msgid "Save & Next"
 msgstr ""
 
-#: templates/survey.jinja2:292 templates/survey.jinja2:323
+#: templates/survey.jinja2:266 templates/survey.jinja2:297
 msgid "Save & Previous"
 msgstr ""
 
-#: templates/survey.jinja2:311
+#: templates/survey.jinja2:285
 msgid "Save & Finish"
 msgstr ""
 
@@ -3528,5 +3588,2498 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Please correct the fields with errors."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your KitID is not in our system"
+#~ " or has already been used, please "
+#~ "try again!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This report is generated by a "
+#~ "third party without information regarding "
+#~ "age, height or weight."
+#~ msgstr ""
+
+#~ msgid "Save & Come Back Later"
+#~ msgstr ""
+
+#~ msgid "Account Details"
+#~ msgstr ""
+
+#~ msgid "Please agree to the Privacy Statement and Terms and Conditions"
+#~ msgstr ""
+
+#~ msgid "City"
+#~ msgstr ""
+
+#~ msgid "State"
+#~ msgstr ""
+
+#~ msgid "Zip Code"
+#~ msgstr ""
+
+#~ msgid "City/Town"
+#~ msgstr ""
+
+#~ msgid "County/State"
+#~ msgstr ""
+
+#~ msgid "Postcode"
+#~ msgstr ""
+
+#~ msgid "Dashboard"
+#~ msgstr ""
+
+#~ msgid "Email"
+#~ msgstr ""
+
+#~ msgid "Prefer to use a different email account?  You can change it "
+#~ msgstr ""
+
+#~ msgid "here"
+#~ msgstr ""
+
+#~ msgid "First Name"
+#~ msgstr ""
+
+#~ msgid "Last Name"
+#~ msgstr ""
+
+#~ msgid "Country"
+#~ msgstr ""
+
+#~ msgid "United States"
+#~ msgstr ""
+
+#~ msgid "United Kingdom"
+#~ msgstr ""
+
+#~ msgid "Mexico"
+#~ msgstr ""
+
+#~ msgid "Spain"
+#~ msgstr ""
+
+#~ msgid "Afghanistan"
+#~ msgstr ""
+
+#~ msgid "Albania"
+#~ msgstr ""
+
+#~ msgid "Algeria"
+#~ msgstr ""
+
+#~ msgid "Andorra"
+#~ msgstr ""
+
+#~ msgid "Angola"
+#~ msgstr ""
+
+#~ msgid "Antarctica"
+#~ msgstr ""
+
+#~ msgid "Antigua and Barbuda"
+#~ msgstr ""
+
+#~ msgid "Argentina"
+#~ msgstr ""
+
+#~ msgid "Armenia"
+#~ msgstr ""
+
+#~ msgid "Australia"
+#~ msgstr ""
+
+#~ msgid "Austria"
+#~ msgstr ""
+
+#~ msgid "Azerbaijan"
+#~ msgstr ""
+
+#~ msgid "Bahamas"
+#~ msgstr ""
+
+#~ msgid "Bahrain"
+#~ msgstr ""
+
+#~ msgid "Bangladesh"
+#~ msgstr ""
+
+#~ msgid "Barbados"
+#~ msgstr ""
+
+#~ msgid "Belarus"
+#~ msgstr ""
+
+#~ msgid "Belgium"
+#~ msgstr ""
+
+#~ msgid "Belize"
+#~ msgstr ""
+
+#~ msgid "Benin"
+#~ msgstr ""
+
+#~ msgid "Bermuda"
+#~ msgstr ""
+
+#~ msgid "Bhutan"
+#~ msgstr ""
+
+#~ msgid "Bolivia"
+#~ msgstr ""
+
+#~ msgid "Bosnia and Herzegovina"
+#~ msgstr ""
+
+#~ msgid "Botswana"
+#~ msgstr ""
+
+#~ msgid "Brazil"
+#~ msgstr ""
+
+#~ msgid "Brunei"
+#~ msgstr ""
+
+#~ msgid "Bulgaria"
+#~ msgstr ""
+
+#~ msgid "Burkina Faso"
+#~ msgstr ""
+
+#~ msgid "Burma"
+#~ msgstr ""
+
+#~ msgid "Burundi"
+#~ msgstr ""
+
+#~ msgid "Cambodia"
+#~ msgstr ""
+
+#~ msgid "Cameroon"
+#~ msgstr ""
+
+#~ msgid "Canada"
+#~ msgstr ""
+
+#~ msgid "Cape Verde"
+#~ msgstr ""
+
+#~ msgid "Central African Republic"
+#~ msgstr ""
+
+#~ msgid "Chad"
+#~ msgstr ""
+
+#~ msgid "Chile"
+#~ msgstr ""
+
+#~ msgid "China"
+#~ msgstr ""
+
+#~ msgid "Colombia"
+#~ msgstr ""
+
+#~ msgid "Comoros"
+#~ msgstr ""
+
+#~ msgid "Congo, Democratic Republic"
+#~ msgstr ""
+
+#~ msgid "Congo, Republic of the"
+#~ msgstr ""
+
+#~ msgid "Costa Rica"
+#~ msgstr ""
+
+#~ msgid "Cote d'Ivoire"
+#~ msgstr ""
+
+#~ msgid "Croatia"
+#~ msgstr ""
+
+#~ msgid "Cuba"
+#~ msgstr ""
+
+#~ msgid "Cyprus"
+#~ msgstr ""
+
+#~ msgid "Czech Republic"
+#~ msgstr ""
+
+#~ msgid "Denmark"
+#~ msgstr ""
+
+#~ msgid "Djibouti"
+#~ msgstr ""
+
+#~ msgid "Dominica"
+#~ msgstr ""
+
+#~ msgid "Dominican Republic"
+#~ msgstr ""
+
+#~ msgid "East Timor"
+#~ msgstr ""
+
+#~ msgid "Ecuador"
+#~ msgstr ""
+
+#~ msgid "Egypt"
+#~ msgstr ""
+
+#~ msgid "El Salvador"
+#~ msgstr ""
+
+#~ msgid "Equatorial Guinea"
+#~ msgstr ""
+
+#~ msgid "Eritrea"
+#~ msgstr ""
+
+#~ msgid "Estonia"
+#~ msgstr ""
+
+#~ msgid "Ethiopia"
+#~ msgstr ""
+
+#~ msgid "Fiji"
+#~ msgstr ""
+
+#~ msgid "Finland"
+#~ msgstr ""
+
+#~ msgid "France"
+#~ msgstr ""
+
+#~ msgid "Gabon"
+#~ msgstr ""
+
+#~ msgid "Gambia"
+#~ msgstr ""
+
+#~ msgid "Georgia"
+#~ msgstr ""
+
+#~ msgid "Germany"
+#~ msgstr ""
+
+#~ msgid "Ghana"
+#~ msgstr ""
+
+#~ msgid "Greece"
+#~ msgstr ""
+
+#~ msgid "Greenland"
+#~ msgstr ""
+
+#~ msgid "Grenada"
+#~ msgstr ""
+
+#~ msgid "Guatemala"
+#~ msgstr ""
+
+#~ msgid "Guinea"
+#~ msgstr ""
+
+#~ msgid "Guinea-Bissau"
+#~ msgstr ""
+
+#~ msgid "Guyana"
+#~ msgstr ""
+
+#~ msgid "Haiti"
+#~ msgstr ""
+
+#~ msgid "Honduras"
+#~ msgstr ""
+
+#~ msgid "Hong Kong"
+#~ msgstr ""
+
+#~ msgid "Hungary"
+#~ msgstr ""
+
+#~ msgid "Iceland"
+#~ msgstr ""
+
+#~ msgid "India"
+#~ msgstr ""
+
+#~ msgid "Indonesia"
+#~ msgstr ""
+
+#~ msgid "Iran"
+#~ msgstr ""
+
+#~ msgid "Iraq"
+#~ msgstr ""
+
+#~ msgid "Ireland"
+#~ msgstr ""
+
+#~ msgid "Israel"
+#~ msgstr ""
+
+#~ msgid "Italy"
+#~ msgstr ""
+
+#~ msgid "Jamaica"
+#~ msgstr ""
+
+#~ msgid "Japan"
+#~ msgstr ""
+
+#~ msgid "Jordan"
+#~ msgstr ""
+
+#~ msgid "Kazakhstan"
+#~ msgstr ""
+
+#~ msgid "Kenya"
+#~ msgstr ""
+
+#~ msgid "Kiribati"
+#~ msgstr ""
+
+#~ msgid "Korea North"
+#~ msgstr ""
+
+#~ msgid "Korea South"
+#~ msgstr ""
+
+#~ msgid "Kuwait"
+#~ msgstr ""
+
+#~ msgid "Kyrgyzstan"
+#~ msgstr ""
+
+#~ msgid "Laos"
+#~ msgstr ""
+
+#~ msgid "Latvia"
+#~ msgstr ""
+
+#~ msgid "Lebanon"
+#~ msgstr ""
+
+#~ msgid "Lesotho"
+#~ msgstr ""
+
+#~ msgid "Liberia"
+#~ msgstr ""
+
+#~ msgid "Libya"
+#~ msgstr ""
+
+#~ msgid "Liechtenstein"
+#~ msgstr ""
+
+#~ msgid "Lithuania"
+#~ msgstr ""
+
+#~ msgid "Luxembourg"
+#~ msgstr ""
+
+#~ msgid "Macedonia"
+#~ msgstr ""
+
+#~ msgid "Madagascar"
+#~ msgstr ""
+
+#~ msgid "Malawi"
+#~ msgstr ""
+
+#~ msgid "Malaysia"
+#~ msgstr ""
+
+#~ msgid "Maldives"
+#~ msgstr ""
+
+#~ msgid "Mali"
+#~ msgstr ""
+
+#~ msgid "Malta"
+#~ msgstr ""
+
+#~ msgid "Marshall Islands"
+#~ msgstr ""
+
+#~ msgid "Mauritania"
+#~ msgstr ""
+
+#~ msgid "Mauritius"
+#~ msgstr ""
+
+#~ msgid "Micronesia"
+#~ msgstr ""
+
+#~ msgid "Moldova"
+#~ msgstr ""
+
+#~ msgid "Mongolia"
+#~ msgstr ""
+
+#~ msgid "Montenegro"
+#~ msgstr ""
+
+#~ msgid "Morocco"
+#~ msgstr ""
+
+#~ msgid "Monaco"
+#~ msgstr ""
+
+#~ msgid "Mozambique"
+#~ msgstr ""
+
+#~ msgid "Namibia"
+#~ msgstr ""
+
+#~ msgid "Nauru"
+#~ msgstr ""
+
+#~ msgid "Nepal"
+#~ msgstr ""
+
+#~ msgid "Netherlands"
+#~ msgstr ""
+
+#~ msgid "New Zealand"
+#~ msgstr ""
+
+#~ msgid "Nicaragua"
+#~ msgstr ""
+
+#~ msgid "Niger"
+#~ msgstr ""
+
+#~ msgid "Nigeria"
+#~ msgstr ""
+
+#~ msgid "Norway"
+#~ msgstr ""
+
+#~ msgid "Oman"
+#~ msgstr ""
+
+#~ msgid "Pakistan"
+#~ msgstr ""
+
+#~ msgid "Panama"
+#~ msgstr ""
+
+#~ msgid "Papua New Guinea"
+#~ msgstr ""
+
+#~ msgid "Paraguay"
+#~ msgstr ""
+
+#~ msgid "Peru"
+#~ msgstr ""
+
+#~ msgid "Philippines"
+#~ msgstr ""
+
+#~ msgid "Poland"
+#~ msgstr ""
+
+#~ msgid "Portugal"
+#~ msgstr ""
+
+#~ msgid "Qatar"
+#~ msgstr ""
+
+#~ msgid "Romania"
+#~ msgstr ""
+
+#~ msgid "Russia"
+#~ msgstr ""
+
+#~ msgid "Rwanda"
+#~ msgstr ""
+
+#~ msgid "Samoa"
+#~ msgstr ""
+
+#~ msgid "San Marino"
+#~ msgstr ""
+
+#~ msgid "Sao Tome"
+#~ msgstr ""
+
+#~ msgid "Saudi Arabia"
+#~ msgstr ""
+
+#~ msgid "Senegal"
+#~ msgstr ""
+
+#~ msgid "Serbia"
+#~ msgstr ""
+
+#~ msgid "Seychelles"
+#~ msgstr ""
+
+#~ msgid "Sierra Leone"
+#~ msgstr ""
+
+#~ msgid "Singapore"
+#~ msgstr ""
+
+#~ msgid "Slovakia"
+#~ msgstr ""
+
+#~ msgid "Slovenia"
+#~ msgstr ""
+
+#~ msgid "Solomon Islands"
+#~ msgstr ""
+
+#~ msgid "Somalia"
+#~ msgstr ""
+
+#~ msgid "South Africa"
+#~ msgstr ""
+
+#~ msgid "Sri Lanka"
+#~ msgstr ""
+
+#~ msgid "Sudan"
+#~ msgstr ""
+
+#~ msgid "Suriname"
+#~ msgstr ""
+
+#~ msgid "Swaziland"
+#~ msgstr ""
+
+#~ msgid "Sweden"
+#~ msgstr ""
+
+#~ msgid "Switzerland"
+#~ msgstr ""
+
+#~ msgid "Syria"
+#~ msgstr ""
+
+#~ msgid "Taiwan"
+#~ msgstr ""
+
+#~ msgid "Tajikistan"
+#~ msgstr ""
+
+#~ msgid "Tanzania"
+#~ msgstr ""
+
+#~ msgid "Thailand"
+#~ msgstr ""
+
+#~ msgid "Togo"
+#~ msgstr ""
+
+#~ msgid "Tonga"
+#~ msgstr ""
+
+#~ msgid "Trinidad and Tobago"
+#~ msgstr ""
+
+#~ msgid "Tunisia"
+#~ msgstr ""
+
+#~ msgid "Turkey"
+#~ msgstr ""
+
+#~ msgid "Turkmenistan"
+#~ msgstr ""
+
+#~ msgid "Uganda"
+#~ msgstr ""
+
+#~ msgid "Ukraine"
+#~ msgstr ""
+
+#~ msgid "United Arab Emirates"
+#~ msgstr ""
+
+#~ msgid "Uruguay"
+#~ msgstr ""
+
+#~ msgid "Uzbekistan"
+#~ msgstr ""
+
+#~ msgid "Vanuatu"
+#~ msgstr ""
+
+#~ msgid "Venezuela"
+#~ msgstr ""
+
+#~ msgid "Viet nam"
+#~ msgstr ""
+
+#~ msgid "Yemen"
+#~ msgstr ""
+
+#~ msgid "Zambia"
+#~ msgstr ""
+
+#~ msgid "Zimbabwe"
+#~ msgstr ""
+
+#~ msgid "Address Line 1"
+#~ msgstr ""
+
+#~ msgid "Address Line 2"
+#~ msgstr ""
+
+#~ msgid "Preferred language for future communications"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I agree to the <a "
+#~ "href=\"https://microsetta.ucsd.edu/privacy-statement/\" "
+#~ "target=\"_blank\">Privacy Statement</a> and accept"
+#~ " the <a href=\"https://microsetta.ucsd.edu/terms-"
+#~ "and-conditions/\" target=\"_blank\">Terms and "
+#~ "Conditions</a>"
+#~ msgstr ""
+
+#~ msgid "Next"
+#~ msgstr ""
+
+#~ msgid "Save"
+#~ msgstr ""
+
+#~ msgid "Danger zone"
+#~ msgstr ""
+
+#~ msgid "Delete or scrub the account."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If the account has any samples "
+#~ "associated, the account and sources will"
+#~ " be scrubbed, meaning all free text"
+#~ " and identifiable information is removed."
+#~ msgstr ""
+
+#~ msgid "Otherwise, the account and any sources will be deleted"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "IMPORTANT: you must manually delete the"
+#~ " email from Authrocket and other "
+#~ "external services like MyEmma to "
+#~ "complete the process"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT DELETION CANNOT BE UNDONE"
+#~ msgstr ""
+
+#~ msgid "Delete Account"
+#~ msgstr ""
+
+#~ msgid "Account"
+#~ msgstr ""
+
+#~ msgid "Active Profiles"
+#~ msgstr ""
+
+#~ msgid "Go to My Profile"
+#~ msgstr ""
+
+#~ msgid "Add New Profile"
+#~ msgstr ""
+
+#~ msgid "Select the type of profile you would like to create."
+#~ msgstr ""
+
+#~ msgid "Human Profile"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Share your diet, health, and lifestyle"
+#~ " details to help discover more about"
+#~ " how this affects the human "
+#~ "microbiome."
+#~ msgstr ""
+
+#~ msgid "Add Human Profile"
+#~ msgstr ""
+
+#~ msgid "Pet Profile"
+#~ msgstr ""
+
+#~ msgid "Share sample(s) from an animal (e.g. fecal, saliva, skin, etc.)"
+#~ msgstr ""
+
+#~ msgid "Coming Soon"
+#~ msgstr ""
+
+#~ msgid "Environment Profile"
+#~ msgstr ""
+
+#~ msgid "Share sample(s) from the environment (e.g. kitchen counter, food, etc.)"
+#~ msgstr ""
+
+#~ msgid "Admin Activation Codes"
+#~ msgstr ""
+
+#~ msgid "Search by Email"
+#~ msgstr ""
+
+#~ msgid "Search"
+#~ msgstr ""
+
+#~ msgid "Search by Activation Code"
+#~ msgstr ""
+
+#~ msgid "Activation Code"
+#~ msgstr ""
+
+#~ msgid "Generate Activation Code"
+#~ msgstr ""
+
+#~ msgid "Generate"
+#~ msgstr ""
+
+#~ msgid "Generate + Send Email"
+#~ msgstr ""
+
+#~ msgid "Generate Activation Codes from CSV File"
+#~ msgstr ""
+
+#~ msgid "CSV File of Emails"
+#~ msgstr ""
+
+#~ msgid "Search Results"
+#~ msgstr ""
+
+#~ msgid "Code"
+#~ msgstr ""
+
+#~ msgid "Activated"
+#~ msgstr ""
+
+#~ msgid "No accounts found"
+#~ msgstr ""
+
+#~ msgid "Admin Address Verification"
+#~ msgstr ""
+
+#~ msgid "Verify CSV File of Addresses"
+#~ msgstr ""
+
+#~ msgid "CSV File"
+#~ msgstr ""
+
+#~ msgid "Verify"
+#~ msgstr ""
+
+#~ msgid "Verify Single Address"
+#~ msgstr ""
+
+#~ msgid "Address 1"
+#~ msgstr ""
+
+#~ msgid "Address 2"
+#~ msgstr ""
+
+#~ msgid "Address 3"
+#~ msgstr ""
+
+#~ msgid "Postal Code"
+#~ msgstr ""
+
+#~ msgid "Latitude"
+#~ msgstr ""
+
+#~ msgid "Longitude"
+#~ msgstr ""
+
+#~ msgid "ADMINISTRATOR BARCODE SEARCH"
+#~ msgstr ""
+
+#~ msgid "Download CSV"
+#~ msgstr ""
+
+#~ msgid "Download Excel"
+#~ msgstr ""
+
+#~ msgid "Search Qiita"
+#~ msgstr ""
+
+#~ msgid "Barcode"
+#~ msgstr ""
+
+#~ msgid "Admin Campaign Edit"
+#~ msgstr ""
+
+#~ msgid "Edit Campaign"
+#~ msgstr ""
+
+#~ msgid "Campaign ID"
+#~ msgstr ""
+
+#~ msgid "Campaign Link"
+#~ msgstr ""
+
+#~ msgid "Associated Projects"
+#~ msgstr ""
+
+#~ msgid "Add Campaign"
+#~ msgstr ""
+
+#~ msgid "Campaign Language"
+#~ msgstr ""
+
+#~ msgid "Title"
+#~ msgstr ""
+
+#~ msgid "Instructions"
+#~ msgstr ""
+
+#~ msgid "Alt Campaign Language"
+#~ msgstr ""
+
+#~ msgid "Title in Alt Language"
+#~ msgstr ""
+
+#~ msgid "Instructions in Alt Language"
+#~ msgstr ""
+
+#~ msgid "Current Header Image"
+#~ msgstr ""
+
+#~ msgid "Upload New Header Image"
+#~ msgstr ""
+
+#~ msgid "Permitted Countries"
+#~ msgstr ""
+
+#~ msgid "Accepting Participants"
+#~ msgstr ""
+
+#~ msgid "Send THDMI Confirmation Email"
+#~ msgstr ""
+
+#~ msgid "Force Primary Language on Form"
+#~ msgstr ""
+
+#~ msgid "Submit"
+#~ msgstr ""
+
+#~ msgid "Campaigns"
+#~ msgstr ""
+
+#~ msgid "Campaign Name"
+#~ msgstr ""
+
+#~ msgid "No campaigns found"
+#~ msgstr ""
+
+#~ msgid "Admin FFQ Codes"
+#~ msgstr ""
+
+#~ msgid "Generate Single Code"
+#~ msgstr ""
+
+#~ msgid "Generate Multiple Codes and download CSV File"
+#~ msgstr ""
+
+#~ msgid "Number of Codes"
+#~ msgstr ""
+
+#~ msgid "ADMINISTRATOR MODE"
+#~ msgstr ""
+
+#~ msgid "Account ID"
+#~ msgstr ""
+
+#~ msgid "Please enter a valid phone number."
+#~ msgstr ""
+
+#~ msgid "Please enter your street address."
+#~ msgstr ""
+
+#~ msgid "Please enter your city."
+#~ msgstr ""
+
+#~ msgid "Please select your state."
+#~ msgstr ""
+
+#~ msgid "Please enter your postal code."
+#~ msgstr ""
+
+#~ msgid "Edit Interested User"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "CAUTION: Edits made will NOT go "
+#~ "through address verification - proceed "
+#~ "carefully"
+#~ msgstr ""
+
+#~ msgid "Phone"
+#~ msgstr ""
+
+#~ msgid "Address Type"
+#~ msgstr ""
+
+#~ msgid "Interested Users"
+#~ msgstr ""
+
+#~ msgid "Converted to Account"
+#~ msgstr ""
+
+#~ msgid "No interested users found"
+#~ msgstr ""
+
+#~ msgid "ADMINISTRATOR SYSTEM PANEL"
+#~ msgstr ""
+
+#~ msgid "Set System Message"
+#~ msgstr ""
+
+#~ msgid "System Message"
+#~ msgstr ""
+
+#~ msgid "primary"
+#~ msgstr ""
+
+#~ msgid "secondary"
+#~ msgstr ""
+
+#~ msgid "success"
+#~ msgstr ""
+
+#~ msgid "danger"
+#~ msgstr ""
+
+#~ msgid "warning"
+#~ msgstr ""
+
+#~ msgid "info"
+#~ msgstr ""
+
+#~ msgid "light"
+#~ msgstr ""
+
+#~ msgid "dark"
+#~ msgstr ""
+
+#~ msgid "Consent Documents"
+#~ msgstr ""
+
+#~ msgid "Survey"
+#~ msgstr ""
+
+#~ msgid "Biospecimen"
+#~ msgstr ""
+
+#~ msgid "View"
+#~ msgstr ""
+
+#~ msgid "Create Non-human Source"
+#~ msgstr ""
+
+#~ msgid "Creating Source..."
+#~ msgstr ""
+
+#~ msgid "Environment name (e.g., microwave)"
+#~ msgstr ""
+
+#~ msgid "Environment description (optional)"
+#~ msgstr ""
+
+#~ msgid "Create Source"
+#~ msgstr ""
+
+#~ msgid "Awaiting Email Confirmation"
+#~ msgstr ""
+
+#~ msgid "Check your email inbox"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To complete your verification, click on"
+#~ " the link in the email AuthRocket "
+#~ "has sent to"
+#~ msgstr ""
+
+#~ msgid "Waiting for you to confirm"
+#~ msgstr ""
+
+#~ msgid "Please check both your spam and inbox"
+#~ msgstr ""
+
+#~ msgid "AuthRocket is our authentication service"
+#~ msgstr ""
+
+#~ msgid "Email wrong or didn't receive an email?"
+#~ msgstr ""
+
+#~ msgid "Go to your AuthRocket Account"
+#~ msgstr ""
+
+#~ msgid "to update your email or resend a verification email"
+#~ msgstr ""
+
+#~ msgid "You can close this browser tab!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "After email verification, a new tab "
+#~ "will automatically open, and you will"
+#~ " proceed with filling out your "
+#~ "account details"
+#~ msgstr ""
+
+#~ msgid "Embedded PDF"
+#~ msgstr ""
+
+#~ msgid "This report is generated by a third party."
+#~ msgstr ""
+
+#~ msgid "Emperor Playground"
+#~ msgstr ""
+
+#~ msgid "PCOA URL"
+#~ msgstr ""
+
+#~ msgid "Go!"
+#~ msgstr ""
+
+#~ msgid "Error Page"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "An error seemed to have occurred "
+#~ "(see below). It is most likely our"
+#~ " fault. We are actively modifying our"
+#~ " infrastructure to support COVID-19 "
+#~ "research, and we're still in the "
+#~ "process of handling the different type"
+#~ " of scenarios that can happen on "
+#~ "a website. We apologize for any "
+#~ "inconvenience."
+#~ msgstr ""
+
+#~ msgid "If you have any concerns, please email us at"
+#~ msgstr ""
+
+#~ msgid "and please note the error below"
+#~ msgstr ""
+
+#~ msgid "Error"
+#~ msgstr ""
+
+#~ msgid "Home"
+#~ msgstr ""
+
+#~ msgid "Welcome!"
+#~ msgstr ""
+
+#~ msgid "Sign Up"
+#~ msgstr ""
+
+#~ msgid "Log In"
+#~ msgstr ""
+
+#~ msgid "My Kits"
+#~ msgstr ""
+
+#~ msgid "KitID"
+#~ msgstr ""
+
+#~ msgid "View Results"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Currently, \"My Kits\" is unavailable in"
+#~ " your country or region. We apologize"
+#~ " for any inconvenience."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Click on the following link if you"
+#~ " would like to contribute to receive"
+#~ " a kit"
+#~ msgstr ""
+
+#~ msgid "Get a Kit"
+#~ msgstr ""
+
+#~ msgid "Have a KitID"
+#~ msgstr ""
+
+#~ msgid "Sample Received - Results Pending"
+#~ msgstr ""
+
+#~ msgid "To register your kit, enter your Kit ID below"
+#~ msgstr ""
+
+#~ msgid "Register Kit"
+#~ msgstr ""
+
+#~ msgid "Which barcode(s) are you using from this kit (select all that apply)?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Each collection tube you receive has "
+#~ "a unique barcode printed on the "
+#~ "side."
+#~ msgstr ""
+
+#~ msgid "1. Select the barcode(s) you are using"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "2. Add the date and time of "
+#~ "sample collection and select the sample"
+#~ " type taken."
+#~ msgstr ""
+
+#~ msgid "Important"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The sample cannot be processed in "
+#~ "the lab until this information is "
+#~ "complete."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Keep a record of these details. "
+#~ "The barcode is needed to resolve "
+#~ "any issues you may have with your"
+#~ " sample collection."
+#~ msgstr ""
+
+#~ msgid "What is the barcode and why is it important?"
+#~ msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr ""
+
+#~ msgid "MyFoodRepo unavailable"
+#~ msgstr ""
+
+#~ msgid "MyFoodRepo is currently unavailabile"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We apologize, but unfortunately MyFoodRepo "
+#~ "is not available at this time. "
+#~ "Please check back in a few days"
+#~ " and try again."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "MyFoodRepo is human curated to ensure"
+#~ " the highest accuracy in reported "
+#~ "dietary detail. Because the process is"
+#~ " not fully automated, we need to "
+#~ "limit the number of concurrent users "
+#~ "who take part. We apologize for "
+#~ "the inconvenience."
+#~ msgstr ""
+
+#~ msgid "Back to Samples"
+#~ msgstr ""
+
+#~ msgid "Consent"
+#~ msgstr ""
+
+#~ msgid "Saving..."
+#~ msgstr ""
+
+#~ msgid "Please confirm that you have read this form."
+#~ msgstr ""
+
+#~ msgid "Please enter the participant name."
+#~ msgstr ""
+
+#~ msgid "Please enter the parent or guardian name."
+#~ msgstr ""
+
+#~ msgid "Please confirm that you will be in this study."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please confirm that the participant is"
+#~ " voluntarily and knowingly giving consent."
+#~ msgstr ""
+
+#~ msgid "Please enter the name of the person obtaining assent."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "It looks like you are creating a"
+#~ " new profile that may be similar "
+#~ "or the same as an existing "
+#~ "profile. If this is the same "
+#~ "person as an existing profile, please"
+#~ " consider providing new samples or "
+#~ "survey responses under that profile."
+#~ msgstr ""
+
+#~ msgid "I Accept"
+#~ msgstr ""
+
+#~ msgid "Biospecimen Consent Form"
+#~ msgstr ""
+
+#~ msgid "Data Consent Form"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Signature and agreement of this consent"
+#~ " form is required to process your "
+#~ "sample(s)."
+#~ msgstr ""
+
+#~ msgid "Select age range of participant"
+#~ msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr ""
+
+#~ msgid "Warning"
+#~ msgstr ""
+
+#~ msgid "Return to Home Page"
+#~ msgstr ""
+
+#~ msgid "Proceed with Creating New Source"
+#~ msgstr ""
+
+#~ msgid "Sample Results"
+#~ msgstr ""
+
+#~ msgid "11 to 20"
+#~ msgstr ""
+
+#~ msgid "21 to 30"
+#~ msgstr ""
+
+#~ msgid "5-6 hours"
+#~ msgstr ""
+
+#~ msgid "6 to 10"
+#~ msgstr ""
+
+#~ msgid "6-7 hours"
+#~ msgstr ""
+
+#~ msgid "7-8 hours"
+#~ msgstr ""
+
+#~ msgid "8 or more hours"
+#~ msgstr ""
+
+#~ msgid "Daily"
+#~ msgstr ""
+
+#~ msgid "Less than 5"
+#~ msgstr ""
+
+#~ msgid "Less than 5 hours"
+#~ msgstr ""
+
+#~ msgid "More than 30"
+#~ msgstr ""
+
+#~ msgid "Never"
+#~ msgstr ""
+
+#~ msgid "Not provided"
+#~ msgstr ""
+
+#~ msgid "Occasionally (1-2 times/week)"
+#~ msgstr ""
+
+#~ msgid "Rarely (a few times/month)"
+#~ msgstr ""
+
+#~ msgid "Rarely (less than once/week)"
+#~ msgstr ""
+
+#~ msgid "Regularly (3-5 times/week)"
+#~ msgstr ""
+
+#~ msgid "Microbiomes Across the Body"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In this map, we've placed your "
+#~ "sample relative to all the other "
+#~ "samples we have in Microsetta. As "
+#~ "you can see, there are a few "
+#~ "different types of samples people have"
+#~ " contributed, and the microbial "
+#~ "configurations present can be REALLY "
+#~ "different."
+#~ msgstr ""
+
+#~ msgid "Microbiomes Across the World"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Researchers have noted large differences "
+#~ "in our microbiomes depending on where"
+#~ " we live. The reason WHY is not"
+#~ " well understood, but we suspect "
+#~ "factors such as diet or environmental"
+#~ " exposures (e.g., plants, what's in "
+#~ "your house, pollution, how often you "
+#~ "come in contact with soil, etc) "
+#~ "may be be major factors."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Researchers do not know how much "
+#~ "these differences matter! They certainly "
+#~ "may."
+#~ msgstr ""
+
+#~ msgid "Microbiomes Across the Lifespan"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "One major factor associated with gut "
+#~ "microbiomes is the age of the "
+#~ "individual, emphasized here by life "
+#~ "stages."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Interestingly, infants are relatively similar"
+#~ " microbially regardless of where they "
+#~ "were born. But, as individuals age, "
+#~ "it seems like their microbiomes reflect"
+#~ " regional or population differences."
+#~ msgstr ""
+
+#~ msgid "Microbiomes in the Environment"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Microbes are EVERYWHERE though! Using "
+#~ "these same techniques described above, "
+#~ "we compared your microbiome to samples"
+#~ " collected from all over the surfaces"
+#~ " from a brand new hospital."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "As you can see, skin samples tend"
+#~ " to more closely resemble those from"
+#~ " the built environment, which makes "
+#~ "sense as skin cells are constantly "
+#~ "shedding from you."
+#~ msgstr ""
+
+#~ msgid "The Microsetta Initiative"
+#~ msgstr ""
+
+#~ msgid "Publication link"
+#~ msgstr ""
+
+#~ msgid "Data access (Qiita study"
+#~ msgstr ""
+
+#~ msgid "Download the spreadsheet"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The broadest classification like Bacteria, "
+#~ "Archaea and Eukaryokes (what humans "
+#~ "are!)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Within the kingdom Eukarya, this is "
+#~ "like the difference between humans and"
+#~ " plants"
+#~ msgstr ""
+
+#~ msgid "Within the phylum Chordata, this is along the lines of humans and fish"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Within the class Mammalia, this is "
+#~ "like the difference between whales and"
+#~ " a dogs"
+#~ msgstr ""
+
+#~ msgid "With the order Carnivora are the families for dogs and cats"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Within the family Canidae, you would "
+#~ "find a genus for foxes and one "
+#~ "for wolves"
+#~ msgstr ""
+
+#~ msgid "Unspecified"
+#~ msgstr ""
+
+#~ msgid "chose not to provide their age"
+#~ msgstr ""
+
+#~ msgid "is"
+#~ msgstr ""
+
+#~ msgid "years old"
+#~ msgstr ""
+
+#~ msgid "chose not to say how many sweets they eat"
+#~ msgstr ""
+
+#~ msgid "eats sweets"
+#~ msgstr ""
+
+#~ msgid "eats more sugary sweets than you"
+#~ msgstr ""
+
+#~ msgid "eats fewer sugary sweets than you"
+#~ msgstr ""
+
+#~ msgid "eats about the same number of sugary sweets as you"
+#~ msgstr ""
+
+#~ msgid "Rank Distributions"
+#~ msgstr ""
+
+#~ msgid "My Sample"
+#~ msgstr ""
+
+#~ msgid "How abundant are my microbes compared everyone in Microsetta?"
+#~ msgstr ""
+
+#~ msgid "Common types of microbes"
+#~ msgstr ""
+
+#~ msgid "Least Abundant"
+#~ msgstr ""
+
+#~ msgid "Most Abundant"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "whole genome sequencing, a technique "
+#~ "that produces a large number of "
+#~ "small DNA sequences from all of "
+#~ "the microbial genomes in your sample."
+#~ " With enough sequences you can even"
+#~ " see the variation that exists "
+#~ "between microbes of the same species."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "16S.  This technique produces DNA "
+#~ "sequences from a specific variable "
+#~ "region (V4) within a microbial gene "
+#~ "(the 16S small subunit ribosomal gene)."
+#~ " DNA sequences from this region of"
+#~ " this gene can be used like a"
+#~ " microbial barcode, providing researchers "
+#~ "evidence of the types of microbes "
+#~ "that may be present in your "
+#~ "sample."
+#~ msgstr ""
+
+#~ msgid "Source"
+#~ msgstr ""
+
+#~ msgid "Results"
+#~ msgstr ""
+
+#~ msgid "How do you compare?"
+#~ msgstr ""
+
+#~ msgid "Diversity"
+#~ msgstr ""
+
+#~ msgid "Similarity"
+#~ msgstr ""
+
+#~ msgid "Your Inner Zoo"
+#~ msgstr ""
+
+#~ msgid "Microbiome Map"
+#~ msgstr ""
+
+#~ msgid "How can I learn more?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your microbiome is a rainforest of "
+#~ "diverse microbes dominated by microbes -"
+#~ " some 40 trillion bacteria, weighing "
+#~ "around 1 lb, live all over and "
+#~ "in your body. The diversity of "
+#~ "your microbiome, how similar it is "
+#~ "to other peoples', and the types "
+#~ "of bacteria living inside you have "
+#~ "all been linked to health, disease "
+#~ "and lifestyle traits in numerous "
+#~ "studies."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Scientists often use many different "
+#~ "approaches to see how your microbiome"
+#~ " differs. We've analyzed your microbiome"
+#~ " sample using standard microbiome research"
+#~ " tools, and the results are broken"
+#~ " down below in a few different "
+#~ "categories"
+#~ msgstr ""
+
+#~ msgid "How many kinds of microbes were in your sample? Check out your"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "What kinds of people have microbiomes"
+#~ " like yours? Check out your "
+#~ "microbiome"
+#~ msgstr ""
+
+#~ msgid "What particular kinds of microbes are in your sample? Wander through"
+#~ msgstr ""
+
+#~ msgid "Where are you on the"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "There are anywhere from hundreds of "
+#~ "millions to hundreds of billions of "
+#~ "different types of bacteria living on"
+#~ " planet earth. This dwarfs the meager"
+#~ " 2 million different kinds of animals"
+#~ " and plants that you can see "
+#~ "with your eyes. The <span id"
+#~ "=\"average-us-tooltip\" class=\"tooltipper\" "
+#~ "data-title=\"Based on fecal samples from"
+#~ " Microsetta participants in the United "
+#~ "States\">average</span> American has <strong "
+#~ "id=\"average-american-observed-"
+#~ "otus\">FILLIN</strong> different types of "
+#~ "microbes in a stool sample, which "
+#~ "is lower than we find in people"
+#~ " living a more hunter-gatherer "
+#~ "lifestyle, like the <strong id=\"average-"
+#~ "hadza-observed-otus\">FILLIN</strong> we find"
+#~ " in samples from the <span id"
+#~ "=\"taxa-tooltip\" class=\"tooltipper\" data-"
+#~ "title=\"The Hadza are an indigenous "
+#~ "hunter-gather group in Tanzania. The "
+#~ "summary of the Hadza microbiome is "
+#~ "based on <a href='foobar.com'>Smits et "
+#~ "al. Science 2017</a>\" data-"
+#~ "html=\"true\">Hadza</span>."
+#~ msgstr ""
+
+#~ msgid "Number of different microbes found in your sample"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "When we calculated the diversity of "
+#~ "groups for samples in our database, "
+#~ "we found diversity is associated with"
+#~ " how you live your life. Here, "
+#~ "we summarized the average microbiome "
+#~ "diversity for a few of the "
+#~ "questionnaire responses, specifically people "
+#~ "who eat more than 30 plants a "
+#~ "week, exercise regularly, drink water "
+#~ "regularly, or sleep more than 6 "
+#~ "hours a night."
+#~ msgstr ""
+
+#~ msgid "Eat more than 30 plants a week"
+#~ msgstr ""
+
+#~ msgid "unique microbial features"
+#~ msgstr ""
+
+#~ msgid "Exercise regularly"
+#~ msgstr ""
+
+#~ msgid "Drink 1L or water regularly"
+#~ msgstr ""
+
+#~ msgid "Sleep more than 6 hours per night"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "One of the powerful ways microbiome "
+#~ "scientists analyze data is by looking"
+#~ " at similarities among samples. To do"
+#~ " this, we compute a <span id"
+#~ "=\"similarity-tooltip\" class=\"tooltipper\" data-"
+#~ "html=\"true\" data-title=\"There are <i>a "
+#~ "lot</i> of ways to form a "
+#~ "distance. One way is to base the"
+#~ " distance off of the fraction of "
+#~ "microbes in common in your sample "
+#~ "with each other sample. We typically "
+#~ "share few of the exact same "
+#~ "microbes in common with other people "
+#~ "though which is problematic when "
+#~ "comparing exact microbes. To account for"
+#~ " this, researchers often take the "
+#~ "evolutionary relationships among microbes into"
+#~ " account when forming these "
+#~ "distances.\">distance</span> from your sample "
+#~ "to all other samples based on the"
+#~ " microbes observed."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Here, we your sample to all the"
+#~ " others in our database, and examined"
+#~ " the 100 most similar samples to "
+#~ "yours. These people answered their "
+#~ "questionnaires in the following way; the"
+#~ " response is colored in <span class"
+#~ "=\"similarity-fontstyle-same\">light green</span> "
+#~ "if it matches your response and "
+#~ "<span class=\"similarity-fontstyle-"
+#~ "different\">brown</span> if your response "
+#~ "differed."
+#~ msgstr ""
+
+#~ msgid "Diet"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours eat"
+#~ msgstr ""
+
+#~ msgid "plants per week"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours had a similar diet"
+#~ msgstr ""
+
+#~ msgid "Supplements"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours"
+#~ msgstr ""
+
+#~ msgid "take probiotics"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours take vitamins"
+#~ msgstr ""
+
+#~ msgid "Activity"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours exercise"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours get"
+#~ msgstr ""
+
+#~ msgid "of sleep at night"
+#~ msgstr ""
+
+#~ msgid "Demographic"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours were the same age as you"
+#~ msgstr ""
+
+#~ msgid "of people with a microbiome like yours were the same gender"
+#~ msgstr ""
+
+#~ msgid "Your Inner Zoo (aka What's in your sample?)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Below you will find a table of "
+#~ "all of the different microbes we "
+#~ "found in your sample, and their "
+#~ "proportions."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Microbes sometimes have difficult names "
+#~ "to pronounce. Some of the names "
+#~ "are Latin, Greek, Norse, Chinese and "
+#~ "more. If you'd like to know more,"
+#~ " a pronounciation guide can be found"
+#~ " <a "
+#~ "href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">here</a>."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please mouse over the header to "
+#~ "learn more about how to interpret "
+#~ "these taxonomic ranks (e.g., Kingdom) "
+#~ "using examples of non-microbial "
+#~ "organisms."
+#~ msgstr ""
+
+#~ msgid "%% of Sample"
+#~ msgstr ""
+
+#~ msgid "Kingdom"
+#~ msgstr ""
+
+#~ msgid "Phylum"
+#~ msgstr ""
+
+#~ msgid "Class"
+#~ msgstr ""
+
+#~ msgid "Order"
+#~ msgstr ""
+
+#~ msgid "Family"
+#~ msgstr ""
+
+#~ msgid "Genus"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "No evidence presented here indicates "
+#~ "what we've observed is clinically "
+#~ "dangerous"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In the plot below, you can see "
+#~ "the most commonly observed microbial "
+#~ "genera in the dataset, and distribution"
+#~ " of ranks of those genera.  For "
+#~ "example,"
+#~ msgstr ""
+
+#~ msgid "typically has the highest relative abundance of samples in the dataset."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Microbiome analysis is a burgeoning new"
+#~ " field, and the information displayed "
+#~ "here is only an example of what"
+#~ " is becoming possible thanks to the"
+#~ " data that you helped collect."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "So if you want to learn more, "
+#~ "you can even take a look at "
+#~ "the dataset for yourself!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For your sample, we performed a "
+#~ "technique called amplicon sequencing where "
+#~ "we examine pieces of DNA corresponding"
+#~ " to a particular gene. Specifically, "
+#~ "we sequenced the fourth variable region"
+#~ " (V4) of the 16S rRNA small "
+#~ "subunit ribosomal gene. DNA sequences "
+#~ "from this region of this gene can"
+#~ " be used like a microbial barcode,"
+#~ " providing researchers evidence of the "
+#~ "types of microbes that may be "
+#~ "present in your sample."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "There are many resources for microbiome"
+#~ " information available online. If you'd "
+#~ "like to learn more, we recommend "
+#~ "the <a href=\"https://asm.org/Browse-By-"
+#~ "Topic/Newsroom/Clinical/Microbiome\">American Society for"
+#~ " Microbiology</a>, <a "
+#~ "href=\"https://microbe.net/\">microBEnet</a>, the <a "
+#~ "href=\"http://www.probioticchart.ca/\">Canadian Probiotics "
+#~ "Chart</a>, and the <a "
+#~ "href=\"https://gastro.org/aga-leadership/centers/aga-"
+#~ "center-for-gut-microbiome-research-"
+#~ "education/\">American Gastroenterological Association</a>."
+#~ msgstr ""
+
+#~ msgid "Datasets used in your results report"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The results shown in the Microbiome "
+#~ "Maps portion of the report relied "
+#~ "on data from many different publically"
+#~ " accessible microbiome datasets. These "
+#~ "different datasets, and links to them,"
+#~ " are listed below."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Microbiome maps turn the similarities "
+#~ "and differences among microbiomes into a"
+#~ " two-dimensional picture. Each dot is"
+#~ " a whole microbiome, and dots close"
+#~ " to yours are more similar "
+#~ "microbiomes."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "<span id=\"microbiome-maps-tooltip\" "
+#~ "class=\"tooltipper\" data-title=\"Visualizing "
+#~ "complex data is difficult. One way "
+#~ "microbiome researchers do it though is"
+#~ " through a technique called principal "
+#~ "coordinates analysis (PCoA). We provide "
+#~ "PCoA with the millions of microbiome "
+#~ "similarities we compute (we use tens "
+#~ "of thousands of samples, and compare "
+#~ "each sample to each other), and in"
+#~ " turn, PCoA provides perspectives into "
+#~ "massive data matrix that place very "
+#~ "similar samples near each other and "
+#~ "less similar samples far apart.\">How "
+#~ "are these maps produced?</span>"
+#~ msgstr ""
+
+#~ msgid "My Nutrition"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your registration code is not in "
+#~ "our system or has already been "
+#~ "used. Please try again."
+#~ msgstr ""
+
+#~ msgid "My FFQs"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Currently, \"My FFQs\" is unavailable in"
+#~ " your country or region. We apologize"
+#~ " for any inconvenience."
+#~ msgstr ""
+
+#~ msgid "Have an FFQ Code"
+#~ msgstr ""
+
+#~ msgid "Get an FFQ Code"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This Food Frequency Questionnaire (FFQ) "
+#~ "will take approximately 30 minutes. By"
+#~ " completing it, you'll receive the "
+#~ "following report"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Personal diet and nutrition summary, "
+#~ "listing the highest contributing food "
+#~ "sources of nutrients you should try "
+#~ "to limit and your top food sources"
+#~ " with key nutrients that promote good"
+#~ " health."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You must press the \"Finish\" button "
+#~ "on the final page of the FFQ "
+#~ "to register it as completed. You "
+#~ "can complete the FFQ in stages by"
+#~ " clicking \"Continue FFQ\" and selecting"
+#~ " the \"Resume\" button to return to"
+#~ " where you left off."
+#~ msgstr ""
+
+#~ msgid "Download Top Food Report"
+#~ msgstr ""
+
+#~ msgid "Continue FFQ"
+#~ msgstr ""
+
+#~ msgid "Registration Code"
+#~ msgstr ""
+
+#~ msgid "Register FFQ"
+#~ msgstr ""
+
+#~ msgid "Opt Out"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Sorry, we could not complete the "
+#~ "request. Please email <a "
+#~ "href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a> with"
+#~ " the email address you signed up "
+#~ "with so we can remove you from "
+#~ "our list."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We're sorry you are no longer "
+#~ "interested in participating in The Human"
+#~ " Diets & Microbiome Initiative (THDMI). "
+#~ "Please click the \"opt out\" button "
+#~ "below to confirm that you do not"
+#~ " wish to take part."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Thank you for letting us know. You"
+#~ " will no longer be part of this"
+#~ " research study."
+#~ msgstr ""
+
+#~ msgid "Optional Sample Surveys"
+#~ msgstr ""
+
+#~ msgid "Your diet can provide researchers valuable information"
+#~ msgstr ""
+
+#~ msgid "Would you like to take our additional survey, the"
+#~ msgstr ""
+
+#~ msgid "Food Frequency Questionnaire"
+#~ msgstr ""
+
+#~ msgid "FFQ"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By completing the questionnaire, you can"
+#~ " enhance information about your sample, "
+#~ "which will power more insightful "
+#~ "research!"
+#~ msgstr ""
+
+#~ msgid "Note"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you took multiple samples within "
+#~ "a short time frame, you only need"
+#~ " to take the FFQ for one such"
+#~ " sample"
+#~ msgstr ""
+
+#~ msgid "Approx time: 30 minutes"
+#~ msgstr ""
+
+#~ msgid "Take FFQ"
+#~ msgstr ""
+
+#~ msgid "My Reports"
+#~ msgstr ""
+
+#~ msgid "Do you really want to remove this sample from this source?"
+#~ msgstr ""
+
+#~ msgid "Doing so will remove any collection info saved for this sample and will"
+#~ msgstr ""
+
+#~ msgid "unlink it from all surveys."
+#~ msgstr ""
+
+#~ msgid "Required Format: MM/DD/YYYY"
+#~ msgstr ""
+
+#~ msgid "Please select a date within the last 10 years."
+#~ msgstr ""
+
+#~ msgid "Please select a date within the next 30 days."
+#~ msgstr ""
+
+#~ msgid "Date of Sample Collection"
+#~ msgstr ""
+
+#~ msgid "Time of Sample Collection"
+#~ msgstr ""
+
+#~ msgid "Sample Type"
+#~ msgstr ""
+
+#~ msgid "Select a sample type"
+#~ msgstr ""
+
+#~ msgid "Notes"
+#~ msgstr ""
+
+#~ msgid "(Optional) Is there else about this sample that you would like to add?"
+#~ msgstr ""
+
+#~ msgid "Remove"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Your sample has been received by "
+#~ "our lab and can no longer be "
+#~ "edited. Please <a "
+#~ "href=\"mailto:microsetta@ucsd.edu\">contact us</a> with"
+#~ " any questions."
+#~ msgstr ""
+
+#~ msgid "What is in your sample?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The table below shows the relative "
+#~ "abundances of all of the organisms "
+#~ "we observed in your sample. To "
+#~ "produce this, we took the DNA "
+#~ "sequences from your sample, and compared"
+#~ " them against publicly available annotated"
+#~ " reference databases. In some cases, "
+#~ "a sequence may uniquely match a "
+#~ "database record, in other cases a "
+#~ "sequence may match may different "
+#~ "records. To handle the uncertainty that"
+#~ " can arise, we rely on a well"
+#~ " used and publicly available microbiome "
+#~ "software package called <a "
+#~ "href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>."
+#~ " The exact approach taken is "
+#~ "highlighted in the main tutorial on "
+#~ "<a href=\"https://docs.qiime2.org/2020.6/tutorials/moving-"
+#~ "pictures/#taxonomic-analysis\" target=\"_blank"
+#~ "\">feature-classification</a>"
+#~ msgstr ""
+
+#~ msgid "Relative Abundance"
+#~ msgstr ""
+
+#~ msgid "Alpha Diversity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Here, we're providing a measure of "
+#~ "the diversity of your sample, and "
+#~ "how it compares to the diversities "
+#~ "of all of the same type of "
+#~ "samples in The Microsetta Initiative. "
+#~ "There are many ways to calculate "
+#~ "diversity. For instance, you could "
+#~ "compute a diversity value by counting"
+#~ " the number of unique organisms "
+#~ "observed (i.e., the sample \"richness\"). "
+#~ "Or, you might be interested in "
+#~ "weighting the calculation by the "
+#~ "relative abundance of the organisms "
+#~ "(i.e., the sample \"evenness\"). The "
+#~ "metric we're computing here is called"
+#~ " Faith's Phylogenetic Diversity (originally "
+#~ "defined <a "
+#~ "href=\"https://www.sciencedirect.com/science/article/pii/0006320792912013\""
+#~ " target=\"_blank\">here</a>). Faith's Phylogenetic "
+#~ "Diversity computes the \"richness\" of "
+#~ "your sample as the amount of "
+#~ "evolutionary breadth represented by your "
+#~ "sample. The way we compute alpha "
+#~ "diversity is also through <a "
+#~ "href=\"https://qiime2.org\" target=\"_blank\">QIIME 2</a>,"
+#~ " and more information on it can "
+#~ "be found in the alpha and beta "
+#~ "diversity <a "
+#~ "href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
+#~ "/#alpha-and-beta-diversity-analysis\" "
+#~ "target=\"_blank\">sections</a> of the QIIME 2"
+#~ " tutorial"
+#~ msgstr ""
+
+#~ msgid "Beta Diversity"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Here we display how your sample "
+#~ "fits in among the other samples of"
+#~ " The Microsetta Initiative in terms "
+#~ "of shared microbes. There are many "
+#~ "ways to calculate beta diversity, "
+#~ "differing in how to weight the "
+#~ "distance between any two microbes. We"
+#~ " take evolutionary distance into account"
+#~ " with the metric displayed here, "
+#~ "known as Unweighted Unifrac. You can "
+#~ "find an overview of this metric <a"
+#~ " href=\"https://en.wikipedia.org/wiki/UniFrac\" "
+#~ "target=\"_blank\">here</a> or better understand "
+#~ "its derivation <a "
+#~ "href=\"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1828774/\" "
+#~ "target=\"_blank\">here</a>. This computation is "
+#~ "performed with <a href=\"https://qiime2.org\" "
+#~ "target=\"_blank\">QIIME 2</a>, and more "
+#~ "information on it can be found in"
+#~ " the alpha and beta diversity <a "
+#~ "href=\"https://docs.qiime2.org/2020.6/tutorials/moving-pictures"
+#~ "/#alpha-and-beta-diversity-analysis\" "
+#~ "target=\"_blank\">sections</a> of the QIIME 2"
+#~ " tutorial"
+#~ msgstr ""
+
+#~ msgid "Secondary Surveys"
+#~ msgstr ""
+
+#~ msgid "Survey Title"
+#~ msgstr ""
+
+#~ msgid "Survey Description"
+#~ msgstr ""
+
+#~ msgid "Date Signed"
+#~ msgstr ""
+
+#~ msgid "Microsetta"
+#~ msgstr ""
+
+#~ msgid "You are deleting the profile for"
+#~ msgstr ""
+
+#~ msgid "and all surveys associated with it!"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This operation cannot be undone.  Are"
+#~ " you sure you want to delete "
+#~ "this source?"
+#~ msgstr ""
+
+#~ msgid "Administrator Toolbar"
+#~ msgstr ""
+
+#~ msgid "System Panel"
+#~ msgstr ""
+
+#~ msgid "Address Verification"
+#~ msgstr ""
+
+#~ msgid "FFQ Codes"
+#~ msgstr ""
+
+#~ msgid "Find Account"
+#~ msgstr ""
+
+#~ msgid "Barcode Search"
+#~ msgstr ""
+
+#~ msgid "Log Out"
+#~ msgstr ""
+
+#~ msgid "My Profile"
+#~ msgstr ""
+
+#~ msgid "Delete This Profile"
+#~ msgstr ""
+
+#~ msgid "Are you sure you want to withdraw your consent and delete your profile?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I hereby withdraw consent for "
+#~ "researchers to use my personal data "
+#~ "and/or sample(s) for The Microsetta "
+#~ "Initiative (TMI)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand and acknowledge that any"
+#~ " personal data and/or sample(s) that "
+#~ "have already been provided to TMI "
+#~ "in accordance with the consent I "
+#~ "provided by signing the consent form(s),"
+#~ " will continue to be used for "
+#~ "the research. However, no new "
+#~ "information will be collected."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that my data will "
+#~ "only be shared after directly "
+#~ "identifying information has been removed "
+#~ "so that researchers cannot re-identify"
+#~ " my personal data and/or sample(s) "
+#~ "for future use."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By clicking withdraw, you will be "
+#~ "ending your participation and terminating "
+#~ "your profile. If you would like to"
+#~ " be removed from being contacted for"
+#~ " general program updates or information "
+#~ "about future research studies, please "
+#~ "refer to account deletion or contact "
+#~ "us at microsetta@ucsd.edu."
+#~ msgstr ""
+
+#~ msgid "Maybe Later"
+#~ msgstr ""
+
+#~ msgid "Take This Survey Now"
+#~ msgstr ""
+
+#~ msgid "FAQs"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Microsetta Initiative aims to "
+#~ "generate quality data that can help "
+#~ "you better understand your microbiome, "
+#~ "help scientists design better studies, "
+#~ "and improve the world's understanding of"
+#~ " the human microbiome."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Answering our surveys can help us "
+#~ "do just that. To get started, "
+#~ "build out your profile by answering "
+#~ "the surveys below. We will alert "
+#~ "you when new surveys become available."
+#~ msgstr ""
+
+#~ msgid "Last modified"
+#~ msgstr ""
+
+#~ msgid "NEW"
+#~ msgstr ""
+
+#~ msgid "minutes"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Below are surveys hosted by partner "
+#~ "organizations. You will be directed to"
+#~ " an external site in a new "
+#~ "browser tab to complete the survey(s)"
+#~ " you select. Once you complete them,"
+#~ " you may close the tab and "
+#~ "return to this page."
+#~ msgstr ""
+
+#~ msgid "COMPLETED"
+#~ msgstr ""
+
+#~ msgid "min"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You will only have one opportunity "
+#~ "to take this survey. Please make "
+#~ "sure you have ample time before "
+#~ "you start."
+#~ msgstr ""
+
+#~ msgid "Sorry, you must be 18 or older to participate in this study."
+#~ msgstr ""
+
+#~ msgid "Sorry, this study is not open to residents of your country."
+#~ msgstr ""
+
+#~ msgid "Please select whether you are at least 18 years of age."
+#~ msgstr ""
+
+#~ msgid "Please enter your first name."
+#~ msgstr ""
+
+#~ msgid "Please enter your last name."
+#~ msgstr ""
+
+#~ msgid "Please enter a valid email address."
+#~ msgstr ""
+
+#~ msgid "Please select your country."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Sorry, we were unable to verify "
+#~ "your address. Please check your "
+#~ "information and try again."
+#~ msgstr ""
+
+#~ msgid "Please agree to receiving communications from us."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Sorry, due to widespread interest, the"
+#~ " sign-up list for this project "
+#~ "is full."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please visit our <a "
+#~ "href=\"https://microsetta.ucsd.edu/\">website</a> to learn"
+#~ " about other opportunities to participate"
+#~ " in The Microsetta Initiative."
+#~ msgstr ""
+
+#~ msgid "Verifying your information, please wait just a moment."
+#~ msgstr ""
+
+#~ msgid "Are you at least 18 years of age?"
+#~ msgstr ""
+
+#~ msgid "Yes"
+#~ msgstr ""
+
+#~ msgid "No"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please note: Specimen collection kits "
+#~ "are associated with the email used "
+#~ "when registering. We recommend the "
+#~ "following:"
+#~ msgstr ""
+
+#~ msgid "1. One email must be used per kit."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "2. If you plan to complete the "
+#~ "form on behalf of another adult, "
+#~ "use that person's name and email "
+#~ "address."
+#~ msgstr ""
+
+#~ msgid "3. If possible, continue to use the same email throughout the study."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Once you have received the kit, "
+#~ "please continue to use the same "
+#~ "email address used when creating your"
+#~ " online account."
+#~ msgstr ""
+
+#~ msgid "Email Address"
+#~ msgstr ""
+
+#~ msgid "Phone Number"
+#~ msgstr ""
+
+#~ msgid "SELECT"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Please fill in the address you "
+#~ "would like your kit delivered to. "
+#~ "Example:"
+#~ msgstr ""
+
+#~ msgid "9500 Gilman Dr.<br />San Diego, CA 92093"
+#~ msgstr ""
+
+#~ msgid "Residential"
+#~ msgstr ""
+
+#~ msgid "Commercial"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By subscribing to this program, I "
+#~ "agree to receive communications via the"
+#~ " newsletter regarding the status of "
+#~ "the program, the steps I must "
+#~ "complete, tips and tricks for completing"
+#~ " my participation and surveys. I "
+#~ "agree and understand that I can "
+#~ "unsubscribe at any time using a "
+#~ "link in the newsletter and this "
+#~ "will not change my consent to "
+#~ "receive sample status updates directly "
+#~ "from the TMI database. "
+#~ msgstr ""
+
+#~ msgid "Previous"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Thank you for your interest in our"
+#~ " research. Your application has been "
+#~ "received. You will receive an email "
+#~ "shortly. Please check your junk or "
+#~ "spam folder if the email hasn’t "
+#~ "reached your inbox."
+#~ msgstr ""
+
+#~ msgid " selected"
+#~ msgstr ""
+
+#~ msgid "The value is not an integer"
+#~ msgstr ""
+
+#~ msgid "Invalid number"
+#~ msgstr ""
+
+#~ msgid "questions"
+#~ msgstr ""
+
+#~ msgid "You've finished building your profile!"
+#~ msgstr ""
+
+#~ msgid "Save & Go Home"
+#~ msgstr ""
+
+#~ msgid "Save & Next"
+#~ msgstr ""
+
+#~ msgid "Save & Previous"
+#~ msgstr ""
+
+#~ msgid "Save & Finish"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Sorry, it appears you are having "
+#~ "trouble verifying your address. Please "
+#~ "contact our support team at "
+#~ "microsetta@ucsd.edu and they can assist "
+#~ "with confirming your address."
+#~ msgstr ""
+
+#~ msgid "Update Your Address"
+#~ msgstr ""
+
+#~ msgid "Address Updated"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Thank you for updating your address! "
+#~ "Your information has been saved and "
+#~ "you will receive an email notification"
+#~ " once your kit ships."
+#~ msgstr ""
+
+#~ msgid "Email Update"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "It appears that the email we have"
+#~ " for your account is not the "
+#~ "same as the email you logged in"
+#~ " with.  Would you like us to "
+#~ "update your email in our records?"
+#~ msgstr ""
+
+#~ msgid "No, skip and continue"
+#~ msgstr ""
+
+#~ msgid "Yes, update and continue"
+#~ msgstr ""
+
+#~ msgid "A fermented foods specific questionnaire"
+#~ msgstr ""
+
+#~ msgid "Questions on surfing behavior"
+#~ msgstr ""
+
+#~ msgid "Questions about your interest in the microbiome"
+#~ msgstr ""
+
+#~ msgid "Questions related to cooking oils and oxalate-rich foods"
 #~ msgstr ""
 

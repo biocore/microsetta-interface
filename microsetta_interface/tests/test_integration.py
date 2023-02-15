@@ -399,7 +399,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
         resp = self.app.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertPageTitle(resp, 'Sample Information')
+        self.assertPageTitle(resp, 'My Kits')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
 

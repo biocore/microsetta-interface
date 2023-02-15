@@ -43,7 +43,7 @@ class Source:
 
 PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
 if os.environ.get(PUBKEY_ENVVAR, False):
-   PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
+    PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
 else:
     PUB_KEY = pkg_resources.read_text(
         'microsetta_interface',
@@ -1707,7 +1707,10 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         params={"consent_post_url": post_url})
 
     consent_output['date_time'] = flask_babel.format_datetime(
-        datetime.strptime(consent_output['date_time'], '%Y-%m-%dT%H:%M:%S.%f%z'),
+        datetime.strptime(
+            consent_output['date_time'],
+            '%Y-%m-%dT%H:%M:%S.%f%z'
+        ),
         'medium',
         False
     )

@@ -276,7 +276,7 @@ class IntegrationTests(unittest.TestCase):
                 "post_code": "f",
                 "language": "en_US",
                 "country_code": "US",
-                "consent_privacy_terms": "true"
+                "consent_privacy_terms": True
                 }
 
         resp = self.app.post(url, data=body)
@@ -333,11 +333,17 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.post(url, data=ADULT_CONSENT)
 
         self.assertEqual(resp.status_code, 302)
-        self.assertRedirect(resp, '')
+        self.assertRedirect(resp, suffix_is_uuid=True)
 
-        url = self.redirectURL('')
-
+        url = self.redirectURL(resp)
         account_id, source_id, _ = self._ids_from_url(url)
+
+        # take the Basic Info survey
+        self._complete_basic_survey(account_id, source_id)
+
+        # go to the My Kits tab
+        resp = self.app.get(f'/accounts/{account_id}/sources/{source_id}/kits')
+        self.assertPageTitle(resp, "My Kits")
 
         # query for samples
         resp = self.app.get(f'/list_kit_samples?kit_name={TEST_KIT_1}')
@@ -364,16 +370,15 @@ class IntegrationTests(unittest.TestCase):
 
         url = self.redirectURL(resp)
         resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Account Samples')
+        self.assertPageTitle(resp, 'My Kits')
         data = self._html_page(resp)
-        self.assertIn('click on a barcode to provide collection information',
-                      data)
+        self.assertIn('/static/img/edit.svg', data)
 
         # get collection info
         url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
         resp = self.app.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertPageTitle(resp, 'Sample Information')
+        self.assertPageTitle(resp, 'My Kits')
 
         # set collection info
         collection_note = 'SAMPLE COLLECTED BY INTEGRATION TESTING'
@@ -384,10 +389,10 @@ class IntegrationTests(unittest.TestCase):
                 'sample_site': 'Stool',
                 'sample_notes': collection_note}
         resp = self.app.post(url, data=body)
-        self.assertRedirect(resp, 'after_edit_questionnaire')
+        self.assertRedirect(resp, suffix_is_uuid=True)
         url = self.redirectURL(resp)
         resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Optional Sample Surveys')
+        self.assertPageTitle(resp, 'My Kits')
 
         # verify we have our sample information
         # get collection info

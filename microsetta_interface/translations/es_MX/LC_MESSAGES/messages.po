@@ -1708,7 +1708,7 @@ msgstr ""
 
 #: templates/home.jinja2:35 templates/sitebase.jinja2:91
 msgid "Sign Up"
-msgstr ""
+msgstr "Registrarse"
 
 #: templates/home.jinja2:40 templates/sitebase.jinja2:90
 msgid "Log In"

@@ -42,8 +42,6 @@
             display: inline-block;
         }
 
-
-
         .tmi-survey-button-blue > .field-wrap > input {
             background: linear-gradient(86.3deg, #00C6D7 -100.33%, #006A96 93.93%) !important;
             border-radius: 50px !important;
@@ -187,14 +185,14 @@
     <div class="container default-container">
         <div class="row">
             <div class="col-6">
-                {% if previous_survey != None %}
+                {% if previous_survey is not none %}
                 <img src="/static/img/{{ previous_survey['icon'] }}" width="40" height="40" style="float: left;">
                 <div class="survey-nav-name">{{ previous_survey['survey_name'] |e }}</div>
                 <div class="small-text survey-info">{{ previous_survey['est_minutes'] |e }} min</div>
                 {% endif %}
             </div>
             <div class="col-6 text-end">
-                {% if next_survey == None %}
+                {% if next_survey is none %}
                 <span class="small-text survey-info">{{ _('You\'ve finished building your profile!') }}</span>
                 {% else %}
                 <img src="/static/img/{{ next_survey['icon'] }}" width="40" height="40" style="float: right;">
@@ -208,6 +206,10 @@
         var survey_model = {};
         var survey_schema= {{survey_schema|tojson}};
         var initial_values = {};
+
+        /*
+            Questions 108 and 113 are Height and Weight respectively. The validation plugin throws an error if we don't parseInt() on the client side
+        */
 
         if (survey_schema.fields !== null) {
             for (let field of survey_schema.fields) {
@@ -344,6 +346,9 @@
             }
         }
 
+        /*
+            Below code related to mutation observers adapted from https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+        */
         // Select the node that will be observed for mutations
         const targetNode = document.getElementById('app');
 

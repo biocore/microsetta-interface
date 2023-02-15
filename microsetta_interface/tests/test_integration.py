@@ -88,7 +88,7 @@ ADULT_CONSENT = {
                  "participant_name": "foo bar",
                  "age_range": "18-plus",
                  "parent_1_name": None,
-                 "obtainer_name": None,
+                 "assent_obtainer": None,
                  "consent_type": "adult_data",
                  "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 

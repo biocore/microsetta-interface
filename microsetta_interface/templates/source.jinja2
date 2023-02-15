@@ -27,7 +27,7 @@
                 $("#source_modal").modal('hide');
 
                 // We need to wait a couple of seconds for the external survey to register in the database, then reload the page. This is not ideal.
-                await new Promise(r => setTimeout(r, 2000));
+                await new Promise(r => setTimeout(r, 5000));
                 window.location.reload();
             });
             $("#source_modal").modal('show');
@@ -140,7 +140,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <img src="/static/img/survey_external.png">
+                <img src="/static/img/survey_external.svg">
                 <span class="survey-title" id="modal-title"></span>
             </div>
             <div class="modal-body">

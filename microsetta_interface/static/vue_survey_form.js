@@ -39,6 +39,12 @@ var vm = new Vue({
             }
         },
         methodToUpdate(key, status, multi) {
+            /*
+            Questions 108 and 113 are Height and Weight respectively. Since
+            they're numeric values, it would be inappropriate to use
+            Unspecified or any other text value to denote they've been skipped.
+            */
+
             if(status == false) {
                 if(key == '108' || key == '113') {
                     this.model[key] = "";
@@ -64,9 +70,6 @@ var vm = new Vue({
 });
 
 function skipQuestion(ele, skipType="user-input") {
-    // TODO: On skip, make sure triggered questions switch to Unspecified/skipped
-
-
     var group;
     var labelElement;
     let newState = '';
@@ -91,125 +94,15 @@ function skipQuestion(ele, skipType="user-input") {
         newState = 'skip';
     }
     if(group.classList.contains("field-radios")) {
-        for (let i = 0; i < group.childNodes.length; i++) {
-            let theNode = group.childNodes[i];
-            if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                theNode.classList.toggle("hide");
-
-                // When we hide a question, we also set the response to Unspecified
-                let radioList = theNode.children[0];
-                for(let j = 0; j < radioList.children.length; j++) {
-                    if(radioList.children[j].innerText == "Unspecified") {
-                        let unspecifiedElement = radioList.children[j];
-                        for(let k = 0; k < unspecifiedElement.children.length; k++) {
-                            if(unspecifiedElement.children[k].nodeName == "INPUT") {
-                                if(newState == 'display') {
-                                    unspecifiedElement.children[k].checked = false;
-                                    vm.methodToUpdate(unspecifiedElement.children[k].name, false, false)
-                                } else {
-                                    unspecifiedElement.children[k].checked = true;
-                                    vm.methodToUpdate(unspecifiedElement.children[k].name, true, false)
-                                }
-                                unspecifiedElement.classList.toggle("is-checked");
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        skipRadioField(group, labelElement, newState);
     } else if(group.classList.contains("field-checklist")) {
-        let fieldId = labelElement.htmlFor;
-        for (let i = 0; i < group.childNodes.length; i++) {
-            let theNode = group.childNodes[i];
-            if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                theNode.classList.toggle("hide");
-                let wrapper = theNode.children[0];
-                let listbox = wrapper.children[0];
-
-                // When we hide a question, we also set the response to Unspecified
-                for(let j = 0; j < listbox.children.length; j++) {
-                    let listRow = listbox.children[j];
-                    let checkboxLabelElement = listRow.children[0];
-                    if(checkboxLabelElement.innerText == "Unspecified") {
-                        for(let k = 0; k < checkboxLabelElement.children.length; k++) {
-                            if(checkboxLabelElement.children[k].nodeName == "INPUT") {
-                                if(newState == 'skip') {
-                                    checkboxLabelElement.children[k].checked = true;
-                                    vm.methodToUpdate(fieldId, true, true)
-                                } else {
-                                    checkboxLabelElement.children[k].checked = false;
-                                    vm.methodToUpdate(fieldId, false, true)
-                                }
-                            }
-                        }
-                        checkboxLabelElement.classList.toggle("is-checked");
-                    } else {
-                        for(let k = 0; k < checkboxLabelElement.children.length; k++) {
-                            if(checkboxLabelElement.children[k].nodeName == "INPUT") {
-                                checkboxLabelElement.children[k].checked = false;
-                            }
-                        }
-                        if(checkboxLabelElement.classList.contains("is-checked")) {
-                            checkboxLabelElement.classList.toggle("is-checked");
-                        }
-                    }
-                }
-            }
-        }
+        skipChecklistField(group, labelElement, newState);
     } else if(group.classList.contains("field-input") ) {
-        for (let i = 0; i < group.childNodes.length; i++) {
-            let theNode = group.childNodes[i];
-            if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                let wrapper = theNode.children[0];
-                let inputElement = wrapper.children[0];
-
-                if(newState == "display") {
-                    theNode.style.display = "";
-                    inputElement.value = "";
-                    vm.methodToUpdate(inputElement.name, false, false);
-                } else {
-                    theNode.style.display = "none";
-                    inputElement.value = "Unspecified";
-                    vm.methodToUpdate(inputElement.name, true, false);
-                }
-            }
-        }
+        skipInputField(group, labelElement, newState);
     } else if(group.classList.contains("field-textArea")) {
-        for (let i = 0; i < group.childNodes.length; i++) {
-            let theNode = group.childNodes[i];
-            if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                let inputElement = theNode.children[0];
-
-                if(newState == "display") {
-                    theNode.style.display = "";
-                    inputElement.innerText = "";
-                    vm.methodToUpdate(inputElement.name, false, false);
-                } else {
-                    theNode.style.display = "none";
-                    inputElement.innerText = "Unspecified";
-                    vm.methodToUpdate(inputElement.name, true, false);
-                }
-            }
-        }
+        skipTextareaField(group, labelElement, newState);
     } else if(group.classList.contains("field-select")) {
-        for(let i = 0; i < group.childNodes.length; i++) {
-            let theNode = group.childNodes[i];
-            if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
-                let inputElement = theNode.children[0];
-
-                if(newState == "display") {
-                    theNode.style.display = "";
-                    inputElement.selectedIndex = -1;
-                    vm.methodToUpdate(inputElement.name, false, false);
-                } else {
-                    theNode.style.display = "none";
-                    inputElement.selectedIndex = 0;
-                    vm.methodToUpdate(inputElement.name, true, false);
-                }
-            }
-        }
-    } else {
-        // Why am I here?
+        skipSelectField(group, labelElement, newState);
     }
 }
 
@@ -241,7 +134,7 @@ function addSkipLink(element) {
     }
 
     // We're going to hide "Unspecified" from view for all checkbox groups
-    if(element.classList.contains("field-checklist")) {
+    else if(element.classList.contains("field-checklist")) {
         for(let i = 0; i < element.children.length; i++) {
             if(element.children[i].classList.contains("field-wrap")) {
                 let fieldWrap = element.children[i];
@@ -260,7 +153,7 @@ function addSkipLink(element) {
         }
     }
 
-    if(element.classList.contains("field-select")) {
+    else if(element.classList.contains("field-select")) {
         for(let i = 0; i < element.children.length; i++) {
             if(element.children[i].classList.contains("field-wrap")) {
                 let fieldWrap = element.children[i];
@@ -270,6 +163,134 @@ function addSkipLink(element) {
                         selectElement.children[j].hidden = "true";
                     }
                 }
+            }
+        }
+    }
+}
+
+function skipRadioField(group, labelElement, newState) {
+    for (let i = 0; i < group.childNodes.length; i++) {
+        let theNode = group.childNodes[i];
+        if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
+            theNode.classList.toggle("hide");
+
+            // When we hide a question, we also set the response to Unspecified
+            let radioList = theNode.children[0];
+            for(let j = 0; j < radioList.children.length; j++) {
+                if(radioList.children[j].innerText == "Unspecified") {
+                    let unspecifiedElement = radioList.children[j];
+                    for(let k = 0; k < unspecifiedElement.children.length; k++) {
+                        if(unspecifiedElement.children[k].nodeName == "INPUT") {
+                            if(newState == 'display') {
+                                unspecifiedElement.children[k].checked = false;
+                                vm.methodToUpdate(unspecifiedElement.children[k].name, false, false)
+                            } else {
+                                unspecifiedElement.children[k].checked = true;
+                                vm.methodToUpdate(unspecifiedElement.children[k].name, true, false)
+                            }
+                            unspecifiedElement.classList.toggle("is-checked");
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+function skipChecklistField(group, labelElement, newState) {
+    let fieldId = labelElement.htmlFor;
+    for (let i = 0; i < group.childNodes.length; i++) {
+        let theNode = group.childNodes[i];
+        if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
+            theNode.classList.toggle("hide");
+            let wrapper = theNode.children[0];
+            let listbox = wrapper.children[0];
+
+            // When we hide a question, we also set the response to Unspecified
+            for(let j = 0; j < listbox.children.length; j++) {
+                let listRow = listbox.children[j];
+                let checkboxLabelElement = listRow.children[0];
+                if(checkboxLabelElement.innerText == "Unspecified") {
+                    for(let k = 0; k < checkboxLabelElement.children.length; k++) {
+                        if(checkboxLabelElement.children[k].nodeName == "INPUT") {
+                            if(newState == 'skip') {
+                                checkboxLabelElement.children[k].checked = true;
+                                vm.methodToUpdate(fieldId, true, true)
+                            } else {
+                                checkboxLabelElement.children[k].checked = false;
+                                vm.methodToUpdate(fieldId, false, true)
+                            }
+                        }
+                    }
+                    checkboxLabelElement.classList.toggle("is-checked");
+                } else {
+                    for(let k = 0; k < checkboxLabelElement.children.length; k++) {
+                        if(checkboxLabelElement.children[k].nodeName == "INPUT") {
+                            checkboxLabelElement.children[k].checked = false;
+                        }
+                    }
+                    if(checkboxLabelElement.classList.contains("is-checked")) {
+                        checkboxLabelElement.classList.toggle("is-checked");
+                    }
+                }
+            }
+        }
+    }
+}
+
+function skipInputField(group, labelElement, newState) {
+    for (let i = 0; i < group.childNodes.length; i++) {
+        let theNode = group.childNodes[i];
+        if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
+            let wrapper = theNode.children[0];
+            let inputElement = wrapper.children[0];
+
+            if(newState == "display") {
+                theNode.style.display = "";
+                inputElement.value = "";
+                vm.methodToUpdate(inputElement.name, false, false);
+            } else {
+                theNode.style.display = "none";
+                inputElement.value = "Unspecified";
+                vm.methodToUpdate(inputElement.name, true, false);
+            }
+        }
+    }
+}
+
+function skipTextareaField(group, labelElement, newState) {
+    for (let i = 0; i < group.childNodes.length; i++) {
+        let theNode = group.childNodes[i];
+        if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
+            let inputElement = theNode.children[0];
+
+            if(newState == "display") {
+                theNode.style.display = "";
+                inputElement.innerText = "";
+                vm.methodToUpdate(inputElement.name, false, false);
+            } else {
+                theNode.style.display = "none";
+                inputElement.innerText = "Unspecified";
+                vm.methodToUpdate(inputElement.name, true, false);
+            }
+        }
+    }
+}
+
+function skipSelectField(group, labelElement, newState) {
+    for(let i = 0; i < group.childNodes.length; i++) {
+        let theNode = group.childNodes[i];
+        if (theNode.nodeName == "DIV" && theNode.classList.contains("field-wrap")) {
+            let inputElement = theNode.children[0];
+
+            if(newState == "display") {
+                theNode.style.display = "";
+                inputElement.selectedIndex = -1;
+                vm.methodToUpdate(inputElement.name, false, false);
+            } else {
+                theNode.style.display = "none";
+                inputElement.selectedIndex = 0;
+                vm.methodToUpdate(inputElement.name, true, false);
             }
         }
     }

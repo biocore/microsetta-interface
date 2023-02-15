@@ -5,7 +5,6 @@
 <script type="text/javascript" src="/static/vendor/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/static/vendor/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 <script src="/static/vendor/js/jquery.validate.min.js"></script>
-<script src="/static/vendor/bootstrap-4.4.1-dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
     function change_consent_div(radio) {
         $("#0-6-div").hide();
@@ -70,7 +69,7 @@
                 consent_child: "required",
                 participant_name: "required",
                 consent_witness: "required",
-                obtainer_name: "required",
+                assent_obtainer: "required",
                 consent_parent: "required",
                 parent_1_name: "required",
                 submitHandler: function(form) {
@@ -81,7 +80,7 @@
                 consent_child: "{{ _('Please confirm that you will be in this study.') }}",
                 participant_name: "{{ _('Please enter the participant name.') }}",
                 consent_witness: "{{ _('Please confirm that the participant is voluntarily and knowingly giving consent.') }}",
-                obtainer_name: "{{ _('Please enter the name of the person obtaining assent.') }}",
+                assent_obtainer: "{{ _('Please enter the name of the person obtaining assent.') }}",
                 consent_parent: "{{ _('Please confirm that you have read this form.') }}",
                 parent_1_name: "{{ _('Please enter the parent or guardian name.') }}"
             }
@@ -144,7 +143,7 @@
                 var duplicate_source_check_msg = "{{ _('It looks like you are creating a new profile that may be similar or the same as an existing profile. If this is the same person as an existing profile, please consider providing new samples or survey responses under that profile.') }}"
                 var reconsent = "{{ reconsent |e }}";
 
-                if(reconsent == "False") {
+                if(reconsent == false) {
                     var name = $('#'+$form_id+'_participant_name').val();
                     $.ajax({
                         url: '{{ duplicate_source_check }}',
@@ -241,23 +240,13 @@
     <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="0-6">
     <div class='consent-scroll-text'>
-    {% if form_type == 'source' %}
-        {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'parent_data' %}
-                {{ doc['document'] }}
-                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'parent_biospecimen' %}
-                {{ doc['document'] }}
-                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+    {% for doc in tl['CONSENT_DOCS'] %}
+        {% if doc['consent_type'] == 'parent_' + form_type %}
+            {{ doc['document'] }}
+            <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
+            <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
+        {% endif %}
+    {% endfor %}
     </div>
     <div class="mt-2 consent-form-text" id="consent">
         <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
@@ -298,27 +287,17 @@
 </div>
 
 <!------------------------------- CONSENT/ASSENT FOR AGE 7-12 STARTS HERE --------------------------------------------->
-
 <div id="7-12-div">
     <form id="7-12-form" name="consent_info" action="{{ post_url }}" method="post">
     <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="7-12">
     <div class="consent-scroll-text">
-        {% if form_type== 'source' %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'child_data' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'child_biospecimen' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+        {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'child_' + form_type %}
+                {{ doc['document'] }}
+                <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
+            {% endif %}
+        {% endfor %}
     </div>
     <div class="mt-2 consent-form-text">
         <p>
@@ -350,34 +329,24 @@
     </div>
     <div class="row mb-4">
         <div class="col-md-6">
-            <label class="consent-form-label" for="obtainer_name">
-                {{ tl['PARTICIPANT_FORM']['OBTAINER_NAME'] |e}} *
+            <label class="consent-form-label" for="assent_obtainer">
+                {{ tl['PARTICIPANT_FORM']['ASSENT_OBTAINER'] |e}} *
             </label>
         </div>
         <div class="col-md-6">
-            <input tabindex="3" type="text" name="obtainer_name" id="obtainer_name" required data-rule-required="true" class="consent-form-input">
-            <label for="obtainer_name" class="error" style="display: none;">{{ _('Please enter the name of the person obtaining assent.') }}</label>
+            <input tabindex="3" type="text" name="assent_obtainer" id="assent_obtainer" required data-rule-required="true" class="consent-form-input">
+            <label for="assent_obtainer" class="error" style="display: none;">{{ _('Please enter the name of the person obtaining assent.') }}</label>
         </div>
     </div>
 
     <div class="consent-scroll-text">
-        {% if form_type== 'source' %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'parent_data' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'parent_biospecimen' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+        {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'parent_' + form_type %}
+                {{ doc['document'] }}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
+            {% endif %}
+        {% endfor %}
     </div>
     <div class="mt-2 consent-form-text" id="consent">
         <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
@@ -413,21 +382,12 @@
     <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <input type="hidden" name="age_range" value="13-17">
     <div class="consent-scroll-text">
-        {% if form_type== 'source' %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'adolescent_data' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'adolescent_biospecimen' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+        {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'adolescent_' + form_type %}
+                {{ doc['document'] }}
+                <input type="hidden" name="assent_id" value="{{ doc['consent_id'] }}" />
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="mt-2 consent-form-text">
@@ -449,23 +409,13 @@
     </div>
 
     <div class="consent-scroll-text">
-        {% if form_type== 'source' %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'parent_data' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            {% for doc in tl['CONSENT_DOCS'] %}
-                {% if doc['consent_type'] == 'parent_biospecimen' %}
-                    {{ doc['document'] }}
-                    <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
-                    <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+        {% for doc in tl['CONSENT_DOCS'] %}
+            {% if doc['consent_type'] == 'parent_' + form_type %}
+                {{ doc['document'] }}
+                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}" />
+                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}" />
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="mt-2 consent-form-text" id="consent">
@@ -503,23 +453,13 @@
     <input type="hidden" name="sample_ids" value="{{ sample_ids }}">
     <div class='consent-scroll-text'>
     <input type="hidden" name="age_range" value="18-plus">
-    {% if form_type== 'source' %}
         {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'adult_data' %}
+            {% if doc['consent_type'] == 'adult_' + form_type %}
                 {{ doc['document'] }}
                 <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
                 <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
             {% endif %}
         {% endfor %}
-    {% else %}
-        {% for doc in tl['CONSENT_DOCS'] %}
-            {% if doc['consent_type'] == 'adult_biospecimen' %}
-                {{ doc['document'] }}
-                <input type="hidden" name="consent_id" value="{{ doc['consent_id'] }}">
-                <input type="hidden" name="consent_type" value="{{ doc['consent_type'] }}">
-            {% endif %}
-        {% endfor %}
-    {% endif %}
     </div>
     <div class="mt-2 consent-form-text" id="consent">
         <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>

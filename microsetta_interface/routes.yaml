@@ -482,7 +482,7 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/sources/{source_id}/consents/{consent_id}/view':
+  '/accounts/{account_id}/sources/{source_id}/consents/{consent_type}/view':
     get:
       operationId: microsetta_interface.implementation.get_consent_view
       tags:
@@ -490,7 +490,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/consent_id'
+        - $ref: '#/components/parameters/consent_type'
       responses:
         '200':
           description: Display a signed consent document
@@ -499,26 +499,9 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/sources/{source_id}/consents/{consent_id}/download':
-    get:
-      operationId: microsetta_interface.implementation.get_consent_download
-      tags:
-        - Source
-      parameters:
-        - $ref: '#/components/parameters/account_id'
-        - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/consent_id'
-      responses:
-        '200':
-          description: Download a PDF of a signed consent document
-          content:
-            text/html:
-              schema:
-                type: string
-
-  # Note: ideally this would be represented as a DELETE, not as a POST
-  # However, it is used as a form submission action, and HTML forms do not support
-  # delete as an action
+  # Note: ideally this would be represented as a DELETE, not as a GET
+  # However, it is used as a link, which does not support an HTTP action of
+  # delete
   '/accounts/{account_id}/sources/{source_id}/remove':
     get:
       operationId: microsetta_interface.implementation.get_remove_source
@@ -741,11 +724,8 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/survey_template_id'
-        - in: query
-          name: target
-          description: Where to route user after submitting survey
-          schema:
-            type: string
+        - $ref: '#/components/parameters/target'
+
       requestBody:
         content:
           application/json:
@@ -769,16 +749,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - in: query
-          name: sample_id
-          description: Sample ID attached to a Vioscreen registry entry
-          schema:
-            type: string
-        - in: query
-          name: registration_code
-          description: Registration code attached to a Vioscreen registry entry
-          schema:
-            type: string
+        - $ref: '#/components/parameters/sample_id'
+
       responses:
         '200':
           description: Take the vioscreen remote survey
@@ -859,10 +831,7 @@ paths:
       tags:
         - Survey
       parameters:
-        - in: query
-          name: ffq_code
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ffq_code'
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -1393,6 +1362,13 @@ components:
       schema:
         $ref: '#/components/schemas/consent_id'
       required: true
+    consent_type:
+      name: consent_type
+      in: path
+      description: Type of consent document
+      schema:
+        $ref: '#/components/schemas/consent_type'
+      required: true
     session_opt_out:
       name: session_opt_out
       in: query
@@ -1414,6 +1390,12 @@ components:
       schema:
         $ref: '#/components/schemas/survey_template_id'
       required: true
+    target:
+      name: target
+      in: query
+      description: Where to route user after completing a survey
+      schema:
+        $ref: '#/components/schemas/target'
     available_survey_template_ids:
       name: available_survey_template_ids
       in: query
@@ -1448,6 +1430,18 @@ components:
       description: Error message provided by front-end
       schema:
         $ref: '#/components/schemas/error_msg'
+    registration_code:
+      name: registration_code
+      in: query
+      description: Registration code attached to a Vioscreen registry entry
+      schema:
+        $ref: '#/components/schemas/registration_code'
+    ffq_code:
+      name: ffq_code
+      in: query
+      description: FFQ code
+      schema:
+        $ref: '#/components/schemas/ffq_code'
 
   schemas:
     # account section
@@ -1496,3 +1490,15 @@ components:
     activation_code:
       type: string
       example: TMI-XXXXX-XXXXX-XXXXX
+    target:
+      type: string
+      example: "home"
+    registration_code:
+      type: string
+      example: "TMI-XXXXX-XXXXX-XXXXX"
+    ffq_code:
+      type: string
+      example: "TMI-XXXXX-XXXXX-XXXXX"
+    consent_type:
+      type: string
+      example: "biospecimen"

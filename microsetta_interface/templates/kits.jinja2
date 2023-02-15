@@ -129,7 +129,7 @@
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
 
-            {% for kit_samples in sorted(samples.values()) %}
+            {% for kit_samples in kits.values() | sort() %}
                 {% for sample in kit_samples %}
                     addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
                 {% endfor %}
@@ -207,14 +207,14 @@
                     </div>
                 </div>
             </div>
-            {% if samples|length > 0 %}
-                {% for kit_id, kit_samples in samples.items() %}
+            {% if kits|length > 0 %}
+                {% for kit_id, kit_samples in kits.items() %}
                     <div class="container mt-4">
                         <div class="row kit-header mb-2">
                             <div class="kit-id-title my-auto">{{ _('KitID') }}: {{ kit_id }}</div>
                         </div>
                         <div class="row kit-sample-container">
-                            {% for sample in sorted(kit_samples) %}
+                            {% for sample in kit_samples | sort() %}
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}" class="barcode-link">
                             <div class="row barcode-row {{ sample.css_class }} mb-2">
                                 <div class="barcode-col">
@@ -240,7 +240,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            <div id="add_kit_container" {% if samples|length > 0 %}style="display: none;"{% endif %}>
+            <div id="add_kit_container" {% if kits|length > 0 %}style="display: none;"{% endif %}>
                 <form method="get" name="list_kit_form" action="/list_kit_samples">
                 <div class="card mt-4 blue-bg-card" id="add_kit_card">
                     <div class="row my-5">

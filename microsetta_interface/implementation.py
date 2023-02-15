@@ -31,6 +31,7 @@ import importlib.resources as pkg_resources
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
     parse_request_csv_col, parse_request_csv, dict_to_csv
+from collections import defaultdict
 
 
 # TODO: source from a microsetta_private_api endpoint
@@ -42,7 +43,7 @@ class Source:
 
 PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
 if os.environ.get(PUBKEY_ENVVAR, False):
-    PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
+   PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
 else:
     PUB_KEY = pkg_resources.read_text(
         'microsetta_interface',
@@ -71,8 +72,9 @@ ACCT_ADDR_STATE_KEY = "state"
 ACCT_ADDR_POST_CODE_KEY = "post_code"
 ACCT_ADDR_COUNTRY_CODE_KEY = "country_code"
 ACCT_LANG_KEY = "language"
+ACCT_TERMS_KEY = "consent_privacy_terms"
 ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
-                       ACCT_ADDR_KEY, ACCT_LANG_KEY]
+                       ACCT_ADDR_KEY, ACCT_LANG_KEY, ACCT_TERMS_KEY]
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -120,7 +122,7 @@ client_state = RedisCache()
 KITS_TAB_WHITELIST = {'US', 'ES', 'JP'}
 
 # Countries allowed to view the contents of the My Nutrition tab
-NUTRITION_TAB_WHITELIST = ['US']
+NUTRITION_TAB_WHITELIST = {'US'}
 
 # TODO: Move this sort of survey info ino the database
 SURVEY_INFO = {
@@ -169,16 +171,6 @@ SURVEY_INFO = {
         'est_minutes': '18',
         'icon': 'survey_detailed_diet.svg'
     },
-    MIGRAINE_ID: {
-        'description': '',
-        'est_minutes': '',
-        'icon': 'survey_external.svg'
-    },
-    SURFERS_ID: {
-        'description': '',
-        'est_minutes': '',
-        'icon': 'survey_external.svg'
-    },
     COVID19_ID: {
         'description': '',
         'est_minutes': '8',
@@ -188,37 +180,6 @@ SURVEY_INFO = {
         'description': '',
         'est_minutes': '2',
         'icon': 'survey_other.svg'
-    },
-    1: {
-        'description': 'The general questionnaire for Microsetta',
-        'est_minutes': '10',
-        'icon': 'survey_external.svg'
-    },
-    3: {
-        'description': 'A fermented foods specific questionnaire',
-        'est_minutes': '4',
-        'icon': 'survey_external.svg'
-    },
-    4: {
-        'description': 'Questions on surfing behavior',
-        'est_minutes': '5',
-        'icon': 'survey_external.svg'
-    },
-    5: {
-        'description': 'Questions about your interest in the microbiome',
-        'est_minutes': '3',
-        'icon': 'survey_external.svg'
-    },
-    6: {
-        'description': 'Questions specific to COVID19',
-        'est_minutes': '2',
-        'icon': 'survey_external.svg'
-    },
-    7: {
-        'description': 'Questions related to cooking oils and oxalate-rich '
-                       'foods',
-        'est_minutes': '5',
-        'icon': 'survey_external.svg'
     },
     VIOSCREEN_ID: {
         'description': 'Our standard food frequency questionnaire',
@@ -828,12 +789,16 @@ def get_create_account():
 
 @prerequisite([NEEDS_ACCOUNT])
 def post_create_account(*, body=None):
-    # We want to do server-side validation that they agreed to the Privacy
-    # Statement and T&C but we don't need to save the information
     if "consent_privacy_terms" not in body:
         exception_msg = "You must agree to the Privacy Statement and Terms "\
                        "and Conditions."
         raise Exception(exception_msg)
+
+    # the form posts consent_privacy_terms as a string but boolean is
+    # more appropriate for the API
+    consent_privacy_terms = False
+    if body['consent_privacy_terms'] == "True":
+        consent_privacy_terms = True
 
     api_json = {
         ACCT_FNAME_KEY: body['first_name'],
@@ -847,7 +812,8 @@ def post_create_account(*, body=None):
             ACCT_ADDR_POST_CODE_KEY: body['post_code'],
             ACCT_ADDR_COUNTRY_CODE_KEY: body['country_code']
         },
-        ACCT_LANG_KEY: body[LANG_KEY]
+        ACCT_LANG_KEY: body[LANG_KEY],
+        ACCT_TERMS_KEY: consent_privacy_terms
     }
 
     has_error, accts_output, _ = \
@@ -1001,7 +967,7 @@ def get_consent_page(*, account_id=None):
     if has_error:
         return consent_output
 
-    form_type = "source"
+    form_type = "data"
     reconsent = False
 
     return _render_with_defaults(
@@ -1150,10 +1116,9 @@ def get_fill_source_survey(*,
             previous_survey = {
                 "survey_name": survey_names[previous_template_id],
                 "survey_template_id": previous_template_id,
-                "est_minutes": SURVEY_INFO.get(
-                    previous_template_id
-                )['est_minutes'],
-                "icon": SURVEY_INFO.get(previous_template_id)['icon']
+                "est_minutes":
+                    SURVEY_INFO[previous_template_id]['est_minutes'],
+                "icon": SURVEY_INFO[previous_template_id]['icon']
             }
         else:
             previous_survey = None
@@ -1164,16 +1129,19 @@ def get_fill_source_survey(*,
             next_survey = {
                 "survey_name": survey_names[next_template_id],
                 "survey_template_id": next_template_id,
-                "est_minutes": SURVEY_INFO.get(
-                    next_template_id
-                )['est_minutes'],
-                "icon": SURVEY_INFO.get(next_template_id)['icon']
+                "est_minutes":
+                    SURVEY_INFO[next_template_id]['est_minutes'],
+                "icon": SURVEY_INFO[next_template_id]['icon']
             }
         else:
             next_survey = None
 
         survey_question_count = 0
-        # Add "skip" link to the field labels
+        # Add "skip" link to the label for every question. We set it up as a
+        # floating span such that it's consistently positioned, relative to
+        # questions, without obscuring any question text.
+        # Additionally, we inject numbers into the question labels, with
+        # triggered questions receiving sequential letters.
         for group in survey_output['survey_template_text']['groups']:
             ctr = 0
             trig_ctr = 0
@@ -1211,6 +1179,8 @@ def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None,
                                        target=None):
     # Private API has no ability to handle a survey submission without
+    # any questions in the body. Therefore, if the body is null, we're going
+    # to bypass submitting to the API.
     if len(body) > 0:
         has_error, surveys_output, _ = ApiRequest.post(
             "/accounts/%s/sources/%s/surveys" % (account_id, source_id),
@@ -1418,7 +1388,7 @@ def get_source(*, account_id=None, source_id=None):
         return consent_required
 
     if consent_required["result"]:
-        return render_consent_page(account_id, source_id, "source")
+        return render_consent_page(account_id, source_id, "data")
 
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1485,6 +1455,12 @@ def get_source(*, account_id=None, source_id=None):
             return survey_output
 
         template['date_last_taken'] = survey_output['date_last_taken']
+
+        # For local surveys, the answered value is used to control the
+        # progress indicator and is expressed in degrees. A survey with no
+        # answered questions is bumped up to 2 degrees, so that we're not
+        # displaying a totally blank circle. All partially or fully completed
+        # surveys are calculated as a percentage of 360 degrees.
         if survey_output['percentage_completed'] == 0.0:
             template['answered'] = 2
         else:
@@ -1492,9 +1468,9 @@ def get_source(*, account_id=None, source_id=None):
 
     for template in local_surveys + remote_surveys:
         template_id = template['survey_template_id']
-        template['description'] = SURVEY_INFO.get(template_id)['description']
-        template['est_minutes'] = SURVEY_INFO.get(template_id)['est_minutes']
-        template['icon'] = SURVEY_INFO.get(template_id)['icon']
+        template['description'] = SURVEY_INFO[template_id]['description']
+        template['est_minutes'] = SURVEY_INFO[template_id]['est_minutes']
+        template['icon'] = SURVEY_INFO[template_id]['icon']
 
     # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
     """
@@ -1561,10 +1537,10 @@ def get_kits(*, account_id=None, source_id=None):
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
-    samples_output = [translate_sample(s) for s in samples_output]
+    samples = [translate_sample(s) for s in samples_output]
 
     kits = defaultdict(list)
-    for s in samples_output:
+    for s in samples:
         if s['sample_site'] == '' or s['sample_datetime'] == '':
             s['css_class'] = "sample-needs-info"
             s['alert_icon'] = "info-orange.svg"
@@ -1574,14 +1550,12 @@ def get_kits(*, account_id=None, source_id=None):
 
         kits[s['kit_id']].append(s)
 
-    samples_output = kits
-
     return _render_with_defaults(
         'kits.jinja2',
         account_id=account_id,
         source_id=source_id,
         is_human=is_human,
-        samples=samples_output,
+        kits=kits,
         source_name=source_output['source_name'],
         fundrazr_url=SERVER_CONFIG["fundrazr_url"],
         account_country=account_country,
@@ -1680,23 +1654,39 @@ def get_consents(*, account_id=None, source_id=None):
         return source_output
 
     # Retrieve the latest signed consents
-    has_error, consents_output, _ = ApiRequest.get(
-        '/accounts/%s/sources/%s/signed_consents' %
-        (account_id, source_id)
+    has_error, data_consent, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/signed_consent/%s' %
+        (account_id, source_id, "data")
     )
     if has_error:
-        return consents_output
+        return data_consent
+
+    has_error, biospecimen_consent, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/signed_consent/%s' %
+        (account_id, source_id, "biospecimen")
+    )
+    if has_error:
+        if has_error == 404:
+            biospecimen_consent = None
+        else:
+            return biospecimen_consent
 
     return _render_with_defaults(
         'consents.jinja2',
         account_id=account_id,
         source_id=source_id,
         source_name=source_output['source_name'],
-        consents=consents_output
+        data_consent=data_consent,
+        biospecimen_consent=biospecimen_consent
     )
 
 
-def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
+def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
+    endpoint = SERVER_CONFIG["endpoint"]
+    relative_post_url = _make_acct_path(account_id,
+                                        suffix="create_human_source")
+    post_url = endpoint + relative_post_url
+
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1705,29 +1695,37 @@ def get_consent_view(*, account_id=None, source_id=None, consent_id=None):
         return source_output
 
     # Retrieve the latest signed consents
-    has_error, consents_output, _ = ApiRequest.get(
-        '/accounts/%s/sources/%s/signed_consents' %
-        (account_id, source_id)
+    has_error, consent_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/signed_consent/%s' %
+        (account_id, source_id, consent_type)
     )
     if has_error:
-        return consents_output
+        return consent_output
+
+    has_error, consent_assets, _ = ApiRequest.get(
+        "/accounts/{0}/consent".format(account_id),
+        params={"consent_post_url": post_url})
+
+    consent_output['date_time'] = flask_babel.format_datetime(
+        datetime.strptime(consent_output['date_time'], '%Y-%m-%dT%H:%M:%S.%f%z'),
+        'medium',
+        False
+    )
 
     return _render_with_defaults(
-        'consents.jinja2',
+        'signed_consent.jinja2',
         account_id=account_id,
         source_id=source_id,
+        source_age=source_output['consent']['age_range'],
         source_name=source_output['source_name'],
-        consents=consents_output
+        consent=consent_output,
+        tl=consent_assets
     )
 
 
-def get_consent_download(*, account_id=None, source_id=None, consent_id=None):
-    return True
-
-
-# Note: ideally this would be represented as a DELETE, not as a POST
-# However, it is used as a form submission action, and HTML forms do not
-# support delete as an action
+# Note: ideally this would be represented as a DELETE, not as a GET
+# However, it is used as a link, and HTML links do not support a DELETE
+# action
 @prerequisite([SOURCE_PREREQS_MET])
 def get_remove_source(*,
                       account_id=None,
@@ -2114,7 +2112,7 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
         return render_consent_page(
             account_id,
             source_id,
-            "Biospecimen",
+            "biospecimen",
             sample_ids=sample_ids
         )
 

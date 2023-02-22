@@ -330,6 +330,7 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{account_id}/details'
         body = {"first_name": "a",
                 "last_name": "b",
+                "email": USER_WITH_VALID_SAMPLE_EMAIL,
                 "street": "c",
                 "street2": "",
                 "city": "d",

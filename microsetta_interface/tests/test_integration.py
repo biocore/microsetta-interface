@@ -316,6 +316,7 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
 
         resp = self.app.get('/home')
+        print(resp.headers)
         self.assertRedirect(resp, suffix_is_uuid=True)
 
         url = self.redirectURL(resp)
@@ -488,9 +489,7 @@ class IntegrationTests(unittest.TestCase):
             f'/accounts/{account_id}/sources/{source_id}/'
             f'take_survey?survey_template_id={template_id}&target={target}'
         )
-        resp = self.app.post(url, json=body)
-        url = resp.headers['Location']
-        return self.app.get(url), url
+        return self.app.post(url, json=body)
 
     def _complete_myfoodrepo_survey(self, account_id, source_id):
         url = (f'/accounts/{account_id}/sources/{source_id}/'

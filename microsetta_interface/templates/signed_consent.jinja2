@@ -1,0 +1,228 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Consent") %}
+{% set show_breadcrumbs = False %}
+{% set hide_header = True %}
+{% set hide_footer = True %}
+{% block head %}
+{% endblock %}
+
+
+{% block content%}
+
+<div class="container default-container">
+
+
+
+
+{% if source_age == "0-6" %}
+<div id="0-6-div">
+    <div class='consent-scroll-text'>
+        {{ consent['consent_content'] }}
+    </div>
+    <div class="mt-2 consent-form-text" id="consent">
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+        <p>
+            <input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
+            </span>
+        </div>
+        <div class="col-md-6">
+            {{ source_name }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="consent-form-label" for="parent_1_name">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
+            </label>
+        </div>
+        <div class="col-md-6">
+            {{ consent['parent_1_name'] }}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ _('Date Signed') }}
+            </span>
+        </div>
+        <div class="col-md-6">
+                {{ consent['date_time'] }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!------------------------------- CONSENT/ASSENT FOR AGE 7-12 STARTS HERE --------------------------------------------->
+{% if source_age == "7-12" %}
+<div id="7-12-div">
+    <div class="consent-scroll-text">
+        {{ consent['assent_content'] }}
+    </div>
+    <div class="mt-2 consent-form-text">
+        <p>
+            <input value="Yes" type="checkbox" name="consent_child" id="consent_child" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_SIMPLIFIED'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
+            </span>
+        </div>
+        <div class="col-md-6">
+            {{ source_name }}
+        </div>
+    </div>
+    <div class="row mb-1">
+        <div class="col-12">
+            <strong>{{ tl['PARTICIPANT_FORM']['PERSON_ATTAINING_ASSENT'] |e}}</strong>
+        </div>
+    </div>
+    <div class="mt-2 consent-form-text">
+        <p>
+            <input value="Yes" type="checkbox" name="consent_witness" id="consent_witness" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_ASSENT_WITNESS'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ tl['PARTICIPANT_FORM']['ASSENT_OBTAINER'] |e}} *
+            </span>
+        </div>
+        <div class="col-md-6">
+            {{ consent['assent_obtainer'] }}
+        </div>
+    </div>
+
+    <div class="consent-scroll-text">
+        {{ consent['consent_content'] }}
+    </div>
+    <div class="mt-2 consent-form-text" id="consent">
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+        <p>
+            <input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="consent-form-label" for="parent_1_name">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
+            </label>
+        </div>
+        <div class="col-md-6">
+            {{ consent['parent_1_name'] }}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ _('Date Signed') }}
+            </span>
+        </div>
+        <div class="col-md-6">
+                {{ consent['date_time'] }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!------------------------------- CONSENT/ASSENT FOR AGE 13-17 STARTS HERE --------------------------------------------->
+{% if source_age == "13-17" %}
+<div id="13-17-div">
+    <div class="consent-scroll-text">
+        {{ consent['assent_content'] }}
+    </div>
+
+    <div class="mt-2 consent-form-text">
+        <p>
+            <input value="Yes" type="checkbox" name="consent_child" id="13-17-form-consent_child" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_1'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}} *
+            </span>
+        </div>
+        <div class="col-md-6">
+            {{ source_name }}
+        </div>
+    </div>
+
+    <div class="consent-scroll-text">
+        {{ consent['consent_content'] }}
+    </div>
+
+    <div class="mt-2 consent-form-text" id="consent">
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+        <p>
+            <input value="Yes" type="checkbox" name="consent_parent" id="consent_parent" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_PARENT'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="consent-form-label" for="parent_1_name">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_PARENT_1'] |e}} *
+            </label>
+        </div>
+        <div class="col-md-6">
+            {{ consent['parent_1_name'] }}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ _('Date Signed') }}
+            </span>
+        </div>
+        <div class="col-md-6">
+                {{ consent['date_time'] }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!------------------------------- CONSENT/ASSENT FOR AGE 18 AND ABOVE STARTS HERE --------------------------------------------->
+
+{% if source_age == "18-plus" %}
+
+<div id="18-plus-div">
+    <div class='consent-scroll-text'>
+        {{ consent['consent_content'] }}
+    </div>
+    <div class="mt-2 consent-form-text" id="consent">
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['PARTICIPANT_FORM']['BILL_OF_RIGHTS']|e}}</a><br/>
+        <p>
+            <input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true" checked disabled> * {{ tl['PARTICIPANT_FORM']['TEXT_I_HAVE_READ_1'] |e}}<br />
+        </p>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ tl['PARTICIPANT_FORM']['PARTICIPANT_NAME'] |e}}
+            </span>
+        </div>
+        <div class="col-md-6">
+                {{ source_name }}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <span class="consent-form-label">
+                {{ _('Date Signed') }}
+            </span>
+        </div>
+        <div class="col-md-6">
+                {{ consent['date_time'] }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+    {% endblock %}

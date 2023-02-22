@@ -2,26 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>{{ _('Microsetta') }} {{page_title}}</title>
+    <title>{{ _('Microsetta') }} - {{page_title}}</title>
 
-    <link rel="stylesheet" href="/static/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css" />
+    <link href="/static/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel='stylesheet' id='dt-web-fonts-css'  href='https://fonts.googleapis.com/css?family=Mulish:300,400,600,700' type='text/css' media='all' />
     <link rel="stylesheet" href="/static/css/minimal_interface.css" />
     <link rel="stylesheet" href="/static/css/ucsd_colors.css" />
-    <link rel="stylesheet" href="/static/css/tmi_colors.css" />
     <style>
         body {
-            padding-top: 50px;
-            margin: 2%;
+            padding-top: 81px;
         }
         .logo-co {
-          width: 200px;
-          height: 36px;
+          width: 300px;
+          height: 65px;
           object-fit: contain;
+          padding-left: 30px;
         }
         .profile-png {
           width: 36px;
           height: 36px;
           object-fit: contain;
+        }
+
+        #header-profile {
+            margin-right: 30px;
         }
     </style>
 
@@ -29,10 +34,18 @@
     <!-- jquery must be enabled before bootstrap for collapsible functionality -->
     <script src="/static/vendor/js/jquery-3.4.1.min.js"></script>
     <script src="/static/vendor/js/jquery.validate.min.js"></script>
-    <!-- Argh, bootstrap 4 requires an old version of popper.  Should we update to bootstrap 5? -->
-    <script src="/static/vendor/popper-1.11.0/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"></script>
-    <script src="/static/vendor/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script src="/static/vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="/static/input_util.js"></script>
+
+    <script type="text/javascript">
+        function verifyDeleteSource(sourceName){
+            let confirmMsg = "{{ _('You are deleting the profile for') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
+                "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
+            return window.confirm(confirmMsg);
+        }
+    </script>
 
     {%block head%}
     {%endblock%}
@@ -43,50 +56,41 @@
       {{ _('Administrator Toolbar') }}
       <a class="btn btn-outline-success" href="/admin/system_message">{{ _('System Panel') }}</a>
       <a class="btn btn-outline-success" href="/admin/emperor_playground">{{ _('Emperor Playground') }}</a>
-      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
-      <a class="btn btn-outline-success" href="/admin/activation">{{ _('Activation Codes') }}</a>
       <a class="btn btn-outline-success" href="/admin/interested_users">{{ _('Interested Users') }}</a>
       <a class="btn btn-outline-success" href="/admin/address_verification">{{ _('Address Verification') }}</a>
       <a class="btn btn-outline-success" href="/admin/campaigns/list">{{ _('Campaigns') }}</a>
+        <a class="btn btn-outline-success" href="/admin/ffq_codes">{{ _('FFQ Codes') }}</a>
       <form class="form-inline" action="/admin/account_search" method="get">
-        <input id="email_query" name="email_query" class="form-control mr-sm-2" type="search" placeholder="User Email" aria-label="Search"/>
+        <input id="email_query" name="email_query" class="form-control mr-sm-2" style="display: inline-block; max-width: 200px;" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
       </form>
       <a class="btn btn-outline-success" href="/admin/barcode_search">{{ _('Barcode Search') }}</a>
+      <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
     </nav>
     {% endif %}
     {% if not admin_mode and not hide_header %}
-    <nav class="navbar fixed-top navbar-light bg-light shadow">
+    <nav class="navbar fixed-top navbar-light bg-white shadow">
         <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>
         </a>
-        <div class="dropdown show">
-          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% if login_info %}
-                {% if login_info.email %}
-                  <span class="tmi-normal">{{login_info.email |e}}</span>
-                {% else %}
-<!--                  <i>Awaiting Account Creation</i>-->
-                {% endif %}
-              {% else %}
-<!--                <i>Not Signed In</i>-->
-              {% endif %}
+        <div class="dropdown show" id="header-profile">
+          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="/static/img/profile.png" class="profile-png"/>
           </a>
 
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
           {% if login_info %}
               {% if login_info.account_id %}
-                <a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a>
+                <li><a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a></li>
               {% else %}
-                <a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a>
+                <li><a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a></li>
               {% endif %}
-            <a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
+            <li><a class="dropdown-item" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a></li>
           {% else %}
-              <a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Log In') }}</a>
-              <a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Sign Up') }}</a>
+              <li><a class="dropdown-item" href="{{authrocket_url}}/login?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Log In') }}</a></li>
+              <li><a class="dropdown-item" href="{{authrocket_url}}/signup?redirect_uri={{endpoint}}/authrocket_callback">{{ _('Sign Up') }}</a></li>
           {% endif %}
-          </div>
+          </ul>
         </div>
     </nav>
     {% endif %}
@@ -97,12 +101,15 @@
     </div>
     {% endif %}
 
-    <div class="content">
+    {% if profile_header %}
+        <div class="content pt-2 profile-bg">
+    {% else %}
+        <div class="content pt-2">
+    {% endif %}
 
     {% if show_breadcrumbs %}
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb tmi-content">
-            <li class="breadcrumb-item"><a href="/home">{{ _('Home') }}</a></li>
             {%block breadcrumb%}
             {%endblock%}
           </ol>
@@ -110,9 +117,100 @@
     {% endif %}
         
         <!-- Vue Form Generator references a container named "app" -->
-       <div class="container-fluid" id="app">
+        <div class="container-fluid" id="app">
+            {% if profile_header %}
+                <div class="container profile-container">
+                    <h1 class="profile-h1">
+                        <img src="/static/img/profile_card_icon.png">
+                        {{ profile_header_name }}
+                    </h1>
+                    <div class="header-nav-container">
+                        <nav class="navbar navbar-expand-md profile-nav-container">
+                            <div class="container-fluid ps-0 pe-0">
+                                <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span>
+                                    {% if profile_header_active == "kits" %}
+                                    {{ _('My Kits') }}
+                                    {% elif profile_header_active == "nutrition" %}
+                                    {{ _('My Nutrition') }}
+                                    {% elif profile_header_active == "reports" %}
+                                    {{ _('My Reports') }}
+                                    {% else %}
+                                    {{ _('My Profile') }}
+                                    {% endif %}
+                                    </span>
+                                    <img src="/static/img/nav_down.svg" height="20" width="20" style="margin-top: 10px"/>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav profile-nav">
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "profile" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}">{{ _('My Profile') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "kits" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/kits">{{ _('My Kits') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "nutrition" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/nutrition">{{ _('My Nutrition') }}</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="nav-item">
+                                            {% if profile_header_active == "reports" %}
+                                                <a class="nav-link active" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
+                                            {% else %}
+                                                <a class="nav-link" href="/accounts/{{ profile_account_id }}/sources/{{ profile_source_id }}/reports">{{ _('My Reports') }}</a>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="dropdown show" id="profile-kebab-dropdown">
+                            <a class="btn p-0" href="#" role="button" id="profileDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
+                            </a>
+                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
+                          </ul>
+                        </div>
+                    </div>
+               </div>
+           {% endif %}
+
 {%block content%}
 {%endblock%}
+
+<div class="modal fade" id="profile_delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="survey-title" id="modal-title">{{ _('Are you sure you want to withdraw your consent and delete your profile?') }}</span>
+            </div>
+            <div class="modal-body">
+                <p id="delete-warning" class="survey-description">{{ _('I hereby withdraw consent for researchers to use my personal data and/or sample(s) for The Microsetta Initiative (TMI).') }}</p>
+                <p class="survey-description">{{ _('I understand and acknowledge that any personal data and/or sample(s) that have already been provided to TMI in accordance with the consent I provided by signing the consent form(s), will continue to be used for the research. However, no new information will be collected.') }}</p>
+                <p class="survey-description">{{ _('I understand that my data will only be shared after directly identifying information has been removed so that researchers cannot re-identify my personal data and/or sample(s) for future use.') }}</p>
+                <p class="survey-description">{{ _('By clicking withdraw, you will be ending your participation and terminating your profile. If you would like to be removed from being contacted for general program updates or information about future research studies, please refer to account deletion or contact us at microsetta@ucsd.edu.') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
+                <button type="button" class="btn btn-blue-gradient" id="take-survey">{{ _('Take This Survey Now') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 {%block footer%}

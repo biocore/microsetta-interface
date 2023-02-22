@@ -1,0 +1,25 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Admin FFQ Codes") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+    <form method="post">
+        {{ _('Generate Single Code') }}
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" name="generate" value="{{ _('Generate') }}">
+    </form>
+    {% if diagnostics is not none and diagnostics|length > 0 %}
+        <br /><br />
+        <strong>Generated Code</strong>: {{ diagnostics[0] }}
+        <br /><br />
+    {% endif %}
+    <hr />
+    <form method="post" enctype="multipart/form-data">
+        {{ _('Generate Multiple Codes and download CSV File') }}<br />
+        <label for="code_quantity">{{ _('Number of Codes') }}:</label>
+        <input type="text" name="code_quantity" size="4">
+        <input type="submit" name="generate_csv" value="{{ _('Generate') }}">
+    </form>
+    <hr />
+<div class="container">
+</div>
+{% endblock %}

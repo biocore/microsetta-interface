@@ -95,10 +95,6 @@ def declare_enum_values():
 
     # Survey descriptions
     # Intentionally skipping MyFoodRepo since it's only for US residents
-    gettext("A fermented foods specific questionnaire")
-    gettext("Questions on surfing behavior")
-    gettext("Questions about your interest in the microbiome")
-    gettext("Questions related to cooking oils and oxalate-rich foods")
     gettext("Polyphenols are chemical compounds naturally found in plants "
             "that have been shown to provide many beneficial properties. "
             "They are antioxidants, fighting aging and protecting your heart"

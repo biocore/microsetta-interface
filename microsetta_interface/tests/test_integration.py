@@ -366,6 +366,7 @@ class IntegrationTests(unittest.TestCase):
         consent_id = _get_consent_id_from_webpage(page_data, con)
         ADULT_CONSENT["consent_id"] = consent_id
         ADULT_CONSENT["consent_type"] = "adult_biospecimen"
+        ADULT_CONSENT["sample_ids"] = sample_id
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.post(url, data=ADULT_CONSENT)
 

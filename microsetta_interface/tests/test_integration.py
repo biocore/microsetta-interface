@@ -319,6 +319,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'Account')
 
         # sign the consent
+        url = resp.headers['Location']
         account_id, _, _ = self._ids_from_url(url)
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)

@@ -481,11 +481,15 @@ def _check_relevant_prereqs(acct_id=None, source_id=None):
     if source_id is None:
         return prereq_step, current_state
 
-    prereq_step, current_state = _check_source_prereqs(acct_id, source_id, current_state)
+    prereq_step, current_state = _check_source_prereqs(
+        acct_id, source_id, current_state
+    )
     if prereq_step != SOURCE_PREREQS_MET:
         return prereq_step, current_state
 
-    prereq_step, current_state = _check_biospecimen_prereqs(acct_id, source_id, current_state)
+    prereq_step, current_state = _check_biospecimen_prereqs(
+        acct_id, source_id, current_state
+    )
     if prereq_step != BIOSPECIMEN_PREREQS_MET:
         return SOURCE_PREREQS_MET, current_state
     else:

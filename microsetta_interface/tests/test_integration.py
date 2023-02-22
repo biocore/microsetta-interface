@@ -293,12 +293,9 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
 
         resp = self.app.get('/home', follow_redirects=False)
-        self.assertRedirect(resp, suffix_is_uuid=True)
 
-        url = self.redirectURL(resp)
-
-        # we should now be on the source listing page
-        resp = self.app.get(url)
+        # We should be on the Account Dashboard page
+        self.assertEqual(resp.status_code, 200)
         self.assertPageTitle(resp, 'Account')
 
     def test_new_human_source_to_sample(self):
@@ -316,10 +313,9 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
 
         resp = self.app.get('/home')
-        self.assertRedirect(resp, suffix_is_uuid=True)
 
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
+        # We should be on the Account Dashboard page
+        self.assertEqual(resp.status_code, 200)
         self.assertPageTitle(resp, 'Account')
 
         # sign the consent

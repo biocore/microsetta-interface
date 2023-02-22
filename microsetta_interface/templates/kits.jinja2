@@ -214,7 +214,7 @@
                             <div class="kit-id-title my-auto">{{ _('KitID') }}: {{ kit_id }}</div>
                         </div>
                         <div class="row kit-sample-container">
-                            {% for sample in kit_samples | sort() %}
+                            {% for sample in kit_samples %}
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}" class="barcode-link">
                             <div class="row barcode-row {{ sample.css_class }} mb-2">
                                 <div class="barcode-col">

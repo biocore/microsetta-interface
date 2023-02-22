@@ -85,6 +85,8 @@ NEEDS_PRIMARY_SURVEYS = "NeedsPrimarySurveys"
 HOME_PREREQS_MET = "TokenPrereqsMet"
 ACCT_PREREQS_MET = "AcctPrereqsMet"
 SOURCE_PREREQS_MET = "SourcePrereqsMet"
+NEEDS_BIOSPECIMEN_CONSENT = "NeedsBiospecimenConsent"
+BIOSPECIMEN_PREREQS_MET = "BiospecimenPrereqsMet"
 
 # TODO FIXME HACK:  VIOSCREEN_ID is just hardcoded.  Api does not specify what
 #  special handling is required.  API must specify per-sample survey templates
@@ -421,6 +423,36 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
     return SOURCE_PREREQS_MET, current_state
 
 
+def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
+    current_state = {} if current_state is None else current_state
+    current_state['source_id'] = source_id
+
+    if not session.get(ADMIN_MODE_KEY, False):
+        # Get the input source
+        needs_reroute, source_output, _ = ApiRequest.get(
+            '/accounts/%s/sources/%s' %
+            (acct_id, source_id))
+        if needs_reroute:
+            current_state[REROUTE_KEY] = source_output
+            return NEEDS_REROUTE, current_state
+
+    # Test if biospecimen consent is required! If Required,
+    # route user to biospecimen consent
+    needs_reroute, consent_output, _ = ApiRequest.get(
+        '/accounts/%s/source/%s/consent/%s' %
+        (acct_id, source_id, 'biospecimen'))
+
+    if needs_reroute:
+        current_state[REROUTE_KEY] = consent_output
+        return NEEDS_REROUTE, current_state
+
+    if consent_output["result"]:
+        session["source_id"] = source_id
+        return NEEDS_BIOSPECIMEN_CONSENT, current_state
+
+    return BIOSPECIMEN_PREREQS_MET, current_state
+
+
 def _update_needed_survey(survey_template_ids, ids_of_answered, current_state):
     # For each required survey template id for this source type
     for curr_survey_template_id in survey_template_ids:
@@ -448,7 +480,16 @@ def _check_relevant_prereqs(acct_id=None, source_id=None):
     # Check source prereqs
     if source_id is None:
         return prereq_step, current_state
-    return _check_source_prereqs(acct_id, source_id, current_state)
+
+    prereq_step, current_state = _check_source_prereqs(acct_id, source_id, current_state)
+    if prereq_step != SOURCE_PREREQS_MET:
+        return prereq_step, current_state
+
+    prereq_step, current_state = _check_biospecimen_prereqs(acct_id, source_id, current_state)
+    if prereq_step != BIOSPECIMEN_PREREQS_MET:
+        return SOURCE_PREREQS_MET, current_state
+    else:
+        return prereq_step, current_state
 
 
 # To send arguments to a decorator, you define a factory method with those args
@@ -568,6 +609,10 @@ def _route_to_closest_sink(prereqs_step, current_state):
     elif prereqs_step == SOURCE_PREREQS_MET:
         # redirect to the source details page (showing all samples)
         return redirect(_make_source_path(acct_id, source_id))
+    elif prereqs_step == NEEDS_BIOSPECIMEN_CONSENT:
+        return render_consent_page(acct_id, source_id, "biospecimen")
+    elif prereqs_step == BIOSPECIMEN_PREREQS_MET:
+        return redirect(_make_source_path(acct_id, source_id, suffix="kits"))
     else:
         return get_show_error_page(
             "Unknown prereq_step: '{0}'".format(prereqs_step))
@@ -1070,7 +1115,8 @@ def post_create_nonhuman_source(*, account_id=None, body=None):
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET,
+               BIOSPECIMEN_PREREQS_MET])
 def get_fill_source_survey(*,
                            account_id=None,
                            source_id=None,
@@ -1174,7 +1220,8 @@ def get_fill_source_survey(*,
         )
 
 
-@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET])
+@prerequisite([NEEDS_PRIMARY_SURVEYS, SOURCE_PREREQS_MET,
+               BIOSPECIMEN_PREREQS_MET])
 def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None,
                                        target=None):
@@ -1210,7 +1257,7 @@ def get_myfoodrepo_no_slots(*, account_id=None, source_id=None):
                                  source_id=source_id)
 
 
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
@@ -1261,7 +1308,7 @@ def post_generate_vioscreen_url(*,
 # per-sample survey we have is the remote food frequency questionnaire
 # administered through vioscreen, and saving that requires its own special
 # handling (this function).
-@prerequisite([SOURCE_PREREQS_MET, NEEDS_PRIMARY_SURVEYS],
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET],
               survey_template_id=VIOSCREEN_ID)
 def get_to_save_vioscreen_remote_sample_survey(*,
                                                account_id=None,
@@ -1284,7 +1331,7 @@ def get_to_save_vioscreen_remote_sample_survey(*,
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def top_food_report(*,
                     account_id=None,
                     source_id=None,
@@ -1299,7 +1346,7 @@ def top_food_report(*,
                     % (account_id, source_id, survey_id))
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def top_food_report_pdf(*,
                         account_id=None,
                         source_id=None,
@@ -1371,7 +1418,7 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None):
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
     session["source_id"] = source_id
 
@@ -1503,7 +1550,7 @@ def get_source(*, account_id=None, source_id=None):
                                  )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_kits(*, account_id=None, source_id=None):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
@@ -1565,7 +1612,7 @@ def get_kits(*, account_id=None, source_id=None):
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_nutrition(*, account_id=None, source_id=None):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
@@ -1600,7 +1647,7 @@ def get_nutrition(*, account_id=None, source_id=None):
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_reports(*, account_id=None, source_id=None):
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1644,7 +1691,7 @@ def get_reports(*, account_id=None, source_id=None):
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_consents(*, account_id=None, source_id=None):
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1659,7 +1706,12 @@ def get_consents(*, account_id=None, source_id=None):
         (account_id, source_id, "data")
     )
     if has_error:
-        return data_consent
+        if has_error == 404:
+            # If historical users who haven't re-consented try to view signed
+            # consents, we redirect them to the consent page
+            return render_consent_page(account_id, source_id, "data")
+        else:
+            return data_consent
 
     has_error, biospecimen_consent, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/signed_consent/%s' %
@@ -1729,7 +1781,7 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
 # Note: ideally this would be represented as a DELETE, not as a GET
 # However, it is used as a link, and HTML links do not support a DELETE
 # action
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_remove_source(*,
                       account_id=None,
                       source_id=None):
@@ -1743,7 +1795,7 @@ def get_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([BIOSPECIMEN_PREREQS_MET])
 def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1762,6 +1814,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     source_type = source_output['source_type']
     is_environmental = source_type == Source.SOURCE_TYPE_ENVIRONMENT
     is_human = source_type == Source.SOURCE_TYPE_HUMAN
+    is_animal = source_type == Source.SOURCE_TYPE_ANIMAL
 
     if is_human:
         # Human Settings
@@ -1799,7 +1852,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         raise BadRequest("Sources of type %s are not supported at this time"
                          % source_output['source_type'])
 
-    if sample_output['sample_site'] is None:
+    if (is_human or is_animal) and sample_output['sample_site'] is None:
         sample_output['sample_site'] = "Stool"
 
     if sample_output['sample_datetime'] is not None:
@@ -1822,7 +1875,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
 
 
 # TODO: guess we should also rewrite as ajax post for sample vue form?
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([BIOSPECIMEN_PREREQS_MET])
 def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     model = {}
     for x in flask.request.form:
@@ -1855,7 +1908,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def check_questionnaire(*, account_id=None, source_id=None, sample_id=None):
     return _render_with_defaults('post_sample_questionnaire.jinja2',
                                  account_id=account_id,
@@ -1864,7 +1917,7 @@ def check_questionnaire(*, account_id=None, source_id=None, sample_id=None):
                                  vioscreen_id=VIOSCREEN_ID)
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -1931,7 +1984,7 @@ def get_sample_results_experimental():
     )
 
 
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_sample_results_experimental_authenticated(*, account_id=None,
                                                   source_id=None,
                                                   sample_id=None):
@@ -1963,7 +2016,7 @@ def get_sample_results_experimental_authenticated(*, account_id=None,
 # Note: ideally this would be represented as a DELETE, not as a GET
 # However, it is used as a redirect from a link, which does not support
 # the DELETE action
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_remove_sample_from_source(*,
                                   account_id=None,
                                   source_id=None,
@@ -2087,7 +2140,7 @@ def get_ajax_check_activation_code(code, email):
 # NB: associating surveys with samples when samples are claimed means that any
 # surveys added to this source AFTER these samples are claimed will NOT be
 # associated with these samples.  This behavior is by design.
-@prerequisite([SOURCE_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def post_claim_samples(*, account_id=None, source_id=None, body=None,
                        sample_ids=None):
 

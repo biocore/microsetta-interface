@@ -426,7 +426,6 @@ class IntegrationTests(unittest.TestCase):
         self._login(USER_WITH_VALID_SAMPLE)
 
         resp = self.app.get('/home')
-        print(resp.headers)
         self.assertRedirect(resp, suffix_is_uuid=True)
 
         url = self.redirectURL(resp)

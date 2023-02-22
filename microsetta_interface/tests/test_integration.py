@@ -109,6 +109,7 @@ POLYPHENOL_FFQ_ID = 10003
 SPAIN_FFQ_ID = 10004
 
 BASIC_INFO_SIMPLE = {"112": "1970"}
+BASIC_INFO_SIMPLE_ALT = {"112": "1983"}
 AT_HOME_SIMPLE = {"313": "Unspecified"}
 LIFESTYLE_SIMPLE = {"16": "Month"}
 GUT_SIMPLE = {"37": "One"}
@@ -421,6 +422,59 @@ class IntegrationTests(unittest.TestCase):
         self.assertPageTitle(resp, 'My Kits')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
+
+    def test_take_survey_twice(self):
+        self._login(USER_WITH_VALID_SAMPLE)
+
+        resp = self.app.get('/home')
+        print(resp.headers)
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Account')
+
+        account_id, _, _ = self._ids_from_url(url)
+
+        # sign the consent
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
+        resp = self.app.post(url, data=ADULT_CONSENT)
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
+        url = self.redirectURL(resp)
+        account_id, source_id, _ = self._ids_from_url(url)
+
+        # take the Basic Info survey
+        self._complete_basic_survey(account_id, source_id)
+
+        # now let's make sure the answer we provided is available to edit
+        url = f'/accounts/{account_id}/sources/{source_id}/'\
+            f'take_survey?survey_template_id={BASIC_INFO_ID}'
+        resp = self.app.get(url)
+
+        # we should see 1970 in the contents
+        data = self._html_page(resp)
+        self.assertIn("1970", data)
+
+        # now, let's re-submit it with an alternate response
+        self._complete_basic_survey(account_id, source_id,
+                                    survey=BASIC_INFO_SIMPLE_ALT)
+
+        # and let's make sure the new answer saved
+        url = f'/accounts/{account_id}/sources/{source_id}/'\
+            f'take_survey?survey_template_id={BASIC_INFO_ID}'
+        resp = self.app.get(url)
+
+        # we should see 1970 in the contents
+        data = self._html_page(resp)
+        self.assertIn("1983", data)
 
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'

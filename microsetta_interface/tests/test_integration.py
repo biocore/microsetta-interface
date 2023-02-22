@@ -482,9 +482,12 @@ class IntegrationTests(unittest.TestCase):
             account_id, source_id, survey, OTHER_ID
         )
 
-    def _complete_local_survey(self, account_id, source_id, body, template_id):
-        url = (f'/accounts/{account_id}/sources/{source_id}/'
-               f'take_survey?survey_template_id={template_id}')
+    def _complete_local_survey(self, account_id, source_id, body, template_id,
+                               target="home"):
+        url = (
+            f'/accounts/{account_id}/sources/{source_id}/'
+            f'take_survey?survey_template_id={template_id}&target={target}'
+        )
         resp = self.app.post(url, json=body)
         url = resp.headers['Location']
         return self.app.get(url), url

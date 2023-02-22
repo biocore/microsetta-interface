@@ -323,8 +323,24 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Account')
 
-        # sign the consent
         account_id, _, _ = self._ids_from_url(url)
+
+        # The account that's used for integration tests has a country
+        # code of GB, which doesn't have access to My Kits. Let's fix that.
+        url = f'/accounts/{account_id}/details'
+        body = {"first_name": "a",
+                "last_name": "b",
+                "street": "c",
+                "street2": "",
+                "city": "d",
+                "state": "e",
+                "post_code": "f",
+                "language": "en_US",
+                "country_code": "US"
+                }
+        _ = self.app.post(url, data=body)
+
+        # sign the consent
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')

@@ -101,7 +101,6 @@ HEALTH_DIAG_ID = 15
 ALLERGIES_ID = 16
 DIET_ID = 17
 DETAILED_DIET_ID = 18
-COVID19_ID = 21
 OTHER_ID = 22
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
@@ -118,7 +117,6 @@ HEALTH_DIAGNOSIS_SIMPLE = {"85": "Self-diagnosed"}
 ALLERGIES_SIMPLE = {"53": "Yes"}
 DIET_SIMPLE = {"1": "Omnivore"}
 DETAILED_DIET_SIMPLE = {"56": "Daily"}
-COVID19_SIMPLE = {"209": "Janitor"}
 OTHER_SIMPLE = {"116": "I like microbiomes"}
 
 
@@ -539,12 +537,6 @@ class IntegrationTests(unittest.TestCase):
                                        survey=DETAILED_DIET_SIMPLE):
         return self._complete_local_survey(
             account_id, source_id, survey, DETAILED_DIET_ID
-        )
-
-    def _complete_covid19_survey(self, account_id, source_id,
-                                 survey=COVID19_SIMPLE):
-        return self._complete_local_survey(
-            account_id, source_id, survey, COVID19_ID
         )
 
     def _complete_other_survey(self, account_id, source_id,

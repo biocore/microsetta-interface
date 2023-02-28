@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ _('Microsetta') }} - {{page_title}}</title>
 
     <link href="/static/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,12 +14,7 @@
         body {
             padding-top: 81px;
         }
-        .logo-co {
-          width: 300px;
-          height: 65px;
-          object-fit: contain;
-          padding-left: 30px;
-        }
+
         .profile-png {
           width: 36px;
           height: 36px;
@@ -121,7 +117,7 @@
             {% if profile_header %}
                 <div class="container profile-container">
                     <h1 class="profile-h1">
-                        <img src="/static/img/profile_card_icon.png">
+                        <img src="/static/img/profile_card_icon.png" class="profile-header-icon">
                         {{ profile_header_name }}
                     </h1>
                     <div class="header-nav-container">

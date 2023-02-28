@@ -1163,7 +1163,7 @@ def get_fill_source_survey(*,
             previous_index = cur_index - 1
             previous_template_id = LOCAL_SURVEY_SEQUENCE[previous_index]
             previous_survey = {
-                "survey_name": survey_names[previous_template_id],
+                "survey_name": gettext(survey_names[previous_template_id]),
                 "survey_template_id": previous_template_id,
                 "est_minutes":
                     SURVEY_INFO[previous_template_id]['est_minutes'],
@@ -1176,7 +1176,7 @@ def get_fill_source_survey(*,
             next_index = cur_index + 1
             next_template_id = LOCAL_SURVEY_SEQUENCE[next_index]
             next_survey = {
-                "survey_name": survey_names[next_template_id],
+                "survey_name": gettext(survey_names[next_template_id]),
                 "survey_template_id": next_template_id,
                 "est_minutes":
                     SURVEY_INFO[next_template_id]['est_minutes'],

@@ -213,6 +213,7 @@
         </div>
     </div>
     <div class="row mb-4">
+        {% if language_tag == "en_US" %}
         <div class="col-md">
             <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)">
             <label for="age-range-1" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label>
@@ -225,6 +226,7 @@
             <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)">
             <label for="age-range-3" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label>
         </div>
+        {% endif %}
         <div class="col-md">
             <input type="radio" id="age-range-4" name="age-range" value="18-plus" onchange="change_consent_div(this)">
             <label for="age-range-4" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_18'] |e}}</label>

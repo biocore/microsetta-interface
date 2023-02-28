@@ -513,7 +513,7 @@ h1.profile-h1 {
 }
 
 .nav-toggle {
-    width: 190px;
+    width: 210px;
     text-align: center;
     font-size: 24px;
     line-height: 40px;
@@ -532,7 +532,7 @@ h1.profile-h1 {
     background: var(--tmi-light-blue);
     height: 8px;
     border-radius: 4px 4px 4px 4px;
-    width: 190px;
+    width: 210px;
 }
 
 .nav-toggle:focus::after {
@@ -544,7 +544,7 @@ h1.profile-h1 {
 }
 
 .profile-nav > .nav-item {
-    width: 190px;
+    width: 210px;
     text-align: center;
     font-size: 24px;
     line-height: 40px;

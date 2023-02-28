@@ -83,15 +83,18 @@ def declare_enum_values():
     # SurveyTemplate.survey_template_title:
     # Not defined in the microsetta-private-api yaml at the moment
     # Taken from survey_template_repo.py
-    gettext("Primary Questionnaire")
-    gettext("Pet Information")
-    gettext("Fermented Foods Questionnaire")
-    gettext("Surfer Questionnaire")
-    gettext("Personal Microbiome Information")
-    gettext("COVID-19 Questionnaire")
-    gettext("Vioscreen Food Frequency Questionnaire")
-    gettext("Polyphenol Food Frequency Questionnaire")
-    gettext("Cooking Oils and Oxalate-rich Foods")
+    gettext("Basic Information")
+    gettext("At Home")
+    gettext("Lifestyle")
+    gettext("Gut")
+    gettext("General Health")
+    gettext("Health Diagnosis")
+    gettext("Allergies")
+    gettext("Diet")
+    gettext("Detailed Diet")
+    gettext("Other")
+    gettext("Polyphenols")
+    gettext("Spain FFQ")
 
     # Survey descriptions
     # Intentionally skipping MyFoodRepo since it's only for US residents

@@ -1791,7 +1791,7 @@ def get_remove_source(*,
                       account_id=None,
                       source_id=None):
     has_error, delete_output, _ = ApiRequest.delete(
-        '/accounts/%s/sources/%s/scrub' %
+        '/accounts/%s/sources/%s' %
         (account_id, source_id))
 
     if has_error:

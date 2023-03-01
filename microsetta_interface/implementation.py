@@ -1029,7 +1029,8 @@ def get_consent_page(*, account_id=None):
         language_tag=session_locale(),
         account_id=account_id,
         participant_name=None,
-        age_range=None
+        age_range=None,
+        source_id=None
     )
 
 
@@ -1417,7 +1418,8 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None):
         sample_ids=sample_ids,
         participant_name=source_output['source_name'],
         age_range=source_output['consent']['age_range'],
-        account_id=account_id
+        account_id=account_id,
+        source_id=source_id
     )
 
 

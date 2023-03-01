@@ -749,8 +749,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/sample_id'
-
+        - in: query
+          name: sample_id
+          schema:
+            type: string
+            nullable: true
+        - in: query
+          name: registration_code
+          schema:
+            type: string
+            nullable: true
       responses:
         '200':
           description: Take the vioscreen remote survey

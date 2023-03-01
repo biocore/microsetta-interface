@@ -15,7 +15,15 @@
     }
 
     function goHome() {
-        window.location.replace("/accounts/{{ account_id |e }}");
+        {% if source_id is not none %}
+            {% if form_type == "biospecimen" %}
+                window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}/kits");
+            {% else %}
+                window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}");
+            {% endif %}
+        {% else %}
+            window.location.replace("/accounts/{{ account_id |e }}");
+        {% endif %}
     }
 
     $(document).ready(function(e) {
@@ -189,7 +197,7 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
-    {% if form_type == "Biospecimen" %}
+    {% if form_type == "biospecimen" %}
         <li class="breadcrumb-item active" aria-current="page">{{ _('Biospecimen Consent Form') }}</li>
     {% else %}
         <li class="breadcrumb-item active" aria-current="page">{{ _('Data Consent Form') }}</li>

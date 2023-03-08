@@ -242,7 +242,7 @@
 
 
 
-{% if language_tag == "en_US" %}
+{% if language_tag != "ja_JP" %}
 <div id="0-6-div">
     <form id="0-6-form" name="consent_info" action="{{ post_url }}" method="post">
     <input type="hidden" name="sample_ids" value="{{ sample_ids }}">

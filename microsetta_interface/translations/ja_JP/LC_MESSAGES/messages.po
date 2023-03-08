@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-15 13:39-0800\n"
+"POT-Creation-Date: 2023-03-08 00:40-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja_JP\n"
@@ -19,91 +19,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:582
+#: implementation.py:630
 msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 
-#: implementation.py:1160
+#: implementation.py:1210 templates/sitebase.jinja2:98
+#: templates/sitebase.jinja2:102
 msgid "SKIP"
 msgstr ""
 
-#: implementation.py:1776 model_i18n.py:58
+#: implementation.py:1840 model_i18n.py:58
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1777 model_i18n.py:59
+#: implementation.py:1841 model_i18n.py:59
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1778 model_i18n.py:71
+#: implementation.py:1842 model_i18n.py:71
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1779 model_i18n.py:66
+#: implementation.py:1843 model_i18n.py:66
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1780 model_i18n.py:67
+#: implementation.py:1844 model_i18n.py:67
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1781 model_i18n.py:68
+#: implementation.py:1845 model_i18n.py:68
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1782 model_i18n.py:69
+#: implementation.py:1846 model_i18n.py:69
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1783 model_i18n.py:64
+#: implementation.py:1847 model_i18n.py:64
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1784 model_i18n.py:61
+#: implementation.py:1848 model_i18n.py:61
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1785 model_i18n.py:73
+#: implementation.py:1849 model_i18n.py:73
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1786 model_i18n.py:70
+#: implementation.py:1850 model_i18n.py:70
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1787 model_i18n.py:65
+#: implementation.py:1851 model_i18n.py:65
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1788 model_i18n.py:74
+#: implementation.py:1852 model_i18n.py:74
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1789 model_i18n.py:72
+#: implementation.py:1853 model_i18n.py:72
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1790 model_i18n.py:60
+#: implementation.py:1854 model_i18n.py:60
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1791 model_i18n.py:63
+#: implementation.py:1855 model_i18n.py:63
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1792 model_i18n.py:62
+#: implementation.py:1856 model_i18n.py:62
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:2081
+#: implementation.py:2145
 msgid "Unable to validate Activation Code at this time"
 msgstr ""
 
-#: implementation.py:2399
+#: implementation.py:2463
 msgid "Address 1, Postal Code, and Country are required"
 msgstr ""
 
-#: implementation.py:2811 implementation.py:2923
+#: implementation.py:2875 implementation.py:2987
 msgid "Sorry, there was a problem saving your information."
 msgstr ""
 
@@ -136,42 +137,54 @@ msgid "environmental"
 msgstr ""
 
 #: model_i18n.py:86
-msgid "Primary Questionnaire"
+msgid "Basic Information"
 msgstr ""
 
 #: model_i18n.py:87
-msgid "Pet Information"
+msgid "At Home"
 msgstr ""
 
 #: model_i18n.py:88
-msgid "Fermented Foods Questionnaire"
+msgid "Lifestyle"
 msgstr ""
 
 #: model_i18n.py:89
-msgid "Surfer Questionnaire"
+msgid "Gut"
 msgstr ""
 
 #: model_i18n.py:90
-msgid "Personal Microbiome Information"
+msgid "General Health"
 msgstr ""
 
 #: model_i18n.py:91
-msgid "COVID-19 Questionnaire"
+msgid "Health Diagnosis"
 msgstr ""
 
 #: model_i18n.py:92
-msgid "Vioscreen Food Frequency Questionnaire"
+msgid "Allergies"
 msgstr ""
 
-#: model_i18n.py:93
-msgid "Polyphenol Food Frequency Questionnaire"
+#: model_i18n.py:93 templates/new_results_page.jinja2:1473
+msgid "Diet"
 msgstr ""
 
 #: model_i18n.py:94
-msgid "Cooking Oils and Oxalate-rich Foods"
+msgid "Detailed Diet"
 msgstr ""
 
-#: model_i18n.py:98
+#: model_i18n.py:95
+msgid "Other"
+msgstr ""
+
+#: model_i18n.py:96
+msgid "Polyphenols"
+msgstr ""
+
+#: model_i18n.py:97
+msgid "Spain FFQ"
+msgstr ""
+
+#: model_i18n.py:101
 msgid ""
 "Polyphenols are chemical compounds naturally found in plants that have "
 "been shown to provide many beneficial properties. They are antioxidants, "
@@ -181,7 +194,7 @@ msgid ""
 "diet."
 msgstr ""
 
-#: model_i18n.py:104
+#: model_i18n.py:107
 msgid ""
 "<strong>Only for participants in Spain:</strong><br />The Food Frequency "
 "Questionnaire (FFQ) will ask you about your usual frequency of "
@@ -190,13 +203,13 @@ msgid ""
 "like."
 msgstr ""
 
-#: model_i18n.py:111
+#: model_i18n.py:114 templates/survey.jinja2:378
 msgid "en_us"
 msgstr ""
 
 #: templates/account_details.jinja2:2 templates/account_details.jinja2:110
-#: templates/account_details.jinja2:115 templates/sitebase.jinja2:84
-#: templates/sitebase.jinja2:86
+#: templates/account_details.jinja2:115 templates/sitebase.jinja2:154
+#: templates/sitebase.jinja2:156
 msgid "Account Details"
 msgstr ""
 
@@ -238,9 +251,9 @@ msgstr ""
 
 #: templates/account_details.jinja2:109 templates/account_overview.jinja2:44
 #: templates/consents.jinja2:22 templates/kits.jinja2:168
-#: templates/new_participant.jinja2:191 templates/nutrition.jinja2:87
+#: templates/new_participant.jinja2:199 templates/nutrition.jinja2:105
 #: templates/reports.jinja2:55 templates/sample.jinja2:182
-#: templates/source.jinja2:45 templates/survey.jinja2:164
+#: templates/source.jinja2:47 templates/survey.jinja2:168
 msgid "Dashboard"
 msgstr ""
 
@@ -249,7 +262,7 @@ msgstr ""
 #: templates/admin_activation_codes.jinja2:21
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
 #: templates/admin_interested_user_edit.jinja2:114
-#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:226
+#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:278
 msgid "Email"
 msgstr ""
 
@@ -1078,6 +1091,7 @@ msgid ""
 msgstr ""
 
 #: templates/account_details.jinja2:384 templates/submit_interest.jinja2:600
+#: templates/survey.jinja2:258 templates/survey.jinja2:320
 msgid "Next"
 msgstr ""
 
@@ -1393,7 +1407,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/admin_campaign_list.jinja2:5 templates/sitebase.jinja2:61
+#: templates/admin_campaign_list.jinja2:5 templates/sitebase.jinja2:125
 msgid "Campaigns"
 msgstr ""
 
@@ -1478,7 +1492,7 @@ msgstr ""
 msgid "Address Type"
 msgstr ""
 
-#: templates/admin_interested_users.jinja2:5 templates/sitebase.jinja2:59
+#: templates/admin_interested_users.jinja2:5 templates/sitebase.jinja2:123
 msgid "Interested Users"
 msgstr ""
 
@@ -1536,7 +1550,7 @@ msgid "dark"
 msgstr ""
 
 #: templates/consents.jinja2:2 templates/consents.jinja2:30
-#: templates/sitebase.jinja2:183
+#: templates/sitebase.jinja2:253
 msgid "Consent Documents"
 msgstr ""
 
@@ -1629,7 +1643,7 @@ msgid "This report is generated by a third party."
 msgstr ""
 
 #: templates/emperor.jinja2:2 templates/emperor.jinja2:65
-#: templates/sitebase.jinja2:58
+#: templates/sitebase.jinja2:122
 msgid "Emperor Playground"
 msgstr ""
 
@@ -1646,12 +1660,7 @@ msgid "Error Page"
 msgstr ""
 
 #: templates/error.jinja2:10
-msgid ""
-"An error seemed to have occurred (see below). It is most likely our "
-"fault. We are actively modifying our infrastructure to support COVID-19 "
-"research, and we're still in the process of handling the different type "
-"of scenarios that can happen on a website. We apologize for any "
-"inconvenience."
+msgid "An error has occurred (see below). We apologize for any inconvenience."
 msgstr ""
 
 #: templates/error.jinja2:13
@@ -1659,11 +1668,15 @@ msgid "If you have any concerns, please email us at"
 msgstr ""
 
 #: templates/error.jinja2:13
-msgid "and please note the error below"
+msgid "with a copy of the error message below."
 msgstr ""
 
 #: templates/error.jinja2:15
 msgid "Error"
+msgstr ""
+
+#: templates/error.jinja2:20
+msgid "Return Home"
 msgstr ""
 
 #: templates/home.jinja2:2 templates/submit_interest.jinja2:2
@@ -1676,22 +1689,22 @@ msgstr ""
 msgid "Welcome!"
 msgstr ""
 
-#: templates/home.jinja2:35 templates/sitebase.jinja2:91
+#: templates/home.jinja2:35 templates/sitebase.jinja2:161
 msgid "Sign Up"
 msgstr ""
 
-#: templates/home.jinja2:40 templates/sitebase.jinja2:90
+#: templates/home.jinja2:40 templates/sitebase.jinja2:160
 msgid "Log In"
 msgstr ""
 
 #: templates/kits.jinja2:2 templates/kits.jinja2:177 templates/kits.jinja2:197
 #: templates/reports.jinja2:63 templates/sample.jinja2:2
-#: templates/sample.jinja2:184 templates/sitebase.jinja2:133
-#: templates/sitebase.jinja2:155 templates/sitebase.jinja2:157
+#: templates/sample.jinja2:184 templates/sitebase.jinja2:203
+#: templates/sitebase.jinja2:225 templates/sitebase.jinja2:227
 msgid "My Kits"
 msgstr ""
 
-#: templates/kits.jinja2:62 templates/kits.jinja2:214 templates/kits.jinja2:262
+#: templates/kits.jinja2:62 templates/kits.jinja2:214 templates/kits.jinja2:267
 msgid "KitID"
 msgstr ""
 
@@ -1719,57 +1732,61 @@ msgstr ""
 msgid "Have a KitID"
 msgstr ""
 
-#: templates/kits.jinja2:231 templates/reports.jinja2:75
+#: templates/kits.jinja2:231
+msgid "Collected"
+msgstr ""
+
+#: templates/kits.jinja2:236 templates/reports.jinja2:75
 msgid "Sample Received - Results Pending"
 msgstr ""
 
-#: templates/kits.jinja2:249
+#: templates/kits.jinja2:254
 msgid "To register your kit, enter your Kit ID below"
 msgstr ""
 
-#: templates/kits.jinja2:255
+#: templates/kits.jinja2:260
 msgid "Register Kit"
 msgstr ""
 
-#: templates/kits.jinja2:265
+#: templates/kits.jinja2:270
 msgid "Which barcode(s) are you using from this kit (select all that apply)?"
 msgstr ""
 
-#: templates/kits.jinja2:265
+#: templates/kits.jinja2:270
 msgid "Each collection tube you receive has a unique barcode printed on the side."
 msgstr ""
 
-#: templates/kits.jinja2:266
+#: templates/kits.jinja2:271
 msgid "1. Select the barcode(s) you are using"
 msgstr ""
 
-#: templates/kits.jinja2:267
+#: templates/kits.jinja2:272
 msgid ""
 "2. Add the date and time of sample collection and select the sample type "
 "taken."
 msgstr ""
 
-#: templates/kits.jinja2:268
+#: templates/kits.jinja2:273
 msgid "Important"
 msgstr ""
 
-#: templates/kits.jinja2:269
+#: templates/kits.jinja2:274
 msgid ""
 "The sample cannot be processed in the lab until this information is "
 "complete."
 msgstr ""
 
-#: templates/kits.jinja2:270
+#: templates/kits.jinja2:275
 msgid ""
 "Keep a record of these details. The barcode is needed to resolve any "
 "issues you may have with your sample collection."
 msgstr ""
 
-#: templates/kits.jinja2:270
+#: templates/kits.jinja2:275
 msgid "What is the barcode and why is it important?"
 msgstr ""
 
-#: templates/kits.jinja2:275
+#: templates/kits.jinja2:280
 msgid "Confirm"
 msgstr ""
 
@@ -1804,47 +1821,47 @@ msgstr ""
 msgid "Consent"
 msgstr ""
 
-#: templates/new_participant.jinja2:31 templates/new_participant.jinja2:32
-#: templates/new_participant.jinja2:33 templates/new_participant.jinja2:34
+#: templates/new_participant.jinja2:39 templates/new_participant.jinja2:40
+#: templates/new_participant.jinja2:41 templates/new_participant.jinja2:42
 msgid "Saving..."
 msgstr ""
 
-#: templates/new_participant.jinja2:60 templates/new_participant.jinja2:84
-#: templates/new_participant.jinja2:101 templates/new_participant.jinja2:103
-#: templates/new_participant.jinja2:118 templates/new_participant.jinja2:255
-#: templates/new_participant.jinja2:355 templates/new_participant.jinja2:396
-#: templates/new_participant.jinja2:425 templates/new_participant.jinja2:468
+#: templates/new_participant.jinja2:68 templates/new_participant.jinja2:92
+#: templates/new_participant.jinja2:109 templates/new_participant.jinja2:111
+#: templates/new_participant.jinja2:126 templates/new_participant.jinja2:263
+#: templates/new_participant.jinja2:363 templates/new_participant.jinja2:404
+#: templates/new_participant.jinja2:433 templates/new_participant.jinja2:476
 msgid "Please confirm that you have read this form."
 msgstr ""
 
-#: templates/new_participant.jinja2:61 templates/new_participant.jinja2:81
-#: templates/new_participant.jinja2:102 templates/new_participant.jinja2:119
-#: templates/new_participant.jinja2:266 templates/new_participant.jinja2:316
-#: templates/new_participant.jinja2:407 templates/new_participant.jinja2:479
+#: templates/new_participant.jinja2:69 templates/new_participant.jinja2:89
+#: templates/new_participant.jinja2:110 templates/new_participant.jinja2:127
+#: templates/new_participant.jinja2:274 templates/new_participant.jinja2:324
+#: templates/new_participant.jinja2:415 templates/new_participant.jinja2:487
 msgid "Please enter the participant name."
 msgstr ""
 
-#: templates/new_participant.jinja2:62 templates/new_participant.jinja2:85
-#: templates/new_participant.jinja2:104 templates/new_participant.jinja2:277
-#: templates/new_participant.jinja2:366 templates/new_participant.jinja2:436
+#: templates/new_participant.jinja2:70 templates/new_participant.jinja2:93
+#: templates/new_participant.jinja2:112 templates/new_participant.jinja2:285
+#: templates/new_participant.jinja2:374 templates/new_participant.jinja2:444
 msgid "Please enter the parent or guardian name."
 msgstr ""
 
-#: templates/new_participant.jinja2:80 templates/new_participant.jinja2:305
+#: templates/new_participant.jinja2:88 templates/new_participant.jinja2:313
 msgid "Please confirm that you will be in this study."
 msgstr ""
 
-#: templates/new_participant.jinja2:82 templates/new_participant.jinja2:327
+#: templates/new_participant.jinja2:90 templates/new_participant.jinja2:335
 msgid ""
 "Please confirm that the participant is voluntarily and knowingly giving "
 "consent."
 msgstr ""
 
-#: templates/new_participant.jinja2:83 templates/new_participant.jinja2:338
+#: templates/new_participant.jinja2:91 templates/new_participant.jinja2:346
 msgid "Please enter the name of the person obtaining assent."
 msgstr ""
 
-#: templates/new_participant.jinja2:143
+#: templates/new_participant.jinja2:151
 msgid ""
 "It looks like you are creating a new profile that may be similar or the "
 "same as an existing profile. If this is the same person as an existing "
@@ -1852,52 +1869,52 @@ msgid ""
 "that profile."
 msgstr ""
 
-#: templates/new_participant.jinja2:162 templates/new_participant.jinja2:176
-#: templates/new_participant.jinja2:283 templates/new_participant.jinja2:372
-#: templates/new_participant.jinja2:442 templates/new_participant.jinja2:485
+#: templates/new_participant.jinja2:170 templates/new_participant.jinja2:184
+#: templates/new_participant.jinja2:291 templates/new_participant.jinja2:380
+#: templates/new_participant.jinja2:450 templates/new_participant.jinja2:493
 msgid "I Accept"
 msgstr ""
 
-#: templates/new_participant.jinja2:193
+#: templates/new_participant.jinja2:201
 msgid "Biospecimen Consent Form"
 msgstr ""
 
-#: templates/new_participant.jinja2:195
+#: templates/new_participant.jinja2:203
 msgid "Data Consent Form"
 msgstr ""
 
-#: templates/new_participant.jinja2:206
+#: templates/new_participant.jinja2:214
 msgid ""
 "Signature and agreement of this consent form is required to process your "
 "sample(s)."
 msgstr ""
 
-#: templates/new_participant.jinja2:212
+#: templates/new_participant.jinja2:220
 msgid "Select age range of participant"
 msgstr ""
 
-#: templates/new_participant.jinja2:252 templates/new_participant.jinja2:352
-#: templates/new_participant.jinja2:422 templates/new_participant.jinja2:465
+#: templates/new_participant.jinja2:260 templates/new_participant.jinja2:360
+#: templates/new_participant.jinja2:430 templates/new_participant.jinja2:473
 #: templates/signed_consent.jinja2:23 templates/signed_consent.jinja2:107
 #: templates/signed_consent.jinja2:163 templates/signed_consent.jinja2:200
 msgid "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
 msgstr ""
 
-#: templates/new_participant.jinja2:282 templates/new_participant.jinja2:371
-#: templates/new_participant.jinja2:441 templates/new_participant.jinja2:484
+#: templates/new_participant.jinja2:290 templates/new_participant.jinja2:379
+#: templates/new_participant.jinja2:449 templates/new_participant.jinja2:492
 #: templates/sample.jinja2:241
 msgid "Cancel"
 msgstr ""
 
-#: templates/new_participant.jinja2:496
+#: templates/new_participant.jinja2:504
 msgid "Warning"
 msgstr ""
 
-#: templates/new_participant.jinja2:502
+#: templates/new_participant.jinja2:510
 msgid "Return to Home Page"
 msgstr ""
 
-#: templates/new_participant.jinja2:503
+#: templates/new_participant.jinja2:511
 msgid "Proceed with Creating New Source"
 msgstr ""
 
@@ -2094,6 +2111,7 @@ msgstr ""
 #: templates/new_results_page.jinja2:834 templates/new_results_page.jinja2:837
 #: templates/new_results_page.jinja2:843 templates/new_results_page.jinja2:851
 #: templates/new_results_page.jinja2:854 templates/new_results_page.jinja2:864
+#: templates/survey.jinja2:348
 msgid "Unspecified"
 msgstr ""
 
@@ -2330,10 +2348,6 @@ msgid ""
 " if your response differed."
 msgstr ""
 
-#: templates/new_results_page.jinja2:1473
-msgid "Diet"
-msgstr ""
-
 #: templates/new_results_page.jinja2:1483
 msgid "of people with a microbiome like yours eat"
 msgstr ""
@@ -2527,8 +2541,8 @@ msgid ""
 "produced?</span>"
 msgstr ""
 
-#: templates/nutrition.jinja2:2 templates/sitebase.jinja2:135
-#: templates/sitebase.jinja2:162 templates/sitebase.jinja2:164
+#: templates/nutrition.jinja2:2 templates/sitebase.jinja2:205
+#: templates/sitebase.jinja2:232 templates/sitebase.jinja2:234
 msgid "My Nutrition"
 msgstr ""
 
@@ -2538,60 +2552,84 @@ msgid ""
 "Please try again."
 msgstr ""
 
-#: templates/nutrition.jinja2:96 templates/nutrition.jinja2:113
+#: templates/nutrition.jinja2:100
+msgid ""
+"It looks like you have not completed the Basic Information survey yet. If"
+" you begin your FFQ without providing your height, weight, age, and "
+"gender on the Basic Information survey, your FFQ report will be "
+"inaccurate. Do you wish to proceed with the FFQ?"
+msgstr ""
+
+#: templates/nutrition.jinja2:114 templates/nutrition.jinja2:131
 #: templates/reports.jinja2:83
 msgid "My FFQs"
 msgstr ""
 
-#: templates/nutrition.jinja2:102
+#: templates/nutrition.jinja2:120
 msgid ""
 "Currently, \"My FFQs\" is unavailable in your country or region. We "
 "apologize for any inconvenience."
 msgstr ""
 
-#: templates/nutrition.jinja2:119
+#: templates/nutrition.jinja2:137
 msgid "Have an FFQ Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:121
+#: templates/nutrition.jinja2:139
 msgid "Get an FFQ Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:129
+#: templates/nutrition.jinja2:148
 msgid ""
-"This Food Frequency Questionnaire (FFQ) will take approximately 30 "
-"minutes. By completing it, you'll receive the following report"
+"Complete a food frequency questionnaire (FFQ) to receive a report "
+"summarizing your diet and nutrition, including the top foods with key "
+"nutrients that promote good health."
 msgstr ""
 
-#: templates/nutrition.jinja2:130
-msgid ""
-"Personal diet and nutrition summary, listing the highest contributing "
-"food sources of nutrients you should try to limit and your top food "
-"sources with key nutrients that promote good health."
+#: templates/nutrition.jinja2:155
+msgid "Questionnaire tip"
 msgstr ""
 
-#: templates/nutrition.jinja2:135
+#: templates/nutrition.jinja2:156
 msgid ""
-"You must press the \"Finish\" button on the final page of the FFQ to "
-"register it as completed. You can complete the FFQ in stages by clicking "
-"\"Continue FFQ\" and selecting the \"Resume\" button to return to where "
-"you left off."
+"You will be directed to an external site in a new browser tab to complete"
+" the FFQ"
 msgstr ""
 
-#: templates/nutrition.jinja2:146 templates/reports.jinja2:93
+#: templates/nutrition.jinja2:157
+msgid ""
+"Remember to click \"Finish\" on the final page of the FFQ to register "
+"completion"
+msgstr ""
+
+#: templates/nutrition.jinja2:158
+msgid ""
+"You can also resume the FFQ later by closing the browser tab. The option "
+"to \"Continue FFQ\" will then appear under My FFQs. "
+msgstr ""
+
+#: templates/nutrition.jinja2:161
+msgid "Estimated time to complete: 30 minutes"
+msgstr ""
+
+#: templates/nutrition.jinja2:173 templates/reports.jinja2:93
 msgid "Download Top Food Report"
 msgstr ""
 
-#: templates/nutrition.jinja2:149 templates/nutrition.jinja2:151
+#: templates/nutrition.jinja2:176 templates/nutrition.jinja2:182
 #: templates/reports.jinja2:96 templates/reports.jinja2:98
 msgid "Continue FFQ"
 msgstr ""
 
-#: templates/nutrition.jinja2:164
+#: templates/nutrition.jinja2:180
+msgid "Begin FFQ"
+msgstr ""
+
+#: templates/nutrition.jinja2:197
 msgid "Registration Code"
 msgstr ""
 
-#: templates/nutrition.jinja2:170
+#: templates/nutrition.jinja2:203
 msgid "Register FFQ"
 msgstr ""
 
@@ -2664,8 +2702,8 @@ msgstr ""
 msgid "Take FFQ"
 msgstr ""
 
-#: templates/reports.jinja2:2 templates/sitebase.jinja2:137
-#: templates/sitebase.jinja2:169 templates/sitebase.jinja2:171
+#: templates/reports.jinja2:2 templates/sitebase.jinja2:207
+#: templates/sitebase.jinja2:239 templates/sitebase.jinja2:241
 msgid "My Reports"
 msgstr ""
 
@@ -2714,7 +2752,9 @@ msgid "Notes"
 msgstr ""
 
 #: templates/sample.jinja2:230
-msgid "(Optional) Is there else about this sample that you would like to add?"
+msgid ""
+"(Optional) Is there anything else about this sample that you would like "
+"to add?"
 msgstr ""
 
 #: templates/sample.jinja2:236
@@ -2815,135 +2855,169 @@ msgstr ""
 msgid "Date Signed"
 msgstr ""
 
-#: templates/sitebase.jinja2:5
+#: templates/sitebase.jinja2:6
 msgid "Microsetta"
 msgstr ""
 
-#: templates/sitebase.jinja2:44
+#: templates/sitebase.jinja2:41
 msgid "You are deleting the profile for"
 msgstr ""
 
-#: templates/sitebase.jinja2:44
+#: templates/sitebase.jinja2:41
 msgid "and all surveys associated with it!"
 msgstr ""
 
-#: templates/sitebase.jinja2:45
+#: templates/sitebase.jinja2:42
 msgid ""
 "This operation cannot be undone.  Are you sure you want to delete this "
 "source?"
 msgstr ""
 
-#: templates/sitebase.jinja2:56
+#: templates/sitebase.jinja2:45
+msgid ""
+"Profiles with one or more samples assigned cannot be deleted.  All "
+"samples above must be removed prior to deleting this profile."
+msgstr ""
+
+#: templates/sitebase.jinja2:70
+msgid "Tips"
+msgstr ""
+
+#: templates/sitebase.jinja2:77
+msgid "Navigating Surveys"
+msgstr ""
+
+#: templates/sitebase.jinja2:82
+msgid ""
+"You can pick and choose the surveys you want to complete on the \"My "
+"Profile\" tab or complete them in a series."
+msgstr ""
+
+#: templates/sitebase.jinja2:84
+msgid ""
+"Clicking \"Previous,\" \"Next,\" or \"Save & Go to Profile\" will save "
+"your responses to that survey. But if you close your browser or navigate "
+"away from the page using other links, your progress for that survey will "
+"NOT be saved."
+msgstr ""
+
+#: templates/sitebase.jinja2:85
+msgid ""
+"If you'd prefer to only work on one survey at a time or need to stop, "
+"click \"Save & Go to Profile\" to return to your profile page."
+msgstr ""
+
+#: templates/sitebase.jinja2:93
+msgid "Skipping Questions"
+msgstr ""
+
+#: templates/sitebase.jinja2:98
+msgid "The"
+msgstr ""
+
+#: templates/sitebase.jinja2:98
+msgid "option can be found at the top right corner of each question."
+msgstr ""
+
+#: templates/sitebase.jinja2:100
+msgid "Skipping a question clears your selected answer and hides the options."
+msgstr ""
+
+#: templates/sitebase.jinja2:101
+msgid "Click"
+msgstr ""
+
+#: templates/sitebase.jinja2:101 templates/sitebase.jinja2:102
+msgid "DISPLAY"
+msgstr ""
+
+#: templates/sitebase.jinja2:101
+msgid "to bring back the hidden response options."
+msgstr ""
+
+#: templates/sitebase.jinja2:102
+msgid "If you want to reset an incorrect answer quickly, click"
+msgstr ""
+
+#: templates/sitebase.jinja2:102
+msgid "then"
+msgstr ""
+
+#: templates/sitebase.jinja2:112
+msgid "Close"
+msgstr ""
+
+#: templates/sitebase.jinja2:120
 msgid "Administrator Toolbar"
 msgstr ""
 
-#: templates/sitebase.jinja2:57
+#: templates/sitebase.jinja2:121
 msgid "System Panel"
 msgstr ""
 
-#: templates/sitebase.jinja2:60
+#: templates/sitebase.jinja2:124
 msgid "Address Verification"
 msgstr ""
 
-#: templates/sitebase.jinja2:62
+#: templates/sitebase.jinja2:126
 msgid "FFQ Codes"
 msgstr ""
 
-#: templates/sitebase.jinja2:65
+#: templates/sitebase.jinja2:129
 msgid "Find Account"
 msgstr ""
 
-#: templates/sitebase.jinja2:67
+#: templates/sitebase.jinja2:131
 msgid "Barcode Search"
 msgstr ""
 
-#: templates/sitebase.jinja2:68 templates/sitebase.jinja2:88
+#: templates/sitebase.jinja2:132 templates/sitebase.jinja2:158
 msgid "Log Out"
 msgstr ""
 
-#: templates/sitebase.jinja2:139 templates/sitebase.jinja2:148
-#: templates/sitebase.jinja2:150 templates/source.jinja2:2
-#: templates/survey.jinja2:165
+#: templates/sitebase.jinja2:153
+msgid "Account Dashboard"
+msgstr ""
+
+#: templates/sitebase.jinja2:209 templates/sitebase.jinja2:218
+#: templates/sitebase.jinja2:220 templates/source.jinja2:2
+#: templates/survey.jinja2:169
 msgid "My Profile"
 msgstr ""
 
-#: templates/sitebase.jinja2:184
+#: templates/sitebase.jinja2:254
 msgid "Delete This Profile"
 msgstr ""
 
-#: templates/sitebase.jinja2:198
-msgid "Are you sure you want to withdraw your consent and delete your profile?"
-msgstr ""
-
-#: templates/sitebase.jinja2:201
-msgid ""
-"I hereby withdraw consent for researchers to use my personal data and/or "
-"sample(s) for The Microsetta Initiative (TMI)."
-msgstr ""
-
-#: templates/sitebase.jinja2:202
-msgid ""
-"I understand and acknowledge that any personal data and/or sample(s) that"
-" have already been provided to TMI in accordance with the consent I "
-"provided by signing the consent form(s), will continue to be used for the"
-" research. However, no new information will be collected."
-msgstr ""
-
-#: templates/sitebase.jinja2:203
-msgid ""
-"I understand that my data will only be shared after directly identifying "
-"information has been removed so that researchers cannot re-identify my "
-"personal data and/or sample(s) for future use."
-msgstr ""
-
-#: templates/sitebase.jinja2:204
-msgid ""
-"By clicking withdraw, you will be ending your participation and "
-"terminating your profile. If you would like to be removed from being "
-"contacted for general program updates or information about future "
-"research studies, please refer to account deletion or contact us at "
-"microsetta@ucsd.edu."
-msgstr ""
-
-#: templates/sitebase.jinja2:207 templates/source.jinja2:151
-msgid "Maybe Later"
-msgstr ""
-
-#: templates/sitebase.jinja2:208 templates/source.jinja2:152
-msgid "Take This Survey Now"
-msgstr ""
-
-#: templates/sitebase.jinja2:224
+#: templates/sitebase.jinja2:276
 msgid "FAQs"
 msgstr ""
 
-#: templates/source.jinja2:52
+#: templates/source.jinja2:54
 msgid ""
-"The Microsetta Initiative aims to generate quality data that can help you"
-" better understand your microbiome, help scientists design better "
-"studies, and improve the world's understanding of the human microbiome."
+"Lifestyle, health, and diet information is essential in order to gain "
+"novel insights into the human microbiome and design better studies. You "
+"can help us by completing our surveys, starting with your Basic "
+"Information."
 msgstr ""
 
-#: templates/source.jinja2:55
-msgid ""
-"Answering our surveys can help us do just that. To get started, build out"
-" your profile by answering the surveys below. We will alert you when new "
-"surveys become available."
-msgstr ""
-
-#: templates/source.jinja2:63
+#: templates/source.jinja2:62
 msgid "Last modified"
 msgstr ""
 
-#: templates/source.jinja2:65 templates/source.jinja2:107
-msgid "NEW"
+#: templates/source.jinja2:65
+msgid "START HERE"
 msgstr ""
 
-#: templates/source.jinja2:67 templates/survey.jinja2:176
+#: templates/source.jinja2:67
+msgid "Not Completed"
+msgstr ""
+
+#: templates/source.jinja2:70 templates/survey.jinja2:180
 msgid "minutes"
 msgstr ""
 
-#: templates/source.jinja2:97
+#: templates/source.jinja2:100
 msgid ""
 "Below are surveys hosted by partner organizations. You will be directed "
 "to an external site in a new browser tab to complete the survey(s) you "
@@ -2951,18 +3025,30 @@ msgid ""
 "page."
 msgstr ""
 
-#: templates/source.jinja2:105
+#: templates/source.jinja2:108
 msgid "COMPLETED"
 msgstr ""
 
-#: templates/source.jinja2:109
+#: templates/source.jinja2:110
+msgid "NEW"
+msgstr ""
+
+#: templates/source.jinja2:112
 msgid "min"
 msgstr ""
 
-#: templates/source.jinja2:148
+#: templates/source.jinja2:151
 msgid ""
 "You will only have one opportunity to take this survey. Please make sure "
 "you have ample time before you start."
+msgstr ""
+
+#: templates/source.jinja2:154
+msgid "Maybe Later"
+msgstr ""
+
+#: templates/source.jinja2:155
+msgid "Take This Survey Now"
 msgstr ""
 
 #: templates/submit_interest.jinja2:146 templates/submit_interest.jinja2:223
@@ -3098,7 +3184,8 @@ msgid ""
 "status updates directly from the TMI database. "
 msgstr ""
 
-#: templates/submit_interest.jinja2:599
+#: templates/submit_interest.jinja2:599 templates/survey.jinja2:270
+#: templates/survey.jinja2:301
 msgid "Previous"
 msgstr ""
 
@@ -3109,41 +3196,33 @@ msgid ""
 "spam folder if the email hasn’t reached your inbox."
 msgstr ""
 
-#: templates/survey.jinja2:8
+#: templates/survey.jinja2:11
 msgid " selected"
 msgstr ""
 
-#: templates/survey.jinja2:96
+#: templates/survey.jinja2:100
 msgid "The value is not an integer"
 msgstr ""
 
-#: templates/survey.jinja2:97
+#: templates/survey.jinja2:101
 msgid "Invalid number"
 msgstr ""
 
-#: templates/survey.jinja2:176
+#: templates/survey.jinja2:180
 msgid "questions"
 msgstr ""
 
-#: templates/survey.jinja2:196
+#: templates/survey.jinja2:200
 msgid "You've finished building your profile!"
 msgstr ""
 
-#: templates/survey.jinja2:245 templates/survey.jinja2:276
-#: templates/survey.jinja2:307
-msgid "Save & Go Home"
+#: templates/survey.jinja2:249 templates/survey.jinja2:280
+#: templates/survey.jinja2:311
+msgid "Save & Go to Profile"
 msgstr ""
 
-#: templates/survey.jinja2:254 templates/survey.jinja2:316
-msgid "Save & Next"
-msgstr ""
-
-#: templates/survey.jinja2:266 templates/survey.jinja2:297
-msgid "Save & Previous"
-msgstr ""
-
-#: templates/survey.jinja2:285
-msgid "Save & Finish"
+#: templates/survey.jinja2:289
+msgid "Finish"
 msgstr ""
 
 #: templates/update_address.jinja2:198
@@ -3185,4 +3264,145 @@ msgstr ""
 #: templates/update_email.jinja2:21
 msgid "Yes, update and continue"
 msgstr ""
+
+#~ msgid "Primary Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Pet Information"
+#~ msgstr ""
+
+#~ msgid "Fermented Foods Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Surfer Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Personal Microbiome Information"
+#~ msgstr ""
+
+#~ msgid "COVID-19 Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Vioscreen Food Frequency Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Polyphenol Food Frequency Questionnaire"
+#~ msgstr ""
+
+#~ msgid "Cooking Oils and Oxalate-rich Foods"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "An error seemed to have occurred "
+#~ "(see below). It is most likely our"
+#~ " fault. We are actively modifying our"
+#~ " infrastructure to support COVID-19 "
+#~ "research, and we're still in the "
+#~ "process of handling the different type"
+#~ " of scenarios that can happen on "
+#~ "a website. We apologize for any "
+#~ "inconvenience."
+#~ msgstr ""
+
+#~ msgid "and please note the error below"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This Food Frequency Questionnaire (FFQ) "
+#~ "will take approximately 30 minutes. By"
+#~ " completing it, you'll receive the "
+#~ "following report"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Personal diet and nutrition summary, "
+#~ "listing the highest contributing food "
+#~ "sources of nutrients you should try "
+#~ "to limit and your top food sources"
+#~ " with key nutrients that promote good"
+#~ " health."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You must press the \"Finish\" button "
+#~ "on the final page of the FFQ "
+#~ "to register it as completed. You "
+#~ "can complete the FFQ in stages by"
+#~ " clicking \"Continue FFQ\" and selecting"
+#~ " the \"Resume\" button to return to"
+#~ " where you left off."
+#~ msgstr ""
+
+#~ msgid "(Optional) Is there else about this sample that you would like to add?"
+#~ msgstr ""
+
+#~ msgid "Are you sure you want to withdraw your consent and delete your profile?"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I hereby withdraw consent for "
+#~ "researchers to use my personal data "
+#~ "and/or sample(s) for The Microsetta "
+#~ "Initiative (TMI)."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand and acknowledge that any"
+#~ " personal data and/or sample(s) that "
+#~ "have already been provided to TMI "
+#~ "in accordance with the consent I "
+#~ "provided by signing the consent form(s),"
+#~ " will continue to be used for "
+#~ "the research. However, no new "
+#~ "information will be collected."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "I understand that my data will "
+#~ "only be shared after directly "
+#~ "identifying information has been removed "
+#~ "so that researchers cannot re-identify"
+#~ " my personal data and/or sample(s) "
+#~ "for future use."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "By clicking withdraw, you will be "
+#~ "ending your participation and terminating "
+#~ "your profile. If you would like to"
+#~ " be removed from being contacted for"
+#~ " general program updates or information "
+#~ "about future research studies, please "
+#~ "refer to account deletion or contact "
+#~ "us at microsetta@ucsd.edu."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The Microsetta Initiative aims to "
+#~ "generate quality data that can help "
+#~ "you better understand your microbiome, "
+#~ "help scientists design better studies, "
+#~ "and improve the world's understanding of"
+#~ " the human microbiome."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Answering our surveys can help us "
+#~ "do just that. To get started, "
+#~ "build out your profile by answering "
+#~ "the surveys below. We will alert "
+#~ "you when new surveys become available."
+#~ msgstr ""
+
+#~ msgid "Save & Go Home"
+#~ msgstr ""
+
+#~ msgid "Save & Next"
+#~ msgstr ""
+
+#~ msgid "Save & Previous"
+#~ msgstr ""
+
+#~ msgid "Save & Finish"
+#~ msgstr ""
 

@@ -223,8 +223,13 @@
                                 <div class="barcode-col barcode-text">
                                     {{ sample.sample_barcode }}
                                 </div>
-                                <div class="barcode-col">
+                                <div class="barcode-col barcode-col-hide-mobile">
                                     <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
+                                </div>
+                                <div class="barcode-col barcode-date-text barcode-col-hide-mobile">
+                                    {% if sample.sample_datetime is not none and sample.sample_datetime != '' %}
+                                        {{ _('Collected') }}: {{ sample.sample_datetime }}
+                                    {% endif %}
                                 </div>
                                 <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                                     {% if sample.sample_edit_locked %}

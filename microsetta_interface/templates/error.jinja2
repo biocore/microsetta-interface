@@ -7,12 +7,17 @@
 {% endblock %}
 {% block content %}
 <p>
-    {{ _('An error seemed to have occurred (see below). It is most likely our fault. We are actively modifying our infrastructure to support COVID-19 research, and we\'re still in the process of handling the different type of scenarios that can happen on a website. We apologize for any inconvenience.') }}
+    {{ _('An error has occurred (see below). We apologize for any inconvenience.') }}
 </p>
 <p>
-    {{ _('If you have any concerns, please email us at') }} <a href="{{ mailto_url }}">microsetta@ucsd.edu</a> {{ _('and please note the error below') }}.
+    {{ _('If you have any concerns, please email us at') }} <a href="{{ mailto_url }}">microsetta@ucsd.edu</a> {{ _('with a copy of the error message below.') }}
 </p>
 <strong>{{ _('Error') }}:</strong>
 <br/>
 <pre>{{ error_msg }}</pre>
+<center>
+    <a class="btn btn-blue-gradient centered" style="width: fit-content;" href="/home">
+        {{ _('Return Home') }}
+    </a>
+</center>
 {% endblock %}

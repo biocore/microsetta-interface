@@ -53,12 +53,12 @@ var vm = new Vue({
                 }
             } else {
                 if(multi) {
-                    this.model[key] = ["Unspecified"];
+                    this.model[key] = ["No especificado"];
                 } else {
                     if(key == '108' || key == '113') {
                         this.model[key] = 0;
                     } else {
-                        this.model[key] = "Unspecified";
+                        this.model[key] = "No especificado";
                     }
                 }
             }

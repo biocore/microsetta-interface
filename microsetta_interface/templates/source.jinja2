@@ -7,6 +7,8 @@
 {% set profile_header_name = source_name %}
 {% set profile_account_id = account_id %}
 {% set profile_source_id = source_id %}
+{% set show_tips_icon = True %}
+{% set show_tips_content = "surveys" %}
 
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
@@ -49,20 +51,21 @@
     <div class="container profile-container">
         <br />
         <p class="tmi-tooltip">
-            {{ _('The Microsetta Initiative aims to generate quality data that can help you better understand your microbiome, help scientists design better studies, and improve the world\'s understanding of the human microbiome.') }}
-        </p>
-        <p class="tmi-tooltip">
-            {{ _('Answering our surveys can help us do just that. To get started, build out your profile by answering the surveys below. We will alert you when new surveys become available.') }}
+            {{ _('Lifestyle, health, and diet information is essential in order to gain novel insights into the human microbiome and design better studies. You can help us by completing our surveys, starting with your Basic Information.') }}
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}
             <div class="col-6 col-md-4 p-2">
-                <div class="card card-survey">
+                <div class="card card-survey {% if detail.date_last_taken is none and detail.survey_template_id == 10 %}card-survey-highlight{% endif %}">
                     <div class="row m-2 survey-info-row">
-                        {% if detail.date_last_taken != None %}
+                        {% if detail.date_last_taken is not none %}
                             <div class="col-8 small-text survey-info">{{ _('Last modified') }} {{ detail.date_last_taken }}</div>
                         {% else %}
-                            <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
+                            {% if detail.survey_template_id == 10 %}
+                                <div class="col-8 card-survey-new">{{ _('START HERE') }}</div>
+                            {% else %}
+                                <div class="col-8 small-text survey-info">{{ _('Not Completed') }}</div>
+                            {% endif %}
                         {% endif %}
                         <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('minutes') }}</div>
                     </div>

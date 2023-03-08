@@ -150,7 +150,7 @@ SURVEY_INFO = {
     },
     GENERAL_HEALTH_ID: {
         'description': '',
-        'est_minutes': '5',
+        'est_minutes': '8',
         'icon': 'survey_general_health.svg'
     },
     HEALTH_DIAG_ID: {
@@ -1304,8 +1304,13 @@ def post_generate_vioscreen_url(*,
     if has_error:
         return survey_output
 
-    # remote surveys go to an external url, not our jinja2 template
-    return redirect(survey_output['survey_template_text']['url'])
+    # We redirect back to the get_nutrition() function so we can open the FFQ
+    # in a new tab using JavaScript
+    return get_nutrition(
+        account_id=account_id,
+        source_id=source_id,
+        new_ffq_code=ffq_code
+    )
 
 
 # NB: There is no post_fill_sample_survey because right now the ONLY
@@ -1546,12 +1551,15 @@ def get_source(*, account_id=None, source_id=None):
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]
 
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
                                  local_surveys=local_surveys,
                                  remote_surveys=remote_surveys,
-                                 source_name=source_output['source_name']
+                                 source_name=source_output['source_name'],
+                                 profile_has_samples=profile_has_samples
                                  )
 
 
@@ -1602,6 +1610,8 @@ def get_kits(*, account_id=None, source_id=None):
 
         kits[s['kit_id']].append(s)
 
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+
     return _render_with_defaults(
         'kits.jinja2',
         account_id=account_id,
@@ -1613,12 +1623,13 @@ def get_kits(*, account_id=None, source_id=None):
         account_country=account_country,
         kits_tab_whitelist=KITS_TAB_WHITELIST,
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
-        public_endpoint=SERVER_CONFIG['public_api_endpoint']
+        public_endpoint=SERVER_CONFIG['public_api_endpoint'],
+        profile_has_samples=profile_has_samples
     )
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
-def get_nutrition(*, account_id=None, source_id=None):
+def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
     if has_error:
@@ -1633,12 +1644,26 @@ def get_nutrition(*, account_id=None, source_id=None):
     if has_error:
         return source_output
 
+    # Check the FFQ prereqs for the source (birth year, gender, height, weight
+    has_error, prereqs_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/check_ffq_prereqs' %
+        (account_id, source_id)
+    )
+    if has_error:
+        return prereqs_output
+
+    has_basic_info = prereqs_output['basic_info']
+
     # Retrieve all Vioscreen registry entries for the source
     has_error, vioscreen_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/vioscreen_registry_entries' % (
             account_id, source_id))
     if has_error:
         return vioscreen_output
+
+    needs_basic_info = False
+
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
     return _render_with_defaults(
         'nutrition.jinja2',
@@ -1648,7 +1673,10 @@ def get_nutrition(*, account_id=None, source_id=None):
         vio_reg_entries=vioscreen_output,
         fundrazr_url=SERVER_CONFIG["fundrazr_url"],
         account_country=account_country,
-        nutrition_tab_whitelist=NUTRITION_TAB_WHITELIST
+        nutrition_tab_whitelist=NUTRITION_TAB_WHITELIST,
+        new_ffq_code=new_ffq_code,
+        profile_has_samples=profile_has_samples,
+        has_basic_info=has_basic_info
     )
 
 
@@ -1684,6 +1712,8 @@ def get_reports(*, account_id=None, source_id=None):
         if sample['sample_edit_locked'] is True:
             valid_samples.append(sample)
 
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+
     return _render_with_defaults(
         'reports.jinja2',
         account_id=account_id,
@@ -1692,7 +1722,8 @@ def get_reports(*, account_id=None, source_id=None):
         vio_reg_entries=completed_vios,
         source_name=source_output['source_name'],
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
-        public_endpoint=SERVER_CONFIG['public_api_endpoint']
+        public_endpoint=SERVER_CONFIG['public_api_endpoint'],
+        profile_has_samples=profile_has_samples
     )
 
 
@@ -1728,13 +1759,16 @@ def get_consents(*, account_id=None, source_id=None):
         else:
             return biospecimen_consent
 
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+
     return _render_with_defaults(
         'consents.jinja2',
         account_id=account_id,
         source_id=source_id,
         source_name=source_output['source_name'],
         data_consent=data_consent,
-        biospecimen_consent=biospecimen_consent
+        biospecimen_consent=biospecimen_consent,
+        profile_has_samples=profile_has_samples
     )
 
 
@@ -1869,6 +1903,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         sample_output['date'] = ""
         sample_output['time'] = ""
 
+    profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+
     return _render_with_defaults('sample.jinja2',
                                  account_id=account_id,
                                  source_id=source_id,
@@ -1876,7 +1912,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                                  sample=sample_output,
                                  sample_sites=sample_sites,
                                  sample_sites_text=sample_site_translations,
-                                 is_environmental=is_environmental)
+                                 is_environmental=is_environmental,
+                                 profile_has_samples=profile_has_samples)
 
 
 # TODO: guess we should also rewrite as ajax post for sample vue form?
@@ -1911,6 +1948,19 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         "/accounts/%s/sources/%s/kits" %
         (account_id, source_id)
     )
+
+
+def _check_if_source_has_samples(account_id, source_id):
+    # Retrieve all samples from the source
+    has_error, samples_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/samples' % (account_id, source_id))
+    if has_error:
+        return False
+
+    if len(samples_output):
+        return True
+    else:
+        return False
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])

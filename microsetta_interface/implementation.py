@@ -1661,8 +1661,6 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
     if has_error:
         return vioscreen_output
 
-    needs_basic_info = False
-
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
     return _render_with_defaults(

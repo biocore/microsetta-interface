@@ -44,6 +44,10 @@
             preventImplicitSubmission(form_name);
             preclude_whitespace('#ffq_code');
 
+            $("form[name='" + form_name + "']").on('submit', function() {
+                updateButtonState("");
+            });
+
             // Initialize form validation on the registration form.
             // It has the name attribute "registration"
             $("form[name='" + form_name + "']").validate({
@@ -67,13 +71,15 @@
                 },
             });
 
-            $('button').on('click', function() {
+            /*$('button').on('click', function() {
                 if($("form[name='ffq_code_form']").valid()) {
-                    $('#ffq_code_button').prop('disabled', 'disabled');
+                    updateButtonState("");
+                //    $('#ffq_code_button').prop('disabled', true);
                 } else {
-                    $('#ffq_code_button').prop('disabled', false);
+                    updateButtonState("yes");
+                //    $('#ffq_code_button').prop('disabled', false);
                 }
-            });
+            });*/
         });
 
         function updateButtonState(ffq_code_value) {
@@ -94,11 +100,6 @@
             link_obj.style.opacity = .65;
             link_obj.style.pointerEvents = "none";
             return true;
-        }
-
-        function confirmFFQ() {
-            let ffqConfirmMsg = '{{ _("It looks like you have not completed the Basic Information survey yet. If you begin your FFQ without providing your height, weight, age, and gender on the Basic Information survey, your FFQ report will be inaccurate. Do you wish to proceed with the FFQ?") }}'
-            return window.confirm(ffqConfirmMsg);
         }
     </script>
 {% endblock %}

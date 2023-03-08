@@ -51,7 +51,10 @@
     <div class="container profile-container">
         <br />
         <p class="tmi-tooltip">
-            {{ _('Lifestyle, health, and diet information is essential in order to gain novel insights into the human microbiome and design better studies. You can help us by completing our surveys, starting with your Basic Information.') }}
+            <strong>
+            {{ _('Lifestyle, health, and diet information is essential in order to gain novel insights into the human microbiome and design better studies.') }}<br />
+            {{ _('You can help us by completing our surveys, starting with your Basic Information.') }}
+            </strong>
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}

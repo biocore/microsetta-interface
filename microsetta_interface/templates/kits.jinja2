@@ -226,11 +226,15 @@
                                 <div class="barcode-col barcode-col-hide-mobile">
                                     <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
                                 </div>
-                                <div class="barcode-col barcode-date-text barcode-col-hide-mobile">
-                                    {% if sample.sample_datetime is not none and sample.sample_datetime != '' %}
+                                {% if sample.css_class == 'sample-complete' %}
+                                    <div class="barcode-col barcode-date-text barcode-col-hide-mobile">
                                         {{ _('Collected') }}: {{ sample.sample_datetime }}
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                {% else %}
+                                    <div class="barcode-col barcode-warning-text barcode-col-hide-mobile">
+                                        Info Needed
+                                    </div>
+                                {% endif %}
                                 <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                                     {% if sample.sample_edit_locked %}
                                         <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>

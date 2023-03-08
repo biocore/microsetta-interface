@@ -1220,9 +1220,16 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 .barcode-date-text {
     color: var(--tmi-gray-80);
-    font-weight: 400l
+    font-weight: 400;
     font-size: 14px;
     line-height: 24px;
+}
+
+.barcode-warning-text {
+    color: var(--tmi-orange);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
 }
 
 .barcode-link {

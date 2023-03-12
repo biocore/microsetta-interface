@@ -166,12 +166,6 @@
     </nav>
     {% endif %}
 
-    {% if system_msg_text %}
-    <div id="system_message" class="alert alert-{{system_msg_style|e}}" role="alert">
-      {{system_msg_dictionary[system_msg_text][_(EN_US_KEY)]}} {{ system_msg_time }}
-    </div>
-    {% endif %}
-
     {% if profile_header %}
         <div class="content pt-2 profile-bg">
     {% else %}
@@ -257,7 +251,19 @@
                         </div>
                     </div>
                </div>
-           {% endif %}
+
+
+            {% endif %}
+
+            {% if system_msg_text %}
+                <div id="system_message" class="alert alert-{{system_msg_style|e}}" role="alert">
+                    {% if system_msg_text == "going_down" %}
+                        {{system_msg_dictionary[system_msg_text][_(EN_US_KEY)]}} {{ system_msg_time }}
+                    {% else %}
+                        {{system_msg_dictionary[system_msg_text][_(EN_US_KEY)]}}
+                    {% endif %}
+                </div>
+            {% endif %}
 
 {%block content%}
 {%endblock%}

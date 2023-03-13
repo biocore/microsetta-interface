@@ -121,18 +121,20 @@ SYSTEM_MSG_DICTIONARY = {
                    'testing. Please refrain from using the site and check '
                    'back later, or <a href="mailto:microsetta@ucsd.edu">'
                    'contact us</a> with any questions.',
-        ES_MX_KEY: 'The system is currently undergoing maintenance and '
-                   'testing. Please refrain from using the site and check '
-                   'back later, or <a href="mailto:microsetta@ucsd.edu">'
-                   'contact us</a> with any questions.',
-        ES_ES_KEY: 'The system is currently undergoing maintenance and '
-                   'testing. Please refrain from using the site and check '
-                   'back later, or <a href="mailto:microsetta@ucsd.edu">'
-                   'contact us</a> with any questions.',
+        ES_MX_KEY: 'Por el momento, el sistema se encuentra en mantenimiento '
+                   'y pruebas. Por favor no use el sitio web y vuelva a '
+                   'consultar más tarde, o '
+                   '<a href="mailto:microsetta@ucsd.edu">contáctenos</a> si '
+                   'tiene alguna pregunta.',
+        ES_MX_KEY: 'Por el momento, el sistema se encuentra en mantenimiento '
+                   'y pruebas. Por favor no use el sitio web y vuelva a '
+                   'consultar más tarde, o '
+                   '<a href="mailto:microsetta@ucsd.edu">contáctenos</a> si '
+                   'tiene alguna pregunta.',
         JA_JP_KEY: 'The system is currently undergoing maintenance and '
                    'testing. Please refrain from using the site and check '
                    'back later, or <a href="mailto:microsetta@ucsd.edu">'
-                   'contact us</a> with any questions.',
+                   'contact us</a> with any questions.'
     }
 }
 

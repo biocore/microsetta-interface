@@ -160,7 +160,7 @@
                                   $("#source_msg").text(duplicate_source_check_msg);
                                   $("#source_modal").modal('show');
                                   $("#create_source").attr("form_id", $form_id);
-                                  $("#18-submit_button").attr("value", "I Accept")
+                                  $("#18-submit_button").attr("value", "{{ _('I Accept') }}")
                                   $("#18-submit_button").prop("disabled", false)
                             } else if (response.error === undefined && !response.source_duplicate) {
                                 $("#"+$form_id)[0].submit();
@@ -343,7 +343,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ _('Warning') }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -352,8 +352,8 @@
         <p id="source_msg"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="home_page">Return to Home Page</button>
-        <button type="button" class="btn btn-primary" id="create_source">Proceed with Creating New Source</button>
+        <button type="button" class="btn btn-secondary" id="home_page">{{ _('Return to Home Page') }}</button>
+        <button type="button" class="btn btn-primary" id="create_source">{{ _('Proceed with Creating New Source') }}</button>
       </div>
     </div>
   </div>

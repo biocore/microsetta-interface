@@ -1184,7 +1184,7 @@ def get_source(*, account_id=None, source_id=None):
         # with only allowed entries.
         psnt_jp = []
         for s in per_source_not_taken:
-            if s['survey_template_id'] in [1, 3, 6, 7]:
+            if s['survey_template_id'] in {1, 3, 6, 7}:
                 psnt_jp.append(s)
         per_source_not_taken = psnt_jp
 

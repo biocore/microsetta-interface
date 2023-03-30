@@ -152,6 +152,7 @@
         {{ _('It looks like some samples do not have collection information recorded.') }}
     </div>
     {% endif %}
+    <h2>{{ _('My Kits') }}</h2>
     {% if samples|length > 0 %}
     {{ _('Samples (click on a barcode to provide collection information)') }}:
     <div class="list-group">
@@ -194,7 +195,7 @@
                       <div id="btn-view-{{ sample.sample_id }}" ></div>
                 </div>
                 <div class="col-sm">
-                {% if not spain_user %}
+                {% if not spain_user and not japan_user %}
                     {% if sample.ffq and sample.ffq_status == 3 %}
                         <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
                     {% else %}

@@ -745,9 +745,16 @@ def get_account(*, account_id=None):
     session[LANG_KEY] = account["language"]
 
     sources = [translate_source(s) for s in sources]
+
+    japan_user = False
+    country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+    if country == "JP" or session_locale() == "ja_JP":
+        japan_user = True
+
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
-                                 sources=sources)
+                                 sources=sources,
+                                 japan_user=japan_user)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1153,8 +1160,13 @@ def get_source(*, account_id=None, source_id=None):
     per_source_not_taken = per_source_not_taken[::-1]
 
     # Hack to determine if user's country is Spain OR locale is es_ES
-    # If either condition is true, hide the Vioscreen FFQ button
+    # If either condition is true, hide the Vioscreen FFQ button.
+    # Note 2023-03-23 - Extending this to determine if user is Japanese
+    # as we'll be hiding optional surveys for THDMI Japan users.
+    # It's inelegant but it's a band-aid that will be irrelevant with the
+    # switch to the new UI.
     spain_user = False
+    japan_user = False
 
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
     if has_error:
@@ -1163,6 +1175,18 @@ def get_source(*, account_id=None, source_id=None):
     country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
     if country == "ES" or session_locale() == "es_ES":
         spain_user = True
+
+    if country == "JP" or session_locale() == "ja_JP":
+        japan_user = True
+
+        # We're only granting THDMI Japan users access to certain surveys.
+        # Let's iterate through the available surveys and recreate the list
+        # with only allowed entries.
+        psnt_jp = []
+        for s in per_source_not_taken:
+            if s['survey_template_id'] in {1, 3, 6, 7}:
+                psnt_jp.append(s)
+        per_source_not_taken = psnt_jp
 
     return _render_with_defaults('source.jinja2',
                                  account_id=account_id,
@@ -1179,7 +1203,8 @@ def get_source(*, account_id=None, source_id=None):
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  barcode_prefix=SERVER_CONFIG[
                                      "barcode_prefix"],
-                                 spain_user=spain_user
+                                 spain_user=spain_user,
+                                 japan_user=japan_user
                                  )
 
 
@@ -1321,7 +1346,12 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
 
         # Hack to determine if user's country is Spain OR locale is es_ES
         # If either condition is true, bypass the Vioscreen option
+        # Note 2023-03-23 - Extending this to determine if user is Japanese
+        # as we'll be hiding optional surveys for THDMI Japan users.
+        # It's inelegant but it's a band-aid that will be irrelevant with the
+        # switch to the new UI.
         spain_user = False
+        japan_user = False
 
         has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
         if has_error:
@@ -1331,7 +1361,10 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         if country == "ES" or session_locale() == "es_ES":
             spain_user = True
 
-        if not has_ffq and spain_user is False:
+        if country == "JP" or session_locale() == "ja_JP":
+            japan_user = True
+
+        if not has_ffq and spain_user is False and japan_user is False:
             url = '/accounts/%s/sources/%s/samples/%s/after_edit_questionnaire'
             return redirect(url % (account_id, source_id, sample_id))
     return _refresh_state_and_route_to_sink(account_id, source_id)

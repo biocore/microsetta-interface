@@ -374,11 +374,9 @@
                 <br>
                 <select id="language" name="language">
                 {% for lang_key in languages %}
-                    {% if languages[lang_key].value != "ja_JP" %}
-                        {% set lang_val = languages[lang_key].value %}
-                        {% set lang_display = languages[lang_key].display_text %}
-                        <option value={{ lang_val }} {% if account.language == lang_val %} selected {% endif %} >{{ lang_display }}</option>
-                    {% endif %}
+                    {% set lang_val = languages[lang_key].value %}
+                    {% set lang_display = languages[lang_key].display_text %}
+                    <option value={{ lang_val }} {% if account.language == lang_val %} selected {% endif %} >{{ lang_display }}</option>
                 {% endfor %}
                 </select>
             </div>

@@ -44,6 +44,12 @@
 <li class="breadcrumb-item active" aria-current="page">{{ _('Account') }}</li>
 {% endblock %}
 {% block content %}
+{% if japan_user %}
+    <!-- TODO: ADD ACTUAL URL - THIS IS PENDING DOCUMENT CREATION NEXT WEEK -->
+    <div class="alert alert-info text-center" role="alert">
+        <a href="#">{{ _('Participation Instructions') }}</a>
+    </div>
+{% endif %}
 <h4>{{ _('Account Details') }}</h4>
 <div class="container">
     <div class="card" style="width: 18rem;">

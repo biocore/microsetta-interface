@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-28 13:34-0700\n"
+"POT-Creation-Date: 2023-04-05 15:16-0700\n"
 "PO-Revision-Date: 2023-03-26 11:02-0700\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
@@ -28,167 +28,167 @@ msgid ""
 "check your entry."
 msgstr "指定された採便キット ID が無効であるか、既に使用されています。入力内容を再度確認してください。"
 
-#: implementation.py:1242 model_i18n.py:58
+#: implementation.py:1256 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr "血液（皮膚プリック）"
 
-#: implementation.py:1243 model_i18n.py:59
+#: implementation.py:1257 model_i18n.py:70
 msgid "Saliva"
 msgstr "唾液"
 
-#: implementation.py:1244 model_i18n.py:71
+#: implementation.py:1258 model_i18n.py:82
 msgid "Stool"
 msgstr "便"
 
-#: implementation.py:1245 model_i18n.py:66
+#: implementation.py:1259 model_i18n.py:77
 msgid "Mouth"
 msgstr "口"
 
-#: implementation.py:1246 model_i18n.py:67
+#: implementation.py:1260 model_i18n.py:78
 msgid "Nares"
 msgstr "鼻孔"
 
-#: implementation.py:1247 model_i18n.py:68
+#: implementation.py:1261 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr "鼻粘液"
 
-#: implementation.py:1248 model_i18n.py:69
+#: implementation.py:1262 model_i18n.py:80
 msgid "Right hand"
 msgstr "右手"
 
-#: implementation.py:1249 model_i18n.py:64
+#: implementation.py:1263 model_i18n.py:75
 msgid "Left hand"
 msgstr "左手"
 
-#: implementation.py:1250 model_i18n.py:61
+#: implementation.py:1264 model_i18n.py:72
 msgid "Forehead"
 msgstr "額"
 
-#: implementation.py:1251 model_i18n.py:73
+#: implementation.py:1265 model_i18n.py:84
 msgid "Torso"
 msgstr "上半身"
 
-#: implementation.py:1252 model_i18n.py:70
+#: implementation.py:1266 model_i18n.py:81
 msgid "Right leg"
 msgstr "右足"
 
-#: implementation.py:1253 model_i18n.py:65
+#: implementation.py:1267 model_i18n.py:76
 msgid "Left leg"
 msgstr "左足"
 
-#: implementation.py:1254 model_i18n.py:74
+#: implementation.py:1268 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr "膣粘液"
 
-#: implementation.py:1255 model_i18n.py:72
+#: implementation.py:1269 model_i18n.py:83
 msgid "Tears"
 msgstr "涙"
 
-#: implementation.py:1256 model_i18n.py:60
+#: implementation.py:1270 model_i18n.py:71
 msgid "Ear wax"
 msgstr "耳垢"
 
-#: implementation.py:1257 model_i18n.py:63
+#: implementation.py:1271 model_i18n.py:74
 msgid "Hair"
 msgstr "髪"
 
-#: implementation.py:1258 model_i18n.py:62
+#: implementation.py:1272 model_i18n.py:73
 msgid "Fur"
 msgstr "毛皮"
 
-#: implementation.py:1577
+#: implementation.py:1591
 msgid "Unable to validate Activation Code at this time"
 msgstr "認証コードを確認することができません"
 
-#: implementation.py:1867
+#: implementation.py:1881
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "住所1、郵便番号、国名が必要です"
 
-#: implementation.py:2228 implementation.py:2340
+#: implementation.py:2242 implementation.py:2354
 msgid "Sorry, there was a problem saving your information."
 msgstr "大変申し訳ありません。情報を保存する際に問題が発生しました。"
 
-#: model_i18n.py:23
+#: model_i18n.py:34
 msgid "sample_site"
 msgstr "サンプル＿サイト"
 
-#: model_i18n.py:33
+#: model_i18n.py:44
 msgid "source_type"
 msgstr "由来元_種類"
 
-#: model_i18n.py:40
+#: model_i18n.py:51
 msgid "survey_template_title"
 msgstr "調査_書式_タイトル"
 
-#: model_i18n.py:42
+#: model_i18n.py:53
 msgid "description"
 msgstr "説明"
 
-#: model_i18n.py:79
+#: model_i18n.py:90
 msgid "human"
-msgstr "人間"
+msgstr "ヒト"
 
-#: model_i18n.py:80 templates/account_overview.jinja2:142
+#: model_i18n.py:91
 msgid "animal"
 msgstr "動物"
 
-#: model_i18n.py:81
+#: model_i18n.py:92
 msgid "environmental"
 msgstr "環境"
 
-#: model_i18n.py:86
+#: model_i18n.py:97
 msgid "Primary Questionnaire"
 msgstr "一次調査"
 
-#: model_i18n.py:87
+#: model_i18n.py:98
 msgid "Pet Information"
 msgstr "ペット情報"
 
-#: model_i18n.py:88
+#: model_i18n.py:99
 msgid "Fermented Foods Questionnaire"
 msgstr "発酵食品調査票"
 
-#: model_i18n.py:89
+#: model_i18n.py:100
 msgid "Surfer Questionnaire"
 msgstr "サーファー調査票"
 
-#: model_i18n.py:90
+#: model_i18n.py:101
 msgid "Personal Microbiome Information"
 msgstr "本人の腸内細菌情報"
 
-#: model_i18n.py:91
+#: model_i18n.py:102
 msgid "COVID-19 Questionnaire"
 msgstr "新型コロナウイルス感染症調査票"
 
-#: model_i18n.py:92
+#: model_i18n.py:103
 msgid "Vioscreen Food Frequency Questionnaire"
 msgstr "ビオスクリーン食物摂取頻度調査票"
 
-#: model_i18n.py:93
+#: model_i18n.py:104
 msgid "Polyphenol Food Frequency Questionnaire"
 msgstr "ポリフェノール食物摂取頻度調査票"
 
-#: model_i18n.py:94
+#: model_i18n.py:105
 msgid "Cooking Oils and Oxalate-rich Foods"
 msgstr "調理用油とシュウ酸が豊富な食品"
 
-#: model_i18n.py:98
+#: model_i18n.py:109
 msgid "A fermented foods specific questionnaire"
 msgstr "発酵食品に関する質問"
 
-#: model_i18n.py:99
+#: model_i18n.py:110
 msgid "Questions on surfing behavior"
 msgstr "サーフィン行動に関する質問"
 
-#: model_i18n.py:100
+#: model_i18n.py:111
 msgid "Questions about your interest in the microbiome"
 msgstr "腸内細菌に関する質問"
 
-#: model_i18n.py:101
+#: model_i18n.py:112
 msgid "Questions related to cooking oils and oxalate-rich foods"
 msgstr "調理用油とシュウ酸が豊富な食品に関する質問"
 
-#: model_i18n.py:102
+#: model_i18n.py:113
 msgid ""
 "Polyphenols are chemical compounds naturally found in plants that have "
 "been shown to provide many beneficial properties. They are antioxidants, "
@@ -198,7 +198,7 @@ msgid ""
 "diet."
 msgstr "ポリフェノールは、植物に自然と由来する化学化合物で、私たちの体に多くの有益な効果をもたらすことが分かっています。抗酸化作用があるため老化防止になり、心臓機能を保護する他、腸内の微生物と相互作用することによってあらゆる効果を発揮する可能性があります。この調査により、食事によるポリフェノールの摂取量を把握することができます。"
 
-#: model_i18n.py:108
+#: model_i18n.py:119
 msgid ""
 "<strong>Only for participants in Spain:</strong><br />The Food Frequency "
 "Questionnaire (FFQ) will ask you about your usual frequency of "
@@ -209,12 +209,12 @@ msgstr ""
 "<strong>スペインの参加者のみ</strong><br "
 "/>食品摂取頻度調査票（FFQ）は、あなたの普段の食品と飲料の摂取頻度についてお聞きするものです。このアンケートは、28項目の質問から構成されており、あなたの普段の食生活がどのようなものかを知ることができます。"
 
-#: model_i18n.py:115
+#: model_i18n.py:126
 msgid "en_us"
 msgstr "ja_jp"
 
 #: templates/account_details.jinja2:2 templates/account_details.jinja2:127
-#: templates/account_details.jinja2:131 templates/account_overview.jinja2:50
+#: templates/account_details.jinja2:131 templates/account_overview.jinja2:53
 #: templates/sitebase.jinja2:80 templates/sitebase.jinja2:82
 msgid "Account Details"
 msgstr "アカウント詳細"
@@ -1133,41 +1133,41 @@ msgstr "アカウントを削除すると復元できません"
 msgid "Delete Account"
 msgstr "アカウントを削除する"
 
-#: templates/account_overview.jinja2:48
+#: templates/account_overview.jinja2:50
 msgid "Participation Instructions"
 msgstr "説明書"
 
-#: templates/account_overview.jinja2:56
+#: templates/account_overview.jinja2:59
 msgid "View Account Details"
 msgstr "アカウントの詳細を見る"
 
-#: templates/account_overview.jinja2:61
+#: templates/account_overview.jinja2:64
 msgid "Sources"
 msgstr "由来元"
 
-#: templates/account_overview.jinja2:65
+#: templates/account_overview.jinja2:68
 msgid "You have now set up your account! Please proceed to identify your source."
 msgstr "アカウントが設定されました！あなたのサンプルの由来元を選択して下さい。"
 
-#: templates/account_overview.jinja2:69
+#: templates/account_overview.jinja2:72
 msgid ""
 "Choose a source to assign samples to by clicking on a name, listed in "
 "blue below:"
 msgstr "下記に青色で表示されている名前をクリックして、サンプルの由来を選んで下さい："
 
-#: templates/account_overview.jinja2:74
+#: templates/account_overview.jinja2:77
 msgid "Name"
 msgstr "名前"
 
-#: templates/account_overview.jinja2:77
+#: templates/account_overview.jinja2:80
 msgid "Source type"
 msgstr "由来元の種類"
 
-#: templates/account_overview.jinja2:98
+#: templates/account_overview.jinja2:101
 msgid "What is the Source of Your Sample?"
 msgstr "あなたのサンプルの由来は何ですか？"
 
-#: templates/account_overview.jinja2:106
+#: templates/account_overview.jinja2:109
 msgid ""
 "Our lab needs to know what type of sample(s) you are submitting (a.k.a. "
 "the \"source\"). Add a new source and assign samples to it so we can "
@@ -1176,68 +1176,63 @@ msgstr ""
 "提出するサンプルの種別 (別称：由来)を申告してください "
 "。新しい”由来元”を追加し、サンプルの種別を選択して下さい。当研究所にて正確な解析を行うために必要です。"
 
-#: templates/account_overview.jinja2:111
+#: templates/account_overview.jinja2:114
 msgid ""
 "If you have multiple sources, you may add one source at a time. You can "
 "return to this page after you finish registering the first one."
-msgstr "サンプルの由来が複数ある場合は、数回に分けてサンプルの種別を選択して下さい。最初のサンプルの登録が完了次第、このページに戻ります。"
+msgstr "サンプルの由来元が複数ある場合は、数回に分けてサンプルの由来を選択して下さい。最初のサンプルを登録次第、このページに戻ります。"
 
-#: templates/account_overview.jinja2:117
+#: templates/account_overview.jinja2:120
 msgid "Human Source"
 msgstr "ヒト由来"
 
-#: templates/account_overview.jinja2:119 templates/account_overview.jinja2:121
-#: templates/account_overview.jinja2:142
+#: templates/account_overview.jinja2:122 templates/account_overview.jinja2:124
 msgid "Collect sample(s) from"
-msgstr "から採便する"
+msgstr " "
 
-#: templates/account_overview.jinja2:119
+#: templates/account_overview.jinja2:122
 msgid "yourself"
-msgstr "あなた"
+msgstr "あなた自身から採取する"
 
-#: templates/account_overview.jinja2:119 templates/account_overview.jinja2:121
-#: templates/account_overview.jinja2:142
+#: templates/account_overview.jinja2:122 templates/account_overview.jinja2:124
+#: templates/account_overview.jinja2:145
 msgid "(e.g. fecal, saliva, skin, etc.)"
 msgstr "（例：便、唾液、皮膚等）"
 
-#: templates/account_overview.jinja2:121
+#: templates/account_overview.jinja2:124
 msgid "someone else"
-msgstr "他人"
+msgstr "他人から採取する"
 
-#: templates/account_overview.jinja2:124 templates/account_overview.jinja2:134
-#: templates/account_overview.jinja2:147
+#: templates/account_overview.jinja2:127 templates/account_overview.jinja2:137
+#: templates/account_overview.jinja2:150
 msgid "Select"
 msgstr "選択する"
 
-#: templates/account_overview.jinja2:129
+#: templates/account_overview.jinja2:132
 msgid "Environmental Source"
 msgstr "環境由来"
 
-#: templates/account_overview.jinja2:131
+#: templates/account_overview.jinja2:134
 msgid "Collect sample(s) from a"
-msgstr "から便サンプルを採取する"
+msgstr " "
 
-#: templates/account_overview.jinja2:131
+#: templates/account_overview.jinja2:134
 msgid "surface"
-msgstr "表面"
+msgstr "表面から採取する"
 
-#: templates/account_overview.jinja2:131
+#: templates/account_overview.jinja2:134
 msgid "(e.g. kitchen counter, backyard soil, food, etc.)"
 msgstr "（例：台所のカウンター、裏庭の土、食材等）"
 
-#: templates/account_overview.jinja2:139
+#: templates/account_overview.jinja2:142
 msgid "Animal Source"
 msgstr "動物由来"
 
-#: templates/account_overview.jinja2:142
-msgid "your pet"
-msgstr "あなたのペット"
+#: templates/account_overview.jinja2:145
+msgid "Collect sample(s) from your pet or an animal"
+msgstr "あなたのペット 又は 動物から採取する"
 
-#: templates/account_overview.jinja2:142
-msgid "or an"
-msgstr "又は"
-
-#: templates/account_overview.jinja2:144
+#: templates/account_overview.jinja2:147
 msgid "Animal sources are currently unavailable."
 msgstr "動物由来は現在選択できません。"
 
@@ -2586,7 +2581,7 @@ msgstr "(任意) このサンプルについて他に追加したいことはあ
 
 #: templates/sample.jinja2:240
 msgid "Update"
-msgstr "更新する"
+msgstr "更新"
 
 #: templates/sample_results.jinja2:140
 msgid "What is in your sample?"
@@ -2670,11 +2665,11 @@ msgstr "二次調査"
 
 #: templates/secondary_surveys.jinja2:12 templates/source.jinja2:259
 msgid "Survey Title"
-msgstr "調査タイトル"
+msgstr "アンケート名"
 
 #: templates/secondary_surveys.jinja2:15 templates/source.jinja2:262
 msgid "Survey Description"
-msgstr "調査説明"
+msgstr "アンケートの説明"
 
 #: templates/sitebase.jinja2:5
 msgid "Microsetta"
@@ -2818,15 +2813,15 @@ msgstr ""
 
 #: templates/source.jinja2:231
 msgid "To add samples, please enter a kit ID here"
-msgstr "サンプルを追加するため、ここに採便キットIDを入力して下さい"
+msgstr "サンプルを追加するため、キットIDを入力してください："
 
 #: templates/source.jinja2:235
 msgid "List Samples"
-msgstr "サンプルリスト"
+msgstr "サンプル一覧"
 
 #: templates/source.jinja2:240
 msgid "Select all samples that should be associated with this source"
-msgstr "この由来に関するサンプルを全て選択する"
+msgstr "採便容器に記載されているバーコードIDと一致するものを選択してください。"
 
 #: templates/source.jinja2:246
 msgid "Claim Selected Samples"
@@ -2842,7 +2837,7 @@ msgstr "開始"
 
 #: templates/source.jinja2:296
 msgid "Completed surveys"
-msgstr "調査を完了する"
+msgstr "完了済みのアンケート"
 
 #: templates/source.jinja2:321
 msgid ""
@@ -3032,11 +3027,11 @@ msgstr "進捗"
 
 #: templates/survey.jinja2:138
 msgid "Previous Section"
-msgstr "前項"
+msgstr "前へ"
 
 #: templates/survey.jinja2:139
 msgid "Next Section"
-msgstr "次項"
+msgstr "次へ"
 
 #: templates/survey.jinja2:158
 msgid "Submit Survey"
@@ -3067,11 +3062,11 @@ msgstr "無記入のままアンケートを送信しようとしています。
 
 #: templates/survey.jinja2:193 templates/survey.jinja2:218
 msgid "Step"
-msgstr "説明事項"
+msgstr "ステップ"
 
 #: templates/survey.jinja2:193 templates/survey.jinja2:218
 msgid "of"
-msgstr "の"
+msgstr "/"
 
 #: templates/survey.jinja2:193 templates/survey.jinja2:218
 msgid "Complete"
@@ -3126,4 +3121,10 @@ msgstr "はい、更新して続行する"
 #~ "information has been saved, and we "
 #~ "will contact you via email soon."
 #~ msgstr "私たちの研究に関心をお持ちいただき、ありがとうございます。申し込みを承りました。まもなくメールが届きます。"
+
+#~ msgid "your pet"
+#~ msgstr "あなたのペット"
+
+#~ msgid "or an"
+#~ msgstr "又は"
 

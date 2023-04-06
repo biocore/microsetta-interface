@@ -2398,7 +2398,7 @@ def session_locale():
     # accept-language header. Some send a full locale (e.g. en-US) while
     # others only send a partial value (e.g. en). We need to default to
     # the first value in the header, even if it's a partial value, as
-    # non-English-spekaing users were erroneously being defaulted into en-US
+    # non-English-speaking users were erroneously being defaulted into en-US
 
     # Start our locale list with the full locales we support
     locale_list = [LANGUAGES[lang].value for lang in LANGUAGES]

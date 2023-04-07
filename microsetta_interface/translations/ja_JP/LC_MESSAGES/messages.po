@@ -269,11 +269,11 @@ msgstr "Eメール"
 
 #: templates/account_details.jinja2:139
 msgid "Prefer to use a different email account?  You can change it "
-msgstr "違うEメールアカウントを使いますか？変更可能です　"
+msgstr "他のメールアドレスに変更する "
 
 #: templates/account_details.jinja2:141
 msgid "here"
-msgstr "ここで"
+msgstr "ここをクリック"
 
 #: templates/account_details.jinja2:147
 #: templates/admin_interested_user_edit.jinja2:106
@@ -1077,7 +1077,7 @@ msgstr "住所"
 
 #: templates/account_details.jinja2:373
 msgid "Preferred language for future communications"
-msgstr "今後の連絡時に使用したい言語"
+msgstr "言語の選択"
 
 #: templates/account_details.jinja2:386
 msgid "Activation Info"
@@ -1147,7 +1147,7 @@ msgstr "由来元"
 
 #: templates/account_overview.jinja2:68
 msgid "You have now set up your account! Please proceed to identify your source."
-msgstr "アカウントが設定されました！あなたのサンプルの由来元を選択して下さい。"
+msgstr "該当するサンプル由来の種別を選び、青色の「選択する」ボタンをクリックして次に進んでください。"
 
 #: templates/account_overview.jinja2:72
 msgid ""
@@ -1161,7 +1161,7 @@ msgstr "名前"
 
 #: templates/account_overview.jinja2:80
 msgid "Source type"
-msgstr "由来元の種類"
+msgstr "由来元の種別"
 
 #: templates/account_overview.jinja2:101
 msgid "What is the Source of Your Sample?"
@@ -1192,7 +1192,7 @@ msgstr " "
 
 #: templates/account_overview.jinja2:122
 msgid "yourself"
-msgstr "あなた自身から採取する"
+msgstr "私自身のサンプルを採取する"
 
 #: templates/account_overview.jinja2:122 templates/account_overview.jinja2:124
 #: templates/account_overview.jinja2:145
@@ -1201,7 +1201,7 @@ msgstr "（例：便、唾液、皮膚等）"
 
 #: templates/account_overview.jinja2:124
 msgid "someone else"
-msgstr "他人から採取する"
+msgstr "他の人のサンプルを採取する"
 
 #: templates/account_overview.jinja2:127 templates/account_overview.jinja2:137
 #: templates/account_overview.jinja2:150
@@ -1218,7 +1218,7 @@ msgstr " "
 
 #: templates/account_overview.jinja2:134
 msgid "surface"
-msgstr "表面から採取する"
+msgstr "地表、表面から採取する"
 
 #: templates/account_overview.jinja2:134
 msgid "(e.g. kitchen counter, backyard soil, food, etc.)"
@@ -1230,7 +1230,7 @@ msgstr "動物由来"
 
 #: templates/account_overview.jinja2:145
 msgid "Collect sample(s) from your pet or an animal"
-msgstr "あなたのペット 又は 動物から採取する"
+msgstr "ペットや動物のサンプルを採取する"
 
 #: templates/account_overview.jinja2:147
 msgid "Animal sources are currently unavailable."
@@ -2535,7 +2535,7 @@ msgstr "サンプル記録済み、編集は不可"
 
 #: templates/sample.jinja2:184
 msgid "Date"
-msgstr "日にち"
+msgstr "採取した日"
 
 #: templates/sample.jinja2:193
 msgid "Time"
@@ -2543,25 +2543,25 @@ msgstr "時刻"
 
 #: templates/sample.jinja2:207
 msgid "Guidelines for site identification"
-msgstr "部位識別の指針"
+msgstr "採取部位の識別について"
 
 #: templates/sample.jinja2:208
 msgid "If collecting a"
-msgstr "もし採取"
+msgstr " "
 
 #: templates/sample.jinja2:208
 msgid "BLOOD"
-msgstr "血液"
+msgstr " "
 
 #: templates/sample.jinja2:208
 msgid "sample, please select Blood (skin prick)"
-msgstr "サンプル、血液（皮膚プリック）を選択して下さい"
+msgstr "血液は、血液（皮膚プリック）を選択してください"
 
 #: templates/sample.jinja2:209
 msgid ""
 "For all swabs, please select the site as precisely as possible from the "
 "options available"
-msgstr "綿棒について、選択肢からできる限り正確な部位を選択してください"
+msgstr "綿棒による採取は選択肢の中から最も近い部位を選択してください"
 
 #: templates/sample.jinja2:215
 msgid "Site sampled"
@@ -2807,9 +2807,7 @@ msgid ""
 "samples from this kit, please click \"List samples\". To claim samples "
 "from another kit ID, please enter it here and then click \"List Samples\""
 msgstr ""
-"アカウントの作成時に使用したキット ID "
-"のサンプル情報が入力されていません。この採便キットからサンプル情報を入力するには、”サンプルリスト”をクリックしてください。別の採便キット ID "
-"を使って、サンプル情報を入力する場合、ここにIDを入力してから、”サンプルリスト”をクリックしてください。"
+"情報カードに記載のキットIDを入力した後、”サンプルリスト”をクリックしてください。次に、表示されたバーコードIDが採便容器に記載の番号と同一であることを確認してください。"
 
 #: templates/source.jinja2:231
 msgid "To add samples, please enter a kit ID here"
@@ -2821,11 +2819,11 @@ msgstr "サンプル一覧"
 
 #: templates/source.jinja2:240
 msgid "Select all samples that should be associated with this source"
-msgstr "採便容器に記載されているバーコードIDと一致するものを選択してください。"
+msgstr "採便容器に記載されているバーコードIDと一致するものを選択してください「確認」ボタンをクリックしてください"
 
 #: templates/source.jinja2:246
 msgid "Claim Selected Samples"
-msgstr "選択したサンプルを要求する"
+msgstr "確認"
 
 #: templates/source.jinja2:254
 msgid "Available optional surveys"
@@ -3015,7 +3013,7 @@ msgstr "　選択済み"
 
 #: templates/survey.jinja2:58
 msgid "The value is not an integer"
-msgstr "整数値ではありません"
+msgstr "半角数字で入力してください"
 
 #: templates/survey.jinja2:59
 msgid "Invalid number"

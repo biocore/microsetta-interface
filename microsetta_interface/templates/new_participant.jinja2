@@ -325,7 +325,7 @@
 </div>
 <div class="" id="consent">
     <hr>
-        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a><br/>
+        <a href="{{ _('https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf') }}" target="_blank">{{ tl['BILL_OF_RIGHTS']|e}}</a>{% if language_tag == "ja_JP" %} (英語){% endif %}<br/>
         <form id="18-form" name="consent_info" action="{{post_url}}" method="post">
         <input type="hidden" name="age_range" value="18-plus">
            <p><input value="Yes" type="checkbox" name="consent" id="age18_consent" required data-rule-required="true"> {{ tl['TEXT_I_HAVE_READ_1'] |e}} <span class="required-field">*</span></p>

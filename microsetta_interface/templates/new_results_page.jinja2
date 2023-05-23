@@ -319,7 +319,7 @@
             'button_text': "{{ _('Microbiomes Across the Body') }}",
             'img_div_id': 'pcoa-tmi-all-samples',
             'img_id': 'pcoa-tmi-all-samples-img',
-            'description': "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be REALLY different.') }}</p>"},
+            'description': "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be VERY different.') }}</p>"},
         'tmi_16S_gut_multipop': {
             'dataset': 'multipop-16S-gut',
             'category': 'microbial_map_region',
@@ -327,7 +327,7 @@
             'button_text': "{{ _('Microbiomes Across the World') }}",
             'img_div_id': 'pcoa-multipopulation-region',
             'img_id': 'pcoa-multipopulation-region-img',
-            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}</p><p>{{ _('Researchers do not know how much these differences matter! They certainly may.') }}</p>"},
+            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.') }}</p><p>{{ _('Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>"},
         'tmi_16S_gut_lifestage': {
             'dataset': 'lifestage-16S-gut',
             'category': 'microbial_map_lifestage',
@@ -335,7 +335,7 @@
             'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
             'img_div_id': 'pcoa-multipopulation-lifestage',
             'img_id': 'pcoa-multipopulation-lifestage-img',
-            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}</p><p>{{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}</p>"},
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.') }}</p><p>{{ _('Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
         'tmi_16S_gut_builtenv': {
             'dataset': 'builtenv-16S-allsamples',
             'category': 'microbial_map',
@@ -343,7 +343,7 @@
             'button_text': "{{ _('Microbiomes in the Environment') }}",
             'img_div_id': 'pcoa-builtenv',
             'img_id': 'pcoa-builtenv-img',
-            'description': "<p>{{ _('Microbes are EVERYWHERE though! Using these same techniques described above, we compared your microbiome to samples collected from all over the surfaces from a brand new hospital.') }}</p><p>{{ _('As you can see, skin samples tend to more closely resemble those from the built environment, which makes sense as skin cells are constantly shedding from you.') }}</p>"},
+            'description': "<p>{{ _('Microbes don\'t just live inside and on your body; they are everywhere! Using the same techniques described in the previous maps, we compared your microbiome to samples collected from all over the surfaces of brand-new hospital offices.') }}</p><p>{{ _('As you can see, skin samples tend to more closely resemble those from "the office surfaces," which makes sense as skin cells are constantly shedding from you. In an indoor environment, dust is typically composed of up to 50%% dead skin cells.') }}</p>"},
         'tmi_WGS_gut_multipop': {
             'dataset': 'multipop-WGS-gut',
             'category': 'microbial_map_region',
@@ -351,7 +351,7 @@
             'button_text': "{{ _('Microbiomes Across the World') }}",
             'img_div_id': 'pcoa-multipopulation-region',
             'img_id': 'pcoa-multipopulation-region-img',
-            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason WHY is not well understood, but we suspect factors such as diet or environmental exposures (e.g., plants, what\'s in your house, pollution, how often you come in contact with soil, etc) may be be major factors.') }}</p><p>{{ _('Researchers do not know how much these differences matter! They certainly may.') }}</p>"},
+            'description': "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.') }}</p><p>{{ _('Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>"},
         'tmi_WGS_gut_lifestage': {
             'dataset': 'lifestage-WGS-gut',
             'category': 'microbial_map_lifestage',
@@ -359,7 +359,7 @@
             'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
             'img_div_id': 'pcoa-multipopulation-lifestage',
             'img_id': 'pcoa-multipopulation-lifestage-img',
-            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, emphasized here by life stages.') }}</p><p>{{ _('Interestingly, infants are relatively similar microbially regardless of where they were born. But, as individuals age, it seems like their microbiomes reflect regional or population differences.') }}</p>"}
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.') }}</p><p>{{ _('Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
     };
 
     function getMicrobiomeMapsRasterizedPlots(state) {
@@ -1204,8 +1204,15 @@
                 }
             }
         );
+    }
 
-
+    function updateTechnique(state) {
+        var technique_container = document.getElementById('learn_more_technique');
+        if (state.dataset_type.value === 'WGS') {
+            technique_container.innerText = "{{ _('For your sample, we performed a technique called shotgun metagenomic sequencing where we grab random snippets from all of the DNA present. We then sequenced these random snippets to get a picture of all the kinds of life that is in your sample. Because your cells also contain DNA, some of the snippets came from your own genome, but all of the sequences from those snippets have been removed.') }}";
+        } else if (state.dataset_type.value === '16S') {
+            technique_container.innerText = "{{ _('For your sample, we performed a technique called Polymerase Chain Reaction (PCR) to make many copies of a piece of DNA corresponding to a particular gene that is present in bacteria and archaea; specifically, the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. We then sequenced these copies. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}";
+        }
     }
 
     //Called immediately after a tab is shown
@@ -1302,6 +1309,7 @@
             updateSimilarity(state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
+            updateTechnique(state);
 
             getMicrobiomeMapsRasterizedPlots(state);
             updateObservedOTUs(state);
@@ -1344,11 +1352,11 @@
                 <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
                 <br/>
                 <p>
-                    {{ _('Your microbiome is a rainforest of diverse microbes dominated by microbes - some 40 trillion bacteria, weighing around 1 lb, live all over and in your body. The diversity of your microbiome, how similar it is to other peoples\', and the types of bacteria living inside you have all been linked to health, disease and lifestyle traits in numerous studies.') }}
+                    {{ _('There are 40 trillion microbial cells in our bodies. This collection of microbial cells is known as the human microbiome. With roughly 3lbs (1.4kgs) of them in our gut alone, we\'re on a mission to make critical discoveries about their role in our lives. Thank you for contributing to our research project and helping advance the science.') }}
                 </p>
 
                 <p>
-                    {{ _('Scientists often use many different approaches to see how your microbiome differs. We\'ve analyzed your microbiome sample using standard microbiome research tools, and the results are broken down below in a few different categories') }}:
+                    {{ _('While our human DNA is 99%% similar to one another, it\'s possible for two individuals to share zero microbial species, meaning that our microbiomes can be entirely unique. We\'ve analyzed your microbiome sample using next-generation DNA sequencing methods, and the results are broken down below in a variety of categories. Find out how you compare to your fellow citizen scientists.') }}:
                 </p>
 
                 <div class="how_you_compare_section">
@@ -1386,9 +1394,14 @@
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
               <div class="column results_text">
                   <h3>{{ _('Diversity') }}</h3>
-                  <br>
                   <p>
-                   {{ _('There are anywhere from hundreds of millions to hundreds of billions of different types of bacteria living on planet earth. This dwarfs the meager 2 million different kinds of animals and plants that you can see with your eyes. The <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong id="average-american-observed-otus">FILLIN</strong> different types of microbes in a stool sample, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id="average-hadza-observed-otus">FILLIN</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span>.') }}
+                   {{ _('Recent estimates suggest hundreds of billions of types of microbes live on earth. This number dwarfs the meager 2 million different kinds of animals and plants discovered on the planet.') }}
+                  </p>
+                  <p>
+                   {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong id="average-american-observed-otus">FILLIN</strong> different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id="average-hadza-observed-otus">FILLIN</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span> people of Tanzania.') }}
+                  </p>
+                  <p>
+                   {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}
                   </p>
 
                   <div class="card your_sample_diversity_inset">
@@ -1397,9 +1410,10 @@
                           <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
                   </div>
-
+                  <br />
+                  <h3>{{ _('Diversity overview for Microsetta participants') }}</h3>
                   <p>
-                    {{ _('When we calculated the diversity of groups for samples in our database, we found diversity is associated with how you live your life. Here, we summarized the average microbiome diversity for a few of the questionnaire responses, specifically people who eat more than 30 plants a week, exercise regularly, drink water regularly, or sleep more than 6 hours a night.') }}
+                    {{ _('When we calculated the diversity of the sample groups in our database, we found that it\'s closely associated with how you live your life. So here, we summarized the average diversity from our database for a few questions asked on the survey.') }}
                   </p>
 
                   <div class="row mb-2 mt-2">
@@ -1407,10 +1421,10 @@
                           <img class="diversity-icon" src='/static/img/vegetables.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              {{ _('Eat more than 30 plants a week') }}
+                              {{ _('Participants who eat more than 30 plants per week') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
+                              {{ _('Average number of different microbes:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1418,10 +1432,10 @@
                           <img class="diversity-icon" src='/static/img/exercise.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              {{ _('Exercise regularly') }}
+                              {{ _('Participants who exercise regularly') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_exercise_regularly" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
+                              {{ _('Average number of different microbes:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1431,10 +1445,10 @@
                           <img class="diversity-icon" src='/static/img/fermented.png'>
                           <div class="diversity-text">
                             <div class="diversity-category">
-                              {{ _('Drink 1L or water regularly') }}
+                              {{ _('Participants who drink 1L of water regularly') }}
                             </div>
                             <div class="diversity-info">
-                              <span id="diversity_water_regularly" class="info-loader text-success">...</span>  {{ _('unique microbial features') }}
+                              {{ _('Average number of different microbes:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1442,14 +1456,19 @@
                           <img class="diversity-icon" src='/static/img/sleep.png'>
                           <div class="diversity-text">
                               <div class="diversity-category">
-                                {{ _('Sleep more than 6 hours per night') }}
+                                {{ _('Participants who sleep more than 6 hours per night') }}
                               </div>
                               <div class="diversity-info">
-                                <span id="diversity_sleep_alot" class="info-loader text-success">...</span> {{ _('unique microbial features') }}
+                                {{ _('Average number of different microbes:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
                               </div>
                           </div>
                       </div>
                   </div>
+                  <br />
+                  <h3>{{ _('How can I change my gut microbiome based on my results?') }}</h3>
+                  <p>
+                    {{ _('Although we still don\'t have a predictable way to change the gut microbiome to increase or decrease the abundance of specific microorganisms, we know that various factors influence gut microbial community composition. Diet is a significant factor affecting the gut microbiome, so by changing your diet, you may be able to alter your gut microbiome. Certain probiotics could also influence your gut microbiome while actively taking them; however, research into this area is still in its early days. Factors such as stress can also change the gut microbiome. Finally, keep in mind that factors we can\'t change, such as age or genetics, can affect the gut microbiome.') }}
+                  </p>
               </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
@@ -1457,11 +1476,7 @@
                   <h3>{{ _('Similarity') }}</h3>
                   <br>
                   <p>
-                  {{ _('One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <span id="similarity-tooltip" class="tooltipper" data-html="true" data-title="There are <i>a lot</i> of ways to form a distance. One way is to base the distance off of the fraction of microbes in common in your sample with each other sample. We typically share few of the exact same microbes in common with other people though which is problematic when comparing exact microbes. To account for this, researchers often take the evolutionary relationships among microbes into account when forming these distances.">distance</span> from your sample to all other samples based on the microbes observed.') }}
-                  </p>
-
-                  <p>
-                  {{ _('Here, we your sample to all the others in our database, and examined the 100 most similar samples to yours. These people answered their questionnaires in the following way; the response is colored in <span class="similarity-fontstyle-same">light green</span> if it matches your response and <span class="similarity-fontstyle-different">brown</span> if your response differed.') }}
+                  {{ _('One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <span id="similarity-tooltip" class="tooltipper" data-html="true" data-title="Distance is the measure of length between two points. There are many ways to determine how similar or different your microbiome is from that of other participants. However, comparing the microbes is tricky as we rarely share the exact same ones. To account for this, our researchers consider the evolutionary relationships among microbes when forming these distances.">distance</span> from your sample to all other samples based on the microbes observed. The people with the smallest distance are those who have microbiomes most similar to yours. Here, we show how the 100 people with microbiomes most similar to yours answered certain survey questions. The response is colored in <span class="similarity-fontstyle-same">light green</span> if it matches your response and <span class="similarity-fontstyle-different">brown</span> if your response differed.') }}
                   </p>
 
                   <div id="beta-diversity-comparisons">
@@ -1491,7 +1506,7 @@
                           </div>
                           <div class="col-sm-8 diversity-text">
                               <span id="beta_diversity_diet_type_value" class="info-loader font-weight-bold">...</span> 
-                              {{ _('of people with a microbiome like yours had a similar diet') }}
+                              {{ _('of people with a microbiome like yours had a similar diet (e.g. omnivore, vegetarian, etc.)') }}
                           </div>
                       </div>
                   </div>
@@ -1583,18 +1598,18 @@
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
                   <div class="column results_text">
-                    <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
+                    <h3>{{ _('Your Inner Zoo') }}</h3>
                     <br>
                     <p>
-                    {{ _('Below you will find a table of all of the different microbes we found in your sample, and their proportions.') }}
+                    {{ _('This is a table of all of the different microbes we found in your sample along with their proportions.') }}
                     </p>
                     
                     <p>
-                    {{ _('Microbes sometimes have difficult names to pronounce. Some of the names are Latin, Greek, Norse, Chinese and more. If you\'d like to know more, a pronounciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
+                    {{ _('To learn more about what the taxonomic ranks (column headers) mean, place your cursor over their names. Additionally, pronunciation can be a challenge considering the language of origin varies for the names between Latin, Greek, Norse, Chinese, and more. A pronunciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm" target="_blank">here</a>.') }}
                     </p>
 
                     <p>
-                    {{ _('Please mouse over the header to learn more about how to interpret these taxonomic ranks (e.g., Kingdom) using examples of non-microbial organisms.') }}
+                    {{ _('The number of microbes listed here might be different from what was reported as your Diversity because of the way microbes are grouped according to their taxonomy (i.e. names). There are likely many species of microbes in your sample that are all grouped in the same genus.') }}
                     </p>
                     
                     <div style="padding:10px">
@@ -1621,9 +1636,7 @@
               <div class="row">
                   <div class="column results_text">
                     <p>
-                    {{ _('In the plot below, you can see the most commonly observed microbial genera in the dataset, and distribution of ranks of those genera.  For example,') }}
-                    <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
-                    {{ _('typically has the highest relative abundance of samples in the dataset.') }}
+                    {{ _('Items from the Genus column of the table are called genera. In the plot below, you can see some of the most commonly observed microbial genera found in human stool, and how the relative abundance of those genera in your sample (orange dot) compares to that of others in the dataset (the blue area). The shape of the blue area shows how the same value for others is distributed. As an example, we can see that most people in the dataset have <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> as their most abundant microbe. However, the long skinny end of the blue area shows that results vary, with many people having <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> rank much lower than that or even as their least abundant microbe.') }}
                     </p>
                   </div>
               </div>
@@ -1640,15 +1653,10 @@
                 <h3>{{ _('How can I learn more?') }}</h3>
                 <br/>
                   <p>
-                  {{ _('Microbiome analysis is a burgeoning new field, and the information displayed here is only an example of what is becoming possible thanks to the data that you helped collect.') }}
+                  {{ _('Microbiome analysis is a burgeoning field, and the information displayed here is only an example of what is becoming possible thanks to the data that you\'ve helped collect. If you\'d like to learn more, you can even take a look at the dataset for yourself via the links below.') }}
                   </p>
 
-                  <p>
-                  {{ _('So if you want to learn more, you can even take a look at the dataset for yourself!') }}
-                  </p>
-                  
-                  <p>
-                  {{ _("For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.") }}
+                  <p id="learn_more_technique">
                   </p>
 
                   <p>
@@ -1670,11 +1678,11 @@
                 <h3>{{ _('Microbiome Map') }}</h3>
                 <br/>
                 <p>
-                {{ _('Microbiome maps turn the similarities and differences among microbiomes into a two-dimensional picture. Each dot is a whole microbiome, and dots close to yours are more similar microbiomes.') }} 
+                {{ _('Microbiome maps turn the similarities and differences among microbiomes into a two-dimensional picture. Each dot on the map is someone\'s microbiome, and the dots closest to yours are more similar. Remember that it\'s not necessarily bad or good if your microbiome strays from the average. Our microbiomes are constantly changing from forces we can control (like diet) and forces we cannot control (like age). These maps are contextual, meaning that the differences between samples are influenced by all the other points that are shown. For example, the difference between you and another individual might look large when the map contains just adults, whereas the space between you and that same individual might look much smaller when the map also contains samples from infants. Click on one of the sections below to see where you land on the map!') }}
                 </p>
 
                 <p>
-                    {{ _('<span id="microbiome-maps-tooltip" class="tooltipper" data-title="Visualizing complex data is difficult. One way microbiome researchers do it though is through a technique called principal coordinates analysis (PCoA). We provide PCoA with the millions of microbiome similarities we compute (we use tens of thousands of samples, and compare each sample to each other), and in turn, PCoA provides perspectives into massive data matrix that place very similar samples near each other and less similar samples far apart.">How are these maps produced?</span>') }}
+                    {{ _('<span id="microbiome-maps-tooltip" class="tooltipper" data-title="One of the ways microbiome researchers visualize complex data is through a technique called principal coordinates analysis (PCoA). We first calculate distances from every sample to every other sample–remember that distances represent similarities among microbiomes. Then a PCoA converts the distance data into coordinates which can be depicted in a visualization, placing very similar samples near each other and less similar samples further apart.)">How are these maps produced?</span>') }}
                 </p>
                 
                 <div id="pcoa-div"></div>

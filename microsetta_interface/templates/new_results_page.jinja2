@@ -159,7 +159,9 @@
 
     div.your_sample_diversity_inset .card-header {
       color: #ffffff;
+      background-color: #006a96;
       text-align: center;
+      border-radius: 15px;
     }
 
     div.your_sample_diversity_inset .card-body {
@@ -194,6 +196,11 @@
         border-right-color: #fc8900 !important;
     }
 
+    .results-tooltip-link {
+        text-decoration: none;
+        color: #fc8900 !important;
+        cursor: text;
+    }
 </style>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -1098,6 +1105,7 @@
             let X = 10;
             let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
             $("#top_ranked_genus_from_plot").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");
+            $("#top_ranked_genus_from_plot_2").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");
 
             topXOrdered.reverse();
             let topX = new Set(topXOrdered);
@@ -1230,7 +1238,10 @@
     }
 
     function enableTooltips(){
-      $('.tooltipper').tooltip({position: "bottom"});
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     }
 
     function setupAccordions() {
@@ -1398,7 +1409,7 @@
                    {{ _('Recent estimates suggest hundreds of billions of types of microbes live on earth. This number dwarfs the meager 2 million different kinds of animals and plants discovered on the planet.') }}
                   </p>
                   <p>
-                   {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the <span id="average-us-tooltip" class="tooltipper" data-title="Based on fecal samples from Microsetta participants in the United States">average</span> American has <strong id="average-american-observed-otus">FILLIN</strong> different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id="average-hadza-observed-otus">FILLIN</strong> we find in samples from the <span id="taxa-tooltip" class="tooltipper" data-title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on <a href=\'foobar.com\'>Smits et al. Science 2017</a>" data-html="true">Hadza</span> people of Tanzania.') }}
+                   {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the <a href="#" class="results-tooltip-link" title="<span class=\'results-tooltip-text\'>Based on fecal samples from Microsetta participants in the United States</span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">average</a> American has <strong id="average-american-observed-otus">FILLIN</strong> different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the <strong id="average-hadza-observed-otus">FILLIN</strong> we find in samples from the <a href="#" class="results-tooltip-link" title="<span class=\'results-tooltip-text\'>The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017</span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">Hadza</a> people of Tanzania.') }}
                   </p>
                   <p>
                    {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}
@@ -1476,7 +1487,7 @@
                   <h3>{{ _('Similarity') }}</h3>
                   <br>
                   <p>
-                  {{ _('One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <span id="similarity-tooltip" class="tooltipper" data-html="true" data-title="Distance is the measure of length between two points. There are many ways to determine how similar or different your microbiome is from that of other participants. However, comparing the microbes is tricky as we rarely share the exact same ones. To account for this, our researchers consider the evolutionary relationships among microbes when forming these distances.">distance</span> from your sample to all other samples based on the microbes observed. The people with the smallest distance are those who have microbiomes most similar to yours. Here, we show how the 100 people with microbiomes most similar to yours answered certain survey questions. The response is colored in <span class="similarity-fontstyle-same">light green</span> if it matches your response and <span class="similarity-fontstyle-different">brown</span> if your response differed.') }}
+                  {{ _('One of the powerful ways microbiome scientists analyze data is by looking at similarities among samples. To do this, we compute a <a href="#" class="results-tooltip-link" title="Distance is the measure of length between two points. There are many ways to determine how similar or different your microbiome is from that of other participants. However, comparing the microbes is tricky as we rarely share the exact same ones. To account for this, our researchers consider the evolutionary relationships among microbes when forming these distances." data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">distance</a> from your sample to all other samples based on the microbes observed. The people with the smallest distance are those who have microbiomes most similar to yours. Here, we show how the 100 people with microbiomes most similar to yours answered certain survey questions. The response is colored in <span class="similarity-fontstyle-same">light green</span> if it matches your response and <span class="similarity-fontstyle-different">brown</span> if your response differed.') }}
                   </p>
 
                   <div id="beta-diversity-comparisons">
@@ -1636,7 +1647,7 @@
               <div class="row">
                   <div class="column results_text">
                     <p>
-                    {{ _('Items from the Genus column of the table are called genera. In the plot below, you can see some of the most commonly observed microbial genera found in human stool, and how the relative abundance of those genera in your sample (orange dot) compares to that of others in the dataset (the blue area). The shape of the blue area shows how the same value for others is distributed. As an example, we can see that most people in the dataset have <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> as their most abundant microbe. However, the long skinny end of the blue area shows that results vary, with many people having <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> rank much lower than that or even as their least abundant microbe.') }}
+                    {{ _('Items from the Genus column of the table are called genera. In the plot below, you can see some of the most commonly observed microbial genera found in human stool, and how the relative abundance of those genera in your sample (orange dot) compares to that of others in the dataset (the blue area). The shape of the blue area shows how the same value for others is distributed. As an example, we can see that most people in the dataset have <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> as their most abundant microbe. However, the long skinny end of the blue area shows that results vary, with many people having <span id="top_ranked_genus_from_plot_2" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span> rank much lower than that or even as their least abundant microbe.') }}
                     </p>
                   </div>
               </div>
@@ -1682,7 +1693,7 @@
                 </p>
 
                 <p>
-                    {{ _('<span id="microbiome-maps-tooltip" class="tooltipper" data-title="One of the ways microbiome researchers visualize complex data is through a technique called principal coordinates analysis (PCoA). We first calculate distances from every sample to every other sample–remember that distances represent similarities among microbiomes. Then a PCoA converts the distance data into coordinates which can be depicted in a visualization, placing very similar samples near each other and less similar samples further apart.)">How are these maps produced?</span>') }}
+                    {{ _('<a href="#" class="results-tooltip-link" title="One of the ways microbiome researchers visualize complex data is through a technique called principal coordinates analysis (PCoA). We first calculate distances from every sample to every other sample–remember that distances represent similarities among microbiomes. Then a PCoA converts the distance data into coordinates which can be depicted in a visualization, placing very similar samples near each other and less similar samples further apart." data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">How are these maps produced?</a>') }}
                 </p>
                 
                 <div id="pcoa-div"></div>

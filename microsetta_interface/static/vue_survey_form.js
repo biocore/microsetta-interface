@@ -53,12 +53,12 @@ var vm = new Vue({
                 }
             } else {
                 if(multi) {
-                    this.model[key] = ["Unspecified"];
+                    this.model[key] = [UNSPECIFIED];
                 } else {
                     if(key == '108' || key == '113') {
                         this.model[key] = 0;
                     } else {
-                        this.model[key] = "Unspecified";
+                        this.model[key] = UNSPECIFIED;
                     }
                 }
             }
@@ -74,12 +74,12 @@ function skipQuestion(ele, skipType="user-input") {
     var labelElement;
     let newState = '';
     if(skipType == "user-input") {
-        if(ele.innerHTML == 'SKIP') {
+        if(ele.innerHTML == SKIP) {
             newState = 'skip';
-            ele.innerHTML = 'DISPLAY';
+            ele.innerHTML = DISPLAY;
         } else {
             newState = 'display';
-            ele.innerHTML = 'SKIP';
+            ele.innerHTML = SKIP;
         }
 
         const spanElement = ele.parentElement;
@@ -89,7 +89,7 @@ function skipQuestion(ele, skipType="user-input") {
         labelElement = ele;
         const spanElement = ele.children[0];
         const skipSpanElement = spanElement.children[0];
-        skipSpanElement.innerHTML = 'DISPLAY';
+        skipSpanElement.innerHTML = DISPLAY;
         group = ele.parentElement;
         newState = 'skip';
     }
@@ -121,7 +121,7 @@ function addSkipLink(element) {
                 let fieldWrap = element.children[i];
                 let radioList = fieldWrap.children[0];
                 for(let j = 0; j < radioList.children.length; j++) {
-                    if(radioList.children[j].innerText == "Unspecified") {
+                    if(radioList.children[j].innerText == UNSPECIFIED) {
                         let unspecifiedElement = radioList.children[j];
                         unspecifiedElement.style.position = "absolute";
                         unspecifiedElement.style.top = "-9999px";
@@ -141,7 +141,7 @@ function addSkipLink(element) {
                 let wrapper = fieldWrap.children[0];
                 let listbox = wrapper.children[0];
                 for(let j = 0; j < listbox.children.length; j++) {
-                    if(listbox.children[j].innerText == "Unspecified") {
+                    if(listbox.children[j].innerText == UNSPECIFIED) {
                         let unspecifiedElement = listbox.children[j];
                         unspecifiedElement.style.position = "absolute";
                         unspecifiedElement.style.top = "-9999px";
@@ -159,7 +159,7 @@ function addSkipLink(element) {
                 let fieldWrap = element.children[i];
                 let selectElement = fieldWrap.children[0];
                 for(let j = 0; j < selectElement.children.length; j++) {
-                    if(selectElement.children[j].value == "Unspecified") {
+                    if(selectElement.children[j].value == UNSPECIFIED) {
                         selectElement.children[j].hidden = "true";
                     }
                 }
@@ -177,7 +177,7 @@ function skipRadioField(group, labelElement, newState) {
             // When we hide a question, we also set the response to Unspecified
             let radioList = theNode.children[0];
             for(let j = 0; j < radioList.children.length; j++) {
-                if(radioList.children[j].innerText == "Unspecified") {
+                if(radioList.children[j].innerText == UNSPECIFIED) {
                     let unspecifiedElement = radioList.children[j];
                     for(let k = 0; k < unspecifiedElement.children.length; k++) {
                         if(unspecifiedElement.children[k].nodeName == "INPUT") {
@@ -210,7 +210,7 @@ function skipChecklistField(group, labelElement, newState) {
             for(let j = 0; j < listbox.children.length; j++) {
                 let listRow = listbox.children[j];
                 let checkboxLabelElement = listRow.children[0];
-                if(checkboxLabelElement.innerText == "Unspecified") {
+                if(checkboxLabelElement.innerText == UNSPECIFIED) {
                     for(let k = 0; k < checkboxLabelElement.children.length; k++) {
                         if(checkboxLabelElement.children[k].nodeName == "INPUT") {
                             if(newState == 'skip') {
@@ -251,7 +251,7 @@ function skipInputField(group, labelElement, newState) {
                 vm.methodToUpdate(inputElement.name, false, false);
             } else {
                 theNode.style.display = "none";
-                inputElement.value = "Unspecified";
+                inputElement.value = UNSPECIFIED;
                 vm.methodToUpdate(inputElement.name, true, false);
             }
         }
@@ -270,7 +270,7 @@ function skipTextareaField(group, labelElement, newState) {
                 vm.methodToUpdate(inputElement.name, false, false);
             } else {
                 theNode.style.display = "none";
-                inputElement.innerText = "Unspecified";
+                inputElement.innerText = UNSPECIFIED;
                 vm.methodToUpdate(inputElement.name, true, false);
             }
         }

@@ -9,6 +9,11 @@
     <script type="text/javascript">
         // Override the hardecoded " selected" string in vfg.js
         _SELECTED = "{{ _(' selected') }}"
+
+        // We need to translate "Unspecified", "SKIP", and "DISPLAY" for use in Vue
+        UNSPECIFIED = "{{ _('Unspecified') }}"
+        SKIP = "{{ _('SKIP') }}"
+        DISPLAY = "{{ _('DISPLAY') }}"
     </script>
     <script type="text/javascript" src="/static/vendor/vue-form-generator-2.3.4/vfg.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/vendor/vue-form-generator-2.3.4/vfg.css">
@@ -375,6 +380,6 @@
         observer.observe(document.body, config);
     });
     </script>
-    <script type="text/javascript" src="/static/vue_survey_form_{{ _('en_us') }}.js"></script>
+    <script type="text/javascript" src="/static/vue_survey_form.js"></script>
 {% endblock %}
 

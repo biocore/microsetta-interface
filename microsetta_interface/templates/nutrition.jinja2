@@ -70,16 +70,6 @@
                     ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",
                 },
             });
-
-            /*$('button').on('click', function() {
-                if($("form[name='ffq_code_form']").valid()) {
-                    updateButtonState("");
-                //    $('#ffq_code_button').prop('disabled', true);
-                } else {
-                    updateButtonState("yes");
-                //    $('#ffq_code_button').prop('disabled', false);
-                }
-            });*/
         });
 
         function updateButtonState(ffq_code_value) {
@@ -129,7 +119,7 @@
     <div class="container profile-container">
         {% if not has_basic_info %}
         <div class="alert alert-primary alert-nutrition mt-4" role="alert">
-            {{ _('It looks like you have not completed the Basic Information survey yet. If you begin your FFQ without providing your height, weight, age, and gender on the Basic Information survey, your FFQ report will be inaccurate.') }} - <a href="/accounts/{{ account_id }}/sources/{{ source_id }}">{{ _('My Profile') }}</a>
+            {{ _('It looks like you have not completed the Basic Information survey yet. If you begin your FFQ without providing your height, weight, age, and gender on the Basic Information survey, you will not receive an accurate FFQ report.') }} - <a href="/accounts/{{ account_id }}/sources/{{ source_id }}">{{ _('My Profile') }}</a>
         </div>
         {% endif %}
         <div class="card mt-4 p-4">

@@ -10,6 +10,8 @@
 {% set show_tips_icon = True %}
 {% set show_tips_content = "surveys" %}
 
+{% set basic_info_template_id = 10 %}
+
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <style>
@@ -59,12 +61,12 @@
         <div class="row mt-5">
         {% for detail in local_surveys %}
             <div class="col-6 col-md-4 p-2">
-                <div class="card card-survey {% if detail.date_last_taken is none and detail.survey_template_id == 10 %}card-survey-highlight{% endif %}">
+                <div class="card card-survey {% if detail.date_last_taken is none and detail.survey_template_id == basic_info_template_id %}card-survey-highlight{% endif %}">
                     <div class="row m-2 survey-info-row">
                         {% if detail.date_last_taken is not none %}
                             <div class="col-8 small-text survey-info">{{ _('Last modified') }} {{ detail.date_last_taken }}</div>
                         {% else %}
-                            {% if detail.survey_template_id == 10 %}
+                            {% if detail.survey_template_id == basic_info_template_id %}
                                 <div class="col-8 card-survey-new">{{ _('START HERE') }}</div>
                             {% else %}
                                 <div class="col-8 small-text survey-info">{{ _('Not Completed') }}</div>

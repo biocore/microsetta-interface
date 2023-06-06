@@ -44,6 +44,10 @@
             preventImplicitSubmission(form_name);
             preclude_whitespace('#ffq_code');
 
+            $("form[name='" + form_name + "']").on('submit', function() {
+                updateButtonState("");
+            });
+
             // Initialize form validation on the registration form.
             // It has the name attribute "registration"
             $("form[name='" + form_name + "']").validate({
@@ -81,6 +85,12 @@
             document.getElementById('add_code_card').style.display = '';
             document.getElementById('ffq_code').focus();
         }
+
+        function disable_link(link_obj) {
+            link_obj.style.opacity = .65;
+            link_obj.style.pointerEvents = "none";
+            return true;
+        }
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -107,6 +117,11 @@
     </div>
     {% else %}
     <div class="container profile-container">
+        {% if not has_basic_info %}
+        <div class="alert alert-primary alert-nutrition mt-4" role="alert">
+            {{ _('It looks like you have not completed the Basic Information survey yet. If you begin your FFQ without providing your height, weight, age, and gender on the Basic Information survey, you will not receive an accurate FFQ report.') }} - <a href="/accounts/{{ account_id }}/sources/{{ source_id }}">{{ _('My Profile') }}</a>
+        </div>
+        {% endif %}
         <div class="card mt-4 p-4">
             <div class="row">
                 <div class="col col-md-3">
@@ -124,15 +139,24 @@
                 </div>
             </div>
             <div class="row ffq-info mb-2">
-                <div class="col-1"><img src="/static/img/survey_ffq.svg" width="70" height="70"></div>
-                <div class="col-11 kit-tooltip-text">
-                    {{ _('This Food Frequency Questionnaire (FFQ) will take approximately 30 minutes. By completing it, you\'ll receive the following report') }}:<br />
-                    {{ _('Personal diet and nutrition summary, listing the highest contributing food sources of nutrients you should try to limit and your top food sources with key nutrients that promote good health.') }}
+                <div class="col-3 col-md-1"><img src="/static/img/survey_ffq.svg" width="70" height="70"></div>
+                <div class="col-9 col-md-11">
+                    <p class="tmi-tooltip">
+                        {{ _('Complete a food frequency questionnaire (FFQ) to receive a report summarizing your diet and nutrition, including the top foods with key nutrients that promote good health.') }}
+                    </p>
                 </div>
             </div>
             <div class="row ffq-info mb-2">
-                <div class="col-12 kit-tooltip-text">
-                    {{ _('You must press the "Finish" button on the final page of the FFQ to register it as completed. You can complete the FFQ in stages by clicking "Continue FFQ" and selecting the "Resume" button to return to where you left off.') }}
+                <div class="col-12">
+                    <p class="tmi-tooltip">
+                        <strong>{{ _('Questionnaire tip') }}:</strong><br />
+                        {{ _('You will be directed to an external site in a new browser tab to complete the FFQ') }}.<br />
+                        {{ _('Remember to click "Finish" on the final page of the FFQ to register completion') }}.<br />
+                        {{ _('You can also resume the FFQ later by closing the browser tab. The option to "Continue FFQ" will then appear under My FFQs') }}.
+                    </p>
+                    <p class="tmi-tooltip">
+                        {{ _('Estimated time to complete: 30 minutes') }}
+                    </p>
                 </div>
             </div>
             {% if vio_reg_entries|length > 0 %}
@@ -145,10 +169,16 @@
                         {% if vio.vioscreen_status == 3 %}
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{ vio.survey_id }}/reports/topfoodreport/pdf" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Top Food Report') }}</a>
                         {% else %}
-                            {% if vio.sample_id != None %}
-                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                            {% if vio.sample_id is not none %}
+                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);" target="_blank">{{ _('Continue FFQ') }}</a>
                             {% else %}
-                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                                <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);" target="_blank">
+                                    {% if new_ffq_code == vio.registration_code %}
+                                        {{ _('Begin FFQ') }}
+                                    {% else %}
+                                        {{ _('Continue FFQ') }}
+                                    {% endif %}
+                                </a>
                             {% endif %}
                         {% endif %}
                     </div>

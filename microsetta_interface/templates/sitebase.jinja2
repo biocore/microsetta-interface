@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ _('Microsetta') }} - {{page_title}}</title>
 
     <link href="/static/vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,12 +14,7 @@
         body {
             padding-top: 81px;
         }
-        .logo-co {
-          width: 300px;
-          height: 65px;
-          object-fit: contain;
-          padding-left: 30px;
-        }
+
         .profile-png {
           width: 36px;
           height: 36px;
@@ -40,10 +36,26 @@
     <script src="/static/input_util.js"></script>
 
     <script type="text/javascript">
-        function verifyDeleteSource(sourceName){
-            let confirmMsg = "{{ _('You are deleting the profile for') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
-                "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
-            return window.confirm(confirmMsg);
+        function verifyDeleteSource(sourceName) {
+            {% if profile_has_samples %}
+                let alertMsg = "{{ _('Profiles with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this profile.') }}";
+                alert(alertMsg);
+                return false;
+            {% else %}
+                let confirmMsg = "{{ _('You are deleting the profile for') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
+                    "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
+                return window.confirm(confirmMsg);
+            {% endif %}
+        }
+
+        function openModalSiteBase() {
+            $("#tips_modal").modal('show');
+            return false;
+        }
+
+        function hideModalSiteBase() {
+            $("#tips_modal").modal('hide');
+            return false;
         }
     </script>
 
@@ -51,6 +63,59 @@
     {%endblock%}
 </head>
 <body>
+    <div class="modal fade" id="tips_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content tip-modal-content">
+                <div class="modal-header tip-modal-header">
+                    <img src="/static/img/tips_title.svg" />
+                    <span class="tip-title">{{ _('Tips') }}</span>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion tip-accordion" id="tips-accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                <button class="accordion-button tip-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tip-panel-one" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                    {{ _('Navigating Surveys') }}
+                                </button>
+                            </h2>
+                            <div id="tip-panel-one" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body">
+                                    {{ _('You can pick and choose the surveys you want to complete on the "My Profile" tab or complete them in a series.') }}
+                                    <ul>
+                                        <li>{{ _('Clicking "Previous," "Next," or "Save & Go to Profile" will save your responses to that survey. But if you close your browser or navigate away from the page using other links, your progress for that survey will NOT be saved.') }}</li>
+                                        <li>{{ _('If you\'d prefer to only work on one survey at a time or need to stop, click "Save & Go to Profile" to return to your profile page.') }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                <button class="accordion-button tip-accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tip-panel-two" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                    {{ _('Skipping Questions') }}
+                                </button>
+                            </h2>
+                            <div id="tip-panel-two" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                                <div class="accordion-body">
+                                    {{ _('The') }} "<span class="skip-text">{{ _('SKIP') }}</span>" {{ _('option can be found at the top right corner of each question.') }}
+                                    <ul>
+                                        <li>{{ _('Skipping a question clears your selected answer and hides the options.') }}</li>
+                                        <li>{{ _('Click') }} "<span class="skip-text">{{ _('DISPLAY') }}</span>" {{ _('to bring back the hidden response options.') }}</li>
+                                        <li>{{ _('If you want to reset an incorrect answer quickly, click') }} "<span class="skip-text">{{ _('SKIP') }}</span>" {{ _('then') }} "<span class="skip-text">{{ _('DISPLAY') }}</span>".</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer tip-modal-footer">
+                    <span class="tip-contact">{{ _('Can\'t find what you\'re looking for?') }} <a href="mailto:microsetta@ucsd.edu" style="text-decoration: none;">{{ _('Please let us know') }}</a>.</span>
+                    <button type="button" class="btn btn-white-blue-border" id="tips_cancel" onClick="hideModalSiteBase();">{{ _('Close') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% if admin_mode %}
     <nav class="navbar fixed-top navbar-light bg-warning shadow">
       {{ _('Administrator Toolbar') }}
@@ -73,6 +138,11 @@
         <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>
         </a>
+        {% if show_tips_icon %}
+            <a href="#" onClick="return openModalSiteBase();">
+                <img src="/static/img/tips.svg" />
+            </a>
+        {% endif %}
         <div class="dropdown show" id="header-profile">
           <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="/static/img/profile.png" class="profile-png"/>
@@ -81,6 +151,7 @@
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
           {% if login_info %}
               {% if login_info.account_id %}
+                <li><a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}">{{ _('Account Dashboard') }}</a></li>
                 <li><a class="dropdown-item" href="/accounts/{{login_info.account_id |e}}/details">{{ _('Account Details') }}</a></li>
               {% else %}
                 <li><a class="dropdown-item disabled" href="#">{{ _('Account Details') }}</a></li>
@@ -121,7 +192,7 @@
             {% if profile_header %}
                 <div class="container profile-container">
                     <h1 class="profile-h1">
-                        <img src="/static/img/profile_card_icon.png">
+                        <img src="/static/img/profile_card_icon.png" class="profile-header-icon">
                         {{ profile_header_name }}
                     </h1>
                     <div class="header-nav-container">
@@ -177,7 +248,7 @@
                         </nav>
                         <div class="dropdown show" id="profile-kebab-dropdown">
                             <a class="btn p-0" href="#" role="button" id="profileDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="/static/img/kebab_white.png" style="margin-top: 16px; margin-left: 10px">
+                                <img src="/static/img/kebab.svg" style="margin-top: 10px; margin-left: 10px">
                             </a>
                           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
                               <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
@@ -191,25 +262,7 @@
 {%block content%}
 {%endblock%}
 
-<div class="modal fade" id="profile_delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="survey-title" id="modal-title">{{ _('Are you sure you want to withdraw your consent and delete your profile?') }}</span>
-            </div>
-            <div class="modal-body">
-                <p id="delete-warning" class="survey-description">{{ _('I hereby withdraw consent for researchers to use my personal data and/or sample(s) for The Microsetta Initiative (TMI).') }}</p>
-                <p class="survey-description">{{ _('I understand and acknowledge that any personal data and/or sample(s) that have already been provided to TMI in accordance with the consent I provided by signing the consent form(s), will continue to be used for the research. However, no new information will be collected.') }}</p>
-                <p class="survey-description">{{ _('I understand that my data will only be shared after directly identifying information has been removed so that researchers cannot re-identify my personal data and/or sample(s) for future use.') }}</p>
-                <p class="survey-description">{{ _('By clicking withdraw, you will be ending your participation and terminating your profile. If you would like to be removed from being contacted for general program updates or information about future research studies, please refer to account deletion or contact us at microsetta@ucsd.edu.') }}</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
-                <button type="button" class="btn btn-blue-gradient" id="take-survey">{{ _('Take This Survey Now') }}</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
         </div>
     </div>

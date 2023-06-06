@@ -129,7 +129,7 @@
             let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
             kit_validation_setup_func()
 
-            {% for kit_samples in kits.values() | sort() %}
+            {% for kit_samples in kits.values() %}
                 {% for sample in kit_samples %}
                     addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
                 {% endfor %}
@@ -223,9 +223,18 @@
                                 <div class="barcode-col barcode-text">
                                     {{ sample.sample_barcode }}
                                 </div>
-                                <div class="barcode-col">
+                                <div class="barcode-col barcode-col-hide-mobile">
                                     <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
                                 </div>
+                                {% if sample.css_class == 'sample-complete' %}
+                                    <div class="barcode-col barcode-date-text barcode-col-hide-mobile">
+                                        {{ _('Collected') }}: {{ sample.sample_datetime }}
+                                    </div>
+                                {% else %}
+                                    <div class="barcode-col barcode-warning-text barcode-col-hide-mobile">
+                                        Info Needed
+                                    </div>
+                                {% endif %}
                                 <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                                     {% if sample.sample_edit_locked %}
                                         <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>

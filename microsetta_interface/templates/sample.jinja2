@@ -227,7 +227,7 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <label for="sample_notes" id="sample_notes_label" class="sample-label">{{ _('Notes') }}</label>
-                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there anything else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
                         </div>
                     </div>
                     <div class="row">

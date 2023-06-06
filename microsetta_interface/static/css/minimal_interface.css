@@ -35,6 +35,7 @@ html * {
 
 .navbar-brand {
     padding: 0px;
+    margin-right: auto;
 }
 
 body {
@@ -100,6 +101,26 @@ a.breadcrumb-item-profile {
     text-decoration: none;
 }
 
+.logo-co {
+    width: 300px;
+    height: 65px;
+    object-fit: contain;
+    padding-left: 30px;
+}
+
+@media (max-width: 575.98px) {
+    .logo-co {
+        width: 200px;
+        height: 44px;
+        object-fit: contain;
+        padding-left: 30px;
+    }
+
+    .profile-header-icon {
+        display: none;
+    }
+}
+
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion
 {
@@ -129,6 +150,27 @@ a.breadcrumb-item-profile {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+}
+
+.tip-accordion {
+    background-color: white !important;
+    padding: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.tip-accordion-button {
+    background-color: var(--tmi-orange-bg) !important;
+    color: black !important;
+    font-weight: 700 !important;
+    height: 56px !important;
+}
+
+.accordion-item {
+    border: 0px !important;
+}
+
+.accordion:hover {
+    color: black !important;
 }
 
 .btn-blue-gradient {
@@ -343,6 +385,11 @@ p.tmi-content {
     background-color: white;
 }
 
+.card-survey-highlight {
+    border: 5px solid rgba(0, 106, 150, 0.45) !important;
+    box-shadow: 0px 0px 20px 2px #0E85B7 !important;
+}
+
 .card-survey-external {
     height: 214px;
     background-color: white;
@@ -508,7 +555,25 @@ h1.profile-h1 {
     }
 
     #profile-kebab-dropdown {
-        margin-top: 54px;
+        margin-top: 58px;
+        border: 1px solid var(--tmi-gray-70);
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .profile-nav-container {
+        margin-top: 15px;
+    }
+
+    #profile-kebab-dropdown {
+        margin-top: 24px;
+        border: 1px solid var(--tmi-gray-70);
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -666,6 +731,13 @@ span.survey-title {
     text-align: left;
 }
 
+@media (max-width: 575.98px) {
+    .kit_id_container {
+        width: 90%;
+        margin: auto;
+    }
+}
+
 @media (min-width: 600px) {
     .survey-header-icon {
         width: fit-content;
@@ -705,6 +777,17 @@ li.active-profile {
 }
 
 .alert-profile a {
+    color: var(--tmi-blue);
+}
+
+.alert-nutrition {
+    background: var(--tmi-orange-bg);
+    border-left: 8px solid var(--tmi-orange);
+    border-radius: 12px;
+    color: var(--tmi-gray-90);
+}
+
+.alert-nutrition a {
     color: var(--tmi-blue);
 }
 
@@ -756,6 +839,15 @@ li.active-profile {
     font-weight: 400 !important;
     font-size: 12px !important;
     line-height: 20px !important;
+    text-decoration: underline;
+}
+
+.skip-text {
+    color: var(--tmi-gray-80) !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-decoration: underline;
 }
 
 .tmi-survey-radio-vertical > .field-wrap > .radio-list > label {
@@ -1052,6 +1144,16 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     gap: 16px;
 }
 
+@media (max-width: 575.98px) {
+    .new_kit_sample_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        gap: 16px;
+    }
+}
+
 .barcode-row {
     display: flex;
     flex-direction: row;
@@ -1089,6 +1191,18 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     padding: 36px;
 }
 
+@media (max-width: 575.98px) {
+    .kit-sample-container {
+        border: 1px solid var(--tmi-blue-bg);
+        border-radius: 25px;
+        padding: 8px;
+    }
+
+    .barcode-col-hide-mobile {
+        display: none;
+    }
+}
+
 .barcode-col {
     width: fit-content;
 }
@@ -1099,6 +1213,20 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 .barcode-text {
     color: var(--tmi-blue);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.barcode-date-text {
+    color: var(--tmi-gray-80);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.barcode-warning-text {
+    color: var(--tmi-orange);
     font-weight: 700;
     font-size: 16px;
     line-height: 26px;
@@ -1190,4 +1318,33 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     color: var(--tmi-blue);
     font-weight: 700;
     text-decoration: none;
+}
+
+.tip-modal-content {
+    box-shadow: 0px 0px 8px 2px rgba(102, 102, 102, 0.3);
+    border-radius: 25px;
+}
+
+.tip-modal-header {
+    border-top-left-radius: 25px !important;
+    border-top-right-radius: 25px !important;
+    background: var(--tmi-orange);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    height: 64px;
+}
+
+.tip-title {
+    margin-left: 8px;
+    color: white;
+    font-weight: 700;
+}
+
+.tip-contact {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.tip-modal-footer {
+    justify-content: space-between !important;
 }

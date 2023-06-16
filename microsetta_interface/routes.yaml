@@ -1519,4 +1519,4 @@ components:
       example: "biospecimen"
     check_survey_date:
       type: boolean
-      example: true
+      example: True

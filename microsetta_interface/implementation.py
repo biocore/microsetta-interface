@@ -1978,7 +1978,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     return redirect(
-        "/accounts/%s/sources/%s/kits?check_survey_date=true" %
+        "/accounts/%s/sources/%s/kits?check_survey_date=True" %
         (account_id, source_id)
     )
 

@@ -408,6 +408,7 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.post(url, data=body)
         self.assertRedirect(resp, suffix_is_uuid=False)
         url = self.redirectURL(resp)
+        print(url)
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'My Kits')
 

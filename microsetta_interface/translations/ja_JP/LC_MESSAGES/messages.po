@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-04 17:13-0700\n"
+"POT-Creation-Date: 2023-06-16 12:25-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ja_JP\n"
@@ -19,92 +19,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:630
+#: implementation.py:648
 msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 
-#: implementation.py:1210 templates/sitebase.jinja2:99
+#: implementation.py:1228 templates/sitebase.jinja2:99
 #: templates/sitebase.jinja2:103 templates/survey.jinja2:15
 msgid "SKIP"
 msgstr ""
 
-#: implementation.py:1866 model_i18n.py:58
+#: implementation.py:1898 model_i18n.py:58
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1867 model_i18n.py:59
+#: implementation.py:1899 model_i18n.py:59
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1868 model_i18n.py:71
+#: implementation.py:1900 model_i18n.py:71
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1869 model_i18n.py:66
+#: implementation.py:1901 model_i18n.py:66
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1870 model_i18n.py:67
+#: implementation.py:1902 model_i18n.py:67
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1871 model_i18n.py:68
+#: implementation.py:1903 model_i18n.py:68
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1872 model_i18n.py:69
+#: implementation.py:1904 model_i18n.py:69
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1873 model_i18n.py:64
+#: implementation.py:1905 model_i18n.py:64
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1874 model_i18n.py:61
+#: implementation.py:1906 model_i18n.py:61
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1875 model_i18n.py:73
+#: implementation.py:1907 model_i18n.py:73
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1876 model_i18n.py:70
+#: implementation.py:1908 model_i18n.py:70
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1877 model_i18n.py:65
+#: implementation.py:1909 model_i18n.py:65
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1878 model_i18n.py:74
+#: implementation.py:1910 model_i18n.py:74
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1879 model_i18n.py:72
+#: implementation.py:1911 model_i18n.py:72
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1880 model_i18n.py:60
+#: implementation.py:1912 model_i18n.py:60
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1881 model_i18n.py:63
+#: implementation.py:1913 model_i18n.py:63
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1882 model_i18n.py:62
+#: implementation.py:1914 model_i18n.py:62
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:2187
+#: implementation.py:2219
 msgid "Unable to validate Activation Code at this time"
 msgstr ""
 
-#: implementation.py:2505
+#: implementation.py:2537
 msgid "Address 1, Postal Code, and Country are required"
 msgstr ""
 
-#: implementation.py:2917 implementation.py:3029
+#: implementation.py:2949 implementation.py:3061
 msgid "Sorry, there was a problem saving your information."
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 #: templates/admin_activation_codes.jinja2:21
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
 #: templates/admin_interested_user_edit.jinja2:114
-#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:279
+#: templates/admin_interested_users.jinja2:21 templates/sitebase.jinja2:282
 msgid "Email"
 msgstr ""
 
@@ -1508,49 +1508,49 @@ msgstr ""
 msgid "ADMINISTRATOR SYSTEM PANEL"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:26
-#: templates/admin_system_panel.jinja2:67
+#: templates/admin_system_panel.jinja2:34
+#: templates/admin_system_panel.jinja2:75
 msgid "Set System Message"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:35
+#: templates/admin_system_panel.jinja2:43
 msgid "System Message"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:39
+#: templates/admin_system_panel.jinja2:47
 msgid "primary"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:40
+#: templates/admin_system_panel.jinja2:48
 msgid "secondary"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:41
+#: templates/admin_system_panel.jinja2:49
 msgid "success"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:42
+#: templates/admin_system_panel.jinja2:50
 msgid "danger"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:43
+#: templates/admin_system_panel.jinja2:51
 msgid "warning"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:44
+#: templates/admin_system_panel.jinja2:52
 msgid "info"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:45
+#: templates/admin_system_panel.jinja2:53
 msgid "light"
 msgstr ""
 
-#: templates/admin_system_panel.jinja2:46
+#: templates/admin_system_panel.jinja2:54
 msgid "dark"
 msgstr ""
 
 #: templates/consents.jinja2:2 templates/consents.jinja2:30
-#: templates/sitebase.jinja2:254
+#: templates/sitebase.jinja2:248
 msgid "Consent Documents"
 msgstr ""
 
@@ -1697,14 +1697,14 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: templates/kits.jinja2:2 templates/kits.jinja2:177 templates/kits.jinja2:197
+#: templates/kits.jinja2:2 templates/kits.jinja2:177 templates/kits.jinja2:202
 #: templates/reports.jinja2:63 templates/sample.jinja2:2
-#: templates/sample.jinja2:184 templates/sitebase.jinja2:204
-#: templates/sitebase.jinja2:226 templates/sitebase.jinja2:228
+#: templates/sample.jinja2:184 templates/sitebase.jinja2:198
+#: templates/sitebase.jinja2:220 templates/sitebase.jinja2:222
 msgid "My Kits"
 msgstr ""
 
-#: templates/kits.jinja2:62 templates/kits.jinja2:214 templates/kits.jinja2:271
+#: templates/kits.jinja2:62 templates/kits.jinja2:219 templates/kits.jinja2:276
 msgid "KitID"
 msgstr ""
 
@@ -1718,75 +1718,89 @@ msgid ""
 "apologize for any inconvenience."
 msgstr ""
 
-#: templates/kits.jinja2:192
+#: templates/kits.jinja2:193
+msgid ""
+"Thank you for logging your sample information. It looks like you haven't "
+"updated your profile recently. Please review"
+msgstr ""
+
+#: templates/kits.jinja2:193
+msgid "your survey responses"
+msgstr ""
+
+#: templates/kits.jinja2:193
+msgid "to ensure they're as current and complete as possible."
+msgstr ""
+
+#: templates/kits.jinja2:197
 msgid ""
 "Click on the following link if you would like to contribute to receive a "
 "kit"
 msgstr ""
 
-#: templates/kits.jinja2:192 templates/kits.jinja2:205
+#: templates/kits.jinja2:197 templates/kits.jinja2:210
 msgid "Get a Kit"
 msgstr ""
 
-#: templates/kits.jinja2:203
+#: templates/kits.jinja2:208
 msgid "Have a KitID"
 msgstr ""
 
-#: templates/kits.jinja2:231
+#: templates/kits.jinja2:236
 msgid "Collected"
 msgstr ""
 
-#: templates/kits.jinja2:240 templates/reports.jinja2:75
+#: templates/kits.jinja2:245 templates/reports.jinja2:75
 msgid "Sample Received - Results Pending"
 msgstr ""
 
-#: templates/kits.jinja2:258
+#: templates/kits.jinja2:263
 msgid "To register your kit, enter your Kit ID below"
 msgstr ""
 
-#: templates/kits.jinja2:264
+#: templates/kits.jinja2:269
 msgid "Register Kit"
 msgstr ""
 
-#: templates/kits.jinja2:274
+#: templates/kits.jinja2:279
 msgid "Which barcode(s) are you using from this kit (select all that apply)?"
 msgstr ""
 
-#: templates/kits.jinja2:274
+#: templates/kits.jinja2:279
 msgid "Each collection tube you receive has a unique barcode printed on the side."
 msgstr ""
 
-#: templates/kits.jinja2:275
+#: templates/kits.jinja2:280
 msgid "1. Select the barcode(s) you are using"
 msgstr ""
 
-#: templates/kits.jinja2:276
+#: templates/kits.jinja2:281
 msgid ""
 "2. Add the date and time of sample collection and select the sample type "
 "taken."
 msgstr ""
 
-#: templates/kits.jinja2:277
+#: templates/kits.jinja2:282
 msgid "Important"
 msgstr ""
 
-#: templates/kits.jinja2:278
+#: templates/kits.jinja2:283
 msgid ""
 "The sample cannot be processed in the lab until this information is "
 "complete."
 msgstr ""
 
-#: templates/kits.jinja2:279
+#: templates/kits.jinja2:284
 msgid ""
 "Keep a record of these details. The barcode is needed to resolve any "
 "issues you may have with your sample collection."
 msgstr ""
 
-#: templates/kits.jinja2:279
+#: templates/kits.jinja2:284
 msgid "What is the barcode and why is it important?"
 msgstr ""
 
-#: templates/kits.jinja2:284
+#: templates/kits.jinja2:289
 msgid "Confirm"
 msgstr ""
 
@@ -2541,8 +2555,8 @@ msgid ""
 "produced?</span>"
 msgstr ""
 
-#: templates/nutrition.jinja2:2 templates/sitebase.jinja2:206
-#: templates/sitebase.jinja2:233 templates/sitebase.jinja2:235
+#: templates/nutrition.jinja2:2 templates/sitebase.jinja2:200
+#: templates/sitebase.jinja2:227 templates/sitebase.jinja2:229
 msgid "My Nutrition"
 msgstr ""
 
@@ -2567,12 +2581,12 @@ msgstr ""
 msgid ""
 "It looks like you have not completed the Basic Information survey yet. If"
 " you begin your FFQ without providing your height, weight, age, and "
-"gender on the Basic Information survey, your FFQ report will be "
-"inaccurate."
+"gender on the Basic Information survey, you will not receive an accurate "
+"FFQ report."
 msgstr ""
 
-#: templates/nutrition.jinja2:122 templates/sitebase.jinja2:210
-#: templates/sitebase.jinja2:219 templates/sitebase.jinja2:221
+#: templates/nutrition.jinja2:122 templates/sitebase.jinja2:204
+#: templates/sitebase.jinja2:213 templates/sitebase.jinja2:215
 #: templates/source.jinja2:2 templates/survey.jinja2:174
 msgid "My Profile"
 msgstr ""
@@ -2708,8 +2722,8 @@ msgstr ""
 msgid "Take FFQ"
 msgstr ""
 
-#: templates/reports.jinja2:2 templates/sitebase.jinja2:208
-#: templates/sitebase.jinja2:240 templates/sitebase.jinja2:242
+#: templates/reports.jinja2:2 templates/sitebase.jinja2:202
+#: templates/sitebase.jinja2:234 templates/sitebase.jinja2:236
 msgid "My Reports"
 msgstr ""
 
@@ -2994,11 +3008,11 @@ msgstr ""
 msgid "Account Dashboard"
 msgstr ""
 
-#: templates/sitebase.jinja2:255
+#: templates/sitebase.jinja2:249
 msgid "Delete This Profile"
 msgstr ""
 
-#: templates/sitebase.jinja2:277
+#: templates/sitebase.jinja2:280
 msgid "FAQs"
 msgstr ""
 
@@ -3277,3 +3291,14 @@ msgstr ""
 #: templates/update_email.jinja2:21
 msgid "Yes, update and continue"
 msgstr ""
+
+#~ msgid ""
+#~ "It looks like you have not "
+#~ "completed the Basic Information survey "
+#~ "yet. If you begin your FFQ without"
+#~ " providing your height, weight, age, "
+#~ "and gender on the Basic Information "
+#~ "survey, your FFQ report will be "
+#~ "inaccurate."
+#~ msgstr ""
+

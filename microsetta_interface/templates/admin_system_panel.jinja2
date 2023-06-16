@@ -17,7 +17,15 @@
         if(msg_text_field.selectedIndex < 1) {
             document.getElementById("test_msg").innerHTML = "";
         } else {
-            document.getElementById("test_msg").innerHTML = msg_text_field.options[msg_text_field.selectedIndex].text + " " + msg_hours_field.options[msg_hours_field.selectedIndex].text + ":" + msg_mins_field.options[msg_mins_field.selectedIndex].text.padStart(2,'0');
+            if (msg_text_field.options[msg_text_field.selectedIndex].value == "going_down") {
+                msg_hours_field.disabled = false;
+                msg_mins_field.disabled = false;
+                document.getElementById("test_msg").innerHTML = msg_text_field.options[msg_text_field.selectedIndex].text + " " + msg_hours_field.options[msg_hours_field.selectedIndex].text + ":" + msg_mins_field.options[msg_mins_field.selectedIndex].text.padStart(2,'0');
+            } else {
+                msg_hours_field.disabled = true;
+                msg_mins_field.disabled = true;
+                document.getElementById("test_msg").innerHTML = msg_text_field.options[msg_text_field.selectedIndex].text;
+            }
         }
     }
     </script>

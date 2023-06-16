@@ -413,8 +413,8 @@ class IntegrationTests(unittest.TestCase):
         # attached to the url string. So we'll restructure it.
         url = url.replace("?check_survey_date=True", "")
         print(url)
-        query_string = {"check_survey_date": "True"}
-        resp = self.app.get(url, query_string=query_string)
+        # query_string = {"check_survey_date": "True"}
+        resp = self.app.get(url)
         self.assertPageTitle(resp, 'My Kits')
 
         # verify we have our sample information

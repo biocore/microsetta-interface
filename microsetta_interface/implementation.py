@@ -115,6 +115,27 @@ SYSTEM_MSG_DICTIONARY = {
         ES_MX_KEY: "El sistema se apaga a las ",
         ES_ES_KEY: "El sistema se apaga a las ",
         JA_JP_KEY: "システムは にダウンしています "
+    },
+    "test_mode": {
+        EN_US_KEY: 'The system is currently undergoing maintenance and '
+                   'testing. Please refrain from using the site and check '
+                   'back later, or <a href="mailto:microsetta@ucsd.edu">'
+                   'contact us</a> with any questions.',
+        ES_MX_KEY: 'Por el momento, el sistema se encuentra en mantenimiento '
+                   'y pruebas. Por favor no use el sitio web y vuelva a '
+                   'consultar más tarde, o '
+                   '<a href="mailto:microsetta@ucsd.edu">contáctenos</a> si '
+                   'tiene alguna pregunta.',
+        ES_MX_KEY: 'Por el momento, el sistema se encuentra en mantenimiento '
+                   'y pruebas. Por favor no use el sitio web y vuelva a '
+                   'consultar más tarde, o '
+                   '<a href="mailto:microsetta@ucsd.edu">contáctenos</a> si '
+                   'tiene alguna pregunta.',
+        JA_JP_KEY: 'The system is currently undergoing maintenance and '
+                   'testing. Please refrain from using the site and check '
+                   'back later, or <a href="mailto:microsetta@ucsd.edu">'
+                   'contact us</a> with any questions.'
+                   '-- REAL TRANSLATION PENDING --',
     }
 }
 
@@ -1564,7 +1585,7 @@ def get_source(*, account_id=None, source_id=None):
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
-def get_kits(*, account_id=None, source_id=None):
+def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
     if has_error:
@@ -1612,6 +1633,18 @@ def get_kits(*, account_id=None, source_id=None):
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
+    prompt_survey_update = False
+
+    if check_survey_date is True:
+        # check whether they need to update their surveys
+        has_error, prompt_response, _ = ApiRequest.get(
+            '/accounts/%s/sources/%s/check_prompt_survey_update' %
+            (account_id, source_id))
+        if has_error:
+            return prompt_response
+
+        prompt_survey_update = prompt_response['prompt']
+
     return _render_with_defaults(
         'kits.jinja2',
         account_id=account_id,
@@ -1624,7 +1657,9 @@ def get_kits(*, account_id=None, source_id=None):
         kits_tab_whitelist=KITS_TAB_WHITELIST,
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
         public_endpoint=SERVER_CONFIG['public_api_endpoint'],
-        profile_has_samples=profile_has_samples
+        profile_has_samples=profile_has_samples,
+        prompt_survey_update=prompt_survey_update,
+        prompt_survey_id=BASIC_INFO_ID
     )
 
 
@@ -1943,7 +1978,7 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     return redirect(
-        "/accounts/%s/sources/%s/kits" %
+        "/accounts/%s/sources/%s/kits?check_survey_date=True" %
         (account_id, source_id)
     )
 

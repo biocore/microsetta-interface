@@ -408,7 +408,11 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.post(url, data=body)
         self.assertRedirect(resp, suffix_is_uuid=False)
         url = self.redirectURL(resp)
-        resp = self.app.get(url)
+        # Flask's client.get() function doesn't like the query string being
+        # attached to the url string. So we'll restructure it.
+        url = url.replace("?check_survey_date=True", "")
+        query_string = {"check_survey_date": "True"}
+        resp = self.app.get(url, query_string=query_string)
         self.assertPageTitle(resp, 'My Kits')
 
         # verify we have our sample information

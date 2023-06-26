@@ -1348,3 +1348,8 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 .tip-modal-footer {
     justify-content: space-between !important;
 }
+
+#system_message {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

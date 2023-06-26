@@ -426,6 +426,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/check_survey_date'
       responses:
         '200':
           description: Display of kits for a source
@@ -1450,6 +1451,12 @@ components:
       description: FFQ code
       schema:
         $ref: '#/components/schemas/ffq_code'
+    check_survey_date:
+      name: check_survey_date
+      in: query
+      description: T/F flag on whether the Kits page should check user's most recent survey update date
+      schema:
+        $ref: '#/components/schemas/check_survey_date'
 
   schemas:
     # account section
@@ -1510,3 +1517,6 @@ components:
     consent_type:
       type: string
       example: "biospecimen"
+    check_survey_date:
+      type: boolean
+      example: True

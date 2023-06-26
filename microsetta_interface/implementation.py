@@ -1585,7 +1585,7 @@ def get_source(*, account_id=None, source_id=None):
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
-def get_kits(*, account_id=None, source_id=None, check_survey_date=None):
+def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
     if has_error:

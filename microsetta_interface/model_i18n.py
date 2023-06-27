@@ -17,6 +17,17 @@ LANGUAGES = {
     JA_JP_KEY: Lang("ja_JP", "日本語")
 }
 
+# We need a default full locale when a user's browser only sends a partial
+# value. At the moment, es is the only ambiguous situation we need to deal
+# with, and we'll default to es_ES since THDMI Spain was the more recent
+# Spanish-speaking campaign. I suspect we'll want to revise this to es_MX for
+# relaunch.
+PARTIAL_TO_FULL_LOCALES = {
+    "en": "en_US",
+    "es": "es_ES",
+    "ja": "ja_JP"
+}
+
 
 def translate_sample(sample):
     i18n_sample = copy.deepcopy(sample)

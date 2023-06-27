@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-16 12:25-0700\n"
+"POT-Creation-Date: 2023-06-27 16:33-0700\n"
 "PO-Revision-Date: 2021-05-17 16:56-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -18,172 +18,172 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:648
+#: implementation.py:651
 msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 
-#: implementation.py:1228 templates/sitebase.jinja2:99
+#: implementation.py:1236 templates/sitebase.jinja2:99
 #: templates/sitebase.jinja2:103 templates/survey.jinja2:15
 msgid "SKIP"
 msgstr ""
 
-#: implementation.py:1898 model_i18n.py:58
+#: implementation.py:1906 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr ""
 
-#: implementation.py:1899 model_i18n.py:59
+#: implementation.py:1907 model_i18n.py:70
 msgid "Saliva"
 msgstr ""
 
-#: implementation.py:1900 model_i18n.py:71
+#: implementation.py:1908 model_i18n.py:82
 msgid "Stool"
 msgstr ""
 
-#: implementation.py:1901 model_i18n.py:66
+#: implementation.py:1909 model_i18n.py:77
 msgid "Mouth"
 msgstr ""
 
-#: implementation.py:1902 model_i18n.py:67
+#: implementation.py:1910 model_i18n.py:78
 msgid "Nares"
 msgstr ""
 
-#: implementation.py:1903 model_i18n.py:68
+#: implementation.py:1911 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr ""
 
-#: implementation.py:1904 model_i18n.py:69
+#: implementation.py:1912 model_i18n.py:80
 msgid "Right hand"
 msgstr ""
 
-#: implementation.py:1905 model_i18n.py:64
+#: implementation.py:1913 model_i18n.py:75
 msgid "Left hand"
 msgstr ""
 
-#: implementation.py:1906 model_i18n.py:61
+#: implementation.py:1914 model_i18n.py:72
 msgid "Forehead"
 msgstr ""
 
-#: implementation.py:1907 model_i18n.py:73
+#: implementation.py:1915 model_i18n.py:84
 msgid "Torso"
 msgstr ""
 
-#: implementation.py:1908 model_i18n.py:70
+#: implementation.py:1916 model_i18n.py:81
 msgid "Right leg"
 msgstr ""
 
-#: implementation.py:1909 model_i18n.py:65
+#: implementation.py:1917 model_i18n.py:76
 msgid "Left leg"
 msgstr ""
 
-#: implementation.py:1910 model_i18n.py:74
+#: implementation.py:1918 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr ""
 
-#: implementation.py:1911 model_i18n.py:72
+#: implementation.py:1919 model_i18n.py:83
 msgid "Tears"
 msgstr ""
 
-#: implementation.py:1912 model_i18n.py:60
+#: implementation.py:1920 model_i18n.py:71
 msgid "Ear wax"
 msgstr ""
 
-#: implementation.py:1913 model_i18n.py:63
+#: implementation.py:1921 model_i18n.py:74
 msgid "Hair"
 msgstr ""
 
-#: implementation.py:1914 model_i18n.py:62
+#: implementation.py:1922 model_i18n.py:73
 msgid "Fur"
 msgstr ""
 
-#: implementation.py:2219
+#: implementation.py:2227
 msgid "Unable to validate Activation Code at this time"
 msgstr ""
 
-#: implementation.py:2537
+#: implementation.py:2545
 msgid "Address 1, Postal Code, and Country are required"
 msgstr ""
 
-#: implementation.py:2949 implementation.py:3061
+#: implementation.py:2957 implementation.py:3069
 msgid "Sorry, there was a problem saving your information."
 msgstr ""
 
-#: model_i18n.py:23
+#: model_i18n.py:34
 msgid "sample_site"
 msgstr ""
 
-#: model_i18n.py:33
+#: model_i18n.py:44
 msgid "source_type"
 msgstr ""
 
-#: model_i18n.py:40
+#: model_i18n.py:51
 msgid "survey_template_title"
 msgstr ""
 
-#: model_i18n.py:42
+#: model_i18n.py:53
 msgid "description"
 msgstr ""
 
-#: model_i18n.py:79
+#: model_i18n.py:90
 msgid "human"
 msgstr ""
 
-#: model_i18n.py:80
+#: model_i18n.py:91
 msgid "animal"
 msgstr ""
 
-#: model_i18n.py:81
+#: model_i18n.py:92
 msgid "environmental"
 msgstr ""
 
-#: model_i18n.py:86
+#: model_i18n.py:97
 msgid "Basic Information"
 msgstr ""
 
-#: model_i18n.py:87
+#: model_i18n.py:98
 msgid "At Home"
 msgstr ""
 
-#: model_i18n.py:88
+#: model_i18n.py:99
 msgid "Lifestyle"
 msgstr ""
 
-#: model_i18n.py:89
+#: model_i18n.py:100
 msgid "Gut"
 msgstr ""
 
-#: model_i18n.py:90
+#: model_i18n.py:101
 msgid "General Health"
 msgstr ""
 
-#: model_i18n.py:91
+#: model_i18n.py:102
 msgid "Health Diagnosis"
 msgstr ""
 
-#: model_i18n.py:92
+#: model_i18n.py:103
 msgid "Allergies"
 msgstr ""
 
-#: model_i18n.py:93 templates/new_results_page.jinja2:1473
+#: model_i18n.py:104 templates/new_results_page.jinja2:1473
 msgid "Diet"
 msgstr ""
 
-#: model_i18n.py:94
+#: model_i18n.py:105
 msgid "Detailed Diet"
 msgstr ""
 
-#: model_i18n.py:95
+#: model_i18n.py:106
 msgid "Other"
 msgstr ""
 
-#: model_i18n.py:96
+#: model_i18n.py:107
 msgid "Polyphenols"
 msgstr ""
 
-#: model_i18n.py:97
+#: model_i18n.py:108
 msgid "Spain FFQ"
 msgstr ""
 
-#: model_i18n.py:101
+#: model_i18n.py:112
 msgid ""
 "Polyphenols are chemical compounds naturally found in plants that have "
 "been shown to provide many beneficial properties. They are antioxidants, "
@@ -193,7 +193,7 @@ msgid ""
 "diet."
 msgstr ""
 
-#: model_i18n.py:107
+#: model_i18n.py:118
 msgid ""
 "<strong>Only for participants in Spain:</strong><br />The Food Frequency "
 "Questionnaire (FFQ) will ask you about your usual frequency of "
@@ -202,7 +202,7 @@ msgid ""
 "like."
 msgstr ""
 
-#: model_i18n.py:114
+#: model_i18n.py:125
 msgid "en_us"
 msgstr ""
 
@@ -212,7 +212,7 @@ msgstr ""
 msgid "Account Details"
 msgstr ""
 
-#: templates/account_details.jinja2:41 templates/account_details.jinja2:379
+#: templates/account_details.jinja2:41 templates/account_details.jinja2:377
 msgid "Please agree to the Privacy Statement and Terms and Conditions"
 msgstr ""
 
@@ -251,7 +251,7 @@ msgstr ""
 #: templates/account_details.jinja2:109 templates/account_overview.jinja2:44
 #: templates/consents.jinja2:22 templates/kits.jinja2:168
 #: templates/new_participant.jinja2:199 templates/nutrition.jinja2:97
-#: templates/reports.jinja2:55 templates/sample.jinja2:182
+#: templates/reports.jinja2:55 templates/sample.jinja2:183
 #: templates/source.jinja2:49 templates/survey.jinja2:173
 msgid "Dashboard"
 msgstr ""
@@ -1081,7 +1081,7 @@ msgstr ""
 msgid "Preferred language for future communications"
 msgstr ""
 
-#: templates/account_details.jinja2:377
+#: templates/account_details.jinja2:375
 msgid ""
 "I agree to the <a href=\"https://microsetta.ucsd.edu/privacy-statement/\""
 " target=\"_blank\">Privacy Statement</a> and accept the <a "
@@ -1089,45 +1089,45 @@ msgid ""
 "target=\"_blank\">Terms and Conditions</a>"
 msgstr ""
 
-#: templates/account_details.jinja2:384 templates/submit_interest.jinja2:600
+#: templates/account_details.jinja2:382 templates/submit_interest.jinja2:600
 #: templates/survey.jinja2:263 templates/survey.jinja2:325
 msgid "Next"
 msgstr ""
 
-#: templates/account_details.jinja2:386 templates/sample.jinja2:242
+#: templates/account_details.jinja2:384 templates/sample.jinja2:243
 msgid "Save"
 msgstr ""
 
-#: templates/account_details.jinja2:395
+#: templates/account_details.jinja2:393
 msgid "Danger zone"
 msgstr ""
 
-#: templates/account_details.jinja2:399
+#: templates/account_details.jinja2:397
 msgid "Delete or scrub the account."
 msgstr ""
 
-#: templates/account_details.jinja2:402
+#: templates/account_details.jinja2:400
 msgid ""
 "If the account has any samples associated, the account and sources will "
 "be scrubbed, meaning all free text and identifiable information is "
 "removed."
 msgstr ""
 
-#: templates/account_details.jinja2:405
+#: templates/account_details.jinja2:403
 msgid "Otherwise, the account and any sources will be deleted"
 msgstr ""
 
-#: templates/account_details.jinja2:408
+#: templates/account_details.jinja2:406
 msgid ""
 "IMPORTANT: you must manually delete the email from Authrocket and other "
 "external services like MyEmma to complete the process"
 msgstr ""
 
-#: templates/account_details.jinja2:411
+#: templates/account_details.jinja2:409
 msgid "ACCOUNT DELETION CANNOT BE UNDONE"
 msgstr ""
 
-#: templates/account_details.jinja2:414
+#: templates/account_details.jinja2:412
 msgid "Delete Account"
 msgstr ""
 
@@ -1698,7 +1698,7 @@ msgstr ""
 
 #: templates/kits.jinja2:2 templates/kits.jinja2:177 templates/kits.jinja2:202
 #: templates/reports.jinja2:63 templates/sample.jinja2:2
-#: templates/sample.jinja2:184 templates/sitebase.jinja2:198
+#: templates/sample.jinja2:185 templates/sitebase.jinja2:198
 #: templates/sitebase.jinja2:220 templates/sitebase.jinja2:222
 msgid "My Kits"
 msgstr ""
@@ -1915,7 +1915,7 @@ msgstr ""
 
 #: templates/new_participant.jinja2:290 templates/new_participant.jinja2:379
 #: templates/new_participant.jinja2:449 templates/new_participant.jinja2:492
-#: templates/sample.jinja2:241
+#: templates/sample.jinja2:242
 msgid "Cancel"
 msgstr ""
 
@@ -2726,61 +2726,61 @@ msgstr ""
 msgid "My Reports"
 msgstr ""
 
-#: templates/sample.jinja2:24
+#: templates/sample.jinja2:25
 msgid "Do you really want to remove this sample from this source?"
 msgstr ""
 
-#: templates/sample.jinja2:25
+#: templates/sample.jinja2:26
 msgid "Doing so will remove any collection info saved for this sample and will"
 msgstr ""
 
-#: templates/sample.jinja2:26
+#: templates/sample.jinja2:27
 msgid "unlink it from all surveys."
 msgstr ""
 
-#: templates/sample.jinja2:85
+#: templates/sample.jinja2:86
 msgid "Required Format: MM/DD/YYYY"
 msgstr ""
 
-#: templates/sample.jinja2:99
+#: templates/sample.jinja2:100
 msgid "Please select a date within the last 10 years."
 msgstr ""
 
-#: templates/sample.jinja2:113
+#: templates/sample.jinja2:114
 msgid "Please select a date within the next 30 days."
 msgstr ""
 
-#: templates/sample.jinja2:204
+#: templates/sample.jinja2:205
 msgid "Date of Sample Collection"
 msgstr ""
 
-#: templates/sample.jinja2:208
+#: templates/sample.jinja2:209
 msgid "Time of Sample Collection"
 msgstr ""
 
-#: templates/sample.jinja2:214
+#: templates/sample.jinja2:215
 msgid "Sample Type"
 msgstr ""
 
-#: templates/sample.jinja2:217
+#: templates/sample.jinja2:218
 msgid "Select a sample type"
 msgstr ""
 
-#: templates/sample.jinja2:229
+#: templates/sample.jinja2:230
 msgid "Notes"
 msgstr ""
 
-#: templates/sample.jinja2:230
+#: templates/sample.jinja2:231
 msgid ""
 "(Optional) Is there anything else about this sample that you would like "
 "to add?"
 msgstr ""
 
-#: templates/sample.jinja2:236
+#: templates/sample.jinja2:237
 msgid "Remove"
 msgstr ""
 
-#: templates/sample.jinja2:239
+#: templates/sample.jinja2:240
 msgid ""
 "Your sample has been received by our lab and can no longer be edited. "
 "Please <a href=\"mailto:microsetta@ucsd.edu\">contact us</a> with any "

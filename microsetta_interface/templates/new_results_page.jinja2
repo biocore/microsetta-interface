@@ -1095,6 +1095,8 @@
         });
 
         $.when(query1, query2).done(function(sampling_results, sample_results){
+            console.log(sampling_results);
+
             let X = 10;
             let topXOrdered = sampling_results[0]["Taxa-order"].slice(0,X);
             $("#top_ranked_genus_from_plot").text(topXOrdered[0]).removeClass("spinner-grow spinner-grow-sm");

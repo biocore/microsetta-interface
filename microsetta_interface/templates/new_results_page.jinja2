@@ -915,7 +915,7 @@
                 $("#n_archaea_background").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveNeighbors(state, 1)
-            .then(queryNeighborAndSelfMetadata(state, ["host_age_normalized_years", "sugary_sweets_frequency"]))
+            .then(queryNeighborAndSelfMetadata(state, ["age_cat", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
 
@@ -1048,7 +1048,7 @@
             "types_of_plants": ["#beta_diversity_plants_per_week_response", "#beta_diversity_plants_per_week_value"],
             "probiotic_frequency": ["#beta_diversity_probiotics_response", "#beta_diversity_probiotics_value"],
             "exercise_frequency": ["#beta_diversity_exercise_response", "#beta_diversity_exercise_value"],
-            "host_age_normalized_years": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
+            "age_cat": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
             //"diet": ["",""],
             "diet_type": ["#beta_diversity_diet_type_response", "#beta_diversity_diet_type_value"],
             "multivitamin": ["#beta_diversity_multivitamin_response", "#beta_diversity_multivitamin_value"],
@@ -1059,7 +1059,7 @@
             "types_of_plants": {"type": "max"},
             "probiotic_frequency": {"type": "max"},
             "exercise_frequency": {"type": "max"},
-            "host_age_normalized_years": {"type": "same"},
+            "age_cat": {"type": "same"},
             //"diet": {"type": "same"},
             "diet_type": {"type": "same"},
             "multivitamin": {"type": "specified", "value": "Yes"},

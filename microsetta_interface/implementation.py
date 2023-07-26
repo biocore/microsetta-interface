@@ -16,7 +16,7 @@ import functools
 from string import ascii_lowercase
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
-    ES_MX_KEY, ES_ES_KEY, JA_JP_KEY
+    ES_MX_KEY, ES_ES_KEY, JA_JP_KEY, PARTIAL_TO_FULL_LOCALES
 
 # Authrocket uses RS256 public keys, so you can validate anywhere and safely
 # store the key in code. Obviously using this mechanism, we'd have to push code
@@ -831,9 +831,7 @@ def get_logout():
 def get_create_account():
     email, _ = _parse_jwt(session[TOKEN_KEY_NAME])
 
-    browser_lang = request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES],
-        default=LANGUAGES[EN_US_KEY].value)
+    browser_lang = session_locale()
     # TODO:  Need to support other countries
     #  and not default to US and California
     default_account_values = {
@@ -962,9 +960,16 @@ def get_account(*, account_id=None):
         session.pop("source_id")
 
     sources = [translate_source(s) for s in sources]
+
+    japan_user = False
+    country = account[ACCT_ADDR_KEY][ACCT_ADDR_COUNTRY_CODE_KEY]
+    if country == "JP" or session_locale() == "ja_JP":
+        japan_user = True
+
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
-                                 sources=sources)
+                                 sources=sources,
+                                 japan_user=japan_user)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -3104,10 +3109,30 @@ def session_locale():
     if not flask.has_request_context():
         return LANGUAGES[EN_US_KEY].value
 
-    # TODO: We update this as we add support for new languages
-    return request.accept_languages.best_match(
-        [LANGUAGES[lang].value for lang in LANGUAGES],
-        default=LANGUAGES[EN_US_KEY].value)
+    # Unfortunately, browsers do not behave consistently with the
+    # accept-language header. Some send a full locale (e.g. en-US) while
+    # others only send a partial value (e.g. en). We need to default to
+    # the first value in the header, even if it's a partial value, as
+    # non-English-speaking users were erroneously being defaulted into en-US
+
+    # Start our locale list with the full locales we support
+    locale_list = [LANGUAGES[lang].value for lang in LANGUAGES]
+    # Add the partial locales, de-duplicating the list in place
+    locale_list.extend(
+        [*set([LANGUAGES[lang].value[0:2] for lang in LANGUAGES])]
+    )
+
+    matched_locale = request.accept_languages.best_match(
+        locale_list,
+        default=LANGUAGES[EN_US_KEY].value
+    )
+
+    # If the best match is two characters, we need to extend that out to the
+    # the full locale
+    if len(matched_locale) == 2:
+        matched_locale = PARTIAL_TO_FULL_LOCALES[matched_locale]
+
+    return matched_locale
 
 
 class BearerAuth(AuthBase):

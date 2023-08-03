@@ -1080,6 +1080,7 @@
         createTaxonomyTable(state);
 
         //Need to make taxa rank plot
+        /* BEGIN BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN
         let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
             $.param({sample_size: 30000});
         let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
@@ -1164,6 +1165,7 @@
             };
             Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});
         });
+        END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
     }
 
     function updateObservedOTUs(state) {
@@ -1617,6 +1619,7 @@
               <p style='font-style: italic;'>
                   * {{ _('No evidence presented here indicates what we\'ve observed is clinically dangerous') }}
               </p>
+              <!--
               <hr/>
               <div class="row">
                   <div class="column results_text">
@@ -1629,11 +1632,12 @@
               </div>
               <div class="row">
                   <div class="col-md-8 mx-auto">
-                  <div id="taxa-violin">
+                    <div id="taxa-violin">
+                    </div>
                   </div>
               </div>
+              -->
           </div>
-        </div>
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
               <div class="column results_text">

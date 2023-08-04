@@ -160,6 +160,8 @@
     div.your_sample_diversity_inset .card-header {
       color: #ffffff;
       text-align: center;
+      border-radius: 15px 15px 0 0;
+      color: #006a96;
     }
 
     div.your_sample_diversity_inset .card-body {
@@ -1062,7 +1064,7 @@
             "age_years": {"type": "same"},
             //"diet": {"type": "same"},
             "diet_type": {"type": "same"},
-            "multivitamin": {"type": "specified", "value": true},
+            "multivitamin": {"type": "specified", "value": "Yes"},
             "sleep_duration": {"type": "max"},
             "sex":  {"type": "same"}
         }
@@ -1080,6 +1082,7 @@
         createTaxonomyTable(state);
 
         //Need to make taxa rank plot
+        /* BEGIN BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN
         let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
             $.param({sample_size: 30000});
         let my_sample_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy/sample/' + state.barcode_prefix + state.sample_id;
@@ -1164,6 +1167,7 @@
             };
             Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});
         });
+        END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
     }
 
     function updateObservedOTUs(state) {
@@ -1342,7 +1346,7 @@
             <div class="column results_text">
                 <h3>{{ _('How do you compare?') }}</h3>
                 <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
-                <br/>
+                <br/><br />
                 <p>
                     {{ _('Your microbiome is a rainforest of diverse microbes dominated by microbes - some 40 trillion bacteria, weighing around 1 lb, live all over and in your body. The diversity of your microbiome, how similar it is to other peoples\', and the types of bacteria living inside you have all been linked to health, disease and lifestyle traits in numerous studies.') }}
                 </p>
@@ -1397,7 +1401,7 @@
                           <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
                   </div>
-
+                    <br />
                   <p>
                     {{ _('When we calculated the diversity of groups for samples in our database, we found diversity is associated with how you live your life. Here, we summarized the average microbiome diversity for a few of the questionnaire responses, specifically people who eat more than 30 plants a week, exercise regularly, drink water regularly, or sleep more than 6 hours a night.') }}
                   </p>
@@ -1617,6 +1621,7 @@
               <p style='font-style: italic;'>
                   * {{ _('No evidence presented here indicates what we\'ve observed is clinically dangerous') }}
               </p>
+              <!--
               <hr/>
               <div class="row">
                   <div class="column results_text">
@@ -1629,11 +1634,12 @@
               </div>
               <div class="row">
                   <div class="col-md-8 mx-auto">
-                  <div id="taxa-violin">
+                    <div id="taxa-violin">
+                    </div>
                   </div>
               </div>
+              -->
           </div>
-        </div>
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
               <div class="column results_text">

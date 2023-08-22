@@ -499,22 +499,11 @@
 
     function refreshDatasets(state) {
         let url = state.public_endpoint + '/sample/list/dataset/' + state.barcode_prefix + state.sample_id;
-        console.log(url);
         $.ajax({
             url: url,
             type: "GET",
             success: function(data)
             {
-                for (var i = 0; i < data.length; i++) {
-                    $.ajax({
-                        url: state.public_endpoint + "/dataset/" + data[i],
-                        type: "GET",
-                        success: function (detail) {
-                            addDatasetDetail(detail);
-                        }
-                    });
-                }
-
                 var have_wgs = false;
                 var have_16S = false;
                 for (var i = 0; i < data.length; i++) {
@@ -529,10 +518,33 @@
                     state.dataset_type.value = null
                     // error gracefully somehow?
                 } else if(have_wgs) {
+                    // WGS samples return both WGS and 16S data sets but we only want to display WGS on the "How can I learn more?" tab
+                    for (var i = 0; i < data.length; i++) {
+                        if(data[i].includes("WGS")) {
+                            $.ajax({
+                                url: state.public_endpoint + "/dataset/" + data[i],
+                                type: "GET",
+                                success: function (detail) {
+                                    addDatasetDetail(detail);
+                                }
+                            });
+                        }
+                    }
+
                     state.dataset_type.value = 'WGS';
                     state.dataset_site.value = 'gut';
                     state.dataset_input.value = 'tmi-WGS-gut';
                 } else {
+                    for (var i = 0; i < data.length; i++) {
+                        $.ajax({
+                            url: state.public_endpoint + "/dataset/" + data[i],
+                            type: "GET",
+                            success: function (detail) {
+                                addDatasetDetail(detail);
+                            }
+                        });
+                    }
+
                     state.dataset_type.value = '16S';
                     state.dataset_site.value = 'gut';
                     state.dataset_input.value = 'tmi-16S-gut';

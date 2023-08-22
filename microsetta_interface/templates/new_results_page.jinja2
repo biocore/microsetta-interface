@@ -499,6 +499,7 @@
 
     function refreshDatasets(state) {
         let url = state.public_endpoint + '/sample/list/dataset/' + state.barcode_prefix + state.sample_id;
+        console.log(url);
         $.ajax({
             url: url,
             type: "GET",

@@ -157,9 +157,9 @@ ADDRESS_ERRORS = {
                 'code level.',
         'AE02': 'Could not match the input street to a unique street name. '
                 'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
-                '(AVE, ST, BLVD) is not correct and produced multiple possible '
-                'matches.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
+                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
+                'possible matches.',
         'AE05': 'The address was matched to multiple records. There is not '
                 'enough information available in the address to break the tie '
                 'between multiple records.',
@@ -167,8 +167,8 @@ ADDRESS_ERRORS = {
                 'sub-premise, was not valid.',
         'AE09': 'An address element after the house number, in most cases the '
                 'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is not '
-                'valid.',
+        'AE10': 'The premise (house or building) number for the address is '
+                'not valid.',
         'AE11': 'The premise (house or building) number for the address is '
                 'missing.',
         'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
@@ -176,16 +176,17 @@ ADDRESS_ERRORS = {
         'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+                '(CMRA) and the Private Mail Box (PMB or #) number is '
+                'missing.'
     },
     ES_MX_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '
                 'code level.',
         'AE02': 'Could not match the input street to a unique street name. '
                 'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
-                '(AVE, ST, BLVD) is not correct and produced multiple possible '
-                'matches.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
+                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
+                'possible matches.',
         'AE05': 'The address was matched to multiple records. There is not '
                 'enough information available in the address to break the tie '
                 'between multiple records.',
@@ -193,8 +194,8 @@ ADDRESS_ERRORS = {
                 'sub-premise, was not valid.',
         'AE09': 'An address element after the house number, in most cases the '
                 'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is not '
-                'valid.',
+        'AE10': 'The premise (house or building) number for the address is '
+                'not valid.',
         'AE11': 'The premise (house or building) number for the address is '
                 'missing.',
         'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
@@ -202,16 +203,17 @@ ADDRESS_ERRORS = {
         'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+                '(CMRA) and the Private Mail Box (PMB or #) number is '
+                'missing.'
     },
     ES_ES_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '
                 'code level.',
         'AE02': 'Could not match the input street to a unique street name. '
                 'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
-                '(AVE, ST, BLVD) is not correct and produced multiple possible '
-                'matches.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
+                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
+                'possible matches.',
         'AE05': 'The address was matched to multiple records. There is not '
                 'enough information available in the address to break the tie '
                 'between multiple records.',
@@ -219,8 +221,8 @@ ADDRESS_ERRORS = {
                 'sub-premise, was not valid.',
         'AE09': 'An address element after the house number, in most cases the '
                 'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is not '
-                'valid.',
+        'AE10': 'The premise (house or building) number for the address is '
+                'not valid.',
         'AE11': 'The premise (house or building) number for the address is '
                 'missing.',
         'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
@@ -228,16 +230,17 @@ ADDRESS_ERRORS = {
         'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+                '(CMRA) and the Private Mail Box (PMB or #) number is '
+                'missing.'
     },
     JA_JP_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '
                 'code level.',
         'AE02': 'Could not match the input street to a unique street name. '
                 'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
-                '(AVE, ST, BLVD) is not correct and produced multiple possible '
-                'matches.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
+                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
+                'possible matches.',
         'AE05': 'The address was matched to multiple records. There is not '
                 'enough information available in the address to break the tie '
                 'between multiple records.',
@@ -245,8 +248,8 @@ ADDRESS_ERRORS = {
                 'sub-premise, was not valid.',
         'AE09': 'An address element after the house number, in most cases the '
                 'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is not '
-                'valid.',
+        'AE10': 'The premise (house or building) number for the address is '
+                'not valid.',
         'AE11': 'The premise (house or building) number for the address is '
                 'missing.',
         'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
@@ -254,7 +257,8 @@ ADDRESS_ERRORS = {
         'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+                '(CMRA) and the Private Mail Box (PMB or #) number is '
+                'missing.'
     },
 }
 
@@ -1280,19 +1284,25 @@ def get_fill_source_survey(*,
 
     if survey_template_id == MYFOODREPO_ID:
         if need_reconsent:
-            return render_consent_page(account_id, source_id, "data", reconsent=True)
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
 
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == POLYPHENOL_FFQ_ID:
         if need_reconsent:
-            return render_consent_page(account_id, source_id, "data", reconsent=True)
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
 
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == SPAIN_FFQ_ID:
         if need_reconsent:
-            return render_consent_page(account_id, source_id, "data", reconsent=True)
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
 
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
@@ -1633,7 +1643,9 @@ def get_source(*, account_id=None, source_id=None):
 
     if not session.get(ADMIN_MODE_KEY, False) and need_reconsent\
             and not session.get(RECONSENT_DECLINED_KEY, False):
-        return render_consent_page(account_id, source_id, "data", reconsent=True)
+        return render_consent_page(
+            account_id, source_id, "data", reconsent=True
+        )
 
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -2415,7 +2427,9 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
 
     # Test if biospecimen consent is required! If Required,
     # route user to biospecimen consent
-    need_reconsent = check_current_consent(account_id, source_id, "biospecimen")
+    need_reconsent = check_current_consent(
+        account_id, source_id, "biospecimen"
+    )
 
     if need_reconsent:
         session["source_id"] = source_id

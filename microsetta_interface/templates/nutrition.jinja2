@@ -91,6 +91,14 @@
             link_obj.style.pointerEvents = "none";
             return true;
         }
+
+        function checkHiddenState() {
+            if(document.getElementById('hidden_plus_stuff').style.display == '') {
+                document.getElementById('hidden_plus_stuff').style.display = 'none';
+            } else {
+                document.getElementById('hidden_plus_stuff').style.display = '';
+            }
+        }
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -127,13 +135,13 @@
                 <div class="col col-md-3">
                     <h1>{{ _('My FFQs') }}</h1>
                 </div>
-                <div class="plus-button-wrapper p-0" onclick="document.getElementById('hidden_plus_stuff').style.display = '';" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
+                <div class="plus-button-wrapper p-0" onclick="checkHiddenState();" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
                     <div class="plus-button-white-bg">
                         <img src="/static/img/plus_button.svg" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
-                            <a href="javascript: openCodePanel();" class="add-kit-link">{{ _('Have an FFQ Code') }}</a>
+                            <a href="javascript: openCodePanel();" class="add-kit-link">{{ _('Have an FFQ') }}</a>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">{{ _('Get an FFQ Code') }}</a>
+                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">{{ _('Get an FFQ') }}</a>
                         </span>
                     </div>
                 </div>

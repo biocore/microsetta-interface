@@ -917,7 +917,7 @@
                 $("#n_archaea_background").text(result["Archaea"].toLocaleString()).addClass("microbe-count").removeClass("spinner-grow spinner-grow-sm");
             });
         retrieveNeighbors(state, 1)
-            .then(queryNeighborAndSelfMetadata(state, ["age_years", "sugary_sweets_frequency"]))
+            .then(queryNeighborAndSelfMetadata(state, ["age_cat", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
 
@@ -1050,7 +1050,7 @@
             "types_of_plants": ["#beta_diversity_plants_per_week_response", "#beta_diversity_plants_per_week_value"],
             "probiotic_frequency": ["#beta_diversity_probiotics_response", "#beta_diversity_probiotics_value"],
             "exercise_frequency": ["#beta_diversity_exercise_response", "#beta_diversity_exercise_value"],
-            "age_years": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
+            "age_cat": ["#beta_diversity_age_response", "#beta_diversity_age_value"],
             //"diet": ["",""],
             "diet_type": ["#beta_diversity_diet_type_response", "#beta_diversity_diet_type_value"],
             "multivitamin": ["#beta_diversity_multivitamin_response", "#beta_diversity_multivitamin_value"],
@@ -1061,7 +1061,7 @@
             "types_of_plants": {"type": "max"},
             "probiotic_frequency": {"type": "max"},
             "exercise_frequency": {"type": "max"},
-            "age_years": {"type": "same"},
+            "age_cat": {"type": "same"},
             //"diet": {"type": "same"},
             "diet_type": {"type": "same"},
             "multivitamin": {"type": "specified", "value": "Yes"},
@@ -1193,13 +1193,13 @@
                         return
                     $("#dataset_title").text(info.title).removeClass("spinner-grow spinner-grow-sm");
                     if (info.datatype === "WGS"){
-                        $("#dataset_datatype").text("{{ _('whole genome sequencing, a technique that produces a large number of small DNA sequences from all of the microbial genomes in your sample. With enough sequences you can even see the variation that exists between microbes of the same species.') }} ").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset-info-processing-text").text("{{ _('For your sample, we performed a technique called shotgun metagenomic sequencing where we grab random snippets from all of the DNA present. We then sequenced these random snippets to get a picture of all the kinds of life that is in your sample. Because your cells also contain DNA, some of the snippets came from your own genome, but all of the sequences from those snippets have been removed.') }} ").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else if (info.datatype === "16S"){
-                        $("#dataset_datatype").text("{{ _('16S.  This technique produces DNA sequences from a specific variable region (V4) within a microbial gene (the 16S small subunit ribosomal gene). DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}").removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset-info-processing-text").text("{{ _('For your sample, we performed a technique called Polymerase Chain Reaction (PCR) to make many copies of a piece of DNA corresponding to a particular gene that is present in bacteria and archaea; specifically, the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. We then sequenced these copies. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}").removeClass("spinner-grow spinner-grow-sm");
                     }
                     else {
-                        $("#dataset_datatype").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
+                        $("#dataset-info-processing-text").text(info.datatype).removeClass("spinner-grow spinner-grow-sm");
 
                     }
                 },
@@ -1646,19 +1646,13 @@
                 <h3>{{ _('How can I learn more?') }}</h3>
                 <br/>
                   <p>
-                  {{ _('Microbiome analysis is a burgeoning new field, and the information displayed here is only an example of what is becoming possible thanks to the data that you helped collect.') }}
+                  {{ _('Microbiome analysis is a burgeoning field, and the information displayed here is only an example of what is becoming possible thanks to the data that you\'ve helped collect. If you\'d like to learn more, you can even take a look at the dataset for yourself via the links below.') }}
                   </p>
 
-                  <p>
-                  {{ _('So if you want to learn more, you can even take a look at the dataset for yourself!') }}
-                  </p>
-                  
-                  <p>
-                  {{ _("For your sample, we performed a technique called amplicon sequencing where we examine pieces of DNA corresponding to a particular gene. Specifically, we sequenced the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.") }}
-                  </p>
+                  <p id="dataset-info-processing-text"></p>
 
                   <p>
-                  {{ _('There are many resources for microbiome information available online. If you\'d like to learn more, we recommend the <a href="https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome">American Society for Microbiology</a>, <a href="https://microbe.net/">microBEnet</a>, the <a href="http://www.probioticchart.ca/">Canadian Probiotics Chart</a>, and the <a href="https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/">American Gastroenterological Association</a>.') }}
+                  {{ _('There are many resources for microbiome information available online. If you\'d like to learn more, we recommend the site hosted by the <a href="https://asm.org/Browse-By-Topic/Newsroom/Clinical/Microbiome">American Society for Microbiology</a>, <a href="https://microbe.net/">microBEnet</a>, the <a href="http://www.probioticchart.ca/">Canadian Probiotics Chart</a>, and the <a href="https://gastro.org/aga-leadership/centers/aga-center-for-gut-microbiome-research-education/">American Gastroenterological Association</a>.') }}
                   </p>
 
                   <h4 style="color:black;">{{ _('Datasets used in your results report') }}</h4>

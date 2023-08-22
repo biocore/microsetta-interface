@@ -16,10 +16,14 @@
 
     function goHome() {
         {% if source_id is not none %}
-            {% if form_type == "biospecimen" %}
-                window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}/kits");
+            {% if reconsent is not none %}
+                    window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}/decline_reconsent");
             {% else %}
-                window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}");
+                {% if form_type == "biospecimen" %}
+                    window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}/kits");
+                {% else %}
+                    window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}");
+                {% endif %}
             {% endif %}
         {% else %}
             window.location.replace("/accounts/{{ account_id |e }}");
@@ -149,9 +153,9 @@
 
             if($form_name.valid()) {
                 var duplicate_source_check_msg = "{{ _('It looks like you are creating a new profile that may be similar or the same as an existing profile. If this is the same person as an existing profile, please consider providing new samples or survey responses under that profile.') }}"
-                var reconsent = "{{ reconsent |e }}";
+                var skip_dupe_check = "{{ skip_dupe_check |e }}";
 
-                if(reconsent == false) {
+                if(skip_dupe_check == false) {
                     var name = $('#'+$form_id+'_participant_name').val();
                     $.ajax({
                         url: '{{ duplicate_source_check }}',
@@ -207,6 +211,12 @@
 {% block content%}
 
 <div class="container default-container">
+    {% if reconsent is not none %}
+        <div id="consent_alert" class="alert alert-consent" role="alert">
+            <strong>{{ _('Your consent is needed to proceed.') }}</strong><br />
+            {{ _('We\'ve made some changes to the project since you last logged in, including an update to our consent agreement. To proceed, please provide your updated consent.') }}
+        </div>
+    {% endif %}
     {% if age_range != None %}
         <input type="hidden" name="age-range" value="{{ age_range }}" />
         <div class="row mb-4">

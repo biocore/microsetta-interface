@@ -53,6 +53,7 @@ TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
 LANG_KEY = "language"
+RECONSENT_DECLINED_KEY = "reconsent_declined"
 
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
@@ -146,6 +147,116 @@ KITS_TAB_WHITELIST = {'US', 'ES', 'JP'}
 
 # Countries allowed to view the contents of the My Nutrition tab
 NUTRITION_TAB_WHITELIST = {'US'}
+
+# Description of MelissaData error codes to use on the /update_address path.
+# https://wiki.melissadata.com/?title=Result_Code_Details#Global_Address_Ver\
+# ification
+ADDRESS_ERRORS = {
+    EN_US_KEY: {
+        'AE01': 'The address could not be verified at least up to the postal '
+                'code level.',
+        'AE02': 'Could not match the input street to a unique street name. '
+                'Either no matches or too many matches found.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
+                '(AVE, ST, BLVD) is not correct and produced multiple possible '
+                'matches.',
+        'AE05': 'The address was matched to multiple records. There is not '
+                'enough information available in the address to break the tie '
+                'between multiple records.',
+        'AE08': 'An address element after the house number, in most cases the '
+                'sub-premise, was not valid.',
+        'AE09': 'An address element after the house number, in most cases the '
+                'sub-premise, was missing.',
+        'AE10': 'The premise (house or building) number for the address is not '
+                'valid.',
+        'AE11': 'The premise (house or building) number for the address is '
+                'missing.',
+        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is invalid.',
+        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is missing.',
+        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
+                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+    },
+    ES_MX_KEY: {
+        'AE01': 'The address could not be verified at least up to the postal '
+                'code level.',
+        'AE02': 'Could not match the input street to a unique street name. '
+                'Either no matches or too many matches found.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
+                '(AVE, ST, BLVD) is not correct and produced multiple possible '
+                'matches.',
+        'AE05': 'The address was matched to multiple records. There is not '
+                'enough information available in the address to break the tie '
+                'between multiple records.',
+        'AE08': 'An address element after the house number, in most cases the '
+                'sub-premise, was not valid.',
+        'AE09': 'An address element after the house number, in most cases the '
+                'sub-premise, was missing.',
+        'AE10': 'The premise (house or building) number for the address is not '
+                'valid.',
+        'AE11': 'The premise (house or building) number for the address is '
+                'missing.',
+        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is invalid.',
+        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is missing.',
+        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
+                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+    },
+    ES_ES_KEY: {
+        'AE01': 'The address could not be verified at least up to the postal '
+                'code level.',
+        'AE02': 'Could not match the input street to a unique street name. '
+                'Either no matches or too many matches found.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
+                '(AVE, ST, BLVD) is not correct and produced multiple possible '
+                'matches.',
+        'AE05': 'The address was matched to multiple records. There is not '
+                'enough information available in the address to break the tie '
+                'between multiple records.',
+        'AE08': 'An address element after the house number, in most cases the '
+                'sub-premise, was not valid.',
+        'AE09': 'An address element after the house number, in most cases the '
+                'sub-premise, was missing.',
+        'AE10': 'The premise (house or building) number for the address is not '
+                'valid.',
+        'AE11': 'The premise (house or building) number for the address is '
+                'missing.',
+        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is invalid.',
+        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is missing.',
+        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
+                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+    },
+    JA_JP_KEY: {
+        'AE01': 'The address could not be verified at least up to the postal '
+                'code level.',
+        'AE02': 'Could not match the input street to a unique street name. '
+                'Either no matches or too many matches found.',
+        'AE03': 'The combination of directionals (N, E, SW, etc) and the suffix '
+                '(AVE, ST, BLVD) is not correct and produced multiple possible '
+                'matches.',
+        'AE05': 'The address was matched to multiple records. There is not '
+                'enough information available in the address to break the tie '
+                'between multiple records.',
+        'AE08': 'An address element after the house number, in most cases the '
+                'sub-premise, was not valid.',
+        'AE09': 'An address element after the house number, in most cases the '
+                'sub-premise, was missing.',
+        'AE10': 'The premise (house or building) number for the address is not '
+                'valid.',
+        'AE11': 'The premise (house or building) number for the address is '
+                'missing.',
+        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is invalid.',
+        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
+                'Contract) Box number is missing.',
+        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
+                '(CMRA) and the Private Mail Box (PMB or #) number is missing.'
+    },
+}
 
 # TODO: Move this sort of survey info ino the database
 SURVEY_INFO = {
@@ -456,19 +567,19 @@ def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
             current_state[REROUTE_KEY] = source_output
             return NEEDS_REROUTE, current_state
 
-    # Test if biospecimen consent is required! If Required,
-    # route user to biospecimen consent
-    needs_reroute, consent_output, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' %
-        (acct_id, source_id, 'biospecimen'))
+        # Test if biospecimen consent is required! If Required,
+        # route user to biospecimen consent
+        needs_reroute, consent_output, _ = ApiRequest.get(
+            '/accounts/%s/source/%s/consent/%s' %
+            (acct_id, source_id, 'biospecimen'))
 
-    if needs_reroute:
-        current_state[REROUTE_KEY] = consent_output
-        return NEEDS_REROUTE, current_state
+        if needs_reroute:
+            current_state[REROUTE_KEY] = consent_output
+            return NEEDS_REROUTE, current_state
 
-    if consent_output["result"]:
-        session["source_id"] = source_id
-        return NEEDS_BIOSPECIMEN_CONSENT, current_state
+        if consent_output["result"]:
+            session["source_id"] = source_id
+            return NEEDS_BIOSPECIMEN_CONSENT, current_state
 
     return BIOSPECIMEN_PREREQS_MET, current_state
 
@@ -959,6 +1070,10 @@ def get_account(*, account_id=None):
     if "source_id" in session:
         session.pop("source_id")
 
+    # also remove the reconsent_declined variable from the session scope
+    if RECONSENT_DECLINED_KEY in session:
+        session.pop(RECONSENT_DECLINED_KEY)
+
     sources = [translate_source(s) for s in sources]
 
     japan_user = False
@@ -1158,13 +1273,27 @@ def get_fill_source_survey(*,
     if has_error:
         return survey_output
 
+    # We need to know if their consent is current if they're trying to take an
+    # external survey. Profiles without current consent can view their surveys
+    # but we'll block them from updating them on the POST action.
+    need_reconsent = check_current_consent(account_id, source_id, "data")
+
     if survey_template_id == MYFOODREPO_ID:
+        if need_reconsent:
+            return render_consent_page(account_id, source_id, "data", reconsent=True)
+
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == POLYPHENOL_FFQ_ID:
+        if need_reconsent:
+            return render_consent_page(account_id, source_id, "data", reconsent=True)
+
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == SPAIN_FFQ_ID:
+        if need_reconsent:
+            return render_consent_page(account_id, source_id, "data", reconsent=True)
+
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     else:
@@ -1246,7 +1375,8 @@ def get_fill_source_survey(*,
             survey_est_minutes=survey_est_minutes,
             survey_question_count=survey_question_count,
             previous_survey=previous_survey,
-            next_survey=next_survey
+            next_survey=next_survey,
+            need_reconsent=need_reconsent
         )
 
 
@@ -1255,6 +1385,15 @@ def get_fill_source_survey(*,
 def post_ajax_fill_local_source_survey(*, account_id=None, source_id=None,
                                        survey_template_id=None, body=None,
                                        target=None):
+    # We hid the submit buttons for users who need to reconsent, but let's
+    # be defensive and make sure someone has current consent.
+    need_reconsent = check_current_consent(account_id, source_id, "data")
+
+    if need_reconsent:
+        return render_consent_page(
+            account_id, source_id, "data", reconsent=True
+        )
+
     # Private API has no ability to handle a survey submission without
     # any questions in the body. Therefore, if the body is null, we're going
     # to bypass submitting to the API.
@@ -1315,6 +1454,13 @@ def post_generate_vioscreen_url(*,
                                 account_id=None,
                                 source_id=None,
                                 body=None):
+    need_reconsent = check_current_consent(account_id, source_id, "data")
+
+    if need_reconsent:
+        return render_consent_page(
+            account_id, source_id, "data", reconsent=True
+        )
+
     ffq_code = body['ffq_code']
 
     suffix = "vspassthru"
@@ -1404,7 +1550,8 @@ def top_food_report_pdf(*,
     return response
 
 
-def render_consent_page(account_id, source_id, form_type, sample_ids=None):
+def render_consent_page(account_id, source_id, form_type, sample_ids=None,
+                        reconsent=None):
     endpoint = SERVER_CONFIG["endpoint"]
 
     relative_post_url = _make_acct_path(account_id,
@@ -1435,7 +1582,7 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None):
     # that duplicate source is not checked by jquery
     # as this form is used either for recosent or
     # biospecimen consent
-    reconsent = True
+    skip_dupe_check = True
 
     return _render_with_defaults(
         'new_participant.jinja2',
@@ -1450,12 +1597,30 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None):
         participant_name=source_output['source_name'],
         age_range=source_output['consent']['age_range'],
         account_id=account_id,
-        source_id=source_id
+        source_id=source_id,
+        skip_dupe_check=skip_dupe_check
+    )
+
+
+def decline_reconsent(*, account_id, source_id):
+    # Add a variable to the session scope so the user can see their existing
+    # information but not add or update anything
+    session[RECONSENT_DECLINED_KEY] = True
+
+    return redirect(
+        "/accounts/%s/sources/%s" %
+        (account_id, source_id)
     )
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_source(*, account_id=None, source_id=None):
+    # If the user is switching profiles, we need to remove the
+    # reconsent_declined variable from the session scope if it exists
+    if session.get("source_id", False) and session["source_id"] != source_id\
+            and session.get(RECONSENT_DECLINED_KEY, False):
+        del session[RECONSENT_DECLINED_KEY]
+
     session["source_id"] = source_id
 
     # Retrieve the account to determine re-consent status
@@ -1464,14 +1629,11 @@ def get_source(*, account_id=None, source_id=None):
     if has_error:
         return account_output
 
-    has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' % (account_id, source_id, 'data'))
+    need_reconsent = check_current_consent(account_id, source_id, "data")
 
-    if has_error:
-        return consent_required
-
-    if consent_required["result"]:
-        return render_consent_page(account_id, source_id, "data")
+    if not session.get(ADMIN_MODE_KEY, False) and need_reconsent\
+            and not session.get(RECONSENT_DECLINED_KEY, False):
+        return render_consent_page(account_id, source_id, "data", reconsent=True)
 
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1585,7 +1747,8 @@ def get_source(*, account_id=None, source_id=None):
                                  local_surveys=local_surveys,
                                  remote_surveys=remote_surveys,
                                  source_name=source_output['source_name'],
-                                 profile_has_samples=profile_has_samples
+                                 profile_has_samples=profile_has_samples,
+                                 need_reconsent=need_reconsent
                                  )
 
 
@@ -1746,9 +1909,12 @@ def get_reports(*, account_id=None, source_id=None):
         return samples_output
 
     valid_samples = []
+    pending_samples = []
     for sample in samples_output:
         if sample['sample_edit_locked'] is True:
             valid_samples.append(sample)
+        else:
+            pending_samples.append(sample)
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
@@ -1757,6 +1923,7 @@ def get_reports(*, account_id=None, source_id=None):
         account_id=account_id,
         source_id=source_id,
         samples=valid_samples,
+        pending_samples=pending_samples,
         vio_reg_entries=completed_vios,
         source_name=source_output['source_name'],
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
@@ -1936,7 +2103,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         dt = datetime.fromisoformat(sample_output['sample_datetime'])
         # TODO: This might need some flask_babel calls, hmm...
         sample_output['date'] = dt.strftime("%m/%d/%Y")
-        sample_output['time'] = dt.strftime("%-I:%M %p")
+        sample_output['time'] = dt.strftime("%I:%M %p")
     else:
         sample_output['date'] = ""
         sample_output['time'] = ""
@@ -2248,21 +2415,17 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
 
     # Test if biospecimen consent is required! If Required,
     # route user to biospecimen consent
-    has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' %
-        (account_id, source_id, 'biospecimen'))
+    need_reconsent = check_current_consent(account_id, source_id, "biospecimen")
 
-    if has_error:
-        return consent_required
-
-    if consent_required["result"]:
+    if need_reconsent:
         session["source_id"] = source_id
         sample_ids = ",".join(sample_ids_to_claim)
         return render_consent_page(
             account_id,
             source_id,
             "biospecimen",
-            sample_ids=sample_ids
+            sample_ids=sample_ids,
+            reconsent=True
         )
 
     has_error, survey_output, _ = ApiRequest.get(
@@ -3039,8 +3202,15 @@ def get_update_address(uid=None, email=None):
         if do_return:
             return user_info
         else:
+            error_text = []
+            for code in user_info['error_codes']:
+                error_text.append(
+                    ADDRESS_ERRORS[gettext(EN_US_KEY)][code]
+                )
+
             return _render_with_defaults('update_address.jinja2',
-                                         user_info=user_info)
+                                         user_info=user_info,
+                                         error_text=error_text)
 
 
 def post_update_address(body):
@@ -3056,7 +3226,6 @@ def post_update_address(body):
             "state": body['state'],
             "postal": body['postal'],
             "phone": body['phone'],
-            "residential_address": body['residential_address']
         }
     )
 
@@ -3133,6 +3302,19 @@ def session_locale():
         matched_locale = PARTIAL_TO_FULL_LOCALES[matched_locale]
 
     return matched_locale
+
+
+def check_current_consent(account_id, source_id, consent_type):
+    has_error, consent_required, _ = ApiRequest.get(
+        '/accounts/%s/source/%s/consent/%s' % (
+            account_id, source_id, consent_type
+        )
+    )
+
+    if has_error:
+        return consent_required
+
+    return consent_required["result"]
 
 
 class BearerAuth(AuthBase):

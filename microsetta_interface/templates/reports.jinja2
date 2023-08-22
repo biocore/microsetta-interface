@@ -76,6 +76,19 @@
                 </div>
             </div>
             {% endfor %}
+            {% for sample in pending_samples %}
+            <div class="row mb-2">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    {{ sample.sample_barcode }}
+                </div>
+                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                    <span class="sample-label">{{ _('Not Received Yet') }}</span>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         <div class="card mt-4 p-4">
             <div class="row">

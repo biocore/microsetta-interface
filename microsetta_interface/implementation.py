@@ -54,6 +54,7 @@ ADMIN_MODE_KEY = 'admin_mode'
 LOGIN_INFO_KEY = 'login_info'
 LANG_KEY = "language"
 RECONSENT_DECLINED_KEY = "reconsent_declined"
+SOURCE_ID = "source_id"
 
 HOME_URL = "/home"
 HELP_EMAIL = "microsetta@ucsd.edu"
@@ -523,7 +524,7 @@ def _check_acct_prereqs(account_id, current_state=None):
 def _check_source_prereqs(acct_id, source_id, current_state=None):
     SURVEY_TEMPLATE_ID_KEY = "survey_template_id"
     current_state = {} if current_state is None else current_state
-    current_state['source_id'] = source_id
+    current_state[SOURCE_ID] = source_id
 
     if not session.get(ADMIN_MODE_KEY, False):
         # Get the input source
@@ -560,7 +561,7 @@ def _check_source_prereqs(acct_id, source_id, current_state=None):
 
 def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
     current_state = {} if current_state is None else current_state
-    current_state['source_id'] = source_id
+    current_state[SOURCE_ID] = source_id
 
     if not session.get(ADMIN_MODE_KEY, False):
         # Get the input source
@@ -582,7 +583,7 @@ def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
             return NEEDS_REROUTE, current_state
 
         if consent_output["result"]:
-            session["source_id"] = source_id
+            session[SOURCE_ID] = source_id
             return NEEDS_BIOSPECIMEN_CONSENT, current_state
 
     return BIOSPECIMEN_PREREQS_MET, current_state
@@ -686,7 +687,7 @@ def prerequisite(allowed_states: list, **parameter_overrides):
             # Check relevant prereqs from those arguments
             prereqs_step, curr_state = _check_relevant_prereqs(
                 kwargs_copy.get('account_id'),
-                kwargs_copy.get('source_id')
+                kwargs_copy.get(SOURCE_ID)
             )
 
             # Route to closest sink if state doesn't match a required state
@@ -724,7 +725,7 @@ def _parse_jwt(token):
 def _route_to_closest_sink(prereqs_step, current_state):
     # print("Current Prereq Step:", prereqs_step)
     acct_id = current_state.get("account_id", None)
-    source_id = current_state.get("source_id", None)
+    source_id = current_state.get(SOURCE_ID, None)
 
     if prereqs_step == NEEDS_REROUTE:
         # where you get rerouted to depends on why you need
@@ -887,7 +888,7 @@ def get_home():
 
         if len(sources) == 1:
             return redirect(
-                f'/accounts/{account_id}/sources/{sources[0]["source_id"]}'
+                f'/accounts/{account_id}/sources/{sources[0][SOURCE_ID]}'
             )
         else:
             return redirect(f'/accounts/{account_id}')
@@ -1071,8 +1072,8 @@ def get_account(*, account_id=None):
     # if the user chooses to go back from source detail to
     # account overview, source id must be cleared from the
     # session
-    if "source_id" in session:
-        session.pop("source_id")
+    if SOURCE_ID in session:
+        session.pop(SOURCE_ID)
 
     # also remove the reconsent_declined variable from the session scope
     if RECONSENT_DECLINED_KEY in session:
@@ -1190,8 +1191,8 @@ def post_create_human_source(*, account_id=None, body=None):
         # check if source id is present in session
         # this is done to check if the source is providing
         # a re-consent document.
-        if "source_id" in session:
-            source_id = session['source_id']
+        if SOURCE_ID in session:
+            source_id = session[SOURCE_ID]
 
             # If source already exist, only latest consent
             # needs to be signed. Sign the consent doc
@@ -1204,7 +1205,7 @@ def post_create_human_source(*, account_id=None, body=None):
 
             # remove source id fro m session once the consent is
             # signed to avoid conflicts
-            session.pop("source_id")
+            session.pop(SOURCE_ID)
             return _refresh_state_and_route_to_sink(account_id, source_id)
 
         # If source not exist, create one
@@ -1217,7 +1218,7 @@ def post_create_human_source(*, account_id=None, body=None):
             if has_error:
                 return consent_output
 
-            new_source_id = consent_output["source_id"]
+            new_source_id = consent_output[SOURCE_ID]
 
             # Sign consent
             has_error, consent_output, _ = ApiRequest.post(
@@ -1230,7 +1231,7 @@ def post_create_human_source(*, account_id=None, body=None):
             return _refresh_state_and_route_to_sink(account_id, new_source_id)
 
     else:
-        source_id = session['source_id']
+        source_id = session[SOURCE_ID]
         consent_type = "biospecimen"
 
         has_error, consent_output, _ = ApiRequest.post(
@@ -1240,7 +1241,7 @@ def post_create_human_source(*, account_id=None, body=None):
         if has_error:
             return consent_output
 
-        session.pop("source_id")
+        session.pop(SOURCE_ID)
         return post_claim_samples(
             account_id=account_id,
             source_id=source_id,
@@ -1627,11 +1628,12 @@ def decline_reconsent(*, account_id, source_id):
 def get_source(*, account_id=None, source_id=None):
     # If the user is switching profiles, we need to remove the
     # reconsent_declined variable from the session scope if it exists
-    if session.get("source_id", False) and session["source_id"] != source_id\
-            and session.get(RECONSENT_DECLINED_KEY, False):
-        del session[RECONSENT_DECLINED_KEY]
+    if SOURCE_ID in session:
+        if session[SOURCE_ID] != source_id:
+            if session.get(RECONSENT_DECLINED_KEY, False):
+                del session[RECONSENT_DECLINED_KEY]
 
-    session["source_id"] = source_id
+    session[SOURCE_ID] = source_id
 
     # Retrieve the account to determine re-consent status
     has_error, account_output, _ = ApiRequest.get(
@@ -1641,11 +1643,12 @@ def get_source(*, account_id=None, source_id=None):
 
     need_reconsent = check_current_consent(account_id, source_id, "data")
 
-    if not session.get(ADMIN_MODE_KEY, False) and need_reconsent\
-            and not session.get(RECONSENT_DECLINED_KEY, False):
-        return render_consent_page(
-            account_id, source_id, "data", reconsent=True
-        )
+    if session.get(ADMIN_MODE_KEY, False) is False:
+        if need_reconsent:
+            if session.get(RECONSENT_DECLINED_KEY, False) is False:
+                return render_consent_page(
+                    account_id, source_id, "data", reconsent=True
+                )
 
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -2432,7 +2435,7 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
     )
 
     if need_reconsent:
-        session["source_id"] = source_id
+        session[SOURCE_ID] = source_id
         sample_ids = ",".join(sample_ids_to_claim)
         return render_consent_page(
             account_id,

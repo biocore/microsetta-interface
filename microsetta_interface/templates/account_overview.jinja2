@@ -52,13 +52,28 @@
     <div class="row mb-5">
         {% for source in sources %}
         <div class="col-md-4 mb-4">
-            <div class="card card-profile">
-                <img src="/static/img/profile_card_icon.png" class="mx-auto card-profile-icon">
-                <h2 class="centered profile-card-h2">{{ source.source_name|e}}</h2>
-                <a class="btn btn-blue-gradient centered" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">
-                    {{ _('Go to My Profile') }}
-                </a>
-            </div>
+            {% if source.alerts > 0 %}
+                <div class="card card-profile-alerts">
+                    <img src="/static/img/profile_card_icon.png" class="mx-auto card-profile-icon">
+                    <h2 class="profile-card-h2 mx-auto mt-2 mb-3">{{ source.source_name|e}}</h2>
+                    <div class="alert-updates mx-auto mb-3">
+                        {% if source.alerts > 1 %}
+                            {{ _('You have') }}&nbsp;<span class="orange-text">{{ source.alerts }}</span>&nbsp;{{ _('updates') }}
+                        {% else %}
+                            {{ _('You have') }}&nbsp;<span class="orange-text">{{ source.alerts }}</span>&nbsp;{{ _('update') }}
+                        {% endif %}
+                        <a class="btn btn-orange ms-4" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">View</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card card-profile">
+                    <img src="/static/img/profile_card_icon.png" class="mx-auto card-profile-icon">
+                    <h2 class="profile-card-h2 mx-auto mt-2 mb-4">{{ source.source_name|e}}</h2>
+                    <a class="btn btn-blue-gradient mx-auto" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">
+                        {{ _('Go to My Profile') }}
+                    </a>
+                </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

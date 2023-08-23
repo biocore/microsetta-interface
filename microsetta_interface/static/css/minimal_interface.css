@@ -217,6 +217,15 @@ a.breadcrumb-item-profile {
     color: var(--tmi-red);
 }
 
+.btn-orange {
+    background: var(--tmi-orange);
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    color: #ffffff;
+}
+
 .card-header {
     background-color: #ffffff;
     color: #222222;
@@ -374,6 +383,18 @@ p.tmi-content {
         to bottom,
         #006A96 0px,
         #006A96 100px,
+        white 100px,
+        white 270px
+    );
+    border-bottom: 0px;
+}
+
+.card-profile-alerts {
+    height: 270px;
+    background: linear-gradient(
+        to bottom,
+        var(--tmi-orange) 0px,
+        var(--tmi-orange) 100px,
         white 100px,
         white 270px
     );
@@ -796,6 +817,30 @@ li.active-profile {
     border-left: 8px solid var(--tmi-orange);
     border-radius: 12px;
     color: var(--tmi-gray-90);
+}
+
+.alert-consent > ul {
+    margin-bottom: 0px;
+}
+
+.alert-consent > ul > li > a {
+    color: var(--tmi-gray-90) !important;
+}
+
+.alert-updates {
+    background: var(--tmi-orange-bg);
+    border-left: 8px solid var(--tmi-orange);
+    border-radius: 12px;
+    color: var(--tmi-gray-90);
+    height: 48px;
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
 }
 
 .blue-bg-card {
@@ -1366,4 +1411,8 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 #system_message {
     margin-left: 1rem;
     margin-right: 1rem;
+}
+
+.orange-text {
+    color: var(--tmi-orange);
 }

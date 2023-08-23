@@ -1079,6 +1079,19 @@ def get_account(*, account_id=None):
     if RECONSENT_DECLINED_KEY in session:
         session.pop(RECONSENT_DECLINED_KEY)
 
+    # Determine if the source/profile has any action items. This framework
+    # will evolve over time.
+    for s in sources:
+        alerts = 0
+
+        need_reconsent_d = check_current_consent(
+            account_id, s[SOURCE_ID], "data"
+        )
+        if need_reconsent_d:
+            alerts += 1
+
+        s['alerts'] = alerts
+
     sources = [translate_source(s) for s in sources]
 
     japan_user = False
@@ -1162,7 +1175,8 @@ def get_consent_page(*, account_id=None):
         return consent_output
 
     form_type = "data"
-    reconsent = False
+    skip_dupe_check = False
+    reconsent=None
 
     return _render_with_defaults(
         'new_participant.jinja2',
@@ -1171,12 +1185,13 @@ def get_consent_page(*, account_id=None):
         duplicate_source_check=duplicate_source_check,
         home_url=home_url,
         form_type=form_type,
-        reconsent=reconsent,
+        skip_dupe_check=skip_dupe_check,
         language_tag=session_locale(),
         account_id=account_id,
         participant_name=None,
         age_range=None,
-        source_id=None
+        source_id=None,
+        reconsent=reconsent
     )
 
 
@@ -1242,11 +1257,19 @@ def post_create_human_source(*, account_id=None, body=None):
             return consent_output
 
         session.pop(SOURCE_ID)
-        return post_claim_samples(
-            account_id=account_id,
-            source_id=source_id,
-            sample_ids=body['sample_ids']
-        )
+        # Yes, "None" is coming through as a string in this instance, not as
+        # an actual None type.
+        if body["sample_ids"] != "None":
+            return post_claim_samples(
+                account_id=account_id,
+                source_id=source_id,
+                sample_ids=body['sample_ids']
+            )
+        else:
+            return redirect(
+                "/accounts/%s/sources/%s/kits" %
+                (account_id, source_id)
+            )
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1362,6 +1385,11 @@ def get_fill_source_survey(*,
             ctr = 0
             trig_ctr = 0
             for field in group['fields']:
+                if need_reconsent:
+                    # If the user has not agreed to the current consent, we
+                    # disable all of the fields.
+                    field['disabled'] = True
+
                 if "triggered_by" in field:
                     field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
                                      + ". " + field['label']
@@ -1828,6 +1856,13 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
 
         prompt_survey_update = prompt_response['prompt']
 
+    need_reconsent_data = check_current_consent(
+        account_id, source_id, "data"
+    )
+    need_reconsent_biospecimen = check_current_consent(
+        account_id, source_id, "biospecimen"
+    )
+
     return _render_with_defaults(
         'kits.jinja2',
         account_id=account_id,
@@ -1842,7 +1877,9 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         public_endpoint=SERVER_CONFIG['public_api_endpoint'],
         profile_has_samples=profile_has_samples,
         prompt_survey_update=prompt_survey_update,
-        prompt_survey_id=BASIC_INFO_ID
+        prompt_survey_id=BASIC_INFO_ID,
+        need_reconsent_data=need_reconsent_data,
+        need_reconsent_biospecimen=need_reconsent_biospecimen
     )
 
 
@@ -2037,6 +2074,22 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
     )
 
 
+def get_reconsent(*, account_id, source_id, consent_type):
+    # Let's make sure they actually need to reconsent
+    need_reconsent = check_current_consent(
+        account_id, source_id, consent_type
+    )
+
+    if need_reconsent is False:
+        # User shouldn't be here, send them back to their profile
+        return redirect(
+            "/accounts/%s/sources/%s" %
+            (account_id, source_id)
+        )
+    else:
+        return render_consent_page(account_id, source_id, consent_type)
+
+
 # Note: ideally this would be represented as a DELETE, not as a GET
 # However, it is used as a link, and HTML links do not support a DELETE
 # action
@@ -2054,7 +2107,7 @@ def get_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([BIOSPECIMEN_PREREQS_MET])
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     has_error, source_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s' %
@@ -2118,27 +2171,55 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         dt = datetime.fromisoformat(sample_output['sample_datetime'])
         # TODO: This might need some flask_babel calls, hmm...
         sample_output['date'] = dt.strftime("%m/%d/%Y")
-        sample_output['time'] = dt.strftime("%I:%M %p")
+        sample_output['time'] = dt.strftime("%-I:%M %p")
     else:
         sample_output['date'] = ""
         sample_output['time'] = ""
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
-    return _render_with_defaults('sample.jinja2',
-                                 account_id=account_id,
-                                 source_id=source_id,
-                                 source_name=source_output['source_name'],
-                                 sample=sample_output,
-                                 sample_sites=sample_sites,
-                                 sample_sites_text=sample_site_translations,
-                                 is_environmental=is_environmental,
-                                 profile_has_samples=profile_has_samples)
+    need_reconsent_data = check_current_consent(
+        account_id, source_id, "data"
+    )
+    need_reconsent_biospecimen = check_current_consent(
+        account_id, source_id, "biospecimen"
+    )
+    return _render_with_defaults(
+        'sample.jinja2',
+        account_id=account_id,
+        source_id=source_id,
+        source_name=source_output['source_name'],
+        sample=sample_output,
+        sample_sites=sample_sites,
+        sample_sites_text=sample_site_translations,
+        is_environmental=is_environmental,
+        profile_has_samples=profile_has_samples,
+        need_reconsent_data=need_reconsent_data,
+        need_reconsent_biospecimen=need_reconsent_biospecimen
+    )
 
 
 # TODO: guess we should also rewrite as ajax post for sample vue form?
 @prerequisite([BIOSPECIMEN_PREREQS_MET])
 def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
+    # We hid the submit buttons for users who need to reconsent, but let's
+    # be defensive and make sure someone has current consent for both data
+    # and biospecimen.
+    need_reconsent_d = check_current_consent(
+        account_id, source_id, "data"
+    )
+    need_reconsent_b = check_current_consent(
+        account_id, source_id, "biospecimen"
+    )
+    if need_reconsent_d is True or need_reconsent_b is True:
+        # They've seen multiple messages telling them to reconsent, we'll
+        # dump them back at the My Kits page.
+        return redirect(
+            "/accounts/%s/sources/%s/kits" %
+            (account_id, source_id)
+        )
+
+
     model = {}
     for x in flask.request.form:
         model[x] = flask.request.form[x]
@@ -2441,8 +2522,7 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
             account_id,
             source_id,
             "biospecimen",
-            sample_ids=sample_ids,
-            reconsent=True
+            sample_ids=sample_ids
         )
 
     has_error, survey_output, _ = ApiRequest.get(

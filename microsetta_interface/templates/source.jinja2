@@ -21,6 +21,12 @@
 
     </style>
     <script type="text/javascript">
+        {% if need_reconsent %}
+        function takeExternalSurvey(survey_link, survey_title, survey_description) {
+            window.location.href = survey_link;
+            return false;
+        }
+        {% else %}
         function takeExternalSurvey(survey_link, survey_title, survey_description) {
             $("#modal-title").empty();
             $("#modal-title").text(survey_title);
@@ -37,6 +43,7 @@
             $("#source_modal").modal('show');
             return false;
         }
+        {% endif %}
 
         function hideModal() {
             $("#source_modal").modal('hide');
@@ -60,7 +67,12 @@
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}
-            <div class="col-6 col-md-4 p-2">
+            <div class="col-12 col-sm-6 col-md-4 p-2">
+            {% if detail.new_tab %}
+                <a style="text-decoration: none" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+            {% else %}
+                <a style="text-decoration: none" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
+            {% endif %}
                 <div class="card card-survey {% if detail.date_last_taken is none and detail.survey_template_id == basic_info_template_id %}card-survey-highlight{% endif %}">
                     <div class="row m-2 survey-info-row">
                         {% if detail.date_last_taken is not none %}
@@ -80,24 +92,15 @@
                     <div class="card-survey-bg-progress mx-auto mb-4" style="background-color: #D9ECDB;">
                         <img src="/static/img/survey_complete.svg" class="survey-complete-icon" />
                     {% endif %}
-                        <div class="card-survey-bg-blank">
-                        {% if detail.new_tab %}
-                            <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                        {% else %}
-                            <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
-                        {% endif %}
-                                <img src="/static/img/{{ detail.icon }}" class="card-survey-icon">
-                            </a>
+                        <div class="card-survey-bg-blank survey-title mx-auto">
+                            <img src="/static/img/{{ detail.icon }}" class="card-survey-icon">
                         </div>
                     </div>
-                    {% if detail.new_tab %}
-                        <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                    {% else %}
-                        <a class="survey-title mx-auto" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
-                    {% endif %}
+                    <div class="survey-title mx-auto">
                         {{ detail.survey_template_title|e }}
-                    </a>
+                    </div>
                 </div>
+                </a>
             </div>
         {% endfor %}
         </div>
@@ -106,7 +109,10 @@
         </p>
         <div class="row mt-4">
         {% for detail in remote_surveys %}
-            <div class="col-6 col-md-4 p-2">
+            <div class="col-12 col-sm-6 col-md-4 p-2">
+            {% if not detail.answered %}
+                <a style="text-decoration: none" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+            {% endif %}
                 <div class="card card-survey-external">
                     <div class="row m-2 survey-info-row">
                         {% if detail.answered %}
@@ -116,28 +122,24 @@
                         {% endif %}
                         <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
                     </div>
-                    <div class="row m-3 text-center">
+                    <div class="row m-3 text-center survey-title">
                         {% if not detail.answered %}
-                            <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                                <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
-                            </a>
+                            <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
                         {% else %}
                             <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
-                        {% endif %}
-                        {% if not detail.answered %}
-                            </a>
                         {% endif %}
                     </div>
                     <div class="row text-center">
                     {% if not detail.answered %}
-                        <a class="survey-title" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-                            {{ detail.survey_template_title|e }}
-                        </a>
+                        <span class="survey-title">{{ detail.survey_template_title|e }}</span>
                     {% else %}
                         <span class="survey-title-taken">{{ detail.survey_template_title|e }}</span>
                     {% endif %}
                     </div>
                 </div>
+            {% if not detail.answered %}
+                </a>
+            {% endif %}
             </div>
         {% endfor %}
         </div>

@@ -162,6 +162,14 @@
             document.getElementById('add_kit_card').style.display = '';
             document.getElementById('kit_name').focus();
         }
+
+        function checkHiddenState() {
+            if(document.getElementById('hidden_plus_stuff').style.display == '') {
+                document.getElementById('hidden_plus_stuff').style.display = 'none';
+            } else {
+                document.getElementById('hidden_plus_stuff').style.display = '';
+            }
+        }
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -198,10 +206,10 @@
         </div>
         <div class="card mt-4 p-4">
             <div class="row">
-                <div class="col col-md-2">
+                <div class="col col-lg-2">
                     <h1>{{ _('My Kits') }}</h1>
                 </div>
-                <div class="plus-button-wrapper p-0" onclick="document.getElementById('hidden_plus_stuff').style.display = '';" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
+                <div class="plus-button-wrapper p-0" onclick="checkHiddenState();" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
                     <div class="plus-button-white-bg">
                         <img src="/static/img/plus_button.svg" class="plus-button-img">
                         <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">

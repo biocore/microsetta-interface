@@ -98,6 +98,10 @@
                 padding-right: 10px;
             }
         }
+
+        .vue-form-generator .form-control {
+            color: #212519 !important;
+        }
     </style>
     <script>
         // Overwrite and localize the messages used, based on the example from:
@@ -157,7 +161,12 @@
                 field.visible = function() {
                     let visible = false;
                     for (let entry of field.triggered_by) {
-                        visible |= (model[entry['q_id']] === entry['response']);
+                        // Triggering from checkbox lists needs a special casing to check whether the triggering value is in the array of checked boxes, rather than a strict equality
+                        if(model[entry['q_id']] instanceof Array) {
+                            visible |= (model[entry['q_id']].includes(entry['response']));
+                        } else {
+                            visible |= (model[entry['q_id']] === entry['response']);
+                        }
                     }
                     // If a triggered question is switched from visible to hidden, we're going to remove the answer from the model
                     if(visible == false) {
@@ -176,13 +185,25 @@
 {% endblock %}
 {% block content %}
     <div class="container default-container">
+    {% if need_reconsent %}
+        <div id="consent_alert" class="alert alert-consent" role="alert">
+            {{ _('<strong>Please note</strong>: Since you opted to not update your consent agreement, you may view your existing profile data, but may not update or revise your responses.') }}
+        </div>
+    {% endif %}
         <div class="row align-items-center mb-4">
             <div class="col-xs-12 col-md-2 survey-header-icon">
                 <img src="/static/img/{{ survey_icon}}" />
             </div>
             <div class="col-xs-12 col-md-10">
                 <h1 class="h1-survey">{{ survey_schema['groups'][0]['legend'] }}</h1>
-                <span class="survey-subheader">{{ survey_est_minutes }} {{ _('minutes') }} - {{ survey_question_count }} {{ _('questions') }}</span>
+                <span class="survey-subheader">
+                    {{ survey_est_minutes }} {{ _('minutes') }} - {{ survey_question_count }}
+                    {% if survey_question_count > 1 %}
+                        {{ _('questions') }}
+                    {% else %}
+                        {{ _('question') }}
+                    {% endif %}
+                </span>
             </div>
         </div>
     </div>
@@ -247,90 +268,92 @@
             }
         }
 
-        last_group = survey_schema.groups[survey_schema.groups.length-1];
-        {% if previous_survey is none %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Save & Go to Profile') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-6 col-md-10",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            },{
-                buttonText: "{{ _('Next') }}",
-                styleClasses: "tmi-survey-button-blue col-6 col-md-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ next_survey['survey_template_id'] }});
-                }
-            });
-        {% elif next_survey is none %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Previous') }}",
-                styleClasses: "tmi-survey-button-white col-4 col-md-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ previous_survey['survey_template_id'] }});
-                }
-            },
-            {
-                buttonText: "{{ _('Save & Go to Profile') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-4 col-md-8",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            },{
-                buttonText: "{{ _('Finish') }}",
-                styleClasses: "tmi-survey-button-blue col-4 col-md-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            });
-        {% else %}
-            last_group.fields.push(
-            {
-                buttonText: "{{ _('Previous') }}",
-                styleClasses: "tmi-survey-button-white col-4 col-md-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ previous_survey['survey_template_id'] }});
-                }
-            },
-            {
-                buttonText: "{{ _('Save & Go to Profile') }}",
-                styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-4 col-md-8",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey("home");
-                }
-            },{
-                buttonText: "{{ _('Next') }}",
-                styleClasses: "tmi-survey-button-blue col-4 col-md-2",
-                type: "submit",
-                validateBeforeSubmit: true,
-                onSubmit: function(){
-                    $("input").prop('disabled', true);
-                    return postSurvey({{ next_survey['survey_template_id'] }});
-                }
-            });
+        {% if not need_reconsent %}
+            last_group = survey_schema.groups[survey_schema.groups.length-1];
+            {% if previous_survey is none %}
+                last_group.fields.push(
+                {
+                    buttonText: "{{ _('Save & Go to Profile') }}",
+                    styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-6 col-md-10",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey("home");
+                    }
+                },{
+                    buttonText: "{{ _('Next') }}",
+                    styleClasses: "tmi-survey-button-blue col-6 col-md-2",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey({{ next_survey['survey_template_id'] }});
+                    }
+                });
+            {% elif next_survey is none %}
+                last_group.fields.push(
+                {
+                    buttonText: "{{ _('Previous') }}",
+                    styleClasses: "tmi-survey-button-white col-4 col-md-2",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey({{ previous_survey['survey_template_id'] }});
+                    }
+                },
+                {
+                    buttonText: "{{ _('Save & Go to Profile') }}",
+                    styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-4 col-md-8",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey("home");
+                    }
+                },{
+                    buttonText: "{{ _('Finish') }}",
+                    styleClasses: "tmi-survey-button-blue col-4 col-md-2",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey("home");
+                    }
+                });
+            {% else %}
+                last_group.fields.push(
+                {
+                    buttonText: "{{ _('Previous') }}",
+                    styleClasses: "tmi-survey-button-white col-4 col-md-2",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey({{ previous_survey['survey_template_id'] }});
+                    }
+                },
+                {
+                    buttonText: "{{ _('Save & Go to Profile') }}",
+                    styleClasses: "tmi-survey-button-white-noborder tmi-survey-centered col-4 col-md-8",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey("home");
+                    }
+                },{
+                    buttonText: "{{ _('Next') }}",
+                    styleClasses: "tmi-survey-button-blue col-4 col-md-2",
+                    type: "submit",
+                    validateBeforeSubmit: true,
+                    onSubmit: function(){
+                        $("input").prop('disabled', true);
+                        return postSurvey({{ next_survey['survey_template_id'] }});
+                    }
+                });
+            {% endif %}
         {% endif %}
 
         var errors_on_page = 0;

@@ -467,6 +467,18 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/decline_reconsent':
+    get:
+      operationId: microsetta_interface.implementation.decline_reconsent
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '302':
+          description: Set session variable for declined reconsent and redirect to profile page
+
   '/accounts/{account_id}/sources/{source_id}/consents':
     get:
       operationId: microsetta_interface.implementation.get_consents

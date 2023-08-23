@@ -791,6 +791,13 @@ li.active-profile {
     color: var(--tmi-blue);
 }
 
+.alert-consent {
+    background: var(--tmi-orange-bg);
+    border-left: 8px solid var(--tmi-orange);
+    border-radius: 12px;
+    color: var(--tmi-gray-90);
+}
+
 .blue-bg-card {
     background: var(--tmi-blue-bg);
     box-shadow: none;
@@ -976,6 +983,10 @@ li.active-profile {
         height: 100%;
         left: 16px;
         z-index: -1;
+    }
+
+    .tmi-survey-radio-axis > .field-wrap > .radio-list::after {
+        display: none;
     }
 
     .tmi-survey-radio-axis > .field-wrap > .radio-list > label {
@@ -1191,7 +1202,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     padding: 36px;
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
     .kit-sample-container {
         border: 1px solid var(--tmi-blue-bg);
         border-radius: 25px;
@@ -1275,15 +1286,18 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 }
 
 #bristol-chart-1 {
-    height: 100px;
+    max-height: 100px;
+    max-width: 100%;
 }
 
 #bristol-chart-2 {
-    height: 100px;
+    max-height: 100px;
+    max-width: 100%;
 }
 
 #bristol-chart-3 {
-    height: 100px;
+    max-height: 100px;
+    max-width: 100%;
 }
 
 .ffq-info {

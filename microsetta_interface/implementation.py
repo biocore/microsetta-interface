@@ -2204,21 +2204,22 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
 def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     # We hid the submit buttons for users who need to reconsent, but let's
     # be defensive and make sure someone has current consent for both data
-    # and biospecimen.
-    need_reconsent_d = check_current_consent(
-        account_id, source_id, "data"
-    )
-    need_reconsent_b = check_current_consent(
-        account_id, source_id, "biospecimen"
-    )
-    if need_reconsent_d is True or need_reconsent_b is True:
-        # They've seen multiple messages telling them to reconsent, we'll
-        # dump them back at the My Kits page.
-        return redirect(
-            "/accounts/%s/sources/%s/kits" %
-            (account_id, source_id)
+    # and biospecimen. Admins are allowed to update samples regardless of
+    # consent status.
+    if session.get(ADMIN_MODE_KEY, False) is False:
+        need_reconsent_d = check_current_consent(
+            account_id, source_id, "data"
         )
-
+        need_reconsent_b = check_current_consent(
+            account_id, source_id, "biospecimen"
+        )
+        if need_reconsent_d is True or need_reconsent_b is True:
+            # They've seen multiple messages telling them to reconsent, we'll
+            # dump them back at the My Kits page.
+            return redirect(
+                "/accounts/%s/sources/%s/kits" %
+                (account_id, source_id)
+            )
 
     model = {}
     for x in flask.request.form:

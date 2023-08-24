@@ -216,17 +216,17 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <label for="sample_date" name="sample_date_label" class="sample-label">{{ _('Date of Sample Collection') }}*</label>
-                            <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" required\>
+                            <input id="sample_date" name="sample_date" class="form-control" type="text" autocomplete="off" {% if need_reconsent_data or need_reconsent_biospecimen %}disabled{% endif %} required\>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="sample_time" name="sample_time_label" class="sample-label">{{ _('Time of Sample Collection') }}*</label>
-                            <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" required\>
+                            <input id="sample_time" name="sample_time" class="form-control" type="text" value="{{ sample.time | e}}" autocomplete="off" {% if need_reconsent_data or need_reconsent_biospecimen %}disabled{% endif %} required\>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
                             <label for="sample_site" name="sample_site_label" class="sample-label">{{ _('Sample Type') }}*</label>
-                            <select id="sample_site" name="sample_site" class="form-control" required {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>
+                            <select id="sample_site" name="sample_site" class="form-control" required {% if (sample.sample_edit_locked and not admin_mode) or need_reconsent_data or need_reconsent_biospecimen %}disabled{% endif %}>
                                 {% if sample.sample_site is none %}
                                     <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
                                 {% endif %}
@@ -241,7 +241,7 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <label for="sample_notes" id="sample_notes_label" class="sample-label">{{ _('Notes') }}</label>
-                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there anything else about this sample that you would like to add?') }}" rows=3 {% if sample.sample_edit_locked and not admin_mode %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there anything else about this sample that you would like to add?') }}" rows=3 {% if (sample.sample_edit_locked and not admin_mode) or need_reconsent_data or need_reconsent_biospecimen %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -253,7 +253,7 @@
                             <span class="kit-tooltip-text">{{ _('Your sample has been received by our lab and can no longer be edited. Please <a href="mailto:microsetta@ucsd.edu">contact us</a> with any questions.') }}</span>
                             {% else %}
                                 <button class="btn btn-white-blue-border m-2" name="cancel_button" onClick="return goToKits();">{{ _('Cancel') }}</button>
-                                {% if not need_reconsent_data and not need_reconsent_biospeciment %}
+                                {% if not need_reconsent_data and not need_reconsent_biospecimen %}
                                     <button type="submit" class="btn btn-blue-gradient m-2" name="kit_id_button" id="kit_id_button">{{ _('Save') }}</button>
                                 {% endif %}
                             {% endif %}

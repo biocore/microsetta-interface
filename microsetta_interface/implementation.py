@@ -1176,7 +1176,7 @@ def get_consent_page(*, account_id=None):
 
     form_type = "data"
     skip_dupe_check = False
-    reconsent=None
+    reconsent = None
 
     return _render_with_defaults(
         'new_participant.jinja2',

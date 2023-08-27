@@ -206,10 +206,10 @@
                 {{ _('To update your existing samples or contribute new samples, please review the following:') }}<br />
                 <ul>
                 {% if need_reconsent_data %}
-                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/data">Consent to Act as a Research Subject</a></li>
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/data">{{ _('Consent to Act as a Research Subject') }}</a></li>
                 {% endif %}
                 {% if need_reconsent_biospecimen %}
-                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/biospecimen">Consent to Act as a Research Subject - Biospecimen and Future Use Research</a></li>
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/biospecimen">{{ _('Consent to Act as a Research Subject - Biospecimen and Future Use Research') }}</a></li>
                 {% endif %}
                 </ul>
             </div>

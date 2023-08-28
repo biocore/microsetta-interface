@@ -926,7 +926,7 @@ def get_authrocket_callback(token=None, redirect_uri=None):
         # NB: Disabling Japanese for the initial relaunch period until the
         # Tokyo Tech team can review finalized translations
         if primary["language"] == "ja_JP":
-            session[LANG_KEY] = "en_US"
+            session[LANG_KEY] = EN_US_KEY
         else:
             session[LANG_KEY] = primary["language"]
     else:

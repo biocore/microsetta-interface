@@ -226,7 +226,7 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <label for="sample_site" name="sample_site_label" class="sample-label">{{ _('Sample Type') }}*</label>
-                            <select id="sample_site" name="sample_site" class="form-control" required {% if (sample.sample_edit_locked and not admin_mode) or ((need_reconsent_data or need_reconsent_biospecimen) and not admin_mode) %}disabled{% endif %}>
+                            <select id="sample_site" name="sample_site" class="form-control" required {% if not admin_mode and (sample.sample_edit_locked or need_reconsent_data or need_reconsent_biospecimen) %}disabled{% endif %}>
                                 {% if sample.sample_site is none %}
                                     <option disabled selected value> -- {{ _('Select a sample type') }} -- </option>
                                 {% endif %}
@@ -241,7 +241,7 @@
                     <div class="row mt-2">
                         <div class="col-12">
                             <label for="sample_notes" id="sample_notes_label" class="sample-label">{{ _('Notes') }}</label>
-                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there anything else about this sample that you would like to add?') }}" rows=3 {% if (sample.sample_edit_locked and not admin_mode) or ((need_reconsent_data or need_reconsent_biospecimen) and not admin_mode) %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
+                            <textarea class="form-control" id="sample_notes" name="sample_notes" placeholder="{{ _('(Optional) Is there anything else about this sample that you would like to add?') }}" rows=3 {% if not admin_mode and (sample.sample_edit_locked or need_reconsent_data or need_reconsent_biospecimen) %}disabled{% endif %}>{{ sample.sample_notes if sample.sample_notes is not none else '' |e}}</textarea>
                         </div>
                     </div>
                     <div class="row">

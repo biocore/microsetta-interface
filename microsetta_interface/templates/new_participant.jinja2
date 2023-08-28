@@ -211,7 +211,7 @@
 {% block content%}
 
 <div class="container default-container">
-    {% if reconsent != None %}
+    {% if reconsent is not none %}
         <div id="consent_alert" class="alert alert-consent" role="alert">
             <strong>{{ _('Your consent is needed to proceed.') }}</strong><br />
             {{ _('We\'ve made some changes to the project since you last logged in, including an update to our consent agreement. To proceed, please provide your updated consent.') }}

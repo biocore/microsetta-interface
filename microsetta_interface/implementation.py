@@ -923,7 +923,12 @@ def get_authrocket_callback(token=None, redirect_uri=None):
             "account_id": primary['account_id'],
             "email": primary['email']
         }
-        session[LANG_KEY] = primary["language"]
+        # NB: Disabling Japanese for the initial relaunch period until the
+        # Tokyo Tech team can review finalized translations
+        if primary["language"] == "ja_JP":
+            session[LANG_KEY] = "en_US"
+        else:
+            session[LANG_KEY] = primary["language"]
     else:
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {

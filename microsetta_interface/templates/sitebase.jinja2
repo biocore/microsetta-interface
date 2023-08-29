@@ -38,7 +38,7 @@
     <script type="text/javascript">
         function verifyDeleteSource(sourceName) {
             {% if profile_has_samples %}
-                let alertMsg = "{{ _('Profiles with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this profile.') }}";
+                let alertMsg = "{{ _('Profiles with one or more samples assigned cannot be deleted. All samples must be removed prior to deleting this profile.') }}";
                 alert(alertMsg);
                 return false;
             {% else %}

@@ -217,13 +217,21 @@
             {{ _('We\'ve made some changes to the project since you last logged in, including an update to our consent agreement. To proceed, please provide your updated consent.') }}
         </div>
     {% endif %}
-    {% if age_range != None %}
-        <input type="hidden" name="age-range" value="{{ age_range }}" />
+    {% if form_type == "biospecimen" %}
         <div class="row mb-4">
             <div class="col-12 biospecimen-alert">
                 {{ _('Signature and agreement of this consent form is required to process your sample(s).') }}
             </div>
         </div>
+    {% else %}
+        <div class="row mb-4">
+            <div class="col-12 biospecimen-alert">
+                {{ _('Signature and agreement of this consent form is required to update your information.') }}
+            </div>
+        </div>
+    {% endif %}
+    {% if age_range != None %}
+        <input type="hidden" name="age-range" value="{{ age_range }}" />
     {% else %}
     <div class="row">
         <div class="col-12">

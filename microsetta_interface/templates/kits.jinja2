@@ -201,6 +201,19 @@
             {{ _('Thank you for logging your sample information. It looks like you haven\'t updated your profile recently. Please review') }} <a href="/accounts/{{account_id}}/sources/{{source_id}}/take_survey?survey_template_id={{prompt_survey_id}}">{{ _('your survey responses') }}</a> {{ _('to ensure they\'re as current and complete as possible.') }}
         </div>
         {% endif %}
+        {% if profile_has_samples and (need_reconsent_data or need_reconsent_biospecimen) %}
+            <div id="consent_alert" class="alert alert-consent mt-4" role="alert">
+                {{ _('To update your existing samples or contribute new samples, please review the following:') }}<br />
+                <ul>
+                {% if need_reconsent_data %}
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/data">{{ _('Consent to Act as a Research Subject') }}</a></li>
+                {% endif %}
+                {% if need_reconsent_biospecimen %}
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/biospecimen">{{ _('Consent to Act as a Research Subject - Biospecimen and Future Use Research') }}</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        {% endif %}
         <div class="alert alert-primary alert-profile mt-4" role="alert">
             {{ _('Click on the following link if you would like to contribute to receive a kit') }} - <a href="{{ fundrazr_url }}" target="_blank">{{ _('Get a Kit') }}</a>
         </div>

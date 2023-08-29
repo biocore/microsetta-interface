@@ -479,6 +479,26 @@ paths:
         '302':
           description: Set session variable for declined reconsent and redirect to profile page
 
+  '/accounts/{account_id}/sources/{source_id}/reconsent/{consent_type}':
+    get:
+      operationId: microsetta_interface.implementation.get_reconsent
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/consent_type'
+      responses:
+        '200':
+          description: Interface to agree to the current consent document
+          content:
+            text/html:
+              schema:
+                type: string
+        '302':
+          description: Redirect if the user doesn't need to reconsent
+
+
   '/accounts/{account_id}/sources/{source_id}/consents':
     get:
       operationId: microsetta_interface.implementation.get_consents

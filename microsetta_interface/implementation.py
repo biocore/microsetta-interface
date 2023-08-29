@@ -181,58 +181,64 @@ ADDRESS_ERRORS = {
                 'missing.'
     },
     ES_MX_KEY: {
-        'AE01': 'The address could not be verified at least up to the postal '
-                'code level.',
-        'AE02': 'Could not match the input street to a unique street name. '
-                'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
-                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
-                'possible matches.',
-        'AE05': 'The address was matched to multiple records. There is not '
-                'enough information available in the address to break the tie '
-                'between multiple records.',
-        'AE08': 'An address element after the house number, in most cases the '
-                'sub-premise, was not valid.',
-        'AE09': 'An address element after the house number, in most cases the '
-                'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is '
-                'not valid.',
-        'AE11': 'The premise (house or building) number for the address is '
-                'missing.',
-        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
-                'Contract) Box number is invalid.',
-        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
-                'Contract) Box number is missing.',
-        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is '
-                'missing.'
+        'AE01': 'La dirección no se pudo verificar al menos hasta el nivel '
+                'del código postal.',
+        'AE02': 'La dirección ingresada no coincide con una dirección única.'
+                ' Ya sea porque no se encontró una dirección coincidente o '
+                'se encontraron varias coincidencias.',
+        'AE03': 'La combinación de la direccional (N, E, SW, etc.) y el '
+                'sufijo (AVE, ST, BLVD) no es correcta y produce múltiples '
+                'coincidencias.',
+        'AE05': 'La dirección coincidió con múltiples registros. No hay '
+                'suficientes datos disponibles en la dirección para '
+                'diferenciarla entre los múltiples registros.',
+        'AE08': 'Un dato de la dirección después del número de la casa, en '
+                'la mayoría de los casos el sublocal (por ejemplo Unit A, '
+                '#10), no era válido.',
+        'AE09': 'Un dato de la dirección después del número de la casa, en '
+                'la mayoría de los casos el sublocal (por ejemplo Unit A, '
+                '#10), faltaba.',
+        'AE10': 'El número del local (casa o edificio) para la dirección no '
+                'es válido.',
+        'AE11': 'Falta el número del local (casa o edificio) para la '
+                'dirección.',
+        'AE12': 'El número de apartado PO (Apartado postal), RR (Ruta rural) '
+                'o HC (Contrato de carretera) no es válido.',
+        'AE13': 'Falta el número del apartado PO (Apartado postal), RR (Ruta '
+                'rural) o HC (Contrato de carretera).',
+        'AE14': 'La dirección es una Agencia receptora de correo comercial '
+                '(CMRA) y falta el número del buzón de correo privado (PMB '
+                'o #).'
     },
     ES_ES_KEY: {
-        'AE01': 'The address could not be verified at least up to the postal '
-                'code level.',
-        'AE02': 'Could not match the input street to a unique street name. '
-                'Either no matches or too many matches found.',
-        'AE03': 'The combination of directionals (N, E, SW, etc) and the '
-                'suffix (AVE, ST, BLVD) is not correct and produced multiple '
-                'possible matches.',
-        'AE05': 'The address was matched to multiple records. There is not '
-                'enough information available in the address to break the tie '
-                'between multiple records.',
-        'AE08': 'An address element after the house number, in most cases the '
-                'sub-premise, was not valid.',
-        'AE09': 'An address element after the house number, in most cases the '
-                'sub-premise, was missing.',
-        'AE10': 'The premise (house or building) number for the address is '
-                'not valid.',
-        'AE11': 'The premise (house or building) number for the address is '
-                'missing.',
-        'AE12': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
-                'Contract) Box number is invalid.',
-        'AE13': 'The PO (Post Office Box), RR (Rural Route), or HC (Highway '
-                'Contract) Box number is missing.',
-        'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
-                '(CMRA) and the Private Mail Box (PMB or #) number is '
-                'missing.'
+        'AE01': 'La dirección no se pudo verificar al menos hasta el nivel '
+                'del código postal.',
+        'AE02': 'La dirección ingresada no coincide con una dirección única.'
+                ' Ya sea porque no se encontró una dirección coincidente o '
+                'se encontraron varias coincidencias.',
+        'AE03': 'La combinación de la direccional (N, E, SW, etc.) y el '
+                'sufijo (AVE, ST, BLVD) no es correcta y produce múltiples '
+                'coincidencias.',
+        'AE05': 'La dirección coincidió con múltiples registros. No hay '
+                'suficientes datos disponibles en la dirección para '
+                'diferenciarla entre los múltiples registros.',
+        'AE08': 'Un dato de la dirección después del número de la casa, en '
+                'la mayoría de los casos el sublocal (por ejemplo Unit A, '
+                '#10), no era válido.',
+        'AE09': 'Un dato de la dirección después del número de la casa, en '
+                'la mayoría de los casos el sublocal (por ejemplo Unit A, '
+                '#10), faltaba.',
+        'AE10': 'El número del local (casa o edificio) para la dirección no '
+                'es válido.',
+        'AE11': 'Falta el número del local (casa o edificio) para la '
+                'dirección.',
+        'AE12': 'El número de apartado PO (Apartado postal), RR (Ruta rural) '
+                'o HC (Contrato de carretera) no es válido.',
+        'AE13': 'Falta el número del apartado PO (Apartado postal), RR (Ruta '
+                'rural) o HC (Contrato de carretera).',
+        'AE14': 'La dirección es una Agencia receptora de correo comercial '
+                '(CMRA) y falta el número del buzón de correo privado (PMB '
+                'o #).'
     },
     JA_JP_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '

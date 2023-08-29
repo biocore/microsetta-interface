@@ -645,22 +645,22 @@
                        let $td = $(this);
                        let value = $td.text();
                        switch (value) {
-                           case "Kingdom":
+                           case "{{ _('Kingdom') }}":
                                value = "{{ _('The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)') }}";
                                break;
-                           case "Phylum":
+                           case "{{ _('Phylum') }}":
                                value = "{{ _('Within the kingdom Eukarya, this is like the difference between humans and plants') }}";
                                break;
-                           case "Class":
+                           case "{{ _('Class') }}":
                                value = "{{ _('Within the phylum Chordata, this is along the lines of humans and fish') }}";
                                break;
-                           case "Order":
+                           case "{{ _('Order') }}":
                                value = "{{ _('Within the class Mammalia, this is like the difference between whales and a dogs') }}";
                                break;
-                           case "Family":
+                           case "{{ _('Family') }}":
                                value = "{{ _('With the order Carnivora are the families for dogs and cats') }}";
                                break;
-                           case "Genus":
+                           case "{{ _('Genus') }}":
                                value = "{{ _('Within the family Canidae, you would find a genus for foxes and one for wolves') }}";
                                break;
                            default:

@@ -1,0 +1,121 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("My Reports") %}
+{% set show_breadcrumbs = True %}
+
+{% set profile_header = True %}
+{% set profile_header_active = "reports" %}
+{% set profile_header_name = source_name %}
+{% set profile_account_id = account_id %}
+{% set profile_source_id = source_id %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+        .tooltipper {
+          display: inline-block; /* tooltip misplaced horizontally otherwise */
+        }
+    </style>
+    <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
+    <script type="text/javascript">
+
+        function renderButton(sampleId) {
+            var buttonDiv = document.getElementById("btn-view-" + sampleId);
+            buttonDiv.innerHTML = '';
+            var button = document.createElement("a");
+            button.type = "button";
+            button.text = "{{ _('View Results') }}";
+            button.className = "btn btn-white-blue-border";
+            button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
+            buttonDiv.appendChild(button);
+        }
+
+        function addButtonIfData(sampleId, barcode) {
+            let url = '{{public_endpoint}}' + '/sample/list/dataset/{{ barcode_prefix }}' + barcode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    if (data.length > 0) {
+                        renderButton(sampleId);
+                    }
+                }
+            });
+        }
+
+        // Wait for the DOM to be ready
+        $(document).ready(function(){
+            {% for sample in samples %}
+                addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
+            {% endfor %}
+        });
+    </script>
+
+{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
+{% endblock %}
+{% block content %}
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My Kits') }}</h1>
+                </div>
+            </div>
+            {% for sample in samples %}
+            <div class="row mb-2">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    {{ sample.sample_barcode }}
+                </div>
+                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                    <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                </div>
+            </div>
+            {% endfor %}
+            {% for sample in pending_samples %}
+            <div class="row mb-2">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    {{ sample.sample_barcode }}
+                </div>
+                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                    <span class="sample-label">{{ _('Not Received Yet') }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My FFQs') }}</h1>
+                </div>
+            </div>
+            {% for vio in vio_reg_entries %}
+            <div class="row mt-3">
+                <div class="barcode-col ffq-text">
+                    {{ vio.creation_time }}
+                </div>
+                <div class="barcode-col barcode-col-end">
+                    {% if vio.vioscreen_status == 3 %}
+                        <a href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{ vio.survey_id }}/reports/topfoodreport/pdf" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Top Food Report') }}</a>
+                    {% else %}
+                        {% if vio.sample_id is not none %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?sample_id={{ vio.sample_id }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                        {% else %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

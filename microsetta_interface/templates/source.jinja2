@@ -1,6 +1,17 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("Account Samples") %}
+{% set page_title = _("My Profile") %}
 {% set show_breadcrumbs = True %}
+
+{% set profile_header = True %}
+{% set profile_header_active = "profile" %}
+{% set profile_header_name = source_name %}
+{% set profile_account_id = account_id %}
+{% set profile_source_id = source_id %}
+{% set show_tips_icon = True %}
+{% set show_tips_content = "surveys" %}
+
+{% set basic_info_template_id = 10 %}
+
 {% block head %}
     <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
     <style>
@@ -9,321 +20,149 @@
         }
 
     </style>
-    <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
-    <script>
-        let taxonomy = "{{taxonomy}}";
-        let metric = "{{alpha_metric}}";
-        let barcodePrefix = "{{barcode_prefix}}";
-        function make_kit_validation_setup_func(form_name, submitHandler) {
-            // Initialize form validation
-            let form_selector = "form[name='" + form_name + "']";
-            return function() {
-                let validateOptions = {
-                    // Specify validation rules
-                    rules: {
-                        // The key name on the left side is the name attribute
-                        // of an input field. Validation rules are defined
-                        // on the right side
-                        kit_name: {
-                            required: true,
-                            remote: {
-                                url: "/check_kit_valid",
-                            }
-                        }
-                    }
-                };
-                if (submitHandler !== null){
-                    validateOptions["submitHandler"] = submitHandler;
-                }
-                $(form_selector).validate(validateOptions);
-            };
+    <script type="text/javascript">
+        {% if need_reconsent %}
+        function takeExternalSurvey(survey_link, survey_title, survey_description) {
+            window.location.href = survey_link;
+            return false;
         }
+        {% else %}
+        function takeExternalSurvey(survey_link, survey_title, survey_description) {
+            $("#modal-title").empty();
+            $("#modal-title").text(survey_title);
+            $("#survey-description").empty();
+            $("#survey-description").text(survey_description);
+            $("#take-survey").click(async function(e) {
+                window.open(survey_link, '_blank').focus();
+                $("#source_modal").modal('hide');
 
-        let kitSubmitHandler = function(form, evt){
-            let samples_selector = '#samples';
-            let error_txt = "";
-            let successful = false;
-            $(form).ajaxSubmit({
-                success: function (samples, textStatus, jqXHR) {
-                    $(samples_selector).empty();
-                    for (let i = 0; i < samples.length; i++) {
-                        let bc = samples[i].sample_barcode;
-                        let sample_id = samples[i].sample_id;
-                        let item = $('<div class="container list-group-item">' +
-                                     '<div class="row">' +
-                                     '<div class="col-sm">' +
-                                     '<label for="' + bc + '">' + bc + '</label>' +
-                                     '</div>' +
-                                     '<div class="col-sm">' +
-                                     '<input type="checkbox" name="sample_id" id="' + bc + '" value="' + sample_id + '"/>' +
-                                     '</div>' +
-                                     '</div>');
-                        $(samples_selector).append(item);
-                    }
-                    let div = $('#choose_sample_div');
-                    div.collapse('show');
-                    successful = true;
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    error_txt = jqXHR.responseText;
-                },
-                complete: function (data, textStatus, outputObj) {
-                    if (successful)
-                        return;
-                    if (error_txt === "")
-                        error_txt = textStatus;
-                    // Get customized error page that will show whatever error message we captured
-                    // here in the front end
-                    let queryParam = encodeURIComponent(error_txt);
-                    window.location.replace("{{ endpoint }}/error?error_msg=" + queryParam);
-                }
+                // We need to wait a couple of seconds for the external survey to register in the database, then reload the page. This is not ideal.
+                await new Promise(r => setTimeout(r, 5000));
+                window.location.reload();
             });
-        };
-
-        function verifyDissociateSample(sampleId){
-            let confirmMsg = "{{ _('Do you really want to remove this sample from this source?') }} " +
-                "{{ _('Doing so will remove any collection info saved for this sample and will') }} " +
-                "{{ _('unlink it from all surveys.') }}";
-            return window.confirm(confirmMsg);
+            $("#source_modal").modal('show');
+            return false;
         }
+        {% endif %}
 
-        function verifyDeleteSource(sourceName){
-            let confirmMsg = "{{ _('You are deleting source') }} " + sourceName + " {{ _('and all surveys associated with it!') }} " +
-                "{{ _('This operation cannot be undone.  Are you sure you want to delete this source?') }} ";
-            return window.confirm(confirmMsg);
+        function hideModal() {
+            $("#source_modal").modal('hide');
+            return false;
         }
-
-        function renderButton(sampleId) {
-            var buttonDiv = document.getElementById("btn-view-" + sampleId);
-            var button = document.createElement("a");
-            button.type = "button";
-            button.text = "{{ _('View') }}";
-            button.className = "btn btn-outline-info";
-            button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
-            buttonDiv.appendChild(button);
-        }
-
-        function addButtonIfData(sampleId, barcode) {
-            let url = '{{public_endpoint}}' + '/sample/list/dataset/' + barcodePrefix + barcode;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function(data) {
-                    if (data.length > 0) {
-                        renderButton(sampleId);
-                    }
-                }
-            });
-        }
-
-        function disable_link(link_obj) {
-            link_obj.style.opacity = .65;
-            link_obj.style.pointerEvents = "none";
-            return true;
-        }
-
-        function enableTooltips(){
-            $('.tooltipper').tooltip({position: "bottom"});
-        }
-
-        // Wait for the DOM to be ready
-        $(document).ready(function(){
-            let form_name = 'list_kit_form';
-            preventImplicitSubmission(form_name);
-            preclude_whitespace('#kit_name');
-
-            let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
-            kit_validation_setup_func()
-            {% for sample in samples %}
-                addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
-            {% endfor %}
-
-            enableTooltips()
-        });
     </script>
+    <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
 {% endblock %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{source_name}}</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
 {% endblock %}
 {% block content %}
-    {% if needs_assignment %}
-    <div class="alert alert-warning" role="alert">
-        {{ _('It looks like some samples do not have collection information recorded.') }}
-    </div>
-    {% endif %}
-    <h2>{{ _('My Kits') }}</h2>
-    {% if samples|length > 0 %}
-    {{ _('Samples (click on a barcode to provide collection information)') }}:
-    <div class="list-group">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <i>{{ _('Barcode') }}</i>
-                </div>
-                <div class="col-sm">
-                    <i>{{ _('Collection date') }}</i>
-                </div>
-                {% if is_human %}
-                <div class="col-sm">
-                    <i>{{ _('Sample type') }}</i>
-                </div>
-                <div class="col-sm">
-                    <i>{{ _('Results') }}</i>
-                </div>
-                <div class="col-sm">
-                    <i>{{ _('Sample-specific survey') }}</i>
-                </div>
-                {% endif %}
-                <div class="col-sm"></div>
-            </div>
-        </div>
-        {% for sample in samples %}
-        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
-            <div class="row">
-                <div class="col-sm">
-                    <a class="btn btn-outline-info" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}">{{sample.sample_barcode |e}}</a>
-                </div>
-                <div class="col-sm">
-                    {{sample.sample_datetime |e}}
-                </div>
-                {% if is_human %}
-                <div class="col-sm">
-                    {{sample.sample_site |e}}
-                </div>
-                <div class="col-sm">
-                      <div id="btn-view-{{ sample.sample_id }}" ></div>
-                </div>
-                <div class="col-sm">
-                {% if not spain_user and not japan_user %}
-                    {% if sample.ffq and sample.ffq_status == 3 %}
-                        <a class="btn btn-outline-success" href="/accounts/{{account_id}}/sources/{{source_id}}/surveys/{{sample.ffq}}/reports/topfoodreport">{{ _('View Top Food Report') }}</a>
-                    {% else %}
-                        <a class="btn btn-outline-primary" href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}/survey_templates/{{vioscreen_id}}" onClick="return disable_link(this);">{{ _('Food Frequency Questionnaire') }}</a><span class="fa fa-unchecked"/>
-                    {% endif %}  <!-- end of if sample.ffq -->
-                {% endif %} <!-- end of if not spain_user -->
-                </div>
-                {% endif %}  <!-- end of if is_human -->
-                <div class="col-sm {% if sample.sample_remove_locked and not admin_mode %}tooltipper{% endif %}" data-title="{{ _('This sample has been received and cannot be removed.') }}">
-                    <form name="remove_{{ sample.sample_id }}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/samples/{{ sample.sample_id }}/remove" onsubmit="return verifyDissociateSample('{{sample.sample_id}}');">
-                        <button type="submit" class="btn btn-danger" {% if sample.sample_remove_locked and not admin_mode %}style="pointer-events: none;" disabled{% endif %}>{{ _('Remove') }}</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        {% endfor %}  <!-- end of for sample in samples -->
-    </div>
-    {% endif %}
-    {% if samples|length > 1 and is_human %}
-        <br>
-                    <u><i>{{ _('Do I need to take more than one Food Frequency Questionnaire (FFQ)') }}</i></u>?
-                    {{ _('If you are taking all of your samples at the same time, you will only need to complete one. If you are collecting samples over time (e.g., once per week), then please consider taking an FFQ per time point. The FFQs provide valuable dietary research data for the project, so researchers can better understand the relationship between the food you eat and your microbes.') }}
-    {% endif %}  <!-- end of if samples|length > 1 and is_human -->
-    {% if samples|length > 0 %}
-    <hr style="border-top: dotted 1px"/>
-    {% endif %}
-    <form method="get" name="list_kit_form" action="/list_kit_samples">
-        <div class="form-group">
-            {% if claim_kit_name_hint is not none %}
-            <label for="kit_name" name="kit_name_label">{{ _('The kit ID used to create your account has unclaimed samples. To claim samples from this kit, please click "List samples". To claim samples from another kit ID, please enter it here and then click "List Samples"') }}:</label>
-            <input id="kit_name" name="kit_name" class="form-control" type="text" value="{{ claim_kit_name_hint }}"/>
+    <div class="container profile-container">
+        <br />
+        <p class="tmi-tooltip">
+            <strong>
+            {{ _('Lifestyle, health, and diet information is essential in order to gain novel insights into the human microbiome and design better studies.') }}<br />
+            {{ _('You can help us by completing our surveys, starting with your Basic Information.') }}
+            </strong>
+        </p>
+        <div class="row mt-5">
+        {% for detail in local_surveys %}
+            <div class="col-12 col-sm-6 col-md-4 p-2">
+            {% if detail.new_tab %}
+                <a style="text-decoration: none" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
             {% else %}
-            <label for="kit_name" name="kit_name_label">{{ _('To add samples, please enter a kit ID here') }}:</label>
-            <input id="kit_name" name="kit_name" class="form-control" type="text"/>
+                <a style="text-decoration: none" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
             {% endif %}
-         </div>
-        <input type="submit" class="btn btn-primary" value="{{ _('List Samples') }}"/>
-    </form>
-    <p></p>
-    <div class="panel-collapse collapse" id="choose_sample_div">
-        <div class="card card-body">
-            {{ _('Select all samples that should be associated with this source') }}
-                    <form method="post" name="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples">
-                <div class="form-group">
-                    <div id="samples" class="list-group">
+                <div class="card card-survey {% if detail.date_last_taken is none and detail.survey_template_id == basic_info_template_id %}card-survey-highlight{% endif %}">
+                    <div class="row m-2 survey-info-row">
+                        {% if detail.date_last_taken is not none %}
+                            <div class="col-8 small-text survey-info">{{ _('Last modified') }} {{ detail.date_last_taken }}</div>
+                        {% else %}
+                            {% if detail.survey_template_id == basic_info_template_id %}
+                                <div class="col-8 card-survey-new">{{ _('START HERE') }}</div>
+                            {% else %}
+                                <div class="col-8 small-text survey-info">{{ _('Not Completed') }}</div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('minutes') }}</div>
                     </div>
-                    <p></p>
-                    <input type="submit" class="btn btn-primary" value="{{ _('Claim Selected Samples') }}"/>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    {% if available_surveys|length > 0 %}
-    <hr style="border-top: dotted 1px"/>
-    <p>{{ _('Available optional surveys') }}:</p>
-    <div class="list-group">
-        <div class="container">
-            <div class="row">
-                <div class="col-3">
-                    <i>{{ _('Survey Title') }}</i>
-                </div>
-                <div class="col-8">
-                    <i>{{ _('Survey Description') }}</i>
-                </div>
-                <div class="col">
-                    &nbsp;
-                </div>
-            </div>
-        </div>
-        {% for detail in available_surveys %}
-        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
-            <div class="row">
-                <div class="col-3">
-                    {{ detail.survey_template_title|e }}
-                </div>
-                <div class="col-7">
-                    {{ detail.description }}
-                </div>
-                <div class="col-2" style="text-align: right">
-                    {% if detail.new_tab %}
-                    <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+                    {% if detail.answered < 360 %}
+                    <div class="card-survey-bg-progress mx-auto mb-4" style="background: conic-gradient(#006a96 {{ detail.answered }}deg, #c7c7c7 {{ detail.answered }}deg);">
                     {% else %}
-                    <a class="btn btn-primary" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}">
+                    <div class="card-survey-bg-progress mx-auto mb-4" style="background-color: #D9ECDB;">
+                        <img src="/static/img/survey_complete.svg" class="survey-complete-icon" />
                     {% endif %}
-                        {{ _('Start') }}
-                    </a>
+                        <div class="card-survey-bg-blank survey-title mx-auto">
+                            <img src="/static/img/{{ detail.icon }}" class="card-survey-icon">
+                        </div>
+                    </div>
+                    <div class="survey-title mx-auto">
+                        {{ detail.survey_template_title|e }}
+                    </div>
                 </div>
+                </a>
             </div>
-        </div>
         {% endfor %}
+        </div>
+        <p class="tmi-tooltip mt-4">
+            {{ _('Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.') }}
+        </p>
+        <div class="row mt-4">
+        {% for detail in remote_surveys %}
+            <div class="col-12 col-sm-6 col-md-4 p-2">
+            {% if not detail.answered %}
+                <a style="text-decoration: none" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+            {% endif %}
+                <div class="card card-survey-external">
+                    <div class="row m-2 survey-info-row">
+                        {% if detail.answered %}
+                            <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
+                        {% else %}
+                            <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
+                        {% endif %}
+                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
+                    </div>
+                    <div class="row m-3 text-center survey-title">
+                        {% if not detail.answered %}
+                            <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
+                        {% else %}
+                            <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
+                        {% endif %}
+                    </div>
+                    <div class="row text-center">
+                    {% if not detail.answered %}
+                        <span class="survey-title">{{ detail.survey_template_title|e }}</span>
+                    {% else %}
+                        <span class="survey-title-taken">{{ detail.survey_template_title|e }}</span>
+                    {% endif %}
+                    </div>
+                </div>
+            {% if not detail.answered %}
+                </a>
+            {% endif %}
+            </div>
+        {% endfor %}
+        </div>
     </div>
-    <br />
-    {% endif %}
 
-    {% if surveys|length > 0 %}
-    <hr style="border-top: dotted 1px"/>
-    <p>{{ _('Completed surveys') }}:</p>
-    <div class="list-group">
-        {% for survey in surveys %}
-        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
-          <div class="row">
-            <div class="col-sm">
-              {{survey.survey_template_title |e}}
+        <!-- Modal -->
+<div class="modal fade" id="source_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <img src="/static/img/survey_external.svg">
+                <span class="survey-title" id="modal-title"></span>
             </div>
-            <div class="col-sm">
-                {% if survey.answered %}
-                <span class="fa fa-check"/>
-                {% else %}
-                <span class="fa fa-unchecked"/>
-                {% endif %}
+            <div class="modal-body">
+                <p id="survey-description" class="survey-description"></p>
+                <p id="survey-warning" class="survey-warning">{{ _('You will only have one opportunity to take this survey. Please make sure you have ample time before you start.') }}</p>
             </div>
-          </div>
-        </div>
-        {% endfor %}
-    </div>
-    <br>
-    {% endif %}
-    <hr style="border-top: dotted 1px"/>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Sources with one or more samples assigned cannot be deleted.  All samples above must be removed prior to deleting this source.') }}">
-                <form name="delete_{{source_id}}_form" method="post" action="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onsubmit="return verifyDeleteSource('{{source_name}}');">
-                    {{ _('If you need to delete this source, click the following button. Please note, this action can NOT be reversed.') }} <button type="submit" class="btn btn-outline-danger" {% if samples|length > 0 %}style="pointer-events: none;" disabled{% endif %}>{{ _('Delete Source') }}: {{source_name}}</button>
-                </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white-blue-border" id="cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
+                <button type="button" class="btn btn-blue-gradient" id="take-survey">{{ _('Take This Survey Now') }}</button>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

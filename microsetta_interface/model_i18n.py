@@ -14,7 +14,7 @@ LANGUAGES = {
     EN_US_KEY: Lang("en_US", "English"),
     ES_MX_KEY: Lang("es_MX", "Español (México)"),
     ES_ES_KEY: Lang("es_ES", "Español (España)"),
-    JA_JP_KEY: Lang("ja_JP", "日本語")
+    # JA_JP_KEY: Lang("ja_JP", "日本語")
 }
 
 # We need a default full locale when a user's browser only sends a partial
@@ -94,22 +94,21 @@ def declare_enum_values():
     # SurveyTemplate.survey_template_title:
     # Not defined in the microsetta-private-api yaml at the moment
     # Taken from survey_template_repo.py
-    gettext("Primary Questionnaire")
-    gettext("Pet Information")
-    gettext("Fermented Foods Questionnaire")
-    gettext("Surfer Questionnaire")
-    gettext("Personal Microbiome Information")
-    gettext("COVID-19 Questionnaire")
-    gettext("Vioscreen Food Frequency Questionnaire")
-    gettext("Polyphenol Food Frequency Questionnaire")
-    gettext("Cooking Oils and Oxalate-rich Foods")
+    gettext("Basic Information")
+    gettext("At Home")
+    gettext("Lifestyle")
+    gettext("Gut")
+    gettext("General Health")
+    gettext("Health Diagnosis")
+    gettext("Allergies")
+    gettext("Diet")
+    gettext("Detailed Diet")
+    gettext("Other")
+    gettext("Polyphenols")
+    gettext("Spain FFQ")
 
     # Survey descriptions
     # Intentionally skipping MyFoodRepo since it's only for US residents
-    gettext("A fermented foods specific questionnaire")
-    gettext("Questions on surfing behavior")
-    gettext("Questions about your interest in the microbiome")
-    gettext("Questions related to cooking oils and oxalate-rich foods")
     gettext("Polyphenols are chemical compounds naturally found in plants "
             "that have been shown to provide many beneficial properties. "
             "They are antioxidants, fighting aging and protecting your heart"

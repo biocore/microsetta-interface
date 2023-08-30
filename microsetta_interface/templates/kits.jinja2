@@ -1,0 +1,319 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("My Kits") %}
+{% set show_breadcrumbs = True %}
+
+{% set profile_header = True %}
+{% set profile_header_active = "kits" %}
+{% set profile_header_name = source_name %}
+{% set profile_account_id = account_id %}
+{% set profile_source_id = source_id %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/vendor/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <style>
+        .tooltip-inner {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #0000ff;
+            opacity: 1 !important;
+            max-width: 580px !important;
+            text-align: left;
+        }
+
+        .tooltip.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: #0000ff !important;
+        }
+    </style>
+    <script src="/static/vendor/js/jquery.form-4.2.2/jquery.form.min.js"></script>
+    <script>
+        function make_kit_validation_setup_func(form_name, submitHandler) {
+            // Initialize form validation
+            let form_selector = "form[name='" + form_name + "']";
+            return function() {
+                let validateOptions = {
+                    // Specify validation rules
+                    rules: {
+                        // The key name on the left side is the name attribute
+                        // of an input field. Validation rules are defined
+                        // on the right side
+                        kit_name: {
+                            required: true,
+                            remote: {
+                                url: "/check_kit_valid",
+                            }
+                        }
+                    }
+                };
+                if (submitHandler !== null){
+                    validateOptions["submitHandler"] = submitHandler;
+                }
+                $(form_selector).validate(validateOptions);
+            };
+        }
+
+        let kitSubmitHandler = function(form, evt){
+            let samples_selector = '#new_kit_sample_container';
+            let error_txt = "";
+            let successful = false;
+            $(form).ajaxSubmit({
+                success: function (samples, textStatus, jqXHR) {
+                    document.getElementById('add_kit_card').style.display = 'none';
+                    document.getElementById('new_kit_container').style.display = '';
+                    document.getElementById('new_kit_header').innerText = '{{ _('KitID') }}: ' + $("#kit_name").prop('value');
+                    $(samples_selector).empty();
+                    for (let i = 0; i < samples.length; i++) {
+                        let bc = samples[i].sample_barcode;
+                        let sample_id = samples[i].sample_id;
+                        let item = $('<div class="single_barcode">' +
+                                     '<input type="checkbox" name="sample_id" id="' + bc + '" value="' + sample_id + '" class="barcode-checkbox" onClick="formSubmitControl()" />' +
+                                     '<label for="' + bc + '"><img src="/static/img/tube_icon.svg"> ' + bc + '</label>' +
+                                     '</div>');
+                        $(samples_selector).append(item);
+                    }
+                    let div = $('#choose_sample_div');
+                    div.collapse('show');
+                    successful = true;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    error_txt = jqXHR.responseText;
+                },
+                complete: function (data, textStatus, outputObj) {
+                    if (successful)
+                        return;
+                    if (error_txt === "")
+                        error_txt = textStatus;
+                    // Get customized error page that will show whatever error message we captured
+                    // here in the front end
+                    let queryParam = encodeURIComponent(error_txt);
+                    window.location.replace("{{ endpoint }}/error?error_msg=" + queryParam);
+                }
+            });
+        };
+
+        function renderButton(sampleId) {
+            var buttonDiv = document.getElementById("btn-view-" + sampleId);
+            buttonDiv.innerHTML = '';
+            var button = document.createElement("a");
+            button.type = "button";
+            button.text = "{{ _('View Results') }}";
+            button.className = "btn btn-white-blue-border";
+            button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
+            buttonDiv.appendChild(button);
+        }
+
+        function addButtonIfData(sampleId, barcode) {
+            let url = '{{public_endpoint}}' + '/sample/list/dataset/{{ barcode_prefix }}' + barcode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(data) {
+                    if (data.length > 0) {
+                        renderButton(sampleId);
+                    }
+                }
+            });
+        }
+
+        function disable_link(link_obj) {
+            link_obj.style.opacity = .65;
+            link_obj.style.pointerEvents = "none";
+            return true;
+        }
+
+        // Wait for the DOM to be ready
+        $(document).ready(function(){
+            let form_name = 'list_kit_form';
+            preventImplicitSubmission(form_name);
+            preclude_whitespace('#kit_name');
+
+            let kit_validation_setup_func = make_kit_validation_setup_func(form_name, kitSubmitHandler);
+            kit_validation_setup_func()
+
+            {% for kit_samples in kits.values() %}
+                {% for sample in kit_samples %}
+                    addButtonIfData("{{ sample.sample_id }}", "{{ sample.sample_barcode }}")
+                {% endfor %}
+            {% endfor %}
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+
+        function formSubmitControl() {
+            if ($("#pick_samples_form input:checkbox:checked").length > 0) {
+                document.getElementById("sample_claim_button").disabled = false;
+            } else {
+                document.getElementById("sample_claim_button").disabled = true;
+            }
+        }
+
+        function updateButtonState(kit_id_value) {
+            if(kit_id_value != "") {
+                document.getElementById("kit_id_button").disabled = false;
+            } else {
+                document.getElementById("kit_id_button").disabled = true;
+            }
+        }
+
+        function openKitPanel() {
+            document.getElementById('add_kit_container').style.display = '';
+            document.getElementById('add_kit_card').style.display = '';
+            document.getElementById('kit_name').focus();
+        }
+
+        function checkHiddenState() {
+            if(document.getElementById('hidden_plus_stuff').style.display == '') {
+                document.getElementById('hidden_plus_stuff').style.display = 'none';
+            } else {
+                document.getElementById('hidden_plus_stuff').style.display = '';
+            }
+        }
+    </script>
+{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}" class="breadcrumb-item-profile">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active-profile" aria-current="page">{{source_name}}</li>
+{% endblock %}
+{% block content %}
+    {% if account_country not in kits_tab_whitelist %}
+    <div class="container profile-container">
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{{ _('My Kits') }}</h1>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <p class="tmi-content">
+                        {{ _('Currently, "My Kits" is unavailable in your country or region. We apologize for any inconvenience.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container profile-container">
+        {% if prompt_survey_update %}
+        <div class="alert alert-primary alert-nutrition mt-4" role="alert">
+            {{ _('Thank you for logging your sample information. It looks like you haven\'t updated your profile recently. Please review') }} <a href="/accounts/{{account_id}}/sources/{{source_id}}/take_survey?survey_template_id={{prompt_survey_id}}">{{ _('your survey responses') }}</a> {{ _('to ensure they\'re as current and complete as possible.') }}
+        </div>
+        {% endif %}
+        {% if profile_has_samples and (need_reconsent_data or need_reconsent_biospecimen) %}
+            <div id="consent_alert" class="alert alert-consent mt-4" role="alert">
+                {{ _('To update your existing samples or contribute new samples, please review the following:') }}<br />
+                <ul>
+                {% if need_reconsent_data %}
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/data">{{ _('Consent to Act as a Research Subject') }}</a></li>
+                {% endif %}
+                {% if need_reconsent_biospecimen %}
+                    <li><a href="/accounts/{{account_id}}/sources/{{source_id}}/reconsent/biospecimen">{{ _('Consent to Act as a Research Subject - Biospecimen and Future Use Research') }}</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="alert alert-primary alert-profile mt-4" role="alert">
+            {{ _('Click on the following link if you would like to contribute to receive a kit') }} - <a href="{{ fundrazr_url }}" target="_blank">{{ _('Get a Kit') }}</a>
+        </div>
+        <div class="card mt-4 p-4">
+            <div class="row">
+                <div class="col col-lg-2">
+                    <h1>{{ _('My Kits') }}</h1>
+                </div>
+                <div class="plus-button-wrapper p-0" onclick="checkHiddenState();" onfocusout="document.getElementById('hidden_plus_stuff').style.display = 'none';">
+                    <div class="plus-button-white-bg">
+                        <img src="/static/img/plus_button.svg" class="plus-button-img">
+                        <span id="hidden_plus_stuff" style="display: none; padding-right: 6px;">
+                            <a href="javascript: openKitPanel();" class="add-kit-link">{{ _('Have a KitID') }}</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="{{ fundrazr_url }}" class="add-kit-link" target="_blank">{{ _('Get a Kit') }}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% if kits|length > 0 %}
+                {% for kit_id, kit_samples in kits.items() %}
+                    <div class="container mt-4">
+                        <div class="row kit-header mb-2">
+                            <div class="kit-id-title my-auto">{{ _('KitID') }}: {{ kit_id }}</div>
+                        </div>
+                        <div class="row kit-sample-container">
+                            {% for sample in kit_samples %}
+                            <a href="/accounts/{{account_id}}/sources/{{source_id}}/samples/{{sample.sample_id}}" class="barcode-link">
+                            <div class="row barcode-row {{ sample.css_class }} mb-2">
+                                <div class="barcode-col">
+                                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                                </div>
+                                <div class="barcode-col barcode-text">
+                                    {{ sample.sample_barcode }}
+                                </div>
+                                <div class="barcode-col barcode-col-hide-mobile">
+                                    <img src="/static/img/{{ sample.alert_icon }}" width="24" height="24" />
+                                </div>
+                                {% if sample.css_class == 'sample-complete' %}
+                                    <div class="barcode-col barcode-date-text barcode-col-hide-mobile">
+                                        {{ _('Collected') }}: {{ sample.sample_datetime }}
+                                    </div>
+                                {% else %}
+                                    <div class="barcode-col barcode-warning-text barcode-col-hide-mobile">
+                                        {{ _('Info Needed') }}
+                                    </div>
+                                {% endif %}
+                                <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
+                                    {% if sample.sample_edit_locked %}
+                                        <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                                    {% else %}
+                                        <img src="/static/img/edit.svg" width="24" height="24" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div id="add_kit_container" {% if kits|length > 0 %}style="display: none;"{% endif %}>
+                <form method="get" name="list_kit_form" action="/list_kit_samples">
+                <div class="card mt-4 blue-bg-card" id="add_kit_card">
+                    <div class="row my-5">
+                        <div class="col-12 text-center">
+                            <div class="kit_id_container">
+                                <label for="kit_name" name="label_kit_name" class="tmi-content">{{ _('To register your kit, enter your Kit ID below') }}:</label><br />
+                                <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" onKeyUp="updateButtonState(this.value);"/>
+                                <label for="kit_name" class="error kit-validation-error" style="display: none"></label>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center mt-4">
+                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button" disabled>{{ _('Register Kit') }}</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <div class="container mt-4" id="new_kit_container" style="display: none">
+                    <div class="row kit-header">
+                        <div class="kit-id-title my-auto" id="new_kit_header">{{ _('KitID') }}: </div>
+                    </div>
+                    <div class="row kit-contents-add mt-2 p-4">
+                        <p class="new_kit_prompt">{{ _('Which barcode(s) are you using from this kit (select all that apply)?') }} <span class="barcode-info"><img src="/static/img/question_mark.svg" /> <a href="#" title="<span class='kit-tooltip-text'>{{ _('Each collection tube you receive has a unique barcode printed on the side.') }} <br />
+<i>{{ _('1. Select the barcode(s) you are using') }}.<br />
+{{ _('2. Add the date and time of sample collection and select the sample type taken.') }}<br />
+<span class='kit-important'>{{ _('Important') }}:</span> <br />
+{{ _('The sample cannot be processed in the lab until this information is complete.') }} <br />
+{{ _('Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.') }}</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">{{ _('What is the barcode and why is it important?') }}</a></span></p><br />
+                        <form method="post" name="pick_samples_form" id="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples" style="padding: 0;">
+                        <div class="new_kit_sample_container" id="new_kit_sample_container">
+
+                        </div>
+                        <input type="submit" class="btn btn-blue-gradient mt-3" id="sample_claim_button" disabled value="{{ _('Confirm') }}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

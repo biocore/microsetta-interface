@@ -313,7 +313,7 @@ paths:
 
   '/accounts/{account_id}/create_human_source':
     get:
-      operationId: microsetta_interface.implementation.get_create_human_source
+      operationId: microsetta_interface.implementation.get_consent_page
       tags:
         - Source
       parameters:
@@ -381,9 +381,9 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/check_duplicate_source_name_email':
+  '/accounts/{account_id}/check_duplicate_source':
     post:
-      operationId: microsetta_interface.implementation.check_duplicate_source_name_email
+      operationId: microsetta_interface.implementation.check_duplicate_source
       tags:
         - Source
       parameters:
@@ -418,12 +418,126 @@ paths:
               schema:
                 type: string
 
-  # Note: ideally this would be represented as a DELETE, not as a POST
-  # However, it is used as a form submission action, and HTML forms do not support
-  # delete as an action
+  '/accounts/{account_id}/sources/{source_id}/kits':
+    get:
+      operationId: microsetta_interface.implementation.get_kits
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/check_survey_date'
+      responses:
+        '200':
+          description: Display of kits for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/nutrition':
+    get:
+      operationId: microsetta_interface.implementation.get_nutrition
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of FFQs for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/reports':
+    get:
+      operationId: microsetta_interface.implementation.get_reports
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of Reports for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/decline_reconsent':
+    get:
+      operationId: microsetta_interface.implementation.decline_reconsent
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '302':
+          description: Set session variable for declined reconsent and redirect to profile page
+
+  '/accounts/{account_id}/sources/{source_id}/reconsent/{consent_type}':
+    get:
+      operationId: microsetta_interface.implementation.get_reconsent
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/consent_type'
+      responses:
+        '200':
+          description: Interface to agree to the current consent document
+          content:
+            text/html:
+              schema:
+                type: string
+        '302':
+          description: Redirect if the user doesn't need to reconsent
+
+
+  '/accounts/{account_id}/sources/{source_id}/consents':
+    get:
+      operationId: microsetta_interface.implementation.get_consents
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display of consent docs for a source
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/consents/{consent_type}/view':
+    get:
+      operationId: microsetta_interface.implementation.get_consent_view
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/consent_type'
+      responses:
+        '200':
+          description: Display a signed consent document
+          content:
+            text/html:
+              schema:
+                type: string
+
+  # Note: ideally this would be represented as a DELETE, not as a GET
+  # However, it is used as a link, which does not support an HTTP action of
+  # delete
   '/accounts/{account_id}/sources/{source_id}/remove':
-    post:
-      operationId: microsetta_interface.implementation.post_remove_source
+    get:
+      operationId: microsetta_interface.implementation.get_remove_source
       tags:
         - Source
       parameters:
@@ -584,12 +698,11 @@ paths:
               schema:
                 type: string
 
-  # Note: ideally this would be represented as a DELETE, not as a POST
-  # However, it is used as a form submission action, and HTML forms do not support
-  # delete as an action
+  # Note: ideally this would be represented as a DELETE, not as a GET
+  # However, it is used as a redirect from a link, which does not support DELETE actions
   '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/remove':
-    post:
-      operationId: microsetta_interface.implementation.post_remove_sample_from_source
+    get:
+      operationId: microsetta_interface.implementation.get_remove_sample_from_source
       tags:
         - Sample
       parameters:
@@ -644,6 +757,8 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/survey_template_id'
+        - $ref: '#/components/parameters/target'
+
       requestBody:
         content:
           application/json:
@@ -659,7 +774,7 @@ paths:
         '302':
           description: Redirecting to necessary action
   
-  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/survey_templates/{survey_template_id}':
+  '/accounts/{account_id}/sources/{source_id}/vioscreen_ffq':
     get:
       operationId: microsetta_interface.implementation.get_fill_vioscreen_remote_sample_survey
       tags:
@@ -667,8 +782,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/sample_id'
-        - $ref: '#/components/parameters/survey_template_id_in_path'
+        - in: query
+          name: sample_id
+          schema:
+            type: string
+            nullable: true
+        - in: query
+          name: registration_code
+          schema:
+            type: string
+            nullable: true
       responses:
         '200':
           description: Take the vioscreen remote survey
@@ -677,7 +800,7 @@ paths:
               schema:
                 type: string
 
-  '/accounts/{account_id}/sources/{source_id}/samples/{sample_id}/vspassthru':
+  '/accounts/{account_id}/sources/{source_id}/vspassthru':
     get:
       operationId: microsetta_interface.implementation.get_to_save_vioscreen_remote_sample_survey
       tags:
@@ -685,7 +808,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
-        - $ref: '#/components/parameters/sample_id'
         - in: query
           name: key
           schema:
@@ -744,6 +866,50 @@ paths:
         '404':
           description: No such pdf
 
+  '/check_ffq_code_valid':
+    get:
+      operationId: microsetta_interface.implementation.get_ajax_check_ffq_code
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/ffq_code'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Result of check
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/accounts/{account_id}/sources/{source_id}/register_ffq':
+    post:
+      operationId: microsetta_interface.implementation.post_generate_vioscreen_url
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                ffq_code:
+                  type: string
+      responses:
+        '200':
+          description: Display of FFQs for a source
+          content:
+            text/html:
+              schema:
+                type: string
 
   '/check_kit_valid':
     get:
@@ -941,22 +1107,11 @@ paths:
               schema:
                 type: string
 
-  '/admin/activation':
+  '/admin/ffq_codes':
     get:
-      operationId: microsetta_interface.implementation.get_interactive_activation
+      operationId: microsetta_interface.implementation.get_generate_ffq_codes
       tags:
         - Admin
-      parameters:
-        - in: query
-          name: email_query
-          description: Email to search for
-          schema:
-            type: string
-        - in: query
-          name: code_query
-          description: Activation code to search for
-          schema:
-            type: string
       responses:
         '200':
           description: Activation code info for query
@@ -965,7 +1120,7 @@ paths:
               schema:
                 type: string
     post:
-      operationId: microsetta_interface.implementation.post_generate_activation
+      operationId: microsetta_interface.implementation.post_generate_ffq_codes
       tags:
         - Admin
       requestBody:
@@ -1241,6 +1396,20 @@ components:
       schema:
         $ref: '#/components/schemas/sample_id'
       required: true
+    consent_id:
+      name: consent_id
+      in: path
+      description: Unique id of a signed consent document
+      schema:
+        $ref: '#/components/schemas/consent_id'
+      required: true
+    consent_type:
+      name: consent_type
+      in: path
+      description: Type of consent document
+      schema:
+        $ref: '#/components/schemas/consent_type'
+      required: true
     session_opt_out:
       name: session_opt_out
       in: query
@@ -1262,6 +1431,12 @@ components:
       schema:
         $ref: '#/components/schemas/survey_template_id'
       required: true
+    target:
+      name: target
+      in: query
+      description: Where to route user after completing a survey
+      schema:
+        $ref: '#/components/schemas/target'
     available_survey_template_ids:
       name: available_survey_template_ids
       in: query
@@ -1296,6 +1471,24 @@ components:
       description: Error message provided by front-end
       schema:
         $ref: '#/components/schemas/error_msg'
+    registration_code:
+      name: registration_code
+      in: query
+      description: Registration code attached to a Vioscreen registry entry
+      schema:
+        $ref: '#/components/schemas/registration_code'
+    ffq_code:
+      name: ffq_code
+      in: query
+      description: FFQ code
+      schema:
+        $ref: '#/components/schemas/ffq_code'
+    check_survey_date:
+      name: check_survey_date
+      in: query
+      description: T/F flag on whether the Kits page should check user's most recent survey update date
+      schema:
+        $ref: '#/components/schemas/check_survey_date'
 
   schemas:
     # account section
@@ -1315,6 +1508,10 @@ components:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
       example: "dae21127-27bb-4f52-9fd3-a2aa5eb5b86f"
+    consent_id:
+      type: string
+      readOnly: true # sent in GET, not in POST/PUT/PATCH
+      example: "b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0"
     survey_id:
       type: string
       readOnly: true # sent in GET, not in POST/PUT/PATCH
@@ -1340,3 +1537,18 @@ components:
     activation_code:
       type: string
       example: TMI-XXXXX-XXXXX-XXXXX
+    target:
+      type: string
+      example: "home"
+    registration_code:
+      type: string
+      example: "TMI-XXXXX-XXXXX-XXXXX"
+    ffq_code:
+      type: string
+      example: "TMI-XXXXX-XXXXX-XXXXX"
+    consent_type:
+      type: string
+      example: "biospecimen"
+    check_survey_date:
+      type: boolean
+      example: True

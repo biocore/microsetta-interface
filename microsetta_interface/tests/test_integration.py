@@ -39,6 +39,19 @@ def _uniqify(email):
     return "%f.%0.5f.%s" % (ts, r, email)
 
 
+def _get_consent_id_from_webpage(webpage, consent_type):
+    start_pos = webpage.rfind("consent_id")
+    end_pos = webpage.find(consent_type)
+    consent_data = webpage[start_pos:end_pos]
+
+    pattern = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    obj_match = re.search(pattern, consent_data)
+    if obj_match:
+        return obj_match.group()
+
+    return None
+
+
 def _fake_jwt(email, verified, uniqify=False):
     if PRIVATE_API_AVAILABLE:
         # lie and say we're from authrocket
@@ -71,21 +84,40 @@ TEST_KIT_1 = 'PGP_AmsFQ'
 TEST_KIT_1_SAMPLE_1_BARCODE = '000005097'
 TEST_KIT_1_SAMPLE_1_SAMPLE_ID = 'ddbb117b-c8fa-9a94-e040-8a80115d1380'
 
-ADULT_CONSENT = {"participant_email": 'foo@bar.com',
+ADULT_CONSENT = {
                  "participant_name": "foo bar",
                  "age_range": "18-plus",
                  "parent_1_name": None,
-                 "parent_2_name": None,
-                 "deceased_parent": 'false',
-                 "obtainer_name": None}
+                 "assent_obtainer": None,
+                 "consent_type": "adult_data",
+                 "consent_id": "4f3c5b1e-a16c-485a-b7af-a236409ea0d4"}
 
-# answer a quesion on each survey
-PRIMARY_SURVEY_SIMPLE = {"112": "1970"}
-COVID_SURVEY_SIMPLE = {"209": "An integration test"}
-FERMENTED_SURVEY_SIMPLE = {"173": "im a test"}
-SURFER_SURVEY_SIMPLE = {"174": "Other"}
-PERSONAL_SURVEY_SIMPLE = {"208": "im definitely a test"}
-OILS_SURVEY_SIMPLE = {"240": "Never"}
+BASIC_INFO_ID = 10
+AT_HOME_ID = 11
+LIFESTYLE_ID = 12
+GUT_ID = 13
+GENERAL_HEALTH_ID = 14
+HEALTH_DIAG_ID = 15
+ALLERGIES_ID = 16
+DIET_ID = 17
+DETAILED_DIET_ID = 18
+OTHER_ID = 22
+VIOSCREEN_ID = 10001
+MYFOODREPO_ID = 10002
+POLYPHENOL_FFQ_ID = 10003
+SPAIN_FFQ_ID = 10004
+
+BASIC_INFO_SIMPLE = {"112": "1970"}
+BASIC_INFO_SIMPLE_ALT = {"112": "1983"}
+AT_HOME_SIMPLE = {"313": "Unspecified"}
+LIFESTYLE_SIMPLE = {"16": "Month"}
+GUT_SIMPLE = {"37": "One"}
+GENERAL_HEALTH_SIMPLE = {"50": "No"}
+HEALTH_DIAGNOSIS_SIMPLE = {"85": "Self-diagnosed"}
+ALLERGIES_SIMPLE = {"53": "Yes"}
+DIET_SIMPLE = {"1": "Omnivore"}
+DETAILED_DIET_SIMPLE = {"56": "Daily"}
+OTHER_SIMPLE = {"116": "I like microbiomes"}
 
 
 @unittest.skipIf(not PRIVATE_API_AVAILABLE,
@@ -157,7 +189,7 @@ class IntegrationTests(unittest.TestCase):
     def assertPageTitle(self, resp, title, exp_code=200):
         self.assertEqual(resp.status_code, exp_code)
         data = self._html_page(resp)
-        self.assertIn(f'<title>Microsetta {title}</title>', data)
+        self.assertIn(f'<title>Microsetta - {title}</title>', data)
 
     def assertPageContains(self, resp, string):
         data = self._html_page(resp)
@@ -236,14 +268,15 @@ class IntegrationTests(unittest.TestCase):
         body = {"first_name": "a",
                 "last_name": "b",
                 "street": "c",
+                "street2": "",
                 "email": email,
                 "city": "d",
                 "state": "e",
                 "post_code": "f",
                 "language": "en_US",
                 "country_code": "US",
-                "code": "",
-                "kit_name": TEST_KIT_1}
+                "consent_privacy_terms": True
+                }
 
         resp = self.app.post(url, data=body)
         url = resp.headers['Location']
@@ -263,7 +296,7 @@ class IntegrationTests(unittest.TestCase):
 
         url = self.redirectURL(resp)
 
-        # we should now be on the source listing page
+        # we should now be on the Account Dashboard page
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Account')
 
@@ -288,32 +321,45 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Account')
 
-        # sign the consent
         account_id, _, _ = self._ids_from_url(url)
+
+        # The account that's used for integration tests has a country
+        # code of GB, which doesn't have access to My Kits. Let's fix that.
+        url = f'/accounts/{account_id}/details'
+        body = {"first_name": "a",
+                "last_name": "b",
+                "email": USER_WITH_VALID_SAMPLE_EMAIL,
+                "street": "c",
+                "street2": "",
+                "city": "d",
+                "state": "e",
+                "post_code": "f",
+                "language": "en_US",
+                "country_code": "US"
+                }
+        _ = self.app.post(url, data=body)
+
+        # sign the consent
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
         resp = self.app.post(url, data=ADULT_CONSENT)
-        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
         url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Participant Survey')
-
-        # let's complete the primary survey, and advance to the covid survey
-        survey_body = PRIMARY_SURVEY_SIMPLE
-        resp = self.app.post(url, json=survey_body, follow_redirects=True)
-
-        # we should still be on the survey page, but now for COVID
-        self.assertPageTitle(resp, 'Participant Survey')
-        data = self._html_page(resp)
-        self.assertIn('COVID19', data)
-
-        # complete the COVID survey
-        survey_body = COVID_SURVEY_SIMPLE
         account_id, source_id, _ = self._ids_from_url(url)
-        url = url[:-1] + '6'
-        resp = self.app.post(url, json=survey_body, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
+
+        # take the Basic Info survey
+        self._complete_basic_survey(account_id, source_id)
+
+        # go to the My Kits tab
+        resp = self.app.get(f'/accounts/{account_id}/sources/{source_id}/kits')
+        self.assertPageTitle(resp, "My Kits")
 
         # query for samples
         resp = self.app.get(f'/list_kit_samples?kit_name={TEST_KIT_1}')
@@ -329,16 +375,27 @@ class IntegrationTests(unittest.TestCase):
         self.claimed_samples.append((account_id, source_id, sample_id))
         resp = self.app.post(url, data=body, follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertPageTitle(resp, 'Account Samples')
+
+        page_data = self._html_page(resp)
+        con = "adult_biospecimen"
+        consent_id = _get_consent_id_from_webpage(page_data, con)
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_biospecimen"
+        ADULT_CONSENT["sample_ids"] = sample_id
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.post(url, data=ADULT_CONSENT)
+
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'My Kits')
         data = self._html_page(resp)
-        self.assertIn('click on a barcode to provide collection information',
-                      data)
+        self.assertIn('/static/img/edit.svg', data)
 
         # get collection info
         url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
         resp = self.app.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertPageTitle(resp, 'Sample Information')
+        self.assertPageTitle(resp, 'My Kits')
 
         # set collection info
         collection_note = 'SAMPLE COLLECTED BY INTEGRATION TESTING'
@@ -349,58 +406,156 @@ class IntegrationTests(unittest.TestCase):
                 'sample_site': 'Stool',
                 'sample_notes': collection_note}
         resp = self.app.post(url, data=body)
-        self.assertRedirect(resp, 'after_edit_questionnaire')
+        self.assertRedirect(resp, suffix_is_uuid=False)
         url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Optional Sample Surveys')
+        # Flask's client.get() function doesn't like the query string being
+        # attached to the url string. So we'll restructure it.
+        url = url.replace("?check_survey_date=True", "")
+        query_string = {"check_survey_date": "True"}
+        resp = self.app.get(url, query_string=query_string)
+        self.assertPageTitle(resp, 'My Kits')
 
         # verify we have our sample information
         # get collection info
         url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
         resp = self.app.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertPageTitle(resp, 'Sample Information')
+        self.assertPageTitle(resp, 'My Kits')
         data = self._html_page(resp)
         self.assertIn(collection_note, data)
+
+    def test_take_survey_twice(self):
+        self._login(USER_WITH_VALID_SAMPLE)
+
+        resp = self.app.get('/home')
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Account')
+
+        account_id, _, _ = self._ids_from_url(url)
+
+        # sign the consent
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
+        resp = self.app.post(url, data=ADULT_CONSENT)
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirect(resp, suffix_is_uuid=True)
+
+        url = self.redirectURL(resp)
+        account_id, source_id, _ = self._ids_from_url(url)
+
+        # take the Basic Info survey
+        self._complete_basic_survey(account_id, source_id)
+
+        # now let's make sure the answer we provided is available to edit
+        url = f'/accounts/{account_id}/sources/{source_id}/'\
+            f'take_survey?survey_template_id={BASIC_INFO_ID}'
+        resp = self.app.get(url)
+
+        # we should see 1970 in the contents
+        data = self._html_page(resp)
+        self.assertIn("1970", data)
+
+        # now, let's re-submit it with an alternate response
+        self._complete_basic_survey(account_id, source_id,
+                                    survey=BASIC_INFO_SIMPLE_ALT)
+
+        # and let's make sure the new answer saved
+        url = f'/accounts/{account_id}/sources/{source_id}/'\
+            f'take_survey?survey_template_id={BASIC_INFO_ID}'
+        resp = self.app.get(url)
+
+        # we should see 1970 in the contents
+        data = self._html_page(resp)
+        self.assertIn("1983", data)
 
     def _sign_consent(self, account_id, consent=ADULT_CONSENT):
         url = f'/accounts/{account_id}/create_human_source'
         resp = self.app.get(url)
         self.assertPageTitle(resp, 'Consent')
+
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        consent["consent_id"] = consent_id
+        consent["consent_type"] = "adult_data"
         resp = self.app.post(url, data=consent)
         url = resp.headers['Location']
         return self.app.get(url), url
 
-    def _complete_primary_survey(self, account_id, source_id,
-                                 survey=PRIMARY_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '1')
+    def _complete_basic_survey(self, account_id, source_id,
+                               survey=BASIC_INFO_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, BASIC_INFO_ID
+        )
 
-    def _complete_oils_survey(self, account_id, source_id,
-                              survey=OILS_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '7')
+    def _complete_at_home_survey(self, account_id, source_id,
+                                 survey=AT_HOME_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, AT_HOME_ID
+        )
 
-    def _complete_covid_survey(self, account_id, source_id,
-                               survey=COVID_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '6')
+    def _complete_lifestyle_survey(self, account_id, source_id,
+                                   survey=LIFESTYLE_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, LIFESTYLE_ID
+        )
 
-    def _complete_fermented_survey(self, account_id, source_id,
-                                   survey=FERMENTED_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '3')
+    def _complete_gut_survey(self, account_id, source_id,
+                             survey=GUT_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, GUT_ID
+        )
 
-    def _complete_personal_survey(self, account_id, source_id,
-                                  survey=PERSONAL_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '5')
+    def _complete_general_health_survey(self, account_id, source_id,
+                                        survey=GENERAL_HEALTH_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, GENERAL_HEALTH_ID
+        )
 
-    def _complete_surfer_survey(self, account_id, source_id,
-                                survey=SURFER_SURVEY_SIMPLE):
-        return self._complete_local_survey(account_id, source_id, survey, '4')
+    def _complete_health_diagnosis_survey(self, account_id, source_id,
+                                          survey=HEALTH_DIAGNOSIS_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, HEALTH_DIAG_ID
+        )
 
-    def _complete_local_survey(self, account_id, source_id, body, template_id):
-        url = (f'/accounts/{account_id}/sources/{source_id}/'
-               f'take_survey?survey_template_id={template_id}')
-        resp = self.app.post(url, json=body)
-        url = resp.headers['Location']
-        return self.app.get(url), url
+    def _complete_allergies_survey(self, account_id, source_id,
+                                   survey=ALLERGIES_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, ALLERGIES_ID
+        )
+
+    def _complete_diet_survey(self, account_id, source_id,
+                              survey=DIET_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, DIET_ID
+        )
+
+    def _complete_detailed_diet_survey(self, account_id, source_id,
+                                       survey=DETAILED_DIET_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, DETAILED_DIET_ID
+        )
+
+    def _complete_other_survey(self, account_id, source_id,
+                               survey=OTHER_SIMPLE):
+        return self._complete_local_survey(
+            account_id, source_id, survey, OTHER_ID
+        )
+
+    def _complete_local_survey(self, account_id, source_id, body, template_id,
+                               target="home"):
+        url = (
+            f'/accounts/{account_id}/sources/{source_id}/'
+            f'take_survey?survey_template_id={template_id}&target={target}'
+        )
+        return self.app.post(url, json=body)
 
     def _complete_myfoodrepo_survey(self, account_id, source_id):
         url = (f'/accounts/{account_id}/sources/{source_id}/'
@@ -422,49 +577,48 @@ class IntegrationTests(unittest.TestCase):
         account_id, _, _ = self._ids_from_url(url)
         resp, url = self._sign_consent(account_id)
         account_id, source_id, _ = self._ids_from_url(url)
-        self._complete_primary_survey(account_id, source_id)
-        resp, url = self._complete_covid_survey(account_id, source_id)
-        self.assertPageTitle(resp, 'Account Samples')
+        self.assertPageTitle(resp, 'My Profile')
 
-    def test_existing_user_to_secondary_survey(self):
-        # test db doesn't have a completed covid survey, so let's do that
-        # logout then back in
-        self._login(USER_WITH_VALID_SAMPLE)
-        resp = self.app.get('/home', follow_redirects=True)
-        page = self._html_page(resp)
-        account_id, source_id, _ = self._first_ids_from_html(page)
-        self._complete_covid_survey(account_id, source_id)
-
-        self._logout()
-
-        self._login(USER_WITH_VALID_SAMPLE)
-        url = f'/accounts/{account_id}/sources/{source_id}'
-        resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
-        self.assertPageContains(resp, 'Fermented Foods Questionnaire')
-
-    def test_only_untaken_secondarys_available(self):
+    def test_new_source_data_consent(self):
         resp, url, user_jwt = self._new_to_create()
         account_id, _, _ = self._ids_from_url(url)
-        resp, url = self._sign_consent(account_id)
-        account_id, source_id, _ = self._ids_from_url(url)
-        self._complete_primary_survey(account_id, source_id)
-        self._complete_covid_survey(account_id, source_id)
-        self._complete_fermented_survey(account_id, source_id)
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
 
-        url = f'/accounts/{account_id}/sources/{source_id}'
-        resp = self.app.get(url, follow_redirects=True)
-        self.assertPageTitle(resp, 'Account Samples')
-        data = self._html_page(resp)
+        page_data = self._html_page(resp)
+        consent_id = _get_consent_id_from_webpage(page_data, "adult_data")
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_data"
 
-        # we've taken the fermented food survey, so we should not
-        # observe its URL in the rendered page
-        # TODO: this check will likely break if/when survey editing is allowed
-        self.assertIn('survey_template_id=10002', data)
-        # removing Personal Microbiome from possible surveys
-        # self.assertIn('survey_template_id=5', data)
-        self.assertIn('survey_template_id=4', data)
-        self.assertNotIn('survey_template_id=3', data)
+        consent_data = ADULT_CONSENT
+        resp = self.app.post(url, data=consent_data)
+        self.assertEqual(302, resp.status_code)
+
+        return resp
+
+    def test_duplicate_source_name(self):
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
+        consent_body = {}
+        consent_body["participant_name"] = ADULT_CONSENT["participant_name"]
+
+        url = f'/accounts/{account_id}/check_duplicate_source'
+        resp = self.app.post(url, json=consent_body)
+
+        self.assertEqual(resp.status_code, 200)
+        return resp
+
+    def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):
+        url = f'/accounts/{acc_id}/source/{src_id}/consent/{con_type}'
+        resp = self.app.post(url, data=consent_data)
+        url = resp.headers['Location']
+        return self.app.get(url), url
+
+    def _is_consent_required(self, acc_id, source_id, consent_type):
+        url = f'/accounts/{acc_id}/source/{source_id}/consent/{consent_type}'
+        resp = self.app.get(url)
+        return resp["result"]
 
 
 if __name__ == '__main__':

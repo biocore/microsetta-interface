@@ -21,7 +21,7 @@
             .text("-- SELECT --");
         $("#state").append(option);
 
-        if (user_country == "United States") {
+        if (user_country == "US") {
             for (var state of US_STATES)
             {
                 if(user_state == state[0]) {
@@ -37,7 +37,7 @@
                     $("#state").append(option);
                 }
             }
-        } else if (selected_country == "Spain") {
+        } else if (selected_country == "ES") {
                 for (var state of SPAIN_STATES)
                 {
                     var option = $('<option></option>')
@@ -46,12 +46,6 @@
                     $("#state").append(option);
                 }
                 $("#form_group_address_3, #form_group_address_type").show();
-                $("#phone").rules("remove");
-                $("#phone").rules( "add", {
-                    required: true,
-                    phoneSPAIN: true
-                });
-
         } else {
             for (var country of COUNTRIES_LIST)
             {
@@ -198,55 +192,57 @@ $(document).ready(function(){
             <div id="sorry_modal_content">{{ _('Sorry, it appears you are having trouble verifying your address. Please contact our support team at microsetta@ucsd.edu and they can assist with confirming your address.') }}</div>
         </div>
     </div>
-    <div class="card"  style="max-width: 800px; text-align: left;">
+    <p class="tmi-content">
+        {{ _('We encountered the following issue when we attempted to verify your shipping address:') }}
+    </p>
+    {% for error in error_text %}
+        <p class="tmi-content">{{ error |e }}</p>
+    {% endfor %}
+    <p class="tmi-content">
+        {{ _('If you believe this is in error or need assistance correcting your address, please contact us at <a href="mailto:microsetta@ucsd.edu">microsetta@ucsd.edu</a>.') }}
+    </p>
+    <div class="card card-account"  style="max-width: 800px; text-align: left;">
         <h5 class="card-header" style="text-align: center">{{ _('Update Your Address') }}</h5>
         <div class="card-body">
             <form id="address_form" name="address_form" method="post">
                 <input type="hidden" name="interested_user_id" value="{{ user_info['interested_user_id'] |e }}" />
                 <input type="hidden" name="email" value="{{ user_info['email'] |e }}" />
                 <fieldset id="address">
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="address_1" name="address_1_label">{{ _('Address 1') }}*</label>
                         <input id="address_1" name="address_1" class="form-control" type="text" value="{{ user_info['address_1'] |e }}" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
                         <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] |e }}" />
                     </div>
-                    <div class="form-group" id="form_group_address_3">
+                    <div class="form-group mb-2" id="form_group_address_3">
                         <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
                         <input id="address_3" name="address_3" class="form-control" value="{{ user_info['address_3'] |e }}" type="text" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="city" name="city_label">{{ _('City') }}*</label>
                         <input id="city" name="city" class="form-control" type="text" value="{{ user_info['city'] |e }}" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="state" name="state_label">{{ _('State') }}*</label>
                         <select id="state" name="state" class="form-control">
                             <option value="">-- {{ _('SELECT') }}</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="postal" name="postal_label">{{ _('Postal Code') }}*</label>
                         <input id="postal" name="postal" class="form-control" type="text" value="{{ user_info['postal_code'] |e }}" />
                     </div>
-                    <div class="form-group" id="form_group_address_type">
-                        <label for="residential_address" name="residential_address_label">{{ _('Address Type') }}</label>
-                        <select id="residential_address" name="residential_address" class="form-control">
-                            <option value="true" {% if user_info['residential_address']=="true" %} selected="selected"{% endif %}>{{ _('Residential') }}</option>
-                            <option value="false" {% if user_info['residential_address']=="false" %} selected="selected"{% endif %}>{{ _('Commercial') }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" name="phone_label">{{ _('Phone Number') }}*</label>
+                    <div class="form-group mb-2">
+                        <label for="phone" name="phone_label">{{ _('Phone Number') }}</label>
                         <input id="phone" name="phone" class="form-control" type="text" value="{{ user_info['phone'] |e }}" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="country" name="country_label">{{ _('Country')}}</label>
                         <input id="country" name="country" class="form-control" type="text" disabled value="{{ user_info['country'] |e }}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="postal" class="error" style="display: none;">{{ _('Sorry, we were unable to verify your address. Please check your information and try again.') }}</label>
                     </div>
                 </fieldset>
@@ -257,7 +253,6 @@ $(document).ready(function(){
         </div>
     </div>
 </center>
-
 <script type="text/javascript">
     populateStates('{{ user_info['state'] |e }}','{{ user_info['country'] |e }}');
 </script>

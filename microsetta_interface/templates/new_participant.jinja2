@@ -230,7 +230,7 @@
             </div>
         </div>
     {% endif %}
-    {% if age_range != None %}
+    {% if age_range is not none and age_range != 'legacy' %}
         <input type="hidden" name="age-range" value="{{ age_range }}" />
     {% else %}
     <div class="row">

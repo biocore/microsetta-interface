@@ -1337,9 +1337,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Account') }}</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('Source') }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Results') }}</li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{source_name}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Report') }}</li>
 {% endblock %}
 
 {% block content %}

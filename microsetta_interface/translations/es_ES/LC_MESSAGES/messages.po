@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-29 15:32-0700\n"
+"POT-Creation-Date: 2023-09-01 11:45-0700\n"
 "PO-Revision-Date: 2023-06-16 12:25-0800\n"
 "Last-Translator: \n"
 "Language: es_ES\n"
@@ -2234,6 +2234,11 @@ msgstr "Acceso de datos (estudio Qiita"
 msgid "Download the spreadsheet"
 msgstr "Descargar la hoja de cálculo"
 
+#: templates/new_results_page.jinja2:648 templates/new_results_page.jinja2:1634
+#: templates/sample_results.jinja2:148
+msgid "Kingdom"
+msgstr "Reino"
+
 #: templates/new_results_page.jinja2:649
 msgid ""
 "The broadest classification like Bacteria, Archaea and Eukaryokes (what "
@@ -2241,6 +2246,11 @@ msgid ""
 msgstr ""
 "La clasificación más amplia como las Bacterias, Archaea y Eucariotas (¡lo"
 " que son los humanos!)"
+
+#: templates/new_results_page.jinja2:651 templates/new_results_page.jinja2:1635
+#: templates/sample_results.jinja2:149
+msgid "Phylum"
+msgstr "Filo"
 
 #: templates/new_results_page.jinja2:652
 msgid ""
@@ -2250,9 +2260,19 @@ msgstr ""
 "Dentro del reino Eukarya, esto es como la diferencia entre los humanos y "
 "las plantas"
 
+#: templates/new_results_page.jinja2:654 templates/new_results_page.jinja2:1636
+#: templates/sample_results.jinja2:150
+msgid "Class"
+msgstr "Clase"
+
 #: templates/new_results_page.jinja2:655
 msgid "Within the phylum Chordata, this is along the lines of humans and fish"
 msgstr "Dentro del filo Chordata, esto es similar a los humanos y los peces"
+
+#: templates/new_results_page.jinja2:657 templates/new_results_page.jinja2:1637
+#: templates/sample_results.jinja2:151
+msgid "Order"
+msgstr "Orden"
 
 #: templates/new_results_page.jinja2:658
 msgid ""
@@ -2262,9 +2282,19 @@ msgstr ""
 "Dentro de la clase Mammalia, esto es como la diferencia entre las "
 "ballenas y los perros"
 
+#: templates/new_results_page.jinja2:660 templates/new_results_page.jinja2:1638
+#: templates/sample_results.jinja2:152
+msgid "Family"
+msgstr "Familia"
+
 #: templates/new_results_page.jinja2:661
 msgid "With the order Carnivora are the families for dogs and cats"
 msgstr "Con la orden Carnivora están las familias de perros y gatos"
+
+#: templates/new_results_page.jinja2:663 templates/new_results_page.jinja2:1639
+#: templates/sample_results.jinja2:153
+msgid "Genus"
+msgstr "Género"
 
 #: templates/new_results_page.jinja2:664
 msgid ""
@@ -2374,13 +2404,10 @@ msgstr ""
 "microbiano, proporcionando a los investigadores evidencia de los tipos de"
 " microbios que pueden estar presentes en su muestra."
 
-#: templates/new_results_page.jinja2:1341 templates/sample_results.jinja2:128
-msgid "Source"
-msgstr "Fuente"
-
-#: templates/new_results_page.jinja2:1342 templates/sample_results.jinja2:129
-msgid "Results"
-msgstr "Resultados"
+#: templates/new_results_page.jinja2:1342
+#, fuzzy
+msgid "Report"
+msgstr "Reporte"
 
 #: templates/new_results_page.jinja2:1351
 #: templates/new_results_page.jinja2:1365
@@ -2429,9 +2456,9 @@ msgid ""
 msgstr ""
 "Hay 40 billones de células microbianas en nuestro cuerpo. A esta "
 "colección de células microbianas se le conoce como el microbioma humano. "
-"Con aproximadamente 1 libra (,45 kg) de ellas solo en nuestro intestino,"
-" nosotros estamos en una misión para hacer descubrimientos críticos sobre"
-" la función que tienen en nuestras vidas. Gracias por contribuir en "
+"Con aproximadamente 1 libra (,45 kg) de ellas solo en nuestro intestino, "
+"nosotros estamos en una misión para hacer descubrimientos críticos sobre "
+"la función que tienen en nuestras vidas. Gracias por contribuir en "
 "nuestro proyecto de investigación y ayudar al avance de la ciencia."
 
 #: templates/new_results_page.jinja2:1373
@@ -2746,30 +2773,6 @@ msgstr ""
 #, python-format
 msgid "%% of Sample"
 msgstr "%% de la muestra"
-
-#: templates/new_results_page.jinja2:1634 templates/sample_results.jinja2:148
-msgid "Kingdom"
-msgstr "Reino"
-
-#: templates/new_results_page.jinja2:1635 templates/sample_results.jinja2:149
-msgid "Phylum"
-msgstr "Filo"
-
-#: templates/new_results_page.jinja2:1636 templates/sample_results.jinja2:150
-msgid "Class"
-msgstr "Clase"
-
-#: templates/new_results_page.jinja2:1637 templates/sample_results.jinja2:151
-msgid "Order"
-msgstr "Orden"
-
-#: templates/new_results_page.jinja2:1638 templates/sample_results.jinja2:152
-msgid "Family"
-msgstr "Familia"
-
-#: templates/new_results_page.jinja2:1639 templates/sample_results.jinja2:153
-msgid "Genus"
-msgstr "Género"
 
 #: templates/new_results_page.jinja2:1647
 msgid ""
@@ -3171,6 +3174,14 @@ msgstr ""
 "Nuestro laboratorio ha recibido su muestra y ya no se puede editar. Por "
 "favor <a href=“mailto:microsetta@ucsd.edu”> contáctenos</a> si tiene "
 "alguna pregunta."
+
+#: templates/sample_results.jinja2:128
+msgid "Source"
+msgstr "Fuente"
+
+#: templates/sample_results.jinja2:129
+msgid "Results"
+msgstr "Resultados"
 
 #: templates/sample_results.jinja2:140
 msgid "What is in your sample?"
@@ -3815,4 +3826,3 @@ msgstr "No, saltar y continuar"
 #: templates/update_email.jinja2:21
 msgid "Yes, update and continue"
 msgstr "Sí, actualizar y continuar"
-

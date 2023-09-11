@@ -101,6 +101,7 @@
                                         <li>{{ _('Skipping a question clears your selected answer and hides the options.') }}</li>
                                         <li>{{ _('Click') }} "<span class="skip-text">{{ _('DISPLAY') }}</span>" {{ _('to bring back the hidden response options.') }}</li>
                                         <li>{{ _('If you want to reset an incorrect answer quickly, click') }} "<span class="skip-text">{{ _('SKIP') }}</span>" {{ _('then') }} "<span class="skip-text">{{ _('DISPLAY') }}</span>".</li>
+                                        <li>{{ _('Skipping a question logs a blank response and counts towards completing a survey.') }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -135,7 +136,7 @@
     {% endif %}
     {% if not admin_mode and not hide_header %}
     <nav class="navbar fixed-top navbar-light bg-white shadow">
-        <a class="navbar-brand" href="https://microsetta.ucsd.edu" title="microsetta.ucsd.edu">
+        <a class="navbar-brand" href="/home" title="microsetta.ucsd.edu">
             <img src="/static/img/logo-co.png" class="logo-co"/>
         </a>
         {% if show_tips_icon %}

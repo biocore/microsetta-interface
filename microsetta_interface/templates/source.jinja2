@@ -59,11 +59,19 @@
 {% block content %}
     <div class="container profile-container">
         <br />
+    {% if need_reconsent %}
+        <div id="consent_alert" class="alert alert-consent" role="alert">
+            {{ _('<strong>Please note</strong>: Since you opted to not update your consent agreement, you may view your existing profile data, but may not update or revise your responses.') }}
+        </div>
+    {% endif %}
         <p class="tmi-tooltip">
             <strong>
             {{ _('Lifestyle, health, and diet information is essential in order to gain novel insights into the human microbiome and design better studies.') }}<br />
             {{ _('You can help us by completing our surveys, starting with your Basic Information.') }}
             </strong>
+        </p>
+        <p class="tmi-tooltip">
+            <strong>{{ _('If this is your first time using our new interface, please review <a href="#" onClick="return openModalSiteBase();">these tips</a> for navigating and completing surveys.') }}</strong>
         </p>
         <div class="row mt-5">
         {% for detail in local_surveys %}
@@ -81,7 +89,11 @@
                             {% if detail.survey_template_id == basic_info_template_id %}
                                 <div class="col-8 card-survey-new">{{ _('START HERE') }}</div>
                             {% else %}
-                                <div class="col-8 small-text survey-info">{{ _('Not Completed') }}</div>
+                                {% if detail.answered > 2 %}
+                                    <div class="col-8 small-text survey-info">{{ _('Needs Review') }}</div>
+                                {% else %}
+                                    <div class="col-8 small-text survey-info">{{ _('Not Completed') }}</div>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                         <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('minutes') }}</div>

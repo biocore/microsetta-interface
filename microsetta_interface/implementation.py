@@ -1396,11 +1396,6 @@ def get_fill_source_survey(*,
             ctr = 0
             trig_ctr = 0
             for field in group['fields']:
-                if need_reconsent:
-                    # If the user has not agreed to the current consent, we
-                    # disable all of the fields.
-                    field['disabled'] = True
-
                 if "triggered_by" in field:
                     field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
                                      + ". " + field['label']
@@ -1410,10 +1405,22 @@ def get_fill_source_survey(*,
                     ctr += 1
                     survey_question_count += 1
                     field['label'] = str(ctr) + ". " + field['label']
-                field['label'] = '<span class="survey-skip small-text" '\
-                                 + 'onClick="skipQuestion(this)">'\
-                                 + gettext('SKIP')\
-                                 + '</span>' + field['label']
+
+                if need_reconsent:
+                    # If the user has not agreed to the current consent, we
+                    # disable all of the fields.
+                    field['disabled'] = True
+                    # And we remove the onClick action from the Skip/Display
+                    # text, but leave it to reflect their last response
+                    field['label'] = '<span ' \
+                                     + 'class="survey-skip-dis small-text">' \
+                                     + gettext('SKIP') \
+                                     + '</span>' + field['label']
+                else:
+                    field['label'] = '<span class="survey-skip small-text" '\
+                                     + 'onClick="skipQuestion(this)">'\
+                                     + gettext('SKIP')\
+                                     + '</span>' + field['label']
 
         return _render_with_defaults(
             "survey.jinja2",
@@ -1481,14 +1488,16 @@ def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
                                             sample_id=None,
-                                            registration_code=None):
+                                            registration_code=None,
+                                            vio_id=None):
     suffix = "vspassthru"
     redirect_url = SERVER_CONFIG["endpoint"] + \
         _make_source_path(account_id, source_id, suffix=suffix)
     params = {
         'survey_redirect_url': redirect_url,
         'vioscreen_ext_sample_id': sample_id,
-        'registration_code': registration_code
+        'registration_code': registration_code,
+        'vio_id': vio_id
     }
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
@@ -1928,6 +1937,9 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         return vioscreen_output
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+    need_reconsent_data = check_current_consent(
+        account_id, source_id, "data"
+    )
 
     return _render_with_defaults(
         'nutrition.jinja2',
@@ -1940,7 +1952,8 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         nutrition_tab_whitelist=NUTRITION_TAB_WHITELIST,
         new_ffq_code=new_ffq_code,
         profile_has_samples=profile_has_samples,
-        has_basic_info=has_basic_info
+        has_basic_info=has_basic_info,
+        need_reconsent_data=need_reconsent_data
     )
 
 
@@ -2011,9 +2024,7 @@ def get_consents(*, account_id=None, source_id=None):
     )
     if has_error:
         if has_error == 404:
-            # If historical users who haven't re-consented try to view signed
-            # consents, we redirect them to the consent page
-            return render_consent_page(account_id, source_id, "data")
+            data_consent = None
         else:
             return data_consent
 

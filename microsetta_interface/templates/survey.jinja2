@@ -212,6 +212,7 @@
             <vue-form-generator :schema="schema" :model="model" :options="formOptions" @validated="onValidated"></vue-form-generator>
         </form>
     </div>
+    {% if not need_reconsent %}
     <div class="container default-container">
         <div class="row">
             <div class="col-6">
@@ -232,6 +233,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <script type="text/javascript">
         var survey_model = {};
         var survey_schema= {{survey_schema|tojson}};

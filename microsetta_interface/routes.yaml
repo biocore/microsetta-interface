@@ -792,6 +792,11 @@ paths:
           schema:
             type: string
             nullable: true
+        - in: query
+          name: vio_id
+          schema:
+            type: string
+            nullable: true
       responses:
         '200':
           description: Take the vioscreen remote survey

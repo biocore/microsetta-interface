@@ -257,6 +257,11 @@ h2.account-h2 {
 
 h2.profile-card-h2 {
     color: var(--tmi-blue);
+    height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
 }
 
 h3 {
@@ -458,7 +463,7 @@ p.tmi-content {
 
 @media (max-width: 575.98px) {
     .card-survey {
-        height: 230px;
+        height: 280px;
     }
 
     .card-survey-external {
@@ -683,8 +688,8 @@ h1.profile-h1 {
     color: var(--tmi-gray-80);
 }
 
-@media (max-width: 575.98px) {
-    .survey-info-row {
+@media (max-width: 359.98px) {
+    .survey-info-row > .text-end {
         display: none;
     }
 }
@@ -892,6 +897,16 @@ li.active-profile {
     font-size: 12px !important;
     line-height: 20px !important;
     text-decoration: underline;
+}
+
+.survey-skip-dis {
+    float: right;
+    margin-right: 10px;
+    color: var(--tmi-gray-80) !important;
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-decoration: none;
 }
 
 .skip-text {
@@ -1265,6 +1280,10 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 .barcode-col-end {
     margin-left: auto;
+}
+
+.barcode-col > .btn {
+    display: inline;
 }
 
 .barcode-text {

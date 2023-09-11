@@ -68,7 +68,7 @@
             {% else %}
                 <div class="card card-profile">
                     <img src="/static/img/profile_card_icon.png" class="mx-auto card-profile-icon">
-                    <h2 class="profile-card-h2 mx-auto mt-2 mb-4">{{ source.source_name|e}}</h2>
+                    <h2 class="profile-card-h2 mx-auto mt-2 mb-4" title="{{ source.source_name|e}}">{{ source.source_name|e}}</h2>
                     <a class="btn btn-blue-gradient mx-auto" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">
                         {{ _('Go to My Profile') }}
                     </a>

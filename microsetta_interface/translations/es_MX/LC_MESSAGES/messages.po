@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-11 15:20-0700\n"
+"POT-Creation-Date: 2023-09-11 16:35-0700\n"
 "PO-Revision-Date: 2023-06-16 12:25-0800\n"
 "Last-Translator: \n"
 "Language: es_MX\n"
@@ -29,83 +29,83 @@ msgstr ""
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2163 model_i18n.py:69
+#: implementation.py:2164 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2164 model_i18n.py:70
+#: implementation.py:2165 model_i18n.py:70
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2165 model_i18n.py:82
+#: implementation.py:2166 model_i18n.py:82
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2166 model_i18n.py:77
+#: implementation.py:2167 model_i18n.py:77
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2167 model_i18n.py:78
+#: implementation.py:2168 model_i18n.py:78
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2168 model_i18n.py:79
+#: implementation.py:2169 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2169 model_i18n.py:80
+#: implementation.py:2170 model_i18n.py:80
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2170 model_i18n.py:75
+#: implementation.py:2171 model_i18n.py:75
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2171 model_i18n.py:72
+#: implementation.py:2172 model_i18n.py:72
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2172 model_i18n.py:84
+#: implementation.py:2173 model_i18n.py:84
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2173 model_i18n.py:81
+#: implementation.py:2174 model_i18n.py:81
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2174 model_i18n.py:76
+#: implementation.py:2175 model_i18n.py:76
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2175 model_i18n.py:85
+#: implementation.py:2176 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2176 model_i18n.py:83
+#: implementation.py:2177 model_i18n.py:83
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2177 model_i18n.py:71
+#: implementation.py:2178 model_i18n.py:71
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2178 model_i18n.py:74
+#: implementation.py:2179 model_i18n.py:74
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2179 model_i18n.py:73
+#: implementation.py:2180 model_i18n.py:73
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2513
+#: implementation.py:2514
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:2828
+#: implementation.py:2829
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3240 implementation.py:3358
+#: implementation.py:3241 implementation.py:3359
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -1899,7 +1899,8 @@ msgid ""
 "device(s), please contact us at <a "
 "href='mailto:microsetta@ucsd.edu'>microsetta@ucsd.edu</a>."
 msgstr ""
-"Si el código de barras mostrado no coincide con el código de barras de su instrumento de recolección, por favor contáctenos en <a "
+"Si el código de barras mostrado no coincide con el código de barras de su"
+" instrumento de recolección, por favor contáctenos en <a "
 "href=\"mailto:microsetta@ucsd.ed\">microsetta@ucsd.edu</a>."
 
 #: templates/kits.jinja2:306
@@ -3022,25 +3023,25 @@ msgstr ""
 msgid "Estimated time to complete: 30 minutes"
 msgstr "Tiempo estimado para completar: 30 minutos"
 
-#: templates/nutrition.jinja2:184 templates/reports.jinja2:112
+#: templates/nutrition.jinja2:183 templates/reports.jinja2:112
 msgid "Download Top Food Report"
 msgstr "Descargar Reporte de Alimentos"
 
-#: templates/nutrition.jinja2:188 templates/nutrition.jinja2:194
-#: templates/nutrition.jinja2:198 templates/reports.jinja2:115
+#: templates/nutrition.jinja2:187 templates/nutrition.jinja2:193
+#: templates/nutrition.jinja2:197 templates/reports.jinja2:115
 #: templates/reports.jinja2:117
 msgid "Continue FFQ"
 msgstr "Continuar FFQ"
 
-#: templates/nutrition.jinja2:192
+#: templates/nutrition.jinja2:191
 msgid "Begin FFQ"
 msgstr "Comenzar FFQ"
 
-#: templates/nutrition.jinja2:212
+#: templates/nutrition.jinja2:211
 msgid "Registration Code"
 msgstr "Código de Registro"
 
-#: templates/nutrition.jinja2:218
+#: templates/nutrition.jinja2:217
 msgid "Register FFQ"
 msgstr "Registrar FFQ"
 
@@ -3450,7 +3451,9 @@ msgstr "y después"
 msgid ""
 "Skipping a question logs a blank response and counts towards completing a"
 " survey."
-msgstr "Si usted se salta una pregunta se registrará una respuesta en blanco y esto contará para completar la encuesta."
+msgstr ""
+"Si usted se salta una pregunta se registrará una respuesta en blanco y "
+"esto contará para completar la encuesta."
 
 #: templates/sitebase.jinja2:113
 msgid "Can't find what you're looking for?"
@@ -3536,7 +3539,10 @@ msgid ""
 "If this is your first time using our new interface, please review <a "
 "href=\"#\" onClick=\"return openModalSiteBase();\">these tips</a> for "
 "navigating and completing surveys."
-msgstr "Si esta es la primera vez que utiliza nuestra nueva interfaz, por favor revise <a "href=\"#\" onClick=\"return openModalSiteBase();\">estos consejos</a> sobre cómo navegar y completar las encuestas."
+msgstr ""
+"Si esta es la primera vez que utiliza nuestra nueva interfaz, por favor "
+"revise <a \"href=\"#\" onClick=\"return openModalSiteBase();\">estos "
+"consejos</a> sobre cómo navegar y completar las encuestas."
 
 #: templates/source.jinja2:87
 msgid "Last modified"
@@ -3558,7 +3564,7 @@ msgstr "No completado"
 msgid "minutes"
 msgstr "minutos"
 
-#: templates/source.jinja2:120
+#: templates/source.jinja2:121
 msgid ""
 "Below are surveys hosted by partner organizations. You will be directed "
 "to an external site in a new browser tab to complete the survey(s) you "
@@ -3570,19 +3576,19 @@ msgstr ""
 "del navegador para completar la(s) encuesta(s) que seleccione. Una vez "
 "que los complete, puede cerrar la pestaña y volver a esta página."
 
-#: templates/source.jinja2:131
+#: templates/source.jinja2:132
 msgid "COMPLETED"
 msgstr "COMPLETADO"
 
-#: templates/source.jinja2:133
+#: templates/source.jinja2:134
 msgid "NEW"
 msgstr "NUEVO"
 
-#: templates/source.jinja2:135
+#: templates/source.jinja2:136
 msgid "min"
 msgstr "min"
 
-#: templates/source.jinja2:170
+#: templates/source.jinja2:172
 msgid ""
 "You will only have one opportunity to take this survey. Please make sure "
 "you have ample time before you start."
@@ -3590,11 +3596,11 @@ msgstr ""
 "Solo tendrá una oportunidad para realizar esta encuesta. Por favor, "
 "asegúrese de tener suficiente tiempo antes de comenzar."
 
-#: templates/source.jinja2:173
+#: templates/source.jinja2:175
 msgid "Maybe Later"
 msgstr "Quizás más adelante"
 
-#: templates/source.jinja2:174
+#: templates/source.jinja2:176
 msgid "Take This Survey Now"
 msgstr "Tomar esta encuesta ahora"
 

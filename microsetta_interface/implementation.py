@@ -1730,7 +1730,8 @@ def get_source(*, account_id=None, source_id=None):
         if survey['survey_template_type'] == "local":
             local_surveys.append(survey)
         else:
-            if survey['survey_template_id'] != VIOSCREEN_ID:
+            if survey['survey_template_id'] != VIOSCREEN_ID and\
+                    survey['survey_template_id'] != POLYPHENOL_FFQ_ID:
                 if survey['survey_template_id'] == SPAIN_FFQ_ID and\
                         spain_user is False:
                     continue

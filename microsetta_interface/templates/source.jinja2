@@ -116,6 +116,7 @@
             </div>
         {% endfor %}
         </div>
+        {% if remote_surveys|length > 0 %}
         <p class="tmi-tooltip mt-4">
             {{ _('Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.') }}
         </p>
@@ -155,6 +156,7 @@
             </div>
         {% endfor %}
         </div>
+        {% endif %}
     </div>
 
         <!-- Modal -->

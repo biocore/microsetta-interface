@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-12 14:28-0700\n"
+"POT-Creation-Date: 2023-09-12 16:00-0700\n"
 "PO-Revision-Date: 2023-06-16 12:25-0800\n"
 "Last-Translator: \n"
 "Language: es_MX\n"
@@ -18,94 +18,94 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: implementation.py:773
+#: implementation.py:776
 msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 "El ID del kit proporcionado no está registrado en nuestro sistema o ya ha"
 " sido utilizado."
 
-#: implementation.py:1422 implementation.py:1427 templates/sitebase.jinja2:99
+#: implementation.py:1425 implementation.py:1430 templates/sitebase.jinja2:99
 #: templates/sitebase.jinja2:103 templates/survey.jinja2:15
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2191 model_i18n.py:69
+#: implementation.py:2196 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2192 model_i18n.py:70
+#: implementation.py:2197 model_i18n.py:70
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2193 model_i18n.py:82
+#: implementation.py:2198 model_i18n.py:82
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2194 model_i18n.py:77
+#: implementation.py:2199 model_i18n.py:77
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2195 model_i18n.py:78
+#: implementation.py:2200 model_i18n.py:78
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2196 model_i18n.py:79
+#: implementation.py:2201 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2197 model_i18n.py:80
+#: implementation.py:2202 model_i18n.py:80
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2198 model_i18n.py:75
+#: implementation.py:2203 model_i18n.py:75
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2199 model_i18n.py:72
+#: implementation.py:2204 model_i18n.py:72
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2200 model_i18n.py:84
+#: implementation.py:2205 model_i18n.py:84
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2201 model_i18n.py:81
+#: implementation.py:2206 model_i18n.py:81
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2202 model_i18n.py:76
+#: implementation.py:2207 model_i18n.py:76
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2203 model_i18n.py:85
+#: implementation.py:2208 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2204 model_i18n.py:83
+#: implementation.py:2209 model_i18n.py:83
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2205 model_i18n.py:71
+#: implementation.py:2210 model_i18n.py:71
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2206 model_i18n.py:74
+#: implementation.py:2211 model_i18n.py:74
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2207 model_i18n.py:73
+#: implementation.py:2212 model_i18n.py:73
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2541
+#: implementation.py:2550
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:2856
+#: implementation.py:2865
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3268 implementation.py:3386
+#: implementation.py:3277 implementation.py:3395
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -1167,7 +1167,9 @@ msgstr "Perfiles activos"
 
 #: templates/account_overview.jinja2:53
 msgid "Please note: animal and environmental profiles are currently unavailable."
-msgstr "Tenga en cuenta: Actualmente, no están disponibles los perfiles de animales y ambientales."
+msgstr ""
+"Tenga en cuenta: Actualmente, no están disponibles los perfiles de "
+"animales y ambientales."
 
 #: templates/account_overview.jinja2:64 templates/account_overview.jinja2:66
 msgid "You have"

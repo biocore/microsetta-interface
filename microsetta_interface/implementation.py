@@ -390,6 +390,8 @@ LOCAL_SURVEY_SEQUENCE = [
     OTHER_ID
 ]
 
+DAKLAPACK_KIT_RE = re.compile(r"DMK[234689ACDEFHJKMNPRTVWXY]{6}")
+
 
 def _render_with_defaults(template_name, **context):
     defaults = {}
@@ -2522,10 +2524,7 @@ def admin_barcode_search_query_qiita(body):
 
 
 def get_ajax_check_kit_valid(kit_name):
-    if re.match(
-            r"[dD][mM][kK][234689ACDEFHJKMNPRTVWXYacdefhjkmnprtvwxy]{6}",
-            kit_name
-    ):
+    if DAKLAPACK_KIT_RE.match(kit_name.upper()):
         kit_name = kit_name.upper()
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error
@@ -2533,10 +2532,7 @@ def get_ajax_check_kit_valid(kit_name):
 
 
 def get_ajax_list_kit_samples(kit_name):
-    if re.match(
-            r"[dD][mM][kK][234689ACDEFHJKMNPRTVWXYacdefhjkmnprtvwxy]{6}",
-            kit_name
-    ):
+    if DAKLAPACK_KIT_RE.match(kit_name.upper()):
         kit_name = kit_name.upper()
     kit, error, code = _get_kit(kit_name)
     result = kit if error is None else error

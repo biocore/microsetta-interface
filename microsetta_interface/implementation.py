@@ -2086,6 +2086,11 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         False
     )
 
+    if consent_type == "biospecimen":
+        consent_type_display = "Biospecimen"
+    else:
+        consent_type_display = "Survey"
+
     return _render_with_defaults(
         'signed_consent.jinja2',
         account_id=account_id,
@@ -2093,7 +2098,8 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         source_age=source_output['consent']['age_range'],
         source_name=source_output['source_name'],
         consent=consent_output,
-        tl=consent_assets
+        tl=consent_assets,
+        consent_type_display=consent_type_display
     )
 
 

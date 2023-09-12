@@ -1092,14 +1092,18 @@ def get_account(*, account_id=None):
 
     # Determine if the source/profile has any action items. This framework
     # will evolve over time.
+    non_human_sources = False
     for s in sources:
         alerts = 0
+        if s['source_type'] == Source.SOURCE_TYPE_HUMAN:
 
-        need_reconsent_d = check_current_consent(
-            account_id, s[SOURCE_ID], "data"
-        )
-        if need_reconsent_d:
-            alerts += 1
+            need_reconsent_d = check_current_consent(
+                account_id, s[SOURCE_ID], "data"
+            )
+            if need_reconsent_d:
+                alerts += 1
+        else:
+            non_human_sources = True
 
         s['alerts'] = alerts
 
@@ -1113,7 +1117,8 @@ def get_account(*, account_id=None):
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources,
-                                 japan_user=japan_user)
+                                 japan_user=japan_user,
+                                 non_human_sources=non_human_sources)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1842,17 +1847,23 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
     for sample in samples_output:
         if sample['sample_datetime'] is not None:
             dt = datetime.fromisoformat(sample['sample_datetime'])
+            sample['ts_for_sort'] = dt
             # rebase=True - show in user's locale, rebase=False, UTC (I think?)
             sample['sample_datetime'] = flask_babel.format_datetime(
                 dt,
                 format=None,  # Use babel default (short/medium/long/full)
                 rebase=False)
+        else:
+            # We just need a sort value for samples without a collection date
+            # and we want it to filter to the top when we sort by date desc.
+            sample['ts_for_sort'] = datetime.fromisoformat("9999-12-31")
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
     samples = [translate_sample(s) for s in samples_output]
 
     kits = defaultdict(list)
+    kits_ts = {}
     for s in samples:
         if s['sample_site'] == '' or s['sample_datetime'] == '':
             s['css_class'] = "sample-needs-info"
@@ -1862,6 +1873,16 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
             s['alert_icon'] = "green_checkmark.svg"
 
         kits[s['kit_id']].append(s)
+        if s['kit_id'] in kits_ts:
+            if s['ts_for_sort'] > kits_ts[s['kit_id']]:
+                kits_ts[s['kit_id']] = s['ts_for_sort']
+        else:
+            kits_ts[s['kit_id']] = s['ts_for_sort']
+
+    sorted_kits = {}
+    sorted_kits_ts = dict(sorted(kits_ts.items(), key=lambda x: x[1], reverse=True))
+    for kit_id in sorted_kits_ts.keys():
+        sorted_kits[kit_id] = kits[kit_id]
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
@@ -1889,7 +1910,7 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         account_id=account_id,
         source_id=source_id,
         is_human=is_human,
-        kits=kits,
+        kits=sorted_kits,
         source_name=source_output['source_name'],
         fundrazr_url=SERVER_CONFIG["fundrazr_url"],
         account_country=account_country,

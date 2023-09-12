@@ -149,13 +149,15 @@
             }
         }
 
-        function updateButtonState(kit_id_value) {
-            if(kit_id_value != "") {
+        /*
+        function updateButtonState() {
+            if(document.list_kit_form.kit_name.value != "") {
                 document.getElementById("kit_id_button").disabled = false;
             } else {
                 document.getElementById("kit_id_button").disabled = true;
             }
         }
+        */
 
         function openKitPanel() {
             document.getElementById('add_kit_container').style.display = '';
@@ -282,12 +284,12 @@
                         <div class="col-12 text-center">
                             <div class="kit_id_container">
                                 <label for="kit_name" name="label_kit_name" class="tmi-content">{{ _('To register your kit, enter your Kit ID below') }}:</label><br />
-                                <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" onKeyUp="updateButtonState(this.value);"/>
+                                <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" />
                                 <label for="kit_name" class="error kit-validation-error" style="display: none"></label>
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button" disabled>{{ _('Register Kit') }}</button>
+                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button">{{ _('Register Kit') }}</button>
                         </div>
                     </div>
                 </div>

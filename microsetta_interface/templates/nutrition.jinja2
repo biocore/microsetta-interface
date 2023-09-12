@@ -45,7 +45,7 @@
             preclude_whitespace('#ffq_code');
 
             $("form[name='" + form_name + "']").on('submit', function() {
-                updateButtonState("");
+                document.getElementById("ffq_code_button").disabled = true;
             });
 
             // Initialize form validation on the registration form.
@@ -72,6 +72,7 @@
             });
         });
 
+        /*
         function updateButtonState(ffq_code_value) {
             if(ffq_code_value != "") {
                 document.getElementById("ffq_code_button").disabled = false;
@@ -79,6 +80,7 @@
                 document.getElementById("ffq_code_button").disabled = true;
             }
         }
+        */
 
         function openCodePanel() {
             document.getElementById('add_code_container').style.display = '';
@@ -209,12 +211,12 @@
                         <div class="col-12 text-center">
                             <div class="kit_id_container">
                                 <label for="ffq_code" name="ffq_code_name" class="tmi-content">{{ _('Registration Code') }}:</label><br />
-                                <input type="text" name="ffq_code" id="ffq_code" class="form-control" placeholder="TMI-XXXXX-XXXXX-XXXXX" onKeyUp="updateButtonState(this.value);"/>
+                                <input type="text" name="ffq_code" id="ffq_code" class="form-control" placeholder="TMI-XXXXX-XXXXX-XXXXX" />
                                 <label for="ffq_code" class="error kit-validation-error" style="display: none"></label>
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button" disabled>{{ _('Register FFQ') }}</button>
+                            <button class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button">{{ _('Register FFQ') }}</button>
                         </div>
                     </div>
                 </div>

@@ -49,6 +49,9 @@
 <div class="container default-container">
     {% if sources|length > 0 %}
     <h2 class="account-h2">{{ _('Active Profiles') }}</h2>
+    {% if non_human_sources %}
+        <p class="tmi-tooltip">{{ _('Please note: animal and environmental profiles are currently unavailable.') }}</p>
+    {% endif %}
     <div class="row mb-5">
         {% for source in sources %}
         <div class="col-md-4 mb-4">
@@ -66,6 +69,23 @@
                     </div>
                 </div>
             {% else %}
+                {% if source.source_type == "animal" %}
+                <div class="card card-profile">
+                    <img src="/static/img/source_animal.png" class="mx-auto card-profile-icon" width="70px">
+                    <h2 class="profile-card-h2 mx-auto mt-2 mb-4" title="{{ source.source_name|e}}">{{ source.source_name|e}}</h2>
+                    <a class="btn btn-blue-gradient mx-auto" style="width: fit-content; pointer-events: none;" href="#" disabled>
+                        {{ _('Unavailable') }}
+                    </a>
+                </div>
+                {% elif source.source_type == "environmental" %}
+                <div class="card card-profile">
+                    <img src="/static/img/source_environmental.png" class="mx-auto card-profile-icon" width="70px">
+                    <h2 class="profile-card-h2 mx-auto mt-2 mb-4" title="{{ source.source_name|e}}">{{ source.source_name|e}}</h2>
+                    <a class="btn btn-blue-gradient mx-auto" style="width: fit-content; pointer-events: none;" href="#" disabled>
+                        {{ _('Unavailable') }}
+                    </a>
+                </div>
+                {% else %}
                 <div class="card card-profile">
                     <img src="/static/img/profile_card_icon.png" class="mx-auto card-profile-icon">
                     <h2 class="profile-card-h2 mx-auto mt-2 mb-4" title="{{ source.source_name|e}}">{{ source.source_name|e}}</h2>
@@ -73,6 +93,7 @@
                         {{ _('Go to My Profile') }}
                     </a>
                 </div>
+                {% endif %}
             {% endif %}
         </div>
         {% endfor %}
@@ -106,6 +127,13 @@
             <p class="disabled-source-types"><strong>{{ _('Coming Soon') }}</strong></p>
         </div>
     </div>
+    {% if admin_mode %}
+    <div class="row mt-3">
+        <div class="col-12">
+            <center><h2><a href="/accounts/{{ account.account_id }}/details">{{ _('Account Details') }}</a></h2></center>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 

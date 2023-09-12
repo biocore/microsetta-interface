@@ -1880,7 +1880,9 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
             kits_ts[s['kit_id']] = s['ts_for_sort']
 
     sorted_kits = {}
-    sorted_kits_ts = dict(sorted(kits_ts.items(), key=lambda x: x[1], reverse=True))
+    sorted_kits_ts = dict(
+        sorted(kits_ts.items(), key=lambda x: x[1], reverse=True)
+    )
     for kit_id in sorted_kits_ts.keys():
         sorted_kits[kit_id] = kits[kit_id]
 

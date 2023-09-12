@@ -13,6 +13,7 @@ from os import path
 from datetime import datetime
 import base64
 import functools
+import re
 from string import ascii_lowercase
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
@@ -2521,12 +2522,22 @@ def admin_barcode_search_query_qiita(body):
 
 
 def get_ajax_check_kit_valid(kit_name):
+    if re.match(
+            r"[dD][mM][kK][234689ACDEFHJKMNPRTVWXYacdefhjkmnprtvwxy]{6}",
+            kit_name
+    ):
+        kit_name = kit_name.upper()
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error
     return flask.jsonify(result)
 
 
 def get_ajax_list_kit_samples(kit_name):
+    if re.match(
+            r"[dD][mM][kK][234689ACDEFHJKMNPRTVWXYacdefhjkmnprtvwxy]{6}",
+            kit_name
+    ):
+        kit_name = kit_name.upper()
     kit, error, code = _get_kit(kit_name)
     result = kit if error is None else error
     return flask.jsonify(result), code

@@ -149,13 +149,15 @@
             }
         }
 
-        function updateButtonState(kit_id_value) {
-            if(kit_id_value != "") {
+        /*
+        function updateButtonState() {
+            if(document.list_kit_form.kit_name.value != "") {
                 document.getElementById("kit_id_button").disabled = false;
             } else {
                 document.getElementById("kit_id_button").disabled = true;
             }
         }
+        */
 
         function openKitPanel() {
             document.getElementById('add_kit_container').style.display = '';
@@ -282,12 +284,12 @@
                         <div class="col-12 text-center">
                             <div class="kit_id_container">
                                 <label for="kit_name" name="label_kit_name" class="tmi-content">{{ _('To register your kit, enter your Kit ID below') }}:</label><br />
-                                <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" onKeyUp="updateButtonState(this.value);"/>
+                                <input type="text" name="kit_name" id="kit_name" class="form-control" placeholder="XXXXXXXXXX" />
                                 <label for="kit_name" class="error kit-validation-error" style="display: none"></label>
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button" disabled>{{ _('Register Kit') }}</button>
+                            <button class="btn btn-blue-gradient" name="kit_id_button" id="kit_id_button">{{ _('Register Kit') }}</button>
                         </div>
                     </div>
                 </div>
@@ -302,7 +304,8 @@
 {{ _('2. Add the date and time of sample collection and select the sample type taken.') }}<br />
 <span class='kit-important'>{{ _('Important') }}:</span> <br />
 {{ _('The sample cannot be processed in the lab until this information is complete.') }} <br />
-{{ _('Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.') }}</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">{{ _('What is the barcode and why is it important?') }}</a></span></p><br />
+{{ _('Keep a record of these details. The barcode is needed to resolve any issues you may have with your sample collection.') }}<br />
+{{ _('If the barcode(s) listed do not match the barcode(s) on your collection device(s), please contact us at <a href=\'mailto:microsetta@ucsd.edu\'>microsetta@ucsd.edu</a>.') }}</i></span>" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="">{{ _('What is the barcode and why is it important?') }}</a></span></p><br />
                         <form method="post" name="pick_samples_form" id="pick_samples_form" action="/accounts/{{account_id}}/sources/{{source_id}}/claim_samples" style="padding: 0;">
                         <div class="new_kit_sample_container" id="new_kit_sample_container">
 

@@ -1,13 +1,18 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = _("Consent") %}
-{% set show_breadcrumbs = False %}
-{% set hide_header = True %}
-{% set hide_footer = True %}
+{% set show_breadcrumbs = True %}
 {% block head %}
 {% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{ _('My Profile') }}</a></li>
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}/consents">{{ _('Consent Documents') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ consent_type_display }}</li>
+{% endblock %}
 
 {% block content%}
+
 
 <div class="container default-container">
 

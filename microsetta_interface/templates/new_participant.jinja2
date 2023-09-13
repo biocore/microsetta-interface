@@ -11,6 +11,9 @@
         $("#7-12-div").hide();
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
+        {% if age_range == 'legacy' %}
+        $("#legacy-cancel-div").hide();
+        {% endif %}
         $("#"+ radio.value +"-div").show();
     }
 
@@ -513,6 +516,16 @@
     </div>
     </form>
 </div>
+
+{% if age_range == 'legacy' %}
+<div id="legacy-cancel-div">
+    <div class="row">
+        <div class="col-12 text-center">
+            <input type="button" id="cancel_button" value="{{ _('Cancel') }}" class="btn btn-white-blue-border me-4" onClick="goHome()">
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Modal -->
 <div class="modal fade" id="source_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

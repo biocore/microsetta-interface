@@ -13,6 +13,7 @@ from os import path
 from datetime import datetime
 import base64
 import functools
+import re
 from string import ascii_lowercase
 from microsetta_interface.model_i18n import translate_source, \
     translate_sample, translate_survey_template, EN_US_KEY, LANGUAGES, \
@@ -388,6 +389,8 @@ LOCAL_SURVEY_SEQUENCE = [
     DETAILED_DIET_ID,
     OTHER_ID
 ]
+
+DAKLAPACK_KIT_RE = re.compile(r"DMK[234689ACDEFHJKMNPRTVWXY]{6}")
 
 
 def _render_with_defaults(template_name, **context):
@@ -1092,14 +1095,18 @@ def get_account(*, account_id=None):
 
     # Determine if the source/profile has any action items. This framework
     # will evolve over time.
+    non_human_sources = False
     for s in sources:
         alerts = 0
+        if s['source_type'] == Source.SOURCE_TYPE_HUMAN:
 
-        need_reconsent_d = check_current_consent(
-            account_id, s[SOURCE_ID], "data"
-        )
-        if need_reconsent_d:
-            alerts += 1
+            need_reconsent_d = check_current_consent(
+                account_id, s[SOURCE_ID], "data"
+            )
+            if need_reconsent_d:
+                alerts += 1
+        else:
+            non_human_sources = True
 
         s['alerts'] = alerts
 
@@ -1113,7 +1120,8 @@ def get_account(*, account_id=None):
     return _render_with_defaults('account_overview.jinja2',
                                  account=account,
                                  sources=sources,
-                                 japan_user=japan_user)
+                                 japan_user=japan_user,
+                                 non_human_sources=non_human_sources)
 
 
 @prerequisite([ACCT_PREREQS_MET])
@@ -1396,11 +1404,6 @@ def get_fill_source_survey(*,
             ctr = 0
             trig_ctr = 0
             for field in group['fields']:
-                if need_reconsent:
-                    # If the user has not agreed to the current consent, we
-                    # disable all of the fields.
-                    field['disabled'] = True
-
                 if "triggered_by" in field:
                     field['label'] = str(ctr) + ascii_lowercase[trig_ctr]\
                                      + ". " + field['label']
@@ -1410,10 +1413,22 @@ def get_fill_source_survey(*,
                     ctr += 1
                     survey_question_count += 1
                     field['label'] = str(ctr) + ". " + field['label']
-                field['label'] = '<span class="survey-skip small-text" '\
-                                 + 'onClick="skipQuestion(this)">'\
-                                 + gettext('SKIP')\
-                                 + '</span>' + field['label']
+
+                if need_reconsent:
+                    # If the user has not agreed to the current consent, we
+                    # disable all of the fields.
+                    field['disabled'] = True
+                    # And we remove the onClick action from the Skip/Display
+                    # text, but leave it to reflect their last response
+                    field['label'] = '<span ' \
+                                     + 'class="survey-skip-dis small-text">' \
+                                     + gettext('SKIP') \
+                                     + '</span>' + field['label']
+                else:
+                    field['label'] = '<span class="survey-skip small-text" '\
+                                     + 'onClick="skipQuestion(this)">'\
+                                     + gettext('SKIP')\
+                                     + '</span>' + field['label']
 
         return _render_with_defaults(
             "survey.jinja2",
@@ -1481,14 +1496,16 @@ def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
                                             sample_id=None,
-                                            registration_code=None):
+                                            registration_code=None,
+                                            vio_id=None):
     suffix = "vspassthru"
     redirect_url = SERVER_CONFIG["endpoint"] + \
         _make_source_path(account_id, source_id, suffix=suffix)
     params = {
         'survey_redirect_url': redirect_url,
         'vioscreen_ext_sample_id': sample_id,
-        'registration_code': registration_code
+        'registration_code': registration_code,
+        'vio_id': vio_id
     }
     has_error, survey_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/survey_templates/%s' %
@@ -1721,7 +1738,8 @@ def get_source(*, account_id=None, source_id=None):
         if survey['survey_template_type'] == "local":
             local_surveys.append(survey)
         else:
-            if survey['survey_template_id'] != VIOSCREEN_ID:
+            if survey['survey_template_id'] != VIOSCREEN_ID and\
+                    survey['survey_template_id'] != POLYPHENOL_FFQ_ID:
                 if survey['survey_template_id'] == SPAIN_FFQ_ID and\
                         spain_user is False:
                     continue
@@ -1832,17 +1850,23 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
     for sample in samples_output:
         if sample['sample_datetime'] is not None:
             dt = datetime.fromisoformat(sample['sample_datetime'])
+            sample['ts_for_sort'] = dt
             # rebase=True - show in user's locale, rebase=False, UTC (I think?)
             sample['sample_datetime'] = flask_babel.format_datetime(
                 dt,
                 format=None,  # Use babel default (short/medium/long/full)
                 rebase=False)
+        else:
+            # We just need a sort value for samples without a collection date
+            # and we want it to filter to the top when we sort by date desc.
+            sample['ts_for_sort'] = datetime.fromisoformat("9999-12-31")
 
     is_human = source_output['source_type'] == Source.SOURCE_TYPE_HUMAN
 
     samples = [translate_sample(s) for s in samples_output]
 
     kits = defaultdict(list)
+    kits_ts = {}
     for s in samples:
         if s['sample_site'] == '' or s['sample_datetime'] == '':
             s['css_class'] = "sample-needs-info"
@@ -1852,6 +1876,18 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
             s['alert_icon'] = "green_checkmark.svg"
 
         kits[s['kit_id']].append(s)
+        if s['kit_id'] in kits_ts:
+            if s['ts_for_sort'] > kits_ts[s['kit_id']]:
+                kits_ts[s['kit_id']] = s['ts_for_sort']
+        else:
+            kits_ts[s['kit_id']] = s['ts_for_sort']
+
+    sorted_kits = {}
+    sorted_kits_ts = dict(
+        sorted(kits_ts.items(), key=lambda x: x[1], reverse=True)
+    )
+    for kit_id in sorted_kits_ts.keys():
+        sorted_kits[kit_id] = kits[kit_id]
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
@@ -1879,7 +1915,7 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         account_id=account_id,
         source_id=source_id,
         is_human=is_human,
-        kits=kits,
+        kits=sorted_kits,
         source_name=source_output['source_name'],
         fundrazr_url=SERVER_CONFIG["fundrazr_url"],
         account_country=account_country,
@@ -1928,6 +1964,9 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         return vioscreen_output
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
+    need_reconsent_data = check_current_consent(
+        account_id, source_id, "data"
+    )
 
     return _render_with_defaults(
         'nutrition.jinja2',
@@ -1940,7 +1979,8 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         nutrition_tab_whitelist=NUTRITION_TAB_WHITELIST,
         new_ffq_code=new_ffq_code,
         profile_has_samples=profile_has_samples,
-        has_basic_info=has_basic_info
+        has_basic_info=has_basic_info,
+        need_reconsent_data=need_reconsent_data
     )
 
 
@@ -2011,9 +2051,7 @@ def get_consents(*, account_id=None, source_id=None):
     )
     if has_error:
         if has_error == 404:
-            # If historical users who haven't re-consented try to view signed
-            # consents, we redirect them to the consent page
-            return render_consent_page(account_id, source_id, "data")
+            data_consent = None
         else:
             return data_consent
 
@@ -2074,6 +2112,11 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         False
     )
 
+    if consent_type == "biospecimen":
+        consent_type_display = "Biospecimen"
+    else:
+        consent_type_display = "Survey"
+
     return _render_with_defaults(
         'signed_consent.jinja2',
         account_id=account_id,
@@ -2081,7 +2124,8 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         source_age=source_output['consent']['age_range'],
         source_name=source_output['source_name'],
         consent=consent_output,
-        tl=consent_assets
+        tl=consent_assets,
+        consent_type_display=consent_type_display
     )
 
 
@@ -2480,12 +2524,16 @@ def admin_barcode_search_query_qiita(body):
 
 
 def get_ajax_check_kit_valid(kit_name):
+    if DAKLAPACK_KIT_RE.match(kit_name.upper()):
+        kit_name = kit_name.upper()
     kit, error, _ = _get_kit(kit_name)
     result = True if error is None else error
     return flask.jsonify(result)
 
 
 def get_ajax_list_kit_samples(kit_name):
+    if DAKLAPACK_KIT_RE.match(kit_name.upper()):
+        kit_name = kit_name.upper()
     kit, error, code = _get_kit(kit_name)
     result = kit if error is None else error
     return flask.jsonify(result), code

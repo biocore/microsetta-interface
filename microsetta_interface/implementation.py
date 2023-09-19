@@ -1651,22 +1651,38 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None,
     # biospecimen consent
     skip_dupe_check = True
 
-    return _render_with_defaults(
-        'new_participant.jinja2',
-        tl=consent_output,
-        post_url=post_url,
-        duplicate_source_check=duplicate_source_check,
-        home_url=home_url,
-        form_type=form_type,
-        reconsent=reconsent,
-        language_tag=session_locale(),
-        sample_ids=sample_ids,
-        participant_name=source_output['source_name'],
-        age_range=source_output['consent']['age_range'],
-        account_id=account_id,
-        source_id=source_id,
-        skip_dupe_check=skip_dupe_check
+    # NB: For the time being, we need to block any existing under-18 profiles
+    # from reconsenting. Checking whether they have a current data consent is
+    # an absolute way to establish old profiles vs. new, so we'll see if they
+    # have the current data consent, then divert anyone under 18 away from the
+    # reconsent form.
+    need_reconsent_data = check_current_consent(
+        account_id, source_id, "data"
     )
+    if need_reconsent_data and source_output['consent']['age_range'] !=\
+            "legacy" and source_output['consent']['age_range'] != "18-plus":
+        return _render_with_defaults(
+            'minor_reconsent.jinja2',
+            account_id=account_id,
+            source_id=source_id
+        )
+    else:
+        return _render_with_defaults(
+            'new_participant.jinja2',
+            tl=consent_output,
+            post_url=post_url,
+            duplicate_source_check=duplicate_source_check,
+            home_url=home_url,
+            form_type=form_type,
+            reconsent=reconsent,
+            language_tag=session_locale(),
+            sample_ids=sample_ids,
+            participant_name=source_output['source_name'],
+            age_range=source_output['consent']['age_range'],
+            account_id=account_id,
+            source_id=source_id,
+            skip_dupe_check=skip_dupe_check
+        )
 
 
 def decline_reconsent(*, account_id, source_id):

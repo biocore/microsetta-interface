@@ -1,0 +1,32 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Consent") %}
+{% set show_breadcrumbs = True %}
+
+{% block head %}
+<script type="text/javascript">
+    function goHome() {
+        window.location.replace("/accounts/{{ account_id |e }}/sources/{{ source_id |e }}/decline_reconsent");
+    }
+</script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('My Profile') }}</li>
+{% endblock %}
+
+{% block content %}
+<center>
+    <div class="card card-account"  style="max-width: 800px; text-align: left;">
+        <div class="card-body">
+            {{ _('Unfortunately, profiles for minors are currently unavailable for updates as we make adjustments to the process of agreeing to our updated consent documents. You may view existing survey responses, samples, and reports, but updating survey responses or contributing new samples is disabled. We anticipate re-enabling these features within the next few weeks.') }}
+            <br /><br />
+            {{ _('Please click the Continue button below to go to your profile.') }}
+            <br /><br />
+            <center>
+                <input type="button" id="cancel_button" value="{{ _('Continue') }}" class="btn btn-white-blue-border me-4" onClick="goHome()">
+            </center>
+        </div>
+    </div>
+</center>
+{% endblock %}

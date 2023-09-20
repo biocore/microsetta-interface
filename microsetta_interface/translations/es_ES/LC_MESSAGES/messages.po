@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-12 16:00-0700\n"
+"POT-Creation-Date: 2023-09-19 16:51-0700\n"
 "PO-Revision-Date: 2023-06-16 12:25-0800\n"
 "Last-Translator: \n"
 "Language: es_ES\n"
@@ -29,83 +29,83 @@ msgstr ""
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2196 model_i18n.py:69
+#: implementation.py:2212 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2197 model_i18n.py:70
+#: implementation.py:2213 model_i18n.py:70
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2198 model_i18n.py:82
+#: implementation.py:2214 model_i18n.py:82
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2199 model_i18n.py:77
+#: implementation.py:2215 model_i18n.py:77
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2200 model_i18n.py:78
+#: implementation.py:2216 model_i18n.py:78
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2201 model_i18n.py:79
+#: implementation.py:2217 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2202 model_i18n.py:80
+#: implementation.py:2218 model_i18n.py:80
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2203 model_i18n.py:75
+#: implementation.py:2219 model_i18n.py:75
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2204 model_i18n.py:72
+#: implementation.py:2220 model_i18n.py:72
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2205 model_i18n.py:84
+#: implementation.py:2221 model_i18n.py:84
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2206 model_i18n.py:81
+#: implementation.py:2222 model_i18n.py:81
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2207 model_i18n.py:76
+#: implementation.py:2223 model_i18n.py:76
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2208 model_i18n.py:85
+#: implementation.py:2224 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2209 model_i18n.py:83
+#: implementation.py:2225 model_i18n.py:83
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2210 model_i18n.py:71
+#: implementation.py:2226 model_i18n.py:71
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2211 model_i18n.py:74
+#: implementation.py:2227 model_i18n.py:74
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2212 model_i18n.py:73
+#: implementation.py:2228 model_i18n.py:73
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2550
+#: implementation.py:2566
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:2865
+#: implementation.py:2881
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3277 implementation.py:3395
+#: implementation.py:3293 implementation.py:3411
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -263,10 +263,11 @@ msgstr "Código Postal"
 
 #: templates/account_details.jinja2:109 templates/account_overview.jinja2:44
 #: templates/consents.jinja2:22 templates/kits.jinja2:178
-#: templates/new_participant.jinja2:206 templates/new_results_page.jinja2:1340
-#: templates/nutrition.jinja2:107 templates/reports.jinja2:61
-#: templates/sample.jinja2:183 templates/signed_consent.jinja2:8
-#: templates/source.jinja2:56 templates/survey.jinja2:182
+#: templates/minor_reconsent.jinja2:14 templates/new_participant.jinja2:206
+#: templates/new_results_page.jinja2:1340 templates/nutrition.jinja2:107
+#: templates/reports.jinja2:61 templates/sample.jinja2:183
+#: templates/signed_consent.jinja2:8 templates/source.jinja2:56
+#: templates/survey.jinja2:182
 msgid "Dashboard"
 msgstr "Panel"
 
@@ -1921,6 +1922,35 @@ msgstr "¿Qué es el código de barras y por qué es importante?"
 msgid "Confirm"
 msgstr "Confirmar"
 
+#: templates/minor_reconsent.jinja2:2 templates/new_participant.jinja2:2
+#: templates/signed_consent.jinja2:2
+msgid "Consent"
+msgstr "Consentimiento Informado"
+
+#: templates/minor_reconsent.jinja2:15 templates/nutrition.jinja2:137
+#: templates/signed_consent.jinja2:9 templates/sitebase.jinja2:205
+#: templates/sitebase.jinja2:214 templates/sitebase.jinja2:216
+#: templates/source.jinja2:2 templates/survey.jinja2:183
+msgid "My Profile"
+msgstr "Mi Perfil"
+
+#: templates/minor_reconsent.jinja2:22
+msgid ""
+"Unfortunately, profiles for minors are currently unavailable for updates "
+"as we make adjustments to the process of agreeing to our updated consent "
+"documents. You may view existing survey responses, samples, and reports, "
+"but updating survey responses or contributing new samples is disabled. We"
+" anticipate re-enabling these features within the next few weeks."
+msgstr "Desafortunadamente, los perfiles de menores de edad actualmente no están disponibles para actualizaciones, ya que realizamos cambios en el proceso de aceptación de nuestros documentos de consentimiento. Usted puede ver respuestas de encuestas existentes, muestras e informes, pero la actualización de respuestas en las encuestas o la contribución de nuevas muestras están deshabilitadas. Anticipamos volver a habilitar estas funciones en las próximas semanas."
+
+#: templates/minor_reconsent.jinja2:24
+msgid "Please click the Continue button below to go to your profile."
+msgstr "Por favor, haga clic en el siguiente botón de Continuar para ir a su perfil."
+
+#: templates/minor_reconsent.jinja2:27
+msgid "Continue"
+msgstr "Continuar"
+
 #: templates/myfoodrepo_no_slots.jinja2:2
 msgid "MyFoodRepo unavailable"
 msgstr "MyFoodRepo no disponible"
@@ -1953,10 +1983,6 @@ msgstr ""
 #: templates/post_sample_questionnaire.jinja2:30
 msgid "Back to Samples"
 msgstr "Volver a las Muestras"
-
-#: templates/new_participant.jinja2:2 templates/signed_consent.jinja2:2
-msgid "Consent"
-msgstr "Consentimiento Informado"
 
 #: templates/new_participant.jinja2:46 templates/new_participant.jinja2:47
 #: templates/new_participant.jinja2:48 templates/new_participant.jinja2:49
@@ -2975,13 +3001,6 @@ msgstr ""
 "Parece que aún no ha completado la encuesta de Información Básica. Si "
 "comienza su FFQ sin proporcionar su altura, peso, edad y sexo en la "
 "encuesta de Información Básica, su informe FFQ será inexacto."
-
-#: templates/nutrition.jinja2:137 templates/signed_consent.jinja2:9
-#: templates/sitebase.jinja2:205 templates/sitebase.jinja2:214
-#: templates/sitebase.jinja2:216 templates/source.jinja2:2
-#: templates/survey.jinja2:183
-msgid "My Profile"
-msgstr "Mi Perfil"
 
 #: templates/nutrition.jinja2:149
 msgid "Have an FFQ"

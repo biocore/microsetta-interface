@@ -45,7 +45,6 @@
                         .text(state[1]);
                     $("#state").append(option);
                 }
-                $("#form_group_address_3, #form_group_address_type").show();
         } else {
             for (var country of COUNTRIES_LIST)
             {
@@ -104,9 +103,6 @@ $(document).ready(function(){
                                 address_2: function () {
                                     return $("#address_2").val();
                                 },
-                                address_3: function () {
-                                    return $("#address_3").val();
-                                },
                                 city: function() {
                                     return $("#city").val();
                                 },
@@ -115,7 +111,8 @@ $(document).ready(function(){
                                 },
                                 country: function() {
                                     return $("#country").val();
-                                }
+                                },
+                                address_3: ""
                             }
                         }
                     },
@@ -147,11 +144,6 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css">
-
-    #form_group_address_3, #form_group_address_type {
-        display:none;
-    }
-
     body {
         padding-left: 0;
         margin: 0;
@@ -215,10 +207,6 @@ $(document).ready(function(){
                     <div class="form-group mb-2">
                         <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
                         <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] if user_info['address_2'] is not none else '' }}" />
-                    </div>
-                    <div class="form-group mb-2" id="form_group_address_3">
-                        <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>
-                        <input id="address_3" name="address_3" class="form-control" value="{{ user_info['address_3'] |e }}" type="text" />
                     </div>
                     <div class="form-group mb-2">
                         <label for="city" name="city_label">{{ _('City') }}*</label>

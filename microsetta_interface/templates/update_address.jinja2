@@ -214,7 +214,7 @@ $(document).ready(function(){
                     </div>
                     <div class="form-group mb-2">
                         <label for="address_2" name="address_2_label">{{ _('Address 2') }}</label>
-                        <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] |e }}" />
+                        <input id="address_2" name="address_2" class="form-control" type="text" value="{{ user_info['address_2'] if user_info['address_2'] is not none else '' }}" />
                     </div>
                     <div class="form-group mb-2" id="form_group_address_3">
                         <label for="address_3" name="address_3_label">{{ _('Address 3') }}</label>

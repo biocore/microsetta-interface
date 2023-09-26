@@ -3394,7 +3394,7 @@ def post_update_address(body):
             "email": body['email'],
             "address_1": body['address_1'],
             "address_2": body['address_2'],
-            "address_3": body['address_3'],
+            "address_3": body.get('address_3', ""),
             "city": body['city'],
             "state": body['state'],
             "postal": body['postal'],

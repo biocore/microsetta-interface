@@ -145,7 +145,7 @@ SYSTEM_MSG_DICTIONARY = {
 client_state = RedisCache()
 
 # Countries allowed to view the contents of the My Kits tab
-KITS_TAB_WHITELIST = {'US', 'ES', 'JP'}
+KITS_TAB_WHITELIST = {'US', 'ES', 'JP', 'MX', 'GB'}
 
 # Countries allowed to view the contents of the My Nutrition tab
 NUTRITION_TAB_WHITELIST = {'US'}
@@ -932,12 +932,7 @@ def get_authrocket_callback(token=None, redirect_uri=None):
             "account_id": primary['account_id'],
             "email": primary['email']
         }
-        # NB: Disabling Japanese for the initial relaunch period until the
-        # Tokyo Tech team can review finalized translations
-        if primary["language"] == JA_JP_KEY:
-            session[LANG_KEY] = EN_US_KEY
-        else:
-            session[LANG_KEY] = primary["language"]
+        session[LANG_KEY] = primary["language"]
     else:
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {

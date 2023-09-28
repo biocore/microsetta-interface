@@ -14,7 +14,7 @@ LANGUAGES = {
     EN_US_KEY: Lang("en_US", "English"),
     ES_MX_KEY: Lang("es_MX", "Español (México)"),
     ES_ES_KEY: Lang("es_ES", "Español (España)"),
-    # JA_JP_KEY: Lang("ja_JP", "日本語")
+    JA_JP_KEY: Lang("ja_JP", "日本語")
 }
 
 # We need a default full locale when a user's browser only sends a partial

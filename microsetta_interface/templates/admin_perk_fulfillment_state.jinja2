@@ -1,0 +1,14 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Perk Fulfillment State") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+<div class="container">
+    Current state of perk_fulfillment_active setting: {{ pf_state }}
+
+    <hr />
+
+    <form action="/admin/perk_fulfillment_state?perk_fulfillment_state={{ not pf_state }}" method="post">
+        <input type="submit" value="Switch perk_fulfillment_active to {{ not pf_state }}" />
+    </form>
+</div>
+{% endblock %}

@@ -2689,6 +2689,36 @@ def post_account_delete(body):
     return get_rootpath()
 
 
+def get_perk_fulfillment_state():
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        '/admin/perk_fulfillment_state'
+    )
+    if do_return:
+        return diagnostics
+
+    pf_state = diagnostics['pf_state']
+
+    return _render_with_defaults('admin_perk_fulfillment_state.jinja2',
+                                 pf_state=pf_state)
+
+
+def update_perk_fulfillment_state(perk_fulfillment_state):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.put(
+        '/admin/perk_fulfillment_state?perk_fulfillment_state=%s' % (
+            perk_fulfillment_state,)
+    )
+    if do_return:
+        return diagnostics
+
+    return get_perk_fulfillment_state()
+
+
 def get_interested_users(email=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

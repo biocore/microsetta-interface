@@ -1038,6 +1038,36 @@ paths:
               schema:
                 type: string
 
+  '/admin/perk_fulfillment_state':
+    get:
+      operationId: microsetta_interface.implementation.get_perk_fulfillment_state
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: Current state of whether perk fulfillment tasks are running
+          content:
+            text/html:
+              schema:
+                type: string
+    post:
+      operationId: microsetta_interface.implementation.update_perk_fulfillment_state
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: perk_fulfillment_state
+          description: New state of perk fulfillment tasks
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Updated state of whether perk fulfillment tasks are running
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/interested_users':
     get:
       operationId: microsetta_interface.implementation.get_interested_users

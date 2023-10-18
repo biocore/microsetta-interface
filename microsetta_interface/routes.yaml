@@ -1513,7 +1513,7 @@ components:
         $ref: '#/components/schemas/check_survey_date'
     external_report_id:
       name: external_report_id
-      in: query
+      in: path
       description: Unique identifier for an external report
       schema:
         $ref: '#/components/schemas/external_report_id'

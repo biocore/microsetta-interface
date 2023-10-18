@@ -95,6 +95,19 @@
                 </div>
             </div>
             {% endfor %}
+            {% for er in external_reports_sample %}
+            <div class="row mb-2">
+                <div class="barcode-col">
+                    <img src="/static/img/tube_icon.svg" width="24" height="24" />
+                </div>
+                <div class="barcode-col barcode-text">
+                    {{ er.file_title }}
+                </div>
+                <div class="barcode-col barcode-col-end">
+                    <a href="/accounts/{{account_id}}/sources/{{source_id}}/external_reports/{{ er.external_report_id }}" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Report') }}</a>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         <div class="card mt-4 p-4">
             <div class="row">
@@ -117,6 +130,16 @@
                             <a href="/accounts/{{account_id}}/sources/{{source_id}}/vioscreen_ffq?registration_code={{ vio.registration_code }}" class="btn btn-blue-gradient" role="button" onClick="return disable_link(this);">{{ _('Continue FFQ') }}</a>
                         {% endif %}
                     {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% for er in external_reports_ffq %}
+            <div class="row mt-3">
+                <div class="barcode-col ffq-text">
+                    {{ er.file_title }}
+                </div>
+                <div class="barcode-col barcode-col-end">
+                    <a href="/accounts/{{account_id}}/sources/{{source_id}}/external_reports/{{ er.external_report_id }}" class="btn btn-white-blue-border" role="button" onClick="return disable_link(this);">{{ _('Download Report') }}</a>
                 </div>
             </div>
             {% endfor %}

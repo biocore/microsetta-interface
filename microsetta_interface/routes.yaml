@@ -467,6 +467,23 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/external_reports/{external_report_id}':
+    get:
+      operationId: microsetta_interface.implementation.get_external_report
+      tags:
+        - Survey
+      summary: Retrieve an external report and render the file for the user
+      description:  Retrieve an external report and render the file for the user
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+        - $ref: '#/components/parameters/external_report_id'
+      responses:
+        '200':
+          description: External report file
+        '404':
+          description: No such report
+
   '/accounts/{account_id}/sources/{source_id}/decline_reconsent':
     get:
       operationId: microsetta_interface.implementation.decline_reconsent
@@ -1494,6 +1511,12 @@ components:
       description: T/F flag on whether the Kits page should check user's most recent survey update date
       schema:
         $ref: '#/components/schemas/check_survey_date'
+    external_report_id:
+      name: external_report_id
+      in: query
+      description: Unique identifier for an external report
+      schema:
+        $ref: '#/components/schemas/external_report_id'
 
   schemas:
     # account section
@@ -1557,3 +1580,6 @@ components:
     check_survey_date:
       type: boolean
       example: True
+    external_report_id:
+      type: string
+      example: b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0

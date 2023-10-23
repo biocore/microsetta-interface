@@ -1517,6 +1517,7 @@ components:
       description: Unique identifier for an external report
       schema:
         $ref: '#/components/schemas/external_report_id'
+      required: true
 
   schemas:
     # account section

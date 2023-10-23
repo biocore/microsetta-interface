@@ -1564,7 +1564,7 @@ components:
       example: "aaaaa"
     activation_code:
       type: string
-      example: TMI-XXXXX-XXXXX-XXXXX
+      example: "TMI-XXXXX-XXXXX-XXXXX"
     target:
       type: string
       example: "home"
@@ -1582,4 +1582,4 @@ components:
       example: True
     external_report_id:
       type: string
-      example: b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0
+      example: "b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0"

@@ -2036,11 +2036,11 @@ def get_reports(*, account_id=None, source_id=None):
     if has_error:
         return samples_output
 
-    external_reports_sample = []
+    external_reports_kit = []
     external_reports_ffq = []
     for er in external_reports:
-        if er['report_type'] == "sample":
-            external_reports_sample.append(er)
+        if er['report_type'] == "kit":
+            external_reports_kit.append(er)
         elif er['report_type'] == "ffq":
             external_reports_ffq.append(er)
         else:
@@ -2060,7 +2060,7 @@ def get_reports(*, account_id=None, source_id=None):
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
         public_endpoint=SERVER_CONFIG['public_api_endpoint'],
         profile_has_samples=profile_has_samples,
-        external_reports_sample=external_reports_sample,
+        external_reports_kit=external_reports_kit,
         external_reports_ffq=external_reports_ffq
     )
 

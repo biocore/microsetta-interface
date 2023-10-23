@@ -165,7 +165,7 @@ msgstr "アレルギー"
 
 #: model_i18n.py:104 templates/new_results_page.jinja2:1502
 msgid "Diet"
-msgstr "食事"
+msgstr "食習慣"
 
 #: model_i18n.py:105
 msgid "Detailed Diet"
@@ -173,7 +173,7 @@ msgstr "食事の詳細"
 
 #: model_i18n.py:106
 msgid "Other"
-msgstr "他の"
+msgstr "その他"
 
 #: model_i18n.py:107
 msgid "Polyphenols"
@@ -3468,7 +3468,7 @@ msgstr "　選択済み"
 
 #: templates/survey.jinja2:16
 msgid "DISPLAY"
-msgstr "画面"
+msgstr "表示する"
 
 #: templates/survey.jinja2:109
 msgid "The value is not an integer"

@@ -2783,7 +2783,7 @@ msgid ""
 "bold\">...</span> of people with a microbiome like yours get <span "
 "id=\"beta_diversity_sleep_response\" class=\"info-loader text-"
 "success\">...</span> of sleep at night"
-msgstr "<span id=\"beta_diversity_sleep_value\" class=\"info-loader font-weight-bold\"> de las personas con un microbioma como el suyo duermen <span id=\"beta_diversity_sleep_response\" class=\"info-loader text-success\">...</span> por la noche"
+msgstr "<span id=\"beta_diversity_sleep_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo duermen <span id=\"beta_diversity_sleep_response\" class=\"info-loader text-success\">...</span> por la noche"
 
 #: templates/new_results_page.jinja2:1574
 msgid "Demographic"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-19 16:51-0700\n"
+"POT-Creation-Date: 2023-10-18 13:02-0700\n"
 "PO-Revision-Date: 2023-06-16 12:25-0800\n"
 "Last-Translator: \n"
 "Language: es_MX\n"
@@ -24,88 +24,88 @@ msgstr ""
 "El ID del kit proporcionado no está registrado en nuestro sistema o ya ha"
 " sido utilizado."
 
-#: implementation.py:1425 implementation.py:1430 templates/sitebase.jinja2:99
-#: templates/sitebase.jinja2:103 templates/survey.jinja2:15
+#: implementation.py:1420 implementation.py:1425 templates/sitebase.jinja2:99
+#: templates/survey.jinja2:15
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2212 model_i18n.py:69
+#: implementation.py:2258 model_i18n.py:69
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2213 model_i18n.py:70
+#: implementation.py:2259 model_i18n.py:70
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2214 model_i18n.py:82
+#: implementation.py:2260 model_i18n.py:82
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2215 model_i18n.py:77
+#: implementation.py:2261 model_i18n.py:77
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2216 model_i18n.py:78
+#: implementation.py:2262 model_i18n.py:78
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2217 model_i18n.py:79
+#: implementation.py:2263 model_i18n.py:79
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2218 model_i18n.py:80
+#: implementation.py:2264 model_i18n.py:80
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2219 model_i18n.py:75
+#: implementation.py:2265 model_i18n.py:75
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2220 model_i18n.py:72
+#: implementation.py:2266 model_i18n.py:72
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2221 model_i18n.py:84
+#: implementation.py:2267 model_i18n.py:84
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2222 model_i18n.py:81
+#: implementation.py:2268 model_i18n.py:81
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2223 model_i18n.py:76
+#: implementation.py:2269 model_i18n.py:76
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2224 model_i18n.py:85
+#: implementation.py:2270 model_i18n.py:85
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2225 model_i18n.py:83
+#: implementation.py:2271 model_i18n.py:83
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2226 model_i18n.py:71
+#: implementation.py:2272 model_i18n.py:71
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2227 model_i18n.py:74
+#: implementation.py:2273 model_i18n.py:74
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2228 model_i18n.py:73
+#: implementation.py:2274 model_i18n.py:73
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2566
+#: implementation.py:2612
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:2881
+#: implementation.py:2927
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3293 implementation.py:3411
+#: implementation.py:3339 implementation.py:3457
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -219,13 +219,13 @@ msgstr ""
 msgid "en_us"
 msgstr "es_mx"
 
-#: templates/account_details.jinja2:2 templates/account_details.jinja2:110
-#: templates/account_details.jinja2:115 templates/account_overview.jinja2:133
+#: templates/account_details.jinja2:2 templates/account_details.jinja2:136
+#: templates/account_details.jinja2:141 templates/account_overview.jinja2:133
 #: templates/sitebase.jinja2:156 templates/sitebase.jinja2:158
 msgid "Account Details"
 msgstr "Información de la cuenta"
 
-#: templates/account_details.jinja2:41 templates/account_details.jinja2:377
+#: templates/account_details.jinja2:41 templates/account_details.jinja2:403
 msgid "Please agree to the Privacy Statement and Terms and Conditions"
 msgstr "Por favor acepte la Declaración de Privacidad y los Términos y Condiciones"
 
@@ -261,7 +261,7 @@ msgstr "Condado/Estado"
 msgid "Postcode"
 msgstr "Código Postal"
 
-#: templates/account_details.jinja2:109 templates/account_overview.jinja2:44
+#: templates/account_details.jinja2:135 templates/account_overview.jinja2:44
 #: templates/consents.jinja2:22 templates/kits.jinja2:178
 #: templates/minor_reconsent.jinja2:14 templates/new_participant.jinja2:206
 #: templates/new_results_page.jinja2:1340 templates/nutrition.jinja2:107
@@ -271,7 +271,7 @@ msgstr "Código Postal"
 msgid "Dashboard"
 msgstr "Panel"
 
-#: templates/account_details.jinja2:119
+#: templates/account_details.jinja2:145
 #: templates/admin_activation_codes.jinja2:7
 #: templates/admin_activation_codes.jinja2:21
 #: templates/admin_activation_codes.jinja2:40 templates/admin_home.jinja2:11
@@ -280,31 +280,31 @@ msgstr "Panel"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/account_details.jinja2:123
+#: templates/account_details.jinja2:149
 msgid "Prefer to use a different email account?  You can change it "
 msgstr ""
 "¿Prefiere usar una cuenta de correo electrónico diferente? Usted puede "
 "cambiarla "
 
-#: templates/account_details.jinja2:125
+#: templates/account_details.jinja2:151
 msgid "here"
 msgstr "aquí"
 
-#: templates/account_details.jinja2:131
+#: templates/account_details.jinja2:157
 #: templates/admin_interested_user_edit.jinja2:106
 #: templates/admin_interested_users.jinja2:15
 #: templates/submit_interest.jinja2:340
 msgid "First Name"
 msgstr "Primer nombre"
 
-#: templates/account_details.jinja2:135
+#: templates/account_details.jinja2:161
 #: templates/admin_interested_user_edit.jinja2:110
 #: templates/admin_interested_users.jinja2:18
 #: templates/submit_interest.jinja2:344
 msgid "Last Name"
 msgstr "Apellido"
 
-#: templates/account_details.jinja2:139
+#: templates/account_details.jinja2:165
 #: templates/admin_address_verification.jinja2:53
 #: templates/admin_address_verification.jinja2:105
 #: templates/admin_interested_user_edit.jinja2:164
@@ -312,793 +312,793 @@ msgstr "Apellido"
 msgid "Country"
 msgstr "País"
 
-#: templates/account_details.jinja2:142 templates/admin_campaign_edit.jinja2:96
+#: templates/account_details.jinja2:168 templates/admin_campaign_edit.jinja2:96
 #: templates/submit_interest.jinja2:359
 msgid "United States"
 msgstr "Estados Unidos"
 
-#: templates/account_details.jinja2:143 templates/admin_campaign_edit.jinja2:97
+#: templates/account_details.jinja2:169 templates/admin_campaign_edit.jinja2:97
 #: templates/submit_interest.jinja2:360
 msgid "United Kingdom"
 msgstr "Reino Unido"
 
-#: templates/account_details.jinja2:144 templates/admin_campaign_edit.jinja2:98
+#: templates/account_details.jinja2:170 templates/admin_campaign_edit.jinja2:98
 #: templates/submit_interest.jinja2:361
 msgid "Mexico"
 msgstr "México"
 
-#: templates/account_details.jinja2:145 templates/admin_campaign_edit.jinja2:99
+#: templates/account_details.jinja2:171 templates/admin_campaign_edit.jinja2:99
 #: templates/submit_interest.jinja2:362
 msgid "Spain"
 msgstr "España"
 
-#: templates/account_details.jinja2:146 templates/submit_interest.jinja2:363
+#: templates/account_details.jinja2:172 templates/submit_interest.jinja2:363
 msgid "Afghanistan"
 msgstr "Afganistán"
 
-#: templates/account_details.jinja2:147 templates/submit_interest.jinja2:364
+#: templates/account_details.jinja2:173 templates/submit_interest.jinja2:364
 msgid "Albania"
 msgstr "Albania"
 
-#: templates/account_details.jinja2:148 templates/submit_interest.jinja2:365
+#: templates/account_details.jinja2:174 templates/submit_interest.jinja2:365
 msgid "Algeria"
 msgstr "Argelia"
 
-#: templates/account_details.jinja2:149 templates/submit_interest.jinja2:366
+#: templates/account_details.jinja2:175 templates/submit_interest.jinja2:366
 msgid "Andorra"
 msgstr "Andorra"
 
-#: templates/account_details.jinja2:150 templates/submit_interest.jinja2:367
+#: templates/account_details.jinja2:176 templates/submit_interest.jinja2:367
 msgid "Angola"
 msgstr "Angola"
 
-#: templates/account_details.jinja2:151 templates/submit_interest.jinja2:368
+#: templates/account_details.jinja2:177 templates/submit_interest.jinja2:368
 msgid "Antarctica"
 msgstr "Antártica"
 
-#: templates/account_details.jinja2:152 templates/submit_interest.jinja2:369
+#: templates/account_details.jinja2:178 templates/submit_interest.jinja2:369
 msgid "Antigua and Barbuda"
 msgstr "Antigua y Barbuda"
 
-#: templates/account_details.jinja2:153 templates/submit_interest.jinja2:370
+#: templates/account_details.jinja2:179 templates/submit_interest.jinja2:370
 msgid "Argentina"
 msgstr "Argentina"
 
-#: templates/account_details.jinja2:154 templates/submit_interest.jinja2:371
+#: templates/account_details.jinja2:180 templates/submit_interest.jinja2:371
 msgid "Armenia"
 msgstr "Armenia"
 
-#: templates/account_details.jinja2:155 templates/submit_interest.jinja2:372
+#: templates/account_details.jinja2:181 templates/submit_interest.jinja2:372
 msgid "Australia"
 msgstr "Australia"
 
-#: templates/account_details.jinja2:156 templates/submit_interest.jinja2:373
+#: templates/account_details.jinja2:182 templates/submit_interest.jinja2:373
 msgid "Austria"
 msgstr "Austria"
 
-#: templates/account_details.jinja2:157 templates/submit_interest.jinja2:374
+#: templates/account_details.jinja2:183 templates/submit_interest.jinja2:374
 msgid "Azerbaijan"
 msgstr "Azerbaiyán"
 
-#: templates/account_details.jinja2:158 templates/submit_interest.jinja2:375
+#: templates/account_details.jinja2:184 templates/submit_interest.jinja2:375
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: templates/account_details.jinja2:159 templates/submit_interest.jinja2:376
+#: templates/account_details.jinja2:185 templates/submit_interest.jinja2:376
 msgid "Bahrain"
 msgstr "Baréin"
 
-#: templates/account_details.jinja2:160 templates/submit_interest.jinja2:377
+#: templates/account_details.jinja2:186 templates/submit_interest.jinja2:377
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-#: templates/account_details.jinja2:161 templates/submit_interest.jinja2:378
+#: templates/account_details.jinja2:187 templates/submit_interest.jinja2:378
 msgid "Barbados"
 msgstr "Barbados"
 
-#: templates/account_details.jinja2:162 templates/submit_interest.jinja2:379
+#: templates/account_details.jinja2:188 templates/submit_interest.jinja2:379
 msgid "Belarus"
 msgstr "Bielorrusia"
 
-#: templates/account_details.jinja2:163 templates/submit_interest.jinja2:380
+#: templates/account_details.jinja2:189 templates/submit_interest.jinja2:380
 msgid "Belgium"
 msgstr "Bélgica"
 
-#: templates/account_details.jinja2:164 templates/submit_interest.jinja2:381
+#: templates/account_details.jinja2:190 templates/submit_interest.jinja2:381
 msgid "Belize"
 msgstr "Belice"
 
-#: templates/account_details.jinja2:165 templates/submit_interest.jinja2:382
+#: templates/account_details.jinja2:191 templates/submit_interest.jinja2:382
 msgid "Benin"
 msgstr "Benín"
 
-#: templates/account_details.jinja2:166 templates/submit_interest.jinja2:383
+#: templates/account_details.jinja2:192 templates/submit_interest.jinja2:383
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: templates/account_details.jinja2:167 templates/submit_interest.jinja2:384
+#: templates/account_details.jinja2:193 templates/submit_interest.jinja2:384
 msgid "Bhutan"
 msgstr "Bután"
 
-#: templates/account_details.jinja2:168 templates/submit_interest.jinja2:385
+#: templates/account_details.jinja2:194 templates/submit_interest.jinja2:385
 msgid "Bolivia"
 msgstr "Bolivia"
 
-#: templates/account_details.jinja2:169 templates/submit_interest.jinja2:386
+#: templates/account_details.jinja2:195 templates/submit_interest.jinja2:386
 msgid "Bosnia and Herzegovina"
 msgstr "Bosnia y Herzegovina"
 
-#: templates/account_details.jinja2:170 templates/submit_interest.jinja2:387
+#: templates/account_details.jinja2:196 templates/submit_interest.jinja2:387
 msgid "Botswana"
 msgstr "Botsuana"
 
-#: templates/account_details.jinja2:171 templates/submit_interest.jinja2:388
+#: templates/account_details.jinja2:197 templates/submit_interest.jinja2:388
 msgid "Brazil"
 msgstr "Brasil"
 
-#: templates/account_details.jinja2:172 templates/submit_interest.jinja2:389
+#: templates/account_details.jinja2:198 templates/submit_interest.jinja2:389
 msgid "Brunei"
 msgstr "Brunéi"
 
-#: templates/account_details.jinja2:173 templates/submit_interest.jinja2:390
+#: templates/account_details.jinja2:199 templates/submit_interest.jinja2:390
 msgid "Bulgaria"
 msgstr "Bulgaria"
 
-#: templates/account_details.jinja2:174 templates/submit_interest.jinja2:391
+#: templates/account_details.jinja2:200 templates/submit_interest.jinja2:391
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: templates/account_details.jinja2:175 templates/submit_interest.jinja2:392
+#: templates/account_details.jinja2:201 templates/submit_interest.jinja2:392
 msgid "Burma"
 msgstr "Birmania"
 
-#: templates/account_details.jinja2:176 templates/submit_interest.jinja2:393
+#: templates/account_details.jinja2:202 templates/submit_interest.jinja2:393
 msgid "Burundi"
 msgstr "Burundi"
 
-#: templates/account_details.jinja2:177 templates/submit_interest.jinja2:394
+#: templates/account_details.jinja2:203 templates/submit_interest.jinja2:394
 msgid "Cambodia"
 msgstr "Camboya"
 
-#: templates/account_details.jinja2:178 templates/submit_interest.jinja2:395
+#: templates/account_details.jinja2:204 templates/submit_interest.jinja2:395
 msgid "Cameroon"
 msgstr "Camerún"
 
-#: templates/account_details.jinja2:179 templates/submit_interest.jinja2:396
+#: templates/account_details.jinja2:205 templates/submit_interest.jinja2:396
 msgid "Canada"
 msgstr "Canada"
 
-#: templates/account_details.jinja2:180 templates/submit_interest.jinja2:397
+#: templates/account_details.jinja2:206 templates/submit_interest.jinja2:397
 msgid "Cape Verde"
 msgstr "Cabo Verde"
 
-#: templates/account_details.jinja2:181 templates/submit_interest.jinja2:398
+#: templates/account_details.jinja2:207 templates/submit_interest.jinja2:398
 msgid "Central African Republic"
 msgstr "República Centroafricana"
 
-#: templates/account_details.jinja2:182 templates/submit_interest.jinja2:399
+#: templates/account_details.jinja2:208 templates/submit_interest.jinja2:399
 msgid "Chad"
 msgstr "Chad"
 
-#: templates/account_details.jinja2:183 templates/submit_interest.jinja2:400
+#: templates/account_details.jinja2:209 templates/submit_interest.jinja2:400
 msgid "Chile"
 msgstr "Chile"
 
-#: templates/account_details.jinja2:184 templates/submit_interest.jinja2:401
+#: templates/account_details.jinja2:210 templates/submit_interest.jinja2:401
 msgid "China"
 msgstr "China"
 
-#: templates/account_details.jinja2:185 templates/submit_interest.jinja2:402
+#: templates/account_details.jinja2:211 templates/submit_interest.jinja2:402
 msgid "Colombia"
 msgstr "Colombia"
 
-#: templates/account_details.jinja2:186 templates/submit_interest.jinja2:403
+#: templates/account_details.jinja2:212 templates/submit_interest.jinja2:403
 msgid "Comoros"
 msgstr "Comoras"
 
-#: templates/account_details.jinja2:187 templates/submit_interest.jinja2:404
+#: templates/account_details.jinja2:213 templates/submit_interest.jinja2:404
 msgid "Congo, Democratic Republic"
 msgstr "Congo, República Democrática"
 
-#: templates/account_details.jinja2:188 templates/submit_interest.jinja2:405
+#: templates/account_details.jinja2:214 templates/submit_interest.jinja2:405
 msgid "Congo, Republic of the"
 msgstr "Congo, República del"
 
-#: templates/account_details.jinja2:189 templates/submit_interest.jinja2:406
+#: templates/account_details.jinja2:215 templates/submit_interest.jinja2:406
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: templates/account_details.jinja2:190 templates/submit_interest.jinja2:407
+#: templates/account_details.jinja2:216 templates/submit_interest.jinja2:407
 msgid "Cote d'Ivoire"
 msgstr "Costa de Marfil"
 
-#: templates/account_details.jinja2:191 templates/submit_interest.jinja2:408
+#: templates/account_details.jinja2:217 templates/submit_interest.jinja2:408
 msgid "Croatia"
 msgstr "Croacia"
 
-#: templates/account_details.jinja2:192 templates/submit_interest.jinja2:409
+#: templates/account_details.jinja2:218 templates/submit_interest.jinja2:409
 msgid "Cuba"
 msgstr "Cuba"
 
-#: templates/account_details.jinja2:193 templates/submit_interest.jinja2:410
+#: templates/account_details.jinja2:219 templates/submit_interest.jinja2:410
 msgid "Cyprus"
 msgstr "Chipre"
 
-#: templates/account_details.jinja2:194 templates/submit_interest.jinja2:411
+#: templates/account_details.jinja2:220 templates/submit_interest.jinja2:411
 msgid "Czech Republic"
 msgstr "República Checa"
 
-#: templates/account_details.jinja2:195 templates/submit_interest.jinja2:412
+#: templates/account_details.jinja2:221 templates/submit_interest.jinja2:412
 msgid "Denmark"
 msgstr "Dinamarca"
 
-#: templates/account_details.jinja2:196 templates/submit_interest.jinja2:413
+#: templates/account_details.jinja2:222 templates/submit_interest.jinja2:413
 msgid "Djibouti"
 msgstr "Yibuti"
 
-#: templates/account_details.jinja2:197 templates/submit_interest.jinja2:414
+#: templates/account_details.jinja2:223 templates/submit_interest.jinja2:414
 msgid "Dominica"
 msgstr "Dominicana"
 
-#: templates/account_details.jinja2:198 templates/submit_interest.jinja2:415
+#: templates/account_details.jinja2:224 templates/submit_interest.jinja2:415
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-#: templates/account_details.jinja2:199 templates/submit_interest.jinja2:416
+#: templates/account_details.jinja2:225 templates/submit_interest.jinja2:416
 msgid "East Timor"
 msgstr "Timor Oriental"
 
-#: templates/account_details.jinja2:200 templates/submit_interest.jinja2:417
+#: templates/account_details.jinja2:226 templates/submit_interest.jinja2:417
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: templates/account_details.jinja2:201 templates/submit_interest.jinja2:418
+#: templates/account_details.jinja2:227 templates/submit_interest.jinja2:418
 msgid "Egypt"
 msgstr "Egipto"
 
-#: templates/account_details.jinja2:202 templates/submit_interest.jinja2:419
+#: templates/account_details.jinja2:228 templates/submit_interest.jinja2:419
 msgid "El Salvador"
 msgstr "El Salvador"
 
-#: templates/account_details.jinja2:203 templates/submit_interest.jinja2:420
+#: templates/account_details.jinja2:229 templates/submit_interest.jinja2:420
 msgid "Equatorial Guinea"
 msgstr "Guinea Ecuatorial"
 
-#: templates/account_details.jinja2:204 templates/submit_interest.jinja2:421
+#: templates/account_details.jinja2:230 templates/submit_interest.jinja2:421
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: templates/account_details.jinja2:205 templates/submit_interest.jinja2:422
+#: templates/account_details.jinja2:231 templates/submit_interest.jinja2:422
 msgid "Estonia"
 msgstr "Estonia"
 
-#: templates/account_details.jinja2:206 templates/submit_interest.jinja2:423
+#: templates/account_details.jinja2:232 templates/submit_interest.jinja2:423
 msgid "Ethiopia"
 msgstr "Etiopía"
 
-#: templates/account_details.jinja2:207 templates/submit_interest.jinja2:424
+#: templates/account_details.jinja2:233 templates/submit_interest.jinja2:424
 msgid "Fiji"
 msgstr "Fiyi"
 
-#: templates/account_details.jinja2:208 templates/submit_interest.jinja2:425
+#: templates/account_details.jinja2:234 templates/submit_interest.jinja2:425
 msgid "Finland"
 msgstr "Finlandia"
 
-#: templates/account_details.jinja2:209 templates/submit_interest.jinja2:426
+#: templates/account_details.jinja2:235 templates/submit_interest.jinja2:426
 msgid "France"
 msgstr "Francia"
 
-#: templates/account_details.jinja2:210 templates/submit_interest.jinja2:427
+#: templates/account_details.jinja2:236 templates/submit_interest.jinja2:427
 msgid "Gabon"
 msgstr "Gabón"
 
-#: templates/account_details.jinja2:211 templates/submit_interest.jinja2:428
+#: templates/account_details.jinja2:237 templates/submit_interest.jinja2:428
 msgid "Gambia"
 msgstr "Gambia"
 
-#: templates/account_details.jinja2:212 templates/submit_interest.jinja2:429
+#: templates/account_details.jinja2:238 templates/submit_interest.jinja2:429
 msgid "Georgia"
 msgstr "Georgia"
 
-#: templates/account_details.jinja2:213 templates/submit_interest.jinja2:430
+#: templates/account_details.jinja2:239 templates/submit_interest.jinja2:430
 msgid "Germany"
 msgstr "Alemania"
 
-#: templates/account_details.jinja2:214 templates/submit_interest.jinja2:431
+#: templates/account_details.jinja2:240 templates/submit_interest.jinja2:431
 msgid "Ghana"
 msgstr "Ghana"
 
-#: templates/account_details.jinja2:215 templates/submit_interest.jinja2:432
+#: templates/account_details.jinja2:241 templates/submit_interest.jinja2:432
 msgid "Greece"
 msgstr "Grecia"
 
-#: templates/account_details.jinja2:216 templates/submit_interest.jinja2:433
+#: templates/account_details.jinja2:242 templates/submit_interest.jinja2:433
 msgid "Greenland"
 msgstr "Groenlandia"
 
-#: templates/account_details.jinja2:217 templates/submit_interest.jinja2:434
+#: templates/account_details.jinja2:243 templates/submit_interest.jinja2:434
 msgid "Grenada"
 msgstr "Granada"
 
-#: templates/account_details.jinja2:218 templates/submit_interest.jinja2:435
+#: templates/account_details.jinja2:244 templates/submit_interest.jinja2:435
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: templates/account_details.jinja2:219 templates/submit_interest.jinja2:436
+#: templates/account_details.jinja2:245 templates/submit_interest.jinja2:436
 msgid "Guinea"
 msgstr "Guinea"
 
-#: templates/account_details.jinja2:220 templates/submit_interest.jinja2:437
+#: templates/account_details.jinja2:246 templates/submit_interest.jinja2:437
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bisáu"
 
-#: templates/account_details.jinja2:221 templates/submit_interest.jinja2:438
+#: templates/account_details.jinja2:247 templates/submit_interest.jinja2:438
 msgid "Guyana"
 msgstr "Guayana"
 
-#: templates/account_details.jinja2:222 templates/submit_interest.jinja2:439
+#: templates/account_details.jinja2:248 templates/submit_interest.jinja2:439
 msgid "Haiti"
 msgstr "Haití"
 
-#: templates/account_details.jinja2:223 templates/submit_interest.jinja2:440
+#: templates/account_details.jinja2:249 templates/submit_interest.jinja2:440
 msgid "Honduras"
 msgstr "Honduras"
 
-#: templates/account_details.jinja2:224 templates/submit_interest.jinja2:441
+#: templates/account_details.jinja2:250 templates/submit_interest.jinja2:441
 msgid "Hong Kong"
 msgstr "Hong Kong"
 
-#: templates/account_details.jinja2:225 templates/submit_interest.jinja2:442
+#: templates/account_details.jinja2:251 templates/submit_interest.jinja2:442
 msgid "Hungary"
 msgstr "Hungría"
 
-#: templates/account_details.jinja2:226 templates/submit_interest.jinja2:443
+#: templates/account_details.jinja2:252 templates/submit_interest.jinja2:443
 msgid "Iceland"
 msgstr "Islandia"
 
-#: templates/account_details.jinja2:227 templates/submit_interest.jinja2:444
+#: templates/account_details.jinja2:253 templates/submit_interest.jinja2:444
 msgid "India"
 msgstr "India"
 
-#: templates/account_details.jinja2:228 templates/submit_interest.jinja2:445
+#: templates/account_details.jinja2:254 templates/submit_interest.jinja2:445
 msgid "Indonesia"
 msgstr "Indonesia"
 
-#: templates/account_details.jinja2:229 templates/submit_interest.jinja2:446
+#: templates/account_details.jinja2:255 templates/submit_interest.jinja2:446
 msgid "Iran"
 msgstr "Irán"
 
-#: templates/account_details.jinja2:230 templates/submit_interest.jinja2:447
+#: templates/account_details.jinja2:256 templates/submit_interest.jinja2:447
 msgid "Iraq"
 msgstr "Iraq"
 
-#: templates/account_details.jinja2:231 templates/submit_interest.jinja2:448
+#: templates/account_details.jinja2:257 templates/submit_interest.jinja2:448
 msgid "Ireland"
 msgstr "Irlanda"
 
-#: templates/account_details.jinja2:232 templates/submit_interest.jinja2:449
+#: templates/account_details.jinja2:258 templates/submit_interest.jinja2:449
 msgid "Israel"
 msgstr "Israel"
 
-#: templates/account_details.jinja2:233 templates/submit_interest.jinja2:450
+#: templates/account_details.jinja2:259 templates/submit_interest.jinja2:450
 msgid "Italy"
 msgstr "Italia"
 
-#: templates/account_details.jinja2:234 templates/submit_interest.jinja2:451
+#: templates/account_details.jinja2:260 templates/submit_interest.jinja2:451
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: templates/account_details.jinja2:235
+#: templates/account_details.jinja2:261
 #: templates/admin_campaign_edit.jinja2:100
 #: templates/submit_interest.jinja2:452
 msgid "Japan"
 msgstr "Japón"
 
-#: templates/account_details.jinja2:236 templates/submit_interest.jinja2:453
+#: templates/account_details.jinja2:262 templates/submit_interest.jinja2:453
 msgid "Jordan"
 msgstr "Jordán"
 
-#: templates/account_details.jinja2:237 templates/submit_interest.jinja2:454
+#: templates/account_details.jinja2:263 templates/submit_interest.jinja2:454
 msgid "Kazakhstan"
 msgstr "Kazajistán"
 
-#: templates/account_details.jinja2:238 templates/submit_interest.jinja2:455
+#: templates/account_details.jinja2:264 templates/submit_interest.jinja2:455
 msgid "Kenya"
 msgstr "Kenia"
 
-#: templates/account_details.jinja2:239 templates/submit_interest.jinja2:456
+#: templates/account_details.jinja2:265 templates/submit_interest.jinja2:456
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: templates/account_details.jinja2:240 templates/submit_interest.jinja2:457
+#: templates/account_details.jinja2:266 templates/submit_interest.jinja2:457
 msgid "Korea North"
 msgstr "Corea del Norte"
 
-#: templates/account_details.jinja2:241 templates/submit_interest.jinja2:458
+#: templates/account_details.jinja2:267 templates/submit_interest.jinja2:458
 msgid "Korea South"
 msgstr "Corea del Sur"
 
-#: templates/account_details.jinja2:242 templates/submit_interest.jinja2:459
+#: templates/account_details.jinja2:268 templates/submit_interest.jinja2:459
 msgid "Kuwait"
 msgstr "Kuwait"
 
-#: templates/account_details.jinja2:243 templates/submit_interest.jinja2:460
+#: templates/account_details.jinja2:269 templates/submit_interest.jinja2:460
 msgid "Kyrgyzstan"
 msgstr "Kirguistán"
 
-#: templates/account_details.jinja2:244 templates/submit_interest.jinja2:461
+#: templates/account_details.jinja2:270 templates/submit_interest.jinja2:461
 msgid "Laos"
 msgstr "Laos"
 
-#: templates/account_details.jinja2:245 templates/submit_interest.jinja2:462
+#: templates/account_details.jinja2:271 templates/submit_interest.jinja2:462
 msgid "Latvia"
 msgstr "Letonia"
 
-#: templates/account_details.jinja2:246 templates/submit_interest.jinja2:463
+#: templates/account_details.jinja2:272 templates/submit_interest.jinja2:463
 msgid "Lebanon"
 msgstr "Líbano"
 
-#: templates/account_details.jinja2:247 templates/submit_interest.jinja2:464
+#: templates/account_details.jinja2:273 templates/submit_interest.jinja2:464
 msgid "Lesotho"
 msgstr "Lesoto"
 
-#: templates/account_details.jinja2:248 templates/submit_interest.jinja2:465
+#: templates/account_details.jinja2:274 templates/submit_interest.jinja2:465
 msgid "Liberia"
 msgstr "Liberia"
 
-#: templates/account_details.jinja2:249 templates/submit_interest.jinja2:466
+#: templates/account_details.jinja2:275 templates/submit_interest.jinja2:466
 msgid "Libya"
 msgstr "Libia"
 
-#: templates/account_details.jinja2:250 templates/submit_interest.jinja2:467
+#: templates/account_details.jinja2:276 templates/submit_interest.jinja2:467
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: templates/account_details.jinja2:251 templates/submit_interest.jinja2:468
+#: templates/account_details.jinja2:277 templates/submit_interest.jinja2:468
 msgid "Lithuania"
 msgstr "Lituania"
 
-#: templates/account_details.jinja2:252 templates/submit_interest.jinja2:469
+#: templates/account_details.jinja2:278 templates/submit_interest.jinja2:469
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#: templates/account_details.jinja2:253 templates/submit_interest.jinja2:470
+#: templates/account_details.jinja2:279 templates/submit_interest.jinja2:470
 msgid "Macedonia"
 msgstr "Macedonia"
 
-#: templates/account_details.jinja2:254 templates/submit_interest.jinja2:471
+#: templates/account_details.jinja2:280 templates/submit_interest.jinja2:471
 msgid "Madagascar"
 msgstr "Madagascar"
 
-#: templates/account_details.jinja2:255 templates/submit_interest.jinja2:472
+#: templates/account_details.jinja2:281 templates/submit_interest.jinja2:472
 msgid "Malawi"
 msgstr "Malaui"
 
-#: templates/account_details.jinja2:256 templates/submit_interest.jinja2:473
+#: templates/account_details.jinja2:282 templates/submit_interest.jinja2:473
 msgid "Malaysia"
 msgstr "Malasia"
 
-#: templates/account_details.jinja2:257 templates/submit_interest.jinja2:474
+#: templates/account_details.jinja2:283 templates/submit_interest.jinja2:474
 msgid "Maldives"
 msgstr "Maldivas"
 
-#: templates/account_details.jinja2:258 templates/submit_interest.jinja2:475
+#: templates/account_details.jinja2:284 templates/submit_interest.jinja2:475
 msgid "Mali"
 msgstr "Malí"
 
-#: templates/account_details.jinja2:259 templates/submit_interest.jinja2:476
+#: templates/account_details.jinja2:285 templates/submit_interest.jinja2:476
 msgid "Malta"
 msgstr "Malta"
 
-#: templates/account_details.jinja2:260 templates/submit_interest.jinja2:477
+#: templates/account_details.jinja2:286 templates/submit_interest.jinja2:477
 msgid "Marshall Islands"
 msgstr "Islas Marshall"
 
-#: templates/account_details.jinja2:261 templates/submit_interest.jinja2:478
+#: templates/account_details.jinja2:287 templates/submit_interest.jinja2:478
 msgid "Mauritania"
 msgstr "Mauritania"
 
-#: templates/account_details.jinja2:262 templates/submit_interest.jinja2:479
+#: templates/account_details.jinja2:288 templates/submit_interest.jinja2:479
 msgid "Mauritius"
 msgstr "Mauritius"
 
-#: templates/account_details.jinja2:263 templates/submit_interest.jinja2:480
+#: templates/account_details.jinja2:289 templates/submit_interest.jinja2:480
 msgid "Micronesia"
 msgstr "Micronesia"
 
-#: templates/account_details.jinja2:264 templates/submit_interest.jinja2:481
+#: templates/account_details.jinja2:290 templates/submit_interest.jinja2:481
 msgid "Moldova"
 msgstr "Moldavia"
 
-#: templates/account_details.jinja2:265 templates/submit_interest.jinja2:482
+#: templates/account_details.jinja2:291 templates/submit_interest.jinja2:482
 msgid "Mongolia"
 msgstr "Mongolia"
 
-#: templates/account_details.jinja2:266 templates/submit_interest.jinja2:483
+#: templates/account_details.jinja2:292 templates/submit_interest.jinja2:483
 msgid "Montenegro"
 msgstr "Montenegro"
 
-#: templates/account_details.jinja2:267 templates/submit_interest.jinja2:484
+#: templates/account_details.jinja2:293 templates/submit_interest.jinja2:484
 msgid "Morocco"
 msgstr "Marruecos"
 
-#: templates/account_details.jinja2:268 templates/submit_interest.jinja2:485
+#: templates/account_details.jinja2:294 templates/submit_interest.jinja2:485
 msgid "Monaco"
 msgstr "Mónaco"
 
-#: templates/account_details.jinja2:269 templates/submit_interest.jinja2:486
+#: templates/account_details.jinja2:295 templates/submit_interest.jinja2:486
 msgid "Mozambique"
 msgstr "Mozambique"
 
-#: templates/account_details.jinja2:270 templates/submit_interest.jinja2:487
+#: templates/account_details.jinja2:296 templates/submit_interest.jinja2:487
 msgid "Namibia"
 msgstr "Namibia"
 
-#: templates/account_details.jinja2:271 templates/submit_interest.jinja2:488
+#: templates/account_details.jinja2:297 templates/submit_interest.jinja2:488
 msgid "Nauru"
 msgstr "Nauru"
 
-#: templates/account_details.jinja2:272 templates/submit_interest.jinja2:489
+#: templates/account_details.jinja2:298 templates/submit_interest.jinja2:489
 msgid "Nepal"
 msgstr "Nepal"
 
-#: templates/account_details.jinja2:273 templates/submit_interest.jinja2:490
+#: templates/account_details.jinja2:299 templates/submit_interest.jinja2:490
 msgid "Netherlands"
 msgstr "Países Bajos"
 
-#: templates/account_details.jinja2:274 templates/submit_interest.jinja2:491
+#: templates/account_details.jinja2:300 templates/submit_interest.jinja2:491
 msgid "New Zealand"
 msgstr "Nueva Zelanda"
 
-#: templates/account_details.jinja2:275 templates/submit_interest.jinja2:492
+#: templates/account_details.jinja2:301 templates/submit_interest.jinja2:492
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: templates/account_details.jinja2:276 templates/submit_interest.jinja2:493
+#: templates/account_details.jinja2:302 templates/submit_interest.jinja2:493
 msgid "Niger"
 msgstr "Níger"
 
-#: templates/account_details.jinja2:277 templates/submit_interest.jinja2:494
+#: templates/account_details.jinja2:303 templates/submit_interest.jinja2:494
 msgid "Nigeria"
 msgstr "Nigeria"
 
-#: templates/account_details.jinja2:278 templates/submit_interest.jinja2:495
+#: templates/account_details.jinja2:304 templates/submit_interest.jinja2:495
 msgid "Norway"
 msgstr "Noruega"
 
-#: templates/account_details.jinja2:279 templates/submit_interest.jinja2:496
+#: templates/account_details.jinja2:305 templates/submit_interest.jinja2:496
 msgid "Oman"
 msgstr "Omán"
 
-#: templates/account_details.jinja2:280 templates/submit_interest.jinja2:497
+#: templates/account_details.jinja2:306 templates/submit_interest.jinja2:497
 msgid "Pakistan"
 msgstr "Pakistán"
 
-#: templates/account_details.jinja2:281 templates/submit_interest.jinja2:498
+#: templates/account_details.jinja2:307 templates/submit_interest.jinja2:498
 msgid "Panama"
 msgstr "Panama"
 
-#: templates/account_details.jinja2:282 templates/submit_interest.jinja2:499
+#: templates/account_details.jinja2:308 templates/submit_interest.jinja2:499
 msgid "Papua New Guinea"
 msgstr "Papúa Nueva Guinea"
 
-#: templates/account_details.jinja2:283 templates/submit_interest.jinja2:500
+#: templates/account_details.jinja2:309 templates/submit_interest.jinja2:500
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: templates/account_details.jinja2:284 templates/submit_interest.jinja2:501
+#: templates/account_details.jinja2:310 templates/submit_interest.jinja2:501
 msgid "Peru"
 msgstr "Peru"
 
-#: templates/account_details.jinja2:285 templates/submit_interest.jinja2:502
+#: templates/account_details.jinja2:311 templates/submit_interest.jinja2:502
 msgid "Philippines"
 msgstr "Filipinas"
 
-#: templates/account_details.jinja2:286 templates/submit_interest.jinja2:503
+#: templates/account_details.jinja2:312 templates/submit_interest.jinja2:503
 msgid "Poland"
 msgstr "Polonia"
 
-#: templates/account_details.jinja2:287 templates/submit_interest.jinja2:504
+#: templates/account_details.jinja2:313 templates/submit_interest.jinja2:504
 msgid "Portugal"
 msgstr "Portugal"
 
-#: templates/account_details.jinja2:288 templates/submit_interest.jinja2:505
+#: templates/account_details.jinja2:314 templates/submit_interest.jinja2:505
 msgid "Qatar"
 msgstr "Qatar"
 
-#: templates/account_details.jinja2:289 templates/submit_interest.jinja2:506
+#: templates/account_details.jinja2:315 templates/submit_interest.jinja2:506
 msgid "Romania"
 msgstr "Rumania"
 
-#: templates/account_details.jinja2:290 templates/submit_interest.jinja2:507
+#: templates/account_details.jinja2:316 templates/submit_interest.jinja2:507
 msgid "Russia"
 msgstr "Rusia"
 
-#: templates/account_details.jinja2:291 templates/submit_interest.jinja2:508
+#: templates/account_details.jinja2:317 templates/submit_interest.jinja2:508
 msgid "Rwanda"
 msgstr "Ruanda"
 
-#: templates/account_details.jinja2:292 templates/submit_interest.jinja2:509
+#: templates/account_details.jinja2:318 templates/submit_interest.jinja2:509
 msgid "Samoa"
 msgstr "Samoa"
 
-#: templates/account_details.jinja2:293 templates/submit_interest.jinja2:510
+#: templates/account_details.jinja2:319 templates/submit_interest.jinja2:510
 msgid "San Marino"
 msgstr "San Marino"
 
-#: templates/account_details.jinja2:294 templates/submit_interest.jinja2:511
+#: templates/account_details.jinja2:320 templates/submit_interest.jinja2:511
 msgid "Sao Tome"
 msgstr "Santo Tomé y Príncipe"
 
-#: templates/account_details.jinja2:295 templates/submit_interest.jinja2:512
+#: templates/account_details.jinja2:321 templates/submit_interest.jinja2:512
 msgid "Saudi Arabia"
 msgstr "Arabia Saudita"
 
-#: templates/account_details.jinja2:296 templates/submit_interest.jinja2:513
+#: templates/account_details.jinja2:322 templates/submit_interest.jinja2:513
 msgid "Senegal"
 msgstr "Senegal"
 
-#: templates/account_details.jinja2:297 templates/submit_interest.jinja2:514
+#: templates/account_details.jinja2:323 templates/submit_interest.jinja2:514
 msgid "Serbia"
 msgstr "Serbia"
 
-#: templates/account_details.jinja2:298 templates/submit_interest.jinja2:515
+#: templates/account_details.jinja2:324 templates/submit_interest.jinja2:515
 msgid "Seychelles"
 msgstr "Seychelles"
 
-#: templates/account_details.jinja2:299 templates/submit_interest.jinja2:516
+#: templates/account_details.jinja2:325 templates/submit_interest.jinja2:516
 msgid "Sierra Leone"
 msgstr "Sierra Leona"
 
-#: templates/account_details.jinja2:300 templates/submit_interest.jinja2:517
+#: templates/account_details.jinja2:326 templates/submit_interest.jinja2:517
 msgid "Singapore"
 msgstr "Singapur"
 
-#: templates/account_details.jinja2:301 templates/submit_interest.jinja2:518
+#: templates/account_details.jinja2:327 templates/submit_interest.jinja2:518
 msgid "Slovakia"
 msgstr "Eslovaquia"
 
-#: templates/account_details.jinja2:302 templates/submit_interest.jinja2:519
+#: templates/account_details.jinja2:328 templates/submit_interest.jinja2:519
 msgid "Slovenia"
 msgstr "Eslovenia"
 
-#: templates/account_details.jinja2:303 templates/submit_interest.jinja2:520
+#: templates/account_details.jinja2:329 templates/submit_interest.jinja2:520
 msgid "Solomon Islands"
 msgstr "Islas Salomón"
 
-#: templates/account_details.jinja2:304 templates/submit_interest.jinja2:521
+#: templates/account_details.jinja2:330 templates/submit_interest.jinja2:521
 msgid "Somalia"
 msgstr "Somalia"
 
-#: templates/account_details.jinja2:305 templates/submit_interest.jinja2:522
+#: templates/account_details.jinja2:331 templates/submit_interest.jinja2:522
 msgid "South Africa"
 msgstr "Sudáfrica"
 
-#: templates/account_details.jinja2:306 templates/submit_interest.jinja2:523
+#: templates/account_details.jinja2:332 templates/submit_interest.jinja2:523
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: templates/account_details.jinja2:307 templates/submit_interest.jinja2:524
+#: templates/account_details.jinja2:333 templates/submit_interest.jinja2:524
 msgid "Sudan"
 msgstr "Sudán"
 
-#: templates/account_details.jinja2:308 templates/submit_interest.jinja2:525
+#: templates/account_details.jinja2:334 templates/submit_interest.jinja2:525
 msgid "Suriname"
 msgstr "Surinam"
 
-#: templates/account_details.jinja2:309 templates/submit_interest.jinja2:526
+#: templates/account_details.jinja2:335 templates/submit_interest.jinja2:526
 msgid "Swaziland"
 msgstr "Suazilandia"
 
-#: templates/account_details.jinja2:310 templates/submit_interest.jinja2:527
+#: templates/account_details.jinja2:336 templates/submit_interest.jinja2:527
 msgid "Sweden"
 msgstr "Suecia"
 
-#: templates/account_details.jinja2:311 templates/submit_interest.jinja2:528
+#: templates/account_details.jinja2:337 templates/submit_interest.jinja2:528
 msgid "Switzerland"
 msgstr "Suiza"
 
-#: templates/account_details.jinja2:312 templates/submit_interest.jinja2:529
+#: templates/account_details.jinja2:338 templates/submit_interest.jinja2:529
 msgid "Syria"
 msgstr "Siria"
 
-#: templates/account_details.jinja2:313 templates/submit_interest.jinja2:530
+#: templates/account_details.jinja2:339 templates/submit_interest.jinja2:530
 msgid "Taiwan"
 msgstr "Taiwán"
 
-#: templates/account_details.jinja2:314 templates/submit_interest.jinja2:531
+#: templates/account_details.jinja2:340 templates/submit_interest.jinja2:531
 msgid "Tajikistan"
 msgstr "Tayikistán"
 
-#: templates/account_details.jinja2:315 templates/submit_interest.jinja2:532
+#: templates/account_details.jinja2:341 templates/submit_interest.jinja2:532
 msgid "Tanzania"
 msgstr "Tanzania"
 
-#: templates/account_details.jinja2:316 templates/submit_interest.jinja2:533
+#: templates/account_details.jinja2:342 templates/submit_interest.jinja2:533
 msgid "Thailand"
 msgstr "Tailandia"
 
-#: templates/account_details.jinja2:317 templates/submit_interest.jinja2:534
+#: templates/account_details.jinja2:343 templates/submit_interest.jinja2:534
 msgid "Togo"
 msgstr "Togo"
 
-#: templates/account_details.jinja2:318 templates/submit_interest.jinja2:535
+#: templates/account_details.jinja2:344 templates/submit_interest.jinja2:535
 msgid "Tonga"
 msgstr "Tonga"
 
-#: templates/account_details.jinja2:319 templates/submit_interest.jinja2:536
+#: templates/account_details.jinja2:345 templates/submit_interest.jinja2:536
 msgid "Trinidad and Tobago"
 msgstr "Trinidad y Tobago"
 
-#: templates/account_details.jinja2:320 templates/submit_interest.jinja2:537
+#: templates/account_details.jinja2:346 templates/submit_interest.jinja2:537
 msgid "Tunisia"
 msgstr "Túnez"
 
-#: templates/account_details.jinja2:321 templates/submit_interest.jinja2:538
+#: templates/account_details.jinja2:347 templates/submit_interest.jinja2:538
 msgid "Turkey"
 msgstr "Turquia"
 
-#: templates/account_details.jinja2:322 templates/submit_interest.jinja2:539
+#: templates/account_details.jinja2:348 templates/submit_interest.jinja2:539
 msgid "Turkmenistan"
 msgstr "Turkmenistán"
 
-#: templates/account_details.jinja2:323 templates/submit_interest.jinja2:540
+#: templates/account_details.jinja2:349 templates/submit_interest.jinja2:540
 msgid "Uganda"
 msgstr "Uganda"
 
-#: templates/account_details.jinja2:324 templates/submit_interest.jinja2:541
+#: templates/account_details.jinja2:350 templates/submit_interest.jinja2:541
 msgid "Ukraine"
 msgstr "Ucrania"
 
-#: templates/account_details.jinja2:325 templates/submit_interest.jinja2:542
+#: templates/account_details.jinja2:351 templates/submit_interest.jinja2:542
 msgid "United Arab Emirates"
 msgstr "Emiratos Árabes Unidos"
 
-#: templates/account_details.jinja2:326 templates/submit_interest.jinja2:543
+#: templates/account_details.jinja2:352 templates/submit_interest.jinja2:543
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: templates/account_details.jinja2:327 templates/submit_interest.jinja2:544
+#: templates/account_details.jinja2:353 templates/submit_interest.jinja2:544
 msgid "Uzbekistan"
 msgstr "Uzbekistán"
 
-#: templates/account_details.jinja2:328 templates/submit_interest.jinja2:545
+#: templates/account_details.jinja2:354 templates/submit_interest.jinja2:545
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: templates/account_details.jinja2:329 templates/submit_interest.jinja2:546
+#: templates/account_details.jinja2:355 templates/submit_interest.jinja2:546
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: templates/account_details.jinja2:330 templates/submit_interest.jinja2:547
+#: templates/account_details.jinja2:356 templates/submit_interest.jinja2:547
 msgid "Viet nam"
 msgstr "Vietnam"
 
-#: templates/account_details.jinja2:331 templates/submit_interest.jinja2:548
+#: templates/account_details.jinja2:357 templates/submit_interest.jinja2:548
 msgid "Yemen"
 msgstr "Yemen"
 
-#: templates/account_details.jinja2:332 templates/submit_interest.jinja2:549
+#: templates/account_details.jinja2:358 templates/submit_interest.jinja2:549
 msgid "Zambia"
 msgstr "Zambia"
 
-#: templates/account_details.jinja2:333 templates/submit_interest.jinja2:550
+#: templates/account_details.jinja2:359 templates/submit_interest.jinja2:550
 msgid "Zimbabwe"
 msgstr "Zimbabue"
 
-#: templates/account_details.jinja2:337
+#: templates/account_details.jinja2:363
 msgid "Address Line 1"
 msgstr "Dirección línea 1"
 
-#: templates/account_details.jinja2:341
+#: templates/account_details.jinja2:367
 msgid "Address Line 2"
 msgstr "Dirección línea 2"
 
-#: templates/account_details.jinja2:361
+#: templates/account_details.jinja2:387
 msgid "Preferred language for future communications"
 msgstr "Idioma preferido para futuras comunicaciones"
 
-#: templates/account_details.jinja2:375
+#: templates/account_details.jinja2:401
 msgid ""
 "I agree to the <a href=\"https://microsetta.ucsd.edu/privacy-statement/\""
 " target=\"_blank\">Privacy Statement</a> and accept the <a "
@@ -1110,24 +1110,24 @@ msgstr ""
 " href=“https://microsetta.ucsd.edu/terms-and-conditions/“ "
 "target=“_blank”>Términos y Condiciones</a>"
 
-#: templates/account_details.jinja2:382 templates/submit_interest.jinja2:600
+#: templates/account_details.jinja2:408 templates/submit_interest.jinja2:600
 #: templates/survey.jinja2:287 templates/survey.jinja2:349
 msgid "Next"
 msgstr "Siguiente"
 
-#: templates/account_details.jinja2:384 templates/sample.jinja2:257
+#: templates/account_details.jinja2:410 templates/sample.jinja2:257
 msgid "Save"
 msgstr "Guardar"
 
-#: templates/account_details.jinja2:393
+#: templates/account_details.jinja2:419
 msgid "Danger zone"
 msgstr "Zona de riesgo"
 
-#: templates/account_details.jinja2:397
+#: templates/account_details.jinja2:423
 msgid "Delete or scrub the account."
 msgstr "Eliminar o borrar la cuenta."
 
-#: templates/account_details.jinja2:400
+#: templates/account_details.jinja2:426
 msgid ""
 "If the account has any samples associated, the account and sources will "
 "be scrubbed, meaning all free text and identifiable information is "
@@ -1137,11 +1137,11 @@ msgstr ""
 "borradas, lo que significa que se eliminará todo el texto libre y la "
 "información identificable."
 
-#: templates/account_details.jinja2:403
+#: templates/account_details.jinja2:429
 msgid "Otherwise, the account and any sources will be deleted"
 msgstr "De lo contrario, la cuenta y cualquier fuente serán eliminadas"
 
-#: templates/account_details.jinja2:406
+#: templates/account_details.jinja2:432
 msgid ""
 "IMPORTANT: you must manually delete the email from Authrocket and other "
 "external services like MyEmma to complete the process"
@@ -1150,11 +1150,11 @@ msgstr ""
 "Authrocket y otros servicios externos como MyEmma para completar el "
 "proceso"
 
-#: templates/account_details.jinja2:409
+#: templates/account_details.jinja2:435
 msgid "ACCOUNT DELETION CANNOT BE UNDONE"
 msgstr "LA ELIMINACIÓN DE LA CUENTA NO SE PUEDE REVERTIR"
 
-#: templates/account_details.jinja2:412
+#: templates/account_details.jinja2:438
 msgid "Delete Account"
 msgstr "Eliminar cuenta"
 
@@ -1183,6 +1183,11 @@ msgstr "actualizaciónes"
 #: templates/account_overview.jinja2:66
 msgid "update"
 msgstr "actualización"
+
+#: templates/account_overview.jinja2:68 templates/consents.jinja2:48
+#: templates/consents.jinja2:66
+msgid "View"
+msgstr "Ver"
 
 #: templates/account_overview.jinja2:77 templates/account_overview.jinja2:85
 msgid "Unavailable"
@@ -1620,10 +1625,6 @@ msgstr ""
 msgid "Survey"
 msgstr "Encuesta"
 
-#: templates/consents.jinja2:48 templates/consents.jinja2:66
-msgid "View"
-msgstr "Ver"
-
 #: templates/consents.jinja2:62
 msgid "Biospecimen"
 msgstr "Muestra biológica"
@@ -1941,11 +1942,20 @@ msgid ""
 "documents. You may view existing survey responses, samples, and reports, "
 "but updating survey responses or contributing new samples is disabled. We"
 " anticipate re-enabling these features within the next few weeks."
-msgstr "Desafortunadamente, los perfiles de menores de edad actualmente no están disponibles para actualizaciones, ya que realizamos cambios en el proceso de aceptación de nuestros documentos de consentimiento. Usted puede ver respuestas de encuestas existentes, muestras e informes, pero la actualización de respuestas en las encuestas o la contribución de nuevas muestras están deshabilitadas. Anticipamos volver a habilitar estas funciones en las próximas semanas."
+msgstr ""
+"Desafortunadamente, los perfiles de menores de edad actualmente no están "
+"disponibles para actualizaciones, ya que realizamos cambios en el proceso"
+" de aceptación de nuestros documentos de consentimiento. Usted puede ver "
+"respuestas de encuestas existentes, muestras e informes, pero la "
+"actualización de respuestas en las encuestas o la contribución de nuevas "
+"muestras están deshabilitadas. Anticipamos volver a habilitar estas "
+"funciones en las próximas semanas."
 
 #: templates/minor_reconsent.jinja2:24
 msgid "Please click the Continue button below to go to your profile."
-msgstr "Por favor, haga clic en el siguiente botón de Continuar para ir a su perfil."
+msgstr ""
+"Por favor, haga clic en el siguiente botón de Continuar para ir a su "
+"perfil."
 
 #: templates/minor_reconsent.jinja2:27
 msgid "Continue"
@@ -1991,30 +2001,30 @@ msgstr "Guardando..."
 
 #: templates/new_participant.jinja2:75 templates/new_participant.jinja2:99
 #: templates/new_participant.jinja2:116 templates/new_participant.jinja2:118
-#: templates/new_participant.jinja2:133 templates/new_participant.jinja2:284
-#: templates/new_participant.jinja2:384 templates/new_participant.jinja2:425
-#: templates/new_participant.jinja2:454 templates/new_participant.jinja2:497
+#: templates/new_participant.jinja2:133 templates/new_participant.jinja2:286
+#: templates/new_participant.jinja2:386 templates/new_participant.jinja2:427
+#: templates/new_participant.jinja2:456 templates/new_participant.jinja2:499
 msgid "Please confirm that you have read this form."
 msgstr "Por favor, confirme que ha leído este formulario."
 
 #: templates/new_participant.jinja2:76 templates/new_participant.jinja2:96
 #: templates/new_participant.jinja2:117 templates/new_participant.jinja2:134
-#: templates/new_participant.jinja2:295 templates/new_participant.jinja2:345
-#: templates/new_participant.jinja2:436 templates/new_participant.jinja2:508
+#: templates/new_participant.jinja2:297 templates/new_participant.jinja2:347
+#: templates/new_participant.jinja2:438 templates/new_participant.jinja2:510
 msgid "Please enter the participant name."
 msgstr "Por favor ingrese el nombre del participante."
 
 #: templates/new_participant.jinja2:77 templates/new_participant.jinja2:100
-#: templates/new_participant.jinja2:119 templates/new_participant.jinja2:306
-#: templates/new_participant.jinja2:395 templates/new_participant.jinja2:465
+#: templates/new_participant.jinja2:119 templates/new_participant.jinja2:308
+#: templates/new_participant.jinja2:397 templates/new_participant.jinja2:467
 msgid "Please enter the parent or guardian name."
 msgstr "Por favor ingrese el nombre de su padre o tutor."
 
-#: templates/new_participant.jinja2:95 templates/new_participant.jinja2:334
+#: templates/new_participant.jinja2:95 templates/new_participant.jinja2:336
 msgid "Please confirm that you will be in this study."
 msgstr "Por favor confirme que participará en este estudio."
 
-#: templates/new_participant.jinja2:97 templates/new_participant.jinja2:356
+#: templates/new_participant.jinja2:97 templates/new_participant.jinja2:358
 msgid ""
 "Please confirm that the participant is voluntarily and knowingly giving "
 "consent."
@@ -2022,7 +2032,7 @@ msgstr ""
 "Por favor confirme que el participante está dando su consentimiento de "
 "forma voluntaria y consciente."
 
-#: templates/new_participant.jinja2:98 templates/new_participant.jinja2:367
+#: templates/new_participant.jinja2:98 templates/new_participant.jinja2:369
 msgid "Please enter the name of the person obtaining assent."
 msgstr "Por favor ingrese el nombre de la persona que obtiene el asentimiento."
 
@@ -2039,8 +2049,8 @@ msgstr ""
 " a encuestas bajo ese perfil."
 
 #: templates/new_participant.jinja2:177 templates/new_participant.jinja2:191
-#: templates/new_participant.jinja2:312 templates/new_participant.jinja2:401
-#: templates/new_participant.jinja2:471 templates/new_participant.jinja2:514
+#: templates/new_participant.jinja2:314 templates/new_participant.jinja2:403
+#: templates/new_participant.jinja2:473 templates/new_participant.jinja2:516
 msgid "I Accept"
 msgstr "Yo Acepto"
 
@@ -2087,28 +2097,28 @@ msgstr ""
 msgid "Select age range of participant"
 msgstr "Seleccione el rango de edad del participante"
 
-#: templates/new_participant.jinja2:281 templates/new_participant.jinja2:381
-#: templates/new_participant.jinja2:451 templates/new_participant.jinja2:494
+#: templates/new_participant.jinja2:283 templates/new_participant.jinja2:383
+#: templates/new_participant.jinja2:453 templates/new_participant.jinja2:496
 #: templates/signed_consent.jinja2:28 templates/signed_consent.jinja2:112
 #: templates/signed_consent.jinja2:168 templates/signed_consent.jinja2:205
 msgid "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
 msgstr "https://oag.ca.gov/sites/all/files/agweb/pdfs/research/bill_of_rights.pdf"
 
-#: templates/new_participant.jinja2:311 templates/new_participant.jinja2:400
-#: templates/new_participant.jinja2:470 templates/new_participant.jinja2:513
-#: templates/new_participant.jinja2:524 templates/sample.jinja2:255
+#: templates/new_participant.jinja2:313 templates/new_participant.jinja2:402
+#: templates/new_participant.jinja2:472 templates/new_participant.jinja2:515
+#: templates/new_participant.jinja2:526 templates/sample.jinja2:255
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/new_participant.jinja2:535
+#: templates/new_participant.jinja2:537
 msgid "Warning"
 msgstr "Advertencia"
 
-#: templates/new_participant.jinja2:541
+#: templates/new_participant.jinja2:543
 msgid "Return to Home Page"
 msgstr "Regresar a la Página Principal"
 
-#: templates/new_participant.jinja2:542
+#: templates/new_participant.jinja2:544
 msgid "Proceed with Creating New Source"
 msgstr "Continúe con la Creación de una Nueva Fuente"
 
@@ -2289,7 +2299,7 @@ msgstr "Acceso de datos (estudio Qiita"
 msgid "Download the spreadsheet"
 msgstr "Descargar la hoja de cálculo"
 
-#: templates/new_results_page.jinja2:648 templates/new_results_page.jinja2:1634
+#: templates/new_results_page.jinja2:648 templates/new_results_page.jinja2:1619
 #: templates/sample_results.jinja2:148
 msgid "Kingdom"
 msgstr "Reino"
@@ -2302,7 +2312,7 @@ msgstr ""
 "La clasificación más amplia como las Bacterias, Archaea y Eucariotas (¡lo"
 " que son los humanos!)"
 
-#: templates/new_results_page.jinja2:651 templates/new_results_page.jinja2:1635
+#: templates/new_results_page.jinja2:651 templates/new_results_page.jinja2:1620
 #: templates/sample_results.jinja2:149
 msgid "Phylum"
 msgstr "Filo"
@@ -2315,7 +2325,7 @@ msgstr ""
 "Dentro del reino Eukarya, esto es como la diferencia entre los humanos y "
 "las plantas"
 
-#: templates/new_results_page.jinja2:654 templates/new_results_page.jinja2:1636
+#: templates/new_results_page.jinja2:654 templates/new_results_page.jinja2:1621
 #: templates/sample_results.jinja2:150
 msgid "Class"
 msgstr "Clase"
@@ -2324,7 +2334,7 @@ msgstr "Clase"
 msgid "Within the phylum Chordata, this is along the lines of humans and fish"
 msgstr "Dentro del filo Chordata, esto es similar a los humanos y los peces"
 
-#: templates/new_results_page.jinja2:657 templates/new_results_page.jinja2:1637
+#: templates/new_results_page.jinja2:657 templates/new_results_page.jinja2:1622
 #: templates/sample_results.jinja2:151
 msgid "Order"
 msgstr "Orden"
@@ -2337,7 +2347,7 @@ msgstr ""
 "Dentro de la clase Mammalia, esto es como la diferencia entre las "
 "ballenas y los perros"
 
-#: templates/new_results_page.jinja2:660 templates/new_results_page.jinja2:1638
+#: templates/new_results_page.jinja2:660 templates/new_results_page.jinja2:1623
 #: templates/sample_results.jinja2:152
 msgid "Family"
 msgstr "Familia"
@@ -2346,7 +2356,7 @@ msgstr "Familia"
 msgid "With the order Carnivora are the families for dogs and cats"
 msgstr "Con la orden Carnivora están las familias de perros y gatos"
 
-#: templates/new_results_page.jinja2:663 templates/new_results_page.jinja2:1639
+#: templates/new_results_page.jinja2:663 templates/new_results_page.jinja2:1624
 #: templates/sample_results.jinja2:153
 msgid "Genus"
 msgstr "Género"
@@ -2490,13 +2500,12 @@ msgstr "Su Zoológico Interior"
 
 #: templates/new_results_page.jinja2:1355
 #: templates/new_results_page.jinja2:1401
-#: templates/new_results_page.jinja2:1403
-#: templates/new_results_page.jinja2:1695
+#: templates/new_results_page.jinja2:1680
 msgid "Microbiome Map"
 msgstr "Mapa del Microbioma"
 
 #: templates/new_results_page.jinja2:1356
-#: templates/new_results_page.jinja2:1671
+#: templates/new_results_page.jinja2:1656
 msgid "How can I learn more?"
 msgstr "¿Cómo puedo aprender más?"
 
@@ -2550,8 +2559,10 @@ msgid "What particular kinds of microbes are in your sample? Wander through"
 msgstr "¿Qué tipo de microbios particulares hay en su muestra? Explore su"
 
 #: templates/new_results_page.jinja2:1403
-msgid "Where are you on the"
-msgstr "¿Dónde está usted en el"
+msgid ""
+"Where are you on the <a class=\"fake-tab\" href=\"#microbial-map\" data-"
+"link=\"#microbial-map-tab\">Microbiome Map</a>?"
+msgstr "¿Dónde está usted en el <a class=\"fake-tab\" href=\"#microbial-map\" data-link=\"#microbial-map-tab\">Mapa del Microbioma</a>?"
 
 #: templates/new_results_page.jinja2:1413
 msgid ""
@@ -2720,73 +2731,83 @@ msgstr ""
 "respuesta y en <span class=\"similarity-fontstyle-different\">café</span>"
 " si su respuesta es diferente."
 
-#: templates/new_results_page.jinja2:1512
-msgid "of people with a microbiome like yours eat"
-msgstr "de las personas con un microbioma como el suyo comen"
-
-#: templates/new_results_page.jinja2:1514
-msgid "plants per week"
-msgstr "plantas por semana"
-
-#: templates/new_results_page.jinja2:1523
+#: templates/new_results_page.jinja2:1511
 msgid ""
-"of people with a microbiome like yours had a similar diet (e.g. omnivore,"
-" vegetarian, etc.)"
-msgstr ""
-"de las personas con un microbioma como el suyo tenían una dieta similar "
-"(por ejemplo, omnívora, vegetariana, etc.)"
+"<span id=\"beta_diversity_plants_per_week_value\" class=\"info-loader "
+"font-weight-bold\">...</span> of people with a microbiome like yours eat "
+"<span id=\"beta_diversity_plants_per_week_response\" class=\"info-loader "
+"text-success\">...</span> plants per week"
+msgstr "<span id=\"beta_diversity_plants_per_week_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo comen <span id=\"beta_diversity_plants_per_week_response\" class=\"info-loader text-success\">...</span> plantas por semana "
 
-#: templates/new_results_page.jinja2:1530
+#: templates/new_results_page.jinja2:1519
+msgid ""
+"<span id=\"beta_diversity_diet_type_value\" class=\"info-loader font-"
+"weight-bold\">...</span> of people with a microbiome like yours had a "
+"similar diet (e.g. omnivore, vegetarian, etc.)"
+msgstr "<span id=\"beta_diversity_diet_type_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo tenían una dieta similar (por ejemplo, omnívora, vegetariana, etc.) "
+
+#: templates/new_results_page.jinja2:1526
 msgid "Supplements"
 msgstr "Suplementos"
 
-#: templates/new_results_page.jinja2:1540
-msgid "of people with a microbiome like yours"
-msgstr "de las personas con un microbioma como el suyo"
+#: templates/new_results_page.jinja2:1535
+msgid ""
+"<span id=\"beta_diversity_probiotics_value\" class=\"info-loader font-"
+"weight-bold\">...</span> of people with a microbiome like yours <span "
+"id=\"beta_diversity_probiotics_response\" class=\"info-loader text-"
+"success\">...</span> take probiotics"
+msgstr "<span id=\"beta_diversity_probiotics_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo <span id=\"beta_diversity_probiotics_response\" class=\"info-loader text-success\">...</span> toman probióticos"
 
-#: templates/new_results_page.jinja2:1542
-msgid "take probiotics"
-msgstr "toman probióticos"
+#: templates/new_results_page.jinja2:1543
+msgid ""
+"<span id=\"beta_diversity_multivitamin_value\" class=\"info-loader font-"
+"weight-bold\">...</span> of people with a microbiome like yours take "
+"vitamins"
+msgstr "<span id=\"beta_diversity_multivitamin_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo toman vitaminas "
 
-#: templates/new_results_page.jinja2:1551
-msgid "of people with a microbiome like yours take vitamins"
-msgstr "de las personas con un microbioma como el suyo toman vitaminas"
-
-#: templates/new_results_page.jinja2:1558
+#: templates/new_results_page.jinja2:1550
 msgid "Activity"
 msgstr "Actividad"
 
-#: templates/new_results_page.jinja2:1568
-msgid "of people with a microbiome like yours exercise"
-msgstr "de las personas con un microbioma como el suyo hacen ejercicio"
+#: templates/new_results_page.jinja2:1559
+msgid ""
+"<span id=\"beta_diversity_exercise_value\" class=\"info-loader font-"
+"weight-bold\">...</span> of people with a microbiome like yours exercise "
+"<span id=\"beta_diversity_exercise_response\" class=\"info-loader text-"
+"success\">...</span>"
+msgstr "<span id=\"beta_diversity_exercise_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo hacen ejercicio <span id=\"beta_diversity_exercise_response\" class=\"info-loader text-success\">...</span>"
 
-#: templates/new_results_page.jinja2:1578
-msgid "of people with a microbiome like yours get"
-msgstr "de las personas con un microbioma como el suyo duermen"
+#: templates/new_results_page.jinja2:1567
+msgid ""
+"<span id=\"beta_diversity_sleep_value\" class=\"info-loader font-weight-"
+"bold\">...</span> of people with a microbiome like yours get <span "
+"id=\"beta_diversity_sleep_response\" class=\"info-loader text-"
+"success\">...</span> of sleep at night"
+msgstr "<span id=\"beta_diversity_sleep_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo duermen <span id=\"beta_diversity_sleep_response\" class=\"info-loader text-success\">...</span> por la noche"
 
-#: templates/new_results_page.jinja2:1580
-msgid "of sleep at night"
-msgstr "por la noche"
-
-#: templates/new_results_page.jinja2:1587
+#: templates/new_results_page.jinja2:1574
 msgid "Demographic"
 msgstr "Demográfico"
 
-#: templates/new_results_page.jinja2:1597
-msgid "of people with a microbiome like yours were the same age as you"
-msgstr ""
-"de las personas con un microbioma como el suyo tenían la misma edad que "
-"usted"
+#: templates/new_results_page.jinja2:1583
+msgid ""
+"<span id=\"beta_diversity_age_value\" class=\"info-loader font-weight-"
+"bold\">...</span> of people with a microbiome like yours were the same "
+"age as you"
+msgstr "<span id=\"beta_diversity_age_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo tenían la misma edad que usted"
 
-#: templates/new_results_page.jinja2:1606
-msgid "of people with a microbiome like yours were the same gender"
-msgstr "de las personas con un microbioma como el suyo eran del mismo sexo"
+#: templates/new_results_page.jinja2:1591
+msgid ""
+"<span id=\"beta_diversity_sex_value\" class=\"info-loader font-weight-"
+"bold\">...</span> of people with a microbiome like yours were the same "
+"gender"
+msgstr "<span id=\"beta_diversity_sex_value\" class=\"info-loader font-weight-bold\">...</span> de las personas con un microbioma como el suyo eran del mismo sexo"
 
-#: templates/new_results_page.jinja2:1615
+#: templates/new_results_page.jinja2:1600
 msgid "Your Inner Zoo (aka What's in your sample?)"
 msgstr "Su Zoológico Interno (¿Qué hay en su muestra?)"
 
-#: templates/new_results_page.jinja2:1618
+#: templates/new_results_page.jinja2:1603
 msgid ""
 "This is a table of all of the different microbes we found in your sample "
 "along with their proportions."
@@ -2794,7 +2815,7 @@ msgstr ""
 "Esta es una tabla de todos los diferentes microbios que encontramos en su"
 " muestra junto con sus proporciones."
 
-#: templates/new_results_page.jinja2:1622
+#: templates/new_results_page.jinja2:1607
 msgid ""
 "To learn more about what the taxonomic ranks (column headers) mean, place"
 " your cursor over their names. Additionally, pronunciation can be a "
@@ -2810,7 +2831,7 @@ msgstr ""
 "Puede encontrar una guía de su pronunciación <a "
 "href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">aquí</a>."
 
-#: templates/new_results_page.jinja2:1626
+#: templates/new_results_page.jinja2:1611
 msgid ""
 "The number of microbes listed here might be different from what was "
 "reported as your Diversity because of the way microbes are grouped "
@@ -2823,12 +2844,12 @@ msgstr ""
 "haya muchas especies de microbios en su muestra que están agrupados en el"
 " mismo género."
 
-#: templates/new_results_page.jinja2:1633
+#: templates/new_results_page.jinja2:1618
 #, python-format
 msgid "%% of Sample"
 msgstr "%% de la muestra"
 
-#: templates/new_results_page.jinja2:1647
+#: templates/new_results_page.jinja2:1632
 msgid ""
 "No evidence presented here indicates what we've observed is clinically "
 "dangerous"
@@ -2836,7 +2857,7 @@ msgstr ""
 "Ninguna evidencia presentada aquí indica que lo que hemos observado es "
 "clínicamente peligroso."
 
-#: templates/new_results_page.jinja2:1654
+#: templates/new_results_page.jinja2:1639
 msgid ""
 "In the plot below, you can see the most commonly observed microbial "
 "genera in the dataset, and distribution of ranks of those genera.  For "
@@ -2846,13 +2867,13 @@ msgstr ""
 "observados con mayor frecuencia en el conjunto de datos y el rango de "
 "distribución de esos géneros. Por ejemplo,"
 
-#: templates/new_results_page.jinja2:1656
+#: templates/new_results_page.jinja2:1641
 msgid "typically has the highest relative abundance of samples in the dataset."
 msgstr ""
 "normalmente tiene la mayor abundancia relativa de muestras en el conjunto"
 " de datos."
 
-#: templates/new_results_page.jinja2:1674
+#: templates/new_results_page.jinja2:1659
 msgid ""
 "Microbiome analysis is a burgeoning field, and the information displayed "
 "here is only an example of what is becoming possible thanks to the data "
@@ -2865,7 +2886,7 @@ msgstr ""
 "mismo puede revisar el conjunto de datos a través de los enlaces a "
 "continuación."
 
-#: templates/new_results_page.jinja2:1680
+#: templates/new_results_page.jinja2:1665
 msgid ""
 "There are many resources for microbiome information available online. If "
 "you'd like to learn more, we recommend the site hosted by the <a "
@@ -2887,11 +2908,11 @@ msgstr ""
 "gut-microbiome-research-education/\">American Gastroenterological "
 "Association</a>."
 
-#: templates/new_results_page.jinja2:1683
+#: templates/new_results_page.jinja2:1668
 msgid "Datasets used in your results report"
 msgstr "Conjunto de datos usados en el informe de sus resultados"
 
-#: templates/new_results_page.jinja2:1685
+#: templates/new_results_page.jinja2:1670
 msgid ""
 "The results shown in the Microbiome Maps portion of the report relied on "
 "data from many different publically accessible microbiome datasets. These"
@@ -2902,7 +2923,7 @@ msgstr ""
 "microbioma accesibles públicamente. Estos diferentes conjuntos de datos, "
 "y los enlaces a ellos, se muestran a continuación."
 
-#: templates/new_results_page.jinja2:1698
+#: templates/new_results_page.jinja2:1683
 msgid ""
 "Microbiome maps turn the similarities and differences among microbiomes "
 "into a two-dimensional picture. Each dot on the map is someone's "
@@ -2933,11 +2954,11 @@ msgstr ""
 "también contiene muestras de bebés. ¡Haga clic en una de las secciones a "
 "continuación para ver dónde aterriza usted en el mapa!"
 
-#: templates/new_results_page.jinja2:1702
+#: templates/new_results_page.jinja2:1687
 msgid "How are these maps produced?"
 msgstr "¿Cómo se producen estos mapas?"
 
-#: templates/new_results_page.jinja2:1703
+#: templates/new_results_page.jinja2:1688
 msgid ""
 "One of the ways microbiome researchers visualize complex data is through "
 "a technique called principal coordinates analysis (PCoA). We first "
@@ -2970,7 +2991,7 @@ msgstr ""
 "Inténtalo de nuevo."
 
 #: templates/nutrition.jinja2:116 templates/nutrition.jinja2:143
-#: templates/reports.jinja2:102
+#: templates/reports.jinja2:115
 msgid "My FFQs"
 msgstr "Mis FFQs"
 
@@ -3053,13 +3074,13 @@ msgstr ""
 msgid "Estimated time to complete: 30 minutes"
 msgstr "Tiempo estimado para completar: 30 minutos"
 
-#: templates/nutrition.jinja2:185 templates/reports.jinja2:112
+#: templates/nutrition.jinja2:185 templates/reports.jinja2:125
 msgid "Download Top Food Report"
 msgstr "Descargar Reporte de Alimentos"
 
 #: templates/nutrition.jinja2:189 templates/nutrition.jinja2:195
-#: templates/nutrition.jinja2:199 templates/reports.jinja2:115
-#: templates/reports.jinja2:117
+#: templates/nutrition.jinja2:199 templates/reports.jinja2:128
+#: templates/reports.jinja2:130
 msgid "Continue FFQ"
 msgstr "Continuar FFQ"
 
@@ -3166,6 +3187,10 @@ msgstr "Mis Reportes"
 #: templates/reports.jinja2:94
 msgid "Not Received Yet"
 msgstr "No recibido todavia"
+
+#: templates/reports.jinja2:107 templates/reports.jinja2:142
+msgid "Download Report"
+msgstr "Descargar Reporte"
 
 #: templates/sample.jinja2:25
 msgid "Do you really want to remove this sample from this source?"
@@ -3457,25 +3482,17 @@ msgstr ""
 "opciones."
 
 #: templates/sitebase.jinja2:102
-msgid "Click"
-msgstr "Clic"
-
-#: templates/sitebase.jinja2:102 templates/sitebase.jinja2:103
-#: templates/survey.jinja2:16
-msgid "DISPLAY"
-msgstr "MOSTRAR"
-
-#: templates/sitebase.jinja2:102
-msgid "to bring back the hidden response options."
-msgstr "para recuperar las opciones de respuesta ocultas."
+msgid ""
+"Click \"<span class=\"skip-text\">DISPLAY</span>\" to bring back the "
+"hidden response options."
+msgstr "Clic \"<span class=\"skip-text\">MOSTRAR</span>\" para recuperar las opciones de respuesta ocultas."
 
 #: templates/sitebase.jinja2:103
-msgid "If you want to reset an incorrect answer quickly, click"
-msgstr "Si desea restablecer una respuesta incorrecta rápidamente, haga clic en"
-
-#: templates/sitebase.jinja2:103
-msgid "then"
-msgstr "y después"
+msgid ""
+"If you want to reset an incorrect answer quickly, click \"<span class"
+"=\"skip-text\">SKIP</span>\" then \"<span class=\"skip-"
+"text\">DISPLAY</span>\"."
+msgstr "Si desea restablecer una respuesta incorrecta rápidamente, haga clic en \"<span class=\"skip-text\">Saltar</span>\" y después \"<span class=\"skip-text\">MOSTRAR</span>\"."
 
 #: templates/sitebase.jinja2:104
 msgid ""
@@ -3811,6 +3828,10 @@ msgstr ""
 msgid " selected"
 msgstr " seleccionado"
 
+#: templates/survey.jinja2:16
+msgid "DISPLAY"
+msgstr "MOSTRAR"
+
 #: templates/survey.jinja2:109
 msgid "The value is not an integer"
 msgstr "El valor no es un número entero"
@@ -3906,4 +3927,3 @@ msgstr "No, saltar y continuar"
 #: templates/update_email.jinja2:21
 msgid "Yes, update and continue"
 msgstr "Sí, actualizar y continuar"
-

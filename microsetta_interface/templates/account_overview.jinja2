@@ -65,7 +65,7 @@
                         {% else %}
                             {{ _('You have') }}&nbsp;<span class="orange-text">{{ source.alerts }}</span>&nbsp;{{ _('update') }}
                         {% endif %}
-                        <a class="btn btn-orange ms-4" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">View</a>
+                        <a class="btn btn-orange ms-4" style="width: fit-content;" href="/accounts/{{account.account_id}}/sources/{{ source.source_id|e }}">{{ _('View') }}</a>
                     </div>
                 </div>
             {% else %}

@@ -145,7 +145,7 @@ SYSTEM_MSG_DICTIONARY = {
 client_state = RedisCache()
 
 # Countries allowed to view the contents of the My Kits tab
-KITS_TAB_WHITELIST = {'US', 'ES', 'JP'}
+KITS_TAB_WHITELIST = {'US', 'ES', 'JP', 'MX', 'GB'}
 
 # Countries allowed to view the contents of the My Nutrition tab
 NUTRITION_TAB_WHITELIST = {'US'}
@@ -932,12 +932,7 @@ def get_authrocket_callback(token=None, redirect_uri=None):
             "account_id": primary['account_id'],
             "email": primary['email']
         }
-        # NB: Disabling Japanese for the initial relaunch period until the
-        # Tokyo Tech team can review finalized translations
-        if primary["language"] == JA_JP_KEY:
-            session[LANG_KEY] = EN_US_KEY
-        else:
-            session[LANG_KEY] = primary["language"]
+        session[LANG_KEY] = primary["language"]
     else:
         session[ADMIN_MODE_KEY] = False
         session[LOGIN_INFO_KEY] = {
@@ -2035,6 +2030,23 @@ def get_reports(*, account_id=None, source_id=None):
         else:
             pending_samples.append(sample)
 
+    # Retrieve external reports for the source
+    has_error, external_reports, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/external_reports' % (account_id, source_id))
+    if has_error:
+        return samples_output
+
+    external_reports_kit = []
+    external_reports_ffq = []
+    for er in external_reports:
+        if er['report_type'] == "kit":
+            external_reports_kit.append(er)
+        elif er['report_type'] == "ffq":
+            external_reports_ffq.append(er)
+        else:
+            # This should be impossible to reach
+            raise Exception("Unknown report type: " + er['report_type'])
+
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
     return _render_with_defaults(
@@ -2047,8 +2059,42 @@ def get_reports(*, account_id=None, source_id=None):
         source_name=source_output['source_name'],
         barcode_prefix=SERVER_CONFIG['barcode_prefix'],
         public_endpoint=SERVER_CONFIG['public_api_endpoint'],
-        profile_has_samples=profile_has_samples
+        profile_has_samples=profile_has_samples,
+        external_reports_kit=external_reports_kit,
+        external_reports_ffq=external_reports_ffq
     )
+
+
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
+def get_external_report(*,
+                        account_id=None,
+                        source_id=None,
+                        external_report_id=None):
+    has_error, external_report, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/external_reports/%s' %
+        (account_id, source_id, external_report_id)
+    )
+    if has_error:
+        return external_report
+
+    has_error, external_report_bytes, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s/external_reports/%s/bytes' %
+        (account_id, source_id, external_report_id),
+        parse_json=False
+    )
+    if has_error:
+        return external_report_bytes
+
+    response = make_response(
+        external_report_bytes
+    )
+    response.headers.set("Content-Type", external_report['file_type'])
+    # TODO: Do we want it to download a file or be embedded in the html?
+    response.headers.set('Content-Disposition',
+                         'attachment',
+                         filename=external_report['file_name'])
+
+    return response
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])

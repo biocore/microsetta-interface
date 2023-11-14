@@ -296,7 +296,10 @@ $(document).ready(function(){
 
 {% block content %}
 <center>
-    {% if not valid_campaign %}
+    {% if campaign_id is none %}
+        {{ _('Sorry, it appears you\'ve followed a bad link. If you were trying to sign up for a project, please try copying the link again.') }}<br /><br />
+        {{ _('Otherwise, please visit our <a href="https://microsetta.ucsd.edu/">website</a> to learn about other opportunities to participate in The Microsetta Initiative.') }}
+    {% elif not valid_campaign %}
         {{ _('Sorry, due to widespread interest, the sign-up list for this project is full.') }}<br /><br />
         {{ _('Please visit our <a href="https://microsetta.ucsd.edu/">website</a> to learn about other opportunities to participate in The Microsetta Initiative.') }}
     {% else %}

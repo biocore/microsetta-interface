@@ -17,7 +17,7 @@ import random
 # check if microsetta-private-api appears to be running
 PRIVATE_API_AVAILABLE = False
 try:
-    req = requests.get(SERVER_CONFIG['private_api_endpoint'] + '/ui')
+    req = requests.get(SERVER_CONFIG['private_api_endpoint'] + '/ui/')
 except:  # noqa
     PRIVATE_API_AVAILABLE = False
 else:

@@ -1,4 +1,4 @@
-connexion[swagger-ui]
+connexion[swagger-ui] < 3.0.0
 pyjwt[crypto]
 pytest < 5.3.4
 pytest-cov

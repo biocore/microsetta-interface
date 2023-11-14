@@ -3275,7 +3275,14 @@ def get_submit_interest(campaign_id=None, source=None):
     campaign_info = None
     show_alt_info = False
 
-    if campaign_id is not None:
+    if campaign_id is None:
+        return _render_with_defaults('submit_interest.jinja2',
+                                     valid_campaign=valid_campaign,
+                                     campaign_id=campaign_id,
+                                     source=source,
+                                     campaign_info=campaign_info,
+                                     show_alt_info=show_alt_info)
+    else:
         do_return, campaign_info, _ = ApiRequest.get_no_auth(
             "/campaign_information",
             params={"campaign_id": campaign_id}

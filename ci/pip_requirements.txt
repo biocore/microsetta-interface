@@ -1,5 +1,5 @@
-connexion[swagger-ui] < 3.0.0
-pyjwt[crypto]
+connexion[swagger-ui] < 2.7.1
+pyjwt[crypto] < 2.2.0
 pytest < 5.3.4
 pytest-cov
 coveralls

@@ -68,6 +68,32 @@
                     $("#state").empty();
                 }
 
+                // Special case to prevent users outside Japan from using Japanese as their language
+                $('#language').empty();
+                if (code == "JP") {
+                    {% for lang_key in languages %}
+                        var option = $('<option></option>')
+                            .attr('value', '{{ languages[lang_key].value }}')
+                            {% if account.language == languages[lang_key].value %}
+                            .attr('selected', 'selected')
+                            {% endif %}
+                            .text('{{ languages[lang_key].display_text }}');
+                        $('#language').append(option);
+                    {% endfor %}
+                } else {
+                    {% for lang_key in languages %}
+                        {% if languages[lang_key].value != "ja_JP" %}
+                        var option = $('<option></option>')
+                            .attr('value', '{{ languages[lang_key].value }}')
+                            {% if account.language == languages[lang_key].value %}
+                            .attr('selected', 'selected')
+                            {% endif %}
+                            .text('{{ languages[lang_key].display_text }}');
+                        $('#language').append(option);
+                        {% endif %}
+                    {% endfor %}
+                }
+
                 // special case the use of codes for US states
                 if (code == "US") {
                     for (var state of US_STATES)

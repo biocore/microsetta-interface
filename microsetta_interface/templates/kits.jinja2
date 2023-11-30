@@ -95,7 +95,7 @@
             buttonDiv.innerHTML = '';
             var button = document.createElement("a");
             button.type = "button";
-            button.text = "{{ _('View Results') }}";
+            button.text = "{{ _('View Report') }}";
             button.className = "btn btn-white-blue-border";
             button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
             buttonDiv.appendChild(button);
@@ -265,7 +265,7 @@
                                 {% endif %}
                                 <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                                     {% if sample.sample_edit_locked %}
-                                        <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                                        <span class="sample-label">{{ _('Sample Received - Report Pending') }}</span>
                                     {% else %}
                                         <img src="/static/img/edit.svg" width="24" height="24" />
                                     {% endif %}

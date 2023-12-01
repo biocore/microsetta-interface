@@ -23,7 +23,7 @@
             buttonDiv.innerHTML = '';
             var button = document.createElement("a");
             button.type = "button";
-            button.text = "{{ _('View Results') }}";
+            button.text = "{{ _('View Report') }}";
             button.className = "btn btn-white-blue-border";
             button.href = "/accounts/{{account_id}}/sources/{{source_id}}/samples/" + sampleId + "/results";
             buttonDiv.appendChild(button);
@@ -78,7 +78,7 @@
                     {{ sample.sample_barcode }}
                 </div>
                 <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
-                    <span class="sample-label">{{ _('Sample Received - Results Pending') }}</span>
+                    <span class="sample-label">{{ _('Sample Received - Report Pending') }}</span>
                 </div>
             </div>
             {% endfor %}

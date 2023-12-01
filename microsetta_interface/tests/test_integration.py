@@ -397,7 +397,7 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertPageTitle(resp, 'My Kits')
 
-        cur_date = datetime.datetime.now.strftime("%-m/%-d/%Y")
+        cur_date = datetime.datetime.now().strftime("%-m/%-d/%Y")
         # set collection info
         collection_note = 'SAMPLE COLLECTED BY INTEGRATION TESTING'
         body = {'sample': TEST_KIT_1_SAMPLE_1_BARCODE,

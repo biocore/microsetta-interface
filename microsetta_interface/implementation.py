@@ -212,8 +212,8 @@ ADDRESS_ERRORS = {
         'AE14': 'La dirección es una Agencia receptora de correo comercial '
                 '(CMRA) y falta el número del buzón de correo privado (PMB '
                 'o #).',
-        'AEPOBOX': 'PO Boxes are not permitted. Please enter a physical '
-                   'address.'
+        'AEPOBOX': 'No se permiten PO Boxes. Por favor ingrese una dirección '
+                   'física.'
     },
     ES_ES_KEY: {
         'AE01': 'La dirección no se pudo verificar al menos hasta el nivel '
@@ -244,8 +244,8 @@ ADDRESS_ERRORS = {
         'AE14': 'La dirección es una Agencia receptora de correo comercial '
                 '(CMRA) y falta el número del buzón de correo privado (PMB '
                 'o #).',
-        'AEPOBOX': 'PO Boxes are not permitted. Please enter a physical '
-                   'address.'
+        'AEPOBOX': 'No se permiten PO Boxes. Por favor ingrese una dirección '
+                   'física.'
     },
     JA_JP_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '

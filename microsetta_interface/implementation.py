@@ -179,7 +179,9 @@ ADDRESS_ERRORS = {
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
                 '(CMRA) and the Private Mail Box (PMB or #) number is '
-                'missing.'
+                'missing.',
+        'AEPOBOX': 'PO Boxes are not permitted. Please enter a physical '
+                   'address.'
     },
     ES_MX_KEY: {
         'AE01': 'La dirección no se pudo verificar al menos hasta el nivel '
@@ -209,7 +211,9 @@ ADDRESS_ERRORS = {
                 'rural) o HC (Contrato de carretera).',
         'AE14': 'La dirección es una Agencia receptora de correo comercial '
                 '(CMRA) y falta el número del buzón de correo privado (PMB '
-                'o #).'
+                'o #).',
+        'AEPOBOX': 'No se permiten PO Boxes. Por favor ingrese una dirección '
+                   'física.'
     },
     ES_ES_KEY: {
         'AE01': 'La dirección no se pudo verificar al menos hasta el nivel '
@@ -239,7 +243,9 @@ ADDRESS_ERRORS = {
                 'rural) o HC (Contrato de carretera).',
         'AE14': 'La dirección es una Agencia receptora de correo comercial '
                 '(CMRA) y falta el número del buzón de correo privado (PMB '
-                'o #).'
+                'o #).',
+        'AEPOBOX': 'No se permiten PO Boxes. Por favor ingrese una dirección '
+                   'física.'
     },
     JA_JP_KEY: {
         'AE01': 'The address could not be verified at least up to the postal '
@@ -266,7 +272,9 @@ ADDRESS_ERRORS = {
                 'Contract) Box number is missing.',
         'AE14': 'US Only. The address is a Commercial Mail Receiving Agency '
                 '(CMRA) and the Private Mail Box (PMB or #) number is '
-                'missing.'
+                'missing.',
+        'AEPOBOX': 'PO Boxes are not permitted. Please enter a physical '
+                   'address.'
     },
 }
 

@@ -549,6 +549,24 @@ paths:
               schema:
                 type: string
 
+  '/accounts/{account_id}/sources/{source_id}/update_age_range':
+    get:
+      operationId: microsetta_interface.implementation.get_update_age
+      tags:
+        - Source
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Display the age update and consent interface
+          content:
+            text/html:
+              schema:
+                type: string
+        '302':
+          description: Redirect if the user is 18+
+
   # Note: ideally this would be represented as a DELETE, not as a GET
   # However, it is used as a link, which does not support an HTTP action of
   # delete

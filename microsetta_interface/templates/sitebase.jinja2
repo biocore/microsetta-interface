@@ -247,6 +247,9 @@
                                 <img src="/static/img/kebab.svg" style="margin-top: 10px; margin-left: 10px">
                             </a>
                           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownMenuLink">
+                              {% if show_update_age %}
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/update_age_range">{{ _('Update Profile Age') }}</a></li>
+                              {% endif %}
                               <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
                               <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
                           </ul>

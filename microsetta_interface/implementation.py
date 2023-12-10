@@ -1669,7 +1669,7 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None,
             source_output['consent']['age_range']
         )
     except ValueError:
-        # In case a source has a blank, "legacy" or faulty age range
+        # In case a source has a blank, legacy or faulty age range
         cur_age_index = -1
 
     return _render_with_defaults(

@@ -3029,12 +3029,12 @@ def post_generate_ffq_codes(body):
 def get_search_ffq_codes(email_query):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
-    
+
     do_return, ffq_diagnostics, _ = ApiRequest.get(
         '/admin/search/ffq_codes/%s' % (email_query,))
     if do_return:
         return ffq_diagnostics
-    
+
     # format datetime before rendering
     for code_obj in ffq_diagnostics['ffq_codes']:
         for time_col in ['transaction_created_time', 'registration_code_used']:

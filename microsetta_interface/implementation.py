@@ -82,7 +82,7 @@ ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
 # Age groups for consent purposes, in order. Order is key as this will be
 # used to govern progression. E.g., a child may move to teen, but a teen may
 # not move to child.
-HUMAN_CONSENT_AGE_GROUPS = ["0-6", "7-12", "13-17", "18-plus"]
+HUMAN_CONSENT_AGE_GROUPS = ("0-6", "7-12", "13-17", "18-plus")
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -2235,12 +2235,12 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         False
     )
 
-    consent_type_parts = consent_output['consent_type'].split("_")
-    if consent_type_parts[0] == "adult":
+    consent_type_lifestage = consent_output['consent_type'].split("_")[0]
+    if consent_type_lifestage == "adult":
         age_range = "18-plus"
-    elif consent_type_parts[0] == "adolescent":
+    elif consent_type_lifestage == "adolescent":
         age_range = "13-17"
-    elif consent_type_parts[0] == "child":
+    elif consent_type_lifestage == "child":
         age_range = "7-12"
     else:
         age_range = "0-6"

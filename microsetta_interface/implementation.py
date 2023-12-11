@@ -597,7 +597,7 @@ def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
         # Test if biospecimen consent is required! If Required,
         # route user to biospecimen consent
         needs_reroute, consent_output, _ = ApiRequest.get(
-            '/accounts/%s/source/%s/consent/%s' %
+            '/accounts/%s/sources/%s/consent/%s' %
             (acct_id, source_id, 'biospecimen'))
 
         if needs_reroute:
@@ -1241,7 +1241,7 @@ def post_create_human_source(*, account_id=None, body=None):
             # If source already exist, only latest consent
             # needs to be signed. Sign the consent doc
             has_error, consent_output, _ = ApiRequest.post(
-                "/accounts/{0}/source/{1}/consent/{2}".format(
+                "/accounts/{0}/sources/{1}/consent/{2}".format(
                     account_id, source_id, consent_type), json=body)
 
             if has_error:
@@ -1266,7 +1266,7 @@ def post_create_human_source(*, account_id=None, body=None):
 
             # Sign consent
             has_error, consent_output, _ = ApiRequest.post(
-                "/accounts/{0}/source/{1}/consent/{2}".format(
+                "/accounts/{0}/sources/{1}/consent/{2}".format(
                     account_id, new_source_id, "data"), json=body)
 
             if has_error:
@@ -1279,7 +1279,7 @@ def post_create_human_source(*, account_id=None, body=None):
         consent_type = "biospecimen"
 
         has_error, consent_output, _ = ApiRequest.post(
-            "/accounts/{0}/source/{1}/consent/{2}".format(
+            "/accounts/{0}/sources/{1}/consent/{2}".format(
                 account_id, source_id, consent_type), json=body)
 
         if has_error:
@@ -3638,7 +3638,7 @@ def session_locale():
 
 def check_current_consent(account_id, source_id, consent_type):
     has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' % (
+        '/accounts/%s/sources/%s/consent/%s' % (
             account_id, source_id, consent_type
         )
     )

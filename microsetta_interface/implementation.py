@@ -82,7 +82,16 @@ ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
 # Age groups for consent purposes, in order. Order is key as this will be
 # used to govern progression. E.g., a child may move to teen, but a teen may
 # not move to child.
-HUMAN_CONSENT_AGE_GROUPS = ("0-6", "7-12", "13-17", "18-plus")
+HUMAN_CONSENT_TODDLER = "0-6"
+HUMAN_CONSENT_CHILD = "7-12"
+HUMAN_CONSENT_ADOLESCENT = "13-17"
+HUMAN_CONSENT_ADULT = "18-plus"
+HUMAN_CONSENT_AGE_GROUPS = (
+    HUMAN_CONSENT_TODDLER,
+    HUMAN_CONSENT_CHILD,
+    HUMAN_CONSENT_ADOLESCENT,
+    HUMAN_CONSENT_ADULT
+)
 
 # States
 NEEDS_REROUTE = "NeedsReroute"
@@ -1219,7 +1228,7 @@ def get_consent_page(*, account_id=None):
         age_range=None,
         source_id=None,
         reconsent=reconsent,
-        cur_age_index=-1,
+        cur_age="UNKNOWN",
         update_age=False
     )
 
@@ -1664,13 +1673,10 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None,
     # biospecimen consent
     skip_dupe_check = True
 
-    try:
-        cur_age_index = HUMAN_CONSENT_AGE_GROUPS.index(
-            source_output['consent']['age_range']
-        )
-    except ValueError:
-        # In case a source has a blank, legacy or faulty age range
-        cur_age_index = -1
+    if source_output['consent']['age_range'] in HUMAN_CONSENT_AGE_GROUPS:
+        cur_age = source_output['consent']['age_range']
+    else:
+        cur_age = "UNKNOWN"
 
     return _render_with_defaults(
         'new_participant.jinja2',
@@ -1687,7 +1693,7 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None,
         account_id=account_id,
         source_id=source_id,
         skip_dupe_check=skip_dupe_check,
-        cur_age_index=cur_age_index,
+        cur_age=cur_age,
         update_age=update_age
     )
 
@@ -1703,6 +1709,7 @@ def decline_reconsent(*, account_id, source_id):
     )
 
 
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_update_age(*, account_id, source_id):
     # Retrieve the source
     has_error, source_output, _ = ApiRequest.get(
@@ -1712,7 +1719,7 @@ def get_update_age(*, account_id, source_id):
         return source_output
 
     # Adults can't change their age range, redirect them to My Profile
-    if source_output['consent']['age_range'] == "18-plus":
+    if source_output['consent']['age_range'] == HUMAN_CONSENT_ADULT:
         return redirect(
             "/accounts/%s/sources/%s" %
             (account_id, source_id)
@@ -2237,13 +2244,15 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
 
     consent_type_lifestage = consent_output['consent_type'].split("_")[0]
     if consent_type_lifestage == "adult":
-        age_range = "18-plus"
+        age_range = HUMAN_CONSENT_ADULT
     elif consent_type_lifestage == "adolescent":
-        age_range = "13-17"
+        age_range = HUMAN_CONSENT_ADOLESCENT
     elif consent_type_lifestage == "child":
-        age_range = "7-12"
+        age_range = HUMAN_CONSENT_CHILD
+    elif consent_type_lifestage == "parent":
+        age_range = HUMAN_CONSENT_TODDLER
     else:
-        age_range = "0-6"
+        raise ValueError(f"This shouldn't happen: {consent_type_lifestage}")
 
     if consent_type == "biospecimen":
         consent_type_display = "Biospecimen"
@@ -3650,7 +3659,7 @@ def check_current_consent(account_id, source_id, consent_type):
 
 
 def check_show_update_age(age_range):
-    return age_range != "18-plus"
+    return age_range != HUMAN_CONSENT_ADULT
 
 
 class BearerAuth(AuthBase):

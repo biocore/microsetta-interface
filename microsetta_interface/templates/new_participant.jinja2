@@ -258,21 +258,21 @@
     </div>
     <div class="row mb-4">
         {% if language_tag != "ja_JP" %}
-            {% if cur_age_index <= 0 %}
+            {% if cur_age in ("UNKNOWN", "0-6") %}
                 <div class="col-md">
-                    <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)" {% if cur_age_index == 0 %}checked{% endif %}>
+                    <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)" {% if cur_age == '0-6' %}checked{% endif %}>
                     <label for="age-range-1" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label>
                 </div>
             {% endif %}
-            {% if cur_age_index <= 1 %}
+            {% if cur_age in ("UNKNOWN", "0-6", "7-12") %}
                 <div class="col-md">
-                    <input type="radio" id="age-range-2" name="age-range" value="7-12" onchange="change_consent_div(this)" {% if cur_age_index == 1 %}checked{% endif %}>
+                    <input type="radio" id="age-range-2" name="age-range" value="7-12" onchange="change_consent_div(this)" {% if cur_age == '7-12' %}checked{% endif %}>
                     <label for="age-range-2" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_7_12'] |e}}</label>
                 </div>
             {% endif %}
-            {% if cur_age_index <= 2 %}
+            {% if cur_age in ("UNKNOWN", "0-6", "7-12", "13-17") %}
                 <div class="col-md">
-                    <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)" {% if cur_age_index == 2 %}checked{% endif %}>
+                    <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)" {% if cur_age == '13-17' %}checked{% endif %}>
                     <label for="age-range-3" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label>
                 </div>
             {% endif %}

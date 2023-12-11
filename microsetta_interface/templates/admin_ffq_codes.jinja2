@@ -13,6 +13,7 @@
         <br /><br />
     {% endif %}
     <hr />
+
     <form method="post" enctype="multipart/form-data">
         {{ _('Generate Multiple Codes and download CSV File') }}<br />
         <label for="code_quantity">{{ _('Number of Codes') }}:</label>
@@ -20,6 +21,74 @@
         <input type="submit" name="generate_csv" value="{{ _('Generate') }}">
     </form>
     <hr />
-<div class="container">
-</div>
+
+    <form method="get" action="/admin/ffq_codes/search">
+        {{ _('Search FFQ Codes') }}<br />
+        <label for="email_query">{{ _('Email') }}:</label>
+        <input type="text" name="email_query">
+        <input type="submit" value="{{ _('Search') }}">
+    </form>
+
+    {% if ffq_diagnostics is not none and ffq_diagnostics|length > 0 %}
+    <div class="container">
+        <div class="list-group">
+            <div class="row">
+                <div class="col-sm">
+                    <i>{{ _('Email') }}</i>
+                </div>
+                <div class="col-sm">
+                    <i>{{ _('Transaction Created Time') }}</i>
+                </div>
+                <div class="col-sm">
+                    <i>{{ _('FFQ Registration Code') }}</i>
+                </div>
+                <div class="col-sm">
+                    <i>{{ _('Registration Code Used') }}</i>
+                </div>
+                <div class="col-sm">
+                    <i>{{ _('Registration Code Used Time') }}</i>
+                </div>
+            </div>
+            {% for code_obj in ffq_diagnostics %}
+            <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+                <div class="row">
+                    <div class="col-sm">
+                        {{ code_obj.email |e}}
+                    </div>
+                    {% if code_obj.ffq_registration_code is none %}
+                        <div class="col-sm" colspan="4">
+                            {{ _('No FFQ code issued to this email') }}
+                        </div>
+                    {% else %}
+                        <div class="col-sm">
+                            {{ code_obj.transaction_created_time |e}}
+                        </div>
+                        <div class="col-sm">
+                            {{ code_obj.ffq_registration_code |e}}
+                        </div>
+                        <div class="col-sm">
+                            {% if code_obj.registration_code_used is none %}
+                            {{ _('Not Used') }}
+                            {% else %}
+                            {{ _('Used') }}
+                            {% endif %}
+                        </div>
+                        <div class="col-sm">
+                            {% if code_obj.registration_code_used is none %}
+                            {{ _('N/A') }}
+                            {% else %}
+                            {{ code_obj.registration_code_used |e}}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <br/><br/>
+    </div>
+    {% else %}
+    {{ _('No email found') }}
+    {% endif %}
+    <hr />
 {% endblock %}

@@ -79,6 +79,20 @@ ACCT_TERMS_KEY = "consent_privacy_terms"
 ACCT_WRITEABLE_KEYS = [ACCT_FNAME_KEY, ACCT_LNAME_KEY, ACCT_EMAIL_KEY,
                        ACCT_ADDR_KEY, ACCT_LANG_KEY, ACCT_TERMS_KEY]
 
+# Age groups for consent purposes, in order. Order is key as this will be
+# used to govern progression. E.g., a child may move to teen, but a teen may
+# not move to child.
+HUMAN_CONSENT_TODDLER = "0-6"
+HUMAN_CONSENT_CHILD = "7-12"
+HUMAN_CONSENT_ADOLESCENT = "13-17"
+HUMAN_CONSENT_ADULT = "18-plus"
+HUMAN_CONSENT_AGE_GROUPS = (
+    HUMAN_CONSENT_TODDLER,
+    HUMAN_CONSENT_CHILD,
+    HUMAN_CONSENT_ADOLESCENT,
+    HUMAN_CONSENT_ADULT
+)
+
 # States
 NEEDS_REROUTE = "NeedsReroute"
 NEEDS_LOGIN = "NeedsLogin"
@@ -592,7 +606,7 @@ def _check_biospecimen_prereqs(acct_id, source_id, current_state=None):
         # Test if biospecimen consent is required! If Required,
         # route user to biospecimen consent
         needs_reroute, consent_output, _ = ApiRequest.get(
-            '/accounts/%s/source/%s/consent/%s' %
+            '/accounts/%s/sources/%s/consent/%s' %
             (acct_id, source_id, 'biospecimen'))
 
         if needs_reroute:
@@ -1213,7 +1227,9 @@ def get_consent_page(*, account_id=None):
         participant_name=None,
         age_range=None,
         source_id=None,
-        reconsent=reconsent
+        reconsent=reconsent,
+        cur_age="UNKNOWN",
+        update_age=False
     )
 
 
@@ -1234,7 +1250,7 @@ def post_create_human_source(*, account_id=None, body=None):
             # If source already exist, only latest consent
             # needs to be signed. Sign the consent doc
             has_error, consent_output, _ = ApiRequest.post(
-                "/accounts/{0}/source/{1}/consent/{2}".format(
+                "/accounts/{0}/sources/{1}/consent/{2}".format(
                     account_id, source_id, consent_type), json=body)
 
             if has_error:
@@ -1259,7 +1275,7 @@ def post_create_human_source(*, account_id=None, body=None):
 
             # Sign consent
             has_error, consent_output, _ = ApiRequest.post(
-                "/accounts/{0}/source/{1}/consent/{2}".format(
+                "/accounts/{0}/sources/{1}/consent/{2}".format(
                     account_id, new_source_id, "data"), json=body)
 
             if has_error:
@@ -1272,7 +1288,7 @@ def post_create_human_source(*, account_id=None, body=None):
         consent_type = "biospecimen"
 
         has_error, consent_output, _ = ApiRequest.post(
-            "/accounts/{0}/source/{1}/consent/{2}".format(
+            "/accounts/{0}/sources/{1}/consent/{2}".format(
                 account_id, source_id, consent_type), json=body)
 
         if has_error:
@@ -1621,8 +1637,11 @@ def top_food_report_pdf(*,
 
 
 def render_consent_page(account_id, source_id, form_type, sample_ids=None,
-                        reconsent=None):
+                        reconsent=None, update_age=False):
     endpoint = SERVER_CONFIG["endpoint"]
+
+    if SOURCE_ID not in session:
+        session[SOURCE_ID] = source_id
 
     relative_post_url = _make_acct_path(account_id,
                                         suffix="create_human_source")
@@ -1654,38 +1673,29 @@ def render_consent_page(account_id, source_id, form_type, sample_ids=None,
     # biospecimen consent
     skip_dupe_check = True
 
-    # NB: For the time being, we need to block any existing under-18 profiles
-    # from reconsenting. Checking whether they have a current data consent is
-    # an absolute way to establish old profiles vs. new, so we'll see if they
-    # have the current data consent, then divert anyone under 18 away from the
-    # reconsent form.
-    need_reconsent_data = check_current_consent(
-        account_id, source_id, "data"
-    )
-    if need_reconsent_data and source_output['consent']['age_range'] !=\
-            "legacy" and source_output['consent']['age_range'] != "18-plus":
-        return _render_with_defaults(
-            'minor_reconsent.jinja2',
-            account_id=account_id,
-            source_id=source_id
-        )
+    if source_output['consent']['age_range'] in HUMAN_CONSENT_AGE_GROUPS:
+        cur_age = source_output['consent']['age_range']
     else:
-        return _render_with_defaults(
-            'new_participant.jinja2',
-            tl=consent_output,
-            post_url=post_url,
-            duplicate_source_check=duplicate_source_check,
-            home_url=home_url,
-            form_type=form_type,
-            reconsent=reconsent,
-            language_tag=session_locale(),
-            sample_ids=sample_ids,
-            participant_name=source_output['source_name'],
-            age_range=source_output['consent']['age_range'],
-            account_id=account_id,
-            source_id=source_id,
-            skip_dupe_check=skip_dupe_check
-        )
+        cur_age = "UNKNOWN"
+
+    return _render_with_defaults(
+        'new_participant.jinja2',
+        tl=consent_output,
+        post_url=post_url,
+        duplicate_source_check=duplicate_source_check,
+        home_url=home_url,
+        form_type=form_type,
+        reconsent=reconsent,
+        language_tag=session_locale(),
+        sample_ids=sample_ids,
+        participant_name=source_output['source_name'],
+        age_range=source_output['consent']['age_range'],
+        account_id=account_id,
+        source_id=source_id,
+        skip_dupe_check=skip_dupe_check,
+        cur_age=cur_age,
+        update_age=update_age
+    )
 
 
 def decline_reconsent(*, account_id, source_id):
@@ -1696,6 +1706,31 @@ def decline_reconsent(*, account_id, source_id):
     return redirect(
         "/accounts/%s/sources/%s" %
         (account_id, source_id)
+    )
+
+
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
+def get_update_age(*, account_id, source_id):
+    # Retrieve the source
+    has_error, source_output, _ = ApiRequest.get(
+        '/accounts/%s/sources/%s' %
+        (account_id, source_id))
+    if has_error:
+        return source_output
+
+    # Adults can't change their age range, redirect them to My Profile
+    if source_output['consent']['age_range'] == HUMAN_CONSENT_ADULT:
+        return redirect(
+            "/accounts/%s/sources/%s" %
+            (account_id, source_id)
+        )
+
+    return render_consent_page(
+        account_id,
+        source_id,
+        "data",
+        reconsent=True,
+        update_age=True
     )
 
 
@@ -1731,6 +1766,10 @@ def get_source(*, account_id=None, source_id=None):
         (account_id, source_id))
     if has_error:
         return source_output
+
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
 
     # Hack to determine if user's country is Spain OR locale is es_ES
     # If either condition is true, show the Spain FFQ
@@ -1839,7 +1878,8 @@ def get_source(*, account_id=None, source_id=None):
                                  remote_surveys=remote_surveys,
                                  source_name=source_output['source_name'],
                                  profile_has_samples=profile_has_samples,
-                                 need_reconsent=need_reconsent
+                                 need_reconsent=need_reconsent,
+                                 show_update_age=show_update_age
                                  )
 
 
@@ -1858,6 +1898,10 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         (account_id, source_id))
     if has_error:
         return source_output
+
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
 
     # Retrieve all samples from the source
     has_error, samples_output, _ = ApiRequest.get(
@@ -1945,7 +1989,8 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         prompt_survey_update=prompt_survey_update,
         prompt_survey_id=BASIC_INFO_ID,
         need_reconsent_data=need_reconsent_data,
-        need_reconsent_biospecimen=need_reconsent_biospecimen
+        need_reconsent_biospecimen=need_reconsent_biospecimen,
+        show_update_age=show_update_age
     )
 
 
@@ -1964,6 +2009,10 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         (account_id, source_id))
     if has_error:
         return source_output
+
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
 
     # Check the FFQ prereqs for the source (birth year, gender, height, weight
     has_error, prereqs_output, _ = ApiRequest.get(
@@ -1999,7 +2048,8 @@ def get_nutrition(*, account_id=None, source_id=None, new_ffq_code=None):
         new_ffq_code=new_ffq_code,
         profile_has_samples=profile_has_samples,
         has_basic_info=has_basic_info,
-        need_reconsent_data=need_reconsent_data
+        need_reconsent_data=need_reconsent_data,
+        show_update_age=show_update_age
     )
 
 
@@ -2011,6 +2061,10 @@ def get_reports(*, account_id=None, source_id=None):
         (account_id, source_id))
     if has_error:
         return source_output
+
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
 
     # Retrieve all Vioscreen registry entries for the source
     has_error, vioscreen_output, _ = ApiRequest.get(
@@ -2069,7 +2123,8 @@ def get_reports(*, account_id=None, source_id=None):
         public_endpoint=SERVER_CONFIG['public_api_endpoint'],
         profile_has_samples=profile_has_samples,
         external_reports_kit=external_reports_kit,
-        external_reports_ffq=external_reports_ffq
+        external_reports_ffq=external_reports_ffq,
+        show_update_age=show_update_age
     )
 
 
@@ -2114,6 +2169,10 @@ def get_consents(*, account_id=None, source_id=None):
     if has_error:
         return source_output
 
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
+
     # Retrieve the latest signed consents
     has_error, data_consent, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/signed_consent/%s' %
@@ -2144,7 +2203,8 @@ def get_consents(*, account_id=None, source_id=None):
         source_name=source_output['source_name'],
         data_consent=data_consent,
         biospecimen_consent=biospecimen_consent,
-        profile_has_samples=profile_has_samples
+        profile_has_samples=profile_has_samples,
+        show_update_age=show_update_age
     )
 
 
@@ -2182,6 +2242,18 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         False
     )
 
+    consent_type_lifestage = consent_output['consent_type'].split("_")[0]
+    if consent_type_lifestage == "adult":
+        age_range = HUMAN_CONSENT_ADULT
+    elif consent_type_lifestage == "adolescent":
+        age_range = HUMAN_CONSENT_ADOLESCENT
+    elif consent_type_lifestage == "child":
+        age_range = HUMAN_CONSENT_CHILD
+    elif consent_type_lifestage == "parent":
+        age_range = HUMAN_CONSENT_TODDLER
+    else:
+        raise ValueError(f"This shouldn't happen: {consent_type_lifestage}")
+
     if consent_type == "biospecimen":
         consent_type_display = "Biospecimen"
     else:
@@ -2191,7 +2263,7 @@ def get_consent_view(*, account_id=None, source_id=None, consent_type=None):
         'signed_consent.jinja2',
         account_id=account_id,
         source_id=source_id,
-        source_age=source_output['consent']['age_range'],
+        source_age=age_range,
         source_name=source_output['source_name'],
         consent=consent_output,
         tl=consent_assets,
@@ -2240,6 +2312,10 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
     )
     if has_error:
         return source_output
+
+    show_update_age = check_show_update_age(
+        source_output['consent']['age_range']
+    )
 
     has_error, sample_output, _ = ApiRequest.get(
         '/accounts/%s/sources/%s/samples/%s' %
@@ -2320,7 +2396,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         is_environmental=is_environmental,
         profile_has_samples=profile_has_samples,
         need_reconsent_data=need_reconsent_data,
-        need_reconsent_biospecimen=need_reconsent_biospecimen
+        need_reconsent_biospecimen=need_reconsent_biospecimen,
+        show_update_age=show_update_age
     )
 
 
@@ -3570,7 +3647,7 @@ def session_locale():
 
 def check_current_consent(account_id, source_id, consent_type):
     has_error, consent_required, _ = ApiRequest.get(
-        '/accounts/%s/source/%s/consent/%s' % (
+        '/accounts/%s/sources/%s/consent/%s' % (
             account_id, source_id, consent_type
         )
     )
@@ -3579,6 +3656,10 @@ def check_current_consent(account_id, source_id, consent_type):
         return consent_required
 
     return consent_required["result"]
+
+
+def check_show_update_age(age_range):
+    return age_range != HUMAN_CONSENT_ADULT
 
 
 class BearerAuth(AuthBase):

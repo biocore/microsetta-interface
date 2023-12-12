@@ -11,10 +11,20 @@
         $("#7-12-div").hide();
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
-        {% if age_range == 'legacy' %}
+        $("#update-age-div").hide();
+        {% if age_range == 'legacy' or update_age %}
         $("#legacy-cancel-div").hide();
         {% endif %}
-        $("#"+ radio.value +"-div").show();
+        {% if update_age %}
+            if (radio.value == "{{ age_range }}") {
+                $("#update-age-div").show();
+                $("#legacy-cancel-div").show();
+            } else {
+                $("#"+ radio.value +"-div").show();
+            }
+        {% else %}
+            $("#"+ radio.value +"-div").show();
+        {% endif %}
     }
 
     function goHome() {
@@ -38,9 +48,14 @@
         $("#7-12-div").hide();
         $("#13-17-div").hide();
         $("#18-plus-div").hide();
+        $("#update-age-div").hide();
 
-        {% if age_range is not none %}
+        {% if age_range is not none and not update_age %}
         $("#{{ age_range }}-div").show();
+        {% endif %}
+
+        {% if update_age %}
+            $("#update-age-div").show();
         {% endif %}
 
         disableInputOnSubmit("#0-6-form", "#0-6-submit_button", "{{ _('Saving...') }}");
@@ -214,7 +229,7 @@
 {% block content%}
 
 <div class="container default-container">
-    {% if reconsent is not none %}
+    {% if reconsent is not none and not update_age %}
         <div id="consent_alert" class="alert alert-consent" role="alert">
             <strong>{{ _('Your consent is needed to proceed.') }}</strong><br />
             {{ _('We\'ve made some changes to the project since you last logged in, including an update to our consent agreement. To proceed, please provide your updated consent.') }}
@@ -233,7 +248,7 @@
             </div>
         </div>
     {% endif %}
-    {% if age_range is not none and age_range != 'legacy' %}
+    {% if age_range is not none and age_range == '18-plus' %}
         <input type="hidden" name="age-range" value="{{ age_range }}" />
     {% else %}
     <div class="row">
@@ -243,18 +258,24 @@
     </div>
     <div class="row mb-4">
         {% if language_tag != "ja_JP" %}
-        <div class="col-md">
-            <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)">
-            <label for="age-range-1" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label>
-        </div>
-        <div class="col-md">
-            <input type="radio" id="age-range-2" name="age-range" value="7-12" onchange="change_consent_div(this)">
-            <label for="age-range-2" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_7_12'] |e}}</label>
-        </div>
-        <div class="col-md">
-            <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)">
-            <label for="age-range-3" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label>
-        </div>
+            {% if cur_age in ("UNKNOWN", "0-6") %}
+                <div class="col-md">
+                    <input type="radio" id="age-range-1" name="age-range" value="0-6" onchange="change_consent_div(this)" {% if cur_age == '0-6' %}checked{% endif %}>
+                    <label for="age-range-1" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_0_6'] |e}}</label>
+                </div>
+            {% endif %}
+            {% if cur_age in ("UNKNOWN", "0-6", "7-12") %}
+                <div class="col-md">
+                    <input type="radio" id="age-range-2" name="age-range" value="7-12" onchange="change_consent_div(this)" {% if cur_age == '7-12' %}checked{% endif %}>
+                    <label for="age-range-2" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_7_12'] |e}}</label>
+                </div>
+            {% endif %}
+            {% if cur_age in ("UNKNOWN", "0-6", "7-12", "13-17") %}
+                <div class="col-md">
+                    <input type="radio" id="age-range-3" name="age-range" value="13-17" onchange="change_consent_div(this)" {% if cur_age == '13-17' %}checked{% endif %}>
+                    <label for="age-range-3" class="consent-age-label">{{ tl['PARTICIPANT_FORM']['AGE_13_17'] |e}}</label>
+                </div>
+            {% endif %}
         {% endif %}
         <div class="col-md">
             <input type="radio" id="age-range-4" name="age-range" value="18-plus" onchange="change_consent_div(this)">
@@ -519,7 +540,19 @@
     </form>
 </div>
 
-{% if age_range == 'legacy' %}
+{% if update_age %}
+<div id="update-age-div">
+    <div class="row">
+        <div class="col-12 text-center">
+            <p class="tmi-content">
+                {{ _('Please select the age range you\'d like to update your profile to. If your age range is unchanged, please click the Cancel button.') }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if age_range == 'legacy' or update_age %}
 <div id="legacy-cancel-div">
     <div class="row">
         <div class="col-12 text-center">

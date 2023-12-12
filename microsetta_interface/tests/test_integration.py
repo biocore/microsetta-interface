@@ -611,13 +611,13 @@ class IntegrationTests(unittest.TestCase):
         return resp
 
     def _sign_consent_document(self, acc_id, src_id, con_type, consent_data):
-        url = f'/accounts/{acc_id}/source/{src_id}/consent/{con_type}'
+        url = f'/accounts/{acc_id}/sources/{src_id}/consent/{con_type}'
         resp = self.app.post(url, data=consent_data)
         url = resp.headers['Location']
         return self.app.get(url), url
 
     def _is_consent_required(self, acc_id, source_id, consent_type):
-        url = f'/accounts/{acc_id}/source/{source_id}/consent/{consent_type}'
+        url = f'/accounts/{acc_id}/sources/{source_id}/consent/{consent_type}'
         resp = self.app.get(url)
         return resp["result"]
 

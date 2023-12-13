@@ -52,11 +52,11 @@
             {% for code_obj in ffq_diagnostics %}
             <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
                 <div class="row">
-                    <div class="col-sm">
+                    <div class="col-sm" style="word-wrap: break-word; overflow: hidden;">
                         {{ code_obj.email |e}}
                     </div>
                     {% if code_obj.ffq_registration_code is none %}
-                        <div class="col-sm" colspan="4">
+                        <div class="col-sm" style="flex: 4; text-align: center;">
                             {{ _('No FFQ code issued to this email') }}
                         </div>
                     {% else %}

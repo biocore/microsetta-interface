@@ -1207,6 +1207,25 @@ paths:
               schema:
                 type: string
 
+  '/admin/ffq_codes/search':
+    get:
+      operationId: microsetta_interface.implementation.get_search_ffq_codes
+      tags:
+        - Admin
+      parameters:
+        - in: query
+          name: email_query
+          description: Email to search for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of FFQ codes and related information
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/admin/address_verification':
     get:
       operationId: microsetta_interface.implementation.get_address_verification

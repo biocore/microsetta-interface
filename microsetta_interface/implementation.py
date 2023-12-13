@@ -3103,6 +3103,32 @@ def post_generate_ffq_codes(body):
         )
 
 
+def get_search_ffq_codes(email_query):
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, ffq_diagnostics, _ = ApiRequest.get(
+        '/admin/search/ffq_codes/%s' % (email_query,))
+    if do_return:
+        return ffq_diagnostics
+
+    # format datetime before rendering
+    for code_obj in ffq_diagnostics['ffq_codes']:
+        for time_col in ['transaction_created_time', 'registration_code_used']:
+            time_str = code_obj[time_col]
+            if time_str is not None:
+                code_obj[time_col] = (
+                    datetime
+                    .fromisoformat(time_str)
+                    .strftime("%Y-%m-%d %H:%M:%S")
+                )
+
+    return _render_with_defaults(
+        'admin_ffq_codes.jinja2',
+        ffq_diagnostics=ffq_diagnostics['ffq_codes']
+    )
+
+
 def get_interactive_activation(email_query=None, code_query=None):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

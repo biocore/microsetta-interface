@@ -13,17 +13,23 @@
             <div class="col-sm">
                 <i>{{ _('Account ID') }}</i>
             </div>
+            <div class="col-sm">
+                <i>{{ _('AuthRocket Status') }}</i>
+            </div>
         </div>
         {% for account in accounts %}
         <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
           <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" style="word-wrap: break-word; overflow: hidden;">
               <a href="/accounts/{{account.account_id |e}}">
                   {{ account.email |e}}
               </a>
             </div>
-            <div class="col-sm">
+            <div class="col-sm" style="word-wrap: break-word; overflow: hidden;">
               {{ account.account_id|e }}
+            </div>
+            <div class="col-sm">
+              {{ account.authrocket_status|e }}
             </div>
           </div>
         </div>

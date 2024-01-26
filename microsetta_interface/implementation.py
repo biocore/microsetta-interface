@@ -2782,8 +2782,15 @@ def get_interactive_account_search(email_query):
     if do_return:
         return email_diagnostics
 
-    accounts = [{"email": acct['email'], "account_id": acct['id']}
-                for acct in email_diagnostics['accounts']]
+    accounts = [{
+        "email": acct['email'],
+        "account_id": acct['id'],
+        "authrocket_status": (
+            "Missing"
+            if acct['auth_issuer'] is None and acct['auth_sub'] is None
+            else "Authenticated"
+        )
+    } for acct in email_diagnostics['accounts']]
     return _render_with_defaults('admin_home.jinja2',
                                  accounts=accounts)
 

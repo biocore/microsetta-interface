@@ -2784,11 +2784,12 @@ def get_interactive_account_search(email_query):
 
     accounts = []
     for acct in email_diagnostics['accounts']:
-        authrocket_status = (
-            "Missing"
-            if acct['auth_issuer'] is None and acct['auth_sub'] is None
-            else "Authenticated"
-        )
+        if acct['auth_issuer'] is None and acct['auth_sub'] is None:
+            authrocket_status = "Missing"
+        elif acct['auth_issuer'] is None or acct['auth_sub'] is None:
+            authrocket_status = "Faulty - Contact Admin"
+        else:
+            authrocket_status = "Authenticated"
         acct_diag = {
             "email": acct['email'],
             "account_id": acct['id'],

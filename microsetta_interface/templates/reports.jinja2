@@ -90,17 +90,13 @@
                 <div class="barcode-col barcode-text">
                     {{ sample.sample_barcode }}
                 </div>
-                {% if sample.latest_scan_timestamp is none %}
+                {% if sample.sample_latest_scan_timestamp is none %}
                     <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                         <span class="sample-label">{{ _('Not Yet Received ') }} </span>
                     </div>
-                {% elif sample.last_update is none %}
+                {% elif sample.sample_latest_sample_information_update is none or sample.sample_latest_scan_timestamp > sample.sample_latest_sample_information_update %}
                     <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
                         <span class="sample-label">{{ _('Sample Received - Information Needed ') }} </span>
-                    </div>
-                {% elif sample.latest_scan_timestamp > sample.last_update %}
-                    <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">
-                        <span class="sample-label">{{ _('Sample Received - Information Still Needed ') }} </span>
                     </div>
                 {% else %}
                     <div class="barcode-col barcode-col-end" id="btn-view-{{ sample.sample_id }}">

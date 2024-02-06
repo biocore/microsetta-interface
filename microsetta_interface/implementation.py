@@ -2823,6 +2823,7 @@ def post_account_delete(body):
         raise Unauthorized()
 
     account_to_delete = body.get('account_id')
+    delete_reason = body.get('delete_reason')
     if account_to_delete is None:
         raise Unauthorized()
 
@@ -2837,8 +2838,10 @@ def post_account_delete(body):
     if accts_output['account_type'] != 'standard':
         return get_rootpath()
 
-    url = '/admin/account_removal/%s' % (account_to_delete,)
+    url = f'/admin/account_removal/{account_to_delete}?delete_reason={delete_reason}'
+
     has_error, delete_output, _ = ApiRequest.delete(url)
+
 
     if has_error:
         return delete_output

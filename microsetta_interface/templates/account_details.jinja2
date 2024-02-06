@@ -128,6 +128,12 @@
                 }
             },cc);
         });
+
+        function verifyDeleteUserRequest(){
+            let confirmMsg = "{{ _('You are requesting to delete your account.') }} " +
+                "{{ _('This operation cannot be undone.  Are you sure you want to delete this account?') }} ";
+                return window.confirm(confirmMsg);
+            }
     </script>
 {% endblock %}
 {% block breadcrumb %}
@@ -442,4 +448,39 @@
         {% endif %}
     </div>
 </div>
+{% if not admin_mode %}
+    {% if requested_deletion %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Request account deletion.') }}">
+                    <p>
+                    </p>
+                        <center>
+                        _("Your account removal request is being reviewed. You will be notified via email once your account has been deleted.")
+                        </center>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 {% if samples|length > 0 %}tooltipper{% endif %}" data-title="{{ _('Request account deletion.') }}">
+                    <p>
+                    </p>
+                        <center>
+                            <form name="request_delete_{{account.account_id}}_form"
+                             method="post" action="/accounts/{{ account.account_id }}/request/remove"
+                             onsubmit="return verifyDeleteUserRequest();">
+                                  {{ _('If you wish to delete this account, please click the following button to submit your request to an administrator.') }}
+                            <button type="submit" class="btn btn-outline-danger">{{ _('Request Account Deletion') }}</button>
+                            <br>
+                            {{ _('IMPORTANT: Once you click this button, the request cannot be undone. Your account cannot be restored after it has been deleted.') }}
+                            </br>
+                            </form>
+                        </center>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
 {% endblock %}

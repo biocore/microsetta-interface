@@ -579,6 +579,50 @@ class IntegrationTests(unittest.TestCase):
         resp, url = self._sign_consent(account_id)
         account_id, source_id, _ = self._ids_from_url(url)
         self.assertPageTitle(resp, 'My Profile')
+        self._complete_primary_survey(account_id, source_id)
+        resp, url = self._complete_covid_survey(account_id, source_id)
+        self.assertPageTitle(resp, 'Account Samples')
+
+    def test_existing_user_to_secondary_survey(self):
+        # test db doesn't have a completed covid survey, so let's do that
+        # logout then back in
+        self._login(USER_WITH_VALID_SAMPLE)
+        resp = self.app.get('/home', follow_redirects=True)
+        page = self._html_page(resp)
+        account_id, source_id, _ = self._first_ids_from_html(page)
+        self._complete_covid_survey(account_id, source_id)
+
+        self._logout()
+
+        self._login(USER_WITH_VALID_SAMPLE)
+        url = f'/accounts/{account_id}/sources/{source_id}'
+        resp = self.app.get(url, follow_redirects=True)
+
+        self.assertPageTitle(resp, 'Consent')
+        self.assertPageContains(resp, 'Microsetta Consent')
+
+    def test_only_untaken_secondarys_available(self):
+        resp, url, user_jwt = self._new_to_create()
+        account_id, _, _ = self._ids_from_url(url)
+        resp, url = self._sign_consent(account_id)
+        account_id, source_id, _ = self._ids_from_url(url)
+        self._complete_primary_survey(account_id, source_id)
+        self._complete_covid_survey(account_id, source_id)
+        self._complete_fermented_survey(account_id, source_id)
+
+        url = f'/accounts/{account_id}/sources/{source_id}'
+        resp = self.app.get(url, follow_redirects=True)
+        self.assertPageTitle(resp, 'Account Samples')
+        data = self._html_page(resp)
+
+        # we've taken the fermented food survey, so we should not
+        # observe its URL in the rendered page
+        # TODO: this check will likely break if/when survey editing is allowed
+        self.assertIn('survey_template_id=10002', data)
+        # removing Personal Microbiome from possible surveys
+        # self.assertIn('survey_template_id=5', data)
+        self.assertIn('survey_template_id=4', data)
+        self.assertNotIn('survey_template_id=3', data)
 
     def test_new_source_data_consent(self):
         resp, url, user_jwt = self._new_to_create()
@@ -620,6 +664,55 @@ class IntegrationTests(unittest.TestCase):
         url = f'/accounts/{acc_id}/sources/{source_id}/consent/{consent_type}'
         resp = self.app.get(url)
         return resp["result"]
+
+    def test_request_delete(self):
+        my_resp, my_url, my_jwt = self._new_to_create()
+        self.assertPageTitle(my_resp, 'Account')
+
+        # sign the consent
+        # in this case, the last two values will be None anyway.
+        account_id, _, _ = self._ids_from_url(my_url)
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Consent')
+        resp = self.app.post(url, data=ADULT_CONSENT)
+        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'Participant Survey')
+
+        # once a basic account has been set up, confirm Account->Details page
+        # shows the following text. This user should not already be in the
+        # delete queue.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+
+        s = ('If you wish to delete this account, please click the following '
+             'button to submit your request to an administrator.')
+        self.assertIn(s, data)
+
+        # post to the request endpoint to add this user to the removal queue.
+        # confirm that the text contains verbiage from the confirmation page.
+        url = f'/accounts/{account_id}/request/remove'
+        body = {'key': 'value'}
+        resp = self.app.post(url, data=body)
+        data = self._html_page(resp)
+        s = ("We are sorry to see you go! Your request has been logged, and"
+             " an administrator will review the request soon. You will receive"
+             " an email notification once your account has been deleted.")
+
+        self.assertIn(s, data)
+
+        # return to the Account->Details page and confirm that it shows the
+        # following text. The user should not be able to push the 'delete'
+        # button a second time.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+        s = ('Your account removal request is being reviewed. You will be '
+             'notified via email once your account has been deleted.')
+        self.assertIn(s, data)
 
 
 if __name__ == '__main__':

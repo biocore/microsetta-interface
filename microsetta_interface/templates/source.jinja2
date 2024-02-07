@@ -18,7 +18,6 @@
         .tooltipper {
           display: inline-block; /* tooltip misplaced horizontally otherwise */
         }
-
     </style>
     <script type="text/javascript">
         {% if need_reconsent %}
@@ -102,9 +101,12 @@
                     <div class="card-survey-bg-progress mx-auto mb-4" style="background: conic-gradient(#006a96 {{ detail.answered }}deg, #c7c7c7 {{ detail.answered }}deg);">
                     <p></p>
                     <input type="submit" class="btn btn-primary" value="{{ _('Claim Selected Samples') }}"/>
+                    {% endif %}
                 </div>
             </form>
         </div>
+    </div>
+    {% endfor %}
     </div>
 
     {% if available_surveys|length > 0 %}
@@ -152,50 +154,52 @@
             </div>
         {% endfor %}
         </div>
-        {% if remote_surveys|length > 0 %}
-        <p class="tmi-tooltip mt-4">
-            {{ _('Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.') }}
-        </p>
-        <div class="row mt-4">
-        {% for detail in remote_surveys %}
-            <div class="col-12 col-sm-6 col-md-4 p-2">
-            {% if not detail.answered %}
-                <a style="text-decoration: none" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
-            {% endif %}
-                <div class="card card-survey-external">
-                    <div class="row m-2 survey-info-row">
-                        {% if detail.answered %}
-                            <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
-                        {% else %}
-                            <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
-                        {% endif %}
-                        <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
-                    </div>
-                    <div class="row m-3 text-center survey-title">
-                        {% if not detail.answered %}
-                            <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
-                        {% else %}
-                            <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
-                        {% endif %}
-                    </div>
-                    <div class="row text-center">
-                    {% if not detail.answered %}
-                        <span class="survey-title">{{ detail.survey_template_title|e }}</span>
-                    {% else %}
-                        <span class="survey-title-taken">{{ detail.survey_template_title|e }}</span>
-                    {% endif %}
-                    </div>
-                </div>
-            {% if not detail.answered %}
-                </a>
-            {% endif %}
-            </div>
-        {% endfor %}
-        </div>
-        {% endif %}
     </div>
+    {% endif %}
+    {% if remote_surveys|length > 0 %}
+    <p class="tmi-tooltip mt-4">
+        {{ _('Below are surveys hosted by partner organizations. You will be directed to an external site in a new browser tab to complete the survey(s) you select. Once you complete them, you may close the tab and return to this page.') }}
+    </p>
+    <div class="row mt-4">
+    {% for detail in remote_surveys %}
+        <div class="col-12 col-sm-6 col-md-4 p-2">
+        {% if not detail.answered %}
+            <a style="text-decoration: none" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
+        {% endif %}
+            <div class="card card-survey-external">
+                <div class="row m-2 survey-info-row">
+                    {% if detail.answered %}
+                        <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
+                    {% else %}
+                        <div class="col-8 card-survey-new">{{ _('NEW') }}</div>
+                    {% endif %}
+                    <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
+                </div>
+                <div class="row m-3 text-center survey-title">
+                    {% if not detail.answered %}
+                        <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
+                    {% else %}
+                        <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
+                    {% endif %}
+                </div>
+                <div class="row text-center">
+                {% if not detail.answered %}
+                    <span class="survey-title">{{ detail.survey_template_title|e }}</span>
+                {% else %}
+                    <span class="survey-title-taken">{{ detail.survey_template_title|e }}</span>
+                {% endif %}
+                </div>
+            </div>
+        {% if not detail.answered %}
+            </a>
+        {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+    {% endif %}
+</div>
 
-        <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="source_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

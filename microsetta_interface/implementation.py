@@ -2838,10 +2838,10 @@ def post_account_delete(body):
     if accts_output['account_type'] != 'standard':
         return get_rootpath()
 
-    url = f'/admin/account_removal/{account_to_delete}?delete_reason={delete_reason}'
+    url = f'/admin/account_removal/{account_to_delete}' \
+          f'?delete_reason={delete_reason}'
 
     has_error, delete_output, _ = ApiRequest.delete(url)
-
 
     if has_error:
         return delete_output
@@ -2877,6 +2877,8 @@ def update_perk_fulfillment_state(perk_fulfillment_state):
         return diagnostics
 
     return get_perk_fulfillment_state()
+
+
 def post_account_ignore_delete(body):
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()

@@ -2312,7 +2312,6 @@ def get_remove_source(*,
     return _refresh_state_and_route_to_sink(account_id)
 
 
-@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 # Note: ideally this would be represented as a DELETE, not as a POST
 # However, it is used as a form submission action, and HTML forms do not
 # support delete as an action

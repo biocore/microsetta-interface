@@ -666,20 +666,11 @@ class IntegrationTests(unittest.TestCase):
         return resp["result"]
 
     def test_request_delete(self):
+        # Create a new user and sign the consent
         my_resp, my_url, my_jwt = self._new_to_create()
         self.assertPageTitle(my_resp, 'Account')
-
-        # sign the consent
-        # in this case, the last two values will be None anyway.
         account_id, _, _ = self._ids_from_url(my_url)
-        url = f'/accounts/{account_id}/create_human_source'
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Consent')
-        resp = self.app.post(url, data=ADULT_CONSENT)
-        self.assertRedirect(resp, 'take_survey?survey_template_id=1')
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'Participant Survey')
+        self._sign_consent(account_id, consent=ADULT_CONSENT)
 
         # once a basic account has been set up, confirm Account->Details page
         # shows the following text. This user should not already be in the

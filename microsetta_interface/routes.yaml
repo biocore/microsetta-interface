@@ -586,6 +586,23 @@ paths:
               schema:
                 type: string
 
+  # same as above
+  # TODO: Do we need more response codes appended?
+  '/accounts/{account_id}/request/remove':
+    post:
+      operationId: microsetta_interface.implementation.post_request_account_removal
+      tags:
+        - Account
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+      responses:
+        '200':
+          description: Display of revised info or error info
+          content:
+            text/html:
+              schema:
+                type: string
+
   '/accounts/{account_id}/sources/{source_id}/claim_samples':
     post:
       operationId: microsetta_interface.implementation.post_claim_samples
@@ -1064,6 +1081,9 @@ paths:
                 account_id:
                   type: string
                   nullable: false
+                delete_reason:
+                  type: string
+                  nullable: true
       
       responses:
         '200':
@@ -1073,6 +1093,28 @@ paths:
               schema:
                 type: string
 
+  '/admin/account_ignore_delete':
+    post:
+      operationId: microsetta_interface.implementation.post_account_ignore_delete
+      tags:
+        - Admin
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                account_id:
+                  type: string
+                  nullable: false
+      responses:
+        '200':
+          description: Account successfully removed from delete queue, redirect to home
+          content:
+            text/html:
+              schema:
+                type: string
+                
   '/admin/perk_fulfillment_state':
     get:
       operationId: microsetta_interface.implementation.get_perk_fulfillment_state
@@ -1434,6 +1476,19 @@ paths:
       responses:
         '200':
           description: Barcode Search
+          content:
+            text/html:
+              schema:
+                type: string
+
+  '/admin/account_removal/list':
+    get:
+      operationId: microsetta_interface.implementation.get_account_removal_requests
+      tags:
+        - Admin
+      responses:
+        '200':
+          description: List of account removal requests for admin users to view/edit
           content:
             text/html:
               schema:

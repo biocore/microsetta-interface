@@ -37,6 +37,9 @@
                 <i>{{ _('Requested On') }}</i>
             </div>
             <div class="col-sm" style="text-align: center">
+                <i>{{ _('Reason for Deletion') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
                 &nbsp;
             </div>
             <div class="col-sm" style="text-align: center">
@@ -63,6 +66,9 @@
             </div>
             <div class="col-sm" style="text-align: center">
                 {{ row.requested_on |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.user_delete_reason |e }}
             </div>
             <div class="col-sm" style="text-align: right">
                 <form action="/admin/account_delete" method="post" onsubmit="return verifyDeleteRequest();">

@@ -595,6 +595,16 @@ paths:
         - Account
       parameters:
         - $ref: '#/components/parameters/account_id'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user_delete_reason:
+                  type: string
+                  nullable: true
       responses:
         '200':
           description: Display of revised info or error info

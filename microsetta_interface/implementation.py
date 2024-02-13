@@ -1327,13 +1327,17 @@ def get_create_nonhuman_source(*, account_id=None):
 # Note: ideally this would be represented as a DELETE, not as a POST
 # However, it is used as a form submission action, and HTML forms do not
 # support delete as an action
-def post_request_account_removal(*, account_id):
+def post_request_account_removal(*, account_id, body):
     # PUT is used to add the account_id to the queue
     # DELETE is used to remove the account_id from the queue, if it's
     # still there.
-    has_error, put_output, _ = ApiRequest.put(
-        '/accounts/%s/removal_queue' %
-        (account_id))
+
+    user_delete_reason = body.get('user_delete_reason')
+
+    url = f'/accounts/{account_id}/removal_queue' \
+          f'?user_delete_reason={user_delete_reason}'
+
+    has_error, put_output, _ = ApiRequest.put(url)
 
     if has_error:
         return put_output

@@ -3447,6 +3447,9 @@ def post_campaign_edit(body):
 def get_account_removal_requests():
     if not session.get(ADMIN_MODE_KEY, False):
         raise Unauthorized()
+    account_details = session.get(LOGIN_INFO_KEY)
+    if account_details is None:
+        raise Unauthorized()
 
     do_return, diagnostics, _ = ApiRequest.get(
         "/admin/account_removal/list",

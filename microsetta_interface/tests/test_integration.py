@@ -621,6 +621,46 @@ class IntegrationTests(unittest.TestCase):
         resp = self.app.get(url)
         return resp["result"]
 
+    def test_request_delete(self):
+        # Create a new user and sign the consent
+        my_resp, my_url, my_jwt = self._new_to_create()
+        self.assertPageTitle(my_resp, 'Account')
+        account_id, _, _ = self._ids_from_url(my_url)
+        self._sign_consent(account_id, consent=ADULT_CONSENT)
+
+        # once a basic account has been set up, confirm Account->Details page
+        # shows the following text. This user should not already be in the
+        # delete queue.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+
+        s = ('If you wish to delete this account, please click the following '
+             'button to submit your request to an administrator.')
+        self.assertIn(s, data)
+
+        # post to the request endpoint to add this user to the removal queue.
+        # confirm that the text contains verbiage from the confirmation page.
+        url = f'/accounts/{account_id}/request/remove'
+        body = {'key': 'value'}
+        resp = self.app.post(url, data=body)
+        data = self._html_page(resp)
+        s = ("We are sorry to see you go! Your request has been logged, and"
+             " an administrator will review the request soon. You will receive"
+             " an email notification once your account has been deleted.")
+
+        self.assertIn(s, data)
+
+        # return to the Account->Details page and confirm that it shows the
+        # following text. The user should not be able to push the 'delete'
+        # button a second time.
+        url = f'/accounts/{account_id}/details'
+        resp = self.app.get(url)
+        data = self._html_page(resp)
+        s = ('Your account removal request is being reviewed. You will be '
+             'notified via email once your account has been deleted.')
+        self.assertIn(s, data)
+
 
 if __name__ == '__main__':
     unittest.main()

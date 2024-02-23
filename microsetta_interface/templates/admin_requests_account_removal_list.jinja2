@@ -1,0 +1,97 @@
+{% extends "sitebase.jinja2" %}
+{% set page_title = _("Requests for Account Removal") %}
+{% set show_breadcrumbs = False %}
+{% block content %}
+<script>
+        function verifyDeleteRequest() {
+            let confirmMsg = "{{ _('Are you sure you want to delete this account?') }}";
+            let reason = prompt("{{ _('Please provide a reason for deletion:') }}");
+            if (reason === null) {
+                return false;
+            }
+            document.getElementById("delete_reason").value = reason;
+            return window.confirm(confirmMsg);
+        }
+</script>
+<h4>{{ _('Requests for Account Removal') }}</h4>
+<div class="container">
+    {% if diagnostics is not none and diagnostics|length > 0 %}
+    <div class="list-group">
+        <div class="row">
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('ID') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Account ID') }}</i>
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                <i>{{ _('Email') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('First Name') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Last Name') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Requested On') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                <i>{{ _('Reason for Deletion') }}</i>
+            </div>
+            <div class="col-sm" style="text-align: center">
+                &nbsp;
+            </div>
+            <div class="col-sm" style="text-align: center">
+                &nbsp;
+            </div>
+        </div>
+        {% for row in diagnostics %}
+        <div class="container list-group-item {{loop.cycle('odd', 'even') }}">
+          <div class="row">
+            <div class="col-sm" style="text-align: center">
+                {{ row.id |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.account_id |e }}
+            </div>
+            <div class="col-md-3" style="text-align: center">
+                {{ row.email |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.first_name |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.last_name |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.requested_on |e }}
+            </div>
+            <div class="col-sm" style="text-align: center">
+                {{ row.user_delete_reason |e }}
+            </div>
+            <div class="col-sm" style="text-align: right">
+                <form action="/admin/account_delete" method="post" onsubmit="return verifyDeleteRequest();">
+                    <input type="hidden" id="btnDelete" name="account_id" value="{{ row.account_id }}"/>
+                    <input type="hidden" id="delete_reason" name="delete_reason" value="{{ row.delete_reason}}">
+                    <button type="submit" class="btn btn-danger">{{ _('Delete') }}</button>
+                </form>
+            </div>
+            <div class="col-sm" style="text-align: left">
+                <form action="/admin/account_ignore_delete" method="post">
+                  <input type="hidden" id="btnIgnore" name="account_id" value="{{ row.account_id }}"/>
+                  <input type="hidden" id="delete_reason" name="delete_reason" value="{{ row.delete_reason}}">
+                  <button type="submit" class="btn btn-danger">{{ _('Ignore') }}</button>
+                </form>
+            </div>
+
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br/><br/>
+    {% else %}
+    {{ _('No requests found') }}
+    {% endif %}
+</div>
+{% endblock %}

@@ -587,7 +587,6 @@ paths:
                 type: string
 
   # same as above
-  # TODO: Do we need more response codes appended?
   '/accounts/{account_id}/request/remove':
     post:
       operationId: microsetta_interface.implementation.post_request_account_removal
@@ -608,6 +607,18 @@ paths:
       responses:
         '200':
           description: Display of revised info or error info
+          content:
+            text/html:
+              schema:
+                type: string
+        '403':
+          description: Forbidden
+          content:
+            text/html:
+              schema:
+                type: string
+        '404':
+          description: Not Found
           content:
             text/html:
               schema:

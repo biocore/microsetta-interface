@@ -118,20 +118,23 @@
     </div>
 
     {% if admin_mode %}
-    <nav class="navbar fixed-top navbar-light bg-warning shadow">
-      {{ _('Admin Tools') }}
-      <a class="btn btn-outline-success" href="/admin/system_message">{{ _('System Panel') }}</a>
-      <a class="btn btn-outline-success" href="/admin/emperor_playground">{{ _('Emperor') }}</a>
-      <a class="btn btn-outline-success" href="/admin/perk_fulfillment_state">{{ _('Perk Fulfillment') }}</a>
-      <a class="btn btn-outline-success" href="/admin/interested_users">{{ _('Interested Users') }}</a>
-      <a class="btn btn-outline-success" href="/admin/address_verification">{{ _('Address Verification') }}</a>
-      <a class="btn btn-outline-success" href="/admin/campaigns/list">{{ _('Campaigns') }}</a>
-        <a class="btn btn-outline-success" href="/admin/ffq_codes">{{ _('FFQ Codes') }}</a>
+    <nav class="navbar fixed-top navbar-light bg-warning shadow px-3">
+      <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="adminDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">{{ _('Admin Tools') }}</a>
+      <ul class="dropdown-menu" aria-labelledby="adminDropdownMenuLink">
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/system_message">{{ _('System Panel') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/emperor_playground">{{ _('Emperor') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/perk_fulfillment_state">{{ _('Perk Fulfillment') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/interested_users">{{ _('Interested Users') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/address_verification">{{ _('Address Verification') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/campaigns/list">{{ _('Campaigns') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/ffq_codes">{{ _('FFQ Codes') }}</a></li>
+        <li><a class="btn btn-outline-success dropdown-item" href="/admin/barcode_search">{{ _('Barcode Search') }}</a></li>
+      </ul>
+      
       <form class="form-inline" action="/admin/account_search" method="get">
         <input id="email_query" name="email_query" class="form-control mr-sm-2" style="display: inline-block; max-width: 200px;" type="search" placeholder="User Email" aria-label="Search"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Find Account') }}</button>
       </form>
-      <a class="btn btn-outline-success" href="/admin/barcode_search">{{ _('Barcode Search') }}</a>
       <a class="btn btn-outline-success" href="{{authrocket_url}}/logout?redirect_uri={{endpoint}}/logout">{{ _('Log Out') }}</a>
     </nav>
     {% endif %}

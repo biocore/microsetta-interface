@@ -1327,6 +1327,7 @@ def get_create_nonhuman_source(*, account_id=None):
 # Note: ideally this would be represented as a DELETE, not as a POST
 # However, it is used as a form submission action, and HTML forms do not
 # support delete as an action
+@prerequisite([ACCT_PREREQS_MET])
 def post_request_account_removal(*, account_id, body):
     # PUT is used to add the account_id to the queue
     # DELETE is used to remove the account_id from the queue, if it's

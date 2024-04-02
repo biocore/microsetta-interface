@@ -1,6 +1,6 @@
 {% extends "sitebase.jinja2" %}
-{% set page_title = _("Home") %}
-{% set show_breadcrumbs = False %}
+{% set page_title = _("Account Deletion Request") %}
+{% set show_breadcrumbs = True %}
 
 {% block head %}
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
@@ -18,11 +18,15 @@
 </style>
 {% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item" aria-current="page"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ _('Account Deletion Request') }}</li>
+{% endblock %}
+
 {% block content %}
 <center>
-    <div class="card"  style="max-width: 800px; text-align: left;">
-        <h5 class="card-header" style="text-align: center">{{ _('Account Removal Requested') }}</h5>
-        <div class="card-body">
+    <div class="card account">
+        <h2 class="centered">{{ _('Account Deletion Requested') }}</h2>        <div class="card-body">
             <center>
                 {{ _("We are sorry to see you go! Your request has been logged, and an administrator will review the request soon. You will receive an email notification once your account has been deleted.") }}
             </center>

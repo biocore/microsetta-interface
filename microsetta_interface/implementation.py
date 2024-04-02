@@ -1343,7 +1343,8 @@ def post_request_account_removal(*, account_id, body):
     if has_error:
         return put_output
 
-    return _render_with_defaults('request_account_deletion_confirm.jinja2')
+    return _render_with_defaults('request_account_deletion_confirm.jinja2',
+                                 account_id=account_id)
 
 
 @prerequisite([ACCT_PREREQS_MET])

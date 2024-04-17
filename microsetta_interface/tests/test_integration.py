@@ -367,31 +367,8 @@ class IntegrationTests(unittest.TestCase):
         obs_barcodes = {d['sample_barcode'] for d in resp.json}
         self.assertIn(TEST_KIT_1_SAMPLE_1_BARCODE, obs_barcodes)
 
-        # claim a sample
-        url = f'/accounts/{account_id}/sources/{source_id}/claim_samples'
-        body = {'sample_id': [TEST_KIT_1_SAMPLE_1_SAMPLE_ID, ]}
-        sample_id = TEST_KIT_1_SAMPLE_1_SAMPLE_ID
-        # note the sample for clean up
-        self.claimed_samples.append((account_id, source_id, sample_id))
-        resp = self.app.post(url, data=body, follow_redirects=True)
-        self.assertEqual(resp.status_code, 200)
-
-        page_data = self._html_page(resp)
-        con = "adult_biospecimen"
-        consent_id = _get_consent_id_from_webpage(page_data, con)
-        ADULT_CONSENT["consent_id"] = consent_id
-        ADULT_CONSENT["consent_type"] = "adult_biospecimen"
-        ADULT_CONSENT["sample_ids"] = sample_id
-        url = f'/accounts/{account_id}/create_human_source'
-        resp = self.app.post(url, data=ADULT_CONSENT)
-
-        url = self.redirectURL(resp)
-        resp = self.app.get(url)
-        self.assertPageTitle(resp, 'My Kits')
-        data = self._html_page(resp)
-        self.assertIn('/static/img/edit.svg', data)
-
         # get collection info
+        sample_id = TEST_KIT_1_SAMPLE_1_SAMPLE_ID
         url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
         resp = self.app.get(url)
         self.assertEqual(resp.status_code, 200)

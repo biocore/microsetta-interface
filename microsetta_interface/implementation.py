@@ -1303,19 +1303,11 @@ def post_create_human_source(*, account_id=None, body=None):
             return consent_output
 
         session.pop(SOURCE_ID)
-        # Yes, "None" is coming through as a string in this instance, not as
-        # an actual None type.
-        if body["sample_ids"] != "None":
-            return post_claim_samples(
-                account_id=account_id,
-                source_id=source_id,
-                sample_ids=body['sample_ids']
-            )
-        else:
-            return redirect(
-                "/accounts/%s/sources/%s/kits" %
-                (account_id, source_id)
-            )
+
+        return redirect(
+            "/accounts/%s/sources/%s/kits" %
+            (account_id, source_id)
+        )
 
 
 @prerequisite([ACCT_PREREQS_MET])

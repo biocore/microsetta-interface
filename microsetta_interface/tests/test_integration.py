@@ -367,68 +367,63 @@ class IntegrationTests(unittest.TestCase):
         obs_barcodes = {d['sample_barcode'] for d in resp.json}
         self.assertIn(TEST_KIT_1_SAMPLE_1_BARCODE, obs_barcodes)
 
-        # commenting this section out as we
-        # have moved survey to sample lock to api
+        # claim a sample
+        url = f'/accounts/{account_id}/sources/{source_id}/claim_samples'
+        body = {'sample_id': [TEST_KIT_1_SAMPLE_1_SAMPLE_ID, ]}
+        sample_id = TEST_KIT_1_SAMPLE_1_SAMPLE_ID
+        # note the sample for clean up
+        self.claimed_samples.append((account_id, source_id, sample_id))
+        resp = self.app.post(url, data=body, follow_redirects=True)
+        self.assertEqual(resp.status_code, 200)
 
-        # # claim a sample
-        # url = f'/accounts/{account_id}/sources/{source_id}/claim_samples'
-        # body = {'sample_id': [TEST_KIT_1_SAMPLE_1_SAMPLE_ID, ]}
-        # sample_id = TEST_KIT_1_SAMPLE_1_SAMPLE_ID
-        # # note the sample for clean up
-        # self.claimed_samples.append((account_id, source_id, sample_id))
-        # resp = self.app.post(url, data=body, follow_redirects=True)
-        # self.assertEqual(resp.status_code, 200)
+        page_data = self._html_page(resp)
+        con = "adult_biospecimen"
+        consent_id = _get_consent_id_from_webpage(page_data, con)
+        ADULT_CONSENT["consent_id"] = consent_id
+        ADULT_CONSENT["consent_type"] = "adult_biospecimen"
+        ADULT_CONSENT["sample_ids"] = sample_id
+        url = f'/accounts/{account_id}/create_human_source'
+        resp = self.app.post(url, data=ADULT_CONSENT)
 
-        # page_data = self._html_page(resp)
-        # con = "adult_biospecimen"
-        # consent_id = _get_consent_id_from_webpage(page_data, con)
-        # ADULT_CONSENT["consent_id"] = consent_id
-        # ADULT_CONSENT["consent_type"] = "adult_biospecimen"
-        # ADULT_CONSENT["sample_ids"] = sample_id
-        # url = f'/accounts/{account_id}/create_human_source'
-        # resp = self.app.post(url, data=ADULT_CONSENT)
+        url = self.redirectURL(resp)
+        resp = self.app.get(url)
+        self.assertPageTitle(resp, 'My Kits')
+        data = self._html_page(resp)
+        self.assertIn('/static/img/edit.svg', data)
 
-        # url = self.redirectURL(resp)
-        # resp = self.app.get(url)
-        # self.assertPageTitle(resp, 'My Kits')
-        # data = self._html_page(resp)
-        # self.assertIn('/static/img/edit.svg', data)
+        # get collection info
+        url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
+        resp = self.app.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertPageTitle(resp, 'My Kits')
 
-        # # get collection info
-        # url = f'/accounts/{account_id}/sources/{source_id}
-        #        /samples/{sample_id}'
-        # resp = self.app.get(url)
-        # self.assertEqual(resp.status_code, 200)
-        # self.assertPageTitle(resp, 'My Kits')
+        # set collection info
+        cur_date = datetime.datetime.now().strftime("%-m/%-d/%Y")
+        collection_note = 'SAMPLE COLLECTED BY INTEGRATION TESTING'
+        body = {'sample': TEST_KIT_1_SAMPLE_1_BARCODE,
+                'sample_date': cur_date,
+                'sample_date_normalized': cur_date,
+                'sample_time': '07:00 AM',
+                'sample_site': 'Stool',
+                'sample_notes': collection_note}
+        resp = self.app.post(url, data=body)
+        self.assertRedirect(resp, suffix_is_uuid=False)
+        url = self.redirectURL(resp)
+        # Flask's client.get() function doesn't like the query string being
+        # attached to the url string. So we'll restructure it.
+        url = url.replace("?check_survey_date=True", "")
+        query_string = {"check_survey_date": "True"}
+        resp = self.app.get(url, query_string=query_string)
+        self.assertPageTitle(resp, 'My Kits')
 
-        # # set collection info
-        # cur_date = datetime.datetime.now().strftime("%-m/%-d/%Y")
-        # collection_note = 'SAMPLE COLLECTED BY INTEGRATION TESTING'
-        # body = {'sample': TEST_KIT_1_SAMPLE_1_BARCODE,
-        #         'sample_date': cur_date,
-        #         'sample_date_normalized': cur_date,
-        #         'sample_time': '07:00 AM',
-        #         'sample_site': 'Stool',
-        #         'sample_notes': collection_note}
-        # resp = self.app.post(url, data=body)
-        # self.assertRedirect(resp, suffix_is_uuid=False)
-        # url = self.redirectURL(resp)
-        # # Flask's client.get() function doesn't like the query string being
-        # # attached to the url string. So we'll restructure it.
-        # url = url.replace("?check_survey_date=True", "")
-        # query_string = {"check_survey_date": "True"}
-        # resp = self.app.get(url, query_string=query_string)
-        # self.assertPageTitle(resp, 'My Kits')
-
-        # # verify we have our sample information
-        # # get collection info
-        # url = f'/accounts/{account_id}/sources/
-        #         {source_id}/samples/{sample_id}'
-        # resp = self.app.get(url)
-        # self.assertEqual(resp.status_code, 200)
-        # self.assertPageTitle(resp, 'My Kits')
-        # data = self._html_page(resp)
-        # self.assertIn(collection_note, data)
+        # verify we have our sample information
+        # get collection info
+        url = f'/accounts/{account_id}/sources/{source_id}/samples/{sample_id}'
+        resp = self.app.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertPageTitle(resp, 'My Kits')
+        data = self._html_page(resp)
+        self.assertIn(collection_note, data)
 
     def test_take_survey_twice(self):
         self._login(USER_WITH_VALID_SAMPLE)

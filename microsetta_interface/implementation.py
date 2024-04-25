@@ -2732,9 +2732,6 @@ def get_ajax_check_activation_code(code, email):
     return flask.jsonify(result)
 
 
-# NB: associating surveys with samples when samples are claimed means that any
-# surveys added to this source AFTER these samples are claimed will NOT be
-# associated with these samples.  This behavior is by design.
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def post_claim_samples(*, account_id=None, source_id=None, body=None,
                        sample_ids=None):
@@ -2763,11 +2760,6 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
             "biospecimen",
             sample_ids=sample_ids
         )
-
-    has_error, survey_output, _ = ApiRequest.get(
-        '/accounts/{0}/sources/{1}/surveys'.format(account_id, source_id))
-    if has_error:
-        return survey_output
 
     # TODO:  Any of these requests may fail independently, but we don't
     #  have a good policy to deal with partial failures.  Currently, we

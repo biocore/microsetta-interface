@@ -1201,13 +1201,13 @@
 
     function updateObservedOTUs(state) {
         var us_text = document.getElementById('average-american-observed-otus');
-        var hadza_text = document.getElementById('average-hadza-observed-otus');
+        // var hadza_text = document.getElementById('average-hadza-observed-otus');
         if (state.dataset_type.value === 'WGS') {
-            us_text.innerText = '107';
-            hadza_text.innerText = '129';
+            us_text.innerText = '122';
+            // hadza_text.innerText = '129';
         } else if (state.dataset_type.value === '16S') {
             us_text.innerText = '93';
-            hadza_text.innerText = '132';
+            // hadza_text.innerText = '132';
         }
     }
 
@@ -1427,7 +1427,7 @@
                       {{ _('Recent estimates suggest hundreds of billions of types of microbes live on earth. This number dwarfs the meager 2 million different kinds of animals and plants discovered on the planet.') }}
                   </p>
                   <p>
-                      {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the&nbsp;<span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span>&nbsp;American has&nbsp;<strong id="average-american-observed-otus">FILLIN</strong>&nbsp;different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the&nbsp;<strong id="average-hadza-observed-otus">FILLIN</strong>&nbsp;we find in samples from the&nbsp;<span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span>&nbsp;people of Tanzania.') }}
+                      {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the&nbsp;<span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span>&nbsp;American has&nbsp;<strong id="average-american-observed-otus">FILLIN</strong>&nbsp;different types of microbes.') }}
                   </p>
                   <p>
                       {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}

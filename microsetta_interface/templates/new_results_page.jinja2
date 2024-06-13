@@ -13,6 +13,10 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
 <style>
+    .diversity-change-me {
+        color: red;
+        font-weight: 700;
+    }
     .nav-white-bg {
       background-color: #fff;
       width: auto;
@@ -1426,10 +1430,10 @@
                   <p>
                       {{ _('Recent estimates suggest hundreds of billions of types of microbes live on earth. This number dwarfs the meager 2 million different kinds of animals and plants discovered on the planet.') }}
                   </p>
-                  <p>
+                  <p class="diversity-change-me">
                       {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the&nbsp;<span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span>&nbsp;American has&nbsp;<strong id="average-american-observed-otus">FILLIN</strong>&nbsp;different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the&nbsp;<strong id="average-hadza-observed-otus">FILLIN</strong>&nbsp;we find in samples from the&nbsp;<span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span>&nbsp;people of Tanzania.') }}
                   </p>
-                  <p>
+                  <p class="diversity-change-me">
                       {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">

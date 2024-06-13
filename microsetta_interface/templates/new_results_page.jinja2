@@ -1437,7 +1437,7 @@
                       {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">
-                      <div class="card-header">{{ _('Number of different microbes found in your sample:') }}</div>
+                      <div class="card-header diversity-change-me">{{ _('Number of different microbes found in your sample:') }}</div>
                       <div class="card-body">
                           <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
@@ -1454,7 +1454,7 @@
                             <div class="diversity-category">
                               {{ _('Participants who eat more than 30 plants per week') }}
                             </div>
-                            <div class="diversity-info">
+                            <div class="diversity-info diversity-change-me">
                               {{ _('Average number of different microbes:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
                             </div>
                           </div>
@@ -1465,7 +1465,7 @@
                             <div class="diversity-category">
                               {{ _('Participants who exercise regularly') }}
                             </div>
-                            <div class="diversity-info">
+                            <div class="diversity-info diversity-change-me">
                               {{ _('Average number of different microbes:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
@@ -1478,7 +1478,7 @@
                             <div class="diversity-category">
                               {{ _('Participants who drink 1L of water regularly') }}
                             </div>
-                            <div class="diversity-info">
+                            <div class="diversity-info diversity-change-me">
                               {{ _('Average number of different microbes:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
@@ -1489,7 +1489,7 @@
                               <div class="diversity-category">
                                 {{ _('Participants who sleep more than 6 hours per night') }}
                               </div>
-                              <div class="diversity-info">
+                              <div class="diversity-info diversity-change-me">
                                 {{ _('Average number of different microbes:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
                               </div>
                           </div>
@@ -1625,7 +1625,7 @@
                     {{ _('To learn more about what the taxonomic ranks (column headers) mean, place your cursor over their names. Additionally, pronunciation can be a challenge considering the language of origin varies for the names between Latin, Greek, Norse, Chinese, and more. A pronunciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
                     </p>
 
-                    <p>
+                    <p class="diversity-change-me">
                     {{ _('The number of microbes listed here might be different from what was reported as your Diversity because of the way microbes are grouped according to their taxonomy (i.e. names). There are likely many species of microbes in your sample that are all grouped in the same genus.') }}
                     </p>
                     

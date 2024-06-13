@@ -1048,7 +1048,7 @@
                     data: JSON.stringify(POST_DATA[key]),
                     contentType: "application/json",
                     success: function (data) {
-                        let display = data["group_summary"]["median"]
+                        let display = Math.round(data["group_summary"]["median"] * 100)/100;
                         $(SELECTORS[key]).text(display).removeClass("spinner-grow spinner-grow-sm");
                     }
                 }).fail(function (result, textStatus, errorThrown) {
@@ -1064,7 +1064,7 @@
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    let display = data["data"]
+                    let display = Math.round(data["data"] * 100)/100;
                     $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
                 }
             }).fail(function (result, textStatus, errorThrown) {

@@ -1203,11 +1203,11 @@
         var us_text = document.getElementById('average-american-observed-otus');
         var hadza_text = document.getElementById('average-hadza-observed-otus');
         if (state.dataset_type.value === 'WGS') {
-            us_text.innerText = '107';
-            hadza_text.innerText = '129';
+            us_text.innerText = '5.31';
+            hadza_text.innerText = '6.30';
         } else if (state.dataset_type.value === '16S') {
-            us_text.innerText = '93';
-            hadza_text.innerText = '132';
+            us_text.innerText = '4.47';
+            hadza_text.innerText = '5.20';
         }
     }
 
@@ -1433,7 +1433,7 @@
                       {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your gut community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
                   </p>
                   <p>
-                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value in the Microsetta dataset is <strong id="average-american-observed-otus">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-otus">FILLIN</strong>. ') }}
+                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-otus">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-otus">FILLIN</strong>. ') }}
                   </p>
                   <p>
                       <strong>{{ _('What does this number mean for my health?') }}</strong>

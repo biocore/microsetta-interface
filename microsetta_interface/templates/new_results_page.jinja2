@@ -1199,9 +1199,9 @@
         END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
     }
 
-    function updateObservedOTUs(state) {
-        var us_text = document.getElementById('average-american-observed-otus');
-        var hadza_text = document.getElementById('average-hadza-observed-otus');
+    function updateObservedAverages(state) {
+        var us_text = document.getElementById('average-american-observed-average');
+        var hadza_text = document.getElementById('average-hadza-observed-average');
         if (state.dataset_type.value === 'WGS') {
             us_text.innerText = '5.31';
             hadza_text.innerText = '6.30';
@@ -1340,7 +1340,7 @@
             updateDatasetDetails(state);
 
             getMicrobiomeMapsRasterizedPlots(state);
-            updateObservedOTUs(state);
+            updateObservedAverages(state);
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -1433,16 +1433,16 @@
                       {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your gut community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
                   </p>
                   <p>
-                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-otus">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-otus">FILLIN</strong>. ') }}
+                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-average">FILLIN</strong>. ') }}
                   </p>
                   <p>
                       <strong>{{ _('What does this number mean for my health?') }}</strong>
                   </p>
                   <p>
-                      {{ _('This number reflects the variety of Bacteria and Archaea observed in your fecal specimen at the time of testing. Currently, there\'s no standard for how gut microbiome diversity relates to health. While some studies suggest a potential link between higher diversity and specific health benefits, that is not true universally -- more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes, much like how in a garden you care about the exact plants growing not that there is a random assortment of plants.') }}
+                      {{ _('This number reflects the variety of Bacteria and Archaea observed in your fecal specimen at the time of testing. Currently, there\'s no standard for how gut microbiome diversity relates to health. While some studies suggest a potential link between higher diversity and specific health benefits, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
                   </p>
                   <p>
-                      {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changing overtime. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
+                      {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changing over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">
                       <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>

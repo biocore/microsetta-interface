@@ -1036,7 +1036,7 @@
         }
 
         // We override the default alpha_metric from state for this page.
-        let alpha_metric = "observed_features"
+        let alpha_metric = "shannon"
         for (let key in POST_DATA) {
             $.ajax(
                 {
@@ -1048,7 +1048,7 @@
                     data: JSON.stringify(POST_DATA[key]),
                     contentType: "application/json",
                     success: function (data) {
-                        let display = data["group_summary"]["median"]
+                        let display = Math.round(data["group_summary"]["median"] * 100)/100;
                         $(SELECTORS[key]).text(display).removeClass("spinner-grow spinner-grow-sm");
                     }
                 }).fail(function (result, textStatus, errorThrown) {
@@ -1064,7 +1064,7 @@
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    let display = data["data"]
+                    let display = Math.round(data["data"] * 100)/100;
                     $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
                 }
             }).fail(function (result, textStatus, errorThrown) {
@@ -1199,15 +1199,15 @@
         END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
     }
 
-    function updateObservedOTUs(state) {
-        var us_text = document.getElementById('average-american-observed-otus');
-        var hadza_text = document.getElementById('average-hadza-observed-otus');
+    function updateObservedAverages(state) {
+        var us_text = document.getElementById('average-american-observed-average');
+        var hadza_text = document.getElementById('average-hadza-observed-average');
         if (state.dataset_type.value === 'WGS') {
-            us_text.innerText = '107';
-            hadza_text.innerText = '129';
+            us_text.innerText = '5.31';
+            hadza_text.innerText = '6.30';
         } else if (state.dataset_type.value === '16S') {
-            us_text.innerText = '93';
-            hadza_text.innerText = '132';
+            us_text.innerText = '4.47';
+            hadza_text.innerText = '5.20';
         }
     }
 
@@ -1340,7 +1340,7 @@
             updateDatasetDetails(state);
 
             getMicrobiomeMapsRasterizedPlots(state);
-            updateObservedOTUs(state);
+            updateObservedAverages(state);
         }, state.dataset_input);
 
         refreshDatasets(state);
@@ -1390,7 +1390,7 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Diversity') }}</h4>
                     <p>
-                    {{ _('How many kinds of microbes were in your sample? Check out your') }} <a class="fake-tab" href="#diversity" data-link="#diversity-tab">{{ _('Diversity') }}</a>.
+                    {{ _('How diverse is your microbiome? Check out your') }} <a class="fake-tab" href="#diversity" data-link="#diversity-tab">{{ _('Diversity') }}</a>.
                     </p>
                 </div>
                 </br>
@@ -1424,16 +1424,28 @@
                   <h3>{{ _('Diversity') }}</h3>
                   <br>
                   <p>
-                      {{ _('Recent estimates suggest hundreds of billions of types of microbes live on earth. This number dwarfs the meager 2 million different kinds of animals and plants discovered on the planet.') }}
+                      {{ _('This section provides insights into your microbiome diversity and how it compares to others\'.') }}
                   </p>
                   <p>
-                      {{ _('If we were to randomly select a set number of microbial DNA sequences from a stool sample, we would find that the&nbsp;<span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span>&nbsp;American has&nbsp;<strong id="average-american-observed-otus">FILLIN</strong>&nbsp;different types of microbes, which is lower than we find in people living a more hunter-gatherer lifestyle, like the&nbsp;<strong id="average-hadza-observed-otus">FILLIN</strong>&nbsp;we find in samples from the&nbsp;<span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span>&nbsp;people of Tanzania.') }}
+                      <strong>{{ _('How do we calculate your diversity value?') }}</strong>
                   </p>
                   <p>
-                      {{ _('The number of microbes found in your sample can be very close or vastly different from this average, and it doesn\'t necessarily mean something is right or wrong with you. We are all different, and this number is affected by many different factors.') }}
+                      {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your gut community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
+                  </p>
+                  <p>
+                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-average">FILLIN</strong>. ') }}
+                  </p>
+                  <p>
+                      <strong>{{ _('What does this number mean for my health?') }}</strong>
+                  </p>
+                  <p>
+                      {{ _('This number reflects the variety of Bacteria and Archaea observed in your fecal sample at the time of testing. Currently, there\'s no standard for how gut microbiome diversity relates to health. While some studies suggest a potential link between higher diversity and specific health benefits, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
+                  </p>
+                  <p>
+                      {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">
-                      <div class="card-header">{{ _('Number of different microbes found in your sample:') }}</div>
+                      <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>
                       <div class="card-body">
                           <span id="diversity_in_sample" class="info-loader">...</span></h5>
                       </div>
@@ -1451,7 +1463,7 @@
                               {{ _('Participants who eat more than 30 plants per week') }}
                             </div>
                             <div class="diversity-info">
-                              {{ _('Average number of different microbes:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
+                              {{ _('Average diversity value:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1462,7 +1474,7 @@
                               {{ _('Participants who exercise regularly') }}
                             </div>
                             <div class="diversity-info">
-                              {{ _('Average number of different microbes:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
+                              {{ _('Average diversity value:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1475,7 +1487,7 @@
                               {{ _('Participants who drink 1L of water regularly') }}
                             </div>
                             <div class="diversity-info">
-                              {{ _('Average number of different microbes:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
+                              {{ _('Average diversity value:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
                             </div>
                           </div>
                       </div>
@@ -1486,7 +1498,7 @@
                                 {{ _('Participants who sleep more than 6 hours per night') }}
                               </div>
                               <div class="diversity-info">
-                                {{ _('Average number of different microbes:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
+                                {{ _('Average diversity value:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
                               </div>
                           </div>
                       </div>
@@ -1621,10 +1633,6 @@
                     {{ _('To learn more about what the taxonomic ranks (column headers) mean, place your cursor over their names. Additionally, pronunciation can be a challenge considering the language of origin varies for the names between Latin, Greek, Norse, Chinese, and more. A pronunciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
                     </p>
 
-                    <p>
-                    {{ _('The number of microbes listed here might be different from what was reported as your Diversity because of the way microbes are grouped according to their taxonomy (i.e. names). There are likely many species of microbes in your sample that are all grouped in the same genus.') }}
-                    </p>
-                    
                     <div style="padding:10px">
                       <table id="taxonomyTable" class="display" style="width:100%">
                         <thead>

@@ -124,6 +124,7 @@ OTHER_ID = 22
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
+SKIN_SCORING_APP_FFQ_ID = 10005
 SPAIN_FFQ_ID = 10004
 
 SYSTEM_MSG_DICTIONARY = {
@@ -398,6 +399,11 @@ SURVEY_INFO = {
         'est_minutes': '30',
         'icon': 'survey_external.svg'
     },
+    SKIN_SCORING_APP_FFQ_ID: {
+        'description': 'TBD',
+        'est_minutes': 'TBD',
+        'icon': 'survey_external.svg'
+    },
 }
 LOCAL_SURVEY_SEQUENCE = [
     BASIC_INFO_ID,
@@ -466,7 +472,8 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID, SPAIN_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID,
+                SPAIN_FFQ_ID, SKIN_SCORING_APP_FFQ_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -1361,6 +1368,14 @@ def get_fill_source_survey(*,
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
     elif survey_template_id == SPAIN_FFQ_ID:
+        if need_reconsent:
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
+
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == SKIN_SCORING_APP_FFQ_ID:
         if need_reconsent:
             return render_consent_page(
                 account_id, source_id, "data", reconsent=True

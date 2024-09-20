@@ -128,7 +128,9 @@
             {% endif %}
                 <div class="card card-survey-external">
                     <div class="row m-2 survey-info-row">
-                        {% if detail.answered %}
+                        {% if detail.survey_template_id == 10005 %}
+                            <div class="col-8 card-survey-completed">{{ _('COMPLETED') }} <br> {{ _('Unique ID') }}: {{ detail.survey_id }}</div>
+                        {% elif detail.answered %}
                             <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
                         {% else %}
                             <div class="col-8 card-survey-new">{{ _('NEW') }}</div>

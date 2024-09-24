@@ -1864,7 +1864,7 @@ def get_source(*, account_id=None, source_id=None):
     for answer in survey_answers:
         template_id = answer['survey_template_id']
         for template in local_surveys + remote_surveys:
-            if template['survey_template_id'] == 10005:
+            if template['survey_template_id'] == SKIN_SCORING_APP_ID:
                 template['survey_id'] = answer['survey_id']
                 template['answered'] = True
             else:
@@ -1928,7 +1928,8 @@ def get_source(*, account_id=None, source_id=None):
                                  source_name=source_output['source_name'],
                                  profile_has_samples=profile_has_samples,
                                  need_reconsent=need_reconsent,
-                                 show_update_age=show_update_age
+                                 show_update_age=show_update_age,
+                                 SKIN_SCORING_APP_ID=SKIN_SCORING_APP_ID
                                  )
 
 

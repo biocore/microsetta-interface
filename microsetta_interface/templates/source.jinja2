@@ -123,12 +123,12 @@
         <div class="row mt-4">
         {% for detail in remote_surveys %}
             <div class="col-12 col-sm-6 col-md-4 p-2">
-            {% if detail.survey_template_id == 10005 or not detail.answered %}
+            {% if detail.survey_template_id == SKIN_SCORING_APP_ID or not detail.answered %}
                 <a style="text-decoration: none" onClick="return takeExternalSurvey('/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}', '{{ detail.survey_template_title }}', '{{ detail.description }}');" href="/accounts/{{ account_id }}/sources/{{ source_id }}/take_survey?survey_template_id={{ detail.survey_template_id }}" target="_blank">
             {% endif %}
                 <div class="card card-survey-external">
                     <div class="row m-2 survey-info-row">
-                        {% if detail.survey_template_id == 10005 and detail.answered %}
+                        {% if detail.survey_template_id == SKIN_SCORING_APP_ID and detail.answered %}
                             <div class="col-8 card-survey-new">{{ _('COMPLETED') }} <br> {{ _('Unique ID') }}: {{ detail.survey_id }}</div>
                         {% elif detail.answered %}
                             <div class="col-8 card-survey-completed">{{ _('COMPLETED') }}</div>
@@ -138,7 +138,7 @@
                         <div class="col-4 small-text survey-info text-end">{{ detail.est_minutes }} {{ _('min') }}</div>
                     </div>
                     <div class="row m-3 text-center survey-title">
-                        {% if not detail.answered or detail.survey_template_id == 10005 %}
+                        {% if not detail.answered or detail.survey_template_id == SKIN_SCORING_APP_ID %}
                             <img src="/static/img/survey_external.svg" class="card-survey-icon-external">
                         {% else %}
                             <img src="/static/img/survey_external_taken.svg" class="card-survey-icon-external">
@@ -152,7 +152,7 @@
                     {% endif %}
                     </div>
                 </div>
-                {% if not detail.answered or detail.survey_template_id == 10005 %}
+                {% if not detail.answered or detail.survey_template_id == SKIN_SCORING_APP_ID %}
                 </a>
             {% endif %}
             </div>

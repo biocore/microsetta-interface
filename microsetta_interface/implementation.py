@@ -1303,6 +1303,7 @@ def post_create_human_source(*, account_id=None, body=None):
             return consent_output
 
         session.pop(SOURCE_ID)
+
         # Yes, "None" is coming through as a string in this instance, not as
         # an actual None type.
         if body["sample_ids"] != "None":
@@ -2731,9 +2732,6 @@ def get_ajax_check_activation_code(code, email):
     return flask.jsonify(result)
 
 
-# NB: associating surveys with samples when samples are claimed means that any
-# surveys added to this source AFTER these samples are claimed will NOT be
-# associated with these samples.  This behavior is by design.
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def post_claim_samples(*, account_id=None, source_id=None, body=None,
                        sample_ids=None):
@@ -2763,19 +2761,6 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
             sample_ids=sample_ids
         )
 
-    has_error, survey_output, _ = ApiRequest.get(
-        '/accounts/{0}/sources/{1}/surveys'.format(account_id, source_id))
-    if has_error:
-        return survey_output
-
-    # TODO: this will have to get more nuanced when we add animal surveys?
-    # Grab all primary and covid surveys from the source and associate with
-    # newly claimed samples; non-human sources always have none of these
-    survey_ids_to_associate_with_samples = [
-        x['survey_id'] for x in survey_output
-        if x['survey_template_id'] in [1, 6]
-    ]
-
     # TODO:  Any of these requests may fail independently, but we don't
     #  have a good policy to deal with partial failures.  Currently, we
     #  abort early but that will result in some set of associations being
@@ -2789,13 +2774,6 @@ def post_claim_samples(*, account_id=None, source_id=None, body=None,
             json={"sample_id": curr_sample_id})
         if has_error:
             return sample_output
-
-        # Associate the input answered surveys with this sample.
-        for survey_id in survey_ids_to_associate_with_samples:
-            sample_survey_output = _associate_sample_to_survey(
-                account_id, source_id, curr_sample_id, survey_id)
-            if sample_survey_output is not None:
-                return sample_survey_output
 
     return redirect(
         "/accounts/%s/sources/%s/kits" %

@@ -124,6 +124,7 @@ OTHER_ID = 22
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
+SKIN_SCORING_APP_ID = 10005
 SPAIN_FFQ_ID = 10004
 
 SYSTEM_MSG_DICTIONARY = {
@@ -398,6 +399,11 @@ SURVEY_INFO = {
         'est_minutes': '30',
         'icon': 'survey_external.svg'
     },
+    SKIN_SCORING_APP_ID: {
+        'description': 'TBD',
+        'est_minutes': 'TBD',
+        'icon': 'survey_external.svg'
+    },
 }
 LOCAL_SURVEY_SEQUENCE = [
     BASIC_INFO_ID,
@@ -466,7 +472,8 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID, SPAIN_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID,
+                SPAIN_FFQ_ID, SKIN_SCORING_APP_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -1400,6 +1407,14 @@ def get_fill_source_survey(*,
 
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == SKIN_SCORING_APP_ID:
+        if need_reconsent:
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
+
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
     else:
         survey_icon = SURVEY_INFO.get(survey_template_id)['icon']
         survey_est_minutes = SURVEY_INFO.get(survey_template_id)['est_minutes']
@@ -1850,7 +1865,10 @@ def get_source(*, account_id=None, source_id=None):
     for answer in survey_answers:
         template_id = answer['survey_template_id']
         for template in local_surveys + remote_surveys:
-            if template['survey_template_id'] == template_id:
+            if template['survey_template_id'] == SKIN_SCORING_APP_ID:
+                template['survey_id'] = answer['survey_id']
+                template['answered'] = True
+            else:
                 template['answered'] = True
 
     for template in local_surveys:
@@ -1911,7 +1929,8 @@ def get_source(*, account_id=None, source_id=None):
                                  source_name=source_output['source_name'],
                                  profile_has_samples=profile_has_samples,
                                  need_reconsent=need_reconsent,
-                                 show_update_age=show_update_age
+                                 show_update_age=show_update_age,
+                                 SKIN_SCORING_APP_ID=SKIN_SCORING_APP_ID
                                  )
 
 

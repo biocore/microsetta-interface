@@ -15,7 +15,9 @@
 <style>
     .nav-white-bg {
       background-color: #fff;
-      width: auto;
+      width: 100%;
+      padding-left: 100px;
+      padding-right: 100px;
     }
     .diversity-icon {
       vertical-align: middle;
@@ -103,6 +105,8 @@
     .tab-pane {
         background-color: #FFFFFF;
         color: #000000;
+        margin-left: 96px;
+        margin-right: 96px;
     } 
     .microbe-count {
         font-weight: bold;
@@ -208,6 +212,52 @@
     }
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
+    }
+
+    .nav-tabs {
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .nav-tabs::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 6px;
+        background-color: #E5E5E5;
+        border-radius: 10px;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        padding: 12px 20px;
+        color: #555555;
+        position: relative;
+        text-align: center;
+        width: 100%;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #000;
+        font-weight: bold;
+    }
+
+    .highlight-bar {
+        position: relative;
+        top: -1px;
+        left: 2;
+        height: 5px;
+        width: 100px;
+        background-color: #00C6D7;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .tmi-content .tab-content {
+        padding: 2px;
     }
 
 </style>
@@ -1262,6 +1312,20 @@
         })
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.nav-tabs .nav-link');
+        const highlightBar = document.querySelector('.highlight-bar');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('shown.bs.tab', function () {
+                const tabWidth = tab.offsetWidth;
+                const tabLeft = tab.offsetLeft;
+                highlightBar.style.width = `${tabWidth}px`;
+                highlightBar.style.transform = `translateX(${tabLeft}px)`;
+            });
+        });
+    });
+
     function setupAccordions() {
         let acc = document.getElementsByClassName("accordion-microbiome-map");
         let i;
@@ -1357,24 +1421,31 @@
 {% endblock %}
 
 {% block content %}
-<div class="tmi-content scatter-bg">
+<div class="tmi-content">
 <div class="row">
-    <div class="col-sm-auto full-height">
-        <div class="nav-white-bg row">
-          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-right:20px;">
-            <a class="nav-link active results-link" id="compare-tab" data-bs-toggle="pill" data-bs-target="#compare" role="tab" aria-controls="compare" aria-selected="true">{{ _('How do you compare?') }}</a>
-            <a class="nav-link results-link" id="diversity-tab" data-bs-toggle="pill" data-bs-target="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
-            <a class="nav-link results-link" id="similarity-tab" data-bs-toggle="pill" data-bs-target="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
-            <a class="nav-link results-link" id="taxonomy-tab" data-bs-toggle="pill" data-bs-target="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Your Inner Zoo') }}</a>
-            <a class="nav-link results-link" id="microbial-map-tab" data-bs-toggle="pill" data-bs-target="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
-            <a class="nav-link results-link" id="dataset-tab" data-bs-toggle="pill" data-bs-target="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">{{ _('How can I learn more?') }}</a>
-          </div>
-        </div>
+    <div class="col-12 nav-white-bg position-relative">
+        <ul class="nav nav-tabs justify-content-left" id="top-nav-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info" aria-selected="false">{{ _('Learn More') }}</a>
+            </li>
+        </ul>
+        <div class="highlight-bar"></div>
     </div>
 
-    <div class="col-sm border" style="background-color:#fff">
-        <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
+    <div class="col-12 tab-content" id="top-nav-tabContent">
+        <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="column results_text">
                 <h3>{{ _('How do you compare?') }}</h3>
                 <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
@@ -1406,7 +1477,7 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Your Inner Zoo') }}</h4>
                     <p>
-                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Your Inner Zoo') }}</a>. 
+                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>. 
                     </p>
                 </div>
                 </br>

@@ -16,7 +16,7 @@
     .nav-white-bg {
       background-color: #fff;
       width: 100%;
-      padding-left: 100px;
+      padding-left: 115px;
       padding-right: 100px;
     }
     .diversity-icon {
@@ -233,15 +233,17 @@
 
     .nav-tabs .nav-link {
         border: none;
-        padding: 12px 20px;
-        color: #555555;
+        padding: 12px 40px;
+        color: #747678;
         position: relative;
         text-align: center;
         width: 100%;
+        font-size: 1.5em;
+        font-weight: normal;
     }
 
     .nav-tabs .nav-link.active {
-        color: #000;
+        color: #222222;
         font-weight: bold;
     }
 
@@ -258,6 +260,25 @@
 
     .tmi-content .tab-content {
         padding: 2px;
+    }
+
+    @media (max-width: 768px) {
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            width: 100%;
+            padding: 0;
+        }
+        .nav-tabs .nav-item {
+            flex: 1;
+        }
+        .nav-tabs .nav-link {
+            font-size: 1em;
+            padding: 8px 16px;
+        }
+        .highlight-bar {
+            display: none;
+        }
     }
 
 </style>

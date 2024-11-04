@@ -1510,7 +1510,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 .report-nav > .nav-item > .active {
     background-color: white;
-    color: var(--tmi-gray-80);
+    color: var(--tmi-gray-90);
     position: relative;
 }
 

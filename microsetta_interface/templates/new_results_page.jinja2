@@ -1,6 +1,7 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = _("Sample Report") %}
-{% set show_breadcrumbs = show_breadcrumbs %}
+{% set show_breadcrumbs = True %}
+
 
 {% block head %}
 
@@ -12,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
+<link rel="stylesheet" href="/static/css/minimal_interface.css" />
 <style>
     .nav-white-bg {
       background-color: #fff;
@@ -105,14 +107,15 @@
     .tab-pane {
         background-color: #FFFFFF;
         color: #000000;
-        margin-left: 96px;
-        margin-right: 96px;
     } 
     .microbe-count {
         font-weight: bold;
     }
     div.results_text {
         text-align: left;
+        max-width: calc(100% - 2in);
+        margin-left: auto;
+        margin-right: auto;
     }
     div.how_you_compare_section {
         background-color: #f1f1f1;
@@ -212,73 +215,6 @@
     }
     .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before {
         border-right-color: #fc8900 !important;
-    }
-
-    .nav-tabs {
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    .nav-tabs::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        height: 8px;
-        background-color: #E5E5E5;
-        border-radius: 10px;
-    }
-
-    .nav-tabs .nav-link {
-        border: none;
-        padding: 12px 40px;
-        color: #747678;
-        position: relative;
-        text-align: center;
-        width: 100%;
-        font-size: 1.5em;
-        font-weight: normal;
-    }
-
-    .nav-tabs .nav-link.active {
-        color: #222222;
-        font-weight: normal;
-    }
-
-    .highlight-bar {
-        position: relative;
-        top: -3.5px;
-        left: 2;
-        height: 8px;
-        width: 100px;
-        background-color: #00C6D7;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-    }
-
-    .tmi-content .tab-content {
-        padding: 2px;
-    }
-
-    @media (max-width: 768px) {
-        .nav-tabs {
-            display: flex;
-            overflow-x: auto;
-            width: 100%;
-            padding: 0;
-        }
-        .nav-tabs .nav-item {
-            flex: 1;
-        }
-        .nav-tabs .nav-link {
-            font-size: 1em;
-            padding: 8px 16px;
-        }
-        .highlight-bar {
-            display: none;
-        }
     }
 
 </style>
@@ -1436,38 +1372,49 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{source_name}}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Report') }}</li>
+    <div class="breadcrumb-container">
+        <li class="breadcrumb-item"><a class="breadcrumb-item-profile" href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-item-profile" href="/accounts/{{account_id}}/sources/{{source_id}}">{{source_name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ _('Report') }}</li>
+    </div>
 {% endblock %}
 
 {% block content %}
-<div class="tmi-content">
-<div class="row">
-    <div class="col-12 nav-white-bg position-relative">
-        <ul class="nav nav-tabs justify-content-left" id="top-nav-tab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info" aria-selected="false">{{ _('Learn More') }}</a>
-            </li>
-        </ul>
-        <div class="highlight-bar"></div>
-    </div>
+    <nav class="navbar navbar-expand-lg report-nav-container">
+        <div class="container-fluid ps-0 pe-0">
+            <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#reportNavContent" aria-controls="reportNavContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span>
+                    {{ _('Navigation') }}
+                </span>
+                <img src="/static/img/nav_down.svg" height="20" width="20" style="margin-top: 10px"/>
+            </button>
+
+            <div class="collapse navbar-collapse" id="reportNavContent">
+                <ul class="nav report-nav" id="top-nav-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info" aria-selected="false">{{ _('Learn More') }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 
     <div class="col-12 tab-content" id="top-nav-tabContent">
         <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
-            <div class="column results_text">
+            <div class="report-text">
                 <h3>{{ _('How do you compare?') }}</h3>
                 <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
                 <br/><br />
@@ -1512,7 +1459,7 @@
               </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
-              <div class="column results_text">
+              <div class="column report-text">
                   <h3>{{ _('Diversity') }}</h3>
                   <br>
                   <p>
@@ -1604,7 +1551,7 @@
               </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
-              <div class="column results_text">
+              <div class="column report-text">
                   <h3>{{ _('Similarity') }}</h3>
                   <br>
                   <p>
@@ -1714,7 +1661,7 @@
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
-                  <div class="column results_text">
+                  <div class="column report-text">
                     <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
                     <br>
                     <p>
@@ -1748,7 +1695,7 @@
               <!--
               <hr/>
               <div class="row">
-                  <div class="column results_text">
+                  <div class="column report-text">
                     <p>
                     {{ _('In the plot below, you can see the most commonly observed microbial genera in the dataset, and distribution of ranks of those genera.  For example,') }}
                     <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
@@ -1766,7 +1713,7 @@
           </div>
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
-              <div class="column results_text">
+              <div class="column report-text">
                 <h3>{{ _('How can I learn more?') }}</h3>
                 <br/>
                   <p>
@@ -1790,7 +1737,7 @@
           </div>
           <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
             <div class="row">
-              <div class="column results_text">
+              <div class="column report-text">
                 <h3>{{ _('Microbiome Map') }}</h3>
                 <br/>
                 <p>
@@ -1807,6 +1754,5 @@
             </div>
           </div>
     </div>
-</div>
 </div>
 {% endblock %}

@@ -1435,3 +1435,134 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 .orange-text {
     color: var(--tmi-orange);
 }
+
+@media (min-width: 576px) {
+    .report-nav-container {
+        position: relative;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #profile-kebab-dropdown {
+        margin-top: 58px;
+        border: 1px solid var(--tmi-gray-70);
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .report-nav-container {
+        position: relative;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #profile-kebab-dropdown {
+        margin-top: 24px;
+        border: 1px solid var(--tmi-gray-70);
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.report-nav {
+    position: relative;
+}
+
+.report-nav::before {
+    content: '';
+    position: relative;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 1280px;
+    flex-shrink: 0;
+    background: var(--tmi-gray-60);
+    height: 8px;
+    border-radius: 4px 4px 4px 4px;
+    z-index: 1;
+}
+
+.report-nav > .nav-item {
+    width: 190px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 40px;
+    background-color: white;
+}
+
+@media (max-width: 575.98px) {
+    .report-nav > .nav-item {
+        text-align: left;
+        padding-left: 12px;
+    }
+}
+
+.report-nav > .nav-item > a {
+    color: var(--tmi-gray-70);
+}
+
+.report-nav > .nav-item > .active {
+    background-color: white;
+    color: var(--tmi-gray-80);
+    position: relative;
+}
+
+.report-nav > .nav-item > .active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--tmi-light-blue);
+    height: 8px;
+    border-radius: 4px 4px 4px 4px;
+    z-index: 2;
+    flex-direction: column;
+}
+
+@media (max-width: 1080px) {
+    .report-nav-container .navbar-collapse .nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .report-nav > .nav-item {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .report-nav::before {
+        display: none;
+    }
+
+    .report-nav > .nav-item > .active:after {
+        max-width: 50%;
+    }
+
+    .navbar-toggler.nav-toggle::after {
+        display: none;
+    }
+}
+
+.report-text {
+    text-align: left;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.breadcrumb-container {
+    width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}

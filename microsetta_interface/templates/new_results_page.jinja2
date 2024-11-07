@@ -1,6 +1,6 @@
 {% extends "sitebase.jinja2" %}
 {% set page_title = _("Sample Report") %}
-{% set show_breadcrumbs = True %}
+{% set show_breadcrumbs = show_breadcrumbs %}
 
 
 {% block head %}
@@ -1403,7 +1403,7 @@
 {% endblock %}
 
 {% block content %}
-    <nav class="navbar navbar-expand-lg report-nav-container">
+    <nav class="navbar report-navbar report-nav-container">
         <div class="container-fluid ps-0 pe-0">
             <button class="navbar-toggler nav-toggle-report" type="button" data-bs-toggle="collapse" data-bs-target="#reportNavContent" aria-controls="reportNavContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="nav-button-text">

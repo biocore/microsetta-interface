@@ -2600,7 +2600,8 @@ def get_sample_results_experimental_authenticated(*, account_id=None,
                                  taxonomy=SERVER_CONFIG["taxonomy_resource"],
                                  alpha_metric=SERVER_CONFIG["alpha_metric"],
                                  beta_metric=SERVER_CONFIG["beta_metric"],
-                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"]
+                                 barcode_prefix=SERVER_CONFIG["barcode_prefix"],
+                                 show_breadcrumbs=True
                                  )
 
 

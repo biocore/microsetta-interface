@@ -1592,7 +1592,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     background: var(--tmi-light-blue);
     height: 8px;
     border-radius: 4px 4px 4px 4px;
-    width: 200px;
+    width: 240px;
 }
 @media (min-width: 1280px){
     .navbar-expand-custom {

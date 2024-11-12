@@ -1482,6 +1482,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     left: 0;
     right: 0;
     width: 1280px;
+    background: var(--tmi-gray-60);
     flex-shrink: 0;
     height: 8px;
     border-radius: 100px;

@@ -1583,6 +1583,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     color: var(--tmi-gray-80);
     gap: 8px;
     justify-content: space-between;
+    display: flex;
 }
 
 .nav-toggle-report:after {

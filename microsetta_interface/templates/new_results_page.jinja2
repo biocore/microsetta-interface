@@ -2,6 +2,7 @@
 {% set page_title = _("Sample Report") %}
 {% set show_breadcrumbs = show_breadcrumbs %}
 
+
 {% block head %}
 
 <link rel="stylesheet" type="text/css" href="/static/vendor/css/jquery.dataTables.css" />
@@ -12,10 +13,13 @@
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/chosen.min.css">
 <link rel="stylesheet" type="text/css" href="/static/vendor/emperor/vendor/css/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
+<link rel="stylesheet" href="/static/css/minimal_interface.css" />
 <style>
     .nav-white-bg {
       background-color: #fff;
-      width: auto;
+      width: 100%;
+      padding-left: 115px;
+      padding-right: 100px;
     }
     .diversity-icon {
       vertical-align: middle;
@@ -109,6 +113,9 @@
     }
     div.results_text {
         text-align: left;
+        max-width: calc(100% - 2in);
+        margin-left: auto;
+        margin-right: auto;
     }
     div.how_you_compare_section {
         background-color: #f1f1f1;
@@ -1262,6 +1269,20 @@
         })
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.nav-tabs .nav-link');
+        const highlightBar = document.querySelector('.highlight-bar');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('shown.bs.tab', function () {
+                const tabWidth = tab.offsetWidth;
+                const tabLeft = tab.offsetLeft;
+                highlightBar.style.width = `${tabWidth}px`;
+                highlightBar.style.transform = `translateX(${tabLeft}px)`;
+            });
+        });
+    });
+
     function setupAccordions() {
         let acc = document.getElementsByClassName("accordion-microbiome-map");
         let i;
@@ -1348,34 +1369,73 @@
 
     $(document).ready(init);
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.report-nav .nav-link');
+        const navButtonText = document.querySelector('.navbar-toggler .nav-button-text');
+        const collapseElement = document.getElementById('reportNavContent');
+        const bootstrapCollapse = new bootstrap.Collapse(collapseElement, { toggle: false });
+
+        function updateNavButtonText(text) {
+            if (navButtonText) {
+                navButtonText.textContent = text;
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                updateNavButtonText(this.textContent.trim());
+                bootstrapCollapse.hide();
+            });
+        });
+    });
+</script>
+
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
-    <li class="breadcrumb-item"><a href="/accounts/{{account_id}}/sources/{{source_id}}">{{source_name}}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ _('Report') }}</li>
+    <div class="breadcrumb-container">
+        <li class="breadcrumb-item"><a class="breadcrumb-item-profile" href="/accounts/{{account_id}}">{{ _('Dashboard') }}</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-item-profile" href="/accounts/{{account_id}}/sources/{{source_id}}">{{source_name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ _('Report') }}</li>
+    </div>
 {% endblock %}
 
 {% block content %}
-<div class="tmi-content scatter-bg">
-<div class="row">
-    <div class="col-sm-auto full-height">
-        <div class="nav-white-bg row">
-          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-right:20px;">
-            <a class="nav-link active results-link" id="compare-tab" data-bs-toggle="pill" data-bs-target="#compare" role="tab" aria-controls="compare" aria-selected="true">{{ _('How do you compare?') }}</a>
-            <a class="nav-link results-link" id="diversity-tab" data-bs-toggle="pill" data-bs-target="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
-            <a class="nav-link results-link" id="similarity-tab" data-bs-toggle="pill" data-bs-target="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
-            <a class="nav-link results-link" id="taxonomy-tab" data-bs-toggle="pill" data-bs-target="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Your Inner Zoo') }}</a>
-            <a class="nav-link results-link" id="microbial-map-tab" data-bs-toggle="pill" data-bs-target="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
-            <a class="nav-link results-link" id="dataset-tab" data-bs-toggle="pill" data-bs-target="#dataset-info" role="tab" aria-controls="dataset" aria-selected="false">{{ _('How can I learn more?') }}</a>
-          </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-custom report-nav-container">
+        <div class="container-fluid ps-0 pe-0">
+            <button class="navbar-toggler nav-toggle-report" type="button" data-bs-toggle="collapse" data-bs-target="#reportNavContent" aria-controls="reportNavContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="nav-button-text">
+                    {{ _('Diversity') }}
+                </span>
+                <img src="/static/img/nav_down_report.svg" height="20" width="20" style="margin-top: 10px;" />
+            </button>
 
-    <div class="col-sm border" style="background-color:#fff">
-        <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
-            <div class="column results_text">
+            <div class="collapse navbar-collapse" id="reportNavContent">
+                <ul class="nav report-nav" id="top-nav-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info" aria-selected="false">{{ _('Learn More') }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="col-12 tab-content" id="top-nav-tabContent">
+        <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
+            <div class="report-text">
                 <h3>{{ _('How do you compare?') }}</h3>
                 <img class="diversity-banner" src='/static/img/{{ _(EN_US_KEY) }}/hero-home-4-xl.jpeg'>
                 <br/><br />
@@ -1406,7 +1466,7 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Your Inner Zoo') }}</h4>
                     <p>
-                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Your Inner Zoo') }}</a>. 
+                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>. 
                     </p>
                 </div>
                 </br>
@@ -1420,7 +1480,7 @@
               </div>
           </div>
           <div class="tab-pane fade" id="diversity" role="tabpanel" aria-labelledby="diversity-tab">
-              <div class="column results_text">
+              <div class="column report-text">
                   <h3>{{ _('Diversity') }}</h3>
                   <br>
                   <p>
@@ -1512,7 +1572,7 @@
               </div>
           </div>
           <div class="tab-pane fade" id="similarity" role="tabpanel" aria-labelledby="similarity-tab">
-              <div class="column results_text">
+              <div class="column report-text">
                   <h3>{{ _('Similarity') }}</h3>
                   <br>
                   <p>
@@ -1622,7 +1682,7 @@
           </div>
           <div class="tab-pane fade" id="taxonomy" role="tabpanel" aria-labelledby="taxonomy-tab">
               <div class="row">
-                  <div class="column results_text">
+                  <div class="column report-text">
                     <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
                     <br>
                     <p>
@@ -1656,7 +1716,7 @@
               <!--
               <hr/>
               <div class="row">
-                  <div class="column results_text">
+                  <div class="column report-text">
                     <p>
                     {{ _('In the plot below, you can see the most commonly observed microbial genera in the dataset, and distribution of ranks of those genera.  For example,') }}
                     <span id="top_ranked_genus_from_plot" class="info-loader text-success" >TOP_RANKED_GENUS_FROM_PLOT</span>
@@ -1674,7 +1734,7 @@
           </div>
           <div class="tab-pane fade" id="dataset-info" role="tabpanel" aria-labelledby="dataset-tab">
             <div class="row">
-              <div class="column results_text">
+              <div class="column report-text">
                 <h3>{{ _('How can I learn more?') }}</h3>
                 <br/>
                   <p>
@@ -1698,7 +1758,7 @@
           </div>
           <div class="tab-pane fade" id="microbial-map" role="tabpanel" aria-labelledby="microbial-map-tab">
             <div class="row">
-              <div class="column results_text">
+              <div class="column report-text">
                 <h3>{{ _('Microbiome Map') }}</h3>
                 <br/>
                 <p>
@@ -1715,6 +1775,5 @@
             </div>
           </div>
     </div>
-</div>
 </div>
 {% endblock %}

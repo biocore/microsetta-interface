@@ -1472,6 +1472,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 
 .report-nav {
     position: relative;
+    width: 100%;
 }
 
 .report-nav::before {

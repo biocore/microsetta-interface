@@ -218,6 +218,7 @@
     }
 
 </style>
+<script src="/static/vendor/d3/d3.v7.js"></script>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
@@ -956,7 +957,7 @@
             .then(queryNeighborAndSelfMetadata(state, ["age_cat", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
-
+    let diversityInSampleValue = null;
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
@@ -1073,6 +1074,8 @@
                 success: function (data) {
                     let display = Math.round(data["data"] * 100)/100;
                     $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
+                    diversityInSampleValue = 7.25;
+                    createDiversityGaugeChart(diversityInSampleValue);
                 }
             }).fail(function (result, textStatus, errorThrown) {
             console.log("Couldn't retrieve alpha metric for the sample")
@@ -1302,6 +1305,360 @@
         }
     }
 
+  function createDiversityGaugeChart(diversityInSampleValue) {
+        const width = 500;
+        const height = 310;
+        const radius = Math.min(width, height) / 2;
+
+        const svg = d3.select("#diversity-gauge-chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${(width / 2) - 35}, ${height / 2})`);
+
+        const arc = d3.arc()
+            .innerRadius(radius * 0.57)
+            .outerRadius(radius * 0.82)
+            .startAngle(Math.PI * 0.75)
+            .endAngle(Math.PI * 2.15);
+
+        svg.append("path")
+            .attr("d", arc)
+            .attr("transform", `translate(-27.5, 15) rotate(100)`)            
+            .style("fill", "#D9E9EF")
+            .style("stroke", "#D9E9EF")
+            .style("stroke-width", 2);
+
+        svg.append("image")
+            .attr("xlink:href", "/static/img/Line_38.svg")
+            .style("transform", "rotate(-3.5deg)")
+            .attr("x", -radius - 11)
+            .attr("y", -radius + 213);
+
+        svg.append("image")
+            .attr("xlink:href", "/static/img/Line_38.svg")
+            .style("transform", "rotate(75.5deg)")
+            .attr("x", 75)
+            .attr("y", -radius + 85);
+
+        if(diversityInSampleValue == 2.40){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 1.36;
+            var ellipseYRadius = radius * 1.13;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = 3;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+        
+        if(diversityInSampleValue == 7.25){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.76, Math.PI * 2.40]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 2.35;
+            var ellipseYRadius = radius * 0.72;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = -54;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        if(diversityInSampleValue > 2.4 && diversityInSampleValue < 3.99){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 1.25;
+            var ellipseYRadius = radius * 1.00;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            console.log("Diversity in sample in if none: " + diversityInSampleValue);
+            var angleOffset = 3;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        if(diversityInSampleValue >= 4.0 && diversityInSampleValue < 4.99){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 1.05;
+            var ellipseYRadius = radius * 0.85;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = 3;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        if(diversityInSampleValue >= 5.0 && diversityInSampleValue < 6.49){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 0.90;
+            var ellipseYRadius = radius * 0.80;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = 5;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        if(diversityInSampleValue >= 6.5 && diversityInSampleValue < 6.99){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.77, Math.PI * 2.40]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 1.10;
+            var ellipseYRadius = radius * 0.55;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = -35;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        if(diversityInSampleValue >= 7.0 && diversityInSampleValue < 7.25){
+            var scale = d3.scaleLinear()
+                .domain([2.40, 7.25])
+                .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+            var angle = scale(diversityInSampleValue);
+
+            var ellipseXRadius = radius * 1.65;
+            var ellipseYRadius = radius * 0.55;
+
+            var x = Math.cos(angle) * ellipseXRadius;
+            var y = Math.sin(angle) * ellipseYRadius;
+
+            var tangentAngle = Math.atan2(
+                ellipseYRadius * Math.cos(angle),
+                -ellipseXRadius * Math.sin(angle)
+            );
+            var angleOffset = -50;
+            svg.append("image")
+                .attr("xlink:href", "/static/img/Line_40.svg")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
+        }
+
+        svg.append("image")
+            .attr("xlink:href", "/static/img/Line_38_blue.svg")
+            .style("transform", "rotate(49deg)")
+            .attr("x", 35)
+            .attr("y", -radius + 96.5);
+
+        svg.append("image")
+            .attr("xlink:href", "/static/img/Line_38_blue.svg")
+            .style("transform", "rotate(-18deg)")
+            .attr("x", 43)
+            .attr("y", -radius + 121);
+
+        svg.append("text")
+            .attr("x", -radius - 50)
+            .attr("y", 145)
+            .style("fill", "#747678")
+            .style("font-size", "14px")
+            .style("line-height", "24px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "400")
+            .style("font-style", "normal")
+            .text("Lowest in our dataset");
+
+        svg.append("text")
+            .attr("x", -radius - 50)
+            .attr("y", 127.5)
+            .style("fill", "#006A96")
+            .style("font-size", "18px")
+            .style("font-weight", "700")
+            .style("line-height", "24px")
+            .text("2.40");
+
+        svg.append("text")
+            .attr("x", -radius + 67.5)
+            .attr("y", 100)
+            .style("fill", "#006A96")
+            .style("text-align", "center")
+            .style("font-size", "16px")
+            .style("font-style", "normal")
+            .style("font-weight", "700")
+            .style("line-height", "26px")
+            .text("Diversity Value");
+
+        svg.append("text")
+            .attr("x", radius - 42.5)
+            .attr("y", 145)
+            .style("fill", "#747678")
+            .style("font-size", "14px")
+            .style("line-height", "24px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "400")
+            .style("font-style", "normal")
+            .text("Highest in our dataset");
+
+        svg.append("text")
+            .attr("x", radius - 42.5)
+            .attr("y", 127.5)
+            .style("fill", "#006A96")
+            .style("font-size", "18px")
+            .style("font-weight", "700")
+            .style("line-height", "24px")
+            .text("7.25");
+
+        svg.append("text")
+            .attr("x", 183)
+            .attr("y", -radius + 95)
+            .style("fill", "#747678")
+            .style("text-anchor", "middle")
+            .style("font-size", "14px")
+            .style("line-height", "24px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "400")
+            .style("font-style", "normal")
+            .text("Average in our dataset");
+
+        svg.append("text")
+            .attr("x", 110)
+            .attr("y", -radius + 80)
+            .style("fill", "#006A96")
+            .style("font-size", "18px")
+            .style("font-weight", "700")
+            .style("line-height", "24px")
+            .text("5.31");
+
+        svg.append("text")
+            .attr("x", 110)
+            .attr("y", -radius + 185)
+            .style("fill", "#006A96")
+            .style("font-size", "18px")
+            .style("font-weight", "700")
+            .style("line-height", "24px")
+            .text("6.30");
+
+        svg.append("a")
+            .attr("xlink:href", "https://www.nature.com/articles/d41586-023-02065-y")
+            .attr("target", "_blank")
+            .append("text")
+            .attr("x", 110)
+            .attr("y", -radius + 215)
+            .style("fill", "#0000EE")
+            .style("font-family", "Mulish")
+            .style("font-size", "14px")
+            .style("font-weight", "400")
+            .style("line-height", "normal")
+            .text("Hadza people of Tanzania");
+
+        svg.append("text")
+            .attr("x", 110)
+            .attr("y", -radius + 230)
+            .style("fill", "#747678")
+            .style("font-size", "14px")
+            .style("line-height", "24px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "400")
+            .style("font-style", "normal")
+            .text("(population with a");
+
+        svg.append("text")
+            .attr("x", 110)
+            .attr("y", -radius + 245)
+            .style("fill", "#747678")
+            .style("font-size", "14px")
+            .style("line-height", "24px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "400")
+            .style("font-style", "normal")
+            .text("hunter-gatherer lifestyle)");
+
+        svg.append("text")
+            .attr("x", -radius + 125)
+            .attr("y", 35)
+            .style("fill", "#FC8900")
+            .style("font-size", "72px")
+            .style("font-family", "Mulish")
+            .style("font-weight", "700")
+            .style("line-height", "normal")
+            .style("text-anchor", "middle")
+            .text(diversityInSampleValue);
+    }
+
+
     function init(){
         enableTooltips();
 
@@ -1409,7 +1766,7 @@
                 <span class="nav-button-text">
                     {{ _('Diversity') }}
                 </span>
-                <img src="/static/img/nav_down_report.svg" height="20" width="20" style="margin-top: 10px;" />
+                <img src="/static/img/nav_down_report.svg" height="20" width="20" />
             </button>
 
             <div class="collapse navbar-collapse" id="reportNavContent">
@@ -1504,11 +1861,8 @@
                   <p>
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
-                  <div class="card your_sample_diversity_inset">
-                      <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>
-                      <div class="card-body">
-                          <span id="diversity_in_sample" class="info-loader">...</span></h5>
-                      </div>
+                  <div class="diversity-gauge-container">
+                        <div id="diversity-gauge-chart"></div>
                   </div>
                     <br />
                   <p>

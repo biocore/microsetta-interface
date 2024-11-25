@@ -1074,7 +1074,7 @@
                 success: function (data) {
                     let display = Math.round(data["data"] * 100)/100;
                     $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
-                    diversityInSampleValue = 7.25;
+                    diversityInSampleValue = display;
                     createDiversityGaugeChart(diversityInSampleValue);
                 }
             }).fail(function (result, textStatus, errorThrown) {
@@ -1306,357 +1306,242 @@
     }
 
   function createDiversityGaugeChart(diversityInSampleValue) {
-        const width = 500;
-        const height = 310;
-        const radius = Math.min(width, height) / 2;
+    const width = 500;
+    const height = 310;
+    const radius = Math.min(width, height) / 2;
 
-        const svg = d3.select("#diversity-gauge-chart")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${(width / 2) - 35}, ${height / 2})`);
+    const lowestDiversityScore = 2.40;
+    const averageDiversityScore = 5.31;
+    const highestDiversityScore = 7.25;
 
-        const arc = d3.arc()
-            .innerRadius(radius * 0.57)
-            .outerRadius(radius * 0.82)
-            .startAngle(Math.PI * 0.75)
-            .endAngle(Math.PI * 2.15);
+    const svg = d3.select("#diversity-gauge-chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${(width / 2) - 35}, ${height / 2})`);
 
-        svg.append("path")
-            .attr("d", arc)
-            .attr("transform", `translate(-27.5, 15) rotate(100)`)            
-            .style("fill", "#D9E9EF")
-            .style("stroke", "#D9E9EF")
-            .style("stroke-width", 2);
+    const arc = d3.arc()
+        .innerRadius(radius * 0.57)
+        .outerRadius(radius * 0.82)
+        .startAngle(Math.PI * 0.75)
+        .endAngle(Math.PI * 2.15);
 
-        svg.append("image")
-            .attr("xlink:href", "/static/img/Line_38.svg")
-            .style("transform", "rotate(-3.5deg)")
-            .attr("x", -radius - 11)
-            .attr("y", -radius + 213);
+    svg.append("path")
+        .attr("d", arc)
+        .attr("transform", `translate(-27.5, 15) rotate(100)`)            
+        .style("fill", "#D9E9EF")
+        .style("stroke", "#D9E9EF")
+        .style("stroke-width", 2);
 
-        svg.append("image")
-            .attr("xlink:href", "/static/img/Line_38.svg")
-            .style("transform", "rotate(75.5deg)")
-            .attr("x", 75)
-            .attr("y", -radius + 85);
-
-        if(diversityInSampleValue == 2.40){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 1.36;
-            var ellipseYRadius = radius * 1.13;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = 3;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-        
-        if(diversityInSampleValue == 7.25){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.76, Math.PI * 2.40]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 2.35;
-            var ellipseYRadius = radius * 0.72;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = -54;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        if(diversityInSampleValue > 2.4 && diversityInSampleValue < 3.99){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 1.25;
-            var ellipseYRadius = radius * 1.00;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            console.log("Diversity in sample in if none: " + diversityInSampleValue);
-            var angleOffset = 3;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        if(diversityInSampleValue >= 4.0 && diversityInSampleValue < 4.99){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 1.05;
-            var ellipseYRadius = radius * 0.85;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = 3;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        if(diversityInSampleValue >= 5.0 && diversityInSampleValue < 6.49){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 0.90;
-            var ellipseYRadius = radius * 0.80;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = 5;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        if(diversityInSampleValue >= 6.5 && diversityInSampleValue < 6.99){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.77, Math.PI * 2.40]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 1.10;
-            var ellipseYRadius = radius * 0.55;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = -35;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        if(diversityInSampleValue >= 7.0 && diversityInSampleValue < 7.25){
-            var scale = d3.scaleLinear()
-                .domain([2.40, 7.25])
-                .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-            var angle = scale(diversityInSampleValue);
-
-            var ellipseXRadius = radius * 1.65;
-            var ellipseYRadius = radius * 0.55;
-
-            var x = Math.cos(angle) * ellipseXRadius;
-            var y = Math.sin(angle) * ellipseYRadius;
-
-            var tangentAngle = Math.atan2(
-                ellipseYRadius * Math.cos(angle),
-                -ellipseXRadius * Math.sin(angle)
-            );
-            var angleOffset = -50;
-            svg.append("image")
-                .attr("xlink:href", "/static/img/Line_40.svg")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("transform", `rotate(${(tangentAngle * 180) / Math.PI + angleOffset}, ${x}, ${y})`);
-        }
-
-        svg.append("image")
-            .attr("xlink:href", "/static/img/Line_38_blue.svg")
-            .style("transform", "rotate(49deg)")
-            .attr("x", 35)
-            .attr("y", -radius + 96.5);
-
-        svg.append("image")
-            .attr("xlink:href", "/static/img/Line_38_blue.svg")
-            .style("transform", "rotate(-18deg)")
-            .attr("x", 43)
-            .attr("y", -radius + 121);
-
-        svg.append("text")
-            .attr("x", -radius - 50)
-            .attr("y", 145)
-            .style("fill", "#747678")
-            .style("font-size", "14px")
-            .style("line-height", "24px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "400")
-            .style("font-style", "normal")
-            .text("Lowest in our dataset");
-
-        svg.append("text")
-            .attr("x", -radius - 50)
-            .attr("y", 127.5)
-            .style("fill", "#006A96")
-            .style("font-size", "18px")
-            .style("font-weight", "700")
-            .style("line-height", "24px")
-            .text("2.40");
-
-        svg.append("text")
-            .attr("x", -radius + 67.5)
-            .attr("y", 100)
-            .style("fill", "#006A96")
-            .style("text-align", "center")
-            .style("font-size", "16px")
-            .style("font-style", "normal")
-            .style("font-weight", "700")
-            .style("line-height", "26px")
-            .text("Diversity Value");
-
-        svg.append("text")
-            .attr("x", radius - 42.5)
-            .attr("y", 145)
-            .style("fill", "#747678")
-            .style("font-size", "14px")
-            .style("line-height", "24px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "400")
-            .style("font-style", "normal")
-            .text("Highest in our dataset");
-
-        svg.append("text")
-            .attr("x", radius - 42.5)
-            .attr("y", 127.5)
-            .style("fill", "#006A96")
-            .style("font-size", "18px")
-            .style("font-weight", "700")
-            .style("line-height", "24px")
-            .text("7.25");
-
-        svg.append("text")
-            .attr("x", 183)
-            .attr("y", -radius + 95)
-            .style("fill", "#747678")
-            .style("text-anchor", "middle")
-            .style("font-size", "14px")
-            .style("line-height", "24px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "400")
-            .style("font-style", "normal")
-            .text("Average in our dataset");
-
-        svg.append("text")
-            .attr("x", 110)
-            .attr("y", -radius + 80)
-            .style("fill", "#006A96")
-            .style("font-size", "18px")
-            .style("font-weight", "700")
-            .style("line-height", "24px")
-            .text("5.31");
-
-        svg.append("text")
-            .attr("x", 110)
-            .attr("y", -radius + 185)
-            .style("fill", "#006A96")
-            .style("font-size", "18px")
-            .style("font-weight", "700")
-            .style("line-height", "24px")
-            .text("6.30");
-
-        svg.append("a")
-            .attr("xlink:href", "https://www.nature.com/articles/d41586-023-02065-y")
-            .attr("target", "_blank")
-            .append("text")
-            .attr("x", 110)
-            .attr("y", -radius + 215)
-            .style("fill", "#0000EE")
-            .style("font-family", "Mulish")
-            .style("font-size", "14px")
-            .style("font-weight", "400")
-            .style("line-height", "normal")
-            .text("Hadza people of Tanzania");
-
-        svg.append("text")
-            .attr("x", 110)
-            .attr("y", -radius + 230)
-            .style("fill", "#747678")
-            .style("font-size", "14px")
-            .style("line-height", "24px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "400")
-            .style("font-style", "normal")
-            .text("(population with a");
-
-        svg.append("text")
-            .attr("x", 110)
-            .attr("y", -radius + 245)
-            .style("fill", "#747678")
-            .style("font-size", "14px")
-            .style("line-height", "24px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "400")
-            .style("font-style", "normal")
-            .text("hunter-gatherer lifestyle)");
-
-        svg.append("text")
-            .attr("x", -radius + 125)
-            .attr("y", 35)
-            .style("fill", "#FC8900")
-            .style("font-size", "72px")
-            .style("font-family", "Mulish")
-            .style("font-weight", "700")
-            .style("line-height", "normal")
-            .style("text-anchor", "middle")
-            .text(diversityInSampleValue);
+    function drawRotatedLine(svg, x, y, angle, length, color, width) {
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", -length)
+            .attr("stroke", color)
+            .attr("stroke-width", width)
+            .attr("transform", `translate(${x}, ${y}) rotate(${angle})`)
+            .style("stroke-linecap", "round");
     }
+
+    drawRotatedLine(svg, -radius - 8, -radius + 265, 55, 75.213, "#D9E9EF", 2);
+    drawRotatedLine(svg, 103.5, -radius + 268, -54, 75.213, "#D9E9EF", 2);
+
+    function drawIndicatorLine(angle, ellipseXRadius, ellipseYRadius, angleOffset) {
+        const x = Math.cos(angle) * ellipseXRadius;
+        const y = Math.sin(angle) * ellipseYRadius;
+
+        const tangentAngle = Math.atan2(
+            ellipseYRadius * Math.cos(angle),
+            -ellipseXRadius * Math.sin(angle)
+        );
+
+        const rotationAngle = (tangentAngle * 180) / Math.PI + angleOffset;
+
+        drawRotatedLine(svg, x, y, rotationAngle, 83.863, "#FC8900", 3);
+    }
+
+    const scale = d3.scaleLinear()
+        .domain([lowestDiversityScore, highestDiversityScore])
+        .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+    if (diversityInSampleValue == lowestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.90, radius * 0.59, 22);
+    }
+
+    if (diversityInSampleValue == highestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.97, radius * 0.46, -46);
+    }
+
+    if (diversityInSampleValue > lowestDiversityScore && diversityInSampleValue <= 2.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.75, radius * 0.45, 13);
+    }
+
+    if (diversityInSampleValue >= 3.0 && diversityInSampleValue <= 3.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.65, radius * 0.30, 3);
+    }
+
+    if (diversityInSampleValue >= 4.0 && diversityInSampleValue <= 4.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.30, radius * 0.35, 8);
+    }
+
+    if (diversityInSampleValue >= 5.0 && diversityInSampleValue <= 5.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.10, radius * 0.35, -30);
+    }
+
+    if (diversityInSampleValue >= 6.0 && diversityInSampleValue <= 6.49) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.25, radius * 0.55, 5);
+    }
+
+    if (diversityInSampleValue >= 6.5 && diversityInSampleValue <= 6.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.25, radius * 0.45, 5);
+    }
+
+    if (diversityInSampleValue >= 7.0 && diversityInSampleValue < highestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.45, radius * 0.25, -35);
+    }
+
+    drawRotatedLine(svg, 20, -radius + 106.5, 43.5, 56.921, "#006A96", 2);
+    drawRotatedLine(svg, 110, -radius + 194, -77, 56.921, "#006A96", 2);
+
+    svg.append("text")
+        .attr("x", -radius - 50)
+        .attr("y", 145)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Lowest in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", -radius - 50)
+        .attr("y", 127.5)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text("2.40");
+
+    svg.append("text")
+        .attr("x", -radius + 67.5)
+        .attr("y", 100)
+        .style("fill", "#006A96")
+        .style("text-align", "center")
+        .style("font-size", "16px")
+        .style("font-style", "normal")
+        .style("font-weight", "700")
+        .style("line-height", "26px")
+        .text("{{ _('Diversity Value') }}");
+
+    svg.append("text")
+        .attr("x", radius - 42.5)
+        .attr("y", 145)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Highest in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", radius - 42.5)
+        .attr("y", 127.5)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text("7.25");
+
+    svg.append("text")
+        .attr("x", 172.5)
+        .attr("y", -radius + 38)
+        .style("fill", "#747678")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Average in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", 55)
+        .attr("y", -radius + 40)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text("5.31");
+
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 185)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text("6.30");
+
+    svg.append("a")
+        .attr("xlink:href", "https://www.nature.com/articles/d41586-023-02065-y")
+        .attr("target", "_blank")
+        .append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 215)
+        .style("fill", "#0000EE")
+        .style("font-family", "Mulish")
+        .style("font-size", "14px")
+        .style("font-weight", "400")
+        .style("line-height", "normal")
+        .text("{{ _('Hadza people of Tanzania') }}");
+
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 230)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('(population with a') }}");
+
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 245)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('hunter-gatherer lifestyle)') }}");
+
+    svg.append("text")
+        .attr("x", -radius + 125)
+        .attr("y", 35)
+        .style("fill", "#FC8900")
+        .style("font-size", "72px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "700")
+        .style("line-height", "normal")
+        .style("text-anchor", "middle")
+        .text(diversityInSampleValue);
+}
 
 
     function init(){

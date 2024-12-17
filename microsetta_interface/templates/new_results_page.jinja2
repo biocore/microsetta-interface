@@ -218,7 +218,7 @@
     }
 
 </style>
-
+<script src="/static/vendor/d3/d3.v7.js"></script>
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
 <script type="text/javascript" charset="utf8" src="/static/vendor/js/jquery.dataTables.js"></script>
@@ -594,6 +594,439 @@
         select.prop("disabled", false);
     }
 
+    function drawBoxPlots(top5) {
+        let mockData = top5.map(d => {
+            const relativeAbundance = parseFloat(d.relativeAbundance);
+
+            let maxRange;
+            if (relativeAbundance > 50) {
+                maxRange = 100;
+            } else if (relativeAbundance < 50 && relativeAbundance > 5) {
+                maxRange = 50;
+            } else {
+                maxRange = 5;
+            }
+
+            const minVal = 0;
+            const maxVal = maxRange;
+            const q1 = relativeAbundance * 0.25;
+            const median = relativeAbundance * 0.5;
+            const q3 = relativeAbundance * 0.75;
+
+            return {
+                genus: d.Genus || d.genus || "Unknown",
+                relativeAbundance: relativeAbundance,
+                stats: { min: minVal, q1: q1, median: median, q3: q3, max: maxVal }
+            };
+        });
+
+        const columns = 2;
+        const panelWidth = 600;
+        const panelHeight = 240;
+        const spacingX = 40;
+        const spacingY = 70;
+
+        const totalWidth = 1280;
+        const totalBoxWidth = columns * panelWidth + (columns - 1) * spacingX;
+        const remainingWidth = totalWidth - totalBoxWidth;
+
+        const rows = Math.ceil(mockData.length / columns);
+
+        const margin = { top: 20, right: 0, bottom: 60, left: -20 };
+
+        const totalHeight = rows * panelHeight + (rows - 1) * spacingY + margin.top + margin.bottom;
+
+        d3.select("#boxplot-svg").selectAll("svg").remove();
+
+        const svg = d3.select("#boxplot-svg")
+            .append("svg")
+            .attr("width", totalWidth)
+            .attr("height", totalHeight);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(0,${margin.top})`);
+
+        const textAnchor = "end";
+
+        mockData.forEach((d, i) => {
+            console.log(`Data for genus relativ ${d.relativeAbundance}:`, d);
+            console.log(`Index: ${i}`);
+
+            const col = i % columns;
+            const row = Math.floor(i / columns);
+
+            const xOffset = col * (panelWidth + spacingX);
+            const yOffset = row * (panelHeight + spacingY);
+
+            const { min, q1, median, q3, max } = d.stats;
+
+            const x = d3.scaleLinear()
+                .domain([Math.min(min, q1, median, q3, max), Math.max(min, q1, median, q3, max)])
+                .nice()
+                .range([20, panelWidth]);
+
+            const boxGroup = g.append("g")
+                .attr("transform", `translate(${xOffset},${yOffset})`);
+
+            const xAxis = d3.axisBottom(x)
+                .tickValues([x.domain()[0], x.domain()[1]])
+                .tickFormat(d => d.toFixed(2));
+
+            boxGroup.append("g")
+                .attr("transform", `translate(0,${panelHeight - margin.bottom - 25})`)
+                .call(xAxis);
+
+            boxGroup.append("text")
+                .attr("x", 250)
+                .attr("y", 175)
+                .attr("text-anchor", "start")
+                .attr("font-size", "14px")
+                .attr("font-family", "Mulish")
+                .attr("font-weight", "normal")
+                .attr("color", "#222")
+                .text("% of ");
+
+            boxGroup.append("text")
+                .attr("x", 320)
+                .attr("y", 175)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "14px")
+                .attr("font-family", "Mulish")
+                .attr("font-weight", "400")
+                .attr("color", "#222")
+                .text(d.genus);
+
+            const boxCenter = (panelHeight - margin.bottom) / 2;
+            const boxRectHeight = 40;
+
+            boxGroup.append("line")
+                .attr("x1", x(min))
+                .attr("x2", x(max))
+                .attr("y1", boxCenter)
+                .attr("y2", boxCenter)
+                .attr("stroke", "black")
+                .attr("stroke-width", 3)
+                .attr("height", 3);
+
+            boxGroup.append("rect")
+                .attr("x", x(q1))
+                .attr("y", boxCenter - boxRectHeight / 2)
+                .attr("width", x(q3) - x(q1))
+                .attr("height", boxRectHeight)
+                .attr("fill", "#00C6D7")
+                .attr("rx", 3.792)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 3);
+
+            boxGroup.append("line")
+                .attr("x1", x(median))
+                .attr("x2", x(median))
+                .attr("y1", boxCenter - boxRectHeight / 2)
+                .attr("y2", boxCenter + boxRectHeight / 2)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 3);
+
+            boxGroup.append("line")
+                .attr("x1", x(min))
+                .attr("x2", x(min))
+                .attr("y1", boxCenter - 42.716 / 2)
+                .attr("y2", boxCenter + 42.716 / 2)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 3);
+
+            boxGroup.append("line")
+                .attr("x1", x(max))
+                .attr("x2", x(max))
+                .attr("y1", boxCenter - 42.716 / 2)
+                .attr("y2", boxCenter + 42.716 / 2)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 3);
+
+            boxGroup.append("text")
+                .attr("x", x(min) + 20)
+                .attr("y", boxCenter - boxRectHeight - 33)
+                .attr("text-anchor", "start")
+                .attr("font-family", "Mulish")
+                .attr("font-size", "18px")
+                .attr("font-weight", "700")
+                .attr("font-style", "normal")
+                .attr("line-height", "24px")
+                .attr("fill", "var(--Blue, #006A96)")
+                .text(d.genus);
+            
+            const mean = (min + max + q1 + median + q3) / 5;
+
+            boxGroup.append("circle")
+                .attr("cx", x(mean))
+                .attr("cy", boxCenter)
+                .attr("r", 6)
+                .attr("fill", "black"); 
+
+            boxGroup.append("circle")
+                .attr("cx", x(min))
+                .attr("cy", boxCenter - boxRectHeight - 40)
+                .attr("r", 12)
+                .attr("fill", "#006A96");
+
+            boxGroup.append("text")
+                .attr("x", x(min))
+                .attr("y", boxCenter - boxRectHeight - 35)
+                .attr("text-anchor", "middle")
+                .attr("font-family", "Mulish")
+                .attr("font-size", "14px")
+                .attr("font-weight", "700")
+                .attr("fill", "white")
+                .text(i + 1);
+
+            boxGroup.append("line")
+                .attr("x1", x(d.relativeAbundance))
+                .attr("x2", x(d.relativeAbundance))
+                .attr("y1", boxCenter - 35)
+                .attr("y2", boxCenter + 35)
+                .attr("stroke", "orange")
+                .attr("stroke-dasharray", "10,4")
+                .attr("stroke-width", 3);
+
+            boxGroup.append("text")
+                .attr("x", x(d.relativeAbundance))
+                .attr("y", boxCenter - boxRectHeight / 2 - 35)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "orange")
+                .text("Yours");
+
+            boxGroup.append("text")
+                .attr("x", x(d.relativeAbundance))
+                .attr("y", boxCenter - boxRectHeight / 2 - 20)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "orange")
+                .text(`${d.relativeAbundance}%`);
+
+            const statsLabels = [
+                { label: "Median", value: median },
+                { label: "Mean", value: (min + max) / 2 },
+                { label: "Upper Quartile", value: q3 },
+                { label: "Lower Quartile", value: q1 },
+                { label: "Max", value: max },
+                { label: "Min", value: min }
+                ];
+
+                const textYOffset = boxCenter + boxRectHeight + 100;
+
+                statsLabels.forEach((stat, j) => {
+                    const textXOffset = panelWidth - (j % 3) * (panelWidth / 3) - 90;
+
+                    boxGroup.append("text")
+                        .attr("x", textXOffset)
+                        .attr("y", textYOffset + (j < 3 ? 0 : boxRectHeight/ 2))
+                        .attr("text-anchor", textAnchor)
+                        .attr("font-size", "14px")
+                        .attr("fill", "#747678")
+                        .style("text-align", "left")
+                        .style("font-weight", "400")
+                        .text(stat.label);
+
+                    boxGroup.append("text")
+                        .attr("x", textXOffset + 5)
+                        .attr("y", textYOffset + (j < 3 ? 0 : boxRectHeight / 2))
+                        .attr("text-anchor", "start")
+                        .attr("font-size", "12px")
+                        .attr("fill", "#747678")
+                        .style("text-align", "left")
+                        .style("font-weight", "700")
+                        .text(stat.value.toFixed(2));
+                });
+        });
+    }
+
+    function createBoxplotInfoModal() {
+        const helpLink = d3.select("#boxplot-help");
+
+        helpLink.on("click", function () {
+            if (d3.select("#boxplot-modal").empty()) {
+                const modal = d3.select("body").append("div")
+                    .attr("id", "boxplot-modal")
+                    .attr("class", "boxplot-modal");
+
+                modal.append("div")
+                    .attr("class", "boxplot-overlay")
+                    .on("click", closeModal);
+
+                const modalContent = modal.append("div")
+                    .attr("class", "boxplot-content");
+
+                modalContent.append("span")
+                    .attr("class", "close-button")
+                    .html("&times;")
+                    .on("click", closeModal);
+
+                modalContent.append("h4")
+                    .style("text-align", "left")
+                    .style("color", "#222")
+                    .text("How to read a boxplot (horizontal)");
+
+                modalContent.append("svg")
+                    .attr("id", "tooltip-boxplot")
+                    .attr("width", 605)
+                    .attr("height", 223);
+
+                
+                const infoContainer = modalContent.append("div")
+                    .attr("class", "info-paragraph-container")
+                    .style("display", "flex")
+                    .style("align-items", "left")
+                    .style("gap", "8px")
+                    .style("margin-bottom", "15px");
+
+                infoContainer.append("div")
+                    .attr("class", "info-circle")
+                    .style("width", "20px")
+                    .style("height", "20px")
+                    .style("background-color", "#006A96")
+                    .style("border-radius", "50%")
+                    .style("display", "flex")
+                    .style("justify-content", "center")
+                    .style("align-items", "center")
+                    .style("font-size", "14px")
+                    .style("color", "white")
+                    .style("font-weight", "bold")
+                    .text("i");
+
+                infoContainer.append("p")
+                    .style("margin", "0")
+                    .style("font-size", "12px")
+                    .style("color", "#006A96")
+                    .style("line-height", "1.5")
+                    .style("align-items", "center")
+                    .style("text-align", "left") 
+                    .text("To clearly show the abundance of microbes in your sample, the scale on the data plots may vary across figures to focus on the relevant range for each comparison.");
+
+                modalContent.append("p")
+                    .style("text-align", "left") 
+                    .text("Example: Microbe A is a dominant microbe, exceeding 50% of the abundance in most samples. Microbe B is typically much less abundant at less than 10%. In the case of microbe B, the plot will be much more readable if the scale only shows up to 15% rather than 100%. ");
+
+                drawExampleBoxplot();
+            }
+        });
+
+        function drawExampleBoxplot() {
+            const svg = d3.select("#tooltip-boxplot");
+            const width = 605;
+            const height = 223;
+
+            const minOutlier = 5;
+            const min = 10;
+            const q1 = 25;
+            const median = 50;
+            const mean = 55;
+            const q3 = 75;
+            const max = 90;
+            const maxOutlier = 95;
+
+            const x = d3.scaleLinear().domain([0, 100]).range([50, width - 50]);
+            const centerY = 130; 
+
+            svg.append("line")
+                .attr("x1", x(min))
+                .attr("x2", x(max))
+                .attr("y1", centerY)
+                .attr("y2", centerY)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 2);
+
+            svg.append("rect")
+                .attr("x", x(q1))
+                .attr("y", centerY - 20)
+                .attr("width", x(q3) - x(q1))
+                .attr("height", 40)
+                .attr("fill", "#EDEDED")
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 2);
+
+            svg.append("line")
+                .attr("x1", x(median))
+                .attr("x2", x(median))
+                .attr("y1", centerY - 20)
+                .attr("y2", centerY + 20)
+                .attr("stroke", "#182B49")
+                .attr("stroke-width", 2);
+
+            [minOutlier, maxOutlier].forEach(outlier => {
+                svg.append("circle")
+                    .attr("cx", x(outlier))
+                    .attr("cy", centerY)
+                    .attr("r", 5)
+                    .attr("fill", "none")
+                    .attr("stroke", "#182B49")
+                    .attr("stroke-width", 2);
+            });
+
+            const xAxis = d3.axisBottom(x)
+                .ticks(1)
+                .tickSize(5);
+
+            svg.append("g")
+                .attr("transform", `translate(0, ${height - 50})`)
+                .call(xAxis)
+                .selectAll("text")
+                .style("font-size", "10px")
+                .style("fill", "#182B49");
+
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", height - 30)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "12px")
+                .attr("fill", "#182B49")
+                .text("% of microbe");
+
+            const aspects = [
+                { position: minOutlier, label: "Minimum outlier", lineHeight: 40 },
+                { position: min, label: "Minimum value", lineHeight: 90 },
+                { position: q1, label: "25% quartile", lineHeight: 65 },
+                { position: median, label: "Median", lineHeight: 70 },
+                { position: mean, label: "Mean", lineHeight: 50 },
+                { position: q3, label: "75% quartile", lineHeight: 70 },
+                { position: max, label: "Maximum value", lineHeight: 90 },
+                { position: maxOutlier, label: "Maximum outlier", lineHeight: 45 }
+            ];
+
+            aspects.forEach((aspect, index) => {
+                const lineTop = centerY - aspect.lineHeight;
+                const lineBottom = centerY;
+
+                svg.append("line")
+                    .attr("x1", x(aspect.position))
+                    .attr("x2", x(aspect.position))
+                    .attr("y1", lineTop)
+                    .attr("y2", lineBottom)
+                    .attr("stroke", "#006A96")
+                    .attr("stroke-dasharray", "4,4")
+                    .attr("stroke-width", 1);
+
+                svg.append("text")
+                    .attr("x", x(aspect.position))
+                    .attr("y", lineTop - 5)
+                    .attr("text-anchor", "middle")
+                    .attr("font-size", "16px")
+                    .attr("font-weight", "400")
+                    .attr("font-family", "Mulish")
+                    .attr("color", "#222")
+                    .text(aspect.label);
+            });
+
+            svg.append("circle")
+                .attr("cx", x(mean))
+                .attr("cy", centerY)
+                .attr("r", 3)
+                .attr("fill", "#182B49");
+        }
+        function closeModal() {
+            d3.select("#boxplot-modal").remove();
+        }
+    }
+
     function createTaxonomyTable(state)
     {
         $('#taxonomyTable').DataTable(
@@ -697,6 +1130,12 @@
                         container: 'body',
                         placement: 'auto'
                     });
+
+                    var api = this.api();
+                    var data = api.data().toArray();
+                    data.sort((a, b) => parseFloat(b.relativeAbundance) - parseFloat(a.relativeAbundance));
+                    var top5 = data.slice(0, 5);
+                    drawBoxPlots(top5);
                 }
             }
         );
@@ -1203,8 +1642,7 @@
             };
             Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});
         });
-        END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN 
-        TEST */
+        END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
     }
 
     function updateObservedAverages(state) {
@@ -1360,6 +1798,7 @@
             updateSimilarity(state);
             updateTaxonomy(taxonomyData, state);
             updateDatasetDetails(state);
+            createBoxplotInfoModal();
 
             getMicrobiomeMapsRasterizedPlots(state);
             updateObservedAverages(state);
@@ -1709,11 +2148,22 @@
                         </thead>
                       </table>
                     </div>
+                    <p style='font-style: italic;'></p>
+                        * {{ _('No evidence presented here indicates what we\'ve observed is clinically dangerous') }}
+                    </p>
+                    <div id="boxplot-container">
+                        <h4 style="color:#006A96;">Your Five Most Abundant Microbes</h4>
+                        <p>The plots below show how the proportion of your most abundant microbes compare with their proportions in other samples.</p>
+                        <div id="boxplot-info" class="info-icon-container">
+                            <a id="boxplot-help" href="javascript:void(0)">
+                                <div class="info-circle">i</div>
+                                <span class="info-text">How to read a boxplot</span>
+                            </a>
+                        </div>
+                        <div id="boxplot-svg"></div>
+                    </div>
                   </div>
               </div>
-              <p style='font-style: italic;'>
-                  * {{ _('No evidence presented here indicates what we\'ve observed is clinically dangerous') }}
-              </p>
               <!--
               <hr/>
               <div class="row">

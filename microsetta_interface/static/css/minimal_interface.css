@@ -1731,3 +1731,15 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 .info-text:hover {
     color: #004e73;
 }
+
+#boxplot-svg svg {
+    flex: 1 1 calc(50% - 10px);
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+#tooltip {
+    pointer-events: none;
+    z-index: 1000;
+}
+

@@ -218,6 +218,7 @@
     }
 
 </style>
+<script src="/static/vendor/d3/d3.v7.js"></script>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
@@ -956,7 +957,7 @@
             .then(queryNeighborAndSelfMetadata(state, ["age_cat", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
-
+    let diversityInSampleValue = null;
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
@@ -1073,6 +1074,8 @@
                 success: function (data) {
                     let display = Math.round(data["data"] * 100)/100;
                     $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
+                    diversityInSampleValue = display;
+                    createDiversityGaugeChart(diversityInSampleValue);
                 }
             }).fail(function (result, textStatus, errorThrown) {
             console.log("Couldn't retrieve alpha metric for the sample")
@@ -1302,6 +1305,246 @@
         }
     }
 
+  function createDiversityGaugeChart(diversityInSampleValue) {
+    const width = 500;
+    const height = 310;
+    const radius = Math.min(width, height) / 2;
+
+    const lowestDiversityScore = 2.40;
+    const averageDiversityScore = 5.31;
+    const highestDiversityScore = 7.25;
+
+    const svg = d3.select("#diversity-gauge-chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${(width / 2) - 35}, ${height / 2})`);
+
+    const arc = d3.arc()
+        .innerRadius(radius * 0.57)
+        .outerRadius(radius * 0.82)
+        .startAngle(Math.PI * 0.75)
+        .endAngle(Math.PI * 2.15);
+
+    svg.append("path")
+        .attr("d", arc)
+        .attr("transform", `translate(-27.5, 15) rotate(100)`)            
+        .style("fill", "#D9E9EF")
+        .style("stroke", "#D9E9EF")
+        .style("stroke-width", 2);
+
+    function drawRotatedLine(svg, x, y, angle, length, color, width) {
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", 0)
+            .attr("y2", -length)
+            .attr("stroke", color)
+            .attr("stroke-width", width)
+            .attr("transform", `translate(${x}, ${y}) rotate(${angle})`)
+            .style("stroke-linecap", "round");
+    }
+
+    drawRotatedLine(svg, -radius - 8, -radius + 265, 55, 75.213, "#D9E9EF", 2);
+    drawRotatedLine(svg, 103.5, -radius + 268, -54, 75.213, "#D9E9EF", 2);
+
+    function drawIndicatorLine(angle, ellipseXRadius, ellipseYRadius, angleOffset) {
+        const x = Math.cos(angle) * ellipseXRadius;
+        const y = Math.sin(angle) * ellipseYRadius;
+
+        const tangentAngle = Math.atan2(
+            ellipseYRadius * Math.cos(angle),
+            -ellipseXRadius * Math.sin(angle)
+        );
+
+        const rotationAngle = (tangentAngle * 180) / Math.PI + angleOffset;
+
+        drawRotatedLine(svg, x, y, rotationAngle, 83.863, "#FC8900", 3);
+    }
+
+    const scale = d3.scaleLinear()
+        .domain([lowestDiversityScore, highestDiversityScore])
+        .range([Math.PI * 0.75, Math.PI * 2.41]);
+
+    if (diversityInSampleValue == lowestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.90, radius * 0.59, 22);
+    }
+
+    if (diversityInSampleValue == highestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.97, radius * 0.46, -46);
+    }
+
+    if (diversityInSampleValue > lowestDiversityScore && diversityInSampleValue <= 2.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.75, radius * 0.45, 13);
+    }
+
+    if (diversityInSampleValue >= 3.0 && diversityInSampleValue <= 3.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.65, radius * 0.30, 3);
+    }
+
+    if (diversityInSampleValue >= 4.0 && diversityInSampleValue <= 4.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.30, radius * 0.35, 8);
+    }
+
+    if (diversityInSampleValue >= 5.0 && diversityInSampleValue <= 5.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.10, radius * 0.35, -30);
+    }
+
+    if (diversityInSampleValue >= 6.0 && diversityInSampleValue <= 6.49) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.25, radius * 0.55, 5);
+    }
+
+    if (diversityInSampleValue >= 6.5 && diversityInSampleValue <= 6.99) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.25, radius * 0.45, 5);
+    }
+
+    if (diversityInSampleValue >= 7.0 && diversityInSampleValue < highestDiversityScore) {
+        const angle = scale(diversityInSampleValue);
+        drawIndicatorLine(angle, radius * 0.45, radius * 0.25, -35);
+    }
+
+    drawRotatedLine(svg, 20, -radius + 106.5, 43.5, 56.921, "#006A96", 2);
+    drawRotatedLine(svg, 110, -radius + 194, -77, 56.921, "#006A96", 2);
+
+    svg.append("text")
+        .attr("x", -radius - 50)
+        .attr("y", 145)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Lowest in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", -radius - 50)
+        .attr("y", 127.5)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text(lowestDiversityScore);
+
+    svg.append("text")
+        .attr("x", -radius + 67.5)
+        .attr("y", 100)
+        .style("fill", "#006A96")
+        .style("text-align", "center")
+        .style("font-size", "16px")
+        .style("font-style", "normal")
+        .style("font-weight", "700")
+        .style("line-height", "26px")
+        .text("{{ _('Diversity Value') }}");
+
+    svg.append("text")
+        .attr("x", radius - 42.5)
+        .attr("y", 145)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Highest in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", radius - 42.5)
+        .attr("y", 127.5)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text(highestDiversityScore);
+
+    svg.append("text")
+        .attr("x", 172.5)
+        .attr("y", -radius + 38)
+        .style("fill", "#747678")
+        .style("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('Average in our dataset') }}");
+
+    svg.append("text")
+        .attr("x", 55)
+        .attr("y", -radius + 40)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text(averageDiversityScore);
+
+    const hadzaAverageValue = document.getElementById('average-hadza-observed-average').innerText;
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 185)
+        .style("fill", "#006A96")
+        .style("font-size", "18px")
+        .style("font-weight", "700")
+        .style("line-height", "24px")
+        .text(hadzaAverageValue);
+
+    svg.append("a")
+        .attr("xlink:href", "https://www.nature.com/articles/d41586-023-02065-y")
+        .attr("target", "_blank")
+        .append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 215)
+        .style("fill", "#0000EE")
+        .style("font-family", "Mulish")
+        .style("font-size", "14px")
+        .style("font-weight", "400")
+        .style("line-height", "normal")
+        .text("{{ _('Hadza people of Tanzania') }}");
+
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 230)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('(population with a') }}");
+
+    svg.append("text")
+        .attr("x", 110)
+        .attr("y", -radius + 245)
+        .style("fill", "#747678")
+        .style("font-size", "14px")
+        .style("line-height", "24px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "400")
+        .style("font-style", "normal")
+        .text("{{ _('hunter-gatherer lifestyle)') }}");
+
+    svg.append("text")
+        .attr("x", -radius + 125)
+        .attr("y", 35)
+        .style("fill", "#FC8900")
+        .style("font-size", "72px")
+        .style("font-family", "Mulish")
+        .style("font-weight", "700")
+        .style("line-height", "normal")
+        .style("text-anchor", "middle")
+        .text(diversityInSampleValue);
+}
+
+
     function init(){
         enableTooltips();
 
@@ -1409,7 +1652,7 @@
                 <span class="nav-button-text">
                     {{ _('Diversity') }}
                 </span>
-                <img src="/static/img/nav_down_report.svg" height="20" width="20" style="margin-top: 10px;" />
+                <img src="/static/img/nav_down_report.svg" height="20" width="20" />
             </button>
 
             <div class="collapse navbar-collapse" id="reportNavContent">
@@ -1504,11 +1747,8 @@
                   <p>
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
-                  <div class="card your_sample_diversity_inset">
-                      <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>
-                      <div class="card-body">
-                          <span id="diversity_in_sample" class="info-loader">...</span></h5>
-                      </div>
+                  <div class="diversity-gauge-container">
+                        <div id="diversity-gauge-chart"></div>
                   </div>
                     <br />
                   <p>

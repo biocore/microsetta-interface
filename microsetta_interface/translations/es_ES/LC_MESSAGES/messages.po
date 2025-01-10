@@ -191,7 +191,7 @@ msgstr "Piel"
 
 #: model_i18n.py:111
 msgid "Skin Health Diagnosis"
-msgstr "diagnóstico de salud de la piel"
+msgstr "Diagnóstico de salud de la piel"
 
 #: model_i18n.py:115
 msgid ""

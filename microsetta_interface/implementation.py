@@ -121,6 +121,8 @@ MIGRAINE_ID = 19
 SURFERS_ID = 20
 COVID19_ID = 21
 OTHER_ID = 22
+SKIN_ID = 23
+SKIN_HEALTH_DIAGNOSIS_ID = 24
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
@@ -349,6 +351,16 @@ SURVEY_INFO = {
         'est_minutes': '2',
         'icon': 'survey_other.svg'
     },
+    SKIN_ID: {
+        'description': '',
+        'est_minutes': '10',
+        'icon': 'survey_skin.svg'
+    },
+    SKIN_HEALTH_DIAGNOSIS_ID: {
+        'description': '',
+        'est_minutes': '20',
+        'icon': 'survey_skin_health_diagnosis.svg'
+    },
     VIOSCREEN_ID: {
         'description': 'Our standard food frequency questionnaire',
         'est_minutes': '30',
@@ -409,6 +421,8 @@ LOCAL_SURVEY_SEQUENCE = [
     ALLERGIES_ID,
     DIET_ID,
     DETAILED_DIET_ID,
+    SKIN_ID,
+    SKIN_HEALTH_DIAGNOSIS_ID,
     OTHER_ID
 ]
 

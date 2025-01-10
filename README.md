@@ -40,4 +40,4 @@ To execute the integration suite:
 * construct new public/private keys and make them available with `source keys_for_testing.sh`
 * run the integration suite with `python microsetta_interface/tests/test_integration.py`.
 
-If communication with the private API is working, and if public/private keys are accessible, the tests will run. Otherwise, the test suite will skip all tests.
+If communication with the private API is working, and if public/private keys are accessible, the tests will run.  Otherwise, the test suite will skip all tests.

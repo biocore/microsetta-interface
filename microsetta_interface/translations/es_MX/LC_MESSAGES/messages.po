@@ -187,12 +187,11 @@ msgstr "España FFQ"
 
 #: model_i18n.py:110
 msgid "Skin"
-msgstr ""
+msgstr "Piel"
 
 #: model_i18n.py:111
-#, fuzzy
 msgid "Skin Health Diagnosis"
-msgstr "Diagnóstico de Salud"
+msgstr "diagnóstico de salud de la piel"
 
 #: model_i18n.py:115
 msgid ""
@@ -2652,7 +2651,7 @@ msgstr "Similitud"
 #: templates/new_results_page.jinja2:1424
 #: templates/new_results_page.jinja2:1469
 msgid "Composition"
-msgstr ""
+msgstr "Composición"
 
 #: templates/new_results_page.jinja2:1427
 #: templates/new_results_page.jinja2:1475
@@ -2661,9 +2660,8 @@ msgid "Microbiome Map"
 msgstr "Mapa del Microbioma"
 
 #: templates/new_results_page.jinja2:1430
-#, fuzzy
 msgid "Learn More"
-msgstr "¿Cómo puedo aprender más?"
+msgstr "Aprende más"
 
 #: templates/new_results_page.jinja2:1439
 msgid "How do you compare?"
@@ -4355,4 +4353,3 @@ msgstr "Sí, actualizar y continuar"
 #~ "probable que haya muchas especies de "
 #~ "microbios en su muestra que están "
 #~ "agrupados en el mismo género."
-

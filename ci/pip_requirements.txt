@@ -7,5 +7,4 @@ pytest-cov
 coveralls
 pycountry
 python-dateutil
-redis==4.6.0
-redis-server==6.0.9
+redis

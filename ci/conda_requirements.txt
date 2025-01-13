@@ -2,6 +2,5 @@ flake8
 flask < 3.0.0
 natsort
 pycryptodome
-redis-py
 flask-babel==2.0.0
 pandas

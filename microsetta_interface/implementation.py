@@ -2363,10 +2363,11 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
 
     if is_human:
         # Human Settings
-        sample_sites = ["Blood (skin prick)", "Saliva", "Stool", "Mouth",
-                        "Nares", "Nasal mucus", "Right hand", "Left hand",
-                        "Forehead", "Torso", "Right leg", "Left leg",
-                        "Vaginal mucus", "Tears", "Ear wax", "Hair", "Fur"]
+        sample_sites = ["Blood (skin prick)", "Saliva", "Stool", "Cheek",
+                        "Mouth", "Nares", "Nasal mucus", "Right hand",
+                        "Left hand", "Forehead", "Torso", "Right leg",
+                        "Left leg", "Vaginal mucus", "Tears", "Ear wax",
+                        "Hair", "Fur"]
         # babel scraping doesn't understand anything but constant strings.
         # do not collapse this into a for loop unless you can verify
         # that the POT file is correctly updated.
@@ -2374,6 +2375,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
             gettext("Blood (skin prick)"),
             gettext("Saliva"),
             gettext("Stool"),
+            gettext("Cheek"),
             gettext("Mouth"),
             gettext("Nares"),
             gettext("Nasal mucus"),
@@ -2458,6 +2460,21 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
     model = {}
     for x in flask.request.form:
         model[x] = flask.request.form[x]
+
+    barcode_meta = {}
+    if model['sample_site'] == "Cheek":
+        barcode_meta['sample_site_last_washed_date'] =\
+            model.pop('sample_site_last_washed_date_normalized')
+        barcode_meta['sample_site_last_washed_time'] =\
+            model.pop('sample_site_last_washed_time')
+        barcode_meta['sample_site_last_washed_product'] = \
+            model.pop('sample_site_last_washed_product')
+    else:
+        _ = model.pop('sample_site_last_washed_date_normalized')
+        _ = model.pop('sample_site_last_washed_time')
+        _ = model.pop('sample_site_last_washed_product')
+    _ = model.pop('sample_site_last_washed_date')
+    model['barcode_meta'] = barcode_meta
 
     date = model.pop('sample_date_normalized')
     time = model.pop('sample_time')

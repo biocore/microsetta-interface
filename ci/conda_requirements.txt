@@ -4,3 +4,5 @@ natsort
 pycryptodome
 flask-babel==2.0.0
 pandas
+redis
+redis-py < 5.0.0

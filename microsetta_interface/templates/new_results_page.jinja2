@@ -233,35 +233,355 @@
 <script src="/static/vendor/emperor/vendor/js/require-2.1.22.min.js"></script>
 <script src="/static/vendor/emperor/emperor_loader.js"></script>
 
+<style>
+  .diversity-gauge-container {
+      margin: 1rem;
+  }
+
+  .gauge-arc {
+    fill: #D9E9EF;
+    stroke: #D9E9EF;
+    stroke-width: 2;
+  }
+
+  .gauge-score-num {
+    fill: #006A96;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px
+  }
+
+  .gauge-score-text {
+    fill: #747678;
+    font-size: 14px;
+    line-height: 24px;
+    font-family: 'Mulish';
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .gauge-score-text-link {
+    fill: #0000EE;
+    font-family: 'Mulish';
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  a .gauge-score-text-link:hover {
+    fill: #0000EE;
+    text-decoration: underline;
+  }
+
+  .gauge-score-average {
+    fill: #FC8900;
+    font-size: 72px;
+    font-family: Mulish;
+    font-weight: 700;
+    line-height: normal;
+    text-anchor: middle;
+  }
+
+  .gauge-score-title {
+    fill: #006A96;
+    font-size: 16px;
+    line-height: 26px;
+    font-family: 'Mulish';
+    font-weight: 700;
+    font-style: normal;
+  }
+
+</style>
+
 <script>
 
-  'use strict';
+'use strict';
 
-    var dynamic_text_dictionary = {
-      '11 to 20': "{{ _('11 to 20') }}",
-      '21 to 30': "{{ _('21 to 30') }}",
-      '5-6 hours': "{{ _('5-6 hours') }}",
-      '6 to 10': "{{ _('6 to 10') }}",
-      '6-7 hours': "{{ _('6-7 hours') }}",
-      '7-8 hours': "{{ _('7-8 hours') }}",
-      '8 or more hours': "{{ _('8 or more hours') }}",
-      'Daily': "{{ _('Daily') }}",
-      'Less than 5': "{{ _('Less than 5') }}",
-      'Less than 5 hours': "{{ _('Less than 5 hours') }}",
-      'More than 30': "{{ _('More than 30') }}",
-      'Never': "{{ _('Never') }}",
-      'Not provided': "{{ _('Not provided') }}",
-      'Occasionally (1-2 times/week)': "{{ _('Occasionally (1-2 times/week)') }}",
-      'Rarely (a few times/month)': "{{ _('Rarely (a few times/month)') }}",
-      'Rarely (less than once/week)': "{{ _('Rarely (less than once/week)') }}",
-      'Regularly (3-5 times/week)': "{{ _('Regularly (3-5 times/week)') }}",
-      'not applicable': "{{ _('Not provided') }}",
-      'not collected': "{{ _('Not provided') }}",
-      'not provided': "{{ _('Not provided') }}",
-    };
+function createDiversityGaugeChart(diversityInSampleValue) {
 
-    function placeURLSourcedImageFromDetail(state, url, detail) {
-      /* this creates the following html structure off of #pcoa-div
+    // In D3.js, angles are in radians which start at the
+    // negative y axis and rotate clockwise when increasing radians
+    // The negative y axis points up in D3
+
+    const width = 650;
+    const height = 400;
+    let radius = Math.min(width, height) / 2;
+
+    radius = radius - 50;
+
+    const lowestDiversityScore = 2.4;
+    const averageDiversityScore = 5.31;
+    const highestDiversityScore = 7.25;
+
+    // For the case of SVG having (0, 0) in the top left corner
+    // translate it to center the final diagram
+
+    const shiftImageX = -50;
+    const shiftImageY = 20;
+
+    const svg = d3
+        .select('#diversity-gauge-chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr(
+            'transform',
+            `translate(${width / 2 + shiftImageX}, ${height / 2 + shiftImageY})`
+        );
+
+    const arcInnerRadius = radius * 0.57
+    const arcOuterRadius = radius * 0.82
+
+    function drawRadialLine(svg, startRadius, endRadius, angleDeg, color, width) {
+
+      const x1 = 0;
+      const y1 = startRadius;
+
+      const x2 = 0;
+      const y2 = endRadius;
+
+      const rotatedLine = svg.append('line')
+          .attr('x1', x1)
+          .attr('y1', y1)
+          .attr('x2', x2)
+          .attr('y2', y2)
+          .attr('stroke', color)
+          .attr('stroke-width', width)
+          .style('stroke-linecap', 'round')
+          .attr("transform", 'rotate(' + angleDeg + ')')
+
+    }
+
+    const angleScale = d3.scaleLinear()
+      .domain([0, 10])
+      .range([0, 360]);
+
+    // to look like the sample graphic, use this scale
+    {# const angleScale = d3.scaleLinear()
+      .domain([lowestDiversityScore, highestDiversityScore])
+      .range([40, 360-40]); #}
+
+
+    function drawArc(arcStartAngleDeg, arcEndAngleDeg) {
+
+      function degreesToD3Radians(angleDeg) {
+        // where 0 degrees starts at 12 o'clock (neg D3 y-axis
+        // which points up).
+        // An increasing angle goes clockwise where
+        // 90 degrees is at 3 o'clock and 180 degrees is 6 o'clock
+
+        // This conversion is to map a 0 diversity value on a circle to
+        // be at the bottom of the circle (positive y) and then increasing
+        // the value goes clockwise
+
+        // angleDeg starts at the bottom (6 o'clock)
+
+        // Convert to angleRad on the D3 axis
+        const angleRad =  (angleDeg - 180) * (Math.PI/180);
+
+        return angleRad;
+      }
+
+      const arcStartAngleRad = degreesToD3Radians(arcStartAngleDeg)
+
+      const arcEndAngleRad = degreesToD3Radians(arcEndAngleDeg)
+
+      const arc = d3
+          .arc()
+          .innerRadius(arcInnerRadius)
+          .outerRadius(arcOuterRadius)
+          .startAngle(arcStartAngleRad)
+          .endAngle(arcEndAngleRad);
+
+      svg.append('path')
+        .attr('d', arc)
+        .attr("class", "gauge-arc")
+
+      const arcColor = '#D9E9EF';
+
+      drawRadialLine(svg, arcInnerRadius, arcOuterRadius + 30, arcStartAngleDeg, arcColor, 2)
+
+      drawRadialLine(svg, arcInnerRadius, arcOuterRadius + 30, arcEndAngleDeg, arcColor, 2)
+
+    }
+
+    let arcMinAngle = angleScale(lowestDiversityScore)
+    let arcMaxAngle = angleScale(highestDiversityScore)
+
+    //drawArc(arcMinAngle, arcMaxAngle)
+
+    // Or draw at 40 and 360 - 40
+    drawArc(40, 360 - 40);
+
+    function drawScore(score, textValues, textAnchor, textShiftX, lineColor) {
+
+      let diversityAngle = angleScale(score)
+
+      const diversityAngleRad = (diversityAngle * Math.PI) / 180;
+
+      let lineRadius =  arcOuterRadius + 25;
+
+      let scoreNumRadius = lineRadius + 10;
+
+      drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, lineColor, 2)
+
+      let scoreTextRadius = scoreNumRadius + 10;
+      let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
+      let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
+
+      svg.append('text')
+        .attr('x', xScore)
+        .attr('y', yScore)
+        .attr("text-anchor", textAnchor)
+        .attr("class", "gauge-score-num")
+        .text(score);
+
+
+      let yShift = 20;
+
+      for (const textValue of textValues) {
+
+        svg.append('text')
+          .attr('x', xScore + textShiftX)
+          .attr('y', yScore + yShift)
+          {# .attr('dx', xShift)
+          .attr('dy', yShift) #}
+          .attr("text-anchor", 'start')
+          .attr('class', 'gauge-score-text')
+          .text(textValue)
+
+        yShift = yShift + 18;
+      }
+
+    }
+
+    let textValues = ["{{ _('Lowest in') }}", "{{ _('our dataset') }}"];
+    let textAnchor = 'end'
+    let textShiftX = -30;
+    let lineColor = '#006A96';
+    drawScore(lowestDiversityScore, textValues, textAnchor, textShiftX, lineColor);
+
+    textValues = ["{{ _('Highest in') }}", "{{ _('our dataset') }}"];
+    textAnchor = 'start';
+    textShiftX = 0;
+    lineColor = '#006A96'
+    drawScore(highestDiversityScore, textValues, textAnchor, textShiftX, lineColor);
+
+    textValues = ["{{ _('Average in our dataset') }}"];
+    textAnchor = 'start'
+    textShiftX = 5;
+    lineColor = '#FC8900';
+    drawScore(averageDiversityScore, textValues, textAnchor, textShiftX, lineColor);
+
+    function drawHadzaPeople(score, textValues, textAnchor, textShiftX) {
+
+      let diversityAngle = angleScale(score)
+
+      const diversityAngleRad = (diversityAngle * Math.PI) / 180;
+
+      let lineRadius =  arcOuterRadius + 25;
+
+      let scoreNumRadius = lineRadius + 10;
+
+      drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, 'blue', 2)
+
+      let scoreTextRadius = scoreNumRadius + 10;
+      let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
+      let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
+
+      svg.append('text')
+        .attr('x', xScore)
+        .attr('y', yScore)
+        .attr("text-anchor", textAnchor)
+        .attr("class", "gauge-score-num")
+        .text(score);
+
+      let yShift = 20;
+
+      svg.append('a')
+          .attr(
+              'xlink:href',
+              'https://www.nature.com/articles/d41586-023-02065-y'
+          )
+          .attr('target', '_blank')
+          .append('text')
+          .attr('x', xScore + textShiftX)
+          .attr('y', yScore + yShift)
+          .attr("text-anchor", 'start')
+          .attr('class', 'gauge-score-text-link')
+          .text(textValues[0]);
+
+      yScore = yScore + yShift
+
+      textValues.shift()
+
+      yShift = 18;
+
+      for (const textValue of textValues) {
+
+        svg.append('text')
+          .attr('x', xScore + textShiftX)
+          .attr('y', yScore + yShift)
+          .attr("text-anchor", 'start')
+          .attr('class', 'gauge-score-text')
+          .text(textValue)
+
+        yShift = yShift + 18;
+      }
+
+    }
+
+    textValues = ["{{ _('Hadza people of Tanzania') }}",
+                  "{{ _('(population with a') }}",
+                  "{{ _('hunter-gatherer lifestyle)') }}"];
+
+    const hadzaAverageScore = 6.30;
+    textAnchor = 'start'
+    textShiftX = 5;
+
+    drawHadzaPeople(hadzaAverageScore, textValues, textAnchor, textShiftX)
+
+    svg.append('text')
+        .attr('x', 0)
+        .attr('y', 20)
+        .attr('class', 'gauge-score-average')
+        .text(diversityInSampleValue);
+
+    svg.append('text')
+        .attr('x', 0)
+        .attr('y', arcInnerRadius + 15)
+        .attr("class", "gauge-score-title")
+        .style('text-anchor', 'middle')
+        .text("{{ _('Diversity Value') }}");
+
+}
+
+var dynamic_text_dictionary = {
+    '11 to 20': "{{ _('11 to 20') }}",
+    '21 to 30': "{{ _('21 to 30') }}",
+    '5-6 hours': "{{ _('5-6 hours') }}",
+    '6 to 10': "{{ _('6 to 10') }}",
+    '6-7 hours': "{{ _('6-7 hours') }}",
+    '7-8 hours': "{{ _('7-8 hours') }}",
+    '8 or more hours': "{{ _('8 or more hours') }}",
+    'Daily': "{{ _('Daily') }}",
+    'Less than 5': "{{ _('Less than 5') }}",
+    'Less than 5 hours': "{{ _('Less than 5 hours') }}",
+    'More than 30': "{{ _('More than 30') }}",
+    'Never': "{{ _('Never') }}",
+    'Not provided': "{{ _('Not provided') }}",
+    'Occasionally (1-2 times/week)': "{{ _('Occasionally (1-2 times/week)') }}",
+    'Rarely (a few times/month)': "{{ _('Rarely (a few times/month)') }}",
+    'Rarely (less than once/week)': "{{ _('Rarely (less than once/week)') }}",
+    'Regularly (3-5 times/week)': "{{ _('Regularly (3-5 times/week)') }}",
+    'not applicable': "{{ _('Not provided') }}",
+    'not collected': "{{ _('Not provided') }}",
+    'not provided': "{{ _('Not provided') }}",
+};
+
+function placeURLSourcedImageFromDetail(state, url, detail) {
+    /* this creates the following html structure off of #pcoa-div
 
     <div id="accordion-div-id">
       <button class="accordion-microbiome-map">
@@ -281,62 +601,62 @@
       </div>
     </div>
     */
-      var pcoa_div = document.getElementById('pcoa-div');
+    var pcoa_div = document.getElementById('pcoa-div');
 
-      var img = document.createElement('img');
-      img.id = detail['img_id'];
-      img.classList.add('img-fluid');
-      img.setAttribute('alt', 'img');
+    var img = document.createElement('img');
+    img.id = detail['img_id'];
+    img.classList.add('img-fluid');
+    img.setAttribute('alt', 'img');
 
-      var img_div = document.createElement('div');
-      img_div.id = detail['img_div_id'];
-      img_div.appendChild(img);
+    var img_div = document.createElement('div');
+    img_div.id = detail['img_div_id'];
+    img_div.appendChild(img);
 
-      var content_div = document.createElement('div');
-      content_div.classList.add('accordion-panel-microbiome-map');
-      content_div.style = '';
+    var content_div = document.createElement('div');
+    content_div.classList.add('accordion-panel-microbiome-map');
+    content_div.style = '';
 
-      var content_div_row = document.createElement('div');
-      content_div_row.classList.add('row');
+    var content_div_row = document.createElement('div');
+    content_div_row.classList.add('row');
 
-      var content_div_img = document.createElement('div');
-      content_div_img.classList.add('col-5');
+    var content_div_img = document.createElement('div');
+    content_div_img.classList.add('col-5');
 
-      var content_div_desc = document.createElement('div');
-      content_div_desc.classList.add('col');
-      content_div_desc.classList.add('microinfo');
-      content_div_desc.innerHTML = detail['description'];
+    var content_div_desc = document.createElement('div');
+    content_div_desc.classList.add('col');
+    content_div_desc.classList.add('microinfo');
+    content_div_desc.innerHTML = detail['description'];
 
-      content_div_img.appendChild(img_div);
-      content_div_row.appendChild(content_div_img);
-      content_div_row.appendChild(content_div_desc);
-      content_div.appendChild(content_div_row);
+    content_div_img.appendChild(img_div);
+    content_div_row.appendChild(content_div_img);
+    content_div_row.appendChild(content_div_desc);
+    content_div.appendChild(content_div_row);
 
-      var button_text = document.createElement('h4');
-      button_text.classList.add('diversity-header');
-      button_text.innerText = detail['button_text'];
+    var button_text = document.createElement('h4');
+    button_text.classList.add('diversity-header');
+    button_text.innerText = detail['button_text'];
 
-      var button = document.createElement('button');
-      button.classList.add('accordion-microbiome-map');
-      button.style = '';
-      button.type = 'button';
-      button.appendChild(button_text);
+    var button = document.createElement('button');
+    button.classList.add('accordion-microbiome-map');
+    button.style = '';
+    button.type = 'button';
+    button.appendChild(button_text);
 
-      var accordion = document.createElement('div');
-      accordion.classList.add('microbiome-map-multipop-lifestage-accordian');
-      accordion.appendChild(button);
-      accordion.appendChild(content_div);
-      pcoa_div.appendChild(accordion);
+    var accordion = document.createElement('div');
+    accordion.classList.add('microbiome-map-multipop-lifestage-accordian');
+    accordion.appendChild(button);
+    accordion.appendChild(content_div);
+    pcoa_div.appendChild(accordion);
 
-      placeURLSourcedImage(state, url, detail['img_id']);
-    }
+    placeURLSourcedImage(state, url, detail['img_id']);
+}
 
-    function placeURLSourcedImage(state, url, divSelector) {
-      $('#' + divSelector).attr('src', url);
-    }
+function placeURLSourcedImage(state, url, divSelector) {
+    $('#' + divSelector).attr('src', url);
+}
 
-    var pcoa_structure = {
-      'tmi_16S_gut_all_samples': {
+var pcoa_structure = {
+    'tmi_16S_gut_all_samples': {
         'dataset': 'tmi-16S-allsamples',
         'category': 'microbial_map',
         'accordion_div_id': 'microbiome-map-all-tmi-accordion',
@@ -344,9 +664,9 @@
         'img_div_id': 'pcoa-tmi-all-samples',
         'img_id': 'pcoa-tmi-all-samples-img',
         'description':
-          "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be VERY different.') }}</p>",
-      },
-      'tmi_16S_gut_multipop': {
+            "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be VERY different.') }}</p>",
+    },
+    'tmi_16S_gut_multipop': {
         'dataset': 'multipop-16S-gut',
         'category': 'microbial_map_region',
         'accordion_div_id': 'microbiome-map-multipop-region-accordion',
@@ -354,9 +674,9 @@
         'img_div_id': 'pcoa-multipopulation-region',
         'img_id': 'pcoa-multipopulation-region-img',
         'description':
-          "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.<br /><br />Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>",
-      },
-      'tmi_16S_gut_lifestage': {
+            "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.<br /><br />Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>",
+    },
+    'tmi_16S_gut_lifestage': {
         'dataset': 'lifestage-16S-gut',
         'category': 'microbial_map_lifestage',
         'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
@@ -364,9 +684,9 @@
         'img_div_id': 'pcoa-multipopulation-lifestage',
         'img_id': 'pcoa-multipopulation-lifestage-img',
         'description':
-          "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>",
-      },
-      'tmi_16S_gut_builtenv': {
+            "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>",
+    },
+    'tmi_16S_gut_builtenv': {
         'dataset': 'builtenv-16S-allsamples',
         'category': 'microbial_map',
         'accordion_div_id': 'microbiome-map-builtenv-accordian',
@@ -374,9 +694,9 @@
         'img_div_id': 'pcoa-builtenv',
         'img_id': 'pcoa-builtenv-img',
         'description':
-          "<p>{{ _('Microbes don\'t just live inside and on your body; they are everywhere! Using the same techniques described in the previous maps, we compared your microbiome to samples collected from all over the surfaces of brand-new hospital offices.<br /><br />As you can see, skin samples tend to more closely resemble those from \'the office surfaces,\' which makes sense as skin cells are constantly shedding from you. In an indoor environment, dust is typically composed of up to 50%% dead skin cells.') }}</p>",
-      },
-      'tmi_WGS_gut_multipop': {
+            "<p>{{ _('Microbes don\'t just live inside and on your body; they are everywhere! Using the same techniques described in the previous maps, we compared your microbiome to samples collected from all over the surfaces of brand-new hospital offices.<br /><br />As you can see, skin samples tend to more closely resemble those from \'the office surfaces,\' which makes sense as skin cells are constantly shedding from you. In an indoor environment, dust is typically composed of up to 50%% dead skin cells.') }}</p>",
+    },
+    'tmi_WGS_gut_multipop': {
         'dataset': 'multipop-WGS-gut',
         'category': 'microbial_map_region',
         'accordion_div_id': 'microbiome-map-multipop-accordian',
@@ -384,9 +704,9 @@
         'img_div_id': 'pcoa-multipopulation-region',
         'img_id': 'pcoa-multipopulation-region-img',
         'description':
-          "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.<br /><br />Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>",
-      },
-      'tmi_WGS_gut_lifestage': {
+            "<p>{{ _('Researchers have noted large differences in our microbiomes depending on where we live. The reason why is not fully understood, but they suspect factors such as diet or environmental exposures (e.g. plants, pets, what\'s in your house, pollution, how often you come in contact with soil, etc) may be major factors.<br /><br />Researchers do not yet know how much these differences between locations matter, but it is a topic that is under active investigation.') }}</p>",
+    },
+    'tmi_WGS_gut_lifestage': {
         'dataset': 'lifestage-WGS-gut',
         'category': 'microbial_map_lifestage',
         'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
@@ -394,995 +714,995 @@
         'img_div_id': 'pcoa-multipopulation-lifestage',
         'img_id': 'pcoa-multipopulation-lifestage-img',
         'description':
-          "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>",
-      },
-    };
+            "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>",
+    },
+};
 
-    function getMicrobiomeMapsRasterizedPlots(state) {
-      if (state.dataset_type.value === 'WGS') {
+function getMicrobiomeMapsRasterizedPlots(state) {
+    if (state.dataset_type.value === 'WGS') {
         var pcoa_plots = ['tmi_WGS_gut_multipop', 'tmi_WGS_gut_lifestage'];
-      } else {
+    } else {
         var pcoa_plots = [
-          'tmi_16S_gut_all_samples',
-          'tmi_16S_gut_multipop',
-          'tmi_16S_gut_lifestage',
-          'tmi_16S_gut_builtenv',
+            'tmi_16S_gut_all_samples',
+            'tmi_16S_gut_multipop',
+            'tmi_16S_gut_lifestage',
+            'tmi_16S_gut_builtenv',
         ];
-      }
+    }
 
-      for (var key of pcoa_plots) {
+    for (var key of pcoa_plots) {
         let detail = pcoa_structure[key];
         let url =
-          state.public_endpoint +
-          '/dataset/' +
-          detail['dataset'] +
-          '/plotting/diversity/beta/' +
-          state.beta_metric +
-          '/pcoa/full-dataset/' +
-          'png?category=' +
-          detail['category'] +
-          '&sample_id=' +
-          state.barcode_prefix +
-          state.sample_id;
+            state.public_endpoint +
+            '/dataset/' +
+            detail['dataset'] +
+            '/plotting/diversity/beta/' +
+            state.beta_metric +
+            '/pcoa/full-dataset/' +
+            'png?category=' +
+            detail['category'] +
+            '&sample_id=' +
+            state.barcode_prefix +
+            state.sample_id;
         placeURLSourcedImageFromDetail(state, url, detail);
-      }
-      setupAccordions();
     }
+    setupAccordions();
+}
 
-    function datasets_span(label_text, span_id) {
-      var div = document.getElementById('datasets-used');
-      var label = document.createElement('h5');
-      label.innerText = label_text;
-      var list = document.createElement('ul');
-      var span = document.createElement('span');
-      span.id = span_id.substring(1);
-      span.classList.add('info-loader');
-      span.classList.add('text-success');
+function datasets_span(label_text, span_id) {
+    var div = document.getElementById('datasets-used');
+    var label = document.createElement('h5');
+    label.innerText = label_text;
+    var list = document.createElement('ul');
+    var span = document.createElement('span');
+    span.id = span_id.substring(1);
+    span.classList.add('info-loader');
+    span.classList.add('text-success');
 
-      div.appendChild(label);
-      div.appendChild(list);
-      list.appendChild(span);
-      div.appendChild(document.createElement('br'));
-    }
+    div.appendChild(label);
+    div.appendChild(list);
+    list.appendChild(span);
+    div.appendChild(document.createElement('br'));
+}
 
-    function addDatasetDetail(detail) {
-      let name = Object.keys(detail)[0];
-      let info = detail[name];
-      let span_id = '';
-      let label = '';
+function addDatasetDetail(detail) {
+    let name = Object.keys(detail)[0];
+    let info = detail[name];
+    let span_id = '';
+    let label = '';
 
-      // Qiita doesn't provide an easy way to obtain this detail
-      // soo... not ideal but let's provide a way to get study
-      // links for various datasets
-      let study_lookup = {
+    // Qiita doesn't provide an easy way to obtain this detail
+    // soo... not ideal but let's provide a way to get study
+    // links for various datasets
+    let study_lookup = {
         '10317': [
-          'American Gut: an Open Platform for Citizen Science Microbiome Research',
-          'https://msystems.asm.org/content/3/3/e00031-18',
+            'American Gut: an Open Platform for Citizen Science Microbiome Research',
+            'https://msystems.asm.org/content/3/3/e00031-18',
         ],
         '850': [
-          'Human gut microbiome viewed across age and geography',
-          'https://www.nature.com/articles/nature11053',
+            'Human gut microbiome viewed across age and geography',
+            'https://www.nature.com/articles/nature11053',
         ],
         '10297': [
-          'Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota',
-          'https://www.nature.com/articles/srep40466',
+            'Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota',
+            'https://www.nature.com/articles/srep40466',
         ],
         '10080': [
-          'The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia',
-          'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/',
+            'The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia',
+            'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/',
         ],
         '10300': [
-          'The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia',
-          'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/',
+            'The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia',
+            'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/',
         ],
         '11076': [
-          'Rapid change of fecal microbiome and disappearance of Clostridium difficile in a colonized infant after transition from breast milk to cow milk',
-          'https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0198-6',
+            'Rapid change of fecal microbiome and disappearance of Clostridium difficile in a colonized infant after transition from breast milk to cow milk',
+            'https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-016-0198-6',
         ],
         '11884': [
-          'Natural history of the infant gut microbiome and impact of antibiotic treatment on bacterial strain diversity and stability',
-          'https://stm.sciencemag.org/content/8/343/343ra81',
+            'Natural history of the infant gut microbiome and impact of antibiotic treatment on bacterial strain diversity and stability',
+            'https://stm.sciencemag.org/content/8/343/343ra81',
         ],
         '1454': [
-          'Persistent gut microbiota immaturity in malnourished Bangladeshi children',
-          'https://www.nature.com/articles/nature13421',
+            'Persistent gut microbiota immaturity in malnourished Bangladeshi children',
+            'https://www.nature.com/articles/nature13421',
         ],
         '10249': [
-          'Antibiotics, birth mode, and diet shape microbiome maturation during early life',
-          'https://stm.sciencemag.org/content/8/343/343ra82',
+            'Antibiotics, birth mode, and diet shape microbiome maturation during early life',
+            'https://stm.sciencemag.org/content/8/343/343ra82',
         ],
         '11937': [
-          'Gut Microbiota in the First 2 Years of Life and the Association with Body Mass Index at Age 12 in a Norwegian Birth Cohort',
-          'https://mbio.asm.org/content/9/5/e01751-18',
+            'Gut Microbiota in the First 2 Years of Life and the Association with Body Mass Index at Age 12 in a Norwegian Birth Cohort',
+            'https://mbio.asm.org/content/9/5/e01751-18',
         ],
         '10333': [
-          'Walls talk: Microbial biogeography of homes spanning urbanization',
-          'https://advances.sciencemag.org/content/2/2/e1501061',
+            'Walls talk: Microbial biogeography of homes spanning urbanization',
+            'https://advances.sciencemag.org/content/2/2/e1501061',
         ],
         '10423': [
-          'Geography and location are the primary drivers of office microbiome composition',
-          'https://msystems.asm.org/content/1/2/e00022-16',
+            'Geography and location are the primary drivers of office microbiome composition',
+            'https://msystems.asm.org/content/1/2/e00022-16',
         ],
         '11358': [
-          'Seasonal cycling in the gut microbiome of the Hadza hunter-gatherers of Tanzania',
-          'https://science.sciencemag.org/content/357/6353/802',
+            'Seasonal cycling in the gut microbiome of the Hadza hunter-gatherers of Tanzania',
+            'https://science.sciencemag.org/content/357/6353/802',
         ],
         '2024': [
-          'Microbiota at Multiple Body Sites during Pregnancy in a Rural Tanzanian Population and Effects of Moringa-Supplemented Probiotic Yogurt',
-          'https://aem.asm.org/content/81/15/4965',
+            'Microbiota at Multiple Body Sites during Pregnancy in a Rural Tanzanian Population and Effects of Moringa-Supplemented Probiotic Yogurt',
+            'https://aem.asm.org/content/81/15/4965',
         ],
         '11993': [
-          'Gut microbiota is associated with obesity and cardiometabolic disease in a population in the midst of Westernization',
-          'https://www.nature.com/articles/s41598-018-29687-x',
+            'Gut microbiota is associated with obesity and cardiometabolic disease in a population in the midst of Westernization',
+            'https://www.nature.com/articles/s41598-018-29687-x',
         ],
         '10581': [
-          'Cohort of human mothers and babies from El Salvador ',
-          'https://www.ebi.ac.uk/ena/browser/view/ERP112775',
+            'Cohort of human mothers and babies from El Salvador ',
+            'https://www.ebi.ac.uk/ena/browser/view/ERP112775',
         ],
         '10352': [
-          'Comparison of Fecal Collection Methods for Microbiota Studies in Bangladesh',
-          'https://aem.asm.org/content/83/10/e00361-17',
+            'Comparison of Fecal Collection Methods for Microbiota Studies in Bangladesh',
+            'https://aem.asm.org/content/83/10/e00361-17',
         ],
         '11757': [
-          'Regional variation limits applications of healthy gut microbiome reference ranges and disease models',
-          'https://www.nature.com/articles/s41591-018-0164-x',
+            'Regional variation limits applications of healthy gut microbiome reference ranges and disease models',
+            'https://www.nature.com/articles/s41591-018-0164-x',
         ],
         '1481': [
-          'Whole-grain wheat consumption reduces inflammation in a randomized controlled trial on overweight and obese subjects with unhealthy dietary and lifestyle behaviors: role of polyphenols bound to cereal dietary fiber',
-          'https://academic.oup.com/ajcn/article/101/2/251/4494380',
+            'Whole-grain wheat consumption reduces inflammation in a randomized controlled trial on overweight and obese subjects with unhealthy dietary and lifestyle behaviors: role of polyphenols bound to cereal dietary fiber',
+            'https://academic.oup.com/ajcn/article/101/2/251/4494380',
         ],
         '10052': [
-          'The microbiome of uncontacted Amerindians',
-          'https://advances.sciencemag.org/content/1/3/e1500183',
+            'The microbiome of uncontacted Amerindians',
+            'https://advances.sciencemag.org/content/1/3/e1500183',
         ],
         '1448': [
-          'Subsistence strategies in traditional societies distinguish gut microbiomes',
-          'https://www.nature.com/articles/ncomms7505',
+            'Subsistence strategies in traditional societies distinguish gut microbiomes',
+            'https://www.nature.com/articles/ncomms7505',
         ],
         '1718': ['Infant time series', ''],
         '11666': [
-          'Gut microbiome composition in the Hispanic Community Health Study/Study of Latinos is shaped by geographic relocation, environmental factors, and obesity',
-          'https://pubmed.ncbi.nlm.nih.gov/31672155/',
+            'Gut microbiome composition in the Hispanic Community Health Study/Study of Latinos is shaped by geographic relocation, environmental factors, and obesity',
+            'https://pubmed.ncbi.nlm.nih.gov/31672155/',
         ],
         '12142': [
-          'The National FINRISK Study ',
-          'https://www.nature.com/articles/s41467-021-22962-y',
+            'The National FINRISK Study ',
+            'https://www.nature.com/articles/s41467-021-22962-y',
         ],
         '1926': [
-          'Structure, function and diversity of the healthy human microbiome',
-          'https://www.nature.com/articles/nature11234',
+            'Structure, function and diversity of the healthy human microbiome',
+            'https://www.nature.com/articles/nature11234',
         ],
         '11484': [
-          'Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases',
-          'https://pubmed.ncbi.nlm.nih.gov/31142855/',
+            'Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases',
+            'https://pubmed.ncbi.nlm.nih.gov/31142855/',
         ],
         '11405': [
-          'The effect of legume supplementation on the gut microbiota in rural Malawian infants aged 6 to 12 months ',
-          'https://pubmed.ncbi.nlm.nih.gov/32047925/',
+            'The effect of legume supplementation on the gut microbiota in rural Malawian infants aged 6 to 12 months ',
+            'https://pubmed.ncbi.nlm.nih.gov/32047925/',
         ],
         '11546': [
-          'Gastrointestinal Surgery for Inflammatory Bowel Disease Persistently Lowers Microbiome and Metabolome Diversity',
-          'https://pubmed.ncbi.nlm.nih.gov/33026068/',
+            'Gastrointestinal Surgery for Inflammatory Bowel Disease Persistently Lowers Microbiome and Metabolome Diversity',
+            'https://pubmed.ncbi.nlm.nih.gov/33026068/',
         ],
-      };
-      switch (name) {
+    };
+    switch (name) {
         case 'builtenv-16S-allsamples':
-          label = "{{ _('Microbiomes in the Environment') }}";
-          span_id = '#dataset_links_builtenv';
-          break;
+            label = "{{ _('Microbiomes in the Environment') }}";
+            span_id = '#dataset_links_builtenv';
+            break;
         case 'tmi-WGS-gut':
         case 'tmi-16S-gut':
-          label = "{{ _('The Microsetta Initiative') }}";
-          span_id = '#dataset_links_tmi';
-          break;
+            label = "{{ _('The Microsetta Initiative') }}";
+            span_id = '#dataset_links_tmi';
+            break;
         case 'multipop-16S-gut':
         case 'multipop-WGS-gut':
-          label = "{{ _('Microbiomes Across the World') }}";
-          span_id = '#dataset_links_multipopgut';
-          break;
+            label = "{{ _('Microbiomes Across the World') }}";
+            span_id = '#dataset_links_multipopgut';
+            break;
         case 'lifestage-16S-gut':
         case 'lifestage-WGS-gut':
-          label = "{{ _('Microbiomes Across the Lifespan') }}";
-          span_id = '#dataset_links_lifestagegut';
-          break;
+            label = "{{ _('Microbiomes Across the Lifespan') }}";
+            span_id = '#dataset_links_lifestagegut';
+            break;
         default:
-          return;
-      }
-      datasets_span(label, span_id);
+            return;
+    }
+    datasets_span(label, span_id);
 
-      let study_title = '';
-      let study_url = '';
-      let to_append = '';
-      for (var qiita_id of info['qiita-study-ids']) {
+    let study_title = '';
+    let study_url = '';
+    let to_append = '';
+    for (var qiita_id of info['qiita-study-ids']) {
         if (qiita_id in study_lookup) {
-          study_title = study_lookup[qiita_id][0];
-          study_url = study_lookup[qiita_id][1];
-        to_append =
-          '<li><h6 style="margin-bottom: 0px;">' + study_title + '</h6>'; //<span>' + study_title + '</span>';
-        if (study_url !== '') {
-          to_append =
-            to_append +
-            '<a href="' +
-            study_url +
-            '">' +
-            "{{ _('Publication link') }}" +
-            '</a><br />';
-        }
-        to_append =
-          to_append +
-          '<a href="https://qiita.ucsd.edu/public/?study_id=' +
-          qiita_id +
-          '">' +
-        "{{ _('Data access(Qiita study)') }}" +
-          qiita_id +
-          ')</a>';
-        to_append = to_append + '</li>';
+            study_title = study_lookup[qiita_id][0];
+            study_url = study_lookup[qiita_id][1];
+            to_append =
+                '<li><h6 style="margin-bottom: 0px;">' + study_title + '</h6>'; //<span>' + study_title + '</span>';
+            if (study_url !== '') {
+                to_append =
+                    to_append +
+                    '<a href="' +
+                    study_url +
+                    '">' +
+                    "{{ _('Publication link') }}" +
+                    '</a><br />';
+            }
+            to_append =
+                to_append +
+                '<a href="https://qiita.ucsd.edu/public/?study_id=' +
+                qiita_id +
+                '">' +
+                "{{ _('Data access(Qiita study)') }}" +
+                qiita_id +
+                ')</a>';
+            to_append = to_append + '</li>';
 
-          $(span_id)
-            .append(to_append)
-            .removeClass('spinner-grow spinner-grow-sm');
+            $(span_id)
+                .append(to_append)
+                .removeClass('spinner-grow spinner-grow-sm');
         }
-      }
-
-      //$(span_id).append('<li><h6>' + study_title + '</h6><br /><span>' + study_title + '</span>
-      //$(span_id).append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
-      //if (detail['qiita-study-ids'].length > 1)
-      //    $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");
-      //else
-      //    $("#dataset_meta_analysis").text("").removeClass("spinner-grow spinner-grow-sm")
     }
 
-    function refreshDatasets(state) {
-      let url =
+    //$(span_id).append('<li><h6>' + study_title + '</h6><br /><span>' + study_title + '</span>
+    //$(span_id).append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
+    //if (detail['qiita-study-ids'].length > 1)
+    //    $("#dataset_meta_analysis").text(" (which was a meta analysis that combines the data you helped collect with other public microbiome results)").removeClass("spinner-grow spinner-grow-sm");
+    //else
+    //    $("#dataset_meta_analysis").text("").removeClass("spinner-grow spinner-grow-sm")
+}
+
+function refreshDatasets(state) {
+    let url =
         state.public_endpoint +
         '/sample/list/dataset/' +
         state.barcode_prefix +
         state.sample_id;
-      $.ajax({
+    $.ajax({
         url: url,
         type: 'GET',
         success: function (data) {
-          var have_wgs = false;
-          var have_16S = false;
-          for (var i = 0; i < data.length; i++) {
-          if (data[i] === 'tmi-WGS-gut') {
-            have_wgs = true;
-          } else if (data[i] === 'tmi-16S-gut') {
-            have_16S = true;
-          }
-        }
-
-        if (!have_wgs && !have_16S) {
-          state.dataset_type.value = null;
-        // error gracefully somehow?
-        } else if (have_wgs) {
-          // WGS samples return both WGS and 16S data sets but we only want to display WGS on the "How can I learn more?" tab
-          for (var i = 0; i < data.length; i++) {
-            if (data[i].includes('WGS')) {
-              $.ajax({
-                url: state.public_endpoint + '/dataset/' + data[i],
-                type: 'GET',
-                success: function (detail) {
-                  addDatasetDetail(detail);
-                },
-              });
+            var have_wgs = false;
+            var have_16S = false;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i] === 'tmi-WGS-gut') {
+                    have_wgs = true;
+                } else if (data[i] === 'tmi-16S-gut') {
+                    have_16S = true;
+                }
             }
-          }
 
-          state.dataset_type.value = 'WGS';
-          state.dataset_site.value = 'gut';
-          state.dataset_input.value = 'tmi-WGS-gut';
-        } else {
-          for (var i = 0; i < data.length; i++) {
-            $.ajax({
-              url: state.public_endpoint + '/dataset/' + data[i],
-              type: 'GET',
-              success: function (detail) {
-                addDatasetDetail(detail);
-              },
-            });
-          }
+            if (!have_wgs && !have_16S) {
+                state.dataset_type.value = null;
+                // error gracefully somehow?
+            } else if (have_wgs) {
+                // WGS samples return both WGS and 16S data sets but we only want to display WGS on the "How can I learn more?" tab
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].includes('WGS')) {
+                        $.ajax({
+                            url: state.public_endpoint + '/dataset/' + data[i],
+                            type: 'GET',
+                            success: function (detail) {
+                                addDatasetDetail(detail);
+                            },
+                        });
+                    }
+                }
 
-          state.dataset_type.value = '16S';
-          state.dataset_site.value = 'gut';
-          state.dataset_input.value = 'tmi-16S-gut';
-        }
+                state.dataset_type.value = 'WGS';
+                state.dataset_site.value = 'gut';
+                state.dataset_input.value = 'tmi-WGS-gut';
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    $.ajax({
+                        url: state.public_endpoint + '/dataset/' + data[i],
+                        type: 'GET',
+                        success: function (detail) {
+                            addDatasetDetail(detail);
+                        },
+                    });
+                }
+
+                state.dataset_type.value = '16S';
+                state.dataset_site.value = 'gut';
+                state.dataset_input.value = 'tmi-16S-gut';
+            }
         },
-      });
-    }
+    });
+}
 
-        function populateSelect(select_selector, value_to_text, active_value) {
-        let select = $(select_selector);
-        select.empty();
-        for (let v in value_to_text) {
-          let option = $('<option></option>').attr('value', v).text(v);
+function populateSelect(select_selector, value_to_text, active_value) {
+    let select = $(select_selector);
+    select.empty();
+    for (let v in value_to_text) {
+        let option = $('<option></option>').attr('value', v).text(v);
         //                .text(value_to_text[v]);  //It should be this, but public api needs to send down friendly names
 
         if (v === active_value) option.attr('selected', 'selected');
 
         select.append(option);
-      }
-        select.prop('disabled', false);
     }
+    select.prop('disabled', false);
+}
 
-        function createTaxonomyTable(state) {
-          $('#taxonomyTable').DataTable({
-            destroy: true, // Necessary to replace existing datatable
-            language: {
+function createTaxonomyTable(state) {
+    $('#taxonomyTable').DataTable({
+        destroy: true, // Necessary to replace existing datatable
+        language: {
             url: '/static/vendor/DataTables/{{ _(EN_US_KEY) }}.json',
-          },
-          ajax: {
-          url:
-            state.public_endpoint +
-            '/dataset/' +
-            state.dataset_input.value +
-            '/taxonomy/present/single/' +
-            state.taxonomy +
-            '/' +
-            state.barcode_prefix +
-            state.sample_id,
-          dataSrc: function (d) {
-            let representatives = {};
-            let generaSums = {};
-          //Collapse to genera (Don't show separate rows per species)
-          for (let i = 0; i < d.data.length; i++) {
-          //Can't just key by genus because genus can be null/undefined.  Argh.
-            let genus_key =
-              d.data[i].Kingdom +
-              ';' +
-              d.data[i].Phylum +
-              ';' +
-              d.data[i].Class +
-              ';' +
-              d.data[i].Order +
-              ';' +
-              d.data[i].Family +
-              ';' +
-              d.data[i].Genus;
-            if (genus_key in generaSums) {
-              generaSums[genus_key] += d.data[i].relativeAbundance;
-            } else {
-              representatives[genus_key] = d.data[i];
-              generaSums[genus_key] = d.data[i].relativeAbundance;
-            }
-          }
-          let newData = [];
-          for (let genus_key in generaSums) {
-            let rep = representatives[genus_key];
-            let sum = generaSums[genus_key];
-            let relativeAbundance = sum * 100;
-            if (relativeAbundance <= 0.001) {
-              continue;
-            }
-
-            rep.relativeAbundance = relativeAbundance.toFixed(3);
-
-                for (var key of [
-                  'Kingdom',
-                  'Phylum',
-                  'Class',
-                  'Order',
-                  'Family',
-                  'Genus',
-                ]) {
-                  if (
-                    rep[key] != null &&
-                    rep[key].startsWith('[') &&
-                    rep[key].endsWith(']')
-                  )
-                    rep[key] = rep[key].substring(
-                      1,
-                      rep[key].length - 1
-                    );
+        },
+        ajax: {
+            url:
+                state.public_endpoint +
+                '/dataset/' +
+                state.dataset_input.value +
+                '/taxonomy/present/single/' +
+                state.taxonomy +
+                '/' +
+                state.barcode_prefix +
+                state.sample_id,
+            dataSrc: function (d) {
+                let representatives = {};
+                let generaSums = {};
+                //Collapse to genera (Don't show separate rows per species)
+                for (let i = 0; i < d.data.length; i++) {
+                    //Can't just key by genus because genus can be null/undefined.  Argh.
+                    let genus_key =
+                        d.data[i].Kingdom +
+                        ';' +
+                        d.data[i].Phylum +
+                        ';' +
+                        d.data[i].Class +
+                        ';' +
+                        d.data[i].Order +
+                        ';' +
+                        d.data[i].Family +
+                        ';' +
+                        d.data[i].Genus;
+                    if (genus_key in generaSums) {
+                        generaSums[genus_key] += d.data[i].relativeAbundance;
+                    } else {
+                        representatives[genus_key] = d.data[i];
+                        generaSums[genus_key] = d.data[i].relativeAbundance;
+                    }
                 }
-                newData.push(rep);
-              }
-              return newData;
+                let newData = [];
+                for (let genus_key in generaSums) {
+                    let rep = representatives[genus_key];
+                    let sum = generaSums[genus_key];
+                    let relativeAbundance = sum * 100;
+                    if (relativeAbundance <= 0.001) {
+                        continue;
+                    }
+
+                    rep.relativeAbundance = relativeAbundance.toFixed(3);
+
+                    for (var key of [
+                        'Kingdom',
+                        'Phylum',
+                        'Class',
+                        'Order',
+                        'Family',
+                        'Genus',
+                    ]) {
+                        if (
+                            rep[key] != null &&
+                            rep[key].startsWith('[') &&
+                            rep[key].endsWith(']')
+                        )
+                            rep[key] = rep[key].substring(
+                                1,
+                                rep[key].length - 1
+                            );
+                    }
+                    newData.push(rep);
+                }
+                return newData;
             },
-          },
-          columns: [
+        },
+        columns: [
             {
-            data: 'relativeAbundance',
-            render: $.fn.dataTable.render.percentBar(
-              'round',
-              '#FFF',
-              '#269ABC',
-              '#31B0D5',
-              '#286090',
-              3,
-              'groove'
-            ),
-          },
+                data: 'relativeAbundance',
+                render: $.fn.dataTable.render.percentBar(
+                    'round',
+                    '#FFF',
+                    '#269ABC',
+                    '#31B0D5',
+                    '#286090',
+                    3,
+                    'groove'
+                ),
+            },
             { data: 'Kingdom' },
             { data: 'Phylum' },
             { data: 'Class' },
             { data: 'Order' },
             { data: 'Family' },
             { data: 'Genus' },
-          ],
-          order: [[0, 'desc']],
-          dom: 'Bfrtip',
-          buttons: [
+        ],
+        order: [[0, 'desc']],
+        dom: 'Bfrtip',
+        buttons: [
             {
-              extend: 'csv',
-              className: 'btn btn-info',
-              text: "{{ _('Download the spreadsheet') }}",
+                extend: 'csv',
+                className: 'btn btn-info',
+                text: "{{ _('Download the spreadsheet') }}",
             },
-          ],
-          initComplete: function (settings) {
+        ],
+        initComplete: function (settings) {
             $('#taxonomyTable thead th').each(function () {
-              let $td = $(this);
-              let value = $td.text();
-              switch (value) {
-                case "{{ _('Kingdom') }}":
-                value =
-                  "{{ _('The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)') }}";
-                break;
-              case "{{ _('Phylum') }}":
-                value =
-                  "{{ _('Within the kingdom Eukarya, this is like the difference between humans and plants') }}";
-                break;
-              case "{{ _('Class') }}":
-                value =
-                  "{{ _('Within the phylum Chordata, this is along the lines of humans and fish') }}";
-                break;
-              case "{{ _('Order') }}":
-                value =
-                  "{{ _('Within the class Mammalia, this is like the difference between whales and a dogs') }}";
-                break;
-              case "{{ _('Family') }}":
-                value =
-                  "{{ _('With the order Carnivora are the families for dogs and cats') }}";
-                break;
-              case "{{ _('Genus') }}":
-                value =
-                  "{{ _('Within the family Canidae, you would find a genus for foxes and one for wolves') }}";
-                break;
-              default:
-                value = '';
-                break;
-            }
-            $td.attr('title', value);
-          });
+                let $td = $(this);
+                let value = $td.text();
+                switch (value) {
+                    case "{{ _('Kingdom') }}":
+                        value =
+                            "{{ _('The broadest classification like Bacteria, Archaea and Eukaryokes (what humans are!)') }}";
+                        break;
+                    case "{{ _('Phylum') }}":
+                        value =
+                            "{{ _('Within the kingdom Eukarya, this is like the difference between humans and plants') }}";
+                        break;
+                    case "{{ _('Class') }}":
+                        value =
+                            "{{ _('Within the phylum Chordata, this is along the lines of humans and fish') }}";
+                        break;
+                    case "{{ _('Order') }}":
+                        value =
+                            "{{ _('Within the class Mammalia, this is like the difference between whales and a dogs') }}";
+                        break;
+                    case "{{ _('Family') }}":
+                        value =
+                            "{{ _('With the order Carnivora are the families for dogs and cats') }}";
+                        break;
+                    case "{{ _('Genus') }}":
+                        value =
+                            "{{ _('Within the family Canidae, you would find a genus for foxes and one for wolves') }}";
+                        break;
+                    default:
+                        value = '';
+                        break;
+                }
+                $td.attr('title', value);
+            });
 
-          /* Apply the tooltips */
-          $('#taxonomyTable thead th[title]').tooltip({
-            container: 'body',
-          placement: 'auto',
-        });
-          },
-        });
-    }
+            /* Apply the tooltips */
+            $('#taxonomyTable thead th[title]').tooltip({
+                container: 'body',
+                placement: 'auto',
+            });
+        },
+    });
+}
 
-        function retrieveNeighbors(state, k) {
-          let url =
-            state.public_endpoint +
-            '/dataset/' +
-            state.dataset_input.value +
-            '/diversity/beta/' +
-            state.beta_metric +
-            '/nearest';
-        return $.ajax({
-          method: 'GET',
-          url: url,
-          data: {
+function retrieveNeighbors(state, k) {
+    let url =
+        state.public_endpoint +
+        '/dataset/' +
+        state.dataset_input.value +
+        '/diversity/beta/' +
+        state.beta_metric +
+        '/nearest';
+    return $.ajax({
+        method: 'GET',
+        url: url,
+        data: {
             sample_id: state.barcode_prefix + state.sample_id,
             k: k,
-          },
-        }).fail(function (result, textStatus, errorThrown) {
-          console.log("Couldn't retrieve neighbors" + textStatus);
-        });
-    }
+        },
+    }).fail(function (result, textStatus, errorThrown) {
+        console.log("Couldn't retrieve neighbors" + textStatus);
+    });
+}
 
-    function fillNNResults(state, categories, chooserMap, selectorMap) {
-      return function (samplesQueried, sampleResults) {
-      // Count number of responses for each answer of each question
+function fillNNResults(state, categories, chooserMap, selectorMap) {
+    return function (samplesQueried, sampleResults) {
+        // Count number of responses for each answer of each question
         let categoryCounts = {};
         let display = {};
         for (let i = 0; i < samplesQueried.length; i++) {
-          for (let j = 0; j < categories.length; j++) {
-          let cat = categories[j];
-          if (!(cat in categoryCounts)) categoryCounts[cat] = {};
-          let val = sampleResults[i][j];
-          if (!(val in categoryCounts[cat])) categoryCounts[cat][val] = 0;
-          categoryCounts[cat][val] += 1;
+            for (let j = 0; j < categories.length; j++) {
+                let cat = categories[j];
+                if (!(cat in categoryCounts)) categoryCounts[cat] = {};
+                let val = sampleResults[i][j];
+                if (!(val in categoryCounts[cat])) categoryCounts[cat][val] = 0;
+                categoryCounts[cat][val] += 1;
+            }
         }
-      }
 
         for (let j = 0; j < categories.length; j++) {
-          let cat = categories[j];
-          let sum = 0;
-          let maxval = -1;
-          let maxkey = null;
-          for (let key in categoryCounts[cat]) {
-          let val = categoryCounts[cat][key];
-          sum += val;
-          if (key !== 'Not provided' && val > maxval) {
-            maxval = val;
-            maxkey = key;
-          }
-        }
+            let cat = categories[j];
+            let sum = 0;
+            let maxval = -1;
+            let maxkey = null;
+            for (let key in categoryCounts[cat]) {
+                let val = categoryCounts[cat][key];
+                sum += val;
+                if (key !== 'Not provided' && val > maxval) {
+                    maxval = val;
+                    maxkey = key;
+                }
+            }
 
-        let me = samplesQueried.indexOf(
-          state.barcode_prefix + state.sample_id
-        );
-        let my_cat = categories.indexOf(cat);
-        let my_value = sampleResults[me][my_cat];
-        let set_color = null;
+            let me = samplesQueried.indexOf(
+                state.barcode_prefix + state.sample_id
+            );
+            let my_cat = categories.indexOf(cat);
+            let my_value = sampleResults[me][my_cat];
+            let set_color = null;
 
-        let chosen = null;
-        if (!(cat in chooserMap) || chooserMap[cat]['type'] === 'max') {
-          chosen = maxkey;
-          if (chosen === my_value) {
-            set_color = 'similarity-fontstyle-same';
-          } else {
-            set_color = 'similarity-fontstyle-different';
-          }
-        } else if (chooserMap[cat]['type'] === 'specified')
-          chosen = chooserMap[cat]['value'];
-        else if (chooserMap[cat]['type'] === 'same') {
-          me = samplesQueried.indexOf(
-            state.barcode_prefix + state.sample_id
-          );
-          j = categories.indexOf(cat);
-          chosen = sampleResults[me][j];
+            let chosen = null;
+            if (!(cat in chooserMap) || chooserMap[cat]['type'] === 'max') {
+                chosen = maxkey;
+                if (chosen === my_value) {
+                    set_color = 'similarity-fontstyle-same';
+                } else {
+                    set_color = 'similarity-fontstyle-different';
+                }
+            } else if (chooserMap[cat]['type'] === 'specified')
+                chosen = chooserMap[cat]['value'];
+            else if (chooserMap[cat]['type'] === 'same') {
+                me = samplesQueried.indexOf(
+                    state.barcode_prefix + state.sample_id
+                );
+                j = categories.indexOf(cat);
+                chosen = sampleResults[me][j];
+            }
+            display[cat] = {};
+            if (chosen in dynamic_text_dictionary) {
+                display[cat]['response'] = dynamic_text_dictionary[chosen];
+            } else {
+                display[cat]['response'] = chosen;
+            }
+            display[cat]['value'] =
+                Math.round((categoryCounts[cat][chosen] / sum) * 100) + '%';
+            display[cat]['color'] = set_color;
         }
-        display[cat] = {};
-        if (chosen in dynamic_text_dictionary) {
-          display[cat]['response'] = dynamic_text_dictionary[chosen];
-        } else {
-          display[cat]['response'] = chosen;
-        }
-        display[cat]['value'] =
-          Math.round((categoryCounts[cat][chosen] / sum) * 100) + '%';
-        display[cat]['color'] = set_color;
-      }
 
         for (let cat of categories) {
-        if (!(cat in selectorMap)) continue;
-        let resp_selector = selectorMap[cat][0];
-        let val_selector = selectorMap[cat][1];
-        let resp = display[cat]['response'];
-        let val = display[cat]['value'];
-        let color = display[cat]['color'];
+            if (!(cat in selectorMap)) continue;
+            let resp_selector = selectorMap[cat][0];
+            let val_selector = selectorMap[cat][1];
+            let resp = display[cat]['response'];
+            let val = display[cat]['value'];
+            let color = display[cat]['color'];
 
-        $(val_selector)
-          .text(val)
-          .removeClass('spinner-grow spinner-grow-sm');
-        if (color !== null) {
-          $(resp_selector)
-            .text(resp)
-            .removeClass('spinner-grow spinner-grow-sm text-success')
-            .addClass(color);
-        } else {
-          $(resp_selector)
-            .text(resp)
-            .removeClass('spinner-grow spinner-grow-sm');
+            $(val_selector)
+                .text(val)
+                .removeClass('spinner-grow spinner-grow-sm');
+            if (color !== null) {
+                $(resp_selector)
+                    .text(resp)
+                    .removeClass('spinner-grow spinner-grow-sm text-success')
+                    .addClass(color);
+            } else {
+                $(resp_selector)
+                    .text(resp)
+                    .removeClass('spinner-grow spinner-grow-sm');
+            }
         }
-      }
-      };
-    }
+    };
+}
 
-        function queryNeighborAndSelfMetadata(state, metadata_cats) {
-          return function (result, textStatus, jqXHR) {
-            let toQuery = result;
-            toQuery.push(state.barcode_prefix + state.sample_id);
+function queryNeighborAndSelfMetadata(state, metadata_cats) {
+    return function (result, textStatus, jqXHR) {
+        let toQuery = result;
+        toQuery.push(state.barcode_prefix + state.sample_id);
 
-          return $.ajax({
+        return $.ajax({
             method: 'POST',
             url:
-              state.public_endpoint +
-              '/dataset/' +
-              state.dataset_input.value +
-              '/metadata/values?' +
-              $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
+                state.public_endpoint +
+                '/dataset/' +
+                state.dataset_input.value +
+                '/metadata/values?' +
+                $.param({ cat: metadata_cats }, true), // The true indicates traditional mode, which produces cat=blah&cat=blah rather than cat[]=blah&cat[]=blah which crashes the server.
             data: JSON.stringify(toQuery),
-          contentType: 'application/json',
+            contentType: 'application/json',
         })
-          .fail(function (result, textStatus, errorThrown) {
-            console.log(
-              "Couldn't retrieve metadata for neighbors and self " +
-              errorThrown
-            );
-          })
-          .then(function (result, textStatus, jqXHR) {
-            let thenner = {};
-          thenner.then = function (func) {
-            // Need to pass on the sample ids. Argh.
-            return func(toQuery, result);
-          };
-          return thenner;
-        });
-        };
-    }
+            .fail(function (result, textStatus, errorThrown) {
+                console.log(
+                    "Couldn't retrieve metadata for neighbors and self " +
+                        errorThrown
+                );
+            })
+            .then(function (result, textStatus, jqXHR) {
+                let thenner = {};
+                thenner.then = function (func) {
+                    // Need to pass on the sample ids. Argh.
+                    return func(toQuery, result);
+                };
+                return thenner;
+            });
+    };
+}
 
-        function updateCompare(state) {
-        // Reset all the fields to spinners
-        $('.info-loader').empty().addClass('spinner-grow spinner-grow-sm');
+function updateCompare(state) {
+    // Reset all the fields to spinners
+    $('.info-loader').empty().addClass('spinner-grow spinner-grow-sm');
 
-        // Stuff to fill in:
-        // sample_type, n_bacteria, n_archaea, dataset_name,
-        // n_bacteria_background, n_archaea_background,
-        // age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
+    // Stuff to fill in:
+    // sample_type, n_bacteria, n_archaea, dataset_name,
+    // n_bacteria_background, n_archaea_background,
+    // age_nearest_neighbor, more_or_less_sweets_nearest_neighbor
 
-        function retrieveText(method, url, data) {
-          return $.ajax({
+    function retrieveText(method, url, data) {
+        return $.ajax({
             method: method,
             url: url,
             data: JSON.stringify(data),
-          contentType: 'application/json',
+            contentType: 'application/json',
         }).fail(function (result, textStatus, errorThrown) {
-          console.log("Couldn't retrieve text for " + method + ' ' + url);
+            console.log("Couldn't retrieve text for " + method + ' ' + url);
         });
-      }
+    }
 
-        function setInfoText(resultSelector) {
-          return function (result, textStatus, jqXHR) {
+    function setInfoText(resultSelector) {
+        return function (result, textStatus, jqXHR) {
             return $(resultSelector)
-              .text(result)
-              .removeClass('spinner-grow spinner-grow-sm');
-          };
-        }
+                .text(result)
+                .removeClass('spinner-grow spinner-grow-sm');
+        };
+    }
 
-        function fillResults(state, selectors) {
-          return function (samplesQueried, sampleResults) {
+    function fillResults(state, selectors) {
+        return function (samplesQueried, sampleResults) {
             // First selector, age, Second selector, sweets
             // No similarity between the two, so we just have to handle both
             let me = samplesQueried.pop();
             let my_data = sampleResults.pop();
 
-          if (me !== state.barcode_prefix + state.sample_id)
-            console.log('Bad call to fill results, sample id mismatch');
+            if (me !== state.barcode_prefix + state.sample_id)
+                console.log('Bad call to fill results, sample id mismatch');
 
-          for (
-            let selector_index = 0;
-            selector_index < selectors.length;
-            selector_index++
-          ) {
-            if (selectors[selector_index] === '#age_nearest_neighbor') {
-              // Find age of first neighbor with age
-              let nearest_age = "{{ _('Unspecified') }}";
-            for (let i = 0; i < samplesQueried.length; i++) {
-              if (
-                sampleResults[i][selector_index] !==
-                "{{ _('Unspecified') }}"
-              ) {
-                nearest_age = Math.round(
-                  sampleResults[i][selector_index]
-                );
-                break;
-              }
+            for (
+                let selector_index = 0;
+                selector_index < selectors.length;
+                selector_index++
+            ) {
+                if (selectors[selector_index] === '#age_nearest_neighbor') {
+                    // Find age of first neighbor with age
+                    let nearest_age = "{{ _('Unspecified') }}";
+                    for (let i = 0; i < samplesQueried.length; i++) {
+                        if (
+                            sampleResults[i][selector_index] !==
+                            "{{ _('Unspecified') }}"
+                        ) {
+                            nearest_age = Math.round(
+                                sampleResults[i][selector_index]
+                            );
+                            break;
+                        }
+                    }
+                    if (nearest_age === "{{ _('Unspecified') }}")
+                        setInfoText(selectors[selector_index])(
+                            "{{ _('chose not to provide their age') }}",
+                            null,
+                            null
+                        );
+                    else
+                        setInfoText(selectors[selector_index])(
+                            "{{ _('is') }} " +
+                                nearest_age +
+                                " {{ _('years old') }}",
+                            null,
+                            null
+                        );
+                }
+                if (
+                    selectors[selector_index] ===
+                    '#more_or_less_sweets_nearest_neighbor'
+                ) {
+                    // Find string value for first neighbor with a string value
+                    let nearest_sweets = "{{ _('Unspecified') }}";
+                    for (let i = 0; i < samplesQueried.length; i++) {
+                        if (
+                            sampleResults[i][selector_index] !==
+                                "{{ _('Unspecified') }}" &&
+                            sampleResults[i][selector_index] !==
+                                "{{ _('Not provided') }}"
+                        ) {
+                            nearest_sweets = sampleResults[i][selector_index];
+                            break;
+                        }
+                    }
+
+                    // Comparing metadata is an absolute nightmare.
+                    let possible_values = {
+                        "{{ _('Unspecified') }}": NaN,
+                        "{{ _('Not provided') }}": NaN,
+                        "{{ _('Never') }}": 0,
+                        "{{ _('Rarely (less than once/week)') }}": 1,
+                        "{{ _('Occasionally (1-2 times/week)') }}": 2,
+                        "{{ _('Regularly (3-5 times/week)') }}": 3,
+                        "{{ _('Daily') }}": 4,
+                    };
+
+                    let my_sweets = possible_values[my_data[selector_index]];
+                    let their_sweets = possible_values[nearest_sweets];
+
+                    let info_text = '';
+                    if (isNaN(my_sweets)) {
+                        if (isNaN(their_sweets))
+                            info_text =
+                                "{{ _('chose not to say how many sweets they eat') }}";
+                        else
+                            info_text =
+                                nearest_sweets.toLowerCase() +
+                                " {{ _('eats sweets') }}";
+                    } else {
+                        if (my_sweets < their_sweets)
+                            info_text =
+                                "{{ _('eats more sugary sweets than you') }}";
+                        else if (my_sweets > their_sweets)
+                            info_text =
+                                "{{ _('eats fewer sugary sweets than you') }}";
+                        else if (my_sweets === their_sweets)
+                            info_text =
+                                "{{ _('eats about the same number of sugary sweets as you') }}";
+                        else
+                            info_text =
+                                "{{ _('chose not to say how many sweets they eat') }}";
+                    }
+
+                    setInfoText(selectors[selector_index])(
+                        info_text,
+                        null,
+                        null
+                    );
+                }
             }
-            if (nearest_age === "{{ _('Unspecified') }}")
-              setInfoText(selectors[selector_index])(
-                "{{ _('chose not to provide their age') }}",
-                null,
-                null
-              );
-            else
-              setInfoText(selectors[selector_index])(
-                "{{ _('is') }} " +
-                nearest_age +
-                " {{ _('years old') }}",
-                null,
-                null
-              );
-          }
-          if (
-            selectors[selector_index] ===
-            '#more_or_less_sweets_nearest_neighbor'
-          ) {
-            // Find string value for first neighbor with a string value
-            let nearest_sweets = "{{ _('Unspecified') }}";
-            for (let i = 0; i < samplesQueried.length; i++) {
-              if (
-                sampleResults[i][selector_index] !==
-                "{{ _('Unspecified') }}" &&
-                sampleResults[i][selector_index] !==
-                "{{ _('Not provided') }}"
-              ) {
-                nearest_sweets = sampleResults[i][selector_index];
-                break;
-              }
-            }
-
-            // Comparing metadata is an absolute nightmare.
-            let possible_values = {
-              "{{ _('Unspecified') }}": NaN,
-              "{{ _('Not provided') }}": NaN,
-              "{{ _('Never') }}": 0,
-              "{{ _('Rarely (less than once/week)') }}": 1,
-              "{{ _('Occasionally (1-2 times/week)') }}": 2,
-              "{{ _('Regularly (3-5 times/week)') }}": 3,
-              "{{ _('Daily') }}": 4,
-            };
-
-            let my_sweets = possible_values[my_data[selector_index]];
-            let their_sweets = possible_values[nearest_sweets];
-
-            let info_text = '';
-            if (isNaN(my_sweets)) {
-              if (isNaN(their_sweets))
-                info_text =
-                  "{{ _('chose not to say how many sweets they eat') }}";
-              else
-                info_text =
-                  nearest_sweets.toLowerCase() +
-                  " {{ _('eats sweets') }}";
-            } else {
-              if (my_sweets < their_sweets)
-                info_text =
-                  "{{ _('eats more sugary sweets than you') }}";
-              else if (my_sweets > their_sweets)
-                info_text =
-                  "{{ _('eats fewer sugary sweets than you') }}";
-              else if (my_sweets === their_sweets)
-                info_text =
-                  "{{ _('eats about the same number of sugary sweets as you') }}";
-              else
-                info_text =
-                  "{{ _('chose not to say how many sweets they eat') }}";
-            }
-
-            setInfoText(selectors[selector_index])(
-              info_text,
-              null,
-              null
-            );
-          }
-        }
         };
-      }
+    }
 
-        $('#sample_type')
-          .text(state.sample_type)
-          .removeClass('spinner-grow spinner-grow-sm');
-        $('#dataset_name')
-          .text(state.dataset_input.value)
-          .removeClass('spinner-grow spinner-grow-sm');
-        // TODO: Fill in these URLs
-        retrieveText(
-          'GET',
-          state.public_endpoint +
-          '/dataset/' +
-          state.dataset_input.value +
-          '/taxonomy/single/' +
-          state.taxonomy +
-          '/' +
-          state.barcode_prefix +
-          state.sample_id +
-          '/counts?level=Kingdom',
-          null
-        ).then(function (result, textStatus, jqXHR) {
-          $('#n_bacteria')
+    $('#sample_type')
+        .text(state.sample_type)
+        .removeClass('spinner-grow spinner-grow-sm');
+    $('#dataset_name')
+        .text(state.dataset_input.value)
+        .removeClass('spinner-grow spinner-grow-sm');
+    // TODO: Fill in these URLs
+    retrieveText(
+        'GET',
+        state.public_endpoint +
+            '/dataset/' +
+            state.dataset_input.value +
+            '/taxonomy/single/' +
+            state.taxonomy +
+            '/' +
+            state.barcode_prefix +
+            state.sample_id +
+            '/counts?level=Kingdom',
+        null
+    ).then(function (result, textStatus, jqXHR) {
+        $('#n_bacteria')
             .text(result['Bacteria'].toLocaleString())
             .addClass('microbe-count')
             .removeClass('spinner-grow spinner-grow-sm');
-          $('#n_archaea')
+        $('#n_archaea')
             .text(result['Archaea'].toLocaleString())
             .addClass('microbe-count')
             .removeClass('spinner-grow spinner-grow-sm');
-        });
-        retrieveText(
+    });
+    retrieveText(
         'POST',
         state.public_endpoint +
-        '/dataset/' +
-        state.dataset_input.value +
-        '/taxonomy/group/' +
-        state.taxonomy +
-        '/counts?level=Kingdom',
+            '/dataset/' +
+            state.dataset_input.value +
+            '/taxonomy/group/' +
+            state.taxonomy +
+            '/counts?level=Kingdom',
         { 'sample_ids': [] }
-      ).then(function (result, textStatus, jqXHR) {
+    ).then(function (result, textStatus, jqXHR) {
         $('#n_bacteria_background')
-          .text(result['Bacteria'].toLocaleString())
-          .addClass('microbe-count')
-          .removeClass('spinner-grow spinner-grow-sm');
+            .text(result['Bacteria'].toLocaleString())
+            .addClass('microbe-count')
+            .removeClass('spinner-grow spinner-grow-sm');
         $('#n_archaea_background')
-          .text(result['Archaea'].toLocaleString())
-          .addClass('microbe-count')
-          .removeClass('spinner-grow spinner-grow-sm');
-      });
-        retrieveNeighbors(state, 1)
-                        .then(
-                          queryNeighborAndSelfMetadata(state, [
-                            'age_cat',
-                            'sugary_sweets_frequency',
-                          ])
-                        )
-                        .then(
-                          fillResults(state, [
-                            '#age_nearest_neighbor',
-                            '#more_or_less_sweets_nearest_neighbor',
-                          ])
-                        );
-                    }
-                    let diversityInSampleValue = null;
-        function updateDiversity(state) {
-        //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
+            .text(result['Archaea'].toLocaleString())
+            .addClass('microbe-count')
+            .removeClass('spinner-grow spinner-grow-sm');
+    });
+    retrieveNeighbors(state, 1)
+        .then(
+            queryNeighborAndSelfMetadata(state, [
+                'age_cat',
+                'sugary_sweets_frequency',
+            ])
+        )
+        .then(
+            fillResults(state, [
+                '#age_nearest_neighbor',
+                '#more_or_less_sweets_nearest_neighbor',
+            ])
+        );
+}
+let diversityInSampleValue = null;
+function updateDiversity(state) {
+    //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
-        const more_than_30_plants = {
-          'metadata_query': {
+    const more_than_30_plants = {
+        'metadata_query': {
             'condition': 'OR',
             'rules': [
-            {
-              'id': 'types_of_plants',
-              'operator': 'equal',
-              'value': 'More than 30',
-            },
-          ],
-        },
-      };
-        const water_frequency = {
-          'metadata_query': {
-            'condition': 'OR',
-            'rules': [
-            {
-              'id': 'one_liter_of_water_a_day_frequency',
-              'operator': 'equal',
-              'value': 'Regularly (3-5 times/week)',
-            },
-          ],
-        },
-      };
-        const exercise_regularly = {
-          'metadata_query': {
-            'condition': 'OR',
-            'rules': [
-            {
-                'id': 'exercise_frequency',
-                'operator': 'equal',
-                'value': 'Regularly (3-5 times/week)',
-              },
+                {
+                    'id': 'types_of_plants',
+                    'operator': 'equal',
+                    'value': 'More than 30',
+                },
             ],
-          },
-        };
-        //I wish we had ordered categorical variables because this query is stupid
-        const sleep_more_than_6_hrs = {
-          'metadata_query': {
+        },
+    };
+    const water_frequency = {
+        'metadata_query': {
             'condition': 'OR',
             'rules': [
-            {
-              'id': 'sleep_duration',
-              'operator': 'equal',
-              'value': '6-7 hours',
-            },
-            {
-              'id': 'sleep_duration',
-              'operator': 'equal',
-              'value': '7-8 hours',
-            },
-            {
-              'id': 'sleep_duration',
-              'operator': 'equal',
-              'value': '8 or more hours',
-            },
-          ],
+                {
+                    'id': 'one_liter_of_water_a_day_frequency',
+                    'operator': 'equal',
+                    'value': 'Regularly (3-5 times/week)',
+                },
+            ],
         },
-      };
+    };
+    const exercise_regularly = {
+        'metadata_query': {
+            'condition': 'OR',
+            'rules': [
+                {
+                    'id': 'exercise_frequency',
+                    'operator': 'equal',
+                    'value': 'Regularly (3-5 times/week)',
+                },
+            ],
+        },
+    };
+    //I wish we had ordered categorical variables because this query is stupid
+    const sleep_more_than_6_hrs = {
+        'metadata_query': {
+            'condition': 'OR',
+            'rules': [
+                {
+                    'id': 'sleep_duration',
+                    'operator': 'equal',
+                    'value': '6-7 hours',
+                },
+                {
+                    'id': 'sleep_duration',
+                    'operator': 'equal',
+                    'value': '7-8 hours',
+                },
+                {
+                    'id': 'sleep_duration',
+                    'operator': 'equal',
+                    'value': '8 or more hours',
+                },
+            ],
+        },
+    };
 
-        const POST_DATA = {
+    const POST_DATA = {
         'plants': more_than_30_plants,
         'water': water_frequency,
         'exercise': exercise_regularly,
         'sleep': sleep_more_than_6_hrs,
-      };
+    };
 
-        const SELECTORS = {
+    const SELECTORS = {
         'plants': '#diversity_30_plants_per_week',
         'water': '#diversity_water_regularly',
         'exercise': '#diversity_exercise_regularly',
         'sleep': '#diversity_sleep_alot',
-      };
+    };
 
-        // We override the default alpha_metric from state for this page.
-        let alpha_metric = 'shannon';
-        for (let key in POST_DATA) {
+    // We override the default alpha_metric from state for this page.
+    let alpha_metric = 'shannon';
+    for (let key in POST_DATA) {
         $.ajax({
-          url:
+            url:
+                state.public_endpoint +
+                '/dataset/' +
+                state.dataset_input.value +
+                '/diversity/alpha/group/' +
+                alpha_metric +
+                '?' +
+                $.param({ summary_statistics: true }),
+            method: 'POST',
+            data: JSON.stringify(POST_DATA[key]),
+            contentType: 'application/json',
+            success: function (data) {
+                let display =
+                    Math.round(data['group_summary']['median'] * 100) / 100;
+                $(SELECTORS[key])
+                    .text(display)
+                    .removeClass('spinner-grow spinner-grow-sm');
+            },
+        }).fail(function (result, textStatus, errorThrown) {
+            console.log("Couldn't retrieve alpha metrics (" + key + ')');
+        });
+    }
+    $.ajax({
+        url:
             state.public_endpoint +
             '/dataset/' +
             state.dataset_input.value +
-          '/diversity/alpha/group/' +
-          alpha_metric +
-          '?' +
-          $.param({ summary_statistics: true }),
-        method: 'POST',
-        data: JSON.stringify(POST_DATA[key]),
-        contentType: 'application/json',
-        success: function (data) {
-          let display =
-            Math.round(data['group_summary']['median'] * 100) / 100;
-          $(SELECTORS[key])
-            .text(display)
-            .removeClass('spinner-grow spinner-grow-sm');
-        },
-      }).fail(function (result, textStatus, errorThrown) {
-        console.log("Couldn't retrieve alpha metrics (" + key + ')');
-      });
-      }
-        $.ajax({
-          url:
-            state.public_endpoint +
-            '/dataset/' +
-            state.dataset_input.value +
-          '/diversity/alpha/single/' +
-          alpha_metric +
-          '/' +
-          state.barcode_prefix +
-          state.sample_id,
+            '/diversity/alpha/single/' +
+            alpha_metric +
+            '/' +
+            state.barcode_prefix +
+            state.sample_id,
         method: 'GET',
         contentType: 'application/json',
         success: function (data) {
-        let display = Math.round(data['data'] * 100) / 100;
-        $('#diversity_in_sample')
-          .text(display)
-          .removeClass('spinner-grow spinner-grow-sm');
-        diversityInSampleValue = display;
-        createDiversityGaugeChart(diversityInSampleValue);
+            let display = Math.round(data['data'] * 100) / 100;
+            $('#diversity_in_sample')
+                .text(display)
+                .removeClass('spinner-grow spinner-grow-sm');
+            diversityInSampleValue = display;
+            createDiversityGaugeChart(diversityInSampleValue);
         },
-      }).fail(function (result, textStatus, errorThrown) {
-      console.log("Couldn't retrieve alpha metric for the sample");
+    }).fail(function (result, textStatus, errorThrown) {
+        console.log("Couldn't retrieve alpha metric for the sample");
     });
-    }
+}
 
-        function updateSimilarity(state) {
-          const K = 100; // However many neighbors we want to pull metadata for
-        const SELECTOR_MAP = {
-          'types_of_plants': [
+function updateSimilarity(state) {
+    const K = 100; // However many neighbors we want to pull metadata for
+    const SELECTOR_MAP = {
+        'types_of_plants': [
             '#beta_diversity_plants_per_week_response',
             '#beta_diversity_plants_per_week_value',
-          ],
-          'probiotic_frequency': [
+        ],
+        'probiotic_frequency': [
             '#beta_diversity_probiotics_response',
             '#beta_diversity_probiotics_value',
-          ],
-          'exercise_frequency': [
+        ],
+        'exercise_frequency': [
             '#beta_diversity_exercise_response',
             '#beta_diversity_exercise_value',
-          ],
-          'age_cat': [
+        ],
+        'age_cat': [
             '#beta_diversity_age_response',
             '#beta_diversity_age_value',
-          ],
-          //"diet": ["",""],
-          'diet_type': [
+        ],
+        //"diet": ["",""],
+        'diet_type': [
             '#beta_diversity_diet_type_response',
             '#beta_diversity_diet_type_value',
-          ],
-          'multivitamin': [
+        ],
+        'multivitamin': [
             '#beta_diversity_multivitamin_response',
             '#beta_diversity_multivitamin_value',
-          ],
-          'sleep_duration': [
+        ],
+        'sleep_duration': [
             '#beta_diversity_sleep_response',
             '#beta_diversity_sleep_value',
-          ],
-          'sex': ['#beta_diversity_sex_response', '#beta_diversity_sex_value'],
-        };
-        const CHOOSER = {
+        ],
+        'sex': ['#beta_diversity_sex_response', '#beta_diversity_sex_value'],
+    };
+    const CHOOSER = {
         'types_of_plants': { 'type': 'max' },
         'probiotic_frequency': { 'type': 'max' },
         'exercise_frequency': { 'type': 'max' },
         'age_cat': { 'type': 'same' },
         //"diet": {"type": "same"},
-          'diet_type': { 'type': 'same' },
-          'multivitamin': { 'type': 'specified', 'value': 'Yes' },
-          'sleep_duration': { 'type': 'max' },
-          'sex': { 'type': 'same' },
-        };
-        const CATEGORIES = [];
-        for (let key in SELECTOR_MAP) CATEGORIES.push(key);
+        'diet_type': { 'type': 'same' },
+        'multivitamin': { 'type': 'specified', 'value': 'Yes' },
+        'sleep_duration': { 'type': 'max' },
+        'sex': { 'type': 'same' },
+    };
+    const CATEGORIES = [];
+    for (let key in SELECTOR_MAP) CATEGORIES.push(key);
 
-        retrieveNeighbors(state, K)
-          .then(queryNeighborAndSelfMetadata(state, CATEGORIES))
-          .then(fillNNResults(state, CATEGORIES, CHOOSER, SELECTOR_MAP)); //TODO: Switch from logging to filling in divs by adding selectors here
-    }
+    retrieveNeighbors(state, K)
+        .then(queryNeighborAndSelfMetadata(state, CATEGORIES))
+        .then(fillNNResults(state, CATEGORIES, CHOOSER, SELECTOR_MAP)); //TODO: Switch from logging to filling in divs by adding selectors here
+}
 
-        function updateTaxonomy(taxonomyData, state) {
-        // Rebuild taxonomy table when we switch dataset
-        createTaxonomyTable(state);
+function updateTaxonomy(taxonomyData, state) {
+    // Rebuild taxonomy table when we switch dataset
+    createTaxonomyTable(state);
 
-        //Need to make taxa rank plot
+    //Need to make taxa rank plot
     /* BEGIN BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN
     let sampling_url = state.public_endpoint + '/dataset/' + state.dataset_input.value + '/taxonomy/ranks/taxonomy?' +
         $.param({sample_size: 30000});
@@ -1469,407 +1789,149 @@
         Plotly.newPlot("taxa-violin", data, layout, {displayModeBar: false});
     });
     END BLOCK COMMENTED OUT WHILE TAXA VIOLIN IS HIDDEN */
-    }
+}
 
-    function updateObservedAverages(state) {
-      var us_text = document.getElementById('average-american-observed-average');
-      var hadza_text = document.getElementById('average-hadza-observed-average');
-      if (state.dataset_type.value === 'WGS') {
+function updateObservedAverages(state) {
+    var us_text = document.getElementById('average-american-observed-average');
+    var hadza_text = document.getElementById('average-hadza-observed-average');
+    if (state.dataset_type.value === 'WGS') {
         us_text.innerText = '5.31';
         hadza_text.innerText = '6.30';
-      } else if (state.dataset_type.value === '16S') {
+    } else if (state.dataset_type.value === '16S') {
         us_text.innerText = '4.47';
         hadza_text.innerText = '5.20';
-      }
     }
+}
 
-        function updateDatasetDetails(state) {
-          $.ajax({
-            url: state.public_endpoint + '/dataset/' + state.dataset_input.value,
-            success: function (data) {
-              var info = data[state.dataset_input.value];
-              if (info == null) return;
-              $('#dataset_title')
+function updateDatasetDetails(state) {
+    $.ajax({
+        url: state.public_endpoint + '/dataset/' + state.dataset_input.value,
+        success: function (data) {
+            var info = data[state.dataset_input.value];
+            if (info == null) return;
+            $('#dataset_title')
                 .text(info.title)
                 .removeClass('spinner-grow spinner-grow-sm');
-              if (info.datatype === 'WGS') {
+            if (info.datatype === 'WGS') {
                 $('#dataset-info-processing-text')
-                  .text(
-                    "{{ _('For your sample, we performed a technique called shotgun metagenomic sequencing where we grab random snippets from all of the DNA present. We then sequenced these random snippets to get a picture of all the kinds of life that is in your sample. Because your cells also contain DNA, some of the snippets came from your own genome, but all of the sequences from those snippets have been removed.') }} "
-                  )
-                  .removeClass('spinner-grow spinner-grow-sm');
-              } else if (info.datatype === '16S') {
+                    .text(
+                        "{{ _('For your sample, we performed a technique called shotgun metagenomic sequencing where we grab random snippets from all of the DNA present. We then sequenced these random snippets to get a picture of all the kinds of life that is in your sample. Because your cells also contain DNA, some of the snippets came from your own genome, but all of the sequences from those snippets have been removed.') }} "
+                    )
+                    .removeClass('spinner-grow spinner-grow-sm');
+            } else if (info.datatype === '16S') {
                 $('#dataset-info-processing-text')
-                  .text(
-                    "{{ _('For your sample, we performed a technique called Polymerase Chain Reaction (PCR) to make many copies of a piece of DNA corresponding to a particular gene that is present in bacteria and archaea; specifically, the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. We then sequenced these copies. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}"
-                  )
-                  .removeClass('spinner-grow spinner-grow-sm');
-              } else {
+                    .text(
+                        "{{ _('For your sample, we performed a technique called Polymerase Chain Reaction (PCR) to make many copies of a piece of DNA corresponding to a particular gene that is present in bacteria and archaea; specifically, the fourth variable region (V4) of the 16S rRNA small subunit ribosomal gene. We then sequenced these copies. DNA sequences from this region of this gene can be used like a microbial barcode, providing researchers evidence of the types of microbes that may be present in your sample.') }}"
+                    )
+                    .removeClass('spinner-grow spinner-grow-sm');
+            } else {
                 $('#dataset-info-processing-text')
-                  .text(info.datatype)
-                  .removeClass('spinner-grow spinner-grow-sm');
-              }
-            },
-          function(result, textStatus, errorThrown) {
+                    .text(info.datatype)
+                    .removeClass('spinner-grow spinner-grow-sm');
+            }
+        },
+        function(result, textStatus, errorThrown) {
             console.log("Couldn't retrieve text for " + method + ' ' + url);
-          },
-        });
+        },
+    });
+}
+
+//Called immediately after a tab is shown
+function onTabShown(evt) {
+    if (evt.target.id === 'similarity-tab') {
+        // Emperor doesn't seem to understand that the tab has been shown
+        // by default.  So we'll trigger a resize event on the window
+        // which emperor already links to resize all of its controls.
+        // Stupid, but it seems to work, whereas setting width on any of
+        // the emperor controls doesn't seem to trigger necessary resizing
+        // of the webGL scene
+        window.dispatchEvent(new Event('resize'));
     }
+}
 
-    //Called immediately after a tab is shown
-        function onTabShown(evt) {
-          if (evt.target.id === 'similarity-tab') {
-            // Emperor doesn't seem to understand that the tab has been shown
-            // by default.  So we'll trigger a resize event on the window
-            // which emperor already links to resize all of its controls.
-            // Stupid, but it seems to work, whereas setting width on any of
-            // the emperor controls doesn't seem to trigger necessary resizing
-            // of the webGL scene
-            window.dispatchEvent(new Event('resize'));
-        }
-    }
+function enableTooltips() {
+    var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+}
 
-        function enableTooltips() {
-          var tooltipTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="tooltip"]')
-          );
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const highlightBar = document.querySelector('.highlight-bar');
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const tabs = document.querySelectorAll('.nav-tabs .nav-link');
-      const highlightBar = document.querySelector('.highlight-bar');
-
-      tabs.forEach((tab, index) => {
+    tabs.forEach((tab, index) => {
         tab.addEventListener('shown.bs.tab', function () {
-          const tabWidth = tab.offsetWidth;
-          const tabLeft = tab.offsetLeft;
-          highlightBar.style.width = `${tabWidth}px`;
-          highlightBar.style.transform = `translateX(${tabLeft}px)`;
+            const tabWidth = tab.offsetWidth;
+            const tabLeft = tab.offsetLeft;
+            highlightBar.style.width = `${tabWidth}px`;
+            highlightBar.style.transform = `translateX(${tabLeft}px)`;
         });
-      });
+    });
+});
+
+function setupAccordions() {
+    let acc = document.getElementsByClassName('accordion-microbiome-map');
+    let i;
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener('click', function () {
+            /* Toggle between adding and removing the "active" class,
+  to highlight the button that controls the panel */
+            this.classList.toggle('active');
+            /* Show/closes  the active panel */
+            let panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+            }
+        });
+    }
+}
+
+function init() {
+    enableTooltips();
+
+    // Hook up fake tab links
+    $('.fake-tab').click(function () {
+        let link = this.dataset.link;
+        $(link)[0].click();
     });
 
-    function setupAccordions() {
-      let acc = document.getElementsByClassName('accordion-microbiome-map');
-      let i;
-      for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener('click', function () {
-        /* Toggle between adding and removing the "active" class,
-  to highlight the button that controls the panel */
-        this.classList.toggle('active');
-        /* Show/closes  the active panel */
-        let panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + 'px';
-        }
-      });
-      }
-    }
+    // Listen for tab changes
+    $('.nav-link').on('shown.bs.tab', onTabShown);
 
-  function createDiversityGaugeChart(diversityInSampleValue) {
-    const width = 500;
-    const height = 310;
-    const radius = Math.min(width, height) / 2;
+    let state = {};
 
-    const lowestDiversityScore = 2.4;
-    const averageDiversityScore = 5.31;
-    const highestDiversityScore = 7.25;
+    // Initialize state
+    state.dataset_input = new NamedExpression('Dataset', 'Loading...');
+    //oral/gut/skin
+    state.dataset_site = new NamedExpression('Dataset-Site', 'Loading...');
+    //16S/WGS
+    state.dataset_type = new NamedExpression('Dataset-Type', 'Loading...');
+    state.known_datasets = [];
 
-    const svg = d3
-      .select('#diversity-gauge-chart')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', `translate(${width / 2 - 35}, ${height / 2})`);
+    state.taxonomy = '{{taxonomy}}';
+    state.alpha_metric = '{{alpha_metric}}';
+    state.beta_metric = '{{beta_metric}}';
+    //Just using test barcode because I can never remember a valid one.
+    // DONT MERGE WITH FAKE BARCODE HERE.
+    state.sample_id = '{{sample.sample_barcode}}';
+    //state.sample_id = "000023984";
+    //state.sample_id = "000004220";
+    //state.sample_id = "000023127";
 
-    const arc = d3
-      .arc()
-      .innerRadius(radius * 0.57)
-      .outerRadius(radius * 0.82)
-      .startAngle(Math.PI * 0.75)
-      .endAngle(Math.PI * 2.15);
-
-    svg.append('path')
-      .attr('d', arc)
-      .attr('transform', `translate(-27.5, 15) rotate(100)`)
-      .style('fill', '#D9E9EF')
-      .style('stroke', '#D9E9EF')
-      .style('stroke-width', 2);
-
-    function drawRotatedLine(svg, x, y, angle, length, color, width) {
-      svg.append('line')
-        .attr('x1', 0)
-        .attr('y1', 0)
-        .attr('x2', 0)
-        .attr('y2', -length)
-        .attr('stroke', color)
-        .attr('stroke-width', width)
-        .attr('transform', `translate(${x}, ${y}) rotate(${angle})`)
-        .style('stroke-linecap', 'round');
-    }
-
-    drawRotatedLine(svg, -radius - 8, -radius + 265, 55, 75.213, '#D9E9EF', 2);
-    drawRotatedLine(svg, 103.5, -radius + 268, -54, 75.213, '#D9E9EF', 2);
-
-    function drawIndicatorLine(
-      angle,
-      ellipseXRadius,
-      ellipseYRadius,
-      angleOffset
-    ) {
-      const x = Math.cos(angle) * ellipseXRadius;
-      const y = Math.sin(angle) * ellipseYRadius;
-
-      const tangentAngle = Math.atan2(
-        ellipseYRadius * Math.cos(angle),
-        -ellipseXRadius * Math.sin(angle)
-      );
-
-      const rotationAngle = (tangentAngle * 180) / Math.PI + angleOffset;
-
-      drawRotatedLine(svg, x, y, rotationAngle, 83.863, '#FC8900', 3);
-    }
-
-    const scale = d3
-      .scaleLinear()
-      .domain([lowestDiversityScore, highestDiversityScore])
-      .range([Math.PI * 0.75, Math.PI * 2.41]);
-
-    if (diversityInSampleValue == lowestDiversityScore) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.9, radius * 0.59, 22);
-    }
-
-    if (diversityInSampleValue == highestDiversityScore) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.97, radius * 0.46, -46);
-    }
-
-    if (
-      diversityInSampleValue > lowestDiversityScore &&
-      diversityInSampleValue <= 2.99
-    ) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.75, radius * 0.45, 13);
-    }
-
-    if (diversityInSampleValue >= 3.0 && diversityInSampleValue <= 3.99) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.65, radius * 0.3, 3);
-    }
-
-    if (diversityInSampleValue >= 4.0 && diversityInSampleValue <= 4.99) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.3, radius * 0.35, 8);
-    }
-
-    if (diversityInSampleValue >= 5.0 && diversityInSampleValue <= 5.99) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.1, radius * 0.35, -30);
-    }
-
-    if (diversityInSampleValue >= 6.0 && diversityInSampleValue <= 6.49) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.25, radius * 0.55, 5);
-    }
-
-    if (diversityInSampleValue >= 6.5 && diversityInSampleValue <= 6.99) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.25, radius * 0.45, 5);
-    }
-
-    if (
-      diversityInSampleValue >= 7.0 &&
-      diversityInSampleValue < highestDiversityScore
-    ) {
-      const angle = scale(diversityInSampleValue);
-      drawIndicatorLine(angle, radius * 0.45, radius * 0.25, -35);
-    }
-
-    drawRotatedLine(svg, 20, -radius + 106.5, 43.5, 56.921, '#006A96', 2);
-    drawRotatedLine(svg, 110, -radius + 194, -77, 56.921, '#006A96', 2);
-
-    svg.append('text')
-      .attr('x', -radius - 50)
-      .attr('y', 145)
-      .style('fill', '#747678')
-      .style('font-size', '14px')
-      .style('line-height', '24px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '400')
-      .style('font-style', 'normal')
-      .text("{{ _('Lowest in our dataset') }}");
-
-    svg.append('text')
-      .attr('x', -radius - 50)
-      .attr('y', 127.5)
-      .style('fill', '#006A96')
-      .style('font-size', '18px')
-      .style('font-weight', '700')
-      .style('line-height', '24px')
-      .text(lowestDiversityScore);
-
-    svg.append('text')
-      .attr('x', -radius + 67.5)
-      .attr('y', 100)
-      .style('fill', '#006A96')
-      .style('text-align', 'center')
-      .style('font-size', '16px')
-      .style('font-style', 'normal')
-      .style('font-weight', '700')
-      .style('line-height', '26px')
-      .text("{{ _('Diversity Value') }}");
-
-    svg.append('text')
-      .attr('x', radius - 42.5)
-      .attr('y', 145)
-      .style('fill', '#747678')
-      .style('font-size', '14px')
-      .style('line-height', '24px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '400')
-      .style('font-style', 'normal')
-      .text("{{ _('Highest in our dataset') }}");
-
-    svg.append('text')
-      .attr('x', radius - 42.5)
-      .attr('y', 127.5)
-      .style('fill', '#006A96')
-      .style('font-size', '18px')
-      .style('font-weight', '700')
-      .style('line-height', '24px')
-      .text(highestDiversityScore);
-
-    svg.append('text')
-      .attr('x', 172.5)
-      .attr('y', -radius + 38)
-      .style('fill', '#747678')
-      .style('text-anchor', 'middle')
-      .style('font-size', '14px')
-      .style('line-height', '24px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '400')
-      .style('font-style', 'normal')
-      .text("{{ _('Average in our dataset') }}");
-
-    svg.append('text')
-      .attr('x', 55)
-      .attr('y', -radius + 40)
-      .style('fill', '#006A96')
-      .style('font-size', '18px')
-      .style('font-weight', '700')
-      .style('line-height', '24px')
-      .text(averageDiversityScore);
-
-    const hadzaAverageValue = document.getElementById(
-      'average-hadza-observed-average'
-    ).innerText;
-    svg.append('text')
-      .attr('x', 110)
-      .attr('y', -radius + 185)
-      .style('fill', '#006A96')
-      .style('font-size', '18px')
-      .style('font-weight', '700')
-      .style('line-height', '24px')
-      .text(hadzaAverageValue);
-
-    svg.append('a')
-      .attr(
-        'xlink:href',
-        'https://www.nature.com/articles/d41586-023-02065-y'
-      )
-      .attr('target', '_blank')
-      .append('text')
-      .attr('x', 110)
-      .attr('y', -radius + 215)
-      .style('fill', '#0000EE')
-      .style('font-family', 'Mulish')
-      .style('font-size', '14px')
-      .style('font-weight', '400')
-      .style('line-height', 'normal')
-      .text("{{ _('Hadza people of Tanzania') }}");
-
-    svg.append('text')
-      .attr('x', 110)
-      .attr('y', -radius + 230)
-      .style('fill', '#747678')
-      .style('font-size', '14px')
-      .style('line-height', '24px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '400')
-      .style('font-style', 'normal')
-      .text("{{ _('(population with a') }}");
-
-    svg.append('text')
-      .attr('x', 110)
-      .attr('y', -radius + 245)
-      .style('fill', '#747678')
-      .style('font-size', '14px')
-      .style('line-height', '24px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '400')
-      .style('font-style', 'normal')
-      .text("{{ _('hunter-gatherer lifestyle)') }}");
-
-    svg.append('text')
-      .attr('x', -radius + 125)
-      .attr('y', 35)
-      .style('fill', '#FC8900')
-      .style('font-size', '72px')
-      .style('font-family', 'Mulish')
-      .style('font-weight', '700')
-      .style('line-height', 'normal')
-      .style('text-anchor', 'middle')
-      .text(diversityInSampleValue);
-  }
-
-        function init() {
-        enableTooltips();
-
-        // Hook up fake tab links
-        $('.fake-tab').click(function () {
-          let link = this.dataset.link;
-          $(link)[0].click();
-        });
-
-        // Listen for tab changes
-        $('.nav-link').on('shown.bs.tab', onTabShown);
-
-        let state = {};
-
-        // Initialize state
-        state.dataset_input = new NamedExpression('Dataset', 'Loading...');
-        //oral/gut/skin
-        state.dataset_site = new NamedExpression('Dataset-Site', 'Loading...');
-        //16S/WGS
-        state.dataset_type = new NamedExpression('Dataset-Type', 'Loading...');
-        state.known_datasets = [];
-
-        state.taxonomy = '{{taxonomy}}';
-        state.alpha_metric = '{{alpha_metric}}';
-        state.beta_metric = '{{beta_metric}}';
-        //Just using test barcode because I can never remember a valid one.
-        // DONT MERGE WITH FAKE BARCODE HERE.
-        state.sample_id = '{{sample.sample_barcode}}';
-        //state.sample_id = "000023984";
-        //state.sample_id = "000004220";
-        //state.sample_id = "000023127";
-
-        state.barcode_prefix = '{{barcode_prefix}}';
-        state.public_endpoint = '{{public_endpoint}}';
-        let sample_type = 'oral';
-        if ('{{sample.sample_site}}' === 'Stool') sample_type = 'fecal';
-        state.sample_type = sample_type;
+    state.barcode_prefix = '{{barcode_prefix}}';
+    state.public_endpoint = '{{public_endpoint}}';
+    let sample_type = 'oral';
+    if ('{{sample.sample_site}}' === 'Stool') sample_type = 'fecal';
+    state.sample_type = sample_type;
 
     /* Whenever dataset is changed, we fire off ajax requests
            to grab new info for the plots.  */
-        new DelegateOutput(function (dataset) {
+    new DelegateOutput(function (dataset) {
         // Magic string must match default string used to initialize select box
         if (dataset === 'Loading...') return;
 
@@ -1886,12 +1948,12 @@
 
         getMicrobiomeMapsRasterizedPlots(state);
         updateObservedAverages(state);
-      }, state.dataset_input);
+    }, state.dataset_input);
 
-        refreshDatasets(state);
-    }
+    refreshDatasets(state);
+}
 
-    $(document).ready(init);
+$(document).ready(init);
 
 </script>
 
@@ -1941,25 +2003,31 @@
             <div class="collapse navbar-collapse" id="reportNavContent">
                 <ul class="nav report-nav" id="top-nav-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity" aria-selected="false">{{ _('Diversity') }}</a>
+<a class="nav-link" id="diversity-tab" data-bs-toggle="tab" href="#diversity" role="tab" aria-controls="diversity"
+  aria-selected="false">{{ _('Diversity') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity" aria-selected="false">{{ _('Similarity') }}</a>
+<a class="nav-link" id="similarity-tab" data-bs-toggle="tab" href="#similarity" role="tab" aria-controls="similarity"
+  aria-selected="false">{{ _('Similarity') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
+<a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy"
+  aria-selected="false">{{ _('Composition') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
+<a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab"
+  aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info" aria-selected="false">{{ _('Learn More') }}</a>
+<a class="nav-link" id="dataset-tab" data-bs-toggle="tab" href="#dataset-info" role="tab" aria-controls="dataset-info"
+  aria-selected="false">{{ _('Learn More') }}</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="col-12 tab-content" id="top-nav-tabContent">
+</div>
         <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="report-text">
                 <h3>{{ _('How do you compare?') }}</h3>
@@ -2001,7 +2069,8 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Microbiome Map') }}</h4>
                     <p>
-                        {{ _('Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome Map</a>?') }}
+{{ _('Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome
+  Map</a>?') }}
                     </p>
                 </div>
               </div>
@@ -2032,7 +2101,7 @@
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
                   <div class="diversity-gauge-container">
-                        <div id="diversity-gauge-chart"></div>
+                    <div id="diversity-gauge-chart"></div>
                   </div>
                     <br />
                   <p>
@@ -2041,50 +2110,50 @@
 
                   <div class="row mb-2 mt-2">
                       <div class="col diversity-compare">
-                          <img class="diversity-icon" src='/static/img/vegetables.png'>
-                          <div class="diversity-text">
-                            <div class="diversity-category">
-                              {{ _('Participants who eat more than 30 plants per week') }}
-                            </div>
-                            <div class="diversity-info">
-                              {{ _('Average diversity value:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
-                            </div>
-                          </div>
+  <img class="diversity-icon" src='/static/img/vegetables.png'>
+  <div class="diversity-text">
+    <div class="diversity-category">
+      {{ _('Participants who eat more than 30 plants per week') }}
+    </div>
+    <div class="diversity-info">
+      {{ _('Average diversity value:') }} <span id="diversity_30_plants_per_week" class="info-loader text-success">...</span>
+      </div>
+      </div>
                       </div>
                       <div class="col diversity-compare">
-                          <img class="diversity-icon" src='/static/img/exercise.png'>
-                          <div class="diversity-text">
-                            <div class="diversity-category">
-                              {{ _('Participants who exercise regularly') }}
-                            </div>
-                            <div class="diversity-info">
-                              {{ _('Average diversity value:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
-                            </div>
-                          </div>
+  <img class="diversity-icon" src='/static/img/exercise.png'>
+  <div class="diversity-text">
+    <div class="diversity-category">
+      {{ _('Participants who exercise regularly') }}
+    </div>
+    <div class="diversity-info">
+      {{ _('Average diversity value:') }} <span id="diversity_exercise_regularly" class="info-loader text-success">...</span>
+      </div>
+      </div>
                       </div>
                   </div>
                   <div class="row mb-2">
                       <div class="col diversity-compare">
-                          <img class="diversity-icon" src='/static/img/fermented.png'>
-                          <div class="diversity-text">
-                            <div class="diversity-category">
-                              {{ _('Participants who drink 1L of water regularly') }}
-                            </div>
-                            <div class="diversity-info">
-                              {{ _('Average diversity value:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
-                            </div>
-                          </div>
+  <img class="diversity-icon" src='/static/img/fermented.png'>
+  <div class="diversity-text">
+    <div class="diversity-category">
+      {{ _('Participants who drink 1L of water regularly') }}
+    </div>
+    <div class="diversity-info">
+      {{ _('Average diversity value:') }} <span id="diversity_water_regularly" class="info-loader text-success">...</span>
+    </div>
+  </div>
                       </div>
                       <div class="col diversity-compare">
-                          <img class="diversity-icon" src='/static/img/sleep.png'>
-                          <div class="diversity-text">
-                              <div class="diversity-category">
-                                {{ _('Participants who sleep more than 6 hours per night') }}
-                              </div>
-                              <div class="diversity-info">
-                                {{ _('Average diversity value:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
-                              </div>
-                          </div>
+  <img class="diversity-icon" src='/static/img/sleep.png'>
+  <div class="diversity-text">
+    <div class="diversity-category">
+      {{ _('Participants who sleep more than 6 hours per night') }}
+    </div>
+    <div class="diversity-info">
+      {{ _('Average diversity value:') }} <span id="diversity_sleep_alot" class="info-loader text-success">...</span>
+    </div>
+  </div>
                       </div>
                   </div>
                   <p>
@@ -2109,97 +2178,109 @@
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">{{ _('Diet') }}</h4>
+  <h4 class="diversity-header">{{ _('Diet') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/vegetables.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_plants_per_week_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours eat <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span> plants per week') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/vegetables.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_plants_per_week_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours eat <span id="beta_diversity_plants_per_week_response" class="info-loader text-success">...</span>
+    plants per week') }}
+    </div>
                       </div>
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/diet.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_diet_type_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours had a similar diet (e.g. omnivore, vegetarian, etc.)') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/diet.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_diet_type_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours had a similar diet (e.g. omnivore, vegetarian, etc.)') }}
+    </div>
                       </div>
                   </div>
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">{{ _('Supplements') }}</h4>
+  <h4 class="diversity-header">{{ _('Supplements') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/probiotics.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_probiotics_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span> take probiotics') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/probiotics.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_probiotics_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours <span id="beta_diversity_probiotics_response" class="info-loader text-success">...</span> take
+    probiotics') }}
+    </div>
                       </div>
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/vitamins.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_multivitamin_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours take vitamins') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/vitamins.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_multivitamin_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours take vitamins') }}
+    </div>
                       </div>
                   </div>
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">{{ _('Activity') }}</h4>
+  <h4 class="diversity-header">{{ _('Activity') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/exercise.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_exercise_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours exercise <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/exercise.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_exercise_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours exercise <span id="beta_diversity_exercise_response" class="info-loader text-success">...</span>')
+    }}
+    </div>
                       </div>
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/sleep.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_sleep_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours get <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span> of sleep at night') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/sleep.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_sleep_value" class="info-loader font-weight-bold">...</span> of people with a
+    microbiome like yours get <span id="beta_diversity_sleep_response" class="info-loader text-success">...</span> of
+    sleep at night') }}
+    </div>
                       </div>
                   </div>
 
                   <div class="row mb-2">
                       <div class="col">
-                          <h4 class="diversity-header">{{ _('Demographic') }}</h4>
+  <h4 class="diversity-header">{{ _('Demographic') }}</h4>
                       </div>
                   </div>
                   <div class="row mb-2 mt-2">
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/age.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours were the same age as you') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/age.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> of people with a microbiome
+    like yours were the same age as you') }}
+    </div>
                       </div>
                       <div class="col diversity-compare">
-                          <div class="col-sm-2">
-                              <img class="diversity-icon" src='/static/img/gender.png'>
-                          </div>
-                          <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_sex_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours were the same gender') }}
-                          </div>
+  <div class="col-sm-2">
+    <img class="diversity-icon" src='/static/img/gender.png'>
+  </div>
+  <div class="col-sm-8 diversity-text">
+    {{ _('<span id="beta_diversity_sex_value" class="info-loader font-weight-bold">...</span> of people with a microbiome
+    like yours were the same gender') }}
+    </div>
                       </div>
                   </div>
               </div>
@@ -2219,17 +2300,17 @@
 
                     <div style="padding:10px">
                       <table id="taxonomyTable" class="display" style="width:100%">
-                        <thead>
-                        <tr>
-                          <th>{{ _('%% of Sample') }}</th>
-                          <th>{{ _('Kingdom') }}</th>
-                          <th>{{ _('Phylum') }}</th>
-                          <th>{{ _('Class') }}</th>
-                          <th>{{ _('Order') }}</th>
-                          <th>{{ _('Family') }}</th>
-                          <th>{{ _('Genus') }}</th>
-                        </tr>
-                        </thead>
+<thead>
+  <tr>
+    <th>{{ _('%% of Sample') }}</th>
+    <th>{{ _('Kingdom') }}</th>
+    <th>{{ _('Phylum') }}</th>
+    <th>{{ _('Class') }}</th>
+    <th>{{ _('Order') }}</th>
+    <th>{{ _('Family') }}</th>
+    <th>{{ _('Genus') }}</th>
+  </tr>
+</thead>
                       </table>
                     </div>
                   </div>

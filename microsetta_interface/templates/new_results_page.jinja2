@@ -253,8 +253,8 @@
 
   .gauge-score-text {
     fill: #747678;
-    font-size: 14px;
-    line-height: 24px;
+    font-size: 16px;
+    line-height: 1.3;
     font-family: 'Mulish';
     font-weight: 400;
     font-style: normal;
@@ -263,7 +263,8 @@
   .gauge-score-text-link {
     fill: #0000EE;
     font-family: 'Mulish';
-    font-size: 14px;
+    font-size: 16px;
+    line-height: 1.3;
     font-weight: 400;
     line-height: normal;
   }
@@ -275,7 +276,7 @@
 
   .gauge-score-average {
     fill: #FC8900;
-    font-size: 72px;
+    font-size: 68px;
     font-family: Mulish;
     font-weight: 700;
     line-height: normal;
@@ -303,11 +304,11 @@ function createDiversityGaugeChart(diversityInSampleValue) {
     // negative y axis and rotate clockwise when increasing radians
     // The negative y axis points up in D3
 
-    const width = 650;
+    const width = 700;
     const height = 400;
     let radius = Math.min(width, height) / 2;
 
-    radius = radius - 50;
+    radius = radius - 55;
 
     const lowestDiversityScore = 2.4;
     const averageDiversityScore = 5.31;
@@ -316,8 +317,8 @@ function createDiversityGaugeChart(diversityInSampleValue) {
     // For the case of SVG having (0, 0) in the top left corner
     // translate it to center the final diagram
 
-    const shiftImageX = -50;
-    const shiftImageY = 20;
+    const shiftImageX = -100;
+    const shiftImageY = -5;
 
     const svg = d3
         .select('#diversity-gauge-chart')
@@ -353,14 +354,12 @@ function createDiversityGaugeChart(diversityInSampleValue) {
 
     }
 
-    const angleScale = d3.scaleLinear()
-      .domain([0, 10])
-      .range([0, 360]);
+    const startArcAngle = 45;
+    const endArcAngle = 360 - startArcAngle;
 
-    // to look like the sample graphic, use this scale
-    {# const angleScale = d3.scaleLinear()
+    const angleScale = d3.scaleLinear()
       .domain([lowestDiversityScore, highestDiversityScore])
-      .range([40, 360-40]); #}
+      .range([startArcAngle, endArcAngle]);
 
 
     function drawArc(arcStartAngleDeg, arcEndAngleDeg) {
@@ -409,12 +408,71 @@ function createDiversityGaugeChart(diversityInSampleValue) {
     let arcMinAngle = angleScale(lowestDiversityScore)
     let arcMaxAngle = angleScale(highestDiversityScore)
 
-    //drawArc(arcMinAngle, arcMaxAngle)
+    drawArc(arcMinAngle, arcMaxAngle)
 
-    // Or draw at 40 and 360 - 40
-    drawArc(40, 360 - 40);
+    function drawScore(score, textValues, textAnchor, textShift, lineColor) {
 
-    function drawScore(score, textValues, textAnchor, textShiftX, lineColor) {
+      let diversityAngle = angleScale(score)
+
+      const diversityAngleRad = (diversityAngle * Math.PI) / 180;
+
+      let lineRadius =  arcOuterRadius + 20;
+
+      let scoreNumRadius = lineRadius + 15;
+
+      drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, lineColor, 2)
+
+      let scoreTextRadius = scoreNumRadius + 10;
+      let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
+      let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
+
+      svg.append('text')
+        .attr('x', xScore)
+        .attr('y', yScore)
+        .attr("text-anchor", textAnchor)
+        .attr("class", "gauge-score-num")
+        .text(score);
+
+      let textShiftY = textShift[1];
+
+      for (const textValue of textValues) {
+
+        svg.append('text')
+          .attr('x', xScore + textShift[0])
+          .attr('y', yScore + textShiftY)
+          .attr("text-anchor", 'start')
+          .attr('class', 'gauge-score-text')
+          .text(textValue);
+
+        textShiftY = textShiftY + 18;
+      }
+
+    }
+
+    let textValues;
+    let textAnchor;
+    let textShift;
+    let lineColor;
+
+    textValues = ["{{ _('Lowest in our dataset') }}"];
+    textAnchor = 'end'
+    textShift = [-30, 20];
+    lineColor = '#D9E9EF';
+    drawScore(lowestDiversityScore, textValues, textAnchor, textShift, lineColor);
+
+    textValues = ["{{ _('Highest in our dataset') }}"];
+    textAnchor = 'start';
+    textShift = [0, 20];
+    lineColor = '#D9E9EF'
+    drawScore(highestDiversityScore, textValues, textAnchor, textShift, lineColor);
+
+    textValues = ["{{ _('Average in our dataset') }}"];
+    textAnchor = 'start';
+    textShift = [45, 0];
+    lineColor = '#FC8900';
+    drawScore(averageDiversityScore, textValues, textAnchor, textShift, lineColor);
+
+    function drawHadzaPeople(score, textValues, textAnchor, textShift, lineColor) {
 
       let diversityAngle = angleScale(score)
 
@@ -437,67 +495,7 @@ function createDiversityGaugeChart(diversityInSampleValue) {
         .attr("class", "gauge-score-num")
         .text(score);
 
-
-      let yShift = 20;
-
-      for (const textValue of textValues) {
-
-        svg.append('text')
-          .attr('x', xScore + textShiftX)
-          .attr('y', yScore + yShift)
-          {# .attr('dx', xShift)
-          .attr('dy', yShift) #}
-          .attr("text-anchor", 'start')
-          .attr('class', 'gauge-score-text')
-          .text(textValue)
-
-        yShift = yShift + 18;
-      }
-
-    }
-
-    let textValues = ["{{ _('Lowest in') }}", "{{ _('our dataset') }}"];
-    let textAnchor = 'end'
-    let textShiftX = -30;
-    let lineColor = '#006A96';
-    drawScore(lowestDiversityScore, textValues, textAnchor, textShiftX, lineColor);
-
-    textValues = ["{{ _('Highest in') }}", "{{ _('our dataset') }}"];
-    textAnchor = 'start';
-    textShiftX = 0;
-    lineColor = '#006A96'
-    drawScore(highestDiversityScore, textValues, textAnchor, textShiftX, lineColor);
-
-    textValues = ["{{ _('Average in our dataset') }}"];
-    textAnchor = 'start'
-    textShiftX = 5;
-    lineColor = '#FC8900';
-    drawScore(averageDiversityScore, textValues, textAnchor, textShiftX, lineColor);
-
-    function drawHadzaPeople(score, textValues, textAnchor, textShiftX) {
-
-      let diversityAngle = angleScale(score)
-
-      const diversityAngleRad = (diversityAngle * Math.PI) / 180;
-
-      let lineRadius =  arcOuterRadius + 25;
-
-      let scoreNumRadius = lineRadius + 10;
-
-      drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, 'blue', 2)
-
-      let scoreTextRadius = scoreNumRadius + 10;
-      let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
-      let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
-
-      svg.append('text')
-        .attr('x', xScore)
-        .attr('y', yScore)
-        .attr("text-anchor", textAnchor)
-        .attr("class", "gauge-score-num")
-        .text(score);
-
-      let yShift = 20;
+      let textShiftY = textShift[1]
 
       svg.append('a')
           .attr(
@@ -506,28 +504,28 @@ function createDiversityGaugeChart(diversityInSampleValue) {
           )
           .attr('target', '_blank')
           .append('text')
-          .attr('x', xScore + textShiftX)
-          .attr('y', yScore + yShift)
+          .attr('x', xScore + textShift[0])
+          .attr('y', yScore + textShiftY)
           .attr("text-anchor", 'start')
           .attr('class', 'gauge-score-text-link')
           .text(textValues[0]);
 
-      yScore = yScore + yShift
+      yScore = yScore + textShiftY
 
       textValues.shift()
 
-      yShift = 18;
+      textShiftY = 18;
 
       for (const textValue of textValues) {
 
         svg.append('text')
-          .attr('x', xScore + textShiftX)
-          .attr('y', yScore + yShift)
+          .attr('x', xScore + textShift[0])
+          .attr('y', yScore + textShiftY)
           .attr("text-anchor", 'start')
           .attr('class', 'gauge-score-text')
           .text(textValue)
 
-        yShift = yShift + 18;
+        textShiftY = textShiftY + 18;
       }
 
     }
@@ -537,10 +535,11 @@ function createDiversityGaugeChart(diversityInSampleValue) {
                   "{{ _('hunter-gatherer lifestyle)') }}"];
 
     const hadzaAverageScore = 6.30;
-    textAnchor = 'start'
-    textShiftX = 5;
+    textAnchor = 'start';
+    textShift = [0, 20];
+    lineColor = '#006A96';
 
-    drawHadzaPeople(hadzaAverageScore, textValues, textAnchor, textShiftX)
+    drawHadzaPeople(hadzaAverageScore, textValues, textAnchor, textShift, lineColor)
 
     svg.append('text')
         .attr('x', 0)

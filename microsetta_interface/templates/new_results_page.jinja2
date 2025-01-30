@@ -1073,10 +1073,21 @@
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    let display = Math.round(data["data"] * 100)/100;
-                    $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
-                    diversityInSampleValue = display;
-                    createDiversityGaugeChart(diversityInSampleValue);
+                    let diversityInSampleValue = Math.round(data["data"] * 100)/100;
+
+                    $("#diversity_in_sample").text(diversityInSampleValue).removeClass("spinner-grow spinner-grow-sm");
+
+                    diversityInSampleValue = 2.5;
+
+                    const diversityValues = {
+                        lowestDiversityScore: 2.4,
+                        highestDiversityScore: 7.25,
+                        averageDiversityScore: 5.31,
+                        hadzaAverageScore: 6.30,
+                        diversityInSampleValue: diversityInSampleValue
+                    }
+
+                    createDiversityGaugeChart(diversityValues);
                 }
             }).fail(function (result, textStatus, errorThrown) {
             console.log("Couldn't retrieve alpha metric for the sample")
@@ -1306,65 +1317,62 @@
         }
     }
 
-    function createDiversityGaugeChart(diversityInSampleValue) {
+    function createDiversityGaugeChart(diversityValues) {
+        // Create Diversity Gauge Chart
+        // which consist of lowest, average, highest,
+        // and sample diversity scores in the TMI dataset.
+        // The Hadza people score is also included.
 
-        const width = 700;
-        const height = 400;
-        let radius = Math.min(width, height) / 2;
+        // Guage scores and corresponding descriptive text
+        // are initially positioned and then adjusted later
+        // to prevent scores, lines, and text from obsuring
+        // each other.
 
-        radius = radius - 55;
+        const lowestDiversityScore = diversityValues['lowestDiversityScore'];
+        const highestDiversityScore = diversityValues['highestDiversityScore'];
+        const averageDiversityScore = diversityValues['averageDiversityScore'];
+        const hadzaAverageScore = diversityValues['hadzaAverageScore'];
+        const diversityInSampleValue = diversityValues['diversityInSampleValue']
 
-        const lowestDiversityScore = 2.4;
-        const averageDiversityScore = 5.31;
-        const highestDiversityScore = 7.25;
+        const margin = {top: 15, bottom: 15, left: 15, right: 15};
 
-        // For the case of SVG having (0, 0) in the top left corner
-        // translate it to center the final diagram
+        let imageWidth = 550;
+        let imageHeight = 350;
+        let radius = 115;
 
-        const shiftImageX = -100;
-        const shiftImageY = -5;
+        // Set shift values to center the final diagram
+        // in order for the text labels to be balanced
+        let shiftImageX = -100;
+        let shiftImageY = 20;
 
+        const arcInnerRadius = radius * 0.57
+        const arcOuterRadius = radius * 0.82
+
+        const width = imageWidth - margin.left - margin.right;
+        const height = imageHeight - margin.top - margin.bottom;
+
+        // Set guage properties and add a viewBox for
+        // responsive behavior
         const svg = d3
             .select('#diversity-gauge-chart')
             .append('svg')
-            .attr('width', width)
-            .attr('height', height)
+            .attr("preserveAspectRatio", "xMinYMin")
+            .attr("viewBox", `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`)
             .append('g')
             .attr(
                 'transform',
                 `translate(${width / 2 + shiftImageX}, ${height / 2 + shiftImageY})`
             );
 
-        const arcInnerRadius = radius * 0.57
-        const arcOuterRadius = radius * 0.82
-
-        function drawRadialLine(svg, startRadius, endRadius, angleDeg, color, width) {
-
-            const x1 = 0;
-            const y1 = startRadius;
-
-            const x2 = 0;
-            const y2 = endRadius;
-
-            const rotatedLine = svg.append('line')
-                .attr('x1', x1)
-                .attr('y1', y1)
-                .attr('x2', x2)
-                .attr('y2', y2)
-                .attr('stroke', color)
-                .attr('stroke-width', width)
-                .style('stroke-linecap', 'round')
-                .attr("transform", 'rotate(' + angleDeg + ')')
-
-        }
-
+        // Creat an arc where the arc is a constant size
+        // and the values at each arc end are the
+        // lowest and highest diversity scores
         const startArcAngle = 45;
         const endArcAngle = 360 - startArcAngle;
 
         const angleScale = d3.scaleLinear()
         .domain([lowestDiversityScore, highestDiversityScore])
         .range([startArcAngle, endArcAngle]);
-
 
         function drawArc(arcStartAngleDeg, arcEndAngleDeg) {
 
@@ -1389,13 +1397,10 @@
 
             svg.append('path')
                 .attr('d', arc)
-                .attr("class", "gauge-arc")
-
-            const arcColor = '#D9E9EF';
-
-            drawRadialLine(svg, arcInnerRadius, arcOuterRadius + 30, arcStartAngleDeg, arcColor, 2)
-
-            drawRadialLine(svg, arcInnerRadius, arcOuterRadius + 30, arcEndAngleDeg, arcColor, 2)
+                .attr("class", "diversity-gauge-arc")
+                .style("fill", "var(--tmi-blue-bg)")
+                .style("stroke", "var(--tmi-blue-bg)")
+                .style("stroke-width", 2)
 
         }
 
@@ -1404,150 +1409,266 @@
 
         drawArc(arcMinAngle, arcMaxAngle)
 
-        function drawScore(score, textValues, textAnchor, textShift, lineColor) {
+        function getTextSize(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const textMetrics = context.measureText(text);
+            const elemTextWidth = textMetrics.width + textMetrics.actualBoundingBoxRight;
+            const elemTextHeight = textMetrics.fontBoundingBoxAscent + textMetrics.hangingBaseline + textMetrics.fontBoundingBoxDescent;
 
-            let diversityAngle = angleScale(score)
+            return {width: elemTextWidth, height: elemTextHeight};
+        }
 
+        let textSize;
+        let textWidth;
+        let textHeight;
+        let numWidth;
+        let numHeight;
+
+        // Get sample number size to adjust position
+        textSize = getTextSize(9.99)
+        numWidth = textSize.width;
+        numHeight = textSize.height;
+
+        // Set initial gaugeData where
+        // gauge data consists of scores, lines, score #s,
+        // descriptive text positions, and fill color.
+        // There is a flag to check if the initial descriptive
+        // text line is a link.
+        let gaugeData = [
+            {type: 'lowestDiversityScore', score: lowestDiversityScore, radiusExtension: 37, numRadialShift: 10, numColor: 'var(--tmi-blue)', numShift: [0,0], textValues: ["{{ _('Lowest in our dataset') }}"], textAnchor: 'end', lineColor: 'var(--tmi-blue-bg)', textShift: [-numWidth - 5, 0], firstLineLink: false},
+            {type: 'highestDiversityScore', score: highestDiversityScore, radiusExtension: 37, numRadialShift: 10, numColor: "var(--tmi-blue)", numShift: [0,0], textValues: ["{{ _('Highest in our dataset') }}"], textAnchor: 'start', lineColor: 'var(--tmi-blue-bg)', textShift: [0, 0], firstLineLink: false},
+            {type: 'averageDiversityScore', score: averageDiversityScore, radiusExtension: 37, numRadialShift: 6, numColor: "var(--tmi-blue)", numShift: [0,0], textValues: ["{{ _('Average in our dataset') }}"], textAnchor: 'middle', lineColor: 'var(--tmi-blue)', textShift: [numWidth/2 + 5, -numHeight], firstLineLink: false},
+            {type: 'hadzaAverageScore', score: hadzaAverageScore, radiusExtension: 37, numRadialShift: 6, numColor: "var(--tmi-blue)", numShift: [0,6], textValues: ["{{ _('Hadza people of Tanzania') }}","{{ _('(population with a') }}","{{ _('hunter-gatherer lifestyle)') }}"], textAnchor: 'start', lineColor: 'var(--tmi-blue)', textShift: [numWidth/2 + 5, 0], firstLineLink: true},
+            {type: 'diversityInSampleValue', score: diversityInSampleValue, radiusExtension: 0, numRadialShift: 6, numColor: 'var(--tmi-orange)', numShift: [0,0], textValues: [], textAnchor: 'end', lineColor: 'var(--tmi-orange)', textShift: [0, 0], firstLineLink: false}
+        ]
+
+        // Adjust score positions so they don't obscure
+        // other scores and are not inside the arc
+        function adjustScorePosition(gaugeData) {
+            // Shift score and text position depending
+            // on score value in relation to others
+            // so that it's not obscured
+
+            const modifiedGuageData = [];
+
+            // No changes to lowestDiversityScore position
+            const lowestDiversityScoreObj = gaugeData.filter(elem => elem.type === 'lowestDiversityScore')[0];
+            modifiedGuageData.push(lowestDiversityScoreObj);
+
+            // No changes to highestDiversityScore position
+            const highestDiversityScoreObj = gaugeData.filter(elem => elem.type === 'highestDiversityScore')[0];
+            modifiedGuageData.push(highestDiversityScoreObj);
+
+            // No changes to averageDiversityScore position
+            const averageDiversityScoreObj = gaugeData.filter(elem => elem.type === 'averageDiversityScore')[0];
+           modifiedGuageData.push(averageDiversityScoreObj);
+
+            // hadzaAverageScore near highestDiversityScore
+            const hadzaAverageScoreObj = gaugeData.filter(elem => elem.type === 'hadzaAverageScore')[0];
+            if (Math.abs(highestDiversityScoreObj.score - hadzaAverageScoreObj.score) <= 0.7){
+                textSize = getTextSize(hadzaAverageScoreObj.score.toFixed(2));
+                numWidth = textSize.width;
+                numHeight = textSize.height;
+                hadzaAverageScoreObj.textAnchor = 'start';
+                hadzaAverageScoreObj.textShift = [numWidth + 5, 0];
+            } else {
+                textSize = getTextSize(hadzaAverageScoreObj.score.toFixed(2));
+                numWidth = textSize.width;
+                numHeight = textSize.height;
+                hadzaAverageScoreObj.textAnchor = 'start';
+                hadzaAverageScoreObj.textShift = [numWidth + 5, -numHeight + 5];
+            }
+            modifiedGuageData.push(hadzaAverageScoreObj);
+
+            // compare diversityInSampleValue to
+            // diversity scores at 90, 180, and 270 degrees
+            const diversityInSampleValueObj = gaugeData.filter(elem => elem.type === 'diversityInSampleValue')[0];
+
+            const scoreScale = d3.scaleLinear()
+            .domain([startArcAngle, endArcAngle])
+            .range([lowestDiversityScore, highestDiversityScore]);
+            const quarterDiversityScore = scoreScale(90);
+            const middleDiversityScore = scoreScale(180);
+            const threeQuarterDiversityScore = scoreScale(270);
+
+            // diversityInSampleValue between low score & 90 degrees
+            if (diversityInSampleValueObj.score <  quarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 13;
+                diversityInSampleValueObj.numShift = [8, 5];
+                diversityInSampleValueObj.textAnchor = 'end';
+            }
+
+            // diversityInSampleValue between 90 degrees and 180 degrees
+            if (diversityInSampleValueObj.score <=  middleDiversityScore && diversityInSampleValueObj.score >=  quarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 13;
+                diversityInSampleValueObj.numShift = [8, 4];
+                diversityInSampleValueObj.textAnchor = 'end';
+            }
+
+            // diversityInSampleValue between 180 degrees and 270 degrees
+            if (diversityInSampleValueObj.score >  middleDiversityScore && diversityInSampleValueObj.score <=  threeQuarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 8;
+                diversityInSampleValueObj.numShift = [-5, 0];
+                diversityInSampleValueObj.textAnchor = 'start';
+            }
+
+            // diversityInSampleValue between 270 degrees and high score
+            if (diversityInSampleValueObj.score >  threeQuarterDiversityScore && diversityInSampleValueObj.score <=  highestDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 10;
+                diversityInSampleValueObj.numShift = [0, 5];
+                diversityInSampleValueObj.textAnchor = 'start';
+            }
+
+            // diversityInSampleValue near averageDiversityScore
+            if ((diversityInSampleValueObj.score - averageDiversityScoreObj.score) <= 0 &&
+            diversityInSampleValueObj.score - averageDiversityScoreObj.score >= -0.25) {
+                diversityInSampleValueObj.textAnchor = 'end';
+                diversityInSampleValueObj.numRadialShift=9;
+                diversityInSampleValueObj.numShift = [4, -5];
+            }
+
+            if ((diversityInSampleValueObj.score - averageDiversityScoreObj.score) >= 0 &&
+            diversityInSampleValueObj.score - averageDiversityScoreObj.score <= 0.25) {
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift=8;
+                diversityInSampleValueObj.numShift = [4, 5];
+            }
+
+            // diversityInSampleValue near hadzaAverageScore
+            if ((diversityInSampleValueObj.score - hadzaAverageScoreObj.score) >= 0) {
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            if (hadzaAverageScoreObj.score - diversityInSampleValueObj.score <= 0.05 && hadzaAverageScoreObj.score - diversityInSampleValueObj.score >= 0) {
+                diversityInSampleValueObj.numShift = [-5, -5];
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            if (diversityInSampleValueObj.score - hadzaAverageScoreObj.score >= 0 &&
+            diversityInSampleValueObj.score - hadzaAverageScoreObj.score <= 0.2) {
+                diversityInSampleValueObj.numShift = [-5, 12];
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            modifiedGuageData.push(diversityInSampleValueObj);
+
+          return modifiedGuageData;
+        }
+
+        gaugeData = adjustScorePosition(gaugeData);
+
+        function drawRadialLine(svg, startRadius, endRadius, angleDeg, color, width) {
+
+            const x1 = 0;
+            const y1 = startRadius;
+
+            const x2 = 0;
+            const y2 = endRadius;
+
+            const rotatedLine = svg.append('line')
+                .attr('x1', x1)
+                .attr('y1', y1)
+                .attr('x2', x2)
+                .attr('y2', y2)
+                .style('stroke', color)
+                .style('stroke-width', width)
+                .style('stroke-linecap', 'round')
+                .attr("transform", 'rotate(' + angleDeg + ')')
+        }
+
+        // Draw the score lines, numbers, and descriptive text
+        function drawScoreAndText(data) {
+            const score = data.score;
+            const radiusExtension = data.radiusExtension;
+            const numRadialShift = data.numRadialShift;
+            const numColor = data.numColor;
+            const numShift = data.numShift;
+            const textValues = data.textValues;
+            const textAnchor = data.textAnchor;
+            const lineColor = data.lineColor;
+            const textShift = data.textShift;
+            const firstLineLink = data.firstLineLink;
+
+            const diversityAngle = angleScale(score)
             const diversityAngleRad = (diversityAngle * Math.PI) / 180;
 
-            let lineRadius =  arcOuterRadius + 20;
+            const lineRadius = arcOuterRadius + radiusExtension;
 
-            let scoreNumRadius = lineRadius + 15;
+            drawRadialLine(svg, arcInnerRadius, lineRadius, diversityAngle, lineColor, 2)
 
-            drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, lineColor, 2)
+            const lineRadiusShifted = lineRadius + numRadialShift;
 
-            let scoreTextRadius = scoreNumRadius + 10;
-            let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
-            let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
+            let xScoreRadius = - lineRadiusShifted * Math.sin(diversityAngleRad);
+            let yScoreRadius = lineRadiusShifted * Math.cos(diversityAngleRad);
 
             svg.append('text')
-                .attr('x', xScore)
-                .attr('y', yScore)
+                .attr('x', xScoreRadius)
+                .attr('y', yScoreRadius)
+                .attr('dx', numShift[0])
+                .attr('dy', numShift[1])
                 .attr("text-anchor", textAnchor)
-                .attr("class", "gauge-score-num")
-                .text(score);
+                .attr("class", "diversity-gauge-score-num")
+                .style("fill", numColor)
+                .text(score.toFixed(2));
 
-            let textShiftY = textShift[1];
+            if (firstLineLink === true) {
+                svg.append('a')
+                    .attr(
+                        'xlink:href',
+                        'https://www.nature.com/articles/d41586-023-02065-y'
+                    )
+                    .attr('target', '_blank')
+                    .append('text')
+                    .attr('x', xScoreRadius)
+                    .attr('y', yScoreRadius)
+                    .attr('dx', textShift[0])
+                    .attr('dy', textShift[1])
+                    .attr("text-anchor", 'start')
+                    .attr('class', 'diversity-gauge-score-text-link')
+                    .text(textValues[0]);
+
+                textValues.shift();
+            }
 
             for (const textValue of textValues) {
 
+                yScoreRadius = yScoreRadius + 20;
+
                 svg.append('text')
-                .attr('x', xScore + textShift[0])
-                .attr('y', yScore + textShiftY)
-                .attr("text-anchor", 'start')
-                .attr('class', 'gauge-score-text')
+                .attr('x', xScoreRadius)
+                .attr('y', yScoreRadius)
+                .attr('dx', textShift[0])
+                .attr('dy', textShift[1])
+                .attr('text-anchor', 'start')
+                .attr('class', 'diversity-gauge-score-text')
+                .style("fill", "var(--tmi-gray-80)")
                 .text(textValue);
-
-                textShiftY = textShiftY + 18;
             }
-
         }
 
-        let textValues;
-        let textAnchor;
-        let textShift;
-        let lineColor;
+        gaugeData.forEach(data => {
+            drawScoreAndText(data)
+        })
 
-        textValues = ["{{ _('Lowest in our dataset') }}"];
-        textAnchor = 'end'
-        textShift = [-30, 20];
-        lineColor = '#D9E9EF';
-        drawScore(lowestDiversityScore, textValues, textAnchor, textShift, lineColor);
-
-        textValues = ["{{ _('Highest in our dataset') }}"];
-        textAnchor = 'start';
-        textShift = [0, 20];
-        lineColor = '#D9E9EF'
-        drawScore(highestDiversityScore, textValues, textAnchor, textShift, lineColor);
-
-        textValues = ["{{ _('Average in our dataset') }}"];
-        textAnchor = 'start';
-        textShift = [45, 0];
-        lineColor = '#FC8900';
-        drawScore(averageDiversityScore, textValues, textAnchor, textShift, lineColor);
-
-        function drawHadzaPeople(score, textValues, textAnchor, textShift, lineColor) {
-
-            let diversityAngle = angleScale(score);
-
-            const diversityAngleRad = (diversityAngle * Math.PI) / 180;
-
-            let lineRadius =  arcOuterRadius + 25;
-
-            let scoreNumRadius = lineRadius + 10;
-
-            drawRadialLine(svg, arcInnerRadius, scoreNumRadius, diversityAngle, lineColor, 2)
-
-            let scoreTextRadius = scoreNumRadius + 10;
-            let xScore = - scoreTextRadius * Math.sin(diversityAngleRad);
-            let yScore = scoreTextRadius * Math.cos(diversityAngleRad);
-
-            svg.append('text')
-                .attr('x', xScore)
-                .attr('y', yScore)
-                .attr("text-anchor", textAnchor)
-                .attr("class", "gauge-score-num")
-                .text(score);
-
-            let textShiftY = textShift[1];
-
-            svg.append('a')
-                .attr(
-                    'xlink:href',
-                    'https://www.nature.com/articles/d41586-023-02065-y'
-                )
-                .attr('target', '_blank')
-                .append('text')
-                .attr('x', xScore + textShift[0])
-                .attr('y', yScore + textShiftY)
-                .attr("text-anchor", 'start')
-                .attr('class', 'gauge-score-text-link')
-                .text(textValues[0]);
-
-            yScore = yScore + textShiftY;
-
-            textValues.shift();
-
-            textShiftY = 18;
-
-            for (const textValue of textValues) {
-
-                svg.append('text')
-                .attr('x', xScore + textShift[0])
-                .attr('y', yScore + textShiftY)
-                .attr("text-anchor", 'start')
-                .attr('class', 'gauge-score-text')
-                .text(textValue)
-
-                textShiftY = textShiftY + 18;
-            }
-
-        }
-
-        textValues = ["{{ _('Hadza people of Tanzania') }}",
-                    "{{ _('(population with a') }}",
-                    "{{ _('hunter-gatherer lifestyle)') }}"];
-
-        const hadzaAverageScore = 6.30;
-        textAnchor = 'start';
-        textShift = [0, 20];
-        lineColor = '#006A96';
-
-        drawHadzaPeople(hadzaAverageScore, textValues, textAnchor, textShift, lineColor)
-
+        // Add static text to the gauge image
         svg.append('text')
             .attr('x', 0)
             .attr('y', 20)
-            .attr('class', 'gauge-score-average')
-            .text(diversityInSampleValue);
+            .attr('class', 'diversity-gauge-avg-score')
+            .style('fill', 'var(--tmi-orange)')
+            .text(diversityInSampleValue.toFixed(2));
 
         svg.append('text')
             .attr('x', 0)
             .attr('y', arcInnerRadius + 15)
-            .attr("class", "gauge-score-title")
+            .attr("class", "diversity-gauge-title")
+            .style('fill', 'var(--tmi-blue)')
             .style('text-anchor', 'middle')
             .text("{{ _('Diversity Value') }}");
-
     }
 
     function init(){

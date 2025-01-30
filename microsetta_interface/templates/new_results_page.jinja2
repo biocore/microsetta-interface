@@ -29,7 +29,7 @@
       float:left;
      }
     .diversity-text {
-        vertical-align:middle; 
+        vertical-align:middle;
         display:inline;
         float:left;
         padding: 10px;
@@ -107,7 +107,7 @@
     .tab-pane {
         background-color: #FFFFFF;
         color: #000000;
-    } 
+    }
     .microbe-count {
         font-weight: bold;
     }
@@ -197,13 +197,13 @@
     .tooltip.show {
         opacity: 1;
     }
-     
+
     .tooltip-inner {
       background-color: #ffffff; !important;
       color: #747678;
       border: 2px solid #fc8900;
       }
-     
+
     .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before {
         border-bottom-color: #fc8900 !important;
     }
@@ -218,6 +218,8 @@
     }
 
 </style>
+
+<script src="/static/vendor/d3/d3.v7.js"></script>
 
 <script type="text/javascript" language="javascript" src="/static/js/ruleset.js"></script>
 <!-- Datatables must precede emperor imports, they don't play nice with each other. -->
@@ -260,7 +262,7 @@
 
     function placeURLSourcedImageFromDetail(state, url, detail) {
         /* this creates the following html structure off of #pcoa-div
-       	
+
 		<div id="accordion-div-id">
 			<button class="accordion-microbiome-map">
 				<h4 class="diversity-header">button_text</h4>
@@ -277,10 +279,10 @@
 					</div>
 				</div>
 			</div>
-		</div> 
+		</div>
 		*/
         var pcoa_div = document.getElementById('pcoa-div');
-        
+
         var img = document.createElement('img');
         img.id = detail['img_id'];
         img.classList.add('img-fluid');
@@ -293,7 +295,7 @@
         var content_div = document.createElement('div');
         content_div.classList.add('accordion-panel-microbiome-map');
         content_div.style = '';
-        
+
         var content_div_row = document.createElement('div');
         content_div_row.classList.add('row');
 
@@ -391,19 +393,19 @@
         } else {
             var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
         }
-        
+
         for (var key of pcoa_plots) {
             let detail = pcoa_structure[key];
-            let url = state.public_endpoint + 
-                '/dataset/' + 
-                detail['dataset'] + 
-                '/plotting/diversity/beta/' + 
-                state.beta_metric + 
+            let url = state.public_endpoint +
+                '/dataset/' +
+                detail['dataset'] +
+                '/plotting/diversity/beta/' +
+                state.beta_metric +
                 '/pcoa/full-dataset/' +
-                'png?category=' + 
-                detail['category'] + 
-                '&sample_id=' + 
-                state.barcode_prefix + 
+                'png?category=' +
+                detail['category'] +
+                '&sample_id=' +
+                state.barcode_prefix +
                 state.sample_id;
             placeURLSourcedImageFromDetail(state, url, detail);
         }
@@ -418,8 +420,8 @@
         var list = document.createElement('ul');
         var span = document.createElement('span');
         span.id = span_id.substring(1);
-        span.classList.add('info-loader');  
-        span.classList.add('text-success'); 
+        span.classList.add('info-loader');
+        span.classList.add('text-success');
 
         div.appendChild(label);
         div.appendChild(list);
@@ -433,14 +435,14 @@
         let span_id = "";
         let label = "";
 
-        // Qiita doesn't provide an easy way to obtain this detail 
-        // soo... not ideal but let's provide a way to get study 
+        // Qiita doesn't provide an easy way to obtain this detail
+        // soo... not ideal but let's provide a way to get study
         // links for various datasets
-        let study_lookup = {'10317': ["American Gut: an Open Platform for Citizen Science Microbiome Research", 
+        let study_lookup = {'10317': ["American Gut: an Open Platform for Citizen Science Microbiome Research",
                                       "https://msystems.asm.org/content/3/3/e00031-18"],
-                            "850": ["Human gut microbiome viewed across age and geography", 
+                            "850": ["Human gut microbiome viewed across age and geography",
                                     "https://www.nature.com/articles/nature11053"],
-                            "10297": ["Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota", 
+                            "10297": ["Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota",
                                       "https://www.nature.com/articles/srep40466"],
                             "10080": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
                             "10300": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
@@ -510,8 +512,8 @@
                 $(span_id).append(to_append).removeClass("spinner-grow spinner-grow-sm");
             }
         }
-                
-                    
+
+
             //$(span_id).append('<li><h6>' + study_title + '</h6><br /><span>' + study_title + '</span>
             //$(span_id).append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
         //if (detail['qiita-study-ids'].length > 1)
@@ -686,11 +688,11 @@
                                break;
                            default:
                                value = "";
-                               break; 
+                               break;
                        }
                        $td.attr('title', value);
                     });
-                    
+
                     /* Apply the tooltips */
                     $('#taxonomyTable thead th[title]').tooltip(
                     {
@@ -794,7 +796,7 @@
                     $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm");
                 }
 
-                
+
             }
 
         }
@@ -956,7 +958,7 @@
             .then(queryNeighborAndSelfMetadata(state, ["age_cat", "sugary_sweets_frequency"]))
             .then(fillResults(state, ["#age_nearest_neighbor", "#more_or_less_sweets_nearest_neighbor"]));
     }
-
+    let diversityInSampleValue = null;
     function updateDiversity(state){
         //https://www-dev.ucsd.edu/results-api/diversity/alpha/group/faith_pd?summary_statistics=true
 
@@ -974,7 +976,7 @@
                         ]
                     }
             };
-        const water_frequency = 
+        const water_frequency =
             {
                 "metadata_query":
                     {
@@ -1064,15 +1066,28 @@
         }
         $.ajax(
             {
-                url: state.public_endpoint + "/dataset/" + 
+                url: state.public_endpoint + "/dataset/" +
                     state.dataset_input.value +
                     "/diversity/alpha/single/" +
                     alpha_metric + "/" + state.barcode_prefix + state.sample_id,
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    let display = Math.round(data["data"] * 100)/100;
-                    $("#diversity_in_sample").text(display).removeClass("spinner-grow spinner-grow-sm");
+                    let diversityInSampleValue = Math.round(data["data"] * 100)/100;
+
+                    $("#diversity_in_sample").text(diversityInSampleValue).removeClass("spinner-grow spinner-grow-sm");
+
+                    diversityInSampleValue = 2.5;
+
+                    const diversityValues = {
+                        lowestDiversityScore: 2.4,
+                        highestDiversityScore: 7.25,
+                        averageDiversityScore: 5.31,
+                        hadzaAverageScore: 6.30,
+                        diversityInSampleValue: diversityInSampleValue
+                    }
+
+                    createDiversityGaugeChart(diversityValues);
                 }
             }).fail(function (result, textStatus, errorThrown) {
             console.log("Couldn't retrieve alpha metric for the sample")
@@ -1302,6 +1317,360 @@
         }
     }
 
+    function createDiversityGaugeChart(diversityValues) {
+        // Create Diversity Gauge Chart
+        // which consist of lowest, average, highest,
+        // and sample diversity scores in the TMI dataset.
+        // The Hadza people score is also included.
+
+        // Guage scores and corresponding descriptive text
+        // are initially positioned and then adjusted later
+        // to prevent scores, lines, and text from obsuring
+        // each other.
+
+        const lowestDiversityScore = diversityValues['lowestDiversityScore'];
+        const highestDiversityScore = diversityValues['highestDiversityScore'];
+        const averageDiversityScore = diversityValues['averageDiversityScore'];
+        const hadzaAverageScore = diversityValues['hadzaAverageScore'];
+        const diversityInSampleValue = diversityValues['diversityInSampleValue']
+
+        const margin = {top: 15, bottom: 15, left: 15, right: 15};
+
+        let imageWidth = 550;
+        let imageHeight = 350;
+        let radius = 115;
+
+        // Set shift values to center the final diagram
+        // in order for the text labels to be balanced
+        let shiftImageX = -100;
+        let shiftImageY = 20;
+
+        const arcInnerRadius = radius * 0.57
+        const arcOuterRadius = radius * 0.82
+
+        const width = imageWidth - margin.left - margin.right;
+        const height = imageHeight - margin.top - margin.bottom;
+
+        // Set guage properties and add a viewBox for
+        // responsive behavior
+        const svg = d3
+            .select('#diversity-gauge-chart')
+            .append('svg')
+            .attr("preserveAspectRatio", "xMinYMin")
+            .attr("viewBox", `0 0 ${width + margin.right + margin.left} ${height + margin.top + margin.bottom}`)
+            .append('g')
+            .attr(
+                'transform',
+                `translate(${width / 2 + shiftImageX}, ${height / 2 + shiftImageY})`
+            );
+
+        // Creat an arc where the arc is a constant size
+        // and the values at each arc end are the
+        // lowest and highest diversity scores
+        const startArcAngle = 45;
+        const endArcAngle = 360 - startArcAngle;
+
+        const angleScale = d3.scaleLinear()
+        .domain([lowestDiversityScore, highestDiversityScore])
+        .range([startArcAngle, endArcAngle]);
+
+        function drawArc(arcStartAngleDeg, arcEndAngleDeg) {
+
+            function degreesToD3Radians(angleDeg) {
+
+                // Convert to angleRad on the D3 axis
+                const angleRad =  (angleDeg - 180) * (Math.PI/180);
+
+                return angleRad;
+            }
+
+            const arcStartAngleRad = degreesToD3Radians(arcStartAngleDeg)
+
+            const arcEndAngleRad = degreesToD3Radians(arcEndAngleDeg)
+
+            const arc = d3
+                .arc()
+                .innerRadius(arcInnerRadius)
+                .outerRadius(arcOuterRadius)
+                .startAngle(arcStartAngleRad)
+                .endAngle(arcEndAngleRad);
+
+            svg.append('path')
+                .attr('d', arc)
+                .attr("class", "diversity-gauge-arc")
+                .style("fill", "var(--tmi-blue-bg)")
+                .style("stroke", "var(--tmi-blue-bg)")
+                .style("stroke-width", 2)
+
+        }
+
+        let arcMinAngle = angleScale(lowestDiversityScore)
+        let arcMaxAngle = angleScale(highestDiversityScore)
+
+        drawArc(arcMinAngle, arcMaxAngle)
+
+        function getTextSize(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const textMetrics = context.measureText(text);
+            const elemTextWidth = textMetrics.width + textMetrics.actualBoundingBoxRight;
+            const elemTextHeight = textMetrics.fontBoundingBoxAscent + textMetrics.hangingBaseline + textMetrics.fontBoundingBoxDescent;
+
+            return {width: elemTextWidth, height: elemTextHeight};
+        }
+
+        let textSize;
+        let textWidth;
+        let textHeight;
+        let numWidth;
+        let numHeight;
+
+        // Get sample number size to adjust position
+        textSize = getTextSize(9.99)
+        numWidth = textSize.width;
+        numHeight = textSize.height;
+
+        // Set initial gaugeData where
+        // gauge data consists of scores, lines, score #s,
+        // descriptive text positions, and fill color.
+        // There is a flag to check if the initial descriptive
+        // text line is a link.
+        let gaugeData = [
+            {type: 'lowestDiversityScore', score: lowestDiversityScore, radiusExtension: 37, numRadialShift: 10, numColor: 'var(--tmi-blue)', numShift: [0,0], textValues: ["{{ _('Lowest in our dataset') }}"], textAnchor: 'end', lineColor: 'var(--tmi-blue-bg)', textShift: [-numWidth - 5, 0], firstLineLink: false},
+            {type: 'highestDiversityScore', score: highestDiversityScore, radiusExtension: 37, numRadialShift: 10, numColor: "var(--tmi-blue)", numShift: [0,0], textValues: ["{{ _('Highest in our dataset') }}"], textAnchor: 'start', lineColor: 'var(--tmi-blue-bg)', textShift: [0, 0], firstLineLink: false},
+            {type: 'averageDiversityScore', score: averageDiversityScore, radiusExtension: 37, numRadialShift: 6, numColor: "var(--tmi-blue)", numShift: [0,0], textValues: ["{{ _('Average in our dataset') }}"], textAnchor: 'middle', lineColor: 'var(--tmi-blue)', textShift: [numWidth/2 + 5, -numHeight], firstLineLink: false},
+            {type: 'hadzaAverageScore', score: hadzaAverageScore, radiusExtension: 37, numRadialShift: 6, numColor: "var(--tmi-blue)", numShift: [0,6], textValues: ["{{ _('Hadza people of Tanzania') }}","{{ _('(population with a') }}","{{ _('hunter-gatherer lifestyle)') }}"], textAnchor: 'start', lineColor: 'var(--tmi-blue)', textShift: [numWidth/2 + 5, 0], firstLineLink: true},
+            {type: 'diversityInSampleValue', score: diversityInSampleValue, radiusExtension: 0, numRadialShift: 6, numColor: 'var(--tmi-orange)', numShift: [0,0], textValues: [], textAnchor: 'end', lineColor: 'var(--tmi-orange)', textShift: [0, 0], firstLineLink: false}
+        ]
+
+        // Adjust score positions so they don't obscure
+        // other scores and are not inside the arc
+        function adjustScorePosition(gaugeData) {
+            // Shift score and text position depending
+            // on score value in relation to others
+            // so that it's not obscured
+
+            const modifiedGuageData = [];
+
+            // No changes to lowestDiversityScore position
+            const lowestDiversityScoreObj = gaugeData.filter(elem => elem.type === 'lowestDiversityScore')[0];
+            modifiedGuageData.push(lowestDiversityScoreObj);
+
+            // No changes to highestDiversityScore position
+            const highestDiversityScoreObj = gaugeData.filter(elem => elem.type === 'highestDiversityScore')[0];
+            modifiedGuageData.push(highestDiversityScoreObj);
+
+            // No changes to averageDiversityScore position
+            const averageDiversityScoreObj = gaugeData.filter(elem => elem.type === 'averageDiversityScore')[0];
+           modifiedGuageData.push(averageDiversityScoreObj);
+
+            // hadzaAverageScore near highestDiversityScore
+            const hadzaAverageScoreObj = gaugeData.filter(elem => elem.type === 'hadzaAverageScore')[0];
+            if (Math.abs(highestDiversityScoreObj.score - hadzaAverageScoreObj.score) <= 0.7){
+                textSize = getTextSize(hadzaAverageScoreObj.score.toFixed(2));
+                numWidth = textSize.width;
+                numHeight = textSize.height;
+                hadzaAverageScoreObj.textAnchor = 'start';
+                hadzaAverageScoreObj.textShift = [numWidth + 5, 0];
+            } else {
+                textSize = getTextSize(hadzaAverageScoreObj.score.toFixed(2));
+                numWidth = textSize.width;
+                numHeight = textSize.height;
+                hadzaAverageScoreObj.textAnchor = 'start';
+                hadzaAverageScoreObj.textShift = [numWidth + 5, -numHeight + 5];
+            }
+            modifiedGuageData.push(hadzaAverageScoreObj);
+
+            // compare diversityInSampleValue to
+            // diversity scores at 90, 180, and 270 degrees
+            const diversityInSampleValueObj = gaugeData.filter(elem => elem.type === 'diversityInSampleValue')[0];
+
+            const scoreScale = d3.scaleLinear()
+            .domain([startArcAngle, endArcAngle])
+            .range([lowestDiversityScore, highestDiversityScore]);
+            const quarterDiversityScore = scoreScale(90);
+            const middleDiversityScore = scoreScale(180);
+            const threeQuarterDiversityScore = scoreScale(270);
+
+            // diversityInSampleValue between low score & 90 degrees
+            if (diversityInSampleValueObj.score <  quarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 13;
+                diversityInSampleValueObj.numShift = [8, 5];
+                diversityInSampleValueObj.textAnchor = 'end';
+            }
+
+            // diversityInSampleValue between 90 degrees and 180 degrees
+            if (diversityInSampleValueObj.score <=  middleDiversityScore && diversityInSampleValueObj.score >=  quarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 13;
+                diversityInSampleValueObj.numShift = [8, 4];
+                diversityInSampleValueObj.textAnchor = 'end';
+            }
+
+            // diversityInSampleValue between 180 degrees and 270 degrees
+            if (diversityInSampleValueObj.score >  middleDiversityScore && diversityInSampleValueObj.score <=  threeQuarterDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 8;
+                diversityInSampleValueObj.numShift = [-5, 0];
+                diversityInSampleValueObj.textAnchor = 'start';
+            }
+
+            // diversityInSampleValue between 270 degrees and high score
+            if (diversityInSampleValueObj.score >  threeQuarterDiversityScore && diversityInSampleValueObj.score <=  highestDiversityScore) {
+                diversityInSampleValueObj.numRadialShift = 10;
+                diversityInSampleValueObj.numShift = [0, 5];
+                diversityInSampleValueObj.textAnchor = 'start';
+            }
+
+            // diversityInSampleValue near averageDiversityScore
+            if ((diversityInSampleValueObj.score - averageDiversityScoreObj.score) <= 0 &&
+            diversityInSampleValueObj.score - averageDiversityScoreObj.score >= -0.25) {
+                diversityInSampleValueObj.textAnchor = 'end';
+                diversityInSampleValueObj.numRadialShift=9;
+                diversityInSampleValueObj.numShift = [4, -5];
+            }
+
+            if ((diversityInSampleValueObj.score - averageDiversityScoreObj.score) >= 0 &&
+            diversityInSampleValueObj.score - averageDiversityScoreObj.score <= 0.25) {
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift=8;
+                diversityInSampleValueObj.numShift = [4, 5];
+            }
+
+            // diversityInSampleValue near hadzaAverageScore
+            if ((diversityInSampleValueObj.score - hadzaAverageScoreObj.score) >= 0) {
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            if (hadzaAverageScoreObj.score - diversityInSampleValueObj.score <= 0.05 && hadzaAverageScoreObj.score - diversityInSampleValueObj.score >= 0) {
+                diversityInSampleValueObj.numShift = [-5, -5];
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            if (diversityInSampleValueObj.score - hadzaAverageScoreObj.score >= 0 &&
+            diversityInSampleValueObj.score - hadzaAverageScoreObj.score <= 0.2) {
+                diversityInSampleValueObj.numShift = [-5, 12];
+                diversityInSampleValueObj.textAnchor = 'start';
+                diversityInSampleValueObj.numRadialShift = 9;
+            }
+
+            modifiedGuageData.push(diversityInSampleValueObj);
+
+          return modifiedGuageData;
+        }
+
+        gaugeData = adjustScorePosition(gaugeData);
+
+        function drawRadialLine(svg, startRadius, endRadius, angleDeg, color, width) {
+
+            const x1 = 0;
+            const y1 = startRadius;
+
+            const x2 = 0;
+            const y2 = endRadius;
+
+            const rotatedLine = svg.append('line')
+                .attr('x1', x1)
+                .attr('y1', y1)
+                .attr('x2', x2)
+                .attr('y2', y2)
+                .style('stroke', color)
+                .style('stroke-width', width)
+                .style('stroke-linecap', 'round')
+                .attr("transform", 'rotate(' + angleDeg + ')')
+        }
+
+        // Draw the score lines, numbers, and descriptive text
+        function drawScoreAndText(data) {
+            const score = data.score;
+            const radiusExtension = data.radiusExtension;
+            const numRadialShift = data.numRadialShift;
+            const numColor = data.numColor;
+            const numShift = data.numShift;
+            const textValues = data.textValues;
+            const textAnchor = data.textAnchor;
+            const lineColor = data.lineColor;
+            const textShift = data.textShift;
+            const firstLineLink = data.firstLineLink;
+
+            const diversityAngle = angleScale(score)
+            const diversityAngleRad = (diversityAngle * Math.PI) / 180;
+
+            const lineRadius = arcOuterRadius + radiusExtension;
+
+            drawRadialLine(svg, arcInnerRadius, lineRadius, diversityAngle, lineColor, 2)
+
+            const lineRadiusShifted = lineRadius + numRadialShift;
+
+            let xScoreRadius = - lineRadiusShifted * Math.sin(diversityAngleRad);
+            let yScoreRadius = lineRadiusShifted * Math.cos(diversityAngleRad);
+
+            svg.append('text')
+                .attr('x', xScoreRadius)
+                .attr('y', yScoreRadius)
+                .attr('dx', numShift[0])
+                .attr('dy', numShift[1])
+                .attr("text-anchor", textAnchor)
+                .attr("class", "diversity-gauge-score-num")
+                .style("fill", numColor)
+                .text(score.toFixed(2));
+
+            if (firstLineLink === true) {
+                svg.append('a')
+                    .attr(
+                        'xlink:href',
+                        'https://www.nature.com/articles/d41586-023-02065-y'
+                    )
+                    .attr('target', '_blank')
+                    .append('text')
+                    .attr('x', xScoreRadius)
+                    .attr('y', yScoreRadius)
+                    .attr('dx', textShift[0])
+                    .attr('dy', textShift[1])
+                    .attr("text-anchor", 'start')
+                    .attr('class', 'diversity-gauge-score-text-link')
+                    .text(textValues[0]);
+
+                textValues.shift();
+            }
+
+            for (const textValue of textValues) {
+
+                yScoreRadius = yScoreRadius + 20;
+
+                svg.append('text')
+                .attr('x', xScoreRadius)
+                .attr('y', yScoreRadius)
+                .attr('dx', textShift[0])
+                .attr('dy', textShift[1])
+                .attr('text-anchor', 'start')
+                .attr('class', 'diversity-gauge-score-text')
+                .style("fill", "var(--tmi-gray-80)")
+                .text(textValue);
+            }
+        }
+
+        gaugeData.forEach(data => {
+            drawScoreAndText(data)
+        })
+
+        // Add static text to the gauge image
+        svg.append('text')
+            .attr('x', 0)
+            .attr('y', 20)
+            .attr('class', 'diversity-gauge-avg-score')
+            .style('fill', 'var(--tmi-orange)')
+            .text(diversityInSampleValue.toFixed(2));
+
+        svg.append('text')
+            .attr('x', 0)
+            .attr('y', arcInnerRadius + 15)
+            .attr("class", "diversity-gauge-title")
+            .style('fill', 'var(--tmi-blue)')
+            .style('text-anchor', 'middle')
+            .text("{{ _('Diversity Value') }}");
+    }
+
     function init(){
         enableTooltips();
 
@@ -1409,7 +1778,7 @@
                 <span class="nav-button-text">
                     {{ _('Diversity') }}
                 </span>
-                <img src="/static/img/nav_down_report.svg" height="20" width="20" style="margin-top: 10px;" />
+                <img src="/static/img/nav_down_report.svg" height="20" width="20" />
             </button>
 
             <div class="collapse navbar-collapse" id="reportNavContent">
@@ -1466,7 +1835,7 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Your Inner Zoo') }}</h4>
                     <p>
-                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>. 
+                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>.
                     </p>
                 </div>
                 </br>
@@ -1504,11 +1873,8 @@
                   <p>
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
-                  <div class="card your_sample_diversity_inset">
-                      <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>
-                      <div class="card-body">
-                          <span id="diversity_in_sample" class="info-loader">...</span></h5>
-                      </div>
+                  <div class="diversity-gauge-container">
+                        <div id="diversity-gauge-chart"></div>
                   </div>
                     <br />
                   <p>
@@ -1630,7 +1996,7 @@
                           </div>
                       </div>
                   </div>
-                  
+
                   <div class="row mb-2">
                       <div class="col">
                           <h4 class="diversity-header">{{ _('Activity') }}</h4>
@@ -1654,7 +2020,7 @@
                           </div>
                       </div>
                   </div>
-                  
+
                   <div class="row mb-2">
                       <div class="col">
                           <h4 class="diversity-header">{{ _('Demographic') }}</h4>
@@ -1688,7 +2054,7 @@
                     <p>
                     {{ _('This is a table of all of the different microbes we found in your sample along with their proportions.') }}
                     </p>
-                    
+
                     <p>
                     {{ _('To learn more about what the taxonomic ranks (column headers) mean, place your cursor over their names. Additionally, pronunciation can be a challenge considering the language of origin varies for the names between Latin, Greek, Norse, Chinese, and more. A pronunciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
                     </p>
@@ -1769,7 +2135,7 @@
                     <strong>{{ _('How are these maps produced?') }}</strong><br />
                     {{ _('One of the ways microbiome researchers visualize complex data is through a technique called principal coordinates analysis (PCoA). We first calculate distances from every sample to every other sample–remember that distances represent similarities among microbiomes. Then a PCoA converts the distance data into coordinates which can be depicted in a visualization, placing very similar samples near each other and less similar samples further apart.') }}
                 </p>
-                
+
                 <div id="pcoa-div"></div>
               </div>
             </div>

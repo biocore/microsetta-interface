@@ -400,8 +400,18 @@ SURVEY_INFO = {
         'icon': 'survey_external.svg'
     },
     SKIN_SCORING_APP_ID: {
-        'description': 'TBD',
-        'est_minutes': 'TBD',
+        'description': 'This will direct you to the ModiFace skin-scoring web '
+                       'app. This app allows you to upload a selfie photo, '
+                       'which will be used to generate anonymized data about '
+                       'your skin for researchers and provide you with what '
+                       'the algorithm assesses to be your top two skin '
+                       'concerns. You will be provided a username and password'
+                       ' on the next screen to access the app, which will link'
+                       ' your ModiFace results to your skin sample. This app '
+                       'is hosted by a third-party provider; we are '
+                       'unable to provide any assistance if you encounter '
+                       'errors or issues while using the app.',
+        'est_minutes': '5',
         'icon': 'survey_external.svg'
     },
 }
@@ -1558,6 +1568,26 @@ def get_myfoodrepo_no_slots(*, account_id=None, source_id=None):
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
+def post_ajax_skin_scoring_app_credentials(*, account_id, source_id):
+    need_reconsent = check_current_consent(account_id, source_id, "data")
+
+    if need_reconsent:
+        return render_consent_page(
+            account_id, source_id, "data", reconsent=True
+        )
+
+    has_error, credentials, _ = ApiRequest.post(
+        "/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials"\
+            % (account_id, source_id)
+    )
+    if has_error == 404:
+        # No available slots, handle this gracefully
+        return flask.jsonify({"app_username": None, "app_password": None})
+    else:
+        return flask.jsonify(credentials)
+
+
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
 def get_fill_vioscreen_remote_sample_survey(*,
                                             account_id=None,
                                             source_id=None,
@@ -1897,11 +1927,24 @@ def get_source(*, account_id=None, source_id=None):
         template['est_minutes'] = SURVEY_INFO[template_id]['est_minutes']
         template['icon'] = SURVEY_INFO[template_id]['icon']
 
-    # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
-    """
     # any survey specific stuff like opening a tab
     # or slot checking
-    for idx, template in enumerate(remote_surveys[:]):
+    # NB: change "_" back to "idx" when MyFoodRepo is reactivated or if
+    # another external survey requires similar functionality
+    for _, template in enumerate(remote_surveys[:]):
+        if template['survey_template_id'] == SKIN_SCORING_APP_ID:
+            has_error, credentials, _ = ApiRequest.get(
+                '/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials'
+                 % (account_id, source_id)
+            )
+
+            if has_error:
+                return has_error
+
+            template['credentials'] = credentials
+
+        # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
+        """
         if template['survey_template_id'] == MYFOODREPO_ID:
             has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
             if has_error:
@@ -1914,7 +1957,7 @@ def get_source(*, account_id=None, source_id=None):
                 per_source_not_taken.pop(idx)
         else:
             template['new_tab'] = False
-    """
+        """
 
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]

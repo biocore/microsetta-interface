@@ -31,9 +31,28 @@
             return false;
         }
 
+        function setSampleMetaVisibility(sample_site) {
+            let display_state = "";
+
+            // If the sample site is not Cheek, we will hide all of the divs and set the field values to ""
+            if (sample_site != "Cheek") {
+                display_state = "none";
+                $("#sample_site_last_washed_date").val("");
+                $("#sample_site_last_washed_date_normalized").val("");
+                $("#sample_site_last_washed_time").val("");
+                $("#sample_site_last_washed_product").val("").change();
+            }
+            let barcode_meta_cheek_rows = document.getElementsByClassName("barcode-meta-cheek");
+            for(let i = 0; i < barcode_meta_cheek_rows.length; i++) {
+                barcode_meta_cheek_rows[i].style.display = display_state;
+            }
+        }
+
         $(document).ready(function(){
             let form_name = 'sample_form';
             preventImplicitSubmission(form_name);
+
+            setSampleMetaVisibility('{{ sample.sample_site |e }}');
 
             // TODO - this parsing will break for one part and three part language tags.
             let lang = "{{ _(EN_US_KEY) }}";
@@ -64,6 +83,13 @@
                 $("#sample_date").val($.datepicker.formatDate(datePickerFormat, initial))
             }
 
+            // Set initial date for sample site last washed from normalized hidden field
+            let normalizedInitialDateSSW = $("#sample_site_last_washed_date_normalized").val()
+            if (normalizedInitialDateSSW !== "") {
+                let initialSSW = $.datepicker.parseDate("mm/dd/yy", normalizedInitialDateSSW)
+                $("#sample_site_last_washed_date").val($.datepicker.formatDate(datePickerFormat, initialSSW))
+            }
+
             //  Let jquery validate check date format, update hidden field with normalized value
             $.validator.addMethod("monthDayYear", function(value, element)
             {
@@ -83,6 +109,29 @@
                 //Note that when we translate this string,
                 //we have to switch MM/DD/YYYY to the
                 //expected localized date format matching the datepicker settings.
+            }, "{{ _('Required Format: MM/DD/YYYY') }}");
+
+            // Validate format for cheek wash date and update hidden field with normalized value
+            $.validator.addMethod("monthDayYearCheekWash", function(value, element)
+            {
+                if(value == "") {
+                    $("#sample_site_last_washed_date_normalized").val("");
+                    return true;
+                } else {
+                    // If they enter any value, we want to ensure it's valid
+                    let localizedValue = value;
+                    let check;
+                    try {
+                        let parsed = $.datepicker.parseDate(datePickerFormat, localizedValue);
+                        let normalized = $.datepicker.formatDate("mm/dd/yy", parsed);
+                        $("#sample_site_last_washed_date_normalized").val(normalized)
+                        check = true
+                    }
+                    catch (e) {
+                        check = false
+                    }
+                    return check;
+                }
             }, "{{ _('Required Format: MM/DD/YYYY') }}");
 
             {% if not admin_mode %}
@@ -116,6 +165,7 @@
             {% endif %}
 
             $("#sample_date").datepicker(datepicker_args)
+            $("#sample_site_last_washed_date").datepicker(datepicker_args)
 
             $( "#sample_time" ).timepicker({
                 timeFormat: 'h:mm p',
@@ -134,9 +184,28 @@
                 }
             });
 
+            $("#sample_site_last_washed_time").timepicker({
+                timeFormat: 'h:mm p',
+                interval: 30,
+                {% if sample.barcode_meta['sample_site_last_washed_time'] == "" %}
+                defaultTime: 'now',
+                {% else %}
+                defaultTime: '{{ sample.barcode_meta['sample_site_last_washed_time'] }}',
+                {% endif %}
+                startTime: '0',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                change: function() {
+                    $(this).valid();
+                }
+            });
+
             {% if sample.sample_edit_locked and not admin_mode %}
             $("#sample_date").datepicker('disable');
+            $("#sample_site_last_washed_date").datepicker('disable');
             $("#sample_time").prop('disabled', true);
+            $("#sample_site_last_washed_time").prop('disabled', true);
             {% endif %}
 
             $("form[name='" + form_name + "']").validate({
@@ -158,6 +227,9 @@
                     {% if not is_environmental %}
                     sample_site: "required",
                     {% endif %}
+                    sample_site_last_washed_date: {
+                        monthDayYearCheekWash: true
+                    },
                     // Make sure the form is submitted to the destination defined
                     // in the "action" attribute of the form when valid
                     submitHandler: function (form) {
@@ -170,6 +242,10 @@
             // https://github.com/jquery-validation/jquery-validation/issues/1872#issuecomment-257874743
             $('#sample_site').on('change', function(){
                 $("form[name='" + form_name + "']").validate().element('select');
+
+                // Hide or display the cheek-specific questions as appropriate
+                let sample_site = $("#sample_site").val();
+                setSampleMetaVisibility(sample_site);
             });
             {% endif %}
     });
@@ -237,6 +313,34 @@
                                     {% set site_text=sample_sites_text[i] %}
                                     <option value="{{site}}" {% if sample.sample_site == site %}selected {% endif %}>{{site_text}}</option>
                                 {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2 barcode-meta-cheek">
+                        <div class="col-12">
+                            <label for="sample_site_last_washed_date" name="sample_site_last_washed_date_label" class="sample-label">{{ _('When did you last wash the area that was swabbed before taking the sample?') }}*</label>
+                        </div>
+                    </div>
+                    <div class="row barcode-meta-cheek">
+                        <div class="col-12 col-md-6">
+                            <input id="sample_site_last_washed_date_normalized" name="sample_site_last_washed_date_normalized" type="hidden" value="{{ sample.barcode_meta['sample_site_last_washed_date'] | e }}" />
+                            <input id="sample_site_last_washed_date" name="sample_site_last_washed_date" class="form-control" type="text" autocomplete="off" {% if (need_reconsent_data or need_reconsent_biospecimen) and not admin_mode %}disabled{% endif %} \>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <input id="sample_site_last_washed_time" name="sample_site_last_washed_time" class="form-control" type="text" autocomplete="off" value="{{ sample.barcode_meta['sample_site_last_washed_time'] | e }}" {% if (need_reconsent_data or need_reconsent_biospecimen) and not admin_mode %}disabled{% endif %} \>
+                        </div>
+                    </div>
+                    <div class="row mt-2 barcode-meta-cheek">
+                        <div class="col-12">
+                            <label for="sample_site_last_washed_product" name="sample_site_last_washed_product_label" class="sample-label">{{ _('What did you wash with?') }}</label>
+                            <select id="sample_site_last_washed_product" name="sample_site_last_washed_product" class="form-control" {% if not admin_mode and (sample.sample_edit_locked or need_reconsent_data or need_reconsent_biospecimen) %}disabled{% endif %}>
+                                <option value=""></option>
+                                <option value="Soap (includes bar and liquid soap)" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Soap (includes bar and liquid soap)" %}selected{% endif %}>{{ _('Soap (includes bar and liquid soap)') }}</option>
+                                <option value="Foaming face wash" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Foaming face wash" %}selected{% endif %}>{{ _('Foaming face wash') }}</option>
+                                <option value="Face cleanser" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Face cleanser" %}selected{% endif %}>{{ _('Face cleanser') }}</option>
+                                <option value="Just water" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Just water" %}selected{% endif %}>{{ _('Just water') }}</option>
+                                <option value="Other (e.g. shampoo, body wash, all-in-one or all-over wash)" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Other (e.g. shampoo, body wash, all-in-one or all-over wash)" %}selected{% endif %}>{{ _('Other (e.g. shampoo, body wash, all-in-one or all-over wash)') }}</option>
+                                <option value="Not sure" {% if sample.barcode_meta['sample_site_last_washed_product'] == "Not sure" %}selected{% endif %}>{{ _('Not sure') }}</option>
                             </select>
                         </div>
                     </div>

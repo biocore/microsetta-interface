@@ -1581,8 +1581,7 @@ def post_ajax_skin_scoring_app_credentials(*, account_id, source_id):
             % (account_id, source_id)
     )
     if has_error == 404:
-        # No available slots, handle this gracefully
-        return flask.jsonify({"app_username": None, "app_password": None})
+        return flask.jsonify({"app_username": "", "app_password": ""})
     else:
         return flask.jsonify(credentials)
 

@@ -45,8 +45,8 @@
         }
         {% endif %}
 
-        let ssa_username = '';
-        let ssa_password = ''
+        let skin_app_username = '';
+        let skin_app_password = '';
 
         function handleSkinAppModal(survey_link, survey_title, survey_description, app_username, app_password) {
             $("#skin-app-modal-title").empty();
@@ -54,25 +54,50 @@
             $("#skin-app-survey-description").empty();
             $("#skin-app-survey-description").text(survey_description);
 
+            // We allow the function to update the global variables, which will happen when the user receives credentials and re-renders the modal.
+            // However, there's no situation where we'd retract the credentials, so we don't need to do anything with blank values.
             if(app_username != '' && app_username != 'None') {
-                console.log(app_username);
-                ssa_username = app_username;
-                ssa_password = app_password;
+                skin_app_username = app_username
+                skin_app_password = app_password
+            }
+
+            if(skin_app_username != '') {
+                $("#skin-app-take-survey").html('{{ _('Take This Survey Now') }}');
+
                 document.getElementById("app-credentials-div").style.display = '';
+                document.getElementById("app-credentials-username").innerHTML = skin_app_username;
+                document.getElementById("app-credentials-password").innerHTML = skin_app_password;
 
                 // Once we display the credentials, the button action is to open the actual survey
-                $("#skin-app-take-survey").click(async function(e) {
+                $("#skin-app-take-survey").click(function(e) {
                     window.open(survey_link, '_blank').focus();
-                    $("#skin_app_modal").modal('hide');
-
-                    // We need to wait a couple of seconds for the external survey to register in the database, then reload the page. This is not ideal.
-                    await new Promise(r => setTimeout(r, 5000));
-                    window.location.reload();
                 });
             } else {
+                $("#skin-app-take-survey").html('{{ _('Get Username and Password') }}');
+
                 document.getElementById("app-credentials-div").style.display = 'none';
                 $("#skin-app-take-survey").click(async function(e) {
-                    alert("Get credentials here!");
+                    let url = '/accounts/{{ account_id }}/sources/{{ source_id }}/create_skin_scoring_app_credentials';
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        success: function(data) {
+                            if(!Object.hasOwn(data, 'app_username')) {
+                                // The response doesn't have credentials, something went very wrong. Handle it gracefully.
+                                document.getElementById("app-error").style.display = '';
+                            } else {
+                                let s_user = data['app_username'];
+                                let s_pass = data['app_password'];
+                                if (s_user.length < 1) {
+                                    // We weren't able to allocate them credentials.
+                                    document.getElementById("app-error").style.display = '';
+                                } else {
+                                    // We got credentials, refresh this modal
+                                    handleSkinAppModal(survey_link, survey_title, survey_description, s_user, s_pass);
+                                }
+                            }
+                        }
+                    });
                 });
             }
             $("#skin_app_modal").modal('show');
@@ -81,6 +106,11 @@
 
         function hideModal() {
             $("#source_modal").modal('hide');
+            return false;
+        }
+
+        function hideSkinModal() {
+            $("#skin_app_modal").modal('hide');
             return false;
         }
     </script>
@@ -217,6 +247,7 @@
     </div>
 </div>
 
+<! -- Modal for skin-scoring app -->
 <div class="modal fade" id="skin_app_modal" tabindex="-1" role="dialog" aria-labelledby="skinAppModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -228,11 +259,18 @@
                 <p class="survey-description" id="skin-app-survey-description"></p>
             </div>
             <div class="modal-body" id="app-credentials-div">
-                <strong>Username: </strong><span id="app-credentials-username"></span><br />
-                <strong>Password: </strong><span id="app-credentials-password"></span>
+                <p class="survey-description">
+                    <strong>Username: </strong><span id="app-credentials-username"></span><br />
+                    <strong>Password: </strong><span id="app-credentials-password"></span>
+                </p>
+            </div>
+            <div class="modal-body" id="app-error" style="display: none">
+                <p class="survey-description">
+                    {{ _('Sorry, there was a problem generating a username and password. Please try again later.') }}
+                </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-white-blue-border" id="skin_app_cancel" onClick="hideModal();">{{ _('Maybe Later') }}</button>
+                <button type="button" class="btn btn-white-blue-border" id="skin_app_cancel" onClick="hideSkinModal();">{{ _('Maybe Later') }}</button>
                 <button type="button" class="btn btn-blue-gradient" id="skin-app-take-survey">{{ _('Take This Survey Now') }}</button>
             </div>
         </div>

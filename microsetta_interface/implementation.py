@@ -1577,8 +1577,8 @@ def post_ajax_skin_scoring_app_credentials(*, account_id, source_id):
         )
 
     has_error, credentials, _ = ApiRequest.post(
-        "/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials"\
-            % (account_id, source_id)
+        "/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials"
+        % (account_id, source_id)
     )
     if has_error == 404:
         return flask.jsonify({"app_username": "", "app_password": ""})
@@ -1934,7 +1934,7 @@ def get_source(*, account_id=None, source_id=None):
         if template['survey_template_id'] == SKIN_SCORING_APP_ID:
             has_error, credentials, _ = ApiRequest.get(
                 '/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials'
-                 % (account_id, source_id)
+                % (account_id, source_id)
             )
 
             if has_error:

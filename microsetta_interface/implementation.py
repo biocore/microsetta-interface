@@ -400,15 +400,15 @@ SURVEY_INFO = {
         'icon': 'survey_external.svg'
     },
     SKIN_SCORING_APP_ID: {
-        'description': 'This will direct you to the ModiFace skin-scoring web '
-                       'app. This app allows you to upload a selfie photo, '
+        'description': 'This will direct you to the ModiFace skin-scoring web'
+                       ' app. This app allows you to upload a selfie photo, '
                        'which will be used to generate anonymized data about '
                        'your skin for researchers and provide you with what '
                        'the algorithm assesses to be your top two skin '
-                       'concerns. You will be provided a username and password'
-                       ' on the next screen to access the app, which will link'
-                       ' your ModiFace results to your skin sample. This app '
-                       'is hosted by a third-party provider; we are '
+                       'concerns. You will be provided a username and study'
+                       ' code on the next screen to access the app, which '
+                       'will link your ModiFace results to your skin sample. '
+                       'This app is hosted by a third-party provider; we are '
                        'unable to provide any assistance if you encounter '
                        'errors or issues while using the app.',
         'est_minutes': '5',
@@ -1581,7 +1581,7 @@ def post_ajax_skin_scoring_app_credentials(*, account_id, source_id):
         % (account_id, source_id)
     )
     if has_error == 404:
-        return flask.jsonify({"app_username": "", "app_password": ""})
+        return flask.jsonify({"app_username": "", "app_studycode": ""})
     else:
         return flask.jsonify(credentials)
 

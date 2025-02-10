@@ -29,7 +29,7 @@
       float:left;
      }
     .diversity-text {
-        vertical-align:middle; 
+        vertical-align:middle;
         display:inline;
         float:left;
         padding: 10px;
@@ -107,7 +107,7 @@
     .tab-pane {
         background-color: #FFFFFF;
         color: #000000;
-    } 
+    }
     .microbe-count {
         font-weight: bold;
     }
@@ -197,13 +197,13 @@
     .tooltip.show {
         opacity: 1;
     }
-     
+
     .tooltip-inner {
       background-color: #ffffff; !important;
       color: #747678;
       border: 2px solid #fc8900;
       }
-     
+
     .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before {
         border-bottom-color: #fc8900 !important;
     }
@@ -260,7 +260,7 @@
 
     function placeURLSourcedImageFromDetail(state, url, detail) {
         /* this creates the following html structure off of #pcoa-div
-       	
+
 		<div id="accordion-div-id">
 			<button class="accordion-microbiome-map">
 				<h4 class="diversity-header">button_text</h4>
@@ -277,10 +277,10 @@
 					</div>
 				</div>
 			</div>
-		</div> 
+		</div>
 		*/
         var pcoa_div = document.getElementById('pcoa-div');
-        
+
         var img = document.createElement('img');
         img.id = detail['img_id'];
         img.classList.add('img-fluid');
@@ -293,7 +293,7 @@
         var content_div = document.createElement('div');
         content_div.classList.add('accordion-panel-microbiome-map');
         content_div.style = '';
-        
+
         var content_div_row = document.createElement('div');
         content_div_row.classList.add('row');
 
@@ -391,19 +391,19 @@
         } else {
             var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
         }
-        
+
         for (var key of pcoa_plots) {
             let detail = pcoa_structure[key];
-            let url = state.public_endpoint + 
-                '/dataset/' + 
-                detail['dataset'] + 
-                '/plotting/diversity/beta/' + 
-                state.beta_metric + 
+            let url = state.public_endpoint +
+                '/dataset/' +
+                detail['dataset'] +
+                '/plotting/diversity/beta/' +
+                state.beta_metric +
                 '/pcoa/full-dataset/' +
-                'png?category=' + 
-                detail['category'] + 
-                '&sample_id=' + 
-                state.barcode_prefix + 
+                'png?category=' +
+                detail['category'] +
+                '&sample_id=' +
+                state.barcode_prefix +
                 state.sample_id;
             placeURLSourcedImageFromDetail(state, url, detail);
         }
@@ -418,8 +418,8 @@
         var list = document.createElement('ul');
         var span = document.createElement('span');
         span.id = span_id.substring(1);
-        span.classList.add('info-loader');  
-        span.classList.add('text-success'); 
+        span.classList.add('info-loader');
+        span.classList.add('text-success');
 
         div.appendChild(label);
         div.appendChild(list);
@@ -433,14 +433,14 @@
         let span_id = "";
         let label = "";
 
-        // Qiita doesn't provide an easy way to obtain this detail 
-        // soo... not ideal but let's provide a way to get study 
+        // Qiita doesn't provide an easy way to obtain this detail
+        // soo... not ideal but let's provide a way to get study
         // links for various datasets
-        let study_lookup = {'10317': ["American Gut: an Open Platform for Citizen Science Microbiome Research", 
+        let study_lookup = {'10317': ["American Gut: an Open Platform for Citizen Science Microbiome Research",
                                       "https://msystems.asm.org/content/3/3/e00031-18"],
-                            "850": ["Human gut microbiome viewed across age and geography", 
+                            "850": ["Human gut microbiome viewed across age and geography",
                                     "https://www.nature.com/articles/nature11053"],
-                            "10297": ["Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota", 
+                            "10297": ["Growth and Morbidity of Gambian Infants are Influenced by Maternal Milk Oligosaccharides and Infant Gut Microbiota",
                                       "https://www.nature.com/articles/srep40466"],
                             "10080": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
                             "10300": ["The Fecal Microbial Community of Breast-fed Infants from Armenia and Georgia", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5288704/"],
@@ -510,8 +510,8 @@
                 $(span_id).append(to_append).removeClass("spinner-grow spinner-grow-sm");
             }
         }
-                
-                    
+
+
             //$(span_id).append('<li><h6>' + study_title + '</h6><br /><span>' + study_title + '</span>
             //$(span_id).append('<li><a href="https://qiita.ucsd.edu/public/?study_id=' + qiita_id + '">Qiita Study: ' + qiita_id + '</li>').removeClass("spinner-grow spinner-grow-sm");
         //if (detail['qiita-study-ids'].length > 1)
@@ -594,65 +594,167 @@
         select.prop("disabled", false);
     }
 
-    function drawBoxPlots(top5) {
-        const viewportWidth = window.innerWidth;
-        const panelWidth = Math.max(viewportWidth / 2 - 40, 300);
-        const panelHeight = 300;
-        const margin = { top: 20, right: 40, bottom: 120, left: 20 };
+    function drawBoxPlots(top5SpeciesAbundance) {
 
-        const boxCenter = (panelHeight - margin.bottom) / 2;
-        const boxRectHeight = 40;
-
-        const tooltip = d3.select("#tooltip");
-
-        d3.select("#boxplot-svg").selectAll("svg").remove();
-
-        const mockData = top5.map(d => {
+        const mockData = top5SpeciesAbundance.map(d => {
             const relativeAbundance = parseFloat(d.relativeAbundance);
-            const maxRange = relativeAbundance > 50 ? 100 : relativeAbundance > 5 ? 50 : 5;
 
+            const maxRange = relativeAbundance > 50 ? 100 : relativeAbundance > 5 ? 50 : 5;
             const minVal = 0;
             const q1 = relativeAbundance * 0.25;
             const median = relativeAbundance * 0.5;
             const q3 = relativeAbundance * 0.75;
+            const mean = (minVal + q1 + median + q3 + maxRange) / 5;
 
             return {
                 genus: d.Genus || d.genus || {{ _('Unknown') }},
                 relativeAbundance: relativeAbundance,
-                stats: { min: minVal, q1: q1, median: median, q3: q3, max: maxRange }
+                stats: { min: minVal, q1: q1, median: median, q3: q3, max: maxRange, mean: mean }
             };
         });
 
+        function getTextSize(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const textMetrics = context.measureText(text);
+            const elemTextWidth = textMetrics.width;
+            const elemTextHeight =
+                textMetrics.fontBoundingBoxAscent +
+                textMetrics.hangingBaseline +
+                textMetrics.fontBoundingBoxDescent;
+
+            return { width: elemTextWidth, height: elemTextHeight };
+        }
+
+        function placeStatsLabels(statsContainer, width, margin, stats) {
+
+            const { min, q1, median, q3, max, mean } = stats;
+
+            let statsLabels = [
+                { label: `{{ _('Min') }}: ${min.toFixed(2)}`, type: 'min' },
+                { label: `{{ _('Mean') }}: ${mean.toFixed(2)}`, type: 'mean'},
+                { label: `{{ _('Lower Quartile') }}: ${q1.toFixed(2)}`, type: 'q1' },
+                { label: `{{ _('Max') }}: ${max.toFixed(2)}`, type: 'max' },
+                { label: `{{ _('Median') }}: ${median.toFixed(2)}`, type: 'median' },
+                { label: `{{ _('Upper Quartile') }}: ${q3.toFixed(2)}`,type: 'q3' }
+            ];
+
+            statsLabels = statsLabels.map(obj => {
+                const labelSize = getTextSize(obj.label);
+                obj.width = labelSize.width;
+                return obj;
+                })
+
+            const minObj = statsLabels.filter(elem => elem.type === 'min')[0];
+            const maxObj = statsLabels.filter(elem => elem.type === 'max')[0];
+            const meanObj = statsLabels.filter(elem => elem.type === 'mean')[0];
+            const medianObj = statsLabels.filter(elem => elem.type === 'median')[0];
+            const q1Obj = statsLabels.filter(elem => elem.type === 'q1')[0];
+            const q3Obj = statsLabels.filter(elem => elem.type === 'q3')[0];
+
+            const maxWidthAtStart = Math.max(minObj.width, maxObj.width);
+            const maxWidthAtMiddle = Math.max(meanObj.width, medianObj.width);
+            const maxWidthAtEnd = Math.max(q1Obj.width, q3Obj.width);
+
+            const xMarginShiftStart = margin.left;
+            const xMarginShiftEnd = margin.right + 5;
+
+            const maxLabelXwidths = [maxWidthAtStart, maxWidthAtMiddle, maxWidthAtEnd];
+
+            const maxLabelXpositions = [maxWidthAtStart + xMarginShiftStart , maxWidthAtMiddle, maxWidthAtEnd - xMarginShiftEnd];
+
+            const totalMaxLabelsWidth = maxWidthAtStart + maxWidthAtMiddle + maxWidthAtEnd;
+
+            const labelXpositions = [];
+
+            // Place text for min, mean, and max
+           let xPos = xMarginShiftStart;
+
+            for (let j=0; j<3; j++) {
+
+                xPos = xPos + maxLabelXpositions[j];
+
+                const yPos = Math.floor(j / 3)*10;
+
+                labelXpositions.push(xPos);
+
+                statsContainer.append("text")
+                    .attr("x", xPos)
+                    .attr("y", yPos)
+                    .attr("text-anchor", "end")
+                    .attr("font-size", "0.9rem")
+                    .attr("fill", "var(--tmi-gray-80)")
+                    .text(statsLabels[j].label);
+
+                xPos = xPos + ((width - xMarginShiftStart - totalMaxLabelsWidth)/2);
+            }
+
+            // Place text for max, median, highest quartile
+            for (let j=3; j<6; j++) {
+                const yPos = 8 + Math.floor(j / 3)*10;
+
+                statsContainer.append("text")
+                    .attr("x", labelXpositions[j - 3])
+                    .attr("y", yPos)
+                    .attr("text-anchor", "end")
+                    .attr("font-size", "0.9rem")
+                    .attr("fill", "var(--tmi-gray-80)")
+                    .text(statsLabels[j].label);
+            }
+
+        }
+
         mockData.forEach((d, i) => {
-            const { min, q1, median, q3, max } = d.stats;
-            const mean = (min + q1 + median + q3 + max) / 5;
 
-            const svg = d3.select("#boxplot-svg")
-                .append("svg")
-                .attr("width", panelWidth)
-                .attr("height", panelHeight)
-                .attr("viewBox", `0 0 ${panelWidth} ${panelHeight}`)
-                .attr("preserveAspectRatio", "xMidYMid meet");
+            const margin = { top: 30, bottom: 30, left: 10, right: 10 };
+            let imageWidth = 500;
+            let imageHeight = 300;
 
-            const g = svg.append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
+            const width = imageWidth - margin.left - margin.right;
+            const height = imageHeight - margin.top - margin.bottom;
+
+            const boxCenter = (height - margin.top - margin.bottom)/2;
+            const boxRectHeight = 40;
+
+            const svg = d3
+                .select('#composition-boxplots-display')
+                .append('svg')
+                .classed('composition-boxplot-image', true)
+                .attr('preserveAspectRatio', 'xMidYMid meet')
+                .attr(
+                    'viewBox',
+                    `0 0 ${width + margin.right + margin.left} ${
+                        height + margin.top + margin.bottom
+                    }`
+                )
+
+            const { min, q1, median, q3, max, mean } = d.stats;
+
+            const container = svg.append("g")
+                .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+            const xLeft = margin.left;
+            const xRight = width - margin.right;
 
             const x = d3.scaleLinear()
                 .domain([min, max])
-                .range([margin.left, panelWidth - margin.right]);
+                .range([xLeft, xRight]);
 
             const xAxis = d3.axisBottom(x)
                 .tickValues([min, max])
                 .tickFormat(d => d.toFixed(2));
 
-            g.append("circle")
-                .attr("cx", margin.left + 20)
+            // Create title
+            const icon = container.append("g")
+
+            icon.append("circle")
+                .attr("cx", margin.left + 5)
                 .attr("cy", -8)
                 .attr("r", 12)
-                .attr("fill", "#006A96");
+                .attr("fill", "var(--tmi-blue)");
 
-            g.append("text")
-                .attr("x", margin.left + 20)
+            icon.append("text")
+                .attr("x", margin.left + 5)
                 .attr("y", -4)
                 .attr("text-anchor", "middle")
                 .attr("font-family", "Mulish")
@@ -661,28 +763,20 @@
                 .attr("fill", "white")
                 .text(i + 1);
 
-            g.append("text")
-                .attr("x", margin.left + 40)
-                .attr("y", -3)
+            icon.append("text")
+                .attr("x", margin.left + 25)
+                .attr("y", -2)
                 .attr("text-anchor", "start")
                 .attr("font-size", "18px")
                 .attr("line-height", "24px")
                 .attr("font-weight", "700")
-                .attr("fill", "#006A96")
+                .attr("fill", "var(--tmi-blue)")
                 .text(d.genus);
 
-            g.append("g")
-                .attr("transform", `translate(0,${panelHeight - margin.bottom})`)
-                .call(xAxis);
+            // Create box plot
+            const boxplot = container.append("g")
 
-            g.append("text")
-                .attr("x", panelWidth / 2)
-                .attr("y", panelHeight - margin.bottom + 20)
-                .attr("text-anchor", "middle")
-                .attr("font-size", "14px")
-                .text(`% of ${d.genus}`);
-
-            g.append("line")
+            boxplot.append("line")
                 .attr("x1", x(min))
                 .attr("x2", x(max))
                 .attr("y1", boxCenter)
@@ -690,83 +784,83 @@
                 .attr("stroke", "black")
                 .attr("stroke-width", 2);
 
-            g.append("rect")
+            boxplot.append("rect")
                 .attr("x", x(q1))
                 .attr("y", boxCenter - boxRectHeight / 2)
                 .attr("width", x(q3) - x(q1))
                 .attr("height", boxRectHeight)
                 .attr("fill", "#00C6D7")
-                .attr("stroke", "#182B49")
+                .attr("stroke", "var(--tmi-dark-blue)")
                 .attr("stroke-width", 2);
 
-            g.append("line")
+            boxplot.append("line")
                 .attr("x1", x(median))
                 .attr("x2", x(median))
                 .attr("y1", boxCenter - boxRectHeight / 2)
                 .attr("y2", boxCenter + boxRectHeight / 2)
-                .attr("stroke", "#182B49")
+                .attr("stroke", "var(--tmi-dark-blue)")
                 .attr("stroke-width", 2);
 
-            g.append("line")
-                .attr("x1", x(min))
-                .attr("x2", x(min))
-                .attr("y1", boxCenter - boxRectHeight / 2 - 10)
-                .attr("y2", boxCenter + boxRectHeight / 2 + 10)
+            boxplot.selectAll('end-lines')
+                .data([min, max])
+                .enter()
+                .append('line')
+                .attr('x1', d => x(d))
+                .attr('x2', d => x(d))
+                .attr('y1', boxCenter - boxRectHeight / 2)
+                .attr('y2', boxCenter + boxRectHeight / 2)
                 .attr("stroke", "black")
                 .attr("stroke-width", 2);
 
-            g.append("line")
-                .attr("x1", x(max))
-                .attr("x2", x(max))
-                .attr("y1", boxCenter - boxRectHeight / 2 - 10)
-                .attr("y2", boxCenter + boxRectHeight / 2 + 10)
-                .attr("stroke", "black")
-                .attr("stroke-width", 2);
-
-            g.append("circle")
+            boxplot.append("circle")
                 .attr("cx", x(mean))
                 .attr("cy", boxCenter)
                 .attr("r", 6)
                 .attr("fill", "black");
 
-            g.append("line")
+            const relativeAbundanceYtop = boxCenter - 50;
+            const relativeAbundanceYbottom = boxCenter + 50;
+
+            boxplot.append("line")
                 .attr("x1", x(d.relativeAbundance))
                 .attr("x2", x(d.relativeAbundance))
-                .attr("y1", boxCenter - 50)
-                .attr("y2", boxCenter + 50)
-                .attr("stroke", "orange")
+                .attr("y1", relativeAbundanceYtop)
+                .attr("y2", relativeAbundanceYbottom)
+                .attr("stroke", "var(--tmi-orange)")
                 .attr("stroke-dasharray", "4,2")
                 .attr("stroke-width", 2);
 
-            g.append("text")
+            boxplot.append("text")
                 .attr("x", x(d.relativeAbundance))
                 .attr("y", boxCenter - 60)
                 .attr("text-anchor", "middle")
-                .attr("font-size", "12px")
-                .attr("fill", "orange")
-                .text(`Yours: ${d.relativeAbundance}%`);
+                .attr("font-size", "0.95rem")
+                .attr("fill", "var(--tmi-orange)")
+                .text(`{{ _('Yours') }}: ${d.relativeAbundance.toFixed(2)}%`);
 
-            const statsLabels = [
-                { label: "{{ _('Upper Quartile') }}", value: q3 },
-                { label: "{{ _('Median') }}", value: median },
-                { label: "{{ _('Mean') }}", value: (min + max) / 2 },
-                { label: "{{ _('Lower Quartile') }}", value: q1 },
-                { label: "{{ _('Max') }}", value: max },
-                { label: "{{ _('Min') }}", value: min }
-            ];
+            // Create x-axis
+            const xAxisYposition = relativeAbundanceYbottom;
 
-            statsLabels.forEach((stat, j) => {
-                const xPos = (j % 3) * (panelWidth / 3) + 20;
-                const yPos = panelHeight - margin.bottom + 60 + Math.floor(j / 3) * 20;
+            container.append('g')
+                .style("font-size", "0.75rem")
+                .call(xAxis)
+                .attr("transform", `translate(0, ${xAxisYposition})`);
 
-                g.append("text")
-                    .attr("x", xPos)
-                    .attr("y", yPos)
-                    .attr("font-size", "12px")
-                    .attr("fill", "#747678")
-                    .text(`${stat.label}: ${stat.value.toFixed(2)}`);
-            });
-        });
+            container.append("text")
+                .attr("x", width / 2)
+                .attr("y", xAxisYposition + 20)
+                .attr("text-anchor", "middle")
+                .attr("font-size", "0.85rem")
+                .text(`% of ${d.genus}`);
+
+            // Create stats
+            const statsContainer = container.append("g")
+                .attr("transform", "translate(0," + (xAxisYposition + 45) + ")");
+
+            placeStatsLabels(statsContainer, width, margin, d.stats)
+
+        })
+
     }
 
     function createBoxplotInfoModal() {
@@ -800,7 +894,7 @@
                     .attr("width", 605)
                     .attr("height", 223);
 
-                
+
                 const infoContainer = modalContent.append("div")
                     .attr("class", "info-paragraph-container")
                     .style("display", "flex")
@@ -828,11 +922,11 @@
                     .style("color", "#006A96")
                     .style("line-height", "1.5")
                     .style("align-items", "center")
-                    .style("text-align", "left") 
+                    .style("text-align", "left")
                     .text("{{ _('To clearly show the abundance of microbes in your sample, the scale on the data plots may vary across figures to focus on the relevant range for each comparison.') }}");
 
                 modalContent.append("p")
-                    .style("text-align", "left") 
+                    .style("text-align", "left")
                     .text("{{ _('Example: Microbe A is a dominant microbe, exceeding 50%% of the abundance in most samples. Microbe B is typically much less abundant at less than 10%%. In the case of microbe B, the plot will be much more readable if the scale only shows up to 15%% rather than 100%%.') }}");
 
                 drawExampleBoxplot();
@@ -854,7 +948,7 @@
             const maxOutlier = 95;
 
             const x = d3.scaleLinear().domain([0, 100]).range([50, width - 50]);
-            const centerY = 130; 
+            const centerY = 130;
 
             svg.append("line")
                 .attr("x1", x(min))
@@ -1048,11 +1142,11 @@
                                break;
                            default:
                                value = "";
-                               break; 
+                               break;
                        }
                        $td.attr('title', value);
                     });
-                    
+
                     /* Apply the tooltips */
                     $('#taxonomyTable thead th[title]').tooltip(
                     {
@@ -1162,7 +1256,7 @@
                     $(resp_selector).text(resp).removeClass("spinner-grow spinner-grow-sm");
                 }
 
-                
+
             }
 
         }
@@ -1342,7 +1436,7 @@
                         ]
                     }
             };
-        const water_frequency = 
+        const water_frequency =
             {
                 "metadata_query":
                     {
@@ -1432,7 +1526,7 @@
         }
         $.ajax(
             {
-                url: state.public_endpoint + "/dataset/" + 
+                url: state.public_endpoint + "/dataset/" +
                     state.dataset_input.value +
                     "/diversity/alpha/single/" +
                     alpha_metric + "/" + state.barcode_prefix + state.sample_id,
@@ -1803,6 +1897,7 @@
         </div>
     </nav>
     <div class="col-12 tab-content" id="top-nav-tabContent">
+
         <div class="tab-pane fade show active" id="compare" role="tabpanel" aria-labelledby="compare-tab">
             <div class="report-text">
                 <h3>{{ _('How do you compare?') }}</h3>
@@ -1835,7 +1930,7 @@
                 <div class="how_you_compare_section">
                     <h4>{{ _('Your Inner Zoo') }}</h4>
                     <p>
-                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>. 
+                    {{ _('What particular kinds of microbes are in your sample? Wander through') }} <a class="fake-tab" href="#taxonomy" data-link="#taxonomy-tab">{{ _('Composition') }}</a>.
                     </p>
                 </div>
                 </br>
@@ -1999,7 +2094,7 @@
                           </div>
                       </div>
                   </div>
-                  
+
                   <div class="row mb-2">
                       <div class="col">
                           <h4 class="diversity-header">{{ _('Activity') }}</h4>
@@ -2023,7 +2118,7 @@
                           </div>
                       </div>
                   </div>
-                  
+
                   <div class="row mb-2">
                       <div class="col">
                           <h4 class="diversity-header">{{ _('Demographic') }}</h4>
@@ -2057,7 +2152,7 @@
                     <p>
                     {{ _('This is a table of all of the different microbes we found in your sample along with their proportions.') }}
                     </p>
-                    
+
                     <p>
                     {{ _('To learn more about what the taxonomic ranks (column headers) mean, place your cursor over their names. Additionally, pronunciation can be a challenge considering the language of origin varies for the names between Latin, Greek, Norse, Chinese, and more. A pronunciation guide can be found <a href="https://www.atsu.edu/faculty/chamberlain/Website/studio.htm">here</a>.') }}
                     </p>
@@ -2083,14 +2178,15 @@
                     <div id="boxplot-container">
                         <h4 style="color:#006A96;">{{ _('Your Five Most Abundant Microbes') }}</h4>
                         <p>{{ _('The plots below show how the proportion of your most abundant microbes compare with their proportions in other samples.') }}</p>
+                        <div id="boxplot-info-outer">
                         <div id="boxplot-info" class="info-icon-container">
                             <a id="boxplot-help" href="javascript:void(0)">
                                 <div class="info-circle">i</div>
                                 <span class="info-text">{{ _('How to read a boxplot') }}</span>
                             </a>
                         </div>
-                        <div id="boxplot-svg" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;"></div>
-                        <div id="tooltip" style="position: absolute; visibility: hidden; background: #333; color: #fff; padding: 5px; border-radius: 5px; font-size: 12px;"></div>
+                        </div>
+                        <div id="composition-boxplots-display-container"><div id="composition-boxplots-display"></div>
                     </div>
                   </div>
               </div>
@@ -2150,7 +2246,7 @@
                     <strong>{{ _('How are these maps produced?') }}</strong><br />
                     {{ _('One of the ways microbiome researchers visualize complex data is through a technique called principal coordinates analysis (PCoA). We first calculate distances from every sample to every other sample–remember that distances represent similarities among microbiomes. Then a PCoA converts the distance data into coordinates which can be depicted in a visualization, placing very similar samples near each other and less similar samples further apart.') }}
                 </p>
-                
+
                 <div id="pcoa-div"></div>
               </div>
             </div>

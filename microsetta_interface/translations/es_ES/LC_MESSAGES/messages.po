@@ -7,105 +7,105 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-17 13:51-0700\n"
+"POT-Creation-Date: 2025-01-09 21:53-0800\n"
 "PO-Revision-Date: 2024-04-09 09:21-0700\n"
 "Last-Translator: \n"
 "Language: es_ES\n"
 "Language-Team: es_ES <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.11.0\n"
 
-#: implementation.py:798
+#: implementation.py:812
 msgid "The provided Kit ID is not in our system or has already been used."
 msgstr ""
 "El ID del kit proporcionado no está registrado en nuestro sistema o ya ha"
 " sido utilizado."
 
-#: implementation.py:1475 implementation.py:1480 templates/sitebase.jinja2:99
+#: implementation.py:1490 implementation.py:1495 templates/sitebase.jinja2:99
 #: templates/survey.jinja2:15
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2373 model_i18n.py:70
+#: implementation.py:2388 model_i18n.py:70
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2374 model_i18n.py:71
+#: implementation.py:2389 model_i18n.py:71
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2375 model_i18n.py:83
+#: implementation.py:2390 model_i18n.py:83
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2376 model_i18n.py:78
+#: implementation.py:2391 model_i18n.py:78
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2377 model_i18n.py:79
+#: implementation.py:2392 model_i18n.py:79
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2378 model_i18n.py:80
+#: implementation.py:2393 model_i18n.py:80
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2379 model_i18n.py:81
+#: implementation.py:2394 model_i18n.py:81
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2380 model_i18n.py:76
+#: implementation.py:2395 model_i18n.py:76
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2381 model_i18n.py:73
+#: implementation.py:2396 model_i18n.py:73
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2382 model_i18n.py:85
+#: implementation.py:2397 model_i18n.py:85
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2383 model_i18n.py:82
+#: implementation.py:2398 model_i18n.py:82
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2384 model_i18n.py:77
+#: implementation.py:2399 model_i18n.py:77
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2385 model_i18n.py:86
+#: implementation.py:2400 model_i18n.py:86
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2386 model_i18n.py:84
+#: implementation.py:2401 model_i18n.py:84
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2387 model_i18n.py:72
+#: implementation.py:2402 model_i18n.py:72
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2388 model_i18n.py:75
+#: implementation.py:2403 model_i18n.py:75
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2389 model_i18n.py:74
+#: implementation.py:2404 model_i18n.py:74
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2728
+#: implementation.py:2745
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:3120
+#: implementation.py:3114
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3585 implementation.py:3703
+#: implementation.py:3579 implementation.py:3697
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -165,7 +165,7 @@ msgstr "Diagnóstico de Salud"
 msgid "Allergies"
 msgstr "Alergias"
 
-#: model_i18n.py:105 templates/new_results_page.jinja2:1528
+#: model_i18n.py:105 templates/new_results_page.jinja2:1588
 msgid "Diet"
 msgstr "Dieta"
 
@@ -185,7 +185,15 @@ msgstr "Polifenoles"
 msgid "Spain FFQ"
 msgstr "España FFQ"
 
-#: model_i18n.py:113
+#: model_i18n.py:110
+msgid "Skin"
+msgstr "Piel"
+
+#: model_i18n.py:111
+msgid "Skin Health Diagnosis"
+msgstr "Diagnóstico de salud de la piel"
+
+#: model_i18n.py:115
 msgid ""
 "Polyphenols are chemical compounds naturally found in plants that have "
 "been shown to provide many beneficial properties. They are antioxidants, "
@@ -201,7 +209,7 @@ msgstr ""
 "microbios en su intestino. Esta encuesta nos permitirá cuantificar mejor "
 "su consumo de polifenoles a través de su dieta."
 
-#: model_i18n.py:119
+#: model_i18n.py:121
 msgid ""
 "<strong>Only for participants in Spain:</strong><br />The Food Frequency "
 "Questionnaire (FFQ) will ask you about your usual frequency of "
@@ -215,7 +223,7 @@ msgstr ""
 "bebidas. El cuestionario consta de 28 preguntas, y nos permitirá conocer "
 "cómo es su dieta habitual."
 
-#: model_i18n.py:126
+#: model_i18n.py:128
 msgid "en_us"
 msgstr "es_es"
 
@@ -282,7 +290,7 @@ msgstr ""
 #: templates/account_details.jinja2:146 templates/account_overview.jinja2:44
 #: templates/consents.jinja2:22 templates/kits.jinja2:178
 #: templates/minor_reconsent.jinja2:14 templates/new_participant.jinja2:221
-#: templates/new_results_page.jinja2:1354 templates/nutrition.jinja2:107
+#: templates/new_results_page.jinja2:1399 templates/nutrition.jinja2:107
 #: templates/reports.jinja2:61
 #: templates/request_account_deletion_confirm.jinja2:22
 #: templates/sample.jinja2:185 templates/signed_consent.jinja2:8
@@ -1900,15 +1908,15 @@ msgstr "Volver a la Página de Inicio"
 msgid "Home"
 msgstr "Inicio"
 
-#: templates/home.jinja2:30
+#: templates/home.jinja2:38
 msgid "Welcome!"
 msgstr "¡Bienvenido!"
 
-#: templates/home.jinja2:35 templates/sitebase.jinja2:167
+#: templates/home.jinja2:43 templates/sitebase.jinja2:167
 msgid "Sign Up"
 msgstr "Registrarse"
 
-#: templates/home.jinja2:40 templates/sitebase.jinja2:166
+#: templates/home.jinja2:48 templates/sitebase.jinja2:166
 msgid "Log In"
 msgstr "Iniciar sesión"
 
@@ -2278,81 +2286,81 @@ msgstr "Continúe con la Creación de una Nueva Fuente"
 msgid "Sample Report"
 msgstr "Reporte de la muestra"
 
-#: templates/new_results_page.jinja2:232
+#: templates/new_results_page.jinja2:239
 msgid "11 to 20"
 msgstr "11 a 20"
 
-#: templates/new_results_page.jinja2:233
+#: templates/new_results_page.jinja2:240
 msgid "21 to 30"
 msgstr "21 a 30"
 
-#: templates/new_results_page.jinja2:234
+#: templates/new_results_page.jinja2:241
 msgid "5-6 hours"
 msgstr "5-6 horas"
 
-#: templates/new_results_page.jinja2:235
+#: templates/new_results_page.jinja2:242
 msgid "6 to 10"
 msgstr "6 a 10"
 
-#: templates/new_results_page.jinja2:236
+#: templates/new_results_page.jinja2:243
 msgid "6-7 hours"
 msgstr "6-7 horas"
 
-#: templates/new_results_page.jinja2:237
+#: templates/new_results_page.jinja2:244
 msgid "7-8 hours"
 msgstr "7-8 horas"
 
-#: templates/new_results_page.jinja2:238
+#: templates/new_results_page.jinja2:245
 msgid "8 or more hours"
 msgstr "8 o más horas"
 
-#: templates/new_results_page.jinja2:239 templates/new_results_page.jinja2:901
+#: templates/new_results_page.jinja2:246 templates/new_results_page.jinja2:908
 msgid "Daily"
 msgstr "Diario"
 
-#: templates/new_results_page.jinja2:240
+#: templates/new_results_page.jinja2:247
 msgid "Less than 5"
 msgstr "Menos de 5"
 
-#: templates/new_results_page.jinja2:241
+#: templates/new_results_page.jinja2:248
 msgid "Less than 5 hours"
 msgstr "Menos de 5 horas"
 
-#: templates/new_results_page.jinja2:242
+#: templates/new_results_page.jinja2:249
 msgid "More than 30"
 msgstr "Más de 30 horas"
 
-#: templates/new_results_page.jinja2:243 templates/new_results_page.jinja2:897
+#: templates/new_results_page.jinja2:250 templates/new_results_page.jinja2:904
 msgid "Never"
 msgstr "Nunca"
 
-#: templates/new_results_page.jinja2:244 templates/new_results_page.jinja2:249
-#: templates/new_results_page.jinja2:250 templates/new_results_page.jinja2:251
-#: templates/new_results_page.jinja2:886 templates/new_results_page.jinja2:896
+#: templates/new_results_page.jinja2:251 templates/new_results_page.jinja2:256
+#: templates/new_results_page.jinja2:257 templates/new_results_page.jinja2:258
+#: templates/new_results_page.jinja2:893 templates/new_results_page.jinja2:903
 msgid "Not provided"
 msgstr "No provisto"
 
-#: templates/new_results_page.jinja2:245 templates/new_results_page.jinja2:899
+#: templates/new_results_page.jinja2:252 templates/new_results_page.jinja2:906
 msgid "Occasionally (1-2 times/week)"
 msgstr "Ocasionalmente (1-2 veces/semana)"
 
-#: templates/new_results_page.jinja2:246
+#: templates/new_results_page.jinja2:253
 msgid "Rarely (a few times/month)"
 msgstr "Raramente (algunas veces/mes)"
 
-#: templates/new_results_page.jinja2:247 templates/new_results_page.jinja2:898
+#: templates/new_results_page.jinja2:254 templates/new_results_page.jinja2:905
 msgid "Rarely (less than once/week)"
 msgstr "Rara vez (menos de una vez/semana)"
 
-#: templates/new_results_page.jinja2:248 templates/new_results_page.jinja2:900
+#: templates/new_results_page.jinja2:255 templates/new_results_page.jinja2:907
 msgid "Regularly (3-5 times/week)"
 msgstr "Regularmente (3-5 veces/semana)"
 
-#: templates/new_results_page.jinja2:335
+#: templates/new_results_page.jinja2:342
 msgid "Microbiomes Across the Body"
 msgstr "Microbiomas en todo el cuerpo"
 
-#: templates/new_results_page.jinja2:338
+#: templates/new_results_page.jinja2:345
 msgid ""
 "In this map, we've placed your sample relative to all the other samples "
 "we have in Microsetta. As you can see, there are a few different types of"
@@ -2364,12 +2372,12 @@ msgstr ""
 "de muestras que las personas han contribuido, y las configuraciones "
 "microbianas presentes pueden ser REALMENTE diferentes."
 
-#: templates/new_results_page.jinja2:343 templates/new_results_page.jinja2:367
-#: templates/new_results_page.jinja2:476
+#: templates/new_results_page.jinja2:350 templates/new_results_page.jinja2:374
+#: templates/new_results_page.jinja2:483
 msgid "Microbiomes Across the World"
 msgstr "Microbiomas en el Mundo"
 
-#: templates/new_results_page.jinja2:346 templates/new_results_page.jinja2:370
+#: templates/new_results_page.jinja2:353 templates/new_results_page.jinja2:377
 msgid ""
 "Researchers have noted large differences in our microbiomes depending on "
 "where we live. The reason why is not fully understood, but they suspect "
@@ -2388,12 +2396,12 @@ msgstr ""
 "investigadores aún no saben cuánto importan estas diferencias entre "
 "ubicaciones, pero es un tema que se está investigando activamente."
 
-#: templates/new_results_page.jinja2:351 templates/new_results_page.jinja2:375
-#: templates/new_results_page.jinja2:481
+#: templates/new_results_page.jinja2:358 templates/new_results_page.jinja2:382
+#: templates/new_results_page.jinja2:488
 msgid "Microbiomes Across the Lifespan"
 msgstr "Microbiomas a lo Largo de la Vida"
 
-#: templates/new_results_page.jinja2:354 templates/new_results_page.jinja2:378
+#: templates/new_results_page.jinja2:361 templates/new_results_page.jinja2:385
 msgid ""
 "One major factor associated with gut microbiomes is the age of the "
 "individual, represented in this map by life stages.<br /><br "
@@ -2411,11 +2419,11 @@ msgstr ""
 " envejecen, sus microbiomas reflejan mayores diferencias geográficas o de"
 " estilo de vida."
 
-#: templates/new_results_page.jinja2:359 templates/new_results_page.jinja2:466
+#: templates/new_results_page.jinja2:366 templates/new_results_page.jinja2:473
 msgid "Microbiomes in the Environment"
 msgstr "Microbiomas en el Medio Ambiente"
 
-#: templates/new_results_page.jinja2:362
+#: templates/new_results_page.jinja2:369
 #, python-format
 msgid ""
 "Microbes don't just live inside and on your body; they are everywhere! "
@@ -2435,28 +2443,28 @@ msgstr ""
 " piel se desprenden constantemente de usted. En un ambiente interior, el "
 "polvo se compone de hasta un 50%% de las células muertas de la piel."
 
-#: templates/new_results_page.jinja2:471
+#: templates/new_results_page.jinja2:478
 msgid "The Microsetta Initiative"
 msgstr "The Microsetta Initiative"
 
-#: templates/new_results_page.jinja2:498
+#: templates/new_results_page.jinja2:505
 msgid "Publication link"
 msgstr "Enlace de la Publicación"
 
-#: templates/new_results_page.jinja2:500
+#: templates/new_results_page.jinja2:507
 msgid "Data access (Qiita study"
 msgstr "Acceso de datos (estudio Qiita"
 
-#: templates/new_results_page.jinja2:656
+#: templates/new_results_page.jinja2:663
 msgid "Download the spreadsheet"
 msgstr "Descargar la hoja de cálculo"
 
-#: templates/new_results_page.jinja2:662 templates/new_results_page.jinja2:1641
+#: templates/new_results_page.jinja2:669 templates/new_results_page.jinja2:1701
 #: templates/sample_results.jinja2:148
 msgid "Kingdom"
 msgstr "Reino"
 
-#: templates/new_results_page.jinja2:663
+#: templates/new_results_page.jinja2:670
 msgid ""
 "The broadest classification like Bacteria, Archaea and Eukaryokes (what "
 "humans are!)"
@@ -2464,12 +2472,12 @@ msgstr ""
 "La clasificación más amplia como las Bacterias, Archaea y Eucariotas (¡lo"
 " que son los humanos!)"
 
-#: templates/new_results_page.jinja2:665 templates/new_results_page.jinja2:1642
+#: templates/new_results_page.jinja2:672 templates/new_results_page.jinja2:1702
 #: templates/sample_results.jinja2:149
 msgid "Phylum"
 msgstr "Filo"
 
-#: templates/new_results_page.jinja2:666
+#: templates/new_results_page.jinja2:673
 msgid ""
 "Within the kingdom Eukarya, this is like the difference between humans "
 "and plants"
@@ -2477,21 +2485,21 @@ msgstr ""
 "Dentro del reino Eukarya, esto es como la diferencia entre los humanos y "
 "las plantas"
 
-#: templates/new_results_page.jinja2:668 templates/new_results_page.jinja2:1643
+#: templates/new_results_page.jinja2:675 templates/new_results_page.jinja2:1703
 #: templates/sample_results.jinja2:150
 msgid "Class"
 msgstr "Clase"
 
-#: templates/new_results_page.jinja2:669
+#: templates/new_results_page.jinja2:676
 msgid "Within the phylum Chordata, this is along the lines of humans and fish"
 msgstr "Dentro del filo Chordata, esto es similar a los humanos y los peces"
 
-#: templates/new_results_page.jinja2:671 templates/new_results_page.jinja2:1644
+#: templates/new_results_page.jinja2:678 templates/new_results_page.jinja2:1704
 #: templates/sample_results.jinja2:151
 msgid "Order"
 msgstr "Orden"
 
-#: templates/new_results_page.jinja2:672
+#: templates/new_results_page.jinja2:679
 msgid ""
 "Within the class Mammalia, this is like the difference between whales and"
 " a dogs"
@@ -2499,21 +2507,21 @@ msgstr ""
 "Dentro de la clase Mammalia, esto es como la diferencia entre las "
 "ballenas y los perros"
 
-#: templates/new_results_page.jinja2:674 templates/new_results_page.jinja2:1645
+#: templates/new_results_page.jinja2:681 templates/new_results_page.jinja2:1705
 #: templates/sample_results.jinja2:152
 msgid "Family"
 msgstr "Familia"
 
-#: templates/new_results_page.jinja2:675
+#: templates/new_results_page.jinja2:682
 msgid "With the order Carnivora are the families for dogs and cats"
 msgstr "Con la orden Carnivora están las familias de perros y gatos"
 
-#: templates/new_results_page.jinja2:677 templates/new_results_page.jinja2:1646
+#: templates/new_results_page.jinja2:684 templates/new_results_page.jinja2:1706
 #: templates/sample_results.jinja2:153
 msgid "Genus"
 msgstr "Género"
 
-#: templates/new_results_page.jinja2:678
+#: templates/new_results_page.jinja2:685
 msgid ""
 "Within the family Canidae, you would find a genus for foxes and one for "
 "wolves"
@@ -2521,72 +2529,72 @@ msgstr ""
 "Dentro de la familia Canidae, encontrará un género para zorros y otro "
 "para lobos"
 
-#: templates/new_results_page.jinja2:865 templates/new_results_page.jinja2:868
-#: templates/new_results_page.jinja2:874 templates/new_results_page.jinja2:882
-#: templates/new_results_page.jinja2:885 templates/new_results_page.jinja2:895
+#: templates/new_results_page.jinja2:872 templates/new_results_page.jinja2:875
+#: templates/new_results_page.jinja2:881 templates/new_results_page.jinja2:889
+#: templates/new_results_page.jinja2:892 templates/new_results_page.jinja2:902
 #: templates/survey.jinja2:14 templates/survey.jinja2:378
 msgid "Unspecified"
 msgstr "No especificado"
 
-#: templates/new_results_page.jinja2:875
+#: templates/new_results_page.jinja2:882
 msgid "chose not to provide their age"
 msgstr "optó por no proporcionar su edad"
 
-#: templates/new_results_page.jinja2:877
+#: templates/new_results_page.jinja2:884
 msgid "is"
 msgstr "es"
 
-#: templates/new_results_page.jinja2:877
+#: templates/new_results_page.jinja2:884
 msgid "years old"
 msgstr "años"
 
-#: templates/new_results_page.jinja2:910 templates/new_results_page.jinja2:922
+#: templates/new_results_page.jinja2:917 templates/new_results_page.jinja2:929
 msgid "chose not to say how many sweets they eat"
 msgstr "optó por no decir cuántos dulces comen"
 
-#: templates/new_results_page.jinja2:912
+#: templates/new_results_page.jinja2:919
 msgid "eats sweets"
 msgstr "come dulces"
 
-#: templates/new_results_page.jinja2:916
+#: templates/new_results_page.jinja2:923
 msgid "eats more sugary sweets than you"
 msgstr "come más dulces que usted"
 
-#: templates/new_results_page.jinja2:918
+#: templates/new_results_page.jinja2:925
 msgid "eats fewer sugary sweets than you"
 msgstr "come menos dulces que usted"
 
-#: templates/new_results_page.jinja2:920
+#: templates/new_results_page.jinja2:927
 msgid "eats about the same number of sugary sweets as you"
 msgstr "come el mismo número de dulces que usted"
 
-#: templates/new_results_page.jinja2:1161
+#: templates/new_results_page.jinja2:1168
 msgid "Rank Distributions"
 msgstr "Distribucion por Rango"
 
-#: templates/new_results_page.jinja2:1179
+#: templates/new_results_page.jinja2:1186
 msgid "My Sample"
 msgstr "Mi Muestra"
 
-#: templates/new_results_page.jinja2:1185
+#: templates/new_results_page.jinja2:1192
 msgid "How abundant are my microbes compared everyone in Microsetta?"
 msgstr ""
 "¿Qué tan abundantes son mis microbios en comparación con los demás en "
 "Microsetta?"
 
-#: templates/new_results_page.jinja2:1188
+#: templates/new_results_page.jinja2:1195
 msgid "Common types of microbes"
 msgstr "Tipos comunes de microbios"
 
-#: templates/new_results_page.jinja2:1194
+#: templates/new_results_page.jinja2:1201
 msgid "Least Abundant"
 msgstr "Menos Abundante"
 
-#: templates/new_results_page.jinja2:1194
+#: templates/new_results_page.jinja2:1201
 msgid "Most Abundant"
 msgstr "Más abundante"
 
-#: templates/new_results_page.jinja2:1225
+#: templates/new_results_page.jinja2:1232
 msgid ""
 "For your sample, we performed a technique called shotgun metagenomic "
 "sequencing where we grab random snippets from all of the DNA present. We "
@@ -2603,7 +2611,7 @@ msgstr ""
 "fragmentos provienen de su propio genoma, pero se han eliminado todas las"
 " secuencias de esos fragmentos."
 
-#: templates/new_results_page.jinja2:1228
+#: templates/new_results_page.jinja2:1235
 msgid ""
 "For your sample, we performed a technique called Polymerase Chain "
 "Reaction (PCR) to make many copies of a piece of DNA corresponding to a "
@@ -2621,47 +2629,45 @@ msgstr ""
 "microbiano, proporcionando a los investigadores evidencia de los tipos de"
 " microbios que pueden estar presentes en su muestra."
 
-#: templates/new_results_page.jinja2:1356
+#: templates/new_results_page.jinja2:1401
 msgid "Report"
 msgstr "Reporte"
 
-#: templates/new_results_page.jinja2:1365
-#: templates/new_results_page.jinja2:1379
-msgid "How do you compare?"
-msgstr "¿Cómo se compara?"
-
-#: templates/new_results_page.jinja2:1366
-#: templates/new_results_page.jinja2:1391
-#: templates/new_results_page.jinja2:1393
-#: templates/new_results_page.jinja2:1424
+#: templates/new_results_page.jinja2:1410
+#: templates/new_results_page.jinja2:1418
+#: templates/new_results_page.jinja2:1451
+#: templates/new_results_page.jinja2:1453
+#: templates/new_results_page.jinja2:1484
 msgid "Diversity"
 msgstr "Diversidad"
 
-#: templates/new_results_page.jinja2:1367
-#: templates/new_results_page.jinja2:1399
-#: templates/new_results_page.jinja2:1401
-#: templates/new_results_page.jinja2:1516
+#: templates/new_results_page.jinja2:1421
+#: templates/new_results_page.jinja2:1459
+#: templates/new_results_page.jinja2:1461
+#: templates/new_results_page.jinja2:1576
 msgid "Similarity"
 msgstr "Similitud"
 
-#: templates/new_results_page.jinja2:1368
-#: templates/new_results_page.jinja2:1407
-#: templates/new_results_page.jinja2:1409
-msgid "Your Inner Zoo"
-msgstr "Su Zoológico Interior"
+#: templates/new_results_page.jinja2:1424
+#: templates/new_results_page.jinja2:1469
+msgid "Composition"
+msgstr "Composición"
 
-#: templates/new_results_page.jinja2:1369
-#: templates/new_results_page.jinja2:1415
-#: templates/new_results_page.jinja2:1702
+#: templates/new_results_page.jinja2:1427
+#: templates/new_results_page.jinja2:1475
+#: templates/new_results_page.jinja2:1762
 msgid "Microbiome Map"
 msgstr "Mapa del Microbioma"
 
-#: templates/new_results_page.jinja2:1370
-#: templates/new_results_page.jinja2:1678
-msgid "How can I learn more?"
-msgstr "¿Cómo puedo aprender más?"
+#: templates/new_results_page.jinja2:1430
+msgid "Learn More"
+msgstr "Aprende más"
 
-#: templates/new_results_page.jinja2:1383
+#: templates/new_results_page.jinja2:1439
+msgid "How do you compare?"
+msgstr "¿Cómo se compara?"
+
+#: templates/new_results_page.jinja2:1443
 msgid ""
 "There are 40 trillion microbial cells in our bodies. This collection of "
 "microbial cells is known as the human microbiome. With roughly 1lb "
@@ -2676,7 +2682,7 @@ msgstr ""
 "la función que tienen en nuestras vidas. Gracias por contribuir en "
 "nuestro proyecto de investigación y ayudar al avance de la ciencia."
 
-#: templates/new_results_page.jinja2:1387
+#: templates/new_results_page.jinja2:1447
 #, python-format
 msgid ""
 "While our human DNA is 99%% similar to one another, it's possible for two"
@@ -2694,11 +2700,11 @@ msgstr ""
 "diferentes categorías. Descubra cómo se compara usted con sus compañeros "
 "investigadores ciudadanos."
 
-#: templates/new_results_page.jinja2:1393
+#: templates/new_results_page.jinja2:1453
 msgid "How diverse is your microbiome? Check out your"
 msgstr "¿Qué tan diverso es su microbioma? Revise su"
 
-#: templates/new_results_page.jinja2:1401
+#: templates/new_results_page.jinja2:1461
 msgid ""
 "What kinds of people have microbiomes like yours? Check out your "
 "microbiome"
@@ -2706,11 +2712,15 @@ msgstr ""
 "¿Qué tipo de personas tienen microbiomas como el suyo? Revise su "
 "microbioma"
 
-#: templates/new_results_page.jinja2:1409
+#: templates/new_results_page.jinja2:1467
+msgid "Your Inner Zoo"
+msgstr "Su Zoológico Interior"
+
+#: templates/new_results_page.jinja2:1469
 msgid "What particular kinds of microbes are in your sample? Wander through"
 msgstr "¿Qué tipo de microbios particulares hay en su muestra? Explore su"
 
-#: templates/new_results_page.jinja2:1417
+#: templates/new_results_page.jinja2:1477
 msgid ""
 "Where are you on the <a class=\"fake-tab\" href=\"#microbial-map\" data-"
 "link=\"#microbial-map-tab\">Microbiome Map</a>?"
@@ -2718,17 +2728,19 @@ msgstr ""
 "¿Dónde está usted en el <a class=\"fake-tab\" href=\"#microbial-map\" "
 "data-link=\"#microbial-map-tab\">Mapa del Microbioma</a>?"
 
-#: templates/new_results_page.jinja2:1427
+#: templates/new_results_page.jinja2:1487
 msgid ""
 "This section provides insights into your microbiome diversity and how it "
 "compares to others'."
-msgstr "Esta sección le proporcionara información sobre la diversidad de su microbioma y cómo se compara con la de otros."
+msgstr ""
+"Esta sección le proporcionara información sobre la diversidad de su "
+"microbioma y cómo se compara con la de otros."
 
-#: templates/new_results_page.jinja2:1430
+#: templates/new_results_page.jinja2:1490
 msgid "How do we calculate your diversity value?"
 msgstr "¿Cómo calculamos su valor de diversidad?"
 
-#: templates/new_results_page.jinja2:1433
+#: templates/new_results_page.jinja2:1493
 msgid ""
 "Diversity can be measured in a lot of different ways. We measure it by "
 "first taking the DNA sequences from your sample and figuring out which "
@@ -2737,9 +2749,17 @@ msgid ""
 "use, called Shannon's index, takes into account how many different kinds "
 "of microbes make up your gut community (also known as richness) and how "
 "relatively abundant each of those microbes are (also known as evenness)."
-msgstr "La diversidad se puede medir de diferentes maneras. La medimos tomando primero las secuencias de ADN de su muestra y determinando de qué bacterias y arqueas pueden provenir. Esto proporciona una buena estimación de cuántos microbios de cada tipo tiene. La medida que utilizamos, llamada índice de Shannon, toma en cuenta cuántos tipos diferentes de microbios componen su comunidad intestinal (también conocida como riqueza) y qué tan relativamente abundantes son cada uno de esos microbios (también conocido como uniformidad)."
+msgstr ""
+"La diversidad se puede medir de diferentes maneras. La medimos tomando "
+"primero las secuencias de ADN de su muestra y determinando de qué "
+"bacterias y arqueas pueden provenir. Esto proporciona una buena "
+"estimación de cuántos microbios de cada tipo tiene. La medida que "
+"utilizamos, llamada índice de Shannon, toma en cuenta cuántos tipos "
+"diferentes de microbios componen su comunidad intestinal (también "
+"conocida como riqueza) y qué tan relativamente abundantes son cada uno de"
+" esos microbios (también conocido como uniformidad)."
 
-#: templates/new_results_page.jinja2:1436
+#: templates/new_results_page.jinja2:1496
 msgid ""
 "This number isn't exact for many reasons. However, because it's "
 "calculated in the same way for every sample in our dataset, it provides "
@@ -2757,13 +2777,30 @@ msgid ""
 "et al. Science 2017\">Hadza</span> people of Tanzania, who have an "
 "average value of <strong id=\"average-hadza-observed-"
 "average\">FILLIN</strong>. "
-msgstr "Este número no es exacto por muchas razones. Sin embargo, debido a que se calcula de la misma manera para cada muestra de nuestra base de datos, proporciona información sobre cómo se compara su diversidad microbiana con la de otros. Por ejemplo, el valor <span id=\"average-us-tooltip\" class=\"orange-text\" data-bs-toggle=\"tooltip\" data-bs-html=\"true\" data-bs-placement=\"top\" title=\"Basado en muestras fecales de participantes de Microsetta en los Estados Unidos.\">promedio</span> de diversidad para las personas que viven en los EE. UU. en nuestra base de datos es de <strong id=\"average-american-observed-average\">FILLIN</strong>, que es más bajo que el que encontramos en las personas que viven un estilo de vida más cazador-recolector como el pueblo <span id=\"taxa-tooltip\" class=\"orange-text\" data-bs-toggle=\"tooltip\" data-bs-html=\"true\" data-bs-placement=\"top\" title=\"Los Hadza son un grupo indígena de cazadores-recolectores de Tanzania. El informe del microbioma Hadza se basa en Smits et al. Science 2017\">Hadza</span> de Tanzania, que tiene un valor promedio de <strong id=\"average-hadza-observed-average\">FILLIN</strong>."
+msgstr ""
+"Este número no es exacto por muchas razones. Sin embargo, debido a que se"
+" calcula de la misma manera para cada muestra de nuestra base de datos, "
+"proporciona información sobre cómo se compara su diversidad microbiana "
+"con la de otros. Por ejemplo, el valor <span id=\"average-us-tooltip\" "
+"class=\"orange-text\" data-bs-toggle=\"tooltip\" data-bs-html=\"true\" "
+"data-bs-placement=\"top\" title=\"Basado en muestras fecales de "
+"participantes de Microsetta en los Estados Unidos.\">promedio</span> de "
+"diversidad para las personas que viven en los EE. UU. en nuestra base de "
+"datos es de <strong id=\"average-american-observed-"
+"average\">FILLIN</strong>, que es más bajo que el que encontramos en las "
+"personas que viven un estilo de vida más cazador-recolector como el "
+"pueblo <span id=\"taxa-tooltip\" class=\"orange-text\" data-bs-"
+"toggle=\"tooltip\" data-bs-html=\"true\" data-bs-placement=\"top\" "
+"title=\"Los Hadza son un grupo indígena de cazadores-recolectores de "
+"Tanzania. El informe del microbioma Hadza se basa en Smits et al. Science"
+" 2017\">Hadza</span> de Tanzania, que tiene un valor promedio de <strong "
+"id=\"average-hadza-observed-average\">FILLIN</strong>."
 
-#: templates/new_results_page.jinja2:1439
+#: templates/new_results_page.jinja2:1499
 msgid "What does this number mean for my health?"
 msgstr "¿Qué significa este número para mi salud?"
 
-#: templates/new_results_page.jinja2:1442
+#: templates/new_results_page.jinja2:1502
 msgid ""
 "This number reflects the variety of Bacteria and Archaea observed in your"
 " fecal sample at the time of testing. Currently, there's no standard for "
@@ -2773,20 +2810,32 @@ msgid ""
 "understand the relationship. For example, it may be that the specific "
 "microbes present are more important than having many different types of "
 "microbes."
-msgstr "Este número refleja la variedad de Bacterias y Arqueas observadas en su muestra fecal en el momento de la prueba. Actualmente, no existe un estándar sobre cómo se relaciona la diversidad del microbioma intestinal con la salud. Si bien algunos estudios sugieren un vínculo potencial entre una mayor diversidad y beneficios específicos para la salud, eso no es cierto universalmente y se necesita más investigación para entender la relación. Por ejemplo, puede ser que los microbios específicos presentes sean más importantes que tener muchos tipos diferentes de microbios."
+msgstr ""
+"Este número refleja la variedad de Bacterias y Arqueas observadas en su "
+"muestra fecal en el momento de la prueba. Actualmente, no existe un "
+"estándar sobre cómo se relaciona la diversidad del microbioma intestinal "
+"con la salud. Si bien algunos estudios sugieren un vínculo potencial "
+"entre una mayor diversidad y beneficios específicos para la salud, eso no"
+" es cierto universalmente y se necesita más investigación para entender "
+"la relación. Por ejemplo, puede ser que los microbios específicos "
+"presentes sean más importantes que tener muchos tipos diferentes de "
+"microbios."
 
-#: templates/new_results_page.jinja2:1445
+#: templates/new_results_page.jinja2:1505
 msgid ""
 "It's important to remember that everyone's gut microbiome is unique and "
 "changes over time. If your score differs from the average, it doesn't "
 "necessarily indicate a health concern."
-msgstr "Es importante tener en cuenta que el microbioma intestinal de cada persona es único y cambia con el tiempo. Si su puntuación difiere del promedio, no necesariamente indica un problema de salud."
+msgstr ""
+"Es importante tener en cuenta que el microbioma intestinal de cada "
+"persona es único y cambia con el tiempo. Si su puntuación difiere del "
+"promedio, no necesariamente indica un problema de salud."
 
-#: templates/new_results_page.jinja2:1448
+#: templates/new_results_page.jinja2:1508
 msgid "Your sample's diversity value:"
 msgstr "El valor de diversidad de su muestra:"
 
-#: templates/new_results_page.jinja2:1455
+#: templates/new_results_page.jinja2:1515
 msgid ""
 "When we calculated the diversity of the sample groups in our database, we"
 " found that it's closely associated with how you live your life. So here,"
@@ -2799,34 +2848,34 @@ msgstr ""
 "promedio de nuestra base de datos para algunas de las preguntas "
 "realizadas en la encuesta."
 
-#: templates/new_results_page.jinja2:1463
+#: templates/new_results_page.jinja2:1523
 msgid "Participants who eat more than 30 plants per week"
 msgstr "Participantes que comen más de 30 plantas por semana"
 
-#: templates/new_results_page.jinja2:1466
-#: templates/new_results_page.jinja2:1477
-#: templates/new_results_page.jinja2:1490
-#: templates/new_results_page.jinja2:1501
+#: templates/new_results_page.jinja2:1526
+#: templates/new_results_page.jinja2:1537
+#: templates/new_results_page.jinja2:1550
+#: templates/new_results_page.jinja2:1561
 msgid "Average diversity value:"
 msgstr "Valor promedio de diversidad:"
 
-#: templates/new_results_page.jinja2:1474
+#: templates/new_results_page.jinja2:1534
 msgid "Participants who exercise regularly"
 msgstr "Participantes que hacen ejercicio regularmente"
 
-#: templates/new_results_page.jinja2:1487
+#: templates/new_results_page.jinja2:1547
 msgid "Participants who drink 1L of water regularly"
 msgstr "Participantes que beben 1L de agua regularmente"
 
-#: templates/new_results_page.jinja2:1498
+#: templates/new_results_page.jinja2:1558
 msgid "Participants who sleep more than 6 hours per night"
 msgstr "Participantes que duermen más de 6 horas por noche"
 
-#: templates/new_results_page.jinja2:1507
+#: templates/new_results_page.jinja2:1567
 msgid "How can I change my gut microbiome based on my results?"
 msgstr "¿Cómo puedo cambiar mi microbioma intestinal basado en mis resultados?"
 
-#: templates/new_results_page.jinja2:1510
+#: templates/new_results_page.jinja2:1570
 msgid ""
 "Although we still don't have a predictable way to change the gut "
 "microbiome to increase or decrease the abundance of specific "
@@ -2852,7 +2901,7 @@ msgstr ""
 "cambiar, como la edad o la genética, pueden afectar el microbioma "
 "intestinal."
 
-#: templates/new_results_page.jinja2:1519
+#: templates/new_results_page.jinja2:1579
 msgid ""
 "One of the powerful ways microbiome scientists analyze data is by looking"
 " at similarities among samples. To do this, we compute a <span id"
@@ -2891,7 +2940,7 @@ msgstr ""
 "respuesta y en <span class=\"similarity-fontstyle-different\">café</span>"
 " si su respuesta es diferente."
 
-#: templates/new_results_page.jinja2:1537
+#: templates/new_results_page.jinja2:1597
 msgid ""
 "<span id=\"beta_diversity_plants_per_week_value\" class=\"info-loader "
 "font-weight-bold\">...</span> of people with a microbiome like yours eat "
@@ -2903,7 +2952,7 @@ msgstr ""
 "suyo comen <span id=\"beta_diversity_plants_per_week_response\" class"
 "=\"info-loader text-success\">...</span> plantas por semana "
 
-#: templates/new_results_page.jinja2:1545
+#: templates/new_results_page.jinja2:1605
 msgid ""
 "<span id=\"beta_diversity_diet_type_value\" class=\"info-loader font-"
 "weight-bold\">...</span> of people with a microbiome like yours had a "
@@ -2913,11 +2962,11 @@ msgstr ""
 "weight-bold\">...</span> de las personas con un microbioma como el suyo "
 "tenían una dieta similar (por ejemplo, omnívora, vegetariana, etc.) "
 
-#: templates/new_results_page.jinja2:1552
+#: templates/new_results_page.jinja2:1612
 msgid "Supplements"
 msgstr "Suplementos"
 
-#: templates/new_results_page.jinja2:1561
+#: templates/new_results_page.jinja2:1621
 msgid ""
 "<span id=\"beta_diversity_probiotics_value\" class=\"info-loader font-"
 "weight-bold\">...</span> of people with a microbiome like yours <span "
@@ -2929,7 +2978,7 @@ msgstr ""
 "<span id=\"beta_diversity_probiotics_response\" class=\"info-loader text-"
 "success\">...</span> toman probióticos"
 
-#: templates/new_results_page.jinja2:1569
+#: templates/new_results_page.jinja2:1629
 msgid ""
 "<span id=\"beta_diversity_multivitamin_value\" class=\"info-loader font-"
 "weight-bold\">...</span> of people with a microbiome like yours take "
@@ -2939,11 +2988,11 @@ msgstr ""
 "weight-bold\">...</span> de las personas con un microbioma como el suyo "
 "toman vitaminas "
 
-#: templates/new_results_page.jinja2:1576
+#: templates/new_results_page.jinja2:1636
 msgid "Activity"
 msgstr "Actividad"
 
-#: templates/new_results_page.jinja2:1585
+#: templates/new_results_page.jinja2:1645
 msgid ""
 "<span id=\"beta_diversity_exercise_value\" class=\"info-loader font-"
 "weight-bold\">...</span> of people with a microbiome like yours exercise "
@@ -2955,7 +3004,7 @@ msgstr ""
 "hacen ejercicio <span id=\"beta_diversity_exercise_response\" class"
 "=\"info-loader text-success\">...</span>"
 
-#: templates/new_results_page.jinja2:1593
+#: templates/new_results_page.jinja2:1653
 msgid ""
 "<span id=\"beta_diversity_sleep_value\" class=\"info-loader font-weight-"
 "bold\">...</span> of people with a microbiome like yours get <span "
@@ -2967,11 +3016,11 @@ msgstr ""
 "<span id=\"beta_diversity_sleep_response\" class=\"info-loader text-"
 "success\">...</span> por la noche"
 
-#: templates/new_results_page.jinja2:1600
+#: templates/new_results_page.jinja2:1660
 msgid "Demographic"
 msgstr "Demográfico"
 
-#: templates/new_results_page.jinja2:1609
+#: templates/new_results_page.jinja2:1669
 msgid ""
 "<span id=\"beta_diversity_age_value\" class=\"info-loader font-weight-"
 "bold\">...</span> of people with a microbiome like yours were the same "
@@ -2981,7 +3030,7 @@ msgstr ""
 "bold\">...</span> de las personas con un microbioma como el suyo tenían "
 "la misma edad que usted"
 
-#: templates/new_results_page.jinja2:1617
+#: templates/new_results_page.jinja2:1677
 msgid ""
 "<span id=\"beta_diversity_sex_value\" class=\"info-loader font-weight-"
 "bold\">...</span> of people with a microbiome like yours were the same "
@@ -2991,11 +3040,11 @@ msgstr ""
 "bold\">...</span> de las personas con un microbioma como el suyo eran del"
 " mismo sexo"
 
-#: templates/new_results_page.jinja2:1626
+#: templates/new_results_page.jinja2:1686
 msgid "Your Inner Zoo (aka What's in your sample?)"
 msgstr "Su Zoológico Interno (¿Qué hay en su muestra?)"
 
-#: templates/new_results_page.jinja2:1629
+#: templates/new_results_page.jinja2:1689
 msgid ""
 "This is a table of all of the different microbes we found in your sample "
 "along with their proportions."
@@ -3003,7 +3052,7 @@ msgstr ""
 "Esta es una tabla de todos los diferentes microbios que encontramos en su"
 " muestra junto con sus proporciones."
 
-#: templates/new_results_page.jinja2:1633
+#: templates/new_results_page.jinja2:1693
 msgid ""
 "To learn more about what the taxonomic ranks (column headers) mean, place"
 " your cursor over their names. Additionally, pronunciation can be a "
@@ -3019,12 +3068,12 @@ msgstr ""
 "Puede encontrar una guía de su pronunciación <a "
 "href=\"https://www.atsu.edu/faculty/chamberlain/Website/studio.htm\">aquí</a>."
 
-#: templates/new_results_page.jinja2:1640
+#: templates/new_results_page.jinja2:1700
 #, python-format
 msgid "%% of Sample"
 msgstr "%% de la muestra"
 
-#: templates/new_results_page.jinja2:1654
+#: templates/new_results_page.jinja2:1714
 msgid ""
 "No evidence presented here indicates what we've observed is clinically "
 "dangerous"
@@ -3032,7 +3081,7 @@ msgstr ""
 "Ninguna evidencia presentada aquí indica que lo que hemos observado es "
 "clínicamente peligroso."
 
-#: templates/new_results_page.jinja2:1661
+#: templates/new_results_page.jinja2:1721
 msgid ""
 "In the plot below, you can see the most commonly observed microbial "
 "genera in the dataset, and distribution of ranks of those genera.  For "
@@ -3042,13 +3091,17 @@ msgstr ""
 "observados con mayor frecuencia en el conjunto de datos y el rango de "
 "distribución de esos géneros. Por ejemplo,"
 
-#: templates/new_results_page.jinja2:1663
+#: templates/new_results_page.jinja2:1723
 msgid "typically has the highest relative abundance of samples in the dataset."
 msgstr ""
 "normalmente tiene la mayor abundancia relativa de muestras en el conjunto"
 " de datos."
 
-#: templates/new_results_page.jinja2:1681
+#: templates/new_results_page.jinja2:1738
+msgid "How can I learn more?"
+msgstr "¿Cómo puedo aprender más?"
+
+#: templates/new_results_page.jinja2:1741
 msgid ""
 "Microbiome analysis is a burgeoning field, and the information displayed "
 "here is only an example of what is becoming possible thanks to the data "
@@ -3061,7 +3114,7 @@ msgstr ""
 "mismo puede revisar el conjunto de datos a través de los enlaces a "
 "continuación."
 
-#: templates/new_results_page.jinja2:1687
+#: templates/new_results_page.jinja2:1747
 msgid ""
 "There are many resources for microbiome information available online. If "
 "you'd like to learn more, we recommend the site hosted by the <a "
@@ -3083,11 +3136,11 @@ msgstr ""
 "gut-microbiome-research-education/\">American Gastroenterological "
 "Association</a>."
 
-#: templates/new_results_page.jinja2:1690
+#: templates/new_results_page.jinja2:1750
 msgid "Datasets used in your report"
 msgstr "Conjunto de datos utilizados en su reporte"
 
-#: templates/new_results_page.jinja2:1692
+#: templates/new_results_page.jinja2:1752
 msgid ""
 "The results shown in the Microbiome Maps portion of the report relied on "
 "data from many different publically accessible microbiome datasets. These"
@@ -3098,7 +3151,7 @@ msgstr ""
 "microbioma accesibles públicamente. Estos diferentes conjuntos de datos, "
 "y los enlaces a ellos, se muestran a continuación."
 
-#: templates/new_results_page.jinja2:1705
+#: templates/new_results_page.jinja2:1765
 msgid ""
 "Microbiome maps turn the similarities and differences among microbiomes "
 "into a two-dimensional picture. Each dot on the map is someone's "
@@ -3129,11 +3182,11 @@ msgstr ""
 "también contiene muestras de bebés. ¡Haga clic en una de las secciones a "
 "continuación para ver dónde aterriza usted en el mapa!"
 
-#: templates/new_results_page.jinja2:1709
+#: templates/new_results_page.jinja2:1769
 msgid "How are these maps produced?"
 msgstr "¿Cómo se producen estos mapas?"
 
-#: templates/new_results_page.jinja2:1710
+#: templates/new_results_page.jinja2:1770
 msgid ""
 "One of the ways microbiome researchers visualize complex data is through "
 "a technique called principal coordinates analysis (PCoA). We first "

@@ -107,6 +107,8 @@ def declare_enum_values():
     gettext("Other")
     gettext("Polyphenols")
     gettext("Spain FFQ")
+    gettext("Skin")
+    gettext("Skin Health Diagnosis")
 
     # Survey descriptions
     # Intentionally skipping MyFoodRepo since it's only for US residents

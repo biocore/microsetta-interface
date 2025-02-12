@@ -126,6 +126,7 @@ SKIN_HEALTH_DIAGNOSIS_ID = 24
 VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
+SKIN_SCORING_APP_ID = 10005
 SPAIN_FFQ_ID = 10004
 
 SYSTEM_MSG_DICTIONARY = {
@@ -410,6 +411,21 @@ SURVEY_INFO = {
         'est_minutes': '30',
         'icon': 'survey_external.svg'
     },
+    SKIN_SCORING_APP_ID: {
+        'description': 'This will direct you to the ModiFace skin-scoring web'
+                       ' app. This app allows you to upload a selfie photo, '
+                       'which will be used to generate anonymized data about '
+                       'your skin for researchers and provide you with what '
+                       'the algorithm assesses to be your top two skin '
+                       'concerns. You will be provided a username and study'
+                       ' code on the next screen to access the app, which '
+                       'will link your ModiFace results to your skin sample. '
+                       'This app is hosted by a third-party provider; we are '
+                       'unable to provide any assistance if you encounter '
+                       'errors or issues while using the app.',
+        'est_minutes': '5',
+        'icon': 'survey_external.svg'
+    },
 }
 LOCAL_SURVEY_SEQUENCE = [
     BASIC_INFO_ID,
@@ -480,7 +496,8 @@ def _get_req_survey_templates_by_source_type(source_type):
 
 def _get_opt_survey_templates_by_source_type(source_type):
     if source_type == Source.SOURCE_TYPE_HUMAN:
-        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID, SPAIN_FFQ_ID]
+        return [3, 4, 5, 7, MYFOODREPO_ID, POLYPHENOL_FFQ_ID,
+                SPAIN_FFQ_ID, SKIN_SCORING_APP_ID]
     elif source_type == Source.SOURCE_TYPE_ANIMAL:
         return []
     elif source_type == Source.SOURCE_TYPE_ENVIRONMENT:
@@ -1414,6 +1431,14 @@ def get_fill_source_survey(*,
 
         # this is remote, so go to an external url, not our jinja2 template
         return redirect(survey_output['survey_template_text']['url'])
+    elif survey_template_id == SKIN_SCORING_APP_ID:
+        if need_reconsent:
+            return render_consent_page(
+                account_id, source_id, "data", reconsent=True
+            )
+
+        # this is remote, so go to an external url, not our jinja2 template
+        return redirect(survey_output['survey_template_text']['url'])
     else:
         survey_icon = SURVEY_INFO.get(survey_template_id)['icon']
         survey_est_minutes = SURVEY_INFO.get(survey_template_id)['est_minutes']
@@ -1554,6 +1579,25 @@ def get_myfoodrepo_no_slots(*, account_id=None, source_id=None):
     return _render_with_defaults("myfoodrepo_no_slots.jinja2",
                                  account_id=account_id,
                                  source_id=source_id)
+
+
+@prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
+def post_ajax_skin_scoring_app_credentials(*, account_id, source_id):
+    need_reconsent = check_current_consent(account_id, source_id, "data")
+
+    if need_reconsent:
+        return render_consent_page(
+            account_id, source_id, "data", reconsent=True
+        )
+
+    has_error, credentials, _ = ApiRequest.post(
+        "/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials"
+        % (account_id, source_id)
+    )
+    if has_error == 404:
+        return flask.jsonify({"app_username": "", "app_studycode": ""})
+    else:
+        return flask.jsonify(credentials)
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
@@ -1864,7 +1908,10 @@ def get_source(*, account_id=None, source_id=None):
     for answer in survey_answers:
         template_id = answer['survey_template_id']
         for template in local_surveys + remote_surveys:
-            if template['survey_template_id'] == template_id:
+            if template['survey_template_id'] == SKIN_SCORING_APP_ID:
+                template['survey_id'] = answer['survey_id']
+                template['answered'] = True
+            else:
                 template['answered'] = True
 
     for template in local_surveys:
@@ -1893,11 +1940,24 @@ def get_source(*, account_id=None, source_id=None):
         template['est_minutes'] = SURVEY_INFO[template_id]['est_minutes']
         template['icon'] = SURVEY_INFO[template_id]['icon']
 
-    # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
-    """
     # any survey specific stuff like opening a tab
     # or slot checking
-    for idx, template in enumerate(remote_surveys[:]):
+    # NB: change "_" back to "idx" when MyFoodRepo is reactivated or if
+    # another external survey requires similar functionality
+    for _, template in enumerate(remote_surveys[:]):
+        if template['survey_template_id'] == SKIN_SCORING_APP_ID:
+            has_error, credentials, _ = ApiRequest.get(
+                '/accounts/%s/sources/%s/surveys/skin_scoring_app_credentials'
+                % (account_id, source_id)
+            )
+
+            if has_error:
+                return has_error
+
+            template['credentials'] = credentials
+
+        # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
+        """
         if template['survey_template_id'] == MYFOODREPO_ID:
             has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
             if has_error:
@@ -1910,7 +1970,7 @@ def get_source(*, account_id=None, source_id=None):
                 per_source_not_taken.pop(idx)
         else:
             template['new_tab'] = False
-    """
+        """
 
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]
@@ -1925,7 +1985,8 @@ def get_source(*, account_id=None, source_id=None):
                                  source_name=source_output['source_name'],
                                  profile_has_samples=profile_has_samples,
                                  need_reconsent=need_reconsent,
-                                 show_update_age=show_update_age
+                                 show_update_age=show_update_age,
+                                 SKIN_SCORING_APP_ID=SKIN_SCORING_APP_ID
                                  )
 
 

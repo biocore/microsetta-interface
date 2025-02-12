@@ -1210,6 +1210,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
 .new_kit_sample_container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     padding: 0px;
     gap: 16px;
@@ -1219,6 +1220,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     .new_kit_sample_container {
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         align-items: center;
         padding: 0px;
         gap: 16px;
@@ -1581,6 +1583,7 @@ input.barcode-checkbox[type=checkbox]:checked+label {
     border-radius: 4px 4px 4px 4px;
     width: 240px;
 }
+
 @media (min-width: 1280px){
     .navbar-expand-custom {
         flex-direction: row;

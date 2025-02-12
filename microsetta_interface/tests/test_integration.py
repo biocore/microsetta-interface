@@ -106,6 +106,7 @@ VIOSCREEN_ID = 10001
 MYFOODREPO_ID = 10002
 POLYPHENOL_FFQ_ID = 10003
 SPAIN_FFQ_ID = 10004
+SKIN_SCORING_APP_ID = 10005
 
 BASIC_INFO_SIMPLE = {"112": "1970"}
 BASIC_INFO_SIMPLE_ALT = {"112": "1983"}
@@ -571,6 +572,11 @@ class IntegrationTests(unittest.TestCase):
     def _complete_spain_ffq_survey(self, account_id, source_id):
         url = (f'/accounts/{account_id}/sources/{source_id}/'
                f'take_survey?survey_template_id=10004')
+        return self.app.get(url), url
+
+    def _complete_skin_scoring_app_survey(self, account_id, source_id):
+        url = (f'/accounts/{account_id}/sources/{source_id}/'
+               f'take_survey?survey_template_id={SKIN_SCORING_APP_ID}')
         return self.app.get(url), url
 
     def test_new_user_to_source_listing(self):

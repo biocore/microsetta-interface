@@ -406,7 +406,11 @@ class IntegrationTests(unittest.TestCase):
                 'sample_date_normalized': cur_date,
                 'sample_time': '07:00 AM',
                 'sample_site': 'Stool',
-                'sample_notes': collection_note}
+                'sample_notes': collection_note,
+                'sample_site_last_washed_date_normalized': '',
+                'sample_site_last_washed_date': '',
+                'sample_site_last_washed_time': '',
+                'sample_site_last_washed_product': ''}
         resp = self.app.post(url, data=body)
         self.assertRedirect(resp, suffix_is_uuid=False)
         url = self.redirectURL(resp)

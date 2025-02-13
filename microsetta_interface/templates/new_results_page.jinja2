@@ -682,7 +682,7 @@
                     .attr("x", xPos)
                     .attr("y", yPos)
                     .attr("text-anchor", "end")
-                    .attr("font-size", "0.9rem")
+                    .attr("font-size", "0.8rem")
                     .attr("fill", "var(--tmi-gray-80)")
                     .text(statsLabels[j].label);
 
@@ -697,7 +697,7 @@
                     .attr("x", labelXpositions[j - 3])
                     .attr("y", yPos)
                     .attr("text-anchor", "end")
-                    .attr("font-size", "0.9rem")
+                    .attr("font-size", "0.8rem")
                     .attr("fill", "var(--tmi-gray-80)")
                     .text(statsLabels[j].label);
             }
@@ -864,79 +864,99 @@
     }
 
     function createBoxplotInfoModal() {
-        const helpLink = d3.select("#boxplot-help");
+        // Create modal with an example boxplot
+        const infoLink = d3.select("#boxplot-info-link");
+        const boxplotInfoImage = d3.select("#boxplot-info-image");
 
-        helpLink.on("click", function () {
-            if (d3.select("#boxplot-modal").empty()) {
-                const modal = d3.select("body").append("div")
-                    .attr("id", "boxplot-modal")
-                    .attr("class", "boxplot-modal");
+        function closeModal() {
+            d3.select("#boxplot-modal-overlay").remove();
+            // enable scrolling
+            document.body.style.overflow = 'visible';
+        }
 
-                modal.append("div")
-                    .attr("class", "boxplot-overlay")
-                    .on("click", closeModal);
+        infoLink.on("click", function () {
+            // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
 
-                const modalContent = modal.append("div")
-                    .attr("class", "boxplot-content");
+            const modalOverlay = boxplotInfoImage.append("div")
+                .attr("id", "boxplot-modal-overlay")
+                .on("click", closeModal);
 
-                modalContent.append("span")
-                    .attr("class", "close-button")
-                    .html("&times;")
-                    .on("click", closeModal);
+            const modalContent = modalOverlay.append("div")
+                .classed("boxplot-modal", true)
+                .append("div")
+                .classed("boxplot-modal-content", true);
 
-                modalContent.append("h4")
-                    .style("text-align", "left")
-                    .style("color", "#222")
-                    .text("{{ _('How to read a boxplot (horizontal)') }}");
+            modalContent.append("span")
+                .classed("boxplot-modal-close-button", true)
+                .html("&times;")
 
-                modalContent.append("svg")
-                    .attr("id", "tooltip-boxplot")
-                    .attr("width", 605)
-                    .attr("height", 223);
+            modalContent.append("h4")
+                .style("text-align", "center")
+                .style("color", "#222")
+                .text("{{ _('How to read a boxplot (horizontal)') }}");
 
+            drawExampleBoxplot(modalContent);
 
-                const infoContainer = modalContent.append("div")
-                    .attr("class", "info-paragraph-container")
-                    .style("display", "flex")
-                    .style("align-items", "left")
-                    .style("gap", "8px")
-                    .style("margin-bottom", "15px");
+            const infoContainer = modalContent.append("div")
+                .classed("info-paragraph-container", true)
+                .style("display", "flex")
+                .style("align-items", "left")
+                .style("gap", "8px")
+                .style("margin-bottom", "15px");
 
-                infoContainer.append("div")
-                    .attr("class", "info-circle")
-                    .style("width", "20px")
-                    .style("height", "20px")
-                    .style("background-color", "#006A96")
-                    .style("border-radius", "50%")
-                    .style("display", "flex")
-                    .style("justify-content", "center")
-                    .style("align-items", "center")
-                    .style("font-size", "14px")
-                    .style("color", "white")
-                    .style("font-weight", "bold")
-                    .text("{{ _('i') }}");
+            infoContainer.append("div")
+                .classed("boxplot-info-circle", true)
+                .style("width", "20px")
+                .style("height", "20px")
+                .style("background-color", "var(--tmi-blue)")
+                .style("border-radius", "50%")
+                .style("font-size", "14px")
+                .style("color", "white")
+                .style("font-weight", "bold")
+                .text("{{ _('i') }}");
 
-                infoContainer.append("p")
-                    .style("margin", "0")
-                    .style("font-size", "12px")
-                    .style("color", "#006A96")
-                    .style("line-height", "1.5")
-                    .style("align-items", "center")
-                    .style("text-align", "left")
-                    .text("{{ _('To clearly show the abundance of microbes in your sample, the scale on the data plots may vary across figures to focus on the relevant range for each comparison.') }}");
+            infoContainer.append("p")
+                .style("margin", "0")
+                .style("font-size", "0.9rem")
+                .style("color", "var(--tmi-blue)")
+                .style("line-height", "1.5")
+                .style("text-align", "left")
+                .text("{{ _('To clearly show the abundance of microbes in your sample, the scale on the data plots may vary across figures to focus on the relevant range for each comparison.') }}");
 
-                modalContent.append("p")
-                    .style("text-align", "left")
-                    .text("{{ _('Example: Microbe A is a dominant microbe, exceeding 50%% of the abundance in most samples. Microbe B is typically much less abundant at less than 10%%. In the case of microbe B, the plot will be much more readable if the scale only shows up to 15%% rather than 100%%.') }}");
+            modalContent.append("p")
+                .style("text-align", "left")
+                .text("{{ _('Example: Microbe A is a dominant microbe, exceeding 50%% of the abundance in most samples. Microbe B is typically much less abundant at less than 10%%. In the case of microbe B, the plot will be much more readable if the scale only shows up to 15%% rather than 100%%.') }}");
 
-                drawExampleBoxplot();
-            }
         });
 
-        function drawExampleBoxplot() {
-            const svg = d3.select("#tooltip-boxplot");
-            const width = 605;
-            const height = 223;
+        function drawExampleBoxplot(modalContent) {
+
+            const boxPlotContainer = modalContent.append('svg')
+                    .attr("id", "tooltip-boxplot-container")
+
+            const margin = { top: 15, bottom: 15, left: 10, right: 15 };
+
+            let imageWidth = 605;
+            let imageHeight = 225;
+
+            const width = imageWidth - margin.left - margin.right;
+            const height = imageHeight - margin.top - margin.bottom;
+
+            const viewBox = boxPlotContainer
+                        .attr('preserveAspectRatio', 'xMinYMin')
+                        .attr(
+                            'viewBox',
+                            `0 0 ${width + margin.right + margin.left} ${
+                                height + margin.top + margin.bottom
+                            }`
+                        )
+
+            const boxplotImage = viewBox.append('g')
+                .attr(
+                    'transform',
+                    `translate(${margin.left}, ${margin.bottom})`
+                );
 
             const minOutlier = 5;
             const min = 10;
@@ -950,67 +970,67 @@
             const x = d3.scaleLinear().domain([0, 100]).range([50, width - 50]);
             const centerY = 130;
 
-            svg.append("line")
+            boxplotImage.append("line")
                 .attr("x1", x(min))
                 .attr("x2", x(max))
                 .attr("y1", centerY)
                 .attr("y2", centerY)
-                .attr("stroke", "#182B49")
-                .attr("stroke-width", 2);
+                .style("stroke", "var(--tmi-dark-blue)")
+                .style("stroke-width", 2);
 
-            svg.append("rect")
+            boxplotImage.append("rect")
                 .attr("x", x(q1))
                 .attr("y", centerY - 20)
                 .attr("width", x(q3) - x(q1))
                 .attr("height", 40)
-                .attr("fill", "#EDEDED")
-                .attr("stroke", "#182B49")
-                .attr("stroke-width", 2);
+                .style("fill", "#EDEDED")
+                .style("stroke", "var(--tmi-dark-blue)")
+                .style("stroke-width", 2);
 
-            svg.append("line")
+            boxplotImage.append("line")
                 .attr("x1", x(median))
                 .attr("x2", x(median))
                 .attr("y1", centerY - 20)
                 .attr("y2", centerY + 20)
-                .attr("stroke", "#182B49")
-                .attr("stroke-width", 2);
+                .style("stroke", "var(--tmi-dark-blue)")
+                .style("stroke-width", 2);
 
             [minOutlier, maxOutlier].forEach(outlier => {
-                svg.append("circle")
+                boxplotImage.append("circle")
                     .attr("cx", x(outlier))
                     .attr("cy", centerY)
                     .attr("r", 5)
-                    .attr("fill", "none")
-                    .attr("stroke", "#182B49")
-                    .attr("stroke-width", 2);
+                    .style("fill", "none")
+                    .style("stroke", "var(--tmi-dark-blue)")
+                    .style("stroke-width", 2);
             });
 
             const xAxis = d3.axisBottom(x)
                 .ticks(1)
                 .tickSize(5);
 
-            svg.append("g")
-                .attr("transform", `translate(0, ${height - 50})`)
+            boxplotImage.append("g")
+                .attr("transform", `translate(0, ${height - 20})`)
                 .call(xAxis)
                 .selectAll("text")
-                .style("font-size", "10px")
-                .style("fill", "#182B49");
+                .style("font-size", "0.8rem")
+                .style("fill", "var(--tmi-dark-blue)");
 
-            svg.append("text")
+            boxplotImage.append("text")
                 .attr("x", width / 2)
-                .attr("y", height - 30)
+                .attr("y", height)
                 .attr("text-anchor", "middle")
-                .attr("font-size", "12px")
-                .attr("fill", "#182B49")
+                .attr("font-size", "0.8rem")
+                .attr("fill", "var(--tmi-dark-blue)")
                 .text("{{ ('% of microbe') }}");
 
             const aspects = [
-                { position: minOutlier, label: "{{ _('Minimum outlier') }}", lineHeight: 40 },
+                { position: minOutlier, label: "{{ _('Minimum outlier') }}", lineHeight: 45 },
                 { position: min, label: "{{ _('Minimum value') }}", lineHeight: 90 },
-                { position: q1, label: "{{ _('25%% quartile') }}", lineHeight: 65 },
-                { position: median, label: "{{ _('Median') }}", lineHeight: 70 },
-                { position: mean, label: "{{ _('Mean') }}", lineHeight: 50 },
-                { position: q3, label: "{{ _('75%% quartile') }}", lineHeight: 70 },
+                { position: q1, label: "{{ _('Lower quartile') }}", lineHeight: 65 },
+                { position: median, label: "{{ _('Median') }}", lineHeight: 65 },
+                { position: mean, label: "{{ _('Mean') }}", lineHeight: 45 },
+                { position: q3, label: "{{ _('Upper quartile') }}", lineHeight: 65 },
                 { position: max, label: "{{ _('Maximum value') }}", lineHeight: 90 },
                 { position: maxOutlier, label: "{{ _('Maximum outlier') }}", lineHeight: 45 }
             ];
@@ -1019,35 +1039,45 @@
                 const lineTop = centerY - aspect.lineHeight;
                 const lineBottom = centerY;
 
-                svg.append("line")
+                boxplotImage.append("line")
                     .attr("x1", x(aspect.position))
                     .attr("x2", x(aspect.position))
                     .attr("y1", lineTop)
                     .attr("y2", lineBottom)
-                    .attr("stroke", "#006A96")
-                    .attr("stroke-dasharray", "4,4")
-                    .attr("stroke-width", 1);
+                    .style("stroke", "var(--tmi-blue)")
+                    .style("stroke-dasharray", "4,4")
+                    .style("stroke-width", 1);
 
-                svg.append("text")
+                boxplotImage.append("text")
                     .attr("x", x(aspect.position))
                     .attr("y", lineTop - 5)
                     .attr("text-anchor", "middle")
-                    .attr("font-size", "16px")
-                    .attr("font-weight", "400")
-                    .attr("font-family", "Mulish")
-                    .attr("color", "#222")
+                    .style("font-size", "16px")
+                    .style("font-weight", "400")
+                    .style("font-family", "Mulish")
+                    .style("color", "#222")
                     .text(aspect.label);
+
             });
 
-            svg.append("circle")
+            boxplotImage.selectAll('end-lines')
+                .data([min, max])
+                .enter()
+                .append('line')
+                .attr('x1', d => x(d))
+                .attr('x2', d => x(d))
+                .attr('y1', centerY + 20)
+                .attr('y2', centerY - 20)
+                .style("stroke", "black")
+                .style("stroke-width", 2);
+
+            boxplotImage.append("circle")
                 .attr("cx", x(mean))
                 .attr("cy", centerY)
-                .attr("r", 3)
-                .attr("fill", "#182B49");
+                .attr("r", 5)
+                .style("fill", "var(--tmi-dark-blue)");
         }
-        function closeModal() {
-            d3.select("#boxplot-modal").remove();
-        }
+
     }
 
     function createTaxonomyTable(state)
@@ -2175,17 +2205,16 @@
                     <p style='font-style: italic;'></p>
                         * {{ _('No evidence presented here indicates what we\'ve observed is clinically dangerous') }}
                     </p>
-                    <div id="boxplot-container">
-                        <h4 style="color:#006A96;">{{ _('Your Five Most Abundant Microbes') }}</h4>
+                    <div id="composition-boxplots-container">
+                        <h4 style="color: var(--tmi-blue);">{{ _('Your Five Most Abundant Microbes') }}</h4>
                         <p>{{ _('The plots below show how the proportion of your most abundant microbes compare with their proportions in other samples.') }}</p>
-                        <div id="boxplot-info-outer">
-                        <div id="boxplot-info" class="info-icon-container">
-                            <a id="boxplot-help" href="javascript:void(0)">
-                                <div class="info-circle">i</div>
-                                <span class="info-text">{{ _('How to read a boxplot') }}</span>
-                            </a>
+                        <div id="boxplot-info-link">
+                            <div id="boxplot-info" class="boxplot-info-icon-container">
+                                <div class="boxplot-info-circle">i</div>
+                                <span class="boxplot-info-text">{{ _('How to read a boxplot') }}</span>
+                            </div>
                         </div>
-                        </div>
+                        <div id="boxplot-info-image"></div>
                         <div id="composition-boxplots-display-container"><div id="composition-boxplots-display"></div>
                     </div>
                   </div>

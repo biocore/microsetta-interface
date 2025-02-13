@@ -835,6 +835,22 @@ paths:
         '302':
           description: Redirecting to necessary action
   
+  '/accounts/{account_id}/sources/{source_id}/create_skin_scoring_app_credentials':
+    post:
+      operationId: microsetta_interface.implementation.post_ajax_skin_scoring_app_credentials
+      tags:
+        - Survey
+      parameters:
+        - $ref: '#/components/parameters/account_id'
+        - $ref: '#/components/parameters/source_id'
+      responses:
+        '200':
+          description: Credentials for skin scoring app
+          content:
+            application/json:
+              schema:
+                type: object
+
   '/accounts/{account_id}/sources/{source_id}/vioscreen_ffq':
     get:
       operationId: microsetta_interface.implementation.get_fill_vioscreen_remote_sample_survey

@@ -44,11 +44,6 @@
             preventImplicitSubmission(form_name);
             preclude_whitespace('#ffq_code');
 
-            function handleSubmit() {
-                // TODO go to page since form validated
-                console.log('submitted form')
-            };
-
             // Validate the registration form for a valid
             // registration code using the jQuery validation plugin.
             // If the form is not valid, the messages are displayed
@@ -69,7 +64,6 @@
                 submitHandler: function (form, event) {
                     // prevent multiple submissions
                     document.getElementById("ffq_code_button").disabled = false;
-                    handleSubmit(form);
                 },
                 messages: {
                     ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",

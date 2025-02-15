@@ -44,34 +44,45 @@
             preventImplicitSubmission(form_name);
             preclude_whitespace('#ffq_code');
 
-            // Validate the registration form for a valid
-            // registration code using the jQuery validation plugin.
-            // If the form is not valid, the messages are displayed
+            // Validate the FFQ code registration form using
+            // the jQuery validation plugin.
             $("form[name='" + form_name + "']").validate({
                 // Specify validation rules
                 rules: {
-                    // The key is the form input field name attribute and the validation rules
-                    // are defined in the value object
-                    // The route check_ffq_code_valid returns
-                    // either true or false
+                    // The key name on the left side is the
+                    // name attribute of an input field.
+                    // Validation rules are defined
+                    // on the right side
+                    // the remote get ajax call needs to
+                    // return the string "true" for the
+                    // form to validate and submit
                     ffq_code: {
                         required: true,
                         remote: {
                             url: "/check_ffq_code_valid",
                         }
-                    }
+                    },
                 },
-                submitHandler: function (form, event) {
+                submitHandler: function (form) {
                     // prevent multiple submissions
-                    document.getElementById("ffq_code_button").disabled = false;
+                    document.getElementById("ffq_code_button").disabled = true;
                     form.submit()
                 },
                 messages: {
                     ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",
                 },
             });
-
         });
+
+        /*
+        function updateButtonState(ffq_code_value) {
+            if(ffq_code_value != "") {
+                document.getElementById("ffq_code_button").disabled = false;
+            } else {
+                document.getElementById("ffq_code_button").disabled = true;
+            }
+        }
+        */
 
         function openCodePanel() {
             document.getElementById('add_code_container').style.display = '';
@@ -207,7 +218,7 @@
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button">{{ _('Register FFQ') }}</button>
+                            <button type='submit' class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button">{{ _('Register FFQ') }}</button>
                         </div>
                     </div>
                 </div>

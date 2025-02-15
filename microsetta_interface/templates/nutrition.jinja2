@@ -64,6 +64,7 @@
                 submitHandler: function (form, event) {
                     // prevent multiple submissions
                     document.getElementById("ffq_code_button").disabled = false;
+                    form.submit()
                 },
                 messages: {
                     ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",

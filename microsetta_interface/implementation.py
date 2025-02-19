@@ -2518,14 +2518,14 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         if sslwd is None:
             sslwd = ""
         sample_output['barcode_meta']['sample_site_last_washed_date'] = sslwd
-        
+
         sslwt = sample_output['barcode_meta'].get(
             'sample_site_last_washed_time'
         )
         if sslwt is None:
             sslwt = ""
         sample_output['barcode_meta']['sample_site_last_washed_time'] = sslwt
-        
+
         sslwp = sample_output['barcode_meta'].get(
             'sample_site_last_washed_product'
         )

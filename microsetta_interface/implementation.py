@@ -2512,11 +2512,13 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
 
     if sample_output['sample_site'] == "Cheek":
         # Format date and time to be JavaScript-friendly
-        if sample_output['barcode_meta']['sample_site_last_washed_date']\
-            is None:
+        if sample_output['barcode_meta'][
+            'sample_site_last_washed_date'
+        ] is None:
             sample_output['barcode_meta']['sample_site_last_washed_date'] = ""
-        if sample_output['barcode_meta']['sample_site_last_washed_time']\
-            is None:
+        if sample_output['barcode_meta'][
+            'sample_site_last_washed_time'
+        ] is None:
             sample_output['barcode_meta']['sample_site_last_washed_time'] = ""
 
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)

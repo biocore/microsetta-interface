@@ -806,6 +806,18 @@ li.active-profile {
     color: var(--tmi-blue);
 }
 
+.alert-kits {
+    background: var(--tmi-orange-bg);
+    border-left: 8px solid var(--tmi-orange);
+    border-radius: 12px;
+    color: var(--tmi-gray-90);
+}
+
+.alert-kits a {
+    color: var(--tmi-blue);
+}
+
+
 .alert-nutrition {
     background: var(--tmi-orange-bg);
     border-left: 8px solid var(--tmi-orange);

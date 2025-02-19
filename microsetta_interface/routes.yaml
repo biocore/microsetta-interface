@@ -427,6 +427,7 @@ paths:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/source_id'
         - $ref: '#/components/parameters/check_survey_date'
+        - $ref: '#/components/parameters/sample_site'
       responses:
         '200':
           description: Display of kits for a source
@@ -1658,6 +1659,12 @@ components:
       description: T/F flag on whether the Kits page should check user's most recent survey update date
       schema:
         $ref: '#/components/schemas/check_survey_date'
+    sample_site:
+      name: sample_site
+      in: query
+      description: The sample site of the last sample the user edited
+      schema:
+        $ref: '#/components/schemas/sample_site'
     external_report_id:
       name: external_report_id
       in: path
@@ -1728,6 +1735,9 @@ components:
     check_survey_date:
       type: boolean
       example: True
+    sample_site:
+      type: string
+      example: "Cheek"
     external_report_id:
       type: string
       example: "b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0"

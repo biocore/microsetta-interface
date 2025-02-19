@@ -188,7 +188,7 @@
                 timeFormat: 'h:mm p',
                 interval: 30,
                 {% if sample.barcode_meta['sample_site_last_washed_time'] == "" %}
-                defaultTime: 'now',
+                defaultTime: '',
                 {% else %}
                 defaultTime: '{{ sample.barcode_meta['sample_site_last_washed_time'] }}',
                 {% endif %}
@@ -318,7 +318,7 @@
                     </div>
                     <div class="row mt-2 barcode-meta-cheek">
                         <div class="col-12">
-                            <label for="sample_site_last_washed_date" name="sample_site_last_washed_date_label" class="sample-label">{{ _('When did you last wash the area that was swabbed before taking the sample?') }}*</label>
+                            <label for="sample_site_last_washed_date" name="sample_site_last_washed_date_label" class="sample-label">{{ _('When did you last wash the area that was swabbed before taking the sample?') }}</label>
                         </div>
                     </div>
                     <div class="row barcode-meta-cheek">

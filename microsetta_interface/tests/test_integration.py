@@ -416,8 +416,11 @@ class IntegrationTests(unittest.TestCase):
         url = self.redirectURL(resp)
         # Flask's client.get() function doesn't like the query string being
         # attached to the url string. So we'll restructure it.
-        url = url.replace("?check_survey_date=True", "")
-        query_string = {"check_survey_date": "True"}
+        url = url.replace("?check_survey_date=True&sample_site=Stool", "")
+        query_string = {
+            "check_survey_date": "True",
+            "sample_site": "Stool"
+        }
         resp = self.app.get(url, query_string=query_string)
         self.assertPageTitle(resp, 'My Kits')
 

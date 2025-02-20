@@ -1991,7 +1991,8 @@ def get_source(*, account_id=None, source_id=None):
 
 
 @prerequisite([SOURCE_PREREQS_MET, BIOSPECIMEN_PREREQS_MET])
-def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
+def get_kits(*, account_id=None, source_id=None, check_survey_date=False,
+             sample_site=None):
     # Retrieve the account
     has_error, account, _ = ApiRequest.get('/accounts/%s' % account_id)
     if has_error:
@@ -2073,6 +2074,28 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
 
         prompt_survey_update = prompt_response['prompt']
 
+    # For Cheek samples, we want to display prompt to return to the My Profile
+    # tab and take the Skin Scoring App external survey.
+    # Set a default value of False
+    prompt_skin_app = False
+    if sample_site == "Cheek":
+        # We need to verify that they're eligible for the app, which means
+        # they either already have credentials, or some are availabile. The
+        # business logic is handled in the API, we just need to see if the
+        # survey is available to the source.
+        has_error, surveys_output, _ = ApiRequest.get(
+            '/accounts/%s/sources/%s/survey_templates' % (
+                account_id, source_id
+            )
+        )
+        if has_error:
+            return surveys_output
+
+        for survey in surveys_output:
+            if survey['survey_template_id'] == SKIN_SCORING_APP_ID:
+                prompt_skin_app = True
+                break
+
     need_reconsent_data = check_current_consent(
         account_id, source_id, "data"
     )
@@ -2097,7 +2120,8 @@ def get_kits(*, account_id=None, source_id=None, check_survey_date=False):
         prompt_survey_id=BASIC_INFO_ID,
         need_reconsent_data=need_reconsent_data,
         need_reconsent_biospecimen=need_reconsent_biospecimen,
-        show_update_age=show_update_age
+        show_update_age=show_update_age,
+        prompt_skin_app=prompt_skin_app
     )
 
 
@@ -2486,6 +2510,30 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
         sample_output['date'] = ""
         sample_output['time'] = ""
 
+    if sample_output['sample_site'] == "Cheek":
+        # Format date and time to be JavaScript-friendly
+        sslwd = sample_output['barcode_meta'].get(
+            'sample_site_last_washed_date'
+        )
+        if sslwd is None:
+            sslwd = ""
+        sample_output['barcode_meta']['sample_site_last_washed_date'] = sslwd
+
+        sslwt = sample_output['barcode_meta'].get(
+            'sample_site_last_washed_time'
+        )
+        if sslwt is None:
+            sslwt = ""
+        sample_output['barcode_meta']['sample_site_last_washed_time'] = sslwt
+
+        sslwp = sample_output['barcode_meta'].get(
+            'sample_site_last_washed_product'
+        )
+        if sslwp is None:
+            sslwp = ""
+        sample_output['barcode_meta'][
+            'sample_site_last_washed_product'] = sslwp
+
     profile_has_samples = _check_if_source_has_samples(account_id, source_id)
 
     need_reconsent_data = check_current_consent(
@@ -2573,8 +2621,8 @@ def post_update_sample(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     return redirect(
-        "/accounts/%s/sources/%s/kits?check_survey_date=True" %
-        (account_id, source_id)
+        "/accounts/%s/sources/%s/kits?check_survey_date=True&sample_site=%s" %
+        (account_id, source_id, model['sample_site'])
     )
 
 

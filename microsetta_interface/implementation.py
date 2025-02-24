@@ -412,17 +412,18 @@ SURVEY_INFO = {
         'icon': 'survey_external.svg'
     },
     SKIN_SCORING_APP_ID: {
-        'description': 'This will direct you to the ModiFace skin-scoring web'
+        'description': 'This will direct you to the ModiFace Skin Analysis web'
                        ' app. This app allows you to upload a selfie photo, '
                        'which will be used to generate anonymized data about '
                        'your skin for researchers and provide you with what '
                        'the algorithm assesses to be your top two skin '
-                       'concerns. You will be provided a username and study'
-                       ' code on the next screen to access the app, which '
-                       'will link your ModiFace results to your skin sample. '
-                       'This app is hosted by a third-party provider; we are '
-                       'unable to provide any assistance if you encounter '
-                       'errors or issues while using the app.',
+                       'concerns. You will be provided a username and study '
+                       'code, which should be used to access the app. These '
+                       'codes will link your ModiFace results to your skin '
+                       'sample. Please note: The ModiFace site is hosted by '
+                       'a third-party provider; we are unable to provide any '
+                       'assistance if you encounter errors or issues while '
+                       'using it.',
         'est_minutes': '5',
         'icon': 'survey_external.svg'
     },

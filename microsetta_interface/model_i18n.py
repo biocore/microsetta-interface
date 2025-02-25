@@ -109,6 +109,7 @@ def declare_enum_values():
     gettext("Spain FFQ")
     gettext("Skin")
     gettext("Skin Health Diagnosis")
+    gettext("Skin Scoring App")
 
     # Survey descriptions
     # Intentionally skipping MyFoodRepo since it's only for US residents
@@ -123,6 +124,16 @@ def declare_enum_values():
             "usual frequency of consumption of a list of foods and beverages."
             " The questionnaire consists of 28 questions, and will allow us "
             "to find out what your usual diet is like.")
+    gettext("This will direct you to the ModiFace Skin Analysis web app. This"
+            " app allows you to upload a selfie photo, which will be used to "
+            "generate anonymized data about your skin for researchers and "
+            "provide you with what the algorithm assesses to be your top two "
+            "skin concerns. You will be provided a username and study code, "
+            "which should be used to access the app. These codes will link "
+            "your ModiFace results to your skin sample. Please note: The "
+            "ModiFace site is hosted by a third-party provider; we are unable"
+            " to provide any assistance if you encounter errors or issues "
+            "while using it.")
 
     # Ensure that EN_US_KEY is added to the POT file
     gettext("en_us")

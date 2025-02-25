@@ -4007,7 +4007,7 @@ msgstr "Nombre de usuario (ingréselo en el campo \"Email\")"
 
 #: templates/source.jinja2:264
 msgid "Study Code (enter into the \"Password\" field)"
-msgstr "Código de estudio (ingréselo en el campo \“Password\”)"
+msgstr "Código de estudio (ingréselo en el campo \"Password\")"
 
 #: templates/source.jinja2:269
 msgid ""

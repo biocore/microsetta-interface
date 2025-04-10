@@ -3019,9 +3019,9 @@ def post_account_ignore_delete(body):
 
 
 def get_perk_fulfillment_state():
-    raise Exception(session)
-
     if not session.get(ADMIN_MODE_KEY, False):
+        raise Exception(session)
+
         raise Unauthorized()
 
     do_return, diagnostics, _ = ApiRequest.get(

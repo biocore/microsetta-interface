@@ -3019,21 +3019,21 @@ def post_account_ignore_delete(body):
 
 
 def get_perk_fulfillment_state():
-    print(session)
-#
-    # if not session.get(ADMIN_MODE_KEY, False):
-    #    raise Unauthorized()
-#
-#    do_return, diagnostics, _ = ApiRequest.get(
-#        '/admin/perk_fulfillment_state'
-#    )
-#    if do_return:
-#        return diagnostics
-#
-#    pf_state = diagnostics['pf_state']
-#
-#    return _render_with_defaults('admin_perk_fulfillment_state.jinja2',
-#                                 pf_state=pf_state)
+    raise Exception(session)
+
+    if not session.get(ADMIN_MODE_KEY, False):
+        raise Unauthorized()
+
+    do_return, diagnostics, _ = ApiRequest.get(
+        '/admin/perk_fulfillment_state'
+    )
+    if do_return:
+        return diagnostics
+
+    pf_state = diagnostics['pf_state']
+
+    return _render_with_defaults('admin_perk_fulfillment_state.jinja2',
+                                 pf_state=pf_state)
 
 
 def update_perk_fulfillment_state(perk_fulfillment_state):

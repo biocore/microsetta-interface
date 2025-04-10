@@ -3024,6 +3024,8 @@ def get_perk_fulfillment_state():
 
         raise Unauthorized()
 
+    raise Exception("Got here...")
+
     do_return, diagnostics, _ = ApiRequest.get(
         '/admin/perk_fulfillment_state'
     )

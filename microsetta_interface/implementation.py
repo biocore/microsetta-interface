@@ -3026,7 +3026,7 @@ def get_perk_fulfillment_state():
         '/admin/perk_fulfillment_state'
     )
     if do_return:
-        raise Exception(diagnostics)
+        raise Exception(diagnostics.data)
         return diagnostics
 
     pf_state = diagnostics['pf_state']

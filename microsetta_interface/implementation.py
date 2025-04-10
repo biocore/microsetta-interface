@@ -3026,7 +3026,6 @@ def get_perk_fulfillment_state():
         '/admin/perk_fulfillment_state'
     )
     if do_return:
-        raise Exception(diagnostics.data)
         return diagnostics
 
     pf_state = diagnostics['pf_state']
@@ -3936,8 +3935,9 @@ class ApiRequest:
         headers = None
 
         if response.status_code == 401 or response.status_code == 403:
+            output = get_show_error_page(response.text)
             # output is redirect to home page for login or email verification
-            output = redirect(HOME_URL)
+            # output = redirect(HOME_URL)
         elif response.status_code >= 400:
             # output is general error page
             output = get_show_error_page(response.text)

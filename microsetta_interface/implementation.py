@@ -2466,7 +2466,7 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
                         "Mouth", "Nares", "Nasal mucus", "Right hand",
                         "Left hand", "Forehead", "Torso", "Right leg",
                         "Left leg", "Vaginal mucus", "Tears", "Ear wax",
-                        "Hair", "Fur"]
+                        "Hair", "Fur", "Urine"]
         # babel scraping doesn't understand anything but constant strings.
         # do not collapse this into a for loop unless you can verify
         # that the POT file is correctly updated.
@@ -2488,7 +2488,8 @@ def get_update_sample(*, account_id=None, source_id=None, sample_id=None):
             gettext("Tears"),
             gettext("Ear wax"),
             gettext("Hair"),
-            gettext("Fur")
+            gettext("Fur"),
+            gettext("Urine")
         ]
     elif is_environmental:
         # Environment settings

@@ -386,10 +386,14 @@
     };
 
     function getMicrobiomeMapsRasterizedPlots(state) {
-        if(state.dataset_type.value === 'WGS') {
-            var pcoa_plots = ['tmi_WGS_gut_multipop', 'tmi_WGS_gut_lifestage'];
+        if(state.dataset_site.value === 'gut') {
+            if(state.dataset_type.value === 'WGS') {
+                var pcoa_plots = ['tmi_WGS_gut_multipop', 'tmi_WGS_gut_lifestage'];
+            } else {
+                var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
+            }
         } else {
-            var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
+            var pcoa_plots = [];
         }
         
         for (var key of pcoa_plots) {
@@ -475,6 +479,8 @@
                 break;
             case "tmi-WGS-gut":
             case "tmi-16S-gut":
+            case "tmi-WGS-skin":
+            case "tmi-16S-skin":
                 label = '{{ _('The Microsetta Initiative') }}';
                 span_id = "#dataset_links_tmi";
                 break;
@@ -529,11 +535,21 @@
             {
                 var have_wgs = false;
                 var have_16S = false;
+                var body_site = '';
+
                 for (var i = 0; i < data.length; i++) {
                     if(data[i] === 'tmi-WGS-gut') {
                         have_wgs = true;
+                        body_site = 'gut';
+                    } else if(data[i] === 'tmi-WGS-skin') {
+                        have_wgs = true;
+                        body_site = 'skin';
                     } else if(data[i] === 'tmi-16S-gut') {
                         have_16S = true;
+                        body_site = 'gut';
+                    } else if(data[i] === 'tmi-16S-skin') {
+                        have_16S = true;
+                        body_site = 'skin';
                     }
                 }
 
@@ -555,8 +571,8 @@
                     }
 
                     state.dataset_type.value = 'WGS';
-                    state.dataset_site.value = 'gut';
-                    state.dataset_input.value = 'tmi-WGS-gut';
+                    state.dataset_site.value = body_site;
+                    state.dataset_input.value = 'tmi-WGS-' + body_site;
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         $.ajax({
@@ -569,9 +585,10 @@
                     }
 
                     state.dataset_type.value = '16S';
-                    state.dataset_site.value = 'gut';
-                    state.dataset_input.value = 'tmi-16S-gut';
+                    state.dataset_site.value = body_site;
+                    state.dataset_input.value = 'tmi-16S-' + body_site;
                 }
+                console.log(state);
             }
         });
     }

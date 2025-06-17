@@ -1300,13 +1300,13 @@
             }
         );
 
-        # First, hide all of the site-specific content
+        // First, hide all of the site-specific content
         const all_site_specific_elements = document.getElementsByClassName("site_specific_content");
         for (let i = 0; i < all_site_specific_elements.length; i++) {
             all_site_specific_elements[i].style.display = "none";
         }
 
-        # Then, display the site-specific content for our current dataset
+        // Then, display the site-specific content for our current dataset
         const site_specific_elements = document.getElementsByClassName("site_specific_content-" + state.dataset_site);
         for (let i = 0; i < site_specific_elements.length; i++) {
             site_specific_elements[i].style.display = "";

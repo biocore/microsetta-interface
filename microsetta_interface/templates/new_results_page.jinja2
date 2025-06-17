@@ -1569,11 +1569,17 @@
                   <p>
                       <strong>{{ _('What does this number mean for my health?') }}</strong>
                   </p>
-                  <p>
+                  <p class="site_specific_content site_specific_content-gut">
                       {{ _('This number reflects the variety of Bacteria and Archaea observed in your fecal sample at the time of testing. Currently, there\'s no standard for how gut microbiome diversity relates to health. While some studies suggest a potential link between higher diversity and specific health benefits, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
                   </p>
-                  <p>
+                  <p class="site_specific_content site_specific_content-skin">
+                      {{ _('This number reflects the variety of Bacteria and Archaea observed in your skin sample at the time of testing. Currently, there\'s no standard for how skin microbiome diversity relates to health. While some studies suggest a potential link between lower diversity and risk for certain skin conditions, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-gut">
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-skin">
+                      {{ _('It\'s important to remember that everyone\'s skin microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">
                       <div class="card-header">{{ _('Your sample\'s diversity value:') }}</div>
@@ -1582,8 +1588,11 @@
                       </div>
                   </div>
                     <br />
-                  <p>
+                  <p class="site_specific_content site_specific_content-gut">
                     {{ _('When we calculated the diversity of the sample groups in our database, we found that it\'s closely associated with how you live your life. So here, we summarized the average diversity from our database for a few questions asked on the survey.') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-skin">
+                    {{ _('Here, we summarized the average diversity from our database for a few questions asked on the survey.') }}
                   </p>
 
                   <div class="row mb-2 mt-2">
@@ -1634,11 +1643,17 @@
                           </div>
                       </div>
                   </div>
-                  <p>
+                  <p class="site_specific_content site_specific_content-gut">
                       <strong>{{ _('How can I change my gut microbiome based on my results?') }}</strong>
                   </p>
-                  <p>
+                  <p class="site_specific_content site_specific_content-skin">
+                      <strong>{{ _('How can I change my skin microbiome based on my results?') }}</strong>
+                  </p>
+                  <p class="site_specific_content site_specific_content-gut">
                       {{ _('Although we still don\'t have a predictable way to change the gut microbiome to increase or decrease the abundance of specific microorganisms, we know that various factors influence gut microbial community composition. Diet is a significant factor affecting the gut microbiome, so by changing your diet, you may be able to alter your gut microbiome. Certain probiotics could also influence your gut microbiome while actively taking them; however, research into this area is still in its early days. Factors such as stress can also change the gut microbiome. Finally, keep in mind that factors we can\'t change, such as age or genetics, can affect the gut microbiome.') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-gut">
+                      {{ _('Although we still don\'t have a predictable way to change the skin microbiome to increase or decrease the abundance of specific microorganisms, we know that various factors influence skin microbial community composition. Environmental exposure is a significant factor affecting the skin microbiome, so by changing your surroundings, you may be able to alter your skin microbiome. For example, studies have shown that skin microbiomes can differ based on whether you live in an urban or rural area, and that your skin microbiome tends to be much more similar to the people you live with than those you don\'t live with. However, keep in mind that factors we can\'t change, such as age or genetics, also affect the skin microbiome.') }}
                   </p>
               </div>
           </div>
@@ -1756,8 +1771,11 @@
                   <div class="column report-text">
                     <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
                     <br>
-                    <p>
+                    <p class="site_specific_content site_specific_content-gut">
                     {{ _('This is a table of all of the different microbes we found in your sample along with their proportions.') }}
+                    </p>
+                    <p class="site_specific_content site_specific_content-skin">
+                    {{ _('This is a table of all of the different bacteria we found in your sample along with their proportions.') }}
                     </p>
                     
                     <p>

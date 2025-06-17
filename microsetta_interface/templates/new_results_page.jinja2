@@ -1013,6 +1013,11 @@
                                 "id": "one_liter_of_water_a_day_frequency",
                                 "operator": "equal",
                                 "value": "Regularly (3-5 times/week)"
+                            },
+                            {
+                                "id": "one_liter_of_water_a_day_frequency",
+                                "operator": "equal",
+                                "value": "Daily"
                             }
                         ]
                     }
@@ -1027,6 +1032,11 @@
                                 "id": "exercise_frequency",
                                 "operator": "equal",
                                 "value": "Regularly (3-5 times/week)"
+                            },
+                            {
+                                "id": "exercise_frequency",
+                                "operator": "equal",
+                                "value": "Daily"
                             }
                         ]
                     }
@@ -1056,19 +1066,35 @@
                         ]
                     }
             }
+        const us_avg = 
+            {
+                "metadata_query":
+                    {
+                        "condition": "OR",
+                        "rules": [
+                            {
+                                "id": "country_residence",
+                                "operator": "equal",
+                                "value": "United States"
+                            }
+                        ]
+                    }
+            }
 
         const POST_DATA = {
             "plants": more_than_30_plants,
             "water": water_frequency,
             "exercise": exercise_regularly,
-            "sleep": sleep_more_than_6_hrs
+            "sleep": sleep_more_than_6_hrs,
+            "us_avg": us_avg
         }
 
         const SELECTORS = {
             "plants": "#diversity_30_plants_per_week",
             "water": "#diversity_water_regularly",
             "exercise": "#diversity_exercise_regularly",
-            "sleep": "#diversity_sleep_alot"
+            "sleep": "#diversity_sleep_alot",
+            "us_avg": "#average-american-observed-average-" + state.dataset_site
         }
 
         // We override the default alpha_metric from state for this page.
@@ -1274,7 +1300,17 @@
             }
         );
 
+        # First, hide all of the site-specific content
+        const all_site_specific_elements = document.getElementsByClassName("site_specific_content");
+        for (let i = 0; i < all_site_specific_elements.length; i++) {
+            all_site_specific_elements[i].style.display = "none";
+        }
 
+        # Then, display the site-specific content for our current dataset
+        const site_specific_elements = document.getElementsByClassName("site_specific_content-" + state.dataset_site);
+        for (let i = 0; i < site_specific_elements.length; i++) {
+            site_specific_elements[i].style.display = "";
+        }
     }
 
     //Called immediately after a tab is shown
@@ -1518,11 +1554,17 @@
                   <p>
                       <strong>{{ _('How do we calculate your diversity value?') }}</strong>
                   </p>
-                  <p>
+                  <p class="site_specific_content site_specific_content-gut">
                       {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your gut community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
                   </p>
-                  <p>
-                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-average">FILLIN</strong>. ') }}
+                  <p class="site_specific_content site_specific_content-skin">
+                      {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your skin community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-gut">
+                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average-gut">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-average">FILLIN</strong>. ') }}
+                  </p>
+                  <p class="site_specific_content site_specific_content-skin">
+                      {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on cheek samples from participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average-skin">FILLIN</strong>.') }}
                   </p>
                   <p>
                       <strong>{{ _('What does this number mean for my health?') }}</strong>

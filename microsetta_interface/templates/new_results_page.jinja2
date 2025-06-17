@@ -1094,7 +1094,7 @@
             "water": "#diversity_water_regularly",
             "exercise": "#diversity_exercise_regularly",
             "sleep": "#diversity_sleep_alot",
-            "us_avg": "#average-american-observed-average-" + state.dataset_site
+            "us_avg": "#average-american-observed-average-" + state.dataset_site.value
         }
 
         // We override the default alpha_metric from state for this page.
@@ -1262,13 +1262,13 @@
     }
 
     function updateObservedAverages(state) {
-        var us_text = document.getElementById('average-american-observed-average');
+        // var us_text = document.getElementById('average-american-observed-average');
         var hadza_text = document.getElementById('average-hadza-observed-average');
         if (state.dataset_type.value === 'WGS') {
-            us_text.innerText = '5.31';
+            // us_text.innerText = '5.31';
             hadza_text.innerText = '6.30';
         } else if (state.dataset_type.value === '16S') {
-            us_text.innerText = '4.47';
+            // us_text.innerText = '4.47';
             hadza_text.innerText = '5.20';
         }
     }
@@ -1307,7 +1307,7 @@
         }
 
         // Then, display the site-specific content for our current dataset
-        const site_specific_elements = document.getElementsByClassName("site_specific_content-" + state.dataset_site);
+        const site_specific_elements = document.getElementsByClassName("site_specific_content-" + state.dataset_site.value);
         for (let i = 0; i < site_specific_elements.length; i++) {
             site_specific_elements[i].style.display = "";
         }

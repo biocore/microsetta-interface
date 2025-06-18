@@ -2664,7 +2664,7 @@ def get_sample_results(*, account_id=None, source_id=None, sample_id=None):
         return sample_output
 
     if sample_output['sample_site'] in [
-        'Stool', 'Right Hand', 'Left Hand', 'Torso', 'Forehead'
+        'Stool', 'Right Hand', 'Left Hand', 'Torso', 'Forehead', 'Cheek'
     ]:
         page = 'new_results_page.jinja2'
     else:

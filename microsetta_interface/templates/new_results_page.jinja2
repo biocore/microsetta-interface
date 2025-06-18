@@ -382,23 +382,7 @@
             'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
             'img_div_id': 'pcoa-multipopulation-lifestage',
             'img_id': 'pcoa-multipopulation-lifestage-img',
-            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
-        'tmi_WGS_skin_lifestage': {
-            'dataset': 'tmi-WGS-gut',
-            'category': 'microbial_map_lifestage',
-            'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
-            'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
-            'img_div_id': 'pcoa-multipopulation-lifestage',
-            'img_id': 'pcoa-multipopulation-lifestage-img',
-            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
-        'tmi_WGS_skin_all_samples': {
-            'dataset': 'tmi-WGS-allsamples',
-            'category': 'microbial_map',
-            'accordion_div_id': 'microbiome-map-all-tmi-accordion',
-            'button_text': "{{ _('Microbiomes Across the Body') }}",
-            'img_div_id': 'pcoa-tmi-all-samples',
-            'img_id': 'pcoa-tmi-all-samples-img',
-            'description': "<p>{{ _('In this map, we\'ve placed your sample relative to all the other samples we have in Microsetta. As you can see, there are a few different types of samples people have contributed, and the microbial configurations present can be VERY different.') }}</p>"}
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"}
     };
 
     function getMicrobiomeMapsRasterizedPlots(state) {
@@ -409,11 +393,7 @@
                 var pcoa_plots = ['tmi_16S_gut_all_samples', 'tmi_16S_gut_multipop', 'tmi_16S_gut_lifestage', 'tmi_16S_gut_builtenv'];
             }
         } else {
-            if(state.dataset_type.value === 'WGS') {
-                var pcoa_plots = ['tmi_WGS_skin_lifestage'];
-            } else {
-                var pcoa_plots = [];
-            }
+            var pcoa_plots = [];
         }
         
         for (var key of pcoa_plots) {
@@ -1319,6 +1299,12 @@
         for (let i = 0; i < site_specific_elements.length; i++) {
             site_specific_elements[i].style.display = "";
         }
+
+        // Hide Microbiome Maps for skin
+        if (state.dataset_site.value === "skin") {
+            document.getElementById("microbial-map-tab").parentElement.style.display = "none";
+            document.getElementById("how_you_compare_microbiome_map").style.display = "none";
+        }
     }
 
     //Called immediately after a tab is shown
@@ -1544,7 +1530,7 @@
                 </div>
                 </br>
 
-                <div class="how_you_compare_section">
+                <div class="how_you_compare_section" id="how_you_compare_microbiome_map">
                     <h4>{{ _('Microbiome Map') }}</h4>
                     <p>
                         {{ _('Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome Map</a>?') }}

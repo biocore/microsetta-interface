@@ -383,6 +383,14 @@
             'img_div_id': 'pcoa-multipopulation-lifestage',
             'img_id': 'pcoa-multipopulation-lifestage-img',
             'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
+        'tmi_WGS_skin_lifestage': {
+            'dataset': 'tmi-WGS-gut',
+            'category': 'microbial_map_lifestage',
+            'accordion_div_id': 'microbiome-map-multipop-lifestage-accordian',
+            'button_text': "{{ _('Microbiomes Across the Lifespan') }}",
+            'img_div_id': 'pcoa-multipopulation-lifestage',
+            'img_id': 'pcoa-multipopulation-lifestage-img',
+            'description': "<p>{{ _('One major factor associated with gut microbiomes is the age of the individual, represented in this map by life stages.<br /><br />Interestingly, compared to differences among adults living in different areas of the world, infants are relatively similar microbially regardless of where they were born. But, as individuals age, their microbiomes reflect greater geographical or lifestyle differences.') }}</p>"},
         'tmi_WGS_skin_all_samples': {
             'dataset': 'tmi-WGS-allsamples',
             'category': 'microbial_map',
@@ -402,7 +410,7 @@
             }
         } else {
             if(state.dataset_type.value === 'WGS') {
-                var pcoa_plots = ['tmi_WGS_skin_all_samples'];
+                var pcoa_plots = ['tmi_WGS_skin_lifestage'];
             } else {
                 var pcoa_plots = [];
             }

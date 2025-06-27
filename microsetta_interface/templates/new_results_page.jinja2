@@ -571,8 +571,6 @@
                     }
 
                     state.dataset_type.value = 'WGS';
-                    state.dataset_site.value = body_site;
-                    state.dataset_input.value = 'tmi-WGS-' + body_site;
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         $.ajax({
@@ -585,9 +583,10 @@
                     }
 
                     state.dataset_type.value = '16S';
-                    state.dataset_site.value = body_site;
-                    state.dataset_input.value = 'tmi-16S-' + body_site;
                 }
+
+                state.dataset_site.value = body_site;
+                state.dataset_input.value = 'tmi-' + state.dataset_type.value + '-' + body_site;
             }
         });
     }
@@ -1291,15 +1290,9 @@
         }
 
         // Then, display the site-specific content for our current dataset
-        const site_specific_elements = document.getElementsByClassName("site_specific_content-" + state.dataset_site.value);
+        const site_specific_elements = document.getElementsByClassName("site_specific_content_" + state.dataset_site.value);
         for (let i = 0; i < site_specific_elements.length; i++) {
             site_specific_elements[i].style.display = "";
-        }
-
-        // Hide Microbiome Maps for skin
-        if (state.dataset_site.value === "skin") {
-            document.getElementById("microbial-map-tab").parentElement.style.display = "none";
-            document.getElementById("how_you_compare_microbiome_map").style.display = "none";
         }
     }
 
@@ -1478,7 +1471,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item site_specific_content site_specific_content_gut">
                         <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
                     </li>
                     <li class="nav-item">
@@ -1526,7 +1519,7 @@
                 </div>
                 </br>
 
-                <div class="how_you_compare_section" id="how_you_compare_microbiome_map">
+                <div class="how_you_compare_section site_specific_content site_specific_content_gut" id="how_you_compare_microbiome_map">
                     <h4>{{ _('Microbiome Map') }}</h4>
                     <p>
                         {{ _('Where are you on the <a class="fake-tab" href="#microbial-map" data-link="#microbial-map-tab">Microbiome Map</a>?') }}
@@ -1544,31 +1537,31 @@
                   <p>
                       <strong>{{ _('How do we calculate your diversity value?') }}</strong>
                   </p>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your gut community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       {{ _('Diversity can be measured in a lot of different ways. We measure it by first taking the DNA sequences from your sample and figuring out which Bacteria and Archaea they may have come from. This produces a good estimate of how many of each kind of microbe you have. The measure we use, called Shannon\'s index, takes into account how many different kinds of microbes make up your skin community (also known as richness) and how relatively abundant each of those microbes are (also known as evenness).') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on fecal samples from Microsetta participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average-gut">FILLIN</strong>, which is lower than we find in people living a more hunter-gatherer lifestyle like the <span id="taxa-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="The Hadza are an indigenous hunter-gather group in Tanzania. The summary of the Hadza microbiome is based on Smits et al. Science 2017">Hadza</span> people of Tanzania, who have an average value of <strong id="average-hadza-observed-average">FILLIN</strong>. ') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       {{ _('This number isn\'t exact for many reasons. However, because it\'s calculated in the same way for every sample in our dataset, it provides insight into how your microbial diversity compares to others\'. For example, the <span id="average-us-tooltip" class="orange-text" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" title="Based on cheek samples from participants in the United States">average</span> diversity value for people living in the US in our dataset is <strong id="average-american-observed-average-skin">FILLIN</strong>.') }}
                   </p>
                   <p>
                       <strong>{{ _('What does this number mean for my health?') }}</strong>
                   </p>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       {{ _('This number reflects the variety of Bacteria and Archaea observed in your fecal sample at the time of testing. Currently, there\'s no standard for how gut microbiome diversity relates to health. While some studies suggest a potential link between higher diversity and specific health benefits, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       {{ _('This number reflects the variety of Bacteria and Archaea observed in your skin sample at the time of testing. Currently, there\'s no standard for how skin microbiome diversity relates to health. While some studies suggest a potential link between lower diversity and risk for certain skin conditions, that is not true universally and more research is needed to understand the relationship. For example, it may be that the specific microbes present are more important than having many different types of microbes.') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       {{ _('It\'s important to remember that everyone\'s gut microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       {{ _('It\'s important to remember that everyone\'s skin microbiome is unique and changes over time. If your score differs from the average, it doesn\'t necessarily indicate a health concern.') }}
                   </p>
                   <div class="card your_sample_diversity_inset">
@@ -1578,10 +1571,10 @@
                       </div>
                   </div>
                     <br />
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                     {{ _('When we calculated the diversity of the sample groups in our database, we found that it\'s closely associated with how you live your life. So here, we summarized the average diversity from our database for a few questions asked on the survey.') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                     {{ _('Here, we summarized the average diversity from our database for a few questions asked on the survey.') }}
                   </p>
 
@@ -1633,16 +1626,16 @@
                           </div>
                       </div>
                   </div>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       <strong>{{ _('How can I change my gut microbiome based on my results?') }}</strong>
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       <strong>{{ _('How can I change my skin microbiome based on my results?') }}</strong>
                   </p>
-                  <p class="site_specific_content site_specific_content-gut">
+                  <p class="site_specific_content site_specific_content_gut">
                       {{ _('Although we still don\'t have a predictable way to change the gut microbiome to increase or decrease the abundance of specific microorganisms, we know that various factors influence gut microbial community composition. Diet is a significant factor affecting the gut microbiome, so by changing your diet, you may be able to alter your gut microbiome. Certain probiotics could also influence your gut microbiome while actively taking them; however, research into this area is still in its early days. Factors such as stress can also change the gut microbiome. Finally, keep in mind that factors we can\'t change, such as age or genetics, can affect the gut microbiome.') }}
                   </p>
-                  <p class="site_specific_content site_specific_content-skin">
+                  <p class="site_specific_content site_specific_content_skin">
                       {{ _('Although we still don\'t have a predictable way to change the skin microbiome to increase or decrease the abundance of specific microorganisms, we know that various factors influence skin microbial community composition. Environmental exposure is a significant factor affecting the skin microbiome, so by changing your surroundings, you may be able to alter your skin microbiome. For example, studies have shown that skin microbiomes can differ based on whether you live in an urban or rural area, and that your skin microbiome tends to be much more similar to the people you live with than those you don\'t live with. However, keep in mind that factors we can\'t change, such as age or genetics, also affect the skin microbiome.') }}
                   </p>
               </div>
@@ -1742,7 +1735,7 @@
                               <img class="diversity-icon" src='/static/img/age.png'>
                           </div>
                           <div class="col-sm-8 diversity-text">
-                              {{ _('<span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours were a similar age as you') }}
+                              {{ _('<span id="beta_diversity_age_value" class="info-loader font-weight-bold">...</span> of people with a microbiome like yours were a similar age to you') }}
                           </div>
                       </div>
                       <div class="col diversity-compare">
@@ -1761,11 +1754,8 @@
                   <div class="column report-text">
                     <h3>{{ _('Your Inner Zoo (aka What\'s in your sample?)') }}</h3>
                     <br>
-                    <p class="site_specific_content site_specific_content-gut">
-                    {{ _('This is a table of all of the different microbes we found in your sample along with their proportions.') }}
-                    </p>
-                    <p class="site_specific_content site_specific_content-skin">
-                    {{ _('This is a table of all of the different bacteria we found in your sample along with their proportions.') }}
+                    <p>
+                    {{ _('This is a table of all of the different bacteria and archaea we found in your sample along with their proportions.') }}
                     </p>
                     
                     <p>

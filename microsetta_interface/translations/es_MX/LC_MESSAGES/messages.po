@@ -2080,7 +2080,7 @@ msgid ""
 msgstr ""
 "Si el código de barras mostrado no coincide con el código de barras de su"
 " instrumento de recolección, por favor contáctenos en <a "
-"href=\"mailto:microsetta@ucsd.ed\">microsetta@ucsd.edu</a>."
+"href='mailto:microsetta@ucsd.edu'>microsetta@ucsd.edu</a>."
 
 #: templates/kits.jinja2:313
 msgid "What is the barcode and why is it important?"
@@ -4338,7 +4338,7 @@ msgid ""
 msgstr ""
 "Si usted cree que esto es un error o necesita ayuda para corregir su "
 "dirección, contáctenos en <a "
-"href=\"mailto:microsetta@ucsd.ed\">microsetta@ucsd.edu</a>."
+"href=\"mailto:microsetta@ucsd.edu\">microsetta@ucsd.edu</a>."
 
 #: templates/update_address.jinja2:199
 msgid "Update Your Address"

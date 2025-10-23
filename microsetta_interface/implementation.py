@@ -2694,7 +2694,7 @@ def example_endpoint():
 def get_sample_results_experimental():
     # use an arbitrary set of credentials
     sample_output = {'account_id': 'NA',
-                     'sample_barcode': '000004220',
+                     'sample_barcode': '0363215283',
                      'sample_datetime': '2013-04-21T22:00:00',
                      'sample_edit_locked': False,
                      'sample_id': 'NA',

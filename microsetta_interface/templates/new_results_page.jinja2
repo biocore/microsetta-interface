@@ -478,6 +478,11 @@
                 span_id = "#dataset_links_builtenv";
                 break;
             case "tmi-WGS-gut":
+                // Temporary workaround - we're going to add the Hadza study to the info['qiita-study-ids'] variable and alter the label to be more appropriate. Remove this line and the following four lines once contextual studies for WGS gut samples are fully restored.
+                label = '{{ _('The Microsetta Initiative and Comparative Studies') }}';
+                span_id = "#dataset_links_tmi";
+                info['qiita-study-ids'].push("11358");
+                break;
             case "tmi-16S-gut":
             case "tmi-WGS-skin":
             case "tmi-16S-skin":
@@ -485,12 +490,12 @@
                 span_id = "#dataset_links_tmi";
                 break;
             case "multipop-16S-gut":
-            case "multipop-WGS-gut":
+            //case "multipop-WGS-gut":
                 label = '{{ _('Microbiomes Across the World') }}';
                 span_id = "#dataset_links_multipopgut";
                 break;
             case "lifestage-16S-gut":
-            case "lifestage-WGS-gut":
+            //case "lifestage-WGS-gut":
                 label = '{{ _('Microbiomes Across the Lifespan') }}';
                 span_id = "#dataset_links_lifestagegut";
                 break;
@@ -1294,6 +1299,12 @@
         for (let i = 0; i < site_specific_elements.length; i++) {
             site_specific_elements[i].style.display = "";
         }
+
+        // Temporary workaround - we need to disable the Microbiome Map tab for WGS gut samples, overriding the site-specific content framework.  Remove this line and the following four lines once contextual studies for WGS gut samples are fully restored. 
+        if(state.dataset_site.value === "gut" && state.dataset_type.value === "WGS") {
+            document.getElementById("how_you_compare_microbiome_map").style.display = "none";
+            document.getElementById("microbial_map_li_element").style.display = "none";
+        }
     }
 
     //Called immediately after a tab is shown
@@ -1471,7 +1482,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" href="#taxonomy" role="tab" aria-controls="taxonomy" aria-selected="false">{{ _('Composition') }}</a>
                     </li>
-                    <li class="nav-item site_specific_content site_specific_content_gut">
+                    <li class="nav-item site_specific_content site_specific_content_gut" id="microbial_map_li_element">
                         <a class="nav-link" id="microbial-map-tab" data-bs-toggle="tab" href="#microbial-map" role="tab" aria-controls="microbial-map" aria-selected="false">{{ _('Microbiome Map') }}</a>
                     </li>
                     <li class="nav-item">
@@ -1818,7 +1829,7 @@
 
                   <h4 style="color:black;">{{ _('Datasets used in your report') }}</h4>
                   <p>
-                  {{ _('The results shown in the Microbiome Maps portion of the report relied on data from many different publically accessible microbiome datasets. These different datasets, and links to them, are listed below.') }}
+                  {{ _('The results shown in the report relied on data from different publically accessible microbiome datasets. These different datasets, and links to them, are listed below.') }}
                   </p>
                   <div id='datasets-used'>
                   </div>

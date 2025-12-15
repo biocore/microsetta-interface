@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-27 13:09-0700\n"
+"POT-Creation-Date: 2025-12-15 11:18-0800\n"
 "PO-Revision-Date: 2024-04-09 09:21-0700\n"
 "Last-Translator: \n"
 "Language: es_ES\n"
@@ -19,97 +19,99 @@ msgstr ""
 "Generated-By: Babel 2.11.0\n"
 
 #: implementation.py:829
-msgid "The provided Kit ID is not in our system or has already been used."
-msgstr ""
-"El ID del kit proporcionado no está registrado en nuestro sistema o ya ha"
-" sido utilizado."
+msgid ""
+"The provided Kit ID is not in our system or has already been used. Please"
+" check your Kit ID for typos and ensure the ID you entered is the Kit ID "
+"printed on the information card found inside your kit, not the Box ID "
+"printed on the outside of the box."
+msgstr "El ID del kit proporcionado no está en nuestro sistema o ya se ha utilizado. Revise su ID de kit para ver si tiene errores tipográficos y asegúrese de que el ID que ingresó sea el ID del kit impreso en la tarjeta de información que se encuentra dentro del kit, no el ID de la caja impreso en el exterior de la misma."
 
-#: implementation.py:1515 implementation.py:1520 templates/sitebase.jinja2:99
+#: implementation.py:1518 implementation.py:1523 templates/sitebase.jinja2:99
 #: templates/survey.jinja2:15
 msgid "SKIP"
 msgstr "Saltar"
 
-#: implementation.py:2474 model_i18n.py:70
+#: implementation.py:2477 model_i18n.py:70
 msgid "Blood (skin prick)"
 msgstr "Sangre (punción cutánea)"
 
-#: implementation.py:2475 model_i18n.py:71
+#: implementation.py:2478 model_i18n.py:71
 msgid "Saliva"
 msgstr "Saliva"
 
-#: implementation.py:2476 model_i18n.py:83
+#: implementation.py:2479 model_i18n.py:83
 msgid "Stool"
 msgstr "Heces"
 
-#: implementation.py:2477
+#: implementation.py:2480
 msgid "Cheek"
 msgstr "Mejilla"
 
-#: implementation.py:2478 model_i18n.py:78
+#: implementation.py:2481 model_i18n.py:78
 msgid "Mouth"
 msgstr "Boca"
 
-#: implementation.py:2479 model_i18n.py:79
+#: implementation.py:2482 model_i18n.py:79
 msgid "Nares"
 msgstr "Fosas nasales"
 
-#: implementation.py:2480 model_i18n.py:80
+#: implementation.py:2483 model_i18n.py:80
 msgid "Nasal mucus"
 msgstr "Moco nasal"
 
-#: implementation.py:2481 model_i18n.py:81
+#: implementation.py:2484 model_i18n.py:81
 msgid "Right hand"
 msgstr "Mano derecha"
 
-#: implementation.py:2482 model_i18n.py:76
+#: implementation.py:2485 model_i18n.py:76
 msgid "Left hand"
 msgstr "Mano izquierda"
 
-#: implementation.py:2483 model_i18n.py:73
+#: implementation.py:2486 model_i18n.py:73
 msgid "Forehead"
 msgstr "Frente"
 
-#: implementation.py:2484 model_i18n.py:85
+#: implementation.py:2487 model_i18n.py:85
 msgid "Torso"
 msgstr "Torso"
 
-#: implementation.py:2485 model_i18n.py:82
+#: implementation.py:2488 model_i18n.py:82
 msgid "Right leg"
 msgstr "Pierna derecha"
 
-#: implementation.py:2486 model_i18n.py:77
+#: implementation.py:2489 model_i18n.py:77
 msgid "Left leg"
 msgstr "Pierna izquierda"
 
-#: implementation.py:2487 model_i18n.py:86
+#: implementation.py:2490 model_i18n.py:86
 msgid "Vaginal mucus"
 msgstr "Moco vaginal"
 
-#: implementation.py:2488 model_i18n.py:84
+#: implementation.py:2491 model_i18n.py:84
 msgid "Tears"
 msgstr "Lágrimas"
 
-#: implementation.py:2489 model_i18n.py:72
+#: implementation.py:2492 model_i18n.py:72
 msgid "Ear wax"
 msgstr "Cera de oído"
 
-#: implementation.py:2490 model_i18n.py:75
+#: implementation.py:2493 model_i18n.py:75
 msgid "Hair"
 msgstr "Cabello"
 
-#: implementation.py:2491 model_i18n.py:74
+#: implementation.py:2494 model_i18n.py:74
 msgid "Fur"
 msgstr "Piel"
 
-#: implementation.py:2873
+#: implementation.py:2876
 msgid "Unable to validate Activation Code at this time"
 msgstr "No se ha podido validar el código de activación en este momento"
 
-#: implementation.py:3242
+#: implementation.py:3245
 msgid "Address 1, Postal Code, and Country are required"
 msgstr "Dirección 1, Código Postal y País son requeridos"
 
-#: implementation.py:3707 implementation.py:3825
+#: implementation.py:3710 implementation.py:3828
 msgid "Sorry, there was a problem saving your information."
 msgstr "Lo sentimos, hubo un problema al guardar su información."
 
@@ -3278,7 +3280,10 @@ msgid ""
 "accessible microbiome datasets. These different datasets, and links to "
 "them, are listed below."
 msgstr ""
-"Los resultados que se muestran en el informe se basan en datos procedentes de diferentes conjuntos de datos de microbioma de acceso público. Estos diferentes conjuntos de datos, junto con los enlaces correspondientes, se enumeran a continuación."
+"Los resultados que se muestran en el informe se basan en datos "
+"procedentes de diferentes conjuntos de datos de microbioma de acceso "
+"público. Estos diferentes conjuntos de datos, junto con los enlaces "
+"correspondientes, se enumeran a continuación."
 
 #: templates/new_results_page.jinja2:1845
 msgid ""
@@ -4531,4 +4536,10 @@ msgstr "Sí, actualizar y continuar"
 #~ "probable que haya muchas especies de "
 #~ "microbios en su muestra que están "
 #~ "agrupados en el mismo género."
+
+#~ msgid "The provided Kit ID is not in our system or has already been used."
+#~ msgstr ""
+#~ "El ID del kit proporcionado no "
+#~ "está registrado en nuestro sistema o "
+#~ "ya ha sido utilizado."
 

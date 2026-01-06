@@ -22,7 +22,7 @@
 
     <script>
         function verifyDissociateSample() {
-            let confirmMsg = "{{ _('Do you really want to remove this sample from this source?') }} " +
+            let confirmMsg = "{{ _('Do you really want to remove this sample from this profile?') }} " +
                 "{{ _('Doing so will remove any collection info saved for this sample and will') }} " +
                 "{{ _('unlink it from all surveys.') }}";
             if (confirm(confirmMsg)) {
@@ -352,7 +352,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 mt-4 text-end">
-                            {% if not sample.sample_remove_locked and not admin_mode %}
+                            {% if not sample.sample_remove_locked %}
                                 <button class="btn btn-white-red-border m-2" name="remove_button" onClick="return verifyDissociateSample();">{{ _('Remove') }}</button>
                             {% endif %}
                             {% if sample.sample_edit_locked and not admin_mode %}

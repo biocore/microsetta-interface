@@ -877,7 +877,8 @@ def get_ajax_check_ffq_code(ffq_code):
     except:  # noqa
         return_val = False
 
-    return return_val
+    # Convert to JSON for returning to JavaScript call
+    return json.dumps(return_val)
 
 
 def _associate_sample_to_survey(account_id, source_id, sample_id, survey_id):

@@ -44,27 +44,29 @@
             preventImplicitSubmission(form_name);
             preclude_whitespace('#ffq_code');
 
-            $("form[name='" + form_name + "']").on('submit', function() {
-                document.getElementById("ffq_code_button").disabled = true;
-            });
-
-            // Initialize form validation on the registration form.
-            // It has the name attribute "registration"
+            // Validate the FFQ code registration form using
+            // the jQuery validation plugin.
             $("form[name='" + form_name + "']").validate({
                 // Specify validation rules
                 rules: {
-                    // The key name on the left side is the name attribute
-                    // of an input field. Validation rules are defined
+                    // The key name on the left side is the
+                    // name attribute of an input field.
+                    // Validation rules are defined
                     // on the right side
+                    // the remote get ajax call needs to
+                    // return the string "true" for the
+                    // form to validate and submit
                     ffq_code: {
                         required: true,
                         remote: {
                             url: "/check_ffq_code_valid",
                         }
                     },
-                    submitHandler: function (form) {
-                        form.submit();
-                    }
+                },
+                submitHandler: function (form) {
+                    // prevent multiple submissions
+                    document.getElementById("ffq_code_button").disabled = true;
+                    form.submit()
                 },
                 messages: {
                     ffq_code: "{{ _('Your registration code is not in our system or has already been used. Please try again.') }}",
@@ -216,7 +218,7 @@
                             </div>
                         </div>
                         <div class="col-12 text-center mt-4">
-                            <button class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button">{{ _('Register FFQ') }}</button>
+                            <button type='submit' class="btn btn-blue-gradient" name="ffq_code_button" id="ffq_code_button">{{ _('Register FFQ') }}</button>
                         </div>
                     </div>
                 </div>

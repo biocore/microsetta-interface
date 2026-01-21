@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-15 11:18-0800\n"
+"POT-Creation-Date: 2026-01-21 13:12-0800\n"
 "PO-Revision-Date: 2024-04-09 09:21-0700\n"
 "Last-Translator: \n"
 "Language: es_MX\n"
@@ -24,7 +24,12 @@ msgid ""
 " check your Kit ID for typos and ensure the ID you entered is the Kit ID "
 "printed on the information card found inside your kit, not the Box ID "
 "printed on the outside of the box."
-msgstr "El ID del kit proporcionado no está en nuestro sistema o ya se ha utilizado. Revise su ID de kit para ver si tiene errores tipográficos y asegúrese de que el ID que ingresó sea el ID del kit impreso en la tarjeta de información que se encuentra dentro del kit, no el ID de la caja impreso en el exterior de la misma."
+msgstr ""
+"El ID del kit proporcionado no está en nuestro sistema o ya se ha "
+"utilizado. Revise su ID de kit para ver si tiene errores tipográficos y "
+"asegúrese de que el ID que ingresó sea el ID del kit impreso en la "
+"tarjeta de información que se encuentra dentro del kit, no el ID de la "
+"caja impreso en el exterior de la misma."
 
 #: implementation.py:1518 implementation.py:1523 templates/sitebase.jinja2:99
 #: templates/survey.jinja2:15
@@ -3582,8 +3587,8 @@ msgstr ""
 " vez que su cuenta haya sido eliminada."
 
 #: templates/sample.jinja2:25
-msgid "Do you really want to remove this sample from this source?"
-msgstr "¿Seguro que desea eliminar esta muestra de esta fuente?"
+msgid "Do you really want to remove this sample from this profile?"
+msgstr "¿Realmente desea eliminar esta muestra de este perfil?"
 
 #: templates/sample.jinja2:26
 msgid "Doing so will remove any collection info saved for this sample and will"

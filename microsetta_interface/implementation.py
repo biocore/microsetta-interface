@@ -779,7 +779,7 @@ def prerequisite(allowed_states: list, **parameter_overrides):
 # Client might not technically care who the user is, but if they do, they
 # get the token, validate it, and pull email out of it.
 def _parse_jwt(token):
-    decoded = jwt.decode(token, PUB_KEY, algorithms=['RS256'], verify=True)
+    decoded = jwt.decode(token, PUB_KEY, algorithms=['RS256'], options={'verify_signature': True})
     email_verified = decoded.get('email_verified', False)
     return decoded["email"], email_verified
 

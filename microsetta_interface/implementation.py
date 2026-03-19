@@ -785,7 +785,6 @@ def _parse_jwt(token):
 
 
 def _route_to_closest_sink(prereqs_step, current_state):
-    # print("Current Prereq Step:", prereqs_step)
     acct_id = current_state.get("account_id", None)
     source_id = current_state.get(SOURCE_ID, None)
 
@@ -1958,22 +1957,6 @@ def get_source(*, account_id=None, source_id=None):
                 return has_error
 
             template['credentials'] = credentials
-
-        # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
-        """
-        if template['survey_template_id'] == MYFOODREPO_ID:
-            has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
-            if has_error:
-                return NEEDS_REROUTE
-
-            if slots['number_of_available_slots'] > 0:
-                template['new_tab'] = True
-            else:
-                # we do not have slots, so remove from availability
-                per_source_not_taken.pop(idx)
-        else:
-            template['new_tab'] = False
-        """
 
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]

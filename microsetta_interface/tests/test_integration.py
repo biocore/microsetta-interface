@@ -18,7 +18,7 @@ import random
 PRIVATE_API_AVAILABLE = False
 try:
     req = requests.get(SERVER_CONFIG['private_api_endpoint'] + '/ui')
-except:  # noqa
+except Exception:
     PRIVATE_API_AVAILABLE = False
 else:
     PRIVATE_API_AVAILABLE = (req.status_code == 200)

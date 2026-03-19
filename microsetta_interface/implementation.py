@@ -46,7 +46,8 @@ PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
 if os.environ.get(PUBKEY_ENVVAR, False):
     PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
 else:
-    PUB_KEY = files('microsetta_interface').joinpath("authrocket.pubkey").read_text()
+    PUB_KEY = files('microsetta_interface').joinpath(
+        "authrocket.pubkey").read_text()
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
@@ -849,7 +850,7 @@ def _get_kit(kit_name):
             error_msg = unable_to_validate_msg
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
-    except:  # noqa
+    except Exception:
         error_msg = unable_to_validate_msg
 
     if error_msg is not None:
@@ -873,7 +874,7 @@ def get_ajax_check_ffq_code(ffq_code):
             return_val = True
         else:
             return_val = False
-    except:  # noqa
+    except Exception:
         return_val = False
 
     return return_val

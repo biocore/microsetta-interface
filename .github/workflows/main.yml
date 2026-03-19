@@ -87,7 +87,7 @@ jobs:
       shell: bash -l {0}
       run: |
         echo Branch: $BRANCH
-        conda create --yes -n microsetta-interface python=3.7
+        conda create --yes -n microsetta-interface python=3.11
         conda activate microsetta-interface
         conda install --yes --file ci/conda_requirements.txt
         pip install -r ci/pip_requirements.txt
@@ -102,7 +102,7 @@ jobs:
         # PGPASSWORD is read by pg_restore, which is called by the build_db process. 
         export PGPASSWORD=postgres
         
-        conda create --yes -n microsetta-private-api python=3.7
+        conda create --yes -n microsetta-private-api python=3.11
         conda activate microsetta-private-api
         conda install --yes --file ci/conda_requirements.txt
         pip install -r ci/pip_requirements.txt

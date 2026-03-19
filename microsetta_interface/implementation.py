@@ -28,7 +28,7 @@ from microsetta_interface.model_i18n import translate_source, \
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from microsetta_interface.config_manager import SERVER_CONFIG
-import importlib.resources as pkg_resources
+from importlib.resources import files
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
     parse_request_csv_col, parse_request_csv, dict_to_csv
@@ -46,9 +46,7 @@ PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
 if os.environ.get(PUBKEY_ENVVAR, False):
     PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
 else:
-    PUB_KEY = pkg_resources.read_text(
-        'microsetta_interface',
-        "authrocket.pubkey")
+    PUB_KEY = files('microsetta_interface').joinpath("authrocket.pubkey").read_text()
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'

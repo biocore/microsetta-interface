@@ -17,7 +17,7 @@ pip install -r ci/pip_requirements.txt
 pip install -e . --no-deps
 
 # Compile translation catalogs (required before running)
-python setup.py compile_catalog
+pybabel compile -d microsetta_interface/translations --use-fuzzy
 
 # Run development server (localhost:8083)
 python microsetta_interface/server.py

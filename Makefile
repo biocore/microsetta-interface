@@ -22,7 +22,7 @@ test-cov: all
 	py.test --cov=microsetta_interface
 
 install: all
-	$(PYTHON) setup.py install
+	pip install .
 
 dev: all
 	pip install -e .

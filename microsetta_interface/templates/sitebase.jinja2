@@ -254,7 +254,7 @@
                               <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/update_age_range">{{ _('Update Profile Age') }}</a></li>
                               {% endif %}
                               <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/consents">{{ _('Consent Documents') }}</a></li>
-                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource('{{source_name}}');">{{ _('Delete This Profile') }}</a></li>
+                              <li><a class="dropdown-item" href="/accounts/{{ account_id }}/sources/{{ source_id }}/remove" onClick="return verifyDeleteSource({{source_name|tojson}});">{{ _('Delete This Profile') }}</a></li>
                           </ul>
                         </div>
                     </div>

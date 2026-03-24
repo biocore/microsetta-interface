@@ -15,7 +15,7 @@ dynamic = ["version"]
 where = ["."]
 
 [tool.setuptools.package-data]
-"" = ["translations/*/*/*.mo", "translations/*/*/*.po"]
+"*" = ["translations/*/*/*.mo", "translations/*/*/*.po"]
 "microsetta_interface" = [
     "routes.yaml",
     "server_config.json",

@@ -73,6 +73,15 @@ jobs:
         ports:
           # based on https://github.com/actions/example-services/blob/master/.github/workflows/postgres-service.yml#L44-L72
           - 5432/tcp
+      redis:
+        image: redis
+        ports:
+          - 6379/tcp
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     # Downloads a copy of the code in your repository before running CI tests
@@ -128,7 +137,6 @@ jobs:
         popd
 
         conda activate microsetta-interface
-        redis-server --daemonize yes
         source keys_for_testing.sh
         python microsetta_interface/tests/test_integration.py 2> >(tee -a stderr.log >&2)
         

@@ -10,7 +10,7 @@ jobs:
   lint:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: set up python 3.11
       uses: actions/setup-python@v5
       with:
@@ -24,7 +24,7 @@ jobs:
   test:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Setup for conda
       uses: conda-incubator/setup-miniconda@v3
@@ -73,7 +73,7 @@ jobs:
     steps:
     # Downloads a copy of the code in your repository before running CI tests
     - name: Check out repository code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup for conda
       uses: conda-incubator/setup-miniconda@v3

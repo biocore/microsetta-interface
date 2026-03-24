@@ -98,6 +98,7 @@ connexion < 2.7.1 is the binding constraint for nearly all dependency ceilings. 
 - Werkzeug < 2.4.0
 - jsonschema < 4.0.0 (connexion uses `jsonschema._utils.types_msg()` removed in 4.0)
 - openapi-spec-validator < 0.4.0 (0.4.0+ requires jsonschema >= 4)
+- setuptools < 82 (82+ removed `pkg_resources`, which connexion imports directly)
 
 
 ### Configuration

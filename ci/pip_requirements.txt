@@ -9,3 +9,4 @@ pycountry
 python-dateutil
 redis
 setuptools-scm >= 8
+setuptools < 82

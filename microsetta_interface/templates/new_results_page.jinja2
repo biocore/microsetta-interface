@@ -1383,20 +1383,20 @@
         state.dataset_type = new NamedExpression("Dataset-Type", "Loading...");
         state.known_datasets = [];
 
-        state.taxonomy = "{{taxonomy}}";
-        state.alpha_metric = "{{alpha_metric}}";
-        state.beta_metric = "{{beta_metric}}";
+        state.taxonomy = {{taxonomy|tojson}};
+        state.alpha_metric = {{alpha_metric|tojson}};
+        state.beta_metric = {{beta_metric|tojson}};
         //Just using test barcode because I can never remember a valid one.
         // DONT MERGE WITH FAKE BARCODE HERE.
-        state.sample_id = "{{sample.sample_barcode}}";
+        state.sample_id = {{sample.sample_barcode|tojson}};
         //state.sample_id = "000023984";
         //state.sample_id = "000004220";
         //state.sample_id = "000023127";
 
-        state.barcode_prefix = "{{barcode_prefix}}";
-        state.public_endpoint = "{{public_endpoint}}";
+        state.barcode_prefix = {{barcode_prefix|tojson}};
+        state.public_endpoint = {{public_endpoint|tojson}};
         let sample_type = "oral";
-        if ("{{sample.sample_site}}" === "Stool")
+        if ({{sample.sample_site|tojson}} === "Stool")
             sample_type="fecal";
         state.sample_type = sample_type;
 

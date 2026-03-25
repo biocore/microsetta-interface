@@ -7,11 +7,8 @@
 # -----------------------------------------------------------------------------
 
 import json
-# NOTE: importlib replaces setuptools' pkg_resources as of Python 3.7
-# See: https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package # noqa
-import importlib.resources as pkg_resources
+from importlib.resources import files
 
 
-with pkg_resources.open_text('microsetta_interface', "server_config.json") \
-        as fp:
+with files('microsetta_interface').joinpath("server_config.json").open() as fp:
     SERVER_CONFIG = json.load(fp)

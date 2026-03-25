@@ -23,13 +23,13 @@
 
   <link rel="stylesheet" type="text/css" href="/static/css/4_column_flex.css" />
   <script>
-    let taxonomy = "{{taxonomy}}";
-    let alpha_metric = "{{alpha_metric}}";
-    let beta_metric = "{{beta_metric}}";
-    let sampleId = "{{sample.sample_barcode}}";
-    let barcodePrefix = "{{barcode_prefix}}";
+    let taxonomy = {{taxonomy|tojson}};
+    let alpha_metric = {{alpha_metric|tojson}};
+    let beta_metric = {{beta_metric|tojson}};
+    let sampleId = {{sample.sample_barcode|tojson}};
+    let barcodePrefix = {{barcode_prefix|tojson}};
     var opt = {"renderer": "canvas", "actions": true};  /* Options for the Vega embedding */
-    var sample_type = "{{sample.sample_site}}";
+    var sample_type = {{sample.sample_site|tojson}};
     switch(sample_type) {
         case "Stool":
             sample_type = "gut";

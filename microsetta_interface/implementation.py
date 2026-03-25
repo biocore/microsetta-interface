@@ -28,7 +28,7 @@ from microsetta_interface.model_i18n import translate_source, \
 from werkzeug.exceptions import BadRequest, Unauthorized
 
 from microsetta_interface.config_manager import SERVER_CONFIG
-import importlib.resources as pkg_resources
+from importlib.resources import files
 from microsetta_interface.redis_cache import RedisCache
 from microsetta_interface.util import has_non_keyword_arguments, \
     parse_request_csv_col, parse_request_csv, dict_to_csv
@@ -46,9 +46,8 @@ PUBKEY_ENVVAR = 'MICROSETTA_INTERFACE_DEBUG_JWT_PUB'
 if os.environ.get(PUBKEY_ENVVAR, False):
     PUB_KEY = open(os.environ[PUBKEY_ENVVAR]).read()
 else:
-    PUB_KEY = pkg_resources.read_text(
-        'microsetta_interface',
-        "authrocket.pubkey")
+    PUB_KEY = files('microsetta_interface').joinpath(
+        "authrocket.pubkey").read_text()
 
 TOKEN_KEY_NAME = 'token'
 ADMIN_MODE_KEY = 'admin_mode'
@@ -779,13 +778,13 @@ def prerequisite(allowed_states: list, **parameter_overrides):
 # Client might not technically care who the user is, but if they do, they
 # get the token, validate it, and pull email out of it.
 def _parse_jwt(token):
-    decoded = jwt.decode(token, PUB_KEY, algorithms=['RS256'], verify=True)
+    decoded = jwt.decode(token, PUB_KEY, algorithms=['RS256'],
+                         options={'verify_signature': True})
     email_verified = decoded.get('email_verified', False)
     return decoded["email"], email_verified
 
 
 def _route_to_closest_sink(prereqs_step, current_state):
-    # print("Current Prereq Step:", prereqs_step)
     acct_id = current_state.get("account_id", None)
     source_id = current_state.get(SOURCE_ID, None)
 
@@ -850,7 +849,7 @@ def _get_kit(kit_name):
             error_msg = unable_to_validate_msg
         elif response.status_code > 200:
             error_msg = unable_to_validate_msg
-    except:  # noqa
+    except Exception:
         error_msg = unable_to_validate_msg
 
     if error_msg is not None:
@@ -874,7 +873,7 @@ def get_ajax_check_ffq_code(ffq_code):
             return_val = True
         else:
             return_val = False
-    except:  # noqa
+    except Exception:
         return_val = False
 
     return return_val
@@ -1958,22 +1957,6 @@ def get_source(*, account_id=None, source_id=None):
                 return has_error
 
             template['credentials'] = credentials
-
-        # TODO: MyFoodRepo logic needs to be refactored when we reactivate it
-        """
-        if template['survey_template_id'] == MYFOODREPO_ID:
-            has_error, slots, _ = ApiRequest.get('/slots/myfoodrepo')
-            if has_error:
-                return NEEDS_REROUTE
-
-            if slots['number_of_available_slots'] > 0:
-                template['new_tab'] = True
-            else:
-                # we do not have slots, so remove from availability
-                per_source_not_taken.pop(idx)
-        else:
-            template['new_tab'] = False
-        """
 
     local_surveys = [translate_survey_template(s) for s in local_surveys]
     remote_surveys = [translate_survey_template(s) for s in remote_surveys]

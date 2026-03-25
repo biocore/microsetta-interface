@@ -2326,11 +2326,11 @@ msgid ""
 msgstr ""
 
 #: templates/new_results_page.jinja2:482
-msgid "The Microsetta Initiative and Comparative Studies"
+msgid "the American Gut Project and Comparative Studies"
 msgstr ""
 
 #: templates/new_results_page.jinja2:489
-msgid "The Microsetta Initiative"
+msgid "the American Gut Project"
 msgstr ""
 
 #: templates/new_results_page.jinja2:516
@@ -3301,8 +3301,8 @@ msgstr ""
 #: templates/sample_results.jinja2:163
 msgid ""
 "Here, we're providing a measure of the diversity of your sample, and how "
-"it compares to the diversities of all of the same type of samples in The "
-"Microsetta Initiative. There are many ways to calculate diversity. For "
+"it compares to the diversities of all of the same type of samples in the "
+"American Gut Project. There are many ways to calculate diversity. For "
 "instance, you could compute a diversity value by counting the number of "
 "unique organisms observed (i.e., the sample \"richness\"). Or, you might "
 "be interested in weighting the calculation by the relative abundance of "
@@ -3325,8 +3325,8 @@ msgstr ""
 
 #: templates/sample_results.jinja2:170
 msgid ""
-"Here we display how your sample fits in among the other samples of The "
-"Microsetta Initiative in terms of shared microbes. There are many ways to"
+"Here we display how your sample fits in among the other samples of the "
+"American Gut Project in terms of shared microbes. There are many ways to"
 " calculate beta diversity, differing in how to weight the distance "
 "between any two microbes. We take evolutionary distance into account with"
 " the metric displayed here, known as Unweighted Unifrac. You can find an "
@@ -3653,7 +3653,7 @@ msgstr ""
 msgid ""
 "Otherwise, please visit our <a "
 "href=\"https://microsetta.ucsd.edu/\">website</a> to learn about other "
-"opportunities to participate in The Microsetta Initiative."
+"opportunities to participate in the American Gut Project."
 msgstr ""
 
 #: templates/submit_interest.jinja2:303
@@ -3665,8 +3665,8 @@ msgstr ""
 #: templates/submit_interest.jinja2:304
 msgid ""
 "Please visit our <a href=\"https://microsetta.ucsd.edu/\">website</a> to "
-"learn about other opportunities to participate in The Microsetta "
-"Initiative."
+"learn about other opportunities to participate in the American Gut "
+"Project."
 msgstr ""
 
 #: templates/submit_interest.jinja2:308 templates/update_address.jinja2:181
@@ -3747,7 +3747,7 @@ msgid ""
 "complete, tips and tricks for completing my participation and surveys. I "
 "agree and understand that I can unsubscribe at any time using a link in "
 "the newsletter and this will not change my consent to receive sample "
-"status updates directly from the TMI database. "
+"status updates directly from the AGP database. "
 msgstr ""
 
 #: templates/submit_interest.jinja2:602 templates/survey.jinja2:299

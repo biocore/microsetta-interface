@@ -479,14 +479,14 @@
                 break;
             case "tmi-WGS-gut":
                 // Temporary workaround - we're going to add the Hadza study to the info['qiita-study-ids'] variable and alter the label to be more appropriate. Remove this line and the following four lines once contextual studies for WGS gut samples are fully restored.
-                label = '{{ _('The Microsetta Initiative and Comparative Studies') }}';
+                label = '{{ _('the American Gut Project and Comparative Studies') }}';
                 span_id = "#dataset_links_tmi";
                 info['qiita-study-ids'].push("11358");
                 break;
             case "tmi-16S-gut":
             case "tmi-WGS-skin":
             case "tmi-16S-skin":
-                label = '{{ _('The Microsetta Initiative') }}';
+                label = '{{ _('the American Gut Project') }}';
                 span_id = "#dataset_links_tmi";
                 break;
             case "multipop-16S-gut":

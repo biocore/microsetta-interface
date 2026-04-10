@@ -130,3 +130,6 @@ dmypy.json
 
 # Mac OS X Useless File
 .DS_Store
+
+# Local documentation (not tracked)
+localdocs/
